@@ -6,7 +6,7 @@ isoDate = function (str) {
     ***/
     var iso = str.split('-');
     return new Date(iso[0], iso[1] - 1, iso[2]);
-}
+};
 
 isoTimestamp = function (str) {
     /***
@@ -28,7 +28,7 @@ isoTimestamp = function (str) {
     var iso = tmp[0].split('-');
     var t = tmp[1].split(':');
     return new Date(iso[0], iso[1] - 1, iso[2], t[0], t[1], t[2]);
-}
+};
 
 toISOTime = function (date) {
     /***
@@ -41,7 +41,7 @@ toISOTime = function (date) {
     var ss = date.getSeconds();
     var lst = [hh, ((mm < 10) ? "0" + mm : mm), ((ss < 10) ? "0" + ss : ss)];
     return lst.join(":");
-}
+};
 
 toISOTimestamp = function (date, realISO) {
     /***
@@ -61,7 +61,7 @@ toISOTimestamp = function (date, realISO) {
     ***/
     var sep = realISO ? "T" : " ";
     return toISODate(date) + sep + toISOTime(date);
-}
+};
 
 toISODate = function (date) {
     /***
@@ -70,7 +70,7 @@ toISODate = function (date) {
 
     ***/
     return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join("-");
-}
+};
 
 americanDate = function (d) {
     /***
@@ -80,11 +80,11 @@ americanDate = function (d) {
     ***/
     var a = d.split('/');
     return new Date(a[2], a[0] - 1, a[1]);
-}
+};
 
 _padTwo = function (n) {
     return (n > 9) ? n : "0" + n;
-}
+};
 
 toPaddedAmericanDate = function (d) {
     /***
@@ -93,7 +93,7 @@ toPaddedAmericanDate = function (d) {
 
     ***/
     return [_padTwo(d.getMonth() + 1), _padTwo(d.getDate()), d.getFullYear()].join('/');
-}
+};
 
 toAmericanDate = function (d) {
     /***
@@ -102,4 +102,4 @@ toAmericanDate = function (d) {
 
     ***/
     return [d.getMonth() + 1, d.getDate(), d.getFullYear()].join('/');
-}
+};

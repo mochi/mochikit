@@ -1,25 +1,23 @@
-AlreadyCalledError = function () {
+AlreadyCalledError = function (deferred) {
     /***
 
     Raised by the Deferred if callback or errback happens
     after it was already fired.
 
     ***/
-    this.message = "AlreadyCalledError";
-    this.name = "AlreadyCalledError";
-}
-AlreadyCalledError.prototype = new Error();
+    this.deferred = deferred;
+};
+AlreadyCalledError.prototype = new NamedError("AlreadyCalledError");
 
-CancelledError = function () {
+CancelledError = function (deferred) {
     /***
 
     Raised by the Deferred cancellation mechanism.
 
     ***/
-    this.message = "CancelledError";
-    this.name = "CancelledError";
-}
-CancelledError.prototype = new Error();
+    this.deferred = deferred;
+};
+CancelledError.prototype = new NamedError("CancelledError");
 
 BrowserComplianceError = function (msg) {
     /***
@@ -30,16 +28,14 @@ BrowserComplianceError = function (msg) {
     isn't going to support exceptions in the first place.
 
     ***/
-    this.name = "BrowserComplianceError";
     this.message = msg;
-}
-BrowserComplianceError.prototype = new Error();
+};
+BrowserComplianceError.prototype = new NamedError("BrowserComplianceError");
 
 GenericError = function (msg) {
-    this.name = "GenericError";
     this.message = msg;
-}
-GenericError.prototype = new Error();
+};
+GenericError.prototype = new NamedError("GenericError");
 
 XMLHttpRequestError = function (req, msg) {
     /***
@@ -55,7 +51,7 @@ XMLHttpRequestError = function (req, msg) {
     } catch (e) {
         // pass
     }
-}
+};
 XMLHttpRequestError.prototype = new Error();
 
 
@@ -153,7 +149,7 @@ Deferred = function (/* optional */ canceller) {
     this.results = [null, null];
     this.canceller = canceller;
     this.silentlyCancelled = false;
-}
+};
 
 Deferred.prototype.toString = function () {
     var state;
@@ -165,7 +161,7 @@ Deferred.prototype.toString = function () {
         state = 'error';
     }
     return '[Deferred id=' + this.id + ' state=' + state + ']';
-}
+};
 
 Deferred.prototype._nextId = (function () {
     var x = 0;
@@ -193,12 +189,12 @@ Deferred.prototype.cancel = function () {
             this.silentlyCancelled = true;
         }
         if (this.fired == -1) {
-            this.errback(new CancelledError());
+            this.errback(new CancelledError(this));
         }
     } else if ((this.fired == 0) && (this.results[0] instanceof Deferred)) {
         this.results[0].cancel();
     }
-}
+};
         
 
 Deferred.prototype._pause = function () {
@@ -208,7 +204,7 @@ Deferred.prototype._pause = function () {
 
     ***/
     this.paused++;
-}
+};
 
 Deferred.prototype._unpause = function () {
     /***
@@ -221,7 +217,7 @@ Deferred.prototype._unpause = function () {
     if ((this.paused == 0) && (this.fired >= 0)) {
         this._fire();
     }
-}
+};
 
 Deferred.prototype._continue = function (res) {
     /***
@@ -231,7 +227,7 @@ Deferred.prototype._continue = function (res) {
     ***/
     this._resback(res);
     this._unpause();
-}
+};
 
 Deferred.prototype._resback = function (res) {
     /***
@@ -242,17 +238,17 @@ Deferred.prototype._resback = function (res) {
     this.fired = ((res instanceof Error) ? 1 : 0);
     this.results[this.fired] = res;
     this._fire();
-}
+};
 
 Deferred.prototype._check = function () {
     if (this.fired != -1) {
         if (!this.silentlyCancelled) {
-            throw new AlreadyCalledError();
+            throw new AlreadyCalledError(this);
         }
         this.silentlyCancelled = false;
         return;
     }
-}
+};
 
 Deferred.prototype.callback = function (res) {
     /***
@@ -265,7 +261,7 @@ Deferred.prototype.callback = function (res) {
     ***/
     this._check();
     this._resback(res);
-}
+};
 
 Deferred.prototype.errback = function (res) {
     /***
@@ -281,7 +277,7 @@ Deferred.prototype.errback = function (res) {
         res = new GenericError(res);
     }
     this._resback(res);
-}
+};
 
 Deferred.prototype.addBoth = function (fn) {
     /***
@@ -292,7 +288,7 @@ Deferred.prototype.addBoth = function (fn) {
 
     ***/
     return this.addCallbacks(fn, fn);
-}
+};
 
 Deferred.prototype.addCallback = function (fn) {
     /***
@@ -301,7 +297,7 @@ Deferred.prototype.addCallback = function (fn) {
 
     ***/
     return this.addCallbacks(fn, null);
-}
+};
 
 Deferred.prototype.addErrback = function (fn) {
     /***
@@ -310,7 +306,7 @@ Deferred.prototype.addErrback = function (fn) {
 
     ***/
     return this.addCallbacks(null, fn);
-}
+};
 
 Deferred.prototype.addCallbacks = function (cb, eb) {
     /***
@@ -324,7 +320,7 @@ Deferred.prototype.addCallbacks = function (cb, eb) {
         this._fire();
     }
     return this;
-}
+};
 
 Deferred.prototype._fire = function () {
     /***
@@ -366,7 +362,7 @@ Deferred.prototype._fire = function () {
         // is already fired
         res.addBoth(cb);
     }
-}
+};
 
 evalJSONRequest = function (req) {
     /***
@@ -381,7 +377,7 @@ evalJSONRequest = function (req) {
     var x;
     eval('x = ' + req.responseText + ';');
     return x;
-}
+};
 
 succeed = function (/* optional */result) {
     /***
@@ -404,7 +400,7 @@ succeed = function (/* optional */result) {
     var d = new Deferred();
     d.callback.apply(d, arguments);
     return d;
-}
+};
 
 fail = function (/* optional */result) {
     /***
@@ -421,7 +417,7 @@ fail = function (/* optional */result) {
     var d = new Deferred();
     d.errback.apply(d, arguments);
     return d;
-}
+};
 
 doSimpleXMLHttpRequest = function (url) {
     /***
@@ -499,7 +495,7 @@ doSimpleXMLHttpRequest = function (url) {
         d.errback(new BrowserComplianceError("Browser does not support XMLHttpRequest"));
     }
     return d;
-}
+};
 
 loadJSONDoc = function (url) {
     /***
@@ -516,4 +512,4 @@ loadJSONDoc = function (url) {
     var d = doSimpleXMLHttpRequest(url);
     d = d.addCallback(evalJSONRequest);
     return d;
-}
+};

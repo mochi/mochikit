@@ -9,7 +9,7 @@ registerDOMConverter = function (name, check, wrap, /* optional */override) {
 
     ***/
     _DOMConverters.register(name, check, wrap, override);
-}
+};
 
 coerceToDOM = function (node, ctx) {
     /***
@@ -65,7 +65,7 @@ coerceToDOM = function (node, ctx) {
         // fallback
         return document.createTextNode(node.toString());
     }
-}
+};
     
 createDOM = function (name, attrs/*, nodes... */) {
     /***
@@ -208,7 +208,7 @@ createDOM = function (name, attrs/*, nodes... */) {
         }
     }
     return elem;
-}
+};
 
 createDOMFunc = function (/* tag, attrs, *nodes */) {
     /***
@@ -225,7 +225,7 @@ createDOMFunc = function (/* tag, attrs, *nodes */) {
 
     ***/
     return partial.apply(this, extend([createDOM], arguments));
-}
+};
 
 swapDOM = function (dest, src) {
     /***
@@ -243,7 +243,7 @@ swapDOM = function (dest, src) {
     parent.insertBefore(src, dest);
     parent.removeChild(dest);
     return src;
-}
+};
 
 // shorthand for createDOM syntax
 TD = createDOMFunc("td");
@@ -275,7 +275,7 @@ getElement = function (id) {
     } else {
         return map(getElement, arguments);
     }
-}
+};
 
 $ = getElement;
 
@@ -296,7 +296,7 @@ addLoadEvent = function (func) {
             func.apply(this);
         }
     }
-}
+};
 
 focusOnLoad = function (element) {
     addLoadEvent(function () {
@@ -305,7 +305,7 @@ focusOnLoad = function (element) {
             element.focus();
         }
     });
-}
+};
         
 
 setElementClass = function (element, className) {
@@ -320,7 +320,7 @@ setElementClass = function (element, className) {
     } else {
         obj.setAttribute("className", className);
     }
-}
+};
         
 toggleElementClass = function (className/*, element... */) {
     /***
@@ -335,7 +335,7 @@ toggleElementClass = function (className/*, element... */) {
             removeElementClass(obj, className);
         }
     }
-} 
+};
 
 addElementClass = function (element, className) {
     /***
@@ -365,7 +365,7 @@ addElementClass = function (element, className) {
     // append class
     setElementClass(obj, cls + " " + className);
     return false;
-} 
+};
 
 removeElementClass = function (element, className) {
     /***
@@ -397,7 +397,7 @@ removeElementClass = function (element, className) {
     }
     // not found
     return false;
-} 
+};
 
 swapElementClass = function (element, fromClass, toClass) {
     /***
@@ -411,7 +411,7 @@ swapElementClass = function (element, fromClass, toClass) {
         return addElementClass(obj, toClass);
     }
     return false;
-} 
+};
 
 _TRANSTABLE = {
     "<": "&lt;",
@@ -437,7 +437,7 @@ escapeHTML = function (s) {
         buf.push(c);
     }
     return buf.join("");
-}
+};
 
 toHTML = function (dom) {
     /***
@@ -446,7 +446,7 @@ toHTML = function (dom) {
 
     ***/
     return list(emitHTML(dom)).join("");
-}
+};
 
 emitHTML = function (dom) {
     /***
@@ -483,7 +483,7 @@ emitHTML = function (dom) {
         lst.push(escapeHTML(dom.nodeValue));
     }
     return iter(lst);
-}
+};
 
 setDisplayForElements = function (display, element/*, ...*/) {
     /***
@@ -499,7 +499,7 @@ setDisplayForElements = function (display, element/*, ...*/) {
     forEach(filter(operator.truth, map(getElement, elements)), function (element) {
         element.style.display = display;
     });
-}
+};
 
 hideElement = partial(setDisplayForElements, "none");
 showElement = partial(setDisplayForElements, "block");
