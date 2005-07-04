@@ -1,0 +1,192 @@
+<html>
+<head>
+    <script type="text/javascript" src="Test/Builder.js"></script>
+    <script type="text/javascript" src="Test/More.js"></script>
+    <script type="text/javascript" src="../MochiKit/Async.js"></script>
+</head>
+<body>
+
+<pre id="test">
+<script type="text/javascript">
+try {
+        
+    // Counting the number of tests is really lame
+    plan({'tests': 19});
+
+    var increment = function (res) {
+        return res + 1;
+    }
+
+    var throwStuff = function (res) {
+        throw new GenericError(res);
+    }
+
+    var catchStuff = function (res) {
+        return res.message;
+    }
+
+    var returnError = function (res) {
+        return new GenericError(res);
+    }
+
+    var anythingOkCallback = function (msg) {
+        return function (res) {
+            ok(true, msg);
+            return res;
+        }
+    }
+    
+    var testEqCallback = function () {
+        /* 
+            sort of emulate how deferreds work in Twisted 
+            for "convenient" testing
+        */
+        var args = [];
+        for (var i = 0; i < arguments.length; i++) {
+            args.push(arguments[i]);
+        }
+        return function (res) {
+            var nargs = args.slice();
+            nargs.unshift(res);
+            is.apply(this, nargs);
+            return res;
+        }
+    }
+
+    var neverHappen = function (d) {
+        ok(false, "this should never happen");
+    }
+    
+    /*
+        Test normal Deferred operation
+    */
+    var d = new Deferred();
+    d.addCallback(testEqCallback(1, "pre-deferred callback"));
+    d.callback(1);
+    d.addCallback(increment);
+    d.addCallback(testEqCallback(2, "post-deferred callback"));
+    d.addCallback(throwStuff);
+    d.addCallback(neverHappen);
+    d.addErrback(catchStuff);
+    d.addCallback(testEqCallback(2, "throw -> err, catch -> success"));
+    d.addCallback(returnError);
+    d.addCallback(neverHappen);
+    d.addErrback(catchStuff);
+    d.addCallback(testEqCallback(2, "return -> err, catch -> succcess"));
+
+    /*
+        Test Deferred cancellation
+    */
+    var cancelled = function (d) {
+        ok(true, "canceller called!");
+    }
+
+    var cancelledError = function (res) {
+        ok(res instanceof CancelledError, "CancelledError here");
+    }
+
+    d = new Deferred(cancelled);
+    d.addCallback(neverHappen);
+    d.addErrback(cancelledError);
+    d.cancel();
+
+    /*
+        Test succeed / fail
+    */
+
+    d = succeed(1).addCallback(testEqCallback(1, "succeed"));
+
+    // default error
+    d = fail().addCallback(neverHappen);
+    d = d.addErrback(anythingOkCallback("default fail"));
+
+    // default wrapped error
+    d = fail("web taco").addCallback(neverHappen).addErrback(catchStuff);
+    d = d.addCallback(testEqCallback("web taco", "wrapped fail"));
+
+    // default unwrapped error
+    d = fail(new GenericError("ugh")).addCallback(neverHappen).addErrback(catchStuff);
+    d = d.addCallback(testEqCallback("ugh", "unwrapped fail"));
+
+    /*
+        Test deferred dependencies
+    */
+
+    var deferredIncrement = function (res) {
+        var rval = succeed(res);
+        rval.addCallback(increment);
+        return rval;
+    }
+
+    d = succeed(1).addCallback(deferredIncrement);
+    d = d.addCallback(testEqCallback(2, "dependent deferred succeed"));
+
+    var deferredFailure = function (res) {
+        return fail(res);
+    }
+
+    d = succeed("ugh").addCallback(deferredFailure).addErrback(catchStuff);
+    d = d.addCallback(testEqCallback("ugh", "dependent deferred fail"));
+
+    /*
+        Test double-calling, double-failing, etc.
+    */
+    try {
+        succeed(1).callback(2);
+        neverHappen();
+    } catch (e) {
+        ok(e instanceof AlreadyCalledError, "double-call");
+    }
+    try {
+        fail(1).errback(2);
+        neverHappen();
+    } catch (e) {
+        ok(e instanceof AlreadyCalledError, "double-fail");
+    }
+    try {
+        d = succeed(1);
+        d.cancel();
+        d = d.callback(2);
+        ok(true, "swallowed one callback, no canceller");
+        d.callback(3);
+        neverHappen();
+    } catch (e) {
+        ok(e instanceof AlreadyCalledError, "swallow cancel");
+    }
+    try {
+        d = new Deferred(cancelled);
+        d.cancel();
+        d = d.callback(1);
+        neverHappen();
+    } catch (e) {
+        ok(e instanceof AlreadyCalledError, "non-swallowed cancel");
+    }
+    
+    /*
+        evalJSONRequest test
+    */
+    var fakeReq = {"responseText":'[1,2,3,4,"asdf",{"a":["b", "c"]}]'};
+    var obj = [1,2,3,4,"asdf",{"a":["b", "c"]}];
+    isDeeply(obj, evalJSONRequest(fakeReq), "evalJSONRequest");
+
+    ok( true, "test suite finished!");
+    
+} catch (err) {
+    
+    var s = "test suite failure!\n";
+    var o = {};
+    var k = null;
+    for (k in err) {
+        // ensure unique keys?!
+        if (!o[k]) {
+            s +=  k + ": " + err[k] + "\n";
+            o[k] = err[k];
+        }
+    }
+    ok ( false, s );
+
+}
+</script>
+</pre>
+</body>
+</html>

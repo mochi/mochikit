@@ -1,0 +1,97 @@
+<html>
+<head>
+    <script type="text/javascript" src="Test/Builder.js"></script>
+    <script type="text/javascript" src="Test/More.js"></script>
+    <script type="text/javascript" src="../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../MochiKit/Iter.js"></script>
+    <script type="text/javascript" src="../MochiKit/DOM.js"></script>
+</head>
+<body>
+
+<pre id="test">
+<script type="text/javascript">
+try {
+        
+    // Counting the number of tests is really lame
+    plan({'tests': 10});
+
+    
+    is( escapeHTML("<>'\"&bar"), "&lt;&gt;&apos;&quot;&amp;bar", "escapeHTML" );
+
+    if (!isUndefinedOrNull(document.all)) {
+        var isDOM = function (value, expected, message) {
+            skip("IE makes it hard to test, but it does work: " + message, 1);
+        }
+    } else {
+        var isDOM = function (value, expected, message) {
+            is( escapeHTML(toHTML(value)), escapeHTML(expected), message );
+        }
+    }
+
+    var d = createDOM("span");
+    isDOM( d, "<span/>", "createDOM empty" );
+
+
+    d = createDOM("span", {"foo": "bar", "baz": "wibble"});
+    isDOM( d, '<span baz="wibble" foo="bar"/>', "createDOM attributes" );
+
+    d = createDOM("span", {"foo": "bar", "baz": "wibble"}, "one", "two", "three");
+    isDOM( d, '<span baz="wibble" foo="bar">onetwothree</span>', "createDOM contents" );
+
+    var d = {"taco": "pork"};
+    registerDOMConverter("taco",
+        function (o) { return !isUndefinedOrNull(o.taco); },
+        function (o) { return "Goddamn, I like " + o.taco + " tacos"; }
+    );
+    d = createDOM("span", null, d);
+    _DOMConverters.unregister("taco");
+
+    isDOM( d, "<span>Goddamn, I like pork tacos</span>", "createDOM with custom converter" );
+
+    // this we can test even on IE
+    is(
+        escapeHTML(toHTML(SPAN(null))),
+        escapeHTML(toHTML(createDOM("span", null))),
+        "createDOMFunc vs createDOM"
+    );
+
+    ok( !isUndefinedOrNull(getElement("test")), "getElement might work" );
+    ok( !isUndefinedOrNull($("test")), "$alias$$ CASH MONEY alias might work" );
+
+    d = createDOM("span", null, "one", "two");
+    swapDOM(d.childNodes[0], document.createTextNode("uno"));
+    isDOM( d, "<span>unotwo</span>", "swapDOM" );
+
+    /*
+
+        TODO:
+            addLoadEvent
+            setElementClass
+            toggleElementClass
+            addElementClass
+            removeElementClass
+            swapElementClass
+
+    */
+    
+    ok( true, "test suite finished!");
+    
+} catch (err) {
+    
+    var s = "test suite failure!\n";
+    var o = {};
+    var k = null;
+    for (k in err) {
+        // ensure unique keys?!
+        if (!o[k]) {
+            s +=  k + ": " + err[k] + "\n";
+            o[k] = err[k];
+        }
+    }
+    ok ( false, s );
+
+}
+</script>
+</pre>
+</body>
+</html>

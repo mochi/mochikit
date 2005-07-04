@@ -1,0 +1,110 @@
+<html>
+<head>
+    <script type="text/javascript" src="Test/Builder.js"></script>
+    <script type="text/javascript" src="Test/More.js"></script>
+    <script type="text/javascript" src="../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../MochiKit/Logging.js"></script>
+</head>
+<body>
+
+<pre id="test">
+<script type="text/javascript">
+try {
+        
+    // Counting the number of tests is really lame
+    plan({'tests': 27});
+   
+    // just in case
+    logger.clear();
+
+    is( logLevelAtLeast('DEBUG')('INFO'), false, 'logLevelAtLeast false' );
+    is( logLevelAtLeast('WARNING')('INFO'), false, 'logLevelAtLeast true' );
+    ok( logger instanceof Logger, "global logger installed" );
+
+    var allMessages = [];
+    logger.addListener("allMessages", null,
+        bind(allMessages.push, allMessages));
+
+    var fatalMessages = [];
+    logger.addListener("fatalMessages", "FATAL",
+        bind(fatalMessages.push, fatalMessages));
+
+    var firstTwo = [];
+    logger.addListener("firstTwo", null,
+        bind(firstTwo.push, firstTwo));
+
+    
+    log("foo");
+    var msgs = logger.getMessages();
+    is( msgs.length, 1, 'global log() put one message in queue' );
+    is( compare(allMessages, msgs), 0, "allMessages listener" );
+    var msg = msgs.pop();
+    is( compare(msg.info, ["foo"]), 0, "info matches" );
+    is( msg.level, "INFO", "level matches" );
+
+    logDebug("debugFoo");
+    is( msgs.length, 0, 'getMessages() returns copy' );
+    msgs = logger.getMessages();
+    is( compare(allMessages, msgs), 0, "allMessages listener" );
+    is( msgs.length, 2, 'logDebug()' );
+    msg = msgs.pop();
+    is( compare(msg.info, ["debugFoo"]), 0, "info matches" );
+    is( msg.level, "DEBUG", "level matches" );
+
+    logger.removeListener("firstTwo");
+
+    logError("errorFoo");
+    msgs = logger.getMessages();
+    is( compare(allMessages, msgs), 0, "allMessages listener" );
+    is( msgs.length, 3, 'logError()' );
+    msg = msgs.pop();
+    is( compare(msg.info, ["errorFoo"]), 0, "info matches" );
+    is( msg.level, "ERROR", "level matches" );
+
+    logWarning("warningFoo");
+    msgs = logger.getMessages();
+    is( compare(allMessages, msgs), 0, "allMessages listener" );
+    is( msgs.length, 4, 'logWarning()' );
+    msg = msgs.pop();
+    is( compare(msg.info, ["warningFoo"]), 0, "info matches" );
+    is( msg.level, "WARNING", "level matches" );
+
+    logFatal("fatalFoo");
+    msgs = logger.getMessages();
+    is( compare(allMessages, msgs), 0, "allMessages listener" );
+    is( msgs.length, 5, 'logFatal()' );
+    msg = msgs.pop();
+    is( compare(fatalMessages, [msg]), 0, "fatalMessages listener" );
+    is( compare(msg.info, ["fatalFoo"]), 0, "info matches" );
+    is( msg.level, "FATAL", "level matches" );
+
+    logger.removeListener("allMessages");
+    logger.removeListener("fatalMessages");
+
+    is( compare(firstTwo, logger.getMessages().slice(0, 2)), 0, "firstTwo" );
+
+    
+   
+    // Done!
+
+    ok( true, "test suite finished!");
+    
+} catch (err) {
+    
+    var s = "test suite failure!\n";
+    var o = {};
+    var k = null;
+    for (k in err) {
+        // ensure unique keys?!
+        if (!o[k]) {
+            s +=  k + ": " + err[k] + "\n";
+            o[k] = err[k];
+        }
+    }
+    ok ( false, s );
+
+}
+</script>
+</pre>
+</body>
+</html>
