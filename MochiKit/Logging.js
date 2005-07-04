@@ -204,7 +204,7 @@ Logger.prototype.getMessageText = function (howMany) {
     /***
 
         Get a string representing up to the last howMany messages in the
-        message buffer.  The default is 40.
+        message buffer.  The default is 30.
 
         The message looks like this:
 
@@ -218,7 +218,7 @@ Logger.prototype.getMessageText = function (howMany) {
 
     ***/
     if (isUndefinedOrNull(howMany)) {
-        howMany = 40;
+        howMany = 30;
     }
     var messages = this.getMessages(howMany);
     if (messages.length) {
