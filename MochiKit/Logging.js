@@ -195,7 +195,7 @@ Logger.prototype.getMessages = function (howMany) {
     ***/
     var firstMsg = 0;
     if (!isUndefinedOrNull(howMany)) {
-        firstMsg = Math.max(0, this._messages.length - howMany - 1);
+        firstMsg = Math.max(0, this._messages.length - howMany);
     }
     return this._messages.slice(firstMsg);
 };
