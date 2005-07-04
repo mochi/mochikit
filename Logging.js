@@ -29,6 +29,7 @@ function LogMessage(num, level, info) {
     this.num = num;
     this.level = level;
     this.info = info;
+    this.timestamp = new Date();
 }
 LogMessage.prototype.repr = function () {
     return 'LogMessage(' + map(repr, [this.num, this.level, this.info]).join(', ') + ')';
