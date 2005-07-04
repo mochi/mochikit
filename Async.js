@@ -151,7 +151,7 @@ Deferred = function (/* optional */ canceller) {
     this.silentlyCancelled = false;
 };
 
-Deferred.prototype.toString = function () {
+Deferred.prototype.repr = function () {
     var state;
     if (this.fired == -1) {
         state = 'unfired';
@@ -160,8 +160,10 @@ Deferred.prototype.toString = function () {
     } else {
         state = 'error';
     }
-    return '[Deferred id=' + this.id + ' state=' + state + ']';
+    return 'Deferred(' + this.id + ', ' + state + ')';
 };
+
+Deferred.prototype.toString = forward("repr");
 
 Deferred.prototype._nextId = (function () {
     var x = 0;
@@ -447,6 +449,7 @@ doSimpleXMLHttpRequest = function (url) {
     var d = new Deferred(canceller);
     
     var onreadystatechange = function () {
+        logDebug('req.readyState', req.readyState);
         if (req.readyState == 4) {
             // IE SUCKS
             try {
