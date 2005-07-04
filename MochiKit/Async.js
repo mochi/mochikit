@@ -465,11 +465,13 @@ doSimpleXMLHttpRequest = function (url) {
                 status = req.status;
             } catch (e) {
                 // pass
+                logDebug('error getting status?', repr(items(e)));
             }
-            logDebug('req.status', status);
+            logDebug('req.status', repr(status));
             if (status == 200) { // OK
                 d.callback(req);
             } else {
+                logDebug('req.responseText', repr(req.responseText));
                 var err = new XMLHttpRequestError(req, "Request failed");
                 if (err.number) {
                     // XXX: This seems to happen on page change
