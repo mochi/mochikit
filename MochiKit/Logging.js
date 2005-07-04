@@ -4,7 +4,7 @@ LogLevel = {
     'WARNING': 30,
     'INFO': 20,
     'DEBUG': 10
-}
+};
 
 logLevelAtLeast = function (minLevel) {
     /***
@@ -23,17 +23,17 @@ logLevelAtLeast = function (minLevel) {
         }
         return msgLevel >= minLevel;
     }
-}
+};
 
 LogMessage = function (num, level, info) {
     this.num = num;
     this.level = level;
     this.info = info;
     this.timestamp = new Date();
-}
+};
 LogMessage.prototype.repr = function () {
     return 'LogMessage(' + map(repr, [this.num, this.level, this.info]).join(', ') + ')';
-}
+};
 LogMessage.prototype.toString = forward("repr");
 
 registerComparator("LogMessage",
@@ -74,7 +74,7 @@ Logger = function (/* optional */maxSize) {
     this.maxSize = maxSize;
     this._messages = [];
     this.listeners = {};
-}
+};
 
 Logger.prototype.clear = function () {
     /***
@@ -83,7 +83,7 @@ Logger.prototype.clear = function () {
 
     ***/
     this._messages.splice(0, this._messages.length);
-}
+};
 
 Logger.prototype.dispatchListeners = function (msg) {
     /***
@@ -98,7 +98,7 @@ Logger.prototype.dispatchListeners = function (msg) {
         }
         pair[1](msg);
     }
-}
+};
 
 Logger.prototype.addListener = function (ident, filter, listener) {
     /***
@@ -141,7 +141,7 @@ Logger.prototype.addListener = function (ident, filter, listener) {
         filter = logLevelAtLeast(filter);
     }
     this.listeners[ident] = [filter, listener];
-}
+};
 
 Logger.prototype.removeListener = function (ident) {
     /***
@@ -150,7 +150,7 @@ Logger.prototype.removeListener = function (ident) {
 
     ***/
     delete this.listeners[ident];
-}
+};
 
 Logger.prototype.baseLog = function (level, message/*, ...*/) {
     /***
@@ -179,7 +179,7 @@ Logger.prototype.baseLog = function (level, message/*, ...*/) {
     while (this.maxSize >= 0 && this._messages.length > this.maxSize) {
         this._messges.shift();
     }
-}
+};
 
 Logger.prototype.debug = partial(Logger.prototype.baseLog, 'DEBUG');
 Logger.prototype.log = partial(Logger.prototype.baseLog, 'INFO');
@@ -198,7 +198,7 @@ Logger.prototype.getMessages = function (howMany) {
         firstMsg = Math.max(0, this._messages.length - howMany - 1);
     }
     return this._messages.slice(firstMsg);
-}
+};
 
 Logger.prototype.getMessageText = function (howMany) {
     /***
@@ -229,11 +229,11 @@ Logger.prototype.getMessageText = function (howMany) {
         return lst.join('');
     }
     return '';
-}
+};
 
 Logger.prototype.debuggingBookmarklet = function () {
     alert(this.getMessageText());
-}
+};
 
 alertListener = function (msg) {
     /***
@@ -246,7 +246,7 @@ alertListener = function (msg) {
         "\nlevel: " +  msg.level +
         "\ninfo: " + msg.info.join(" ")
     );
-}
+};
 
 logger = new Logger();
 log = bind(logger.log, logger);

@@ -14,7 +14,7 @@ twoDigitAverage = function (numerator, denominator) {
         }
     }
     return "0";
-}
+};
 
 twoDigitFloat = function (someFloat) {
     /***
@@ -38,7 +38,7 @@ twoDigitFloat = function (someFloat) {
     } else {
         return head + '.' + tail;
     }
-}
+};
 
 percentFormat = function (someFloat) {
     /***
@@ -47,4 +47,4 @@ percentFormat = function (someFloat) {
 
     ***/
     return twoDigitFloat(100 * someFloat) + '%';
-}
+};
