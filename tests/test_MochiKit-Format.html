@@ -1,0 +1,49 @@
+<html>
+<head>
+    <script type="text/javascript" src="Test/Builder.js"></script>
+    <script type="text/javascript" src="Test/More.js"></script>
+    <script type="text/javascript" src="../MochiKit/Format.js"></script>
+</head>
+<body>
+
+<pre id="test">
+<script type="text/javascript">
+try {
+        
+    // Counting the number of tests is really lame
+    plan({'tests': 11});
+   
+    is( twoDigitFloat(0), "0", "twoDigitFloat 0 correct");
+    is( twoDigitFloat(1), "1", "twoDigitFloat 1 correct");
+    is( twoDigitFloat(1.0), "1", "twoDigitFloat 1.0 correct");
+    is( twoDigitFloat(1.2), "1.2", "twoDigitFloat 1.2 correct");
+    is( twoDigitFloat(1.234), "1.23", "twoDigitFloat 1.234 correct");
+    is( percentFormat(123), "12300%", "percentFormat 123 correct");
+    is( percentFormat(1.23), "123%", "percentFormat 123 correct");
+    is( twoDigitAverage(1, 0), "0", "twoDigitAverage dbz correct");
+    is( twoDigitAverage(1, 1), "1", "twoDigitAverage 1 correct");
+    is( twoDigitAverage(1, 10), "0.10", "twoDigitAverage .10 correct");
+    
+    // Done!
+
+    ok( true, "test suite finished!");
+    
+} catch (err) {
+    
+    var s = "test suite failure!\n";
+    var o = {};
+    var k = null;
+    for (k in err) {
+        // ensure unique keys?!
+        if (!o[k]) {
+            s +=  k + ": " + err[k] + "\n";
+            o[k] = err[k];
+        }
+    }
+    ok ( false, s );
+
+}
+</script>
+</pre>
+</body>
+</html>
