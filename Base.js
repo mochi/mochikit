@@ -149,7 +149,7 @@ itemgetter = function (func) {
     };
 };
 
-function typeMatcher (/* typ */) {
+typeMatcher = function (/* typ */) {
     /***
 
     Given a set of types (as string arguments),
