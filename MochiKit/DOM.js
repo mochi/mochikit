@@ -1,6 +1,6 @@
-var _DOMConverters = new AdapterRegistry(); 
+_DOMConverters = new AdapterRegistry(); 
 
-function registerDOMConverter(name, check, wrap, /* optional */override) {
+registerDOMConverter = function (name, check, wrap, /* optional */override) {
     /***
 
         Register an adapter to convert objects that match check(obj, ctx) to
@@ -11,7 +11,7 @@ function registerDOMConverter(name, check, wrap, /* optional */override) {
     _DOMConverters.register(name, check, wrap, override);
 }
 
-function coerceToDOM(node, ctx) {
+coerceToDOM = function (node, ctx) {
     /***
 
         Used internally by createDOM, coerces a node to null, a DOM object, or an iterable.
@@ -67,7 +67,7 @@ function coerceToDOM(node, ctx) {
     }
 }
     
-function createDOM(name, attrs/*, nodes... */) {
+createDOM = function (name, attrs/*, nodes... */) {
     /***
 
         Create a DOM fragment in a really convenient manner, much like
@@ -94,7 +94,7 @@ function createDOM(name, attrs/*, nodes... */) {
                 ["dataA1", "dataA2", "dataA3"],
                 ["dataB1", "dataB2", "dataB3"]
             ];
-            function row_display(row) {
+            row_display = function (row) {
                 return TR(null, map(partial(TD, null), row));
             }
             var newTable = TABLE({'class': 'prettytable'}
@@ -210,7 +210,7 @@ function createDOM(name, attrs/*, nodes... */) {
     return elem;
 }
 
-function createDOMFunc(/* tag, attrs, *nodes */) {
+createDOMFunc = function (/* tag, attrs, *nodes */) {
     /***
 
         Convenience function to create a partially applied createDOM
@@ -227,7 +227,7 @@ function createDOMFunc(/* tag, attrs, *nodes */) {
     return partial.apply(this, extend([createDOM], arguments));
 }
 
-function swapDOM(dest, src) {
+swapDOM = function (dest, src) {
     /***
 
         Replace dest in a DOM tree with src, returning src
@@ -258,7 +258,7 @@ A = createDOMFunc("a");
 DIV = createDOMFunc("div");
 IMG = createDOMFunc("img");
 
-function getElement(id) {
+getElement = function (id) {
     /***
 
         A small quick little function to encapsulate the getElementById method.
@@ -277,9 +277,9 @@ function getElement(id) {
     }
 }
 
-var $ = getElement;
+$ = getElement;
 
-function addLoadEvent(func) {
+addLoadEvent = function (func) {
     /***
 
         This will stack load functions on top of each other.
@@ -298,7 +298,7 @@ function addLoadEvent(func) {
     }
 }
 
-function focusOnLoad(element) {
+focusOnLoad = function (element) {
     addLoadEvent(function () {
         element = getElement(element);
         if (element) {
@@ -308,7 +308,7 @@ function focusOnLoad(element) {
 }
         
 
-function setElementClass(element, className) {
+setElementClass = function (element, className) {
     /***
 
         Set the entire class attribute of an element to className.
@@ -322,7 +322,7 @@ function setElementClass(element, className) {
     }
 }
         
-function toggleElementClass(className/*, element... */) {
+toggleElementClass = function (className/*, element... */) {
     /***
     
         Toggle the presence of a given className in the class attribute
@@ -337,7 +337,7 @@ function toggleElementClass(className/*, element... */) {
     }
 } 
 
-function addElementClass(element, className) {
+addElementClass = function (element, className) {
     /***
 
         Ensure that the given element has className set as part of its
@@ -367,7 +367,7 @@ function addElementClass(element, className) {
     return false;
 } 
 
-function removeElementClass(element, className) {
+removeElementClass = function (element, className) {
     /***
 
         Ensure that the given element does not have className set as part
@@ -399,7 +399,7 @@ function removeElementClass(element, className) {
     return false;
 } 
 
-function swapElementClass(element, fromClass, toClass) {
+swapElementClass = function (element, fromClass, toClass) {
     /***
 
         If fromClass is set on element, replace it with toClass.  This
@@ -413,7 +413,7 @@ function swapElementClass(element, fromClass, toClass) {
     return false;
 } 
 
-var _TRANSTABLE = {
+_TRANSTABLE = {
     "<": "&lt;",
     ">": "&gt;",
     "&": "&amp;",
@@ -421,7 +421,7 @@ var _TRANSTABLE = {
     '"': "&quot;"
 };
 
-function escapeHTML(s) {
+escapeHTML = function (s) {
     /***
 
         Make a string safe for HTML, converting the usual suspects (lt, gt, quot, apos, amp)
@@ -439,7 +439,7 @@ function escapeHTML(s) {
     return buf.join("");
 }
 
-function toHTML(dom) {
+toHTML = function (dom) {
     /***
 
         Convert a DOM tree to a HTML string using emitHTML
@@ -448,7 +448,7 @@ function toHTML(dom) {
     return list(emitHTML(dom)).join("");
 }
 
-function emitHTML(dom) {
+emitHTML = function (dom) {
     /***
 
         Convert a DOM tree to a HTML-string-fragment-iterator
@@ -485,7 +485,7 @@ function emitHTML(dom) {
     return iter(lst);
 }
 
-function setDisplayForElements(display, element/*, ...*/) {
+setDisplayForElements = function (display, element/*, ...*/) {
     /***
 
         Change the style.display for the given element(s).  Usually

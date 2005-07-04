@@ -1,4 +1,4 @@
-function twoDigitAverage(numerator, denominator) {
+twoDigitAverage = function (numerator, denominator) {
     /***
 
         Calculate an average from a numerator and a denominator and return
@@ -16,7 +16,7 @@ function twoDigitAverage(numerator, denominator) {
     return "0";
 }
 
-function twoDigitFloat(someFloat) {
+twoDigitFloat = function (someFloat) {
     /***
     
         Roughly equivalent to: sprintf("%.2f", someFloat)
@@ -40,7 +40,7 @@ function twoDigitFloat(someFloat) {
     }
 }
 
-function percentFormat(someFloat) {
+percentFormat = function (someFloat) {
     /***
 
         Roughly equivalent to: sprintf("%.2f%%", someFloat * 100)

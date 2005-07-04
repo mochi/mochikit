@@ -1,4 +1,4 @@
-function isoDate(str) {
+isoDate = function (str) {
     /***
 
         Convert an ISO 8601 date (YYYY-MM-DD) to a Date object.
@@ -8,7 +8,7 @@ function isoDate(str) {
     return new Date(iso[0], iso[1] - 1, iso[2]);
 }
 
-function isoTimestamp(str) {
+isoTimestamp = function (str) {
     /***
 
         Convert an ISO 8601 timestamp (or something close to it) to
@@ -30,7 +30,7 @@ function isoTimestamp(str) {
     return new Date(iso[0], iso[1] - 1, iso[2], t[0], t[1], t[2]);
 }
 
-function toISOTime(date) {
+toISOTime = function (date) {
     /***
 
         Get the hh:mm:ss from the given Date object.
@@ -43,7 +43,7 @@ function toISOTime(date) {
     return lst.join(":");
 }
 
-function toISOTimestamp(date, realISO) {
+toISOTimestamp = function (date, realISO) {
     /***
 
         Convert a Date object to something that's ALMOST but not quite an
@@ -63,7 +63,7 @@ function toISOTimestamp(date, realISO) {
     return toISODate(date) + sep + toISOTime(date);
 }
 
-function toISODate(date) {
+toISODate = function (date) {
     /***
 
         Convert a Date object to an ISO 8601 date string (YYYY-MM-DD)
@@ -72,7 +72,7 @@ function toISODate(date) {
     return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join("-");
 }
 
-function americanDate(d) {
+americanDate = function (d) {
     /***
 
         Converts a MM/DD/YYYY date to a Date object
@@ -82,11 +82,11 @@ function americanDate(d) {
     return new Date(a[2], a[0] - 1, a[1]);
 }
 
-function _padTwo(n) {
+_padTwo = function (n) {
     return (n > 9) ? n : "0" + n;
 }
 
-function toPaddedAmericanDate(d) {
+toPaddedAmericanDate = function (d) {
     /***
 
         Converts a Date object to an MM/DD/YYYY date, e.g. 01/01/2001
@@ -95,7 +95,7 @@ function toPaddedAmericanDate(d) {
     return [_padTwo(d.getMonth() + 1), _padTwo(d.getDate()), d.getFullYear()].join('/');
 }
 
-function toAmericanDate(d) {
+toAmericanDate = function (d) {
     /***
 
         Converts a Date object to an M/D/YYYY date, e.g. 1/1/2001

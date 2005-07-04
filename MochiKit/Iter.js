@@ -1,7 +1,7 @@
-var StopIteration = new Error("StopIteration");
-var _ITERATORS = new AdapterRegistry();
+StopIteration = new Error("StopIteration");
+_ITERATORS = new AdapterRegistry();
 
-function registerIteratorFactory(name, check, iterfactory, /* optional */ override) {
+registerIteratorFactory = function (name, check, iterfactory, /* optional */ override) {
     /***
 
         Register an iterator factory for use with the iter function.
@@ -23,7 +23,7 @@ function registerIteratorFactory(name, check, iterfactory, /* optional */ overri
     _ITERATORS.register(name, check, iterfactory, override);
 }
 
-function iter(iterable, /* optional */ sentinel) {
+iter = function (iterable, /* optional */ sentinel) {
     /***
 
         Convert the given argument to an iterator (object implementing "next").
@@ -86,7 +86,7 @@ registerIteratorFactory("arrayLike", isArrayLike, function (iterable) {
     };
 });
 
-function count(n) {
+count = function (n) {
     /***
 
         count([n]) --> n, n + 1, n + 2, ...
@@ -102,7 +102,7 @@ function count(n) {
     };
 }
 
-function cycle(p) {
+cycle = function (p) {
     /***
 
         cycle(p) --> p0, p1, ... plast, p0, p1, ...
@@ -137,7 +137,7 @@ function cycle(p) {
     }
 }
 
-function repeat(elem, /* optional */n) {
+repeat = function (elem, /* optional */n) {
     /***
     
         repeat(elem, [,n]) --> elem, elem, elem, ... endlessly or up to n times
@@ -163,7 +163,7 @@ function repeat(elem, /* optional */n) {
     };
 }
         
-function next(iterator) {
+next = function (iterator) {
     /***
 
         Return the next value from the iterator
@@ -172,7 +172,7 @@ function next(iterator) {
     return iterator.next();
 }
 
-function izip(p, q/*, ...*/) {
+izip = function (p, q/*, ...*/) {
     /***
 
         izip(p, q, ...) --> (p0, q0, ...), (p1, q1, ...), ...
@@ -186,7 +186,7 @@ function izip(p, q/*, ...*/) {
     };
 }
 
-function ifilter(pred, seq) {
+ifilter = function (pred, seq) {
     /***
 
         ifilter(pred, seq) --> elements of seq where pred(elem) is true
@@ -210,7 +210,7 @@ function ifilter(pred, seq) {
     }
 }
 
-function ifilterfalse(pred, seq) {
+ifilterfalse = function (pred, seq) {
     /***
 
         ifilterfalse(pred, seq) --> elements of seq where pred(elem) is false
@@ -234,7 +234,7 @@ function ifilterfalse(pred, seq) {
     }
 }
  
-function islice(seq/*, [start,] stop[, step] */) {
+islice = function (seq/*, [start,] stop[, step] */) {
     /***
 
         islice(seq, [start,] stop[, step])  --> elements from 
@@ -275,7 +275,7 @@ function islice(seq/*, [start,] stop[, step] */) {
     };
 }
 
-function imap(fun, p, q/*, ...*/) {
+imap = function (fun, p, q/*, ...*/) {
     /***
 
         imap(fun, p, q, ...) --> fun(p0, q0, ...), fun(p1, q1, ...), ...
@@ -291,7 +291,7 @@ function imap(fun, p, q/*, ...*/) {
     };
 }
     
-function applymap(fun, seq) {
+applymap = function (fun, seq) {
     /***
 
         applymap(fun, seq) -->
@@ -308,7 +308,7 @@ function applymap(fun, seq) {
     };
 }
 
-function chain(p, q/*, ...*/) {
+chain = function (p, q/*, ...*/) {
     /***
 
         chain(p, q, ...) --> p0, p1, ... plast, q0, q1, ...
@@ -344,7 +344,7 @@ function chain(p, q/*, ...*/) {
     };
 }
 
-function takewhile(pred, seq) {
+takewhile = function (pred, seq) {
     /***
 
         takewhile(pred, seq) --> seq[0], seq[1], ... until pred(seq[n]) fails
@@ -365,7 +365,7 @@ function takewhile(pred, seq) {
     };
 }
 
-function dropwhile(pred, seq) {
+dropwhile = function (pred, seq) {
     /***
 
         dropwhie(pred, seq) --> seq[n], seq[n + 1], starting when
@@ -389,7 +389,7 @@ function dropwhile(pred, seq) {
     };
 }
 
-function _tee(ident, sync, iterable) {
+_tee = function (ident, sync, iterable) {
     sync.pos[ident] = -1;
     return {
         "repr": function () { return "tee(" + ident + ", ...)"; },
@@ -416,7 +416,7 @@ function _tee(ident, sync, iterable) {
     };
 }
 
-function tee(iterable, n/* = 2 */) {
+tee = function (iterable, n/* = 2 */) {
     /***
 
         tee(it, n=2) --> (it1, it2, it3, ... itn) splits one iterator into n
@@ -434,7 +434,7 @@ function tee(iterable, n/* = 2 */) {
     return rval;
 }
 
-function list(iterable) {
+list = function (iterable) {
     /***
 
         Convert an iterable to a new array
@@ -463,10 +463,10 @@ function list(iterable) {
 }
 
     
-function reduce(fn, iterable, /* optional */initial) {
+reduce = function (fn, iterable, /* optional */initial) {
     /***
     
-        Apply a function fn(a, b) cumulatively to the items of an iterable 
+        Apply a fn = function (a, b) cumulatively to the items of an iterable 
         from left to right, so as to reduce the iterable to a single value.
         For example, reduce(function (a, b) { return x + y; }, [1, 2, 3, 4, 5])
         calculates ((((1 + 2) + 3) + 4) + 5).  If initial is given, it is
@@ -501,7 +501,7 @@ function reduce(fn, iterable, /* optional */initial) {
     }
 }
 
-function range(/* [start,] stop[, step] */) {
+range = function (/* [start,] stop[, step] */) {
     /***
 
     Return an iterator containing an arithmetic progression of integers.
@@ -543,7 +543,7 @@ function range(/* [start,] stop[, step] */) {
     };
 }
         
-function sum(iterable, start/* = 0 */) {
+sum = function (iterable, start/* = 0 */) {
     /***
 
     Returns the sum of a sequence of numbers (NOT strings) plus the value
@@ -569,7 +569,7 @@ function sum(iterable, start/* = 0 */) {
     }
 }
         
-function exhaust(iterable) {
+exhaust = function (iterable) {
     /***
 
         Exhausts an iterable without saving the results anywhere,
@@ -589,7 +589,7 @@ function exhaust(iterable) {
     }
 }
 
-function forEach(iterable, func, /* optional */self) {
+forEach = function (iterable, func, /* optional */self) {
     /***
     
         Call func for each item in iterable.
@@ -601,7 +601,7 @@ function forEach(iterable, func, /* optional */self) {
     exhaust(imap(func, iterable));
 }
 
-function every(iterable, func) {
+every = function (iterable, func) {
     /***
 
         Return true if func(item) is true for every item in iterable
@@ -618,7 +618,7 @@ function every(iterable, func) {
     }
 }
 
-function sorted(iterable, /* optional */cmp) {
+sorted = function (iterable, /* optional */cmp) {
     /***
 
         Return a sorted array from iterable
@@ -632,7 +632,7 @@ function sorted(iterable, /* optional */cmp) {
     return rval;
 }
 
-function reversed(iterable) {
+reversed = function (iterable) {
     /***
 
         Return a reversed array from iterable.
@@ -643,7 +643,7 @@ function reversed(iterable) {
     return rval;
 }
 
-function some(iterable, func) {
+some = function (iterable, func) {
     /***
 
         Return true if func(item) is true for at least one item in iterable
@@ -660,7 +660,7 @@ function some(iterable, func) {
     }
 }
 
-function iextend(lst, iterable) {
+iextend = function (lst, iterable) {
     /***
         
         Just like list(iterable), except it pushes results on lst
