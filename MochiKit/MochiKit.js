@@ -19,7 +19,7 @@
         if (uri in allScripts) {
             continue;
         }
-        var tag = '<' + 'script src="' + uri + '" type="text/javascript" + '>' + '<' + /script' + '>';
+        var tag = '<' + 'script src="' + uri + '" type="text/javascript"' + '>' + '<' + '/script' + '>';
         document.write(tag);
         // the following doesn't work in Safari
         if (false) {
