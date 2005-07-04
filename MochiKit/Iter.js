@@ -1,4 +1,4 @@
-StopIteration = new Error("StopIteration");
+StopIteration = new NamedError("StopIteration");
 _ITERATORS = new AdapterRegistry();
 
 registerIteratorFactory = function (name, check, iterfactory, /* optional */ override) {
@@ -21,7 +21,7 @@ registerIteratorFactory = function (name, check, iterfactory, /* optional */ ove
     ***/
 
     _ITERATORS.register(name, check, iterfactory, override);
-}
+};
 
 iter = function (iterable, /* optional */ sentinel) {
     /***
@@ -69,7 +69,7 @@ iter = function (iterable, /* optional */ sentinel) {
         }
         throw e;
     }
-}
+};
 
 // Register the iterator factory for arrays
 registerIteratorFactory("arrayLike", isArrayLike, function (iterable) {
@@ -100,7 +100,7 @@ count = function (n) {
         "toString": forward("repr"),
         "next": function () { return n++; }
     };
-}
+};
 
 cycle = function (p) {
     /***
@@ -135,7 +135,7 @@ cycle = function (p) {
             }
         }
     }
-}
+};
 
 repeat = function (elem, /* optional */n) {
     /***
@@ -161,7 +161,7 @@ repeat = function (elem, /* optional */n) {
             return elem;
         }
     };
-}
+};
         
 next = function (iterator) {
     /***
@@ -170,7 +170,7 @@ next = function (iterator) {
 
     ***/
     return iterator.next();
-}
+};
 
 izip = function (p, q/*, ...*/) {
     /***
@@ -184,7 +184,7 @@ izip = function (p, q/*, ...*/) {
         "toString" : forward("repr"),
         "next": function () { return map(next, iterables); }
     };
-}
+};
 
 ifilter = function (pred, seq) {
     /***
@@ -208,7 +208,7 @@ ifilter = function (pred, seq) {
             }
         }
     }
-}
+};
 
 ifilterfalse = function (pred, seq) {
     /***
@@ -232,7 +232,7 @@ ifilterfalse = function (pred, seq) {
             }
         }
     }
-}
+};
  
 islice = function (seq/*, [start,] stop[, step] */) {
     /***
@@ -273,7 +273,7 @@ islice = function (seq/*, [start,] stop[, step] */) {
             return rval;
         }
     };
-}
+};
 
 imap = function (fun, p, q/*, ...*/) {
     /***
@@ -289,7 +289,7 @@ imap = function (fun, p, q/*, ...*/) {
             return fun.apply(this, map(next, iterables));
         }
     };
-}
+};
     
 applymap = function (fun, seq) {
     /***
@@ -306,7 +306,7 @@ applymap = function (fun, seq) {
             return fun.apply(this, seq.next());
         }
     };
-}
+};
 
 chain = function (p, q/*, ...*/) {
     /***
@@ -342,7 +342,7 @@ chain = function (p, q/*, ...*/) {
             throw StopIteration;
         }
     };
-}
+};
 
 takewhile = function (pred, seq) {
     /***
@@ -363,7 +363,7 @@ takewhile = function (pred, seq) {
             return rval;
         }
     };
-}
+};
 
 dropwhile = function (pred, seq) {
     /***
@@ -387,7 +387,7 @@ dropwhile = function (pred, seq) {
             return rval;
         }
     };
-}
+};
 
 _tee = function (ident, sync, iterable) {
     sync.pos[ident] = -1;
@@ -414,7 +414,7 @@ _tee = function (ident, sync, iterable) {
             return rval;
         }
     };
-}
+};
 
 tee = function (iterable, n/* = 2 */) {
     /***
@@ -432,7 +432,7 @@ tee = function (iterable, n/* = 2 */) {
         rval.push(_tee(i, sync, iterable));
     }
     return rval;
-}
+};
 
 list = function (iterable) {
     /***
@@ -460,7 +460,7 @@ list = function (iterable) {
         }
         return rval;
     }
-}
+};
 
     
 reduce = function (fn, iterable, /* optional */initial) {
@@ -499,7 +499,7 @@ reduce = function (fn, iterable, /* optional */initial) {
         }
         return x;
     }
-}
+};
 
 range = function (/* [start,] stop[, step] */) {
     /***
@@ -541,7 +541,7 @@ range = function (/* [start,] stop[, step] */) {
         },
         "toString": forward("repr")
     };
-}
+};
         
 sum = function (iterable, start/* = 0 */) {
     /***
@@ -567,7 +567,7 @@ sum = function (iterable, start/* = 0 */) {
         }
         return x;
     }
-}
+};
         
 exhaust = function (iterable) {
     /***
@@ -587,7 +587,7 @@ exhaust = function (iterable) {
             throw e;
         }
     }
-}
+};
 
 forEach = function (iterable, func, /* optional */self) {
     /***
@@ -599,7 +599,7 @@ forEach = function (iterable, func, /* optional */self) {
         func = bind(func, self);
     }
     exhaust(imap(func, iterable));
-}
+};
 
 every = function (iterable, func) {
     /***
@@ -616,7 +616,7 @@ every = function (iterable, func) {
         }
         return true;
     }
-}
+};
 
 sorted = function (iterable, /* optional */cmp) {
     /***
@@ -630,7 +630,7 @@ sorted = function (iterable, /* optional */cmp) {
     }
     rval.sort(cmp);
     return rval;
-}
+};
 
 reversed = function (iterable) {
     /***
@@ -641,7 +641,7 @@ reversed = function (iterable) {
     var rval = list(iterable);
     rval.reverse();
     return rval;
-}
+};
 
 some = function (iterable, func) {
     /***
@@ -658,7 +658,7 @@ some = function (iterable, func) {
         }
         return false;
     }
-}
+};
 
 iextend = function (lst, iterable) {
     /***
@@ -678,4 +678,4 @@ iextend = function (lst, iterable) {
         }
     }
     return lst;
-}
+};

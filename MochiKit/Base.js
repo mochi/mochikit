@@ -1,3 +1,91 @@
+update = function (self, obj/*, ... */) {
+    /***
+
+        Mutate an object by replacing its key:value pairs with those
+        from other object(s).  Key:value pairs from later objects will
+        overwrite those from earlier objects.
+        
+        If null is given as the initial object, a new one will be created.
+
+        This mutates *and returns* the given object, be warned.
+
+        A version of this function that creates a new object is available as
+        merge(o1, o2, ...)
+
+    ***/
+    if (self == null) {
+        self = {};
+    }
+    for (var i = 1; i < arguments.length; i++) {
+        var o = arguments[i];
+        for (var k in o) {
+            self[k] = o[k];
+        }
+    }
+    return self;
+};
+
+setdefault = function (self, obj/*, ...*/) {
+    /***
+
+        Mutate an object by replacing its key:value pairs with those
+        from other object(s) IF they are not already set on the initial
+        object.
+        
+        If null is given as the initial object, a new one will be created.
+
+        This mutates *and returns* the given object, be warned.
+
+    ***/
+    if (self == null) {
+        self = {};
+    }
+    for (var i = 1; i < arguments.length; i++) {
+        var o = arguments[i];
+        for (var k in o) {
+            if (!(k in self)) {
+                self[k] = o[k];
+            }
+        }
+    }
+    return self;
+};
+
+keys = function (obj) {
+    /***
+
+        Return an array of the property names of an object
+        (in no particular order).
+
+    ***/
+    var rval = [];
+    for (var prop in obj) {
+        rval.push(prop);
+    }
+    return rval;
+};
+    
+items = function (obj) {
+    /***
+
+        Return an array of [propertyName, propertyValue] pairs for an object
+        (in no particular order).
+
+    ***/
+    var rval = [];
+    for (var prop in obj) {
+        rval.push([prop, obj[prop]]);
+    }
+    return rval;
+};
+
+NamedError = function (name) {
+    this.message = name;
+    this.name = name;
+};
+
+NamedError.prototype = new Error();
+
 operator = {
     /***
 
@@ -48,7 +136,7 @@ forward = function (func) {
     return function () {
         return this[func].apply(this, arguments);
     };
-}
+};
 
 itemgetter = function (func) {
     /***
@@ -59,7 +147,7 @@ itemgetter = function (func) {
     return function (arg) {
         return arg[func];
     };
-}
+};
 
 function typeMatcher (/* typ */) {
     /***
@@ -83,7 +171,7 @@ function typeMatcher (/* typ */) {
         }
         return true;
     };
-}
+};
 
 isCallable = typeMatcher('function');
 isUndefined = typeMatcher('undefined');
@@ -95,7 +183,7 @@ isUndefinedOrNull = function (property) {
 
     ***/
     return ((typeof(property) == 'undefined') || property == null);
-}
+};
 
 xmap = function (fn/*, obj... */) {
     /***
@@ -113,7 +201,7 @@ xmap = function (fn/*, obj... */) {
         rval.push(fn(arguments[i]));
     }
     return rval;
-}
+};
 
 map = function (fn, lst/*, lst... */) {
     /***
@@ -149,7 +237,7 @@ map = function (fn, lst/*, lst... */) {
         }
         return rval;
     }
-}
+};
 
 isNotEmpty = function (obj) {
     /***
@@ -158,7 +246,7 @@ isNotEmpty = function (obj) {
 
     ***/
     return !!(obj && obj.length);
-}
+};
 
 xfilter = function (fn/*, obj... */) {
     /***
@@ -180,7 +268,7 @@ xfilter = function (fn/*, obj... */) {
         }
     }
     return rval;
-}
+};
 
 filter = function (fn, lst) {
     /***
@@ -202,7 +290,7 @@ filter = function (fn, lst) {
         }
     }
     return rval;
-}
+};
 
 bind = function (func, self) {
     /***
@@ -215,7 +303,7 @@ bind = function (func, self) {
     return function () {
         return func.apply(self, arguments);
     }
-}
+};
 
 bindMethods = function (self) {
     /***
@@ -230,10 +318,10 @@ bindMethods = function (self) {
             self[k] = bind(func, self);
         }
     }
-}
+};
 
 // A singleton raised when no suitable adapter is found
-NotFound = new Error("NotFound");
+NotFound = new NamedError("NotFound");
 
 AdapterRegistry = function () {
     /***
@@ -246,7 +334,7 @@ AdapterRegistry = function () {
 
     ***/
     this.pairs = [];
-}
+};
 
 AdapterRegistry.prototype.register = function (name, check, wrap, /* optional */ override) {
     /***
@@ -264,7 +352,7 @@ AdapterRegistry.prototype.register = function (name, check, wrap, /* optional */
     } else {
         this.pairs.push([name, check, wrap]);
     }
-}
+};
 
 AdapterRegistry.prototype.match = function (/* ... */) {
     /***
@@ -281,7 +369,7 @@ AdapterRegistry.prototype.match = function (/* ... */) {
         }
     }
     throw NotFound;
-}
+};
 
 AdapterRegistry.prototype.unregister = function (name) {
     /***
@@ -297,7 +385,7 @@ AdapterRegistry.prototype.unregister = function (name) {
         }
     }
     return false;
-}
+};
 
 _COMPARATORS = new AdapterRegistry();
 
@@ -325,7 +413,7 @@ registerComparator = function (name, check, comparator, /* optional */ override)
 
     ***/
     _COMPARATORS.register(name, check, comparator, override);
-}
+};
 
 compare = function (a, b) {
     /***
@@ -376,7 +464,7 @@ compare = function (a, b) {
         // These types can't be compared
         throw new TypeError(repr(a) + " and " + repr(b) + " can not be compared");
     }
-}
+};
 
 isArrayLike = function () {
     /***
@@ -396,7 +484,7 @@ isArrayLike = function () {
         }
     }
     return true;
-}
+};
 
 // Register a comparator to compare array contents
 registerComparator("arrayLike", isArrayLike, function (a, b) {
@@ -430,7 +518,7 @@ isDateLike = function () {
         }
     }
     return true;
-}
+};
 
 // Register a comparator to compare dates
 registerComparator("dateLike", isDateLike, function (a, b) {
@@ -451,7 +539,7 @@ registerRepr = function (name, check, wrap, /* optional */override) {
 
     ***/
     _REPRS.register(name, check, wrap, override);
-}
+};
 
 repr = function (o) {
     /***
@@ -472,7 +560,7 @@ repr = function (o) {
     } catch (e) {
         return o;
     }
-}
+};
 
 registerRepr("arrayLike",
     isArrayLike,
@@ -510,7 +598,7 @@ objEqual = function (a, b) {
 
     ***/
     return (compare(a, b) == 0);
-}
+};
 
 arrayEqual = function (self, arr) {
     /***
@@ -523,7 +611,7 @@ arrayEqual = function (self, arr) {
         return false;
     }
     return (compare(self, arr) == 0);
-}
+};
 
 extend = function (self, obj, /* optional */skip) {
     /***
@@ -553,7 +641,7 @@ extend = function (self, obj, /* optional */skip) {
     // it's often used like a constructor when turning some
     // ghetto array-like to a real array
     return self;
-}
+};
 
 concat = function (/* lst... */) {
     /***
@@ -570,7 +658,7 @@ concat = function (/* lst... */) {
         extend(rval, arguments[i]);
     }
     return rval;
-}
+};
 
 keyComparator = function (key) {
     /***
@@ -586,7 +674,7 @@ keyComparator = function (key) {
     return function(aObj, bObj) {
         return compare(aObj[key], bObj[key]);
     }
-}
+};
 
 reverseKeyComparator = function (key) {
     /***
@@ -602,7 +690,7 @@ reverseKeyComparator = function (key) {
     return function(bObj, aObj) {
         return compare(aObj[key], bObj[key]);
     }
-}
+};
 
 partial = function (func) {
     /***
@@ -624,7 +712,16 @@ partial = function (func) {
     return function () {
         return func.apply(this, extend(preargs.slice(), arguments));
     }
-}
+};
+
+/***
+
+    Create a new object consisting of the key:value pairs from the given
+    arguments.  Key:value pairs from later arguments will overwrite those
+    from earlier arguments.
+
+***/
+merge = partial(update, null);
  
 listMinMax = function (which, lst) {
     /***
@@ -652,7 +749,7 @@ listMinMax = function (which, lst) {
         }
     }
     return cur;
-}
+};
 
 listMax = partial(listMinMax, 1);
 listMin = partial(listMinMax, -1);
@@ -664,7 +761,7 @@ objMax = function (/* obj... */) {
 
     ***/
     return listMinMax(1, arguments);
-}
+};
     
 objMin = function (/* obj... */) {
     /***
@@ -673,7 +770,7 @@ objMin = function (/* obj... */) {
 
     ***/
     return listMinMax(-1, arguments);
-}
+};
 
 nodeWalk = function (node, visitor) {
     /***
@@ -691,94 +788,6 @@ nodeWalk = function (node, visitor) {
     while (nodes.length) {
         extend(nodes, visitor(nodes.shift()));
     }
-}
+};
 
-update = function (self, obj/*, ... */) {
-    /***
 
-        Mutate an object by replacing its key:value pairs with those
-        from other object(s).  Key:value pairs from later objects will
-        overwrite those from earlier objects.
-        
-        If null is given as the initial object, a new one will be created.
-
-        This mutates *and returns* the given object, be warned.
-
-        A version of this function that creates a new object is available as
-        merge(o1, o2, ...)
-
-    ***/
-    if (self == null) {
-        self = {};
-    }
-    for (var i = 1; i < arguments.length; i++) {
-        var o = arguments[i];
-        for (var k in o) {
-            self[k] = o[k];
-        }
-    }
-    return self;
-}
-
-setdefault = function (self, obj/*, ...*/) {
-    /***
-
-        Mutate an object by replacing its key:value pairs with those
-        from other object(s) IF they are not already set on the initial
-        object.
-        
-        If null is given as the initial object, a new one will be created.
-
-        This mutates *and returns* the given object, be warned.
-
-    ***/
-    if (self == null) {
-        self = {};
-    }
-    for (var i = 1; i < arguments.length; i++) {
-        var o = arguments[i];
-        for (var k in o) {
-            if (!(k in self)) {
-                self[k] = o[k];
-            }
-        }
-    }
-    return self;
-}
-
-/***
-
-    Create a new object consisting of the key:value pairs from the given
-    arguments.  Key:value pairs from later arguments will overwrite those
-    from earlier arguments.
-
-***/
-merge = partial(update, null);
-
-keys = function (obj) {
-    /***
-
-        Return an array of the property names of an object
-        (in no particular order).
-
-    ***/
-    var rval = [];
-    for (var prop in obj) {
-        rval.push(prop);
-    }
-    return rval;
-}
-    
-items = function (obj) {
-    /***
-
-        Return an array of [propertyName, propertyValue] pairs for an object
-        (in no particular order).
-
-    ***/
-    var rval = [];
-    for (var prop in obj) {
-        rval.push([prop, obj[prop]]);
-    }
-    return rval;
-}
