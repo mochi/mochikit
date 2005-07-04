@@ -1,4 +1,4 @@
-var operator = {
+operator = {
     /***
 
         A table of JavaScript's operators for usage with map, filter, etc.
@@ -39,7 +39,7 @@ var operator = {
     "contains": function (a, b) { return b in a; }
 };
 
-function forward(func) {
+forward = function (func) {
     /***
 
     Returns a function that forwards a method call to this.func(...)
@@ -50,7 +50,7 @@ function forward(func) {
     };
 }
 
-function itemgetter(func) {
+itemgetter = function (func) {
     /***
 
     Returns a function that returns arg[func]
@@ -85,10 +85,10 @@ function typeMatcher (/* typ */) {
     };
 }
 
-var isCallable = typeMatcher('function');
-var isUndefined = typeMatcher('undefined');
+isCallable = typeMatcher('function');
+isUndefined = typeMatcher('undefined');
 
-function isUndefinedOrNull(property) {
+isUndefinedOrNull = function (property) {
     /***
 
         Returns true if the given object is undefined or null
@@ -97,7 +97,7 @@ function isUndefinedOrNull(property) {
     return ((typeof(property) == 'undefined') || property == null);
 }
 
-function xmap(fn/*, obj... */) {
+xmap = function (fn/*, obj... */) {
     /***
     
         Return a list composed of fn(obj) for every obj given as an argument.
@@ -115,7 +115,7 @@ function xmap(fn/*, obj... */) {
     return rval;
 }
 
-function map(fn, lst/*, lst... */) {
+map = function (fn, lst/*, lst... */) {
     /***
 
         Return a new list composed of the results of fn(x) for every x in lst
@@ -151,7 +151,7 @@ function map(fn, lst/*, lst... */) {
     }
 }
 
-function isNotEmpty(obj) {
+isNotEmpty = function (obj) {
     /***
 
         Returns true if the list or string is not empty
@@ -160,7 +160,7 @@ function isNotEmpty(obj) {
     return !!(obj && obj.length);
 }
 
-function xfilter(fn/*, obj... */) {
+xfilter = function (fn/*, obj... */) {
     /***
 
         Returns a new list composed of the arguments where
@@ -182,7 +182,7 @@ function xfilter(fn/*, obj... */) {
     return rval;
 }
 
-function filter(fn, lst) {
+filter = function (fn, lst) {
     /***
 
         Returns a new list composed of elements from lst where
@@ -204,7 +204,7 @@ function filter(fn, lst) {
     return rval;
 }
 
-function bind(func, self) {
+bind = function (func, self) {
     /***
         
         Return a copy of func bound to self.  This means whenever
@@ -217,7 +217,7 @@ function bind(func, self) {
     }
 }
 
-function bindMethods(self) {
+bindMethods = function (self) {
     /***
 
         Bind all functions in self to self,
@@ -233,9 +233,9 @@ function bindMethods(self) {
 }
 
 // A singleton raised when no suitable adapter is found
-var NotFound = new Error("NotFound");
+NotFound = new Error("NotFound");
 
-function AdapterRegistry() {
+AdapterRegistry = function () {
     /***
 
         A registry to facilitate adaptation.
@@ -299,9 +299,9 @@ AdapterRegistry.prototype.unregister = function (name) {
     return false;
 }
 
-var _COMPARATORS = new AdapterRegistry();
+_COMPARATORS = new AdapterRegistry();
 
-function registerComparator(name, check, comparator, /* optional */ override) {
+registerComparator = function (name, check, comparator, /* optional */ override) {
     /***
 
         Register a comparator for use with the compare function.
@@ -327,7 +327,7 @@ function registerComparator(name, check, comparator, /* optional */ override) {
     _COMPARATORS.register(name, check, comparator, override);
 }
 
-function compare(a, b) {
+compare = function (a, b) {
     /***
 
         Compare two objects in a sensible manner.  Currently this is:
@@ -378,7 +378,7 @@ function compare(a, b) {
     }
 }
 
-function isArrayLike() {
+isArrayLike = function () {
     /***
 
         Returns true if all given arguments are Array-like
@@ -417,7 +417,7 @@ registerComparator("arrayLike", isArrayLike, function (a, b) {
     return rval;
 });
 
-function isDateLike() {
+isDateLike = function () {
     /***
 
         Returns true if all given arguments are Date-like
@@ -438,8 +438,8 @@ registerComparator("dateLike", isDateLike, function (a, b) {
 });
     
 
-var _REPRS = new AdapterRegistry();
-function registerRepr(name, check, wrap, /* optional */override) {
+_REPRS = new AdapterRegistry();
+registerRepr = function (name, check, wrap, /* optional */override) {
     /***
 
         Register a repr function.  repr functions should take
@@ -453,7 +453,7 @@ function registerRepr(name, check, wrap, /* optional */override) {
     _REPRS.register(name, check, wrap, override);
 }
 
-function repr(o) {
+repr = function (o) {
     /***
 
         Return a "programmer representation" for an object
@@ -503,7 +503,7 @@ registerRepr("null",
 );
     
 
-function objEqual(a, b) {
+objEqual = function (a, b) {
     /***
         
         Compare the equality of two objects.
@@ -512,7 +512,7 @@ function objEqual(a, b) {
     return (compare(a, b) == 0);
 }
 
-function arrayEqual(self, arr) {
+arrayEqual = function (self, arr) {
     /***
 
         Compare two arrays for equality, with a fast-path for length
@@ -525,7 +525,7 @@ function arrayEqual(self, arr) {
     return (compare(self, arr) == 0);
 }
 
-function extend(self, obj, /* optional */skip) {
+extend = function (self, obj, /* optional */skip) {
     /***
 
         Mutate an array by extending it with an array-like obj,
@@ -555,7 +555,7 @@ function extend(self, obj, /* optional */skip) {
     return self;
 }
 
-function concat(/* lst... */) {
+concat = function (/* lst... */) {
     /***
 
         Concatenates all given array-like arguments and returns
@@ -572,7 +572,7 @@ function concat(/* lst... */) {
     return rval;
 }
 
-function keyComparator(key) {
+keyComparator = function (key) {
     /***
 
         A comparator factory that compares a[key] with b[key].
@@ -588,7 +588,7 @@ function keyComparator(key) {
     }
 }
 
-function reverseKeyComparator(key) {
+reverseKeyComparator = function (key) {
     /***
 
         A comparator factory that compares a[key] with b[key] in reverse.
@@ -604,12 +604,12 @@ function reverseKeyComparator(key) {
     }
 }
 
-function partial(func) {
+partial = function (func) {
     /***
 
         Return a partially applied function, e.g.:
 
-            function addNumbers(a, b) {
+            addNumbers = function (a, b) {
                 return a + b;
             }
 
@@ -626,7 +626,7 @@ function partial(func) {
     }
 }
  
-function listMinMax(which, lst) {
+listMinMax = function (which, lst) {
     /***
 
         If which == -1 then it will return the smallest
@@ -657,7 +657,7 @@ function listMinMax(which, lst) {
 listMax = partial(listMinMax, 1);
 listMin = partial(listMinMax, -1);
 
-function objMax(/* obj... */) {
+objMax = function (/* obj... */) {
     /***
     
         Return the maximum object out of the given objects
@@ -666,7 +666,7 @@ function objMax(/* obj... */) {
     return listMinMax(1, arguments);
 }
     
-function objMin(/* obj... */) {
+objMin = function (/* obj... */) {
     /***
 
         Return the minimum object out of the given objects.
@@ -675,7 +675,7 @@ function objMin(/* obj... */) {
     return listMinMax(-1, arguments);
 }
 
-function nodeWalk(node, visitor) {
+nodeWalk = function (node, visitor) {
     /***
 
         Non-recursive generic node walking function (e.g. for a DOM)
@@ -693,7 +693,7 @@ function nodeWalk(node, visitor) {
     }
 }
 
-function update(self, obj/*, ... */) {
+update = function (self, obj/*, ... */) {
     /***
 
         Mutate an object by replacing its key:value pairs with those
@@ -720,7 +720,7 @@ function update(self, obj/*, ... */) {
     return self;
 }
 
-function setdefault(self, obj/*, ...*/) {
+setdefault = function (self, obj/*, ...*/) {
     /***
 
         Mutate an object by replacing its key:value pairs with those
@@ -753,9 +753,9 @@ function setdefault(self, obj/*, ...*/) {
     from earlier arguments.
 
 ***/
-var merge = partial(update, null);
+merge = partial(update, null);
 
-function keys(obj) {
+keys = function (obj) {
     /***
 
         Return an array of the property names of an object
@@ -769,7 +769,7 @@ function keys(obj) {
     return rval;
 }
     
-function items(obj) {
+items = function (obj) {
     /***
 
         Return an array of [propertyName, propertyValue] pairs for an object

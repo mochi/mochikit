@@ -35,7 +35,7 @@ BrowserComplianceError = function (msg) {
 }
 BrowserComplianceError.prototype = new Error();
 
-function GenericError(msg) {
+GenericError = function (msg) {
     this.name = "GenericError";
     this.message = msg;
 }
@@ -368,7 +368,7 @@ Deferred.prototype._fire = function () {
     }
 }
 
-function evalJSONRequest(req) {
+evalJSONRequest = function (req) {
     /***
 
     Evaluate a JSON (JavaScript Object Notation) XMLHttpRequest
@@ -383,7 +383,7 @@ function evalJSONRequest(req) {
     return x;
 }
 
-function succeed(/* optional */result) {
+succeed = function (/* optional */result) {
     /***
 
     Return a Deferred that has already had '.callback(result)' called.
@@ -406,7 +406,7 @@ function succeed(/* optional */result) {
     return d;
 }
 
-function fail(/* optional */result) {
+fail = function (/* optional */result) {
     /***
 
     Return a Deferred that has already had '.errback(result)' called.
@@ -423,7 +423,7 @@ function fail(/* optional */result) {
     return d;
 }
 
-function doSimpleXMLHttpRequest(url) {
+doSimpleXMLHttpRequest = function (url) {
     /***
 
     Perform a simple cancellable XMLHttpRequest using a Deferred.
@@ -501,7 +501,7 @@ function doSimpleXMLHttpRequest(url) {
     return d;
 }
 
-function loadJSONDoc(url) {
+loadJSONDoc = function (url) {
     /***
 
     Do a simple XMLHttpRequest to a URL and get the response

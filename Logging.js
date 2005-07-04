@@ -1,4 +1,4 @@
-var LogLevel = {
+LogLevel = {
     'ERROR': 40,
     'FATAL': 50,
     'WARNING': 30,
@@ -6,7 +6,7 @@ var LogLevel = {
     'DEBUG': 10
 }
 
-function logLevelAtLeast(minLevel) {
+logLevelAtLeast = function (minLevel) {
     /***
 
         Return a function that will match log messages whose level
@@ -25,7 +25,7 @@ function logLevelAtLeast(minLevel) {
     }
 }
 
-function LogMessage(num, level, info) {
+LogMessage = function (num, level, info) {
     this.num = num;
     this.level = level;
     this.info = info;
@@ -46,7 +46,7 @@ registerComparator("LogMessage",
 );
 
 
-function Logger(/* optional */maxSize) {
+Logger = function (/* optional */maxSize) {
     /***
 
         A basic logger object that has a buffer of recent messages
@@ -235,7 +235,7 @@ Logger.prototype.debuggingBookmarklet = function () {
     alert(this.getMessageText());
 }
 
-function alertListener(msg) {
+alertListener = function (msg) {
     /***
 
     Ultra-obnoxious alert(...) listener
@@ -248,9 +248,9 @@ function alertListener(msg) {
     );
 }
 
-var logger = new Logger();
-var log = bind(logger.log, logger);
-var logError = bind(logger.error, logger);
-var logDebug = bind(logger.debug, logger);
-var logFatal = bind(logger.fatal, logger);
-var logWarning = bind(logger.warning, logger);
+logger = new Logger();
+log = bind(logger.log, logger);
+logError = bind(logger.error, logger);
+logDebug = bind(logger.debug, logger);
+logFatal = bind(logger.fatal, logger);
+logWarning = bind(logger.warning, logger);
