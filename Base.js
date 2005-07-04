@@ -754,3 +754,31 @@ function setdefault(self, obj/*, ...*/) {
 
 ***/
 var merge = partial(update, null);
+
+function keys(obj) {
+    /***
+
+        Return an array of the property names of an object
+        (in no particular order).
+
+    ***/
+    var rval = [];
+    for (var prop in obj) {
+        rval.push(prop);
+    }
+    return rval;
+}
+    
+function items(obj) {
+    /***
+
+        Return an array of [propertyName, propertyValue] pairs for an object
+        (in no particular order).
+
+    ***/
+    var rval = [];
+    for (var prop in obj) {
+        rval.push([prop, obj[prop]]);
+    }
+    return rval;
+}
