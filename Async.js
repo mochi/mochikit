@@ -463,19 +463,24 @@ doSimpleXMLHttpRequest = function (url) {
             var status = null;
             try {
                 status = req.status;
+                if (isUndefined(status) && isNotEmpty(req.responseText)) {
+                    // XXX: Safari heisenbug workaround
+                    logDebug('Fixing up status due to Safari heisenbug');
+                    status = 200;
+                }
             } catch (e) {
                 // pass
                 logDebug('error getting status?', repr(items(e)));
             }
-            logDebug('req.status', repr(status));
             if (status == 200) { // OK
                 d.callback(req);
             } else {
-                logDebug('req.responseText', repr(req.responseText));
                 var err = new XMLHttpRequestError(req, "Request failed");
                 if (err.number) {
                     // XXX: This seems to happen on page change
                     d.errback(err);
+                } else {
+                    logDebug("Ignoring XMLHttpRequest, undefined status");
                 }
             }
         }
