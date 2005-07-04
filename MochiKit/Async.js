@@ -466,6 +466,7 @@ doSimpleXMLHttpRequest = function (url) {
             } catch (e) {
                 // pass
             }
+            logDebug('req.status', status);
             if (status == 200) { // OK
                 d.callback(req);
             } else {
