@@ -660,20 +660,34 @@ concat = function (/* lst... */) {
     return rval;
 };
 
-keyComparator = function (key) {
+keyComparator = function (key/* ... */) {
     /***
 
         A comparator factory that compares a[key] with b[key].
         e.g.:
 
-            vavr lst = ["a", "bbb", "cc"];
+            var lst = ["a", "bbb", "cc"];
             lst.sort(keyComparator("length"));
             assert(lst.toString() == "a,cc,bbb");
 
     ***/
-    return function(aObj, bObj) {
-        return compare(aObj[key], bObj[key]);
+    // fast-path for single key comparisons
+    if (arguments.length == 1) {
+        return function (a, b) {
+            return compare(a[key], b[key]);
+        }
     }
+    var keys = extend(null, arguments);
+    return function (a, b) {
+        var rval = 0;
+        // keep comparing until something is inequal or we run out of
+        // keys to compare
+        for (var i = 0; (rval == 0) && (i < keys.length); i++) {
+            var key = keys[i];
+            rval = compare(a[key], b[key]);
+        }
+        return rval;
+    };
 };
 
 reverseKeyComparator = function (key) {
@@ -687,8 +701,9 @@ reverseKeyComparator = function (key) {
             assert(lst.toString() == "bbb,cc,aa");
 
     ***/
-    return function(bObj, aObj) {
-        return compare(aObj[key], bObj[key]);
+    var comparator = keyComparator.apply(this, arguments);
+    return function (a, b) {
+        return comparator(b, a);
     }
 };
 
