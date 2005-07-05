@@ -170,9 +170,12 @@ try {
     R.register("undefinedOrNull", isUndefinedOrNull, function () { return "undefinedOrNull" }, true);
     is( R.match(undefined), "undefinedOrNull", "override works" );
     
-    var a1 = {"a": 1};
-    var a2 = {"a": 2};
-    is( keyComparator("a")(a1, a2), -1, "keyComparator" );
+    var a1 = {"a": 1, "b": 2, "c": 2};
+    var a2 = {"a": 2, "b": 1, "c": 2};
+    is( keyComparator("a")(a1, a2), -1, "keyComparator 1 lt" );
+    is( keyComparator("c")(a1, a2), 0, "keyComparator 1 eq" );
+    is( keyComparator("c", "b")(a1, a2), 1, "keyComparator 2 eq gt" );
+    is( keyComparator("c", "a")(a1, a2), -1, "keyComparator 2 eq lt" );
     is( reverseKeyComparator("a")(a1, a2), 1, "reverseKeyComparator" );
     is( compare(concat([1], [2], [3]), [1, 2, 3]), 0, "concat" );
     is( repr("foo"), '"foo"', "string repr" );
@@ -182,8 +185,8 @@ try {
     is( listMax([1, 3, 5, 3, -1]), 5, "listMax" );
     is( objMax(1, 3, 5, 3, -1), 5, "objMax" );
 
-    is( compare(keys(a1), ["a"]), 0, "keys" );
-    is( compare(items(a1), [["a", 1]]), 0, "items" );
+    is( compare(keys(a1), ["a", "b", "c"]), 0, "keys" );
+    is( compare(items(a1), [["a", 1], ["b", 2], ["c", 2]]), 0, "items" );
 
     var StringMap = function() {};
     a = new StringMap();
