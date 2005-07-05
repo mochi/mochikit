@@ -50,8 +50,7 @@ class TransitionMap:
     self.special = special
     #self.check() ###
   
-  def add(self, event, new_state,
-    TupleType = TupleType):
+  def add(self, event, new_state):
     """
     Add transition to |new_state| on |event|.
     """
@@ -66,8 +65,7 @@ class TransitionMap:
     else:
       self.get_special(event)[new_state] = 1
 
-  def add_set(self, event, new_set,
-    TupleType = TupleType):
+  def add_set(self, event, new_set):
     """
     Add transitions to the states in |new_set| on |event|.
     """
@@ -82,15 +80,13 @@ class TransitionMap:
     else:
       self.get_special(event).update(new_set)
   
-  def get_epsilon(self,
-    None = None):
+  def get_epsilon(self):
     """
     Return the mapping for epsilon, or None.
     """
     return self.special.get('', None)
   
-  def items(self,
-    len = len):
+  def items(self):
     """
     Return the mapping as a list of ((code1, code2), state_set) and
     (special_event, state_set) pairs.
@@ -115,8 +111,7 @@ class TransitionMap:
   
   # ------------------- Private methods --------------------
 
-  def split(self, code,
-    len = len, maxint = maxint):
+  def split(self, code):
     """
     Search the list for the position of the split point for |code|, 
     inserting a new split point if necessary. Returns index |i| such 
@@ -239,8 +234,8 @@ class TransitionMap:
 #
 
 #def merge_state_sets(set1, set2):
-#		for state in set2.keys():
-#			set1[state] = 1
+#        for state in set2.keys():
+#            set1[state] = 1
 
 def state_set_str(set):
   state_list = set.keys()
