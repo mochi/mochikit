@@ -85,6 +85,16 @@ class Scanner:
     self.cur_char = BOL
     self.input_state = 1
 
+  def __iter__(self):
+    return self
+
+  def next(self):
+    # PEP 234 Iterator
+    token = self.read()
+    if token[0] is None:
+      raise StopIteration
+    return token
+
   def read(self):
     """
     Read the next lexical token from the stream and return a
