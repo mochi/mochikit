@@ -1,15 +1,29 @@
 // # $Id: Kinetic.pm 1493 2005-04-07 19:20:18Z theory $
 
 // Set up namespace.
-if (Test == undefined) var Test = {};
+if (typeof self != 'undefined') {
+    //Browser
+    if (typeof Test == 'undefined') Test = {PLATFORM: 'browser'};
+    else Test.PLATFORM = 'browser';
+} else if (typeof _player != 'undefined'){
+    //Director
+    if (typeof _global.Test != "object") _global.Test = {PLATFORM: 'director'};
+    else _global.Test.PLATFORM = 'director';
+} else {
+    throw new Error("Test.Harness does not support your platform");
+}
 
 Test.Harness = function () {};
-
-Test.Harness.LF = document && document.all ? "\r" : "\n"; // Stoopid IE.
+Test.Harness.VERSION = '0.11';
 Test.Harness.Done = 0;
 
+// Stoopid IE.
+Test.Harness.LF = typeof document != "undefined"
+                  && typeof document.all != "undefined"
+  ? "\r"
+  : "\n";
+
 Test.Harness.prototype.isDone = Test.Harness.isDone;
-Test.Harness.prototype.interval = 100;
 
 /*
 

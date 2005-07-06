@@ -1,7 +1,17 @@
 // # $Id: Kinetic.pm 1493 2005-04-07 19:20:18Z theory $
 
 // Set up namespace.
-if (Test == undefined) var Test = {};
+if (typeof self != 'undefined') {
+    // Browser
+    if (typeof Test == 'undefined') Test = {PLATFORM: 'browser'};
+    else Test.PLATFORM = 'browser';
+} else if (typeof _global != 'undefined') {
+    //Director
+    if (typeof _global.Test == "undefined") _global.Test = {PLATFORM: 'director'};
+    else _global.Test.PLATFORM = 'director';
+} else {
+    throw new Error("Test.More does not support your platform");
+}
 
 // Constructor.
 Test.Builder = function () {
@@ -13,7 +23,7 @@ Test.Builder = function () {
 };
 
 // Static variables.
-Test.Builder.LF = document && document.all ? "\r" : "\n"; // Stoopid IE.
+Test.Builder.VERSION = '0.11';
 Test.Builder.Instances = [];
 Test.Builder.lineEndingRx = /\r?\n|\r/g;
 Test.Builder.StringOps = {
@@ -24,6 +34,12 @@ Test.Builder.StringOps = {
     ge: '>=',
     le: '<='
 };
+
+// Stoopid IE.
+Test.Builder.LF = typeof document != "undefined"
+                  && typeof document.all != "undefined"
+  ? "\r"
+  : "\n";
 
 // Static methods.
 Test.Builder.die = function (msg) {
@@ -511,8 +527,7 @@ Test.Builder.prototype.warnOutput = function (fn) {
 };
 
 Test.Builder.prototype._setupOutput = function () {
-    if (typeof document == 'object') {
-        // Web browser.
+    if (Test.PLATFORM == 'browser') {
         var writer = function (msg) {
             // I'm sure that there must be a more efficient way to do this,
             // but if I store the node in a variable outside of this function
@@ -534,6 +549,12 @@ Test.Builder.prototype._setupOutput = function () {
                         return;
                     }
                 }
+
+                // If there was no text node, add one.
+                node.appendChild(document.createTextNode(msg));
+                window.scrollTo(0, document.body.offsetHeight
+                                || document.body.scrollHeight);
+                return;
             }
 
             // Default to the normal write and scroll down...
@@ -552,7 +573,7 @@ Test.Builder.prototype._setupOutput = function () {
             else this.warnOutput(function (msg) { window.alert(msg) });
         }
 
-    } else if (typeof _player == "object") {
+    } else if (Test.PLATFORM == 'director') {
         // Macromedia-Adobe:Director MX 2004 Support
         // XXX Is _player a definitive enough object?
         // There may be an even more explicitly Director object.
@@ -634,8 +655,9 @@ Test.Builder.prototype._sanity_check = function () {
 
 Test.Builder.prototype._notifyHarness = function () {
     // Special treatment for the browser harness.
-    if (parent && parent.Test && parent.Test.Harness) {
-        parent.Test.Harness.Done++;
+    if (typeof window != 'undefined' && window.parent
+        && window.parent.Test && window.parent.Test.Harness) {
+        window.parent.Test.Harness.Done++;
     }
 };
 
@@ -716,10 +738,6 @@ Test.Builder.prototype.isUndef = function (got, op, expect, desc) {
     return test;
 };
 
-
-// Create the singleton test object.
-Test.Builder.Test = new Test.Builder();
-
 if (window) {
     // Set up an onload function to end all tests.
     window.onload = function () {
@@ -752,7 +770,7 @@ Test.Builder.prototype.beginAsync = function (timeout) {
         this.asyncs[id] = 0;
     }
 	return id;
-}
+};
 
 Test.Builder.prototype.endAsync = function (id) {
     if (this.asyncs[id] == undefined) return;
@@ -761,4 +779,16 @@ Test.Builder.prototype.endAsync = function (id) {
 		window.clearTimeout(this.asyncs[id]);
 	}
     if (--this.asyncID < 0) this._ending();
-}
+};
+
+Test.Builder.exporter = function (pkg, root) {
+    if (typeof root == 'undefined') {
+        if      (Test.PLATFORM == 'browser')  root = window;
+        else if (Test.PLATFORM == 'director') root = _global;
+        else throw new Error("Platform unknown");
+    }
+    for (var i = 0; i < pkg.EXPORT.length; i++) {
+        if (typeof root[pkg.EXPORT[i]] == 'undefined')
+            root[pkg.EXPORT[i]] = pkg[pkg.EXPORT[i]];
+    }
+};
