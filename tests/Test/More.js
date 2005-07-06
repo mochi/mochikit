@@ -1,43 +1,67 @@
 // # $Id: Kinetic.pm 1493 2005-04-07 19:20:18Z theory $
 // Create a namespace for ourselves.
-Test.More = {}
+
+// Set up package.
+if (typeof JSAN != 'undefined') new JSAN().use('Test.Builder');
+else {
+    if (typeof Test == 'undefined' || typeof Test.Builder == 'undefined')
+        throw new Error(
+            "You must load either JSAN or Test.Builder "
+            + "before loading Test.More"
+        );
+}
+
+Test.More = {};
+Test.More.EXPORT = [
+    'plan',
+    'ok', 'is', 'isnt',
+    'like', 'unlike',
+    'cmpOK', 'canOK', 'isaOK',
+    'pass', 'fail', 'diag', 'loadOK',
+    'skip', 'todo', 'todoSkip', 'skipRest',
+    'isDeeply', 'isSet', 'isa'
+];
+Test.More.EXPORT_TAGS = { ':all': Test.More.EXPORT };
+Test.More.VERSION     = '0.11';
+
 Test.More.ShowDiag = true;
 Test.Builder.DNE = { dne: 'Does not exist' };
 Test.More.Test = new Test.Builder();
+Test.More.builder = function () { return Test.More.Test; };
 
-function plan (cmds) {
+Test.More.plan = function (cmds) {
     if (cmds.noDiag) {
         Test.More.ShowDiag = false;
         delete cmds.noDiag;
     }
     return Test.More.Test.plan.apply(Test.More.Test, [cmds]);
-}
+};
 
-function ok (test, desc) {
+Test.More.ok = function (test, desc) {
     return Test.More.Test.ok(test, desc);
-}
+};
 
-function is (got, expect, desc) {
+Test.More.is = function (got, expect, desc) {
     return Test.More.Test.isEq(got, expect, desc);
-}
+};
 
-function isnt (got, expect, desc) {
+Test.More.isnt = function (got, expect, desc) {
     return Test.More.Test.isntEq(got, expect, desc);
-}
+};
 
-function like (val, regex, desc) {
+Test.More.like = function (val, regex, desc) {
     return Test.More.Test.like(val, regex, desc);
-}
+};
 
-function unlike (val, regex, desc) {
+Test.More.unlike = function (val, regex, desc) {
     return Test.More.Test.unlike(val, regex, desc);
-}
+};
 
-function cmpOK(got, op, expect, desc) {
+Test.More.cmpOK = function (got, op, expect, desc) {
     return Test.More.Test.cmpOK(got, op, expect, desc);
-}
+};
 
-function canOK (proto) {
+Test.More.canOK = function (proto) {
     var ok;
     // Make sure they passed some method names for us to check.
     if (!arguments.length > 1) {
@@ -54,7 +78,6 @@ function canOK (proto) {
         proto = eval(clas + '.prototype');
     } else {
         // We have an object or something that can be converted to an object.
-        Test.More.Test.diag(clas + ': ' + proto);
         clas = Test.Builder.typeOf(proto);
         proto = proto.constructor.prototype;
     }
@@ -72,15 +95,15 @@ function canOK (proto) {
         Test.More.Test.diag('    ' + clas + ".can('" + nok[i] + "') failed");
     }
     return ok;
-}
+};
 
-function isaOK (object, clas, objName) {
+Test.More.isaOK = function (object, clas, objName) {
     var mesg;
     if (objName == null) objName = 'The object';
     var name = objName + ' isa ' + clas;
     if (object == null) {
         mesg = objName + " isn't defined";
-    } else if (!_isRef(object)) {
+    } else if (!Test.More._isRef(object)) {
         mesg = objName + " isn't a reference";
     } else {
         var ctor = eval(clas);
@@ -108,29 +131,29 @@ function isaOK (object, clas, objName) {
     }
 
     return ok;
-}
+};
 
-function pass (name) {
+Test.More.pass = function (name) {
     return Test.More.Test.ok(true, name);
-}
+};
 
-function fail (name) {
+Test.More.fail = function (name) {
     return Test.More.Test.ok(false, name);
-}
+};
 
-function diag () {
+Test.More.diag = function () {
     if (!Test.More.ShowDiag) return;
     return Test.More.Test.diag.apply(Test.More.Test, arguments);
-}
+};
 
 // Use this instead of use_ok and require_ok.
-function loadOK () {
+Test.More.loadOK = function () {
     // XXX What do I do here? Eval?
     // XXX Just always fail for now, to keep people from using it just yet.
     return false;
-}
+};
 
-function skip (why, howMany) {
+Test.More.skip = function (why, howMany) {
     if (howMany == null) {
         if (!Test.Builder.NoPlan)
             Test.More.Test.warn("skip() needs to know howMany tests are in the block");
@@ -139,18 +162,18 @@ function skip (why, howMany) {
     for (i = 0; i < howMany; i++) {
         Test.More.Test.skip(why);
     }
-}
+};
 
-function todo (why, howMany) {
+Test.More.todo = function (why, howMany) {
     if (howMany == null) {
         if (!Test.Builder.NoPlan)
             Test.More.Test.warn("todo() needs to know howMany tests are in the block");
         howMany = 1;
     }
     return Test.More.Test.todo(why, howMany);
-}
+};
 
-function todoSkip (why, howMany) {
+Test.More.todoSkip = function (why, howMany) {
     if (howMany == null) {
         if (!Test.Builder.NoPlan)
             Test.More.Test.warn("todoSkip() needs to know howMany tests are in the block");
@@ -160,13 +183,13 @@ function todoSkip (why, howMany) {
     for (i = 0; i < howMany; i++) {
         Test.More.Test.todoSkip(why);
     }
-}
+};
 
-function skipRest (why) {
+Test.More.skipRest = function (why) {
     Test.More.Test.skipRest(why);
-}
+};
 
-function isDeeply (it, as, name) {
+Test.More.isDeeply = function (it, as, name) {
     if (arguments.length != 2 && arguments.length != 3) {
         Test.More.Test.warn(
             'isDeeply() takes two or three args, you gave '
@@ -176,29 +199,29 @@ function isDeeply (it, as, name) {
 
     var ok;
     // ^ is the XOR operator.
-    if (_isRef(it) ^ _isRef(as)) {
+    if (Test.More._isRef(it) ^ Test.More._isRef(as)) {
         // One's a reference, one isn't.
         ok = false;
-    } else if (!_isRef(it) && !_isRef(as)) {
+    } else if (!Test.More._isRef(it) && !Test.More._isRef(as)) {
         // Neither is an object.
         ok = Test.More.Test.isEq(it, as, name);
     } else {
         // We have two objects. Do a deep comparison.
         var stack = [], seen = [];
-        if ( _deepCheck(it, as, stack, seen)) {
+        if ( Test.More._deepCheck(it, as, stack, seen)) {
             ok = Test.More.Test.ok(true, name);
         } else {
             ok = Test.More.Test.ok(false, name);
-            Test.More.Test.diag(_formatStack(stack));
+            Test.More.Test.diag(Test.More._formatStack(stack));
         }
     }
     return ok;
-}
+};
 
-function _deepCheck (e1, e2, stack, seen) {
+Test.More._deepCheck = function (e1, e2, stack, seen) {
     var ok = false;
     // Either they're both references or both not.
-    var sameRef = !(!_isRef(e1) ^ !_isRef(e2));
+    var sameRef = !(!Test.More._isRef(e1) ^ !Test.More._isRef(e2));
     if (e1 == null && e2 == null) {
         ok = true;
     } else if (e1 != null ^ e2 != null) {
@@ -210,9 +233,9 @@ function _deepCheck (e1, e2, stack, seen) {
         // object, including functions.
         ok = true;
     } else if (isa(e1, 'Array') && isa(e2, 'Array')) {
-        ok = _eqArray(e1, e2, stack, seen);
+        ok = Test.More._eqArray(e1, e2, stack, seen);
     } else if (typeof e1 == "object" && typeof e2 == "object") {
-        ok = _eqAssoc(e1, e2, stack, seen);
+        ok = Test.More._eqAssoc(e1, e2, stack, seen);
     } else {
         // If we get here, they're not the same (function references must
         // always simply rererence the same function).
@@ -220,14 +243,14 @@ function _deepCheck (e1, e2, stack, seen) {
         ok = false;
     }
     return ok;
-}
+};
 
-function _isRef(object) {
+Test.More._isRef = function (object) {
     var type = typeof object;
     return type == 'object' || type == 'function';
-}
+};
 
-function _formatStack (stack) {
+Test.More._formatStack = function (stack) {
     var variable = '$Foo';
     for (var i = 0; i < stack.length; i++) {
         var entry = stack[i];
@@ -265,23 +288,23 @@ function _formatStack (stack) {
     out += vars[1] + ' = ' + vals[1] + Test.Builder.LF;
     
     return '    ' + out;
-}
+};
 
 /* Commented out per suggestion from Michael Schwern. It turned out to be
    confusing to Test::More users because it isn't atually a test. Use
    isDeeply() instead and don't worry about it.
 
-function eqArray (a1, a2) {
+Test.More.eqArray = function (a1, a2) {
     if (!isa(a1, 'Array') || !isa(a2, 'Array')) {
         Test.More.Test.warn("Non-array passed to eqArray()");
         return false;
     }
-    return _eqArray(a1, a2, [], []);
-}
+    return Test.More._eqArray(a1, a2, [], []);
+};
 
 */
 
-function _eqArray (a1, a2, stack, seen) {
+Test.More._eqArray = function (a1, a2, stack, seen) {
     // Return if they're the same object.
     if (a1 == a2) return true;
 
@@ -305,29 +328,29 @@ function _eqArray (a1, a2, stack, seen) {
     // Only examines enumerable attributes. Only works for numeric arrays!
     // Associative arrays return 0. So call _eqAssoc() for them, instead.
     var max = a1.length > a2.length ? a1.length : a2.length;
-    if (max == 0) return _eqAssoc(a1, a2, stack, seen);
+    if (max == 0) return Test.More._eqAssoc(a1, a2, stack, seen);
     for (var i = 0; i < max; i++) {
         var e1 = i > a1.length - 1 ? Test.More.DNE : a1[i];
         var e2 = i > a2.length - 1 ? Test.More.DNE : a2[i];
         stack.push({ type: 'Array', idx: i, vals: [e1, e2] });
-        if (ok = _deepCheck(e1, e2, stack, seen)) {
+        if (ok = Test.More._deepCheck(e1, e2, stack, seen)) {
             stack.pop();
         } else {
             break;
         }
     }
     return ok;
-}
+};
 
 /* Commented out per suggestion from Michael Schwern. It turned out to be
    confusing to Test::More users because it isn't atually a test. Use
    isDeeply() instead and don't worry about it.
 
-function eqHash () {
+Test.More.eqHash = function () {
     return eqAssoc.apply(this, arguments);
-}
+};
 
-function eqAssoc (o1, o2) {
+Test.More.eqAssoc = function (o1, o2) {
     if (typeof o1 != "object" || typeof o2 != "object") {
         Test.More.Test.warn("Non-object passed to eqAssoc()");
         return false;
@@ -337,12 +360,12 @@ function eqAssoc (o1, o2) {
         Test.More.Test.warn("Ordered array passed to eqAssoc()");
         return false;
     }
-    return _eqAssoc(o1, o2, [], []);
-}
+    return Test.More._eqAssoc(o1, o2, [], []);
+};
 
 */
 
-function _eqAssoc (o1, o2, stack, seen) {
+Test.More._eqAssoc = function (o1, o2, stack, seen) {
     // Return if they're the same object.
     if (o1 == o2) return true;
 
@@ -374,32 +397,33 @@ function _eqAssoc (o1, o2, stack, seen) {
         var e1 = o1[i] == undefined ? Test.More.DNE : o1[i];
         var e2 = o2[i] == undefined ? Test.More.DNE : o2[i];
         stack.push({ type: 'Object', idx: i, vals: [e1, e2] });
-        if (ok = _deepCheck(e1, e2, stack, seen)) {
+        if (ok = Test.More._deepCheck(e1, e2, stack, seen)) {
             stack.pop();
         } else {
             break;
         }
     }
     return ok;
-}
+};
 
-function _eqSet(a1, a2, stack, seen) {
-    return _eqArray(a1.slice(0).sort(), a2.slice(0).sort(), stack, seen);
-}
+Test.More._eqSet = function (a1, a2, stack, seen) {
+    return Test.More._eqArray(a1.slice(0).sort(), a2.slice(0).sort(), stack, seen);
+};
 
-function isSet (a1, a2, desc) {
+Test.More.isSet = function (a1, a2, desc) {
     var stack = [], seen = [], ok = true;
-    if (_eqSet(a1, a2, stack, seen)) {
+    if (Test.More._eqSet(a1, a2, stack, seen)) {
         ok = Test.More.Test.ok(true, desc);
     } else {
         ok = Test.More.Test.ok(false, desc);
-        Test.More.Test.diag(_formatStack(stack));
+        Test.More.Test.diag(Test.More._formatStack(stack));
     }
     return ok;
-}
+};
 
-Test.More.builder = function () { return Test.More.Test; }
-
-function isa (object, clas) {
+Test.More.isa = function (object, clas) {
     return Test.Builder.typeOf(object) == clas;
-}
+};
+
+// Handle exporting.
+if (typeof JSAN == 'undefined') Test.Builder.exporter(Test.More);

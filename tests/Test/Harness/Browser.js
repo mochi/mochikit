@@ -1,9 +1,9 @@
 // # $Id: Kinetic.pm 1493 2005-04-07 19:20:18Z theory $
 
-// Set up namespace.
-if (Test == undefined) var Test = {};
-if (Test.Harness == undefined) Test.Harness = {};
+if (typeof JSAN != 'undefined') new JSAN().use('Test.Harness');
+
 Test.Harness.Browser = function () {};
+Test.Harness.Browser.VERSION = '0.11';
 
 Test.Harness.Browser.runTests = function () {
     var harness = new Test.Harness.Browser();
@@ -11,21 +11,24 @@ Test.Harness.Browser.runTests = function () {
 };
 
 Test.Harness.Browser.prototype = new Test.Harness();
+Test.Harness.Browser.prototype.interval = 100;
 
 Test.Harness.Browser.prototype._setupFrame = function () {
     // Setup the iFrame to run the tests.
     var node = document.getElementById('buffer');
-    if (node) return window.frames[0];
+    if (node) return node.contentWindow;
     node = document.createElement("iframe");
     node.setAttribute("id", "buffer");
     node.setAttribute("name", "buffer");
     // Safari makes it impossible to do anything with the iframe if it's set
     // to display:none. See:
     // http://www.quirksmode.org/bugreports/archives/2005/02/hidden_iframes.html
-    if (/Safari/.test(navigator.userAgent))
-        node.setAttribute("style", "visibility:hidden; height:0; width:0;");
-    else
-        node.setAttribute("style", "display:none");
+    if (/Safari/.test(navigator.userAgent)) {
+        node.style.visibility = "hidden";
+        node.style.height = "0"; 
+        node.style.width = "0";
+    } else
+        node.style.display = "none";
     document.body.appendChild(node);
     return node.contentWindow;
 };
@@ -99,19 +102,24 @@ Test.Harness.Browser.prototype.runTests = function () {
         // We just need to unwatch() when all tests are finished.
         finish = function () { Test.Harness.unwatch('Done') };
         Test.Harness.watch('Done', function (attr, prev, next) {
-            if (next != buffer.Test.Builder.Instances.length) return next;
+            if (next < buffer.Test.Builder.Instances.length) return next;
             runner();
             return 0;
         });
     } else {
         // Damn. We have to set timeouts. :-(
         var wait = function () {
-            if (Test.Harness.Done != buffer.Test.Builder.Instances.length) {
+            // Check Test.Harness.Done. If it's non-zero, then we know that
+            // the buffer is fully loaded, because it has incremented
+            // Test.Harness.Done.
+            if (Test.Harness.Done > 0
+                && Test.Harness.Done >= buffer.Test.Builder.Instances.length)
+            {
+                Test.Harness.Done = 0;
+                runner();
+            } else {
                 window.setTimeout(wait, harness.interval);
-                return;
             }
-            runner();
-            Test.Harness.Done = 0;
         };
         // We'll just have to set a timeout for the next test.
         runNext = function () { window.setTimeout(wait, harness.interval); };
