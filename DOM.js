@@ -448,6 +448,33 @@ toHTML = function (dom) {
     return list(emitHTML(dom)).join("");
 };
 
+var __tmpElement = document.createElement("span");
+if (__tmpElement.attributes.length > 0) {
+    // for braindead browsers that insert extra junk
+    __tmpAttr = {};
+    forEach(__tmpElement.attributes, function (a) {
+        __tmpAttr[a.name] = a.value;
+    });
+    __tmpAttrFilter = function (a) {
+        return __tmpAttr[a.name] != a.value;
+    }
+    attributeArray = function (node) {
+        return filter(__tmpAttrFilter, node.attributes);
+    }
+} else {
+    attributeArray = function (node) {
+        /***
+            
+            Return an array of attributes for a given node,
+            filtering out attributes that don't belong for
+            that are inserted by "Certain Browsers".
+
+        ***/
+        return node.attributes;
+    }
+}
+delete __tmpElement;
+
 emitHTML = function (dom) {
     /***
 
@@ -464,7 +491,7 @@ emitHTML = function (dom) {
             function (a) {
                 return [" ", a.name, "=", '"', escapeHTML(a.value), '"'];
             },
-            dom.attributes
+            attributeArray(dom)
         );
         attributes.sort();
         for (var i = 0; i < attributes.length; i++) {
