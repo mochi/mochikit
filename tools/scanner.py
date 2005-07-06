@@ -90,6 +90,9 @@ class Token(object):
         self = super(Token, cls).__new__(cls)
         return self.found(match)
     
+    def tree(self):
+        return repr(self)
+
     def groupdict(self):
         groups = self._groupdict
         if groups is None:
@@ -117,110 +120,64 @@ class FuncScanningToken(Token):
     lexicon = None
     _matches = None
 
-    def found(self, match):
+    def setup(self):
         if self.lexicon is None:
             raise ValueError, "missing lexicon"
         if self.endfunc is None:
             raise ValueError, "missing endfunc"
-        end = match.end()
-
-        if self.regex is not None:
-            self.match = self.regex.match(match.string, *match.span())
-        else:
-            self.match = match
-
         if self.scanner is None:
-            self.scanner = Scanner(list(self.lexicon))
-
-        scanner = self.scanner.iterscan(match.string, dead=self.dead, idx=end)
-        matches = self._matches = [ ]
-        for match in scanner:
-            if match is None:
-                continue
-            matches.append(match)
-            if self.endfunc(match):
-                last_begin = end
-                end = match.match.end()
-                if self.dead and isinstance(self.dead, type):
-                    newmatches = []
-                    for m in matches:
-                        if m is None:
-                            continue
-                        if isinstance(m, self.dead):
-                            m.end = min(m.end, end)
-                            m.begin = max(m.begin, last_begin)
-                            if m.end == m.begin:
-                                continue
-                        else:
-                            last_begin = m.match.end()
-                        newmatches.append(m)
-                    self._matches[:] = newmatches
-                return self, match.match.end()
-        else:
-            raise ValueError, "EndToken not matched"
-
-    def matches(self):
-        return self._matches
-
-    def __repr__(self):
-        return '%s(%r, %r)' % (
-            type(self).__name__,
-            self.groupdict(),
-            self.matches(),
-        )
-
-
-class ScanningToken(Token):
-    scanner = None
-    dead = None
-    endtoken = None
-    lexicon = None
-    _matches = None
+            self.scanner = self.buildScanner()
+    
+    def buildScanner(self):
+        return Scanner(list(self.lexicon))
+    
+    def tree(self):
+        l = []
+        for m in self._matches:
+            try:
+                l.append(m.tree())
+            except AttributeError:
+                l.append(m)
+        return Token.__repr__(self), l
 
     def found(self, match):
-        if self.lexicon is None:
-            raise ValueError, "missing lexicon"
-        if self.endtoken is None:
-            raise ValueError, "missing endtoken"
-        if self.endtoken in self.lexicon:
-            raise ValueError, "endtoken is present in lexicon"
         end = match.end()
-
         if self.regex is not None:
             self.match = self.regex.match(match.string, *match.span())
         else:
             self.match = match
-
-        if self.scanner is None:
-            lex = [self.endtoken]
-            lex.extend(self.lexicon)
-            self.scanner = Scanner(lex)
-
+        self.setup()
         scanner = self.scanner.iterscan(match.string, dead=self.dead, idx=end)
         matches = self._matches = [ ]
+        if self.dead and isinstance(self.dead, type):
+            deadmatches = []
+        else:
+            deadmatches = None
+        def prunedMatches():
+            if deadmatches is not None:
+                def deadfilter(match):
+                    if isinstance(match, self.dead) and match.begin == match.end:
+                        return False
+                    return True
+                return filter(deadfilter, matches)
+            return matches
         for match in scanner:
             if match is None:
                 continue
+            if deadmatches is not None:
+                if isinstance(match, self.dead):
+                    match.begin = max(match.begin, end)
+                    deadmatches.append(match)
+                elif deadmatches:
+                    ld = deadmatches[-1]
+                    end = match.match.end()
+                    ld.end = min(ld.end, end)
             matches.append(match)
-            if isinstance(match, self.endtoken):
-                last_begin = end
-                end = match.match.end()
-                if self.dead and isinstance(self.dead, type):
-                    newmatches = []
-                    for m in matches:
-                        if m is None:
-                            continue
-                        if isinstance(m, self.dead):
-                            m.end = min(m.end, end)
-                            m.begin = max(m.begin, last_begin)
-                            if m.end == m.begin:
-                                continue
-                        else:
-                            last_begin = m.match.end()
-                        newmatches.append(m)
-                    self._matches[:] = newmatches
+            if self.endfunc(match):
+                self._matches = prunedMatches()
                 return self, match.match.end()
         else:
+            self._matches = matches = prunedMatches()
             raise ValueError, "EndToken not matched"
 
     def matches(self):
@@ -232,6 +189,18 @@ class ScanningToken(Token):
             self.groupdict(),
             self.matches(),
         )
+
+
+class ScanningToken(FuncScanningToken):
+    endtoken = None
+
+    def buildScanner(self):
+        lex = [self.endtoken]
+        lex.extend(self.lexicon)
+        return Scanner(lex)
+
+    def endfunc(self, match):
+        return isinstance(match, self.endtoken)
 
 class IgnoreToken(Token):
     def found(self, match):

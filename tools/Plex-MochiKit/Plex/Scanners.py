@@ -86,6 +86,7 @@ class Scanner:
     self.input_state = 1
 
   def __iter__(self):
+    # PEP 234 Iterator factory
     return self
 
   def next(self):

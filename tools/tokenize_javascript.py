@@ -130,21 +130,41 @@ class ObjectLiteral(FuncScanningToken):
                 return True
         return False
 
-class Assignment(ScanningToken):
+class EndParens(Token):
+    pattern = pattern(r'''
+    \s* \) \s*
+    ''')
+
+class Parens(ScanningToken):
+    pattern = pattern(r'''
+    \s* \( \s*
+    ''')
+    dead = UnmatchedText
+    lexicon = property(lambda s:[
+        BlockComment,
+        SingleLineComment,
+    ])
+    endtoken = EndParens
+
+class Assignment(FuncScanningToken):
     pattern = pattern(r'''
     \s* (?:var)? \s* (?P<name>%(EXPRESSION)s) \s* = \s*
     ''')
     lexicon = [
+        Semicolon,
         BlockComment,
         SingleLineComment,
+        Parens,
         ObjectLiteral,
         AnonymousFunction,
+        InsignificantWhitespace,
     ]
     dead = UnmatchedText
-    endtoken = Semicolon
     example = example('''
     var foo = partial(a, b, c);
     ''')
+    def endfunc(self, match):
+        return isinstance(match, (Semicolon, ObjectLiteral, AnonymousFunction))
 
 class Function(ScanningToken):
     pattern = pattern(r'''
@@ -169,6 +189,7 @@ LEXICON = [
     SingleLineComment,
     Function,
     Assignment,
+    Parens,
     AnonymousFunction,
     Block,
 ]
