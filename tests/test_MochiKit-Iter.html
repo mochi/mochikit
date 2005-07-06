@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 33});
+    plan({'tests': 36});
 
     is( sum([1, 2, 3, 4, 5]), 15, "sum works on Arrays" );
     is( compare(list([1, 2, 3]), [1, 2, 3]), 0, "list([x]) == [x]" );
@@ -55,6 +55,20 @@ try {
     is( compare(list(c[2]), [0, 1, 2, 3, 4]), 0, "tee(..., 3) p2 == fixed" );
 
     is( compare(reduce(operator.add, range(10)), 45), 0, "reduce(op.add)" );
+
+    try {
+        reduce(operator.add, []);
+        ok( false, "reduce didn't raise anything with empty list and no start?!" );
+    } catch (e) {
+        if (e instanceof TypeError) {
+            ok( true, "reduce raised TypeError correctly" );
+        } else {
+            ok( false, "reduce raised the wrong exception?" );
+        }
+    }
+
+    is( reduce(operator.add, [], 10), 10, "range initial value OK empty" );
+    is( reduce(operator.add, [1], 10), 11, "range initial value OK populated" );
 
     is( compare(iextend([1], range(2)), [1, 0, 1]), 0, "iextend(...)" );
 
