@@ -485,8 +485,15 @@ reduce = function (fn, iterable, /* optional */initial) {
     var i = 0;
     var x = initial;
     iterable = iter(iterable);
-    if (typeof(x) == 'undefined') {
-        x = iterable.next();
+    if (arguments.length < 3) {
+        try {
+            x = iterable.next();
+        } catch (e) {
+            if (e == StopIteration) {
+                e = new TypeError("reduce() of empty sequence with no initial value");
+            }
+            throw e;
+        }
         i++;
     }
     try {

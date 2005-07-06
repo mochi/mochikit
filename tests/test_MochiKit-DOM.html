@@ -18,14 +18,8 @@ try {
     
     is( escapeHTML("<>'\"&bar"), "&lt;&gt;&apos;&quot;&amp;bar", "escapeHTML" );
 
-    if (!isUndefinedOrNull(document.all)) {
-        var isDOM = function (value, expected, message) {
-            skip("IE makes it hard to test, but it does work: " + message, 1);
-        }
-    } else {
-        var isDOM = function (value, expected, message) {
-            is( escapeHTML(toHTML(value)), escapeHTML(expected), message );
-        }
+    var isDOM = function (value, expected, message) {
+        is( escapeHTML(toHTML(value)), escapeHTML(expected), message );
     }
 
     var d = createDOM("span");
