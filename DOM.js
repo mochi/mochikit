@@ -318,14 +318,20 @@ addLoadEvent = function (func) {
 
     ***/
     var oldonload = window.onload;
-    if (typeof(window.onload) != 'function') {
-        window.onload = func;
-    } else {
-        window.onload = function() {
-            oldonload.apply(this);
-            func.apply(this);
+    if (!(typeof(oldonload) == 'function' && oldonload.__addLoadEvent__)) {
+        var registry = [oldonload];
+        var newonload = function () {
+            for (var i = 0; i < registry.length; i++) {
+                var nextonload = registry[i];
+                if (typeof(nextonload) == 'function') {
+                    nextonload.apply(this);
+                }
+            }
         }
+        newonload.__addLoadEvent__ = true;
+        window.onload = newonload;
     }
+    registry.push(func);
 };
 
 focusOnLoad = function (element) {
