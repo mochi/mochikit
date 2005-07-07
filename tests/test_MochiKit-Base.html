@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 74});
+    plan({'tests': 75});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -22,6 +22,7 @@ try {
 
     is( boundFunc("foo"), "self foo", "boundFunc bound to self properly" );
     is( not_self.boundFunc("foo"), "self foo", "boundFunc bound to self on another obj" );
+    is( bind(boundFunc, not_self)("foo"), "not self foo", "boundFunc successfully rebound!" );
 
     // test bindMethods
 
