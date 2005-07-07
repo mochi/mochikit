@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 78});
+    plan({'tests': 80});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -129,14 +129,22 @@ try {
     var minusOne = function (x) { return x - 1; };
     var res = map(minusOne, [1, 2, 3]);
     ok( objEqual(res, [0, 1, 2]), "map works" );
+
     var res2 = xmap(minusOne, 1, 2, 3);
     ok( objEqual(res2, res), "xmap works" );
 
     res = map(operator.add, [1, 2, 3], [2, 4, 6]);
     ok( objEqual(res, [3, 6, 9]), "map(fn, p, q) works" );
 
+    res = map(operator.add, [1, 2, 3], [2, 4, 6, 8]);
+    ok( objEqual(res, [3, 6, 9]), "map(fn, p, q) works (q long)" );
+
+    res = map(operator.add, [1, 2, 3, 4], [2, 4, 6]);
+    ok( objEqual(res, [3, 6, 9]), "map(fn, p, q) works (p long)" );
+
     res = map(null, [1, 2, 3], [2, 4, 6]);
     ok( objEqual(res, [[1, 2], [2, 4], [3, 6]]), "map(null, p, q) works" );
+
     res = zip([1, 2, 3], [2, 4, 6]);
     ok( objEqual(res, [[1, 2], [2, 4], [3, 6]]), "zip(p, q) works" );
 
