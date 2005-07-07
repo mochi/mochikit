@@ -1,5 +1,35 @@
 _DOMConverters = new AdapterRegistry(); 
 
+var __tmpElement = document.createElement("span");
+if (__tmpElement.attributes.length > 0) {
+    // for braindead browsers (IE) that insert extra junk
+    attributeArray = function (node) {
+        return filter(attributeArray.ignoreAttrFilter, node.attributes);
+    }
+    attributeArray.ignoreAttr = {};
+    forEach(__tmpElement.attributes, function (a) {
+        attributeArray.ignoreAttr[a.name] = a.value;
+    });
+    attributeArray.ignoreAttrFilter = function (a) {
+        return (attributeArray.ignoreAttr[a.name] != a.value);
+    }
+    attributeArray.compliant = false;
+} else {
+    attributeArray = function (node) {
+        /***
+            
+            Return an array of attributes for a given node,
+            filtering out attributes that don't belong for
+            that are inserted by "Certain Browsers".
+
+        ***/
+        return node.attributes;
+    }
+    attributeArray.compliant = true;
+}
+delete __tmpElement;
+
+
 registerDOMConverter = function (name, check, wrap, /* optional */override) {
     /***
 
@@ -183,7 +213,7 @@ createDOM = function (name, attrs/*, nodes... */) {
 
     var elem = document.createElement(name);
     if (attrs) {
-        if (isUndefined(document.all)) {
+        if (attributeArray.compliant) {
             // not IE, good.
             for (var k in attrs) {
                 elem.setAttribute(k, attrs[k]);
@@ -315,7 +345,7 @@ setElementClass = function (element, className) {
     
     ***/
     var obj = getElement(element);
-    if (isUndefinedOrNull(document.all)) {
+    if (attributeArray.compliant) {
         obj.setAttribute("class", className);
     } else {
         obj.setAttribute("className", className);
@@ -447,33 +477,6 @@ toHTML = function (dom) {
     ***/
     return list(emitHTML(dom)).join("");
 };
-
-var __tmpElement = document.createElement("span");
-if (__tmpElement.attributes.length > 0) {
-    // for braindead browsers that insert extra junk
-    __tmpAttr = {};
-    forEach(__tmpElement.attributes, function (a) {
-        __tmpAttr[a.name] = a.value;
-    });
-    __tmpAttrFilter = function (a) {
-        return __tmpAttr[a.name] != a.value;
-    }
-    attributeArray = function (node) {
-        return filter(__tmpAttrFilter, node.attributes);
-    }
-} else {
-    attributeArray = function (node) {
-        /***
-            
-            Return an array of attributes for a given node,
-            filtering out attributes that don't belong for
-            that are inserted by "Certain Browsers".
-
-        ***/
-        return node.attributes;
-    }
-}
-delete __tmpElement;
 
 emitHTML = function (dom) {
     /***
