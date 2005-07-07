@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 36});
+    plan({'tests': 40});
 
     is( sum([1, 2, 3, 4, 5]), 15, "sum works on Arrays" );
     is( compare(list([1, 2, 3]), [1, 2, 3]), 0, "list([x]) == [x]" );
@@ -36,6 +36,18 @@ try {
 
     c = imap(operator.add, [1, 2, 3], [2, 4, 6]);
     is( compare(list(c), [3, 6, 9]), 0, "imap(fn, p, q)" );
+
+    c = filter(partial(operator.lt, 1), iter([1, 2, 3]));
+    is( compare(c, [2, 3]), 0, "filter(fn, iterable)" );
+
+    c = map(partial(operator.add, -1), iter([1, 2, 3]));
+    is( compare(c, [0, 1, 2]), 0, "map(fn, iterable)" );
+
+    c = map(operator.add, iter([1, 2, 3]), [2, 4, 6]);
+    is( compare(c, [3, 6, 9]), 0, "map(fn, iterable, q)" );
+
+    c = map(operator.add, iter([1, 2, 3]), iter([2, 4, 6]));
+    is( compare(c, [3, 6, 9]), 0, "map(fn, iterable, iterable)" );
 
     c = applymap(operator.add, [[1, 2], [2, 4], [3, 6]]);
     is( compare(list(c), [3, 6, 9]), 0, "applymap()" );
