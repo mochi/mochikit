@@ -318,6 +318,14 @@ addLoadEvent = function (func) {
 
     ***/
     var oldonload = window.onload;
+    window.onload = function () {
+        if (typeof(oldonload) == 'function')  {
+            oldonload.apply(this, []);
+        }
+        func.apply(this, []);
+    }
+    return;
+    
     if (!(typeof(oldonload) == 'function' && oldonload.__addLoadEvent__)) {
         var registry = [oldonload];
         oldonload = function () {
