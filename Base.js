@@ -299,10 +299,20 @@ bind = function (func, self) {
         and however the return value is called, "this" will always
         reference the given "self".
 
+        Calling bind(func, self) on an already bound function will
+        return a new function that is bound to the new self.
+
     ***/
-    return function () {
-        return func.apply(self, arguments);
+    var im_func = func.im_func;
+    if (typeof(im_func) != 'function') {
+        im_func = func;
     }
+    func = function () {
+        return func.im_func.apply(func.im_self, arguments);
+    };
+    func.im_self = self;
+    func.im_func = im_func;
+    return func;
 };
 
 bindMethods = function (self) {
