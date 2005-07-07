@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 75});
+    plan({'tests': 78});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -132,9 +132,20 @@ try {
     var res2 = xmap(minusOne, 1, 2, 3);
     ok( objEqual(res2, res), "xmap works" );
 
-    var res = map(operator.add, [1, 2, 3], [2, 4, 6]);
+    res = map(operator.add, [1, 2, 3], [2, 4, 6]);
     ok( objEqual(res, [3, 6, 9]), "map(fn, p, q) works" );
 
+    res = map(null, [1, 2, 3], [2, 4, 6]);
+    ok( objEqual(res, [[1, 2], [2, 4], [3, 6]]), "map(null, p, q) works" );
+    res = zip([1, 2, 3], [2, 4, 6]);
+    ok( objEqual(res, [[1, 2], [2, 4], [3, 6]]), "zip(p, q) works" );
+
+    res = map(null, [1, 2, 3]);
+    ok( objEqual(res, [1, 2, 3]), "map(null, lst) works" );
+
+
+    
+    
     is( isNotEmpty("foo"), true, "3 char string is not empty" );
     is( isNotEmpty(""), false, "0 char string is empty" );
     is( isNotEmpty([1, 2, 3]), true, "3 element list is not empty" );

@@ -208,10 +208,28 @@ map = function (fn, lst/*, lst... */) {
 
         Return a new list composed of the results of fn(x) for every x in lst
 
-        If fn is null, the identity function is used.
+        If fn is null, and only one sequence argument is given the identity
+        function is used.
+        
+            map(null, lst) -> lst.slice();
+
+        If fn is null, and more than one sequence is given as arguments, then
+        the Array function is used, making it equivalent to zip.
+
+            map(null, p, q, ...)
+                -> zip(p, q, ...)
+                -> [[p0, q0, ...], [p1, q1, ...], ...];
 
     ***/
     if (arguments.length <= 2) {
+        // allow an iterable to be passed
+        if (!isArrayLike(lst)) {
+            // fast path for map(null, iterable)
+            lst = list(lst);
+            if (fn == null) {
+                return lst;
+            }
+        }
         // fast path for map(null, lst)
         if (fn == null) {
             return extend(null, lst);
@@ -223,12 +241,24 @@ map = function (fn, lst/*, lst... */) {
         }
         return rval;
     } else {
-        // default for map(null, ...)
+        // default for map(null, ...) is zip(...)
         if (fn == null) {
             fn = Array;
         }
+        var length = null;
+        for (var i = 1; i < arguments.length; i++) {
+            // allow iterables to be passed
+            if (!isArrayLike(arguments[i])) {
+                arguments[i] = list(arguments[i]);
+            }
+            // find the minimum length
+            var l = arguments[i].length;
+            if (length == null || length > l) {
+                length = l;
+            }
+        }
         var rval = [];
-        for (var i = 0; i < lst.length; i++) {
+        for (var i = 0; i < length; i++) {
             var args = [];
             for (var j = 1; j < arguments.length; j++) {
                 args.push(arguments[j][i]);
@@ -280,6 +310,10 @@ filter = function (fn, lst) {
 
     ***/
     var rval = [];
+    // allow an iterable to be passed
+    if (!isArrayLike(lst)) {
+        lst = list(lst);
+    }
     if (fn == null) {
         fn = operator.truth;
     }
@@ -733,10 +767,18 @@ partial = function (func) {
         NOTE: This could be used to implement, but is NOT currying.
 
     ***/
-    var preargs = extend([], arguments, 1);
-    return function () {
+    var preargs = null;
+    if (typeof(func.partial_func) != 'undefined') {
+        preargs = func.partial_preargs;
+        func = func.partial_func;
+    }
+    preargs = extend(preargs, arguments, 1);
+    var rval = function () {
         return func.apply(this, extend(preargs.slice(), arguments));
     }
+    rval.partial_preargs = preargs;
+    rval.partial_func = func;
+    return rval;
 };
 
 /***
@@ -815,4 +857,4 @@ nodeWalk = function (node, visitor) {
     }
 };
 
-
+zip = partial(map, null);
