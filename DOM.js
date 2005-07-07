@@ -320,7 +320,7 @@ addLoadEvent = function (func) {
     var oldonload = window.onload;
     if (!(typeof(oldonload) == 'function' && oldonload.__addLoadEvent__)) {
         var registry = [oldonload];
-        var oldonload = function () {
+        oldonload = function () {
             for (var i = 0; i < registry.length; i++) {
                 var nextonload = registry[i];
                 if (typeof(nextonload) == 'function') {
