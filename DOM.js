@@ -320,7 +320,7 @@ addLoadEvent = function (func) {
     var oldonload = window.onload;
     if (!(typeof(oldonload) == 'function' && oldonload.__addLoadEvent__)) {
         var registry = [oldonload];
-        var newonload = function () {
+        var oldonload = function () {
             for (var i = 0; i < registry.length; i++) {
                 var nextonload = registry[i];
                 if (typeof(nextonload) == 'function') {
@@ -328,10 +328,10 @@ addLoadEvent = function (func) {
                 }
             }
         }
-        newonload.__addLoadEvent__ = true;
-        window.onload = newonload;
+        oldonload.__addLoadEvent__ = true;
+        window.onload = oldonload;
     }
-    registry.push(func);
+    oldonload.registry.push(func);
 };
 
 focusOnLoad = function (element) {
