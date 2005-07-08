@@ -22,14 +22,18 @@ twoDigitFloat = function (someFloat) {
         Roughly equivalent to: sprintf("%.2f", someFloat)
 
     ***/
-    var s = Math.floor(someFloat * 100).toString();
+    var sign = (someFloat < 0 ? '-' : '');
+    var s = Math.floor(Math.abs(someFloat) * 100).toString();
     if (s == '0') {
         return s;
     }
     if (s.length < 3) {
-        return '0.' + s;
+        while (s.charAt(s.length - 1) == '0') {
+            s = s.substring(0, s.length - 1);
+        }
+        return sign + '0.' + s;
     }
-    var head = s.substring(0, s.length - 2);
+    var head = sign + s.substring(0, s.length - 2);
     var tail = s.substring(s.length - 2, s.length);
     if (tail == '00') {
         return head;
