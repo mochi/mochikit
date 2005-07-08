@@ -521,8 +521,7 @@ isArrayLike = function () {
         if (
             isUndefinedOrNull(o) ||
             typeof(o) != "object" ||
-            typeof(o.length) != 'number' ||
-            (typeof(o.hasChildNodes) == 'function' && !o.hasChildNodes())
+            typeof(o.length) != 'number'
         ) {
             return false;
         }
@@ -677,6 +676,11 @@ extend = function (self, obj, /* optional */skip) {
         skip = 0;
     }
     if (obj) {
+        // allow iterable fall-through, but skip the full isArrayLike
+        // check for speed, this is called often.
+        if (typeof(obj.length) != 'number' /* !isArrayLike(obj) */) {
+            obj = list(obj);
+        }
         for (var i = skip; i < obj.length; i++) {
             self.push(obj[i]);
         }

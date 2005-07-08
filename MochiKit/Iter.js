@@ -605,7 +605,14 @@ forEach = function (iterable, func, /* optional */self) {
     if (arguments.length > 2) {
         func = bind(func, self);
     }
-    exhaust(imap(func, iterable));
+    // fast path for array
+    if (isArrayLike(iterable)) {
+        for (var i = 0; i < iterable.length; i++) {
+            func(iterable[i]);
+        }
+    } else {
+        exhaust(imap(func, iterable));
+    }
 };
 
 every = function (iterable, func) {

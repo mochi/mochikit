@@ -13,8 +13,17 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 10});
+    plan({'tests': 14});
 
+    lst = [];
+    o = {"blah": function () { lst.push("original"); }};
+    addToCallStack(o, "blah", function () { lst.push("new"); }, true);
+    addToCallStack(o, "blah", function () { lst.push("shit"); }, true);
+    is( typeof(o.blah), 'function', 'addToCallStack has a function' );
+    is( o.blah.callStack.length, 3, 'callStack length 3' );
+    o.blah();
+    is( lst.join(" "), "original new shit", "callStack in correct order" );
+    is( o.blah, null, "set to null" );
     
     is( escapeHTML("<>'\"&bar"), "&lt;&gt;&apos;&quot;&amp;bar", "escapeHTML" );
 
@@ -30,6 +39,8 @@ try {
     isDOM( d, '<span baz="wibble" foo="bar"/>', "createDOM attributes" );
 
     d = createDOM("span", {"foo": "bar", "baz": "wibble"}, "one", "two", "three");
+    toHTML(d);
+
     isDOM( d, '<span baz="wibble" foo="bar">onetwothree</span>', "createDOM contents" );
 
     var d = {"taco": "pork"};
