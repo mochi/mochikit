@@ -11,8 +11,11 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 11});
+    plan({'tests': 14});
    
+    is( twoDigitFloat(-0.1234), "-0.12", "twoDigitFloat -0.1234 correct");
+    is( twoDigitFloat(-0.1), "-0.1", "twoDigitFloat -0.1 correct");
+    is( twoDigitFloat(-0), "0", "twoDigitFloat -0 correct");
     is( twoDigitFloat(0), "0", "twoDigitFloat 0 correct");
     is( twoDigitFloat(1), "1", "twoDigitFloat 1 correct");
     is( twoDigitFloat(1.0), "1", "twoDigitFloat 1.0 correct");
@@ -22,7 +25,7 @@ try {
     is( percentFormat(1.23), "123%", "percentFormat 123 correct");
     is( twoDigitAverage(1, 0), "0", "twoDigitAverage dbz correct");
     is( twoDigitAverage(1, 1), "1", "twoDigitAverage 1 correct");
-    is( twoDigitAverage(1, 10), "0.10", "twoDigitAverage .10 correct");
+    is( twoDigitAverage(1, 10), "0.1", "twoDigitAverage .1 correct");
     
     // Done!
 
