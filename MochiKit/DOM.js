@@ -309,6 +309,32 @@ getElement = function (id) {
 
 $ = getElement;
 
+addToCallStack = function (target, path, func, once) {
+    var existing = target[path];
+    var regfunc = existing;
+    if (!(typeof(existing) == 'function' && existing.callStack)) {
+        var regfunc = function () {
+            var callStack = regfunc.callStack;
+            for (var i = 0; i < callStack.length; i++) {
+                callStack[i].apply(this, arguments);
+            }
+            if (once) {
+                try {
+                    target[path] = null;
+                } catch (e) {
+                    // pass
+                }
+            }
+        }
+        regfunc.callStack = [];
+        if (typeof(existing) == 'function') {
+            regfunc.callStack.push(existing);
+        }
+        target[path] = regfunc;
+    }
+    regfunc.callStack.push(func);
+}
+
 addLoadEvent = function (func) {
     /***
 
@@ -317,29 +343,8 @@ addLoadEvent = function (func) {
         order that they were added.
 
     ***/
-    var oldonload = window.onload;
-    window.onload = function () {
-        if (typeof(oldonload) == 'function')  {
-            oldonload.apply(this, []);
-        }
-        func.apply(this, []);
-    }
-    return;
+    addToCallStack(window, "onload", func, true);
     
-    if (!(typeof(oldonload) == 'function' && oldonload.__addLoadEvent__)) {
-        var registry = [oldonload];
-        oldonload = function () {
-            for (var i = 0; i < registry.length; i++) {
-                var nextonload = registry[i];
-                if (typeof(nextonload) == 'function') {
-                    nextonload.apply(this);
-                }
-            }
-        }
-        oldonload.__addLoadEvent__ = true;
-        window.onload = oldonload;
-    }
-    oldonload.registry.push(func);
 };
 
 focusOnLoad = function (element) {
@@ -489,44 +494,69 @@ toHTML = function (dom) {
         Convert a DOM tree to a HTML string using emitHTML
 
     ***/
-    return list(emitHTML(dom)).join("");
+    return emitHTML(dom).join("");
 };
 
-emitHTML = function (dom) {
+emitHTML = function (dom, /* optional */lst) {
     /***
 
-        Convert a DOM tree to a HTML-string-fragment-iterator
+        Convert a DOM tree to a list of HTML string fragments
 
-        In other words you probably want to use toHTML instead.
+        You probably want to use toHTML instead.
 
     ***/
 
-    lst = [];
-    if (dom.nodeType == 1) {
-        lst.push('<' + dom.nodeName.toLowerCase());
-        var attributes = map(
-            function (a) {
-                return [" ", a.name, "=", '"', escapeHTML(a.value), '"'];
-            },
-            attributeArray(dom)
-        );
-        attributes.sort();
-        for (var i = 0; i < attributes.length; i++) {
-            extend(lst, attributes[i]);
-        }
-        if (dom.hasChildNodes()) {
-            lst.push(">");
-            var c = [lst];
-            iextend(c, map(emitHTML, dom.childNodes));
-            c.push(["</" + dom.nodeName.toLowerCase() + ">"]);
-            return chain.apply(this, c);
-        } else {
-            lst.push('/>');
-        }
-    } else if (dom.nodeType == 3) {
-        lst.push(escapeHTML(dom.nodeValue));
+    if (typeof(lst) == 'undefined' || lst == null) {
+        lst = [];
     }
-    return iter(lst);
+    // queue is the call stack, we're doing this non-recursively
+    var queue = [dom];
+    while (queue.length) {
+        dom = queue.pop();
+        if (typeof(dom) == 'string') {
+            lst.push(dom);
+        } else if (dom.nodeType == 1) {
+            // we're not using higher order stuff here
+            // because safari has heisenbugs.. argh.
+            //
+            // I think it might have something to do with
+            // garbage collection and function calls.
+            lst.push('<' + dom.nodeName.toLowerCase());
+            var attributes = [];
+            var domAttr = attributeArray(dom);
+            for (var i = 0; i < domAttr.length; i++) {
+                var a = domAttr[i];
+                attributes.push([
+                    " ",
+                    a.name,
+                    '="',
+                    escapeHTML(a.value),
+                    '"'
+                ]);
+            }
+            attributes.sort();
+            for (var i = 0; i < attributes.length; i++) {
+                var attrs = attributes[i];
+                for (var j = 0; j < attrs.length; j++) {
+                    lst.push(attrs[j]);
+                }
+            }
+            if (dom.hasChildNodes()) {
+                lst.push(">");
+                // queue is the FILO call stack, so we put the close tag on first
+                queue.push("</" + dom.nodeName.toLowerCase() + ">");
+                var cnodes = dom.childNodes;
+                for (var i = cnodes.length - 1; i >= 0; i--) {
+                    queue.push(cnodes[i]);
+                }
+            } else {
+                lst.push('/>');
+            }
+        } else if (dom.nodeType == 3) {
+            lst.push(escapeHTML(dom.nodeValue));
+        }
+    }
+    return lst;
 };
 
 setDisplayForElements = function (display, element/*, ...*/) {
