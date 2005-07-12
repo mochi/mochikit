@@ -376,9 +376,7 @@ evalJSONRequest = function (req) {
     @rtype: L{Object}
 
     ***/
-    var x;
-    eval('x = ' + req.responseText + ';');
-    return x;
+    return eval('(' + req.responseText + ')');
 };
 
 succeed = function (/* optional */result) {
