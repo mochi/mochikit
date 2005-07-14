@@ -578,3 +578,19 @@ setDisplayForElements = function (display, element/*, ...*/) {
 hideElement = partial(setDisplayForElements, "none");
 showElement = partial(setDisplayForElements, "block");
 
+scrapeText = function (node) {
+    /***
+    
+        Walk a DOM tree and scrape all of the text out of it as an Array.
+
+    ***/
+    var rval = [];
+    nodeWalk(node, function (node) {
+        var nodeValue = node.nodeValue;
+        if (typeof(nodeValue) == 'string') {
+            rval.push(nodeValue);
+        }
+        return node.childNodes;
+    });
+    return rval;
+};

@@ -13,16 +13,16 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 14});
+    plan({'tests': 16});
 
     lst = [];
     o = {"blah": function () { lst.push("original"); }};
     addToCallStack(o, "blah", function () { lst.push("new"); }, true);
-    addToCallStack(o, "blah", function () { lst.push("shit"); }, true);
+    addToCallStack(o, "blah", function () { lst.push("stuff"); }, true);
     is( typeof(o.blah), 'function', 'addToCallStack has a function' );
     is( o.blah.callStack.length, 3, 'callStack length 3' );
     o.blah();
-    is( lst.join(" "), "original new shit", "callStack in correct order" );
+    is( lst.join(" "), "original new stuff", "callStack in correct order" );
     is( o.blah, null, "set to null" );
     
     is( escapeHTML("<>'\"&bar"), "&lt;&gt;&apos;&quot;&amp;bar", "escapeHTML" );
@@ -52,13 +52,14 @@ try {
     _DOMConverters.unregister("taco");
 
     isDOM( d, "<span>Goddamn, I like pork tacos</span>", "createDOM with custom converter" );
-
-    // this we can test even on IE
+    
     is(
         escapeHTML(toHTML(SPAN(null))),
         escapeHTML(toHTML(createDOM("span", null))),
         "createDOMFunc vs createDOM"
     );
+
+    is( scrapeText(d).join(""), "Goddamn, I like pork tacos", "scrape OK" );
 
     ok( !isUndefinedOrNull(getElement("test")), "getElement might work" );
     ok( !isUndefinedOrNull($("test")), "$alias$$ CASH MONEY alias might work" );
@@ -67,6 +68,7 @@ try {
     swapDOM(d.childNodes[0], document.createTextNode("uno"));
     isDOM( d, "<span>unotwo</span>", "swapDOM" );
 
+    is( scrapeText(d).join(" "), "uno two", "multi-node scrapeText" );
     /*
 
         TODO:
