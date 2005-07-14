@@ -520,7 +520,7 @@ isArrayLike = function () {
         var o = arguments[i];
         if (
             isUndefinedOrNull(o) ||
-            typeof(o) != "object" ||
+            typeof(o) == 'string' ||
             typeof(o.length) != 'number'
         ) {
             return false;
