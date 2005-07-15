@@ -22,6 +22,7 @@ table.datagrid thead th {
     background-repeat: no-repeat;
     background-position: 95% right;
 }
+
 table.datagrid thead th a {
     color: white;
     text-decoration: none;
@@ -30,6 +31,7 @@ table.datagrid thead th a {
     background-position: center right;
     padding-right: 15px;
 }
+
 table.datagrid thead th.over {
     background-color: #746B6B;
     cursor: pointer;

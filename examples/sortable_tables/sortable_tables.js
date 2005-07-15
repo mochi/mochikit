@@ -6,6 +6,25 @@ SortableManager = function () {
     this.sortState = {};
 };
 
+mouseOverFunc = function () {
+    addElementClass(this, "over");
+};
+
+mouseOutFunc = function () {
+    removeElementClass(this, "over");
+};
+
+ignoreEvent = function (ev) {
+    if (ev && ev.preventDefault) {
+        ev.preventDefault();
+        ev.stopPropagation();
+    } else if (typeof(event) != 'undefined') {
+        event.cancelBubble = false;
+        event.returnValue = false;
+    }
+};
+
+
 update(SortableManager.prototype, {
 
     "initWithTable": function (table) {
@@ -68,7 +87,7 @@ update(SortableManager.prototype, {
         }
 
         // do initial sort on first column
-        this.drawSortedRows(0, true);
+        this.drawSortedRows(0, true, false);
 
     },
 
@@ -82,18 +101,18 @@ update(SortableManager.prototype, {
             log('onSortClick', name);
             var order = this.sortState[name];
             order = !((order == null) ? false : order);
-            this.drawSortedRows(name, order);
+            this.drawSortedRows(name, order, true);
         }, this);
     },
 
-    "drawSortedRows": function (key, forward) {
+    "drawSortedRows": function (key, forward, clicked) {
         /***
 
             Draw the new sorted table body, and modify the column headers
             if appropriate
 
         ***/
-        log('drawSortedGroupList', key, forward);
+        log('drawSortedRows', key, forward);
         // sort based on the state given (forward or reverse)
         var cmp = (forward ? keyComparator : reverseKeyComparator);
         this.rows.sort(cmp(key));
@@ -106,6 +125,16 @@ update(SortableManager.prototype, {
         for (var i = 0; i < this.columns.length; i++) {
             var col = this.columns[i];
             var node = col.proto.cloneNode(true);
+            // remove the existing events to minimize IE leaks
+            col.element.onclick = null;
+            col.element.onmousedown = null;
+            col.element.onmouseover = null;
+            col.element.onmouseout = null;
+            // set new events for the new node
+            node.onclick = this.onSortClick(i);
+            node.onmousedown = ignoreEvent;
+            node.onmouseover = mouseOverFunc;
+            node.onmouseout = mouseOutFunc;
             // if this is the sorted column
             if (key == i) {
                 // \u2193 is down arrow, \u2191 is up arrow
@@ -113,11 +142,11 @@ update(SortableManager.prototype, {
                 var arrow = (forward ? "\u2193" : "\u2191");
                 // add the character to the column header
                 node.appendChild(SPAN(null, arrow));
+                if (clicked) {
+                    node.onmouseover();
+                }
             }
-            // remove the existing onclick to minimize IE leaks
-            col.element.onclick = null;
-            // set a new onclick for the new node
-            node.onclick = this.onSortClick(i);
+ 
             // swap in the new th
             col.element = swapDOM(col.element, node);
         }
