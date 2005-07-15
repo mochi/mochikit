@@ -580,7 +580,8 @@ MochiKit.Async.__new__ = function () {
 MochiKit.Async.__new__();
 
 if (typeof(JSAN) == 'undefined'
-    || (typeof(__MochiKit_Compat__) == 'boolean' && __MochiKit_Compat__)) {        (function (self) {
+    || (typeof(__MochiKit_Compat__) == 'boolean' && __MochiKit_Compat__)) {
+    (function (self) {
             var all = self.EXPORT_TAGS[":all"];
             for (var i = 0; i < all.length; i++) {
                 this[all[i]] = self[all[i]];
