@@ -240,7 +240,7 @@ try {
     is( repr(a), 'StringMap([["foo", "bar"]])', "repr worked" );
 
     // not public API
-    _REPRS.unregister("stringMap");
+    MochiKit.Base.reprRegistry.unregister("stringMap");
     
     is( repr(a), "[object Object]", "default repr for StringMap" );
 
@@ -272,7 +272,7 @@ try {
     is( compare(items(c), [["foo", "bar"], ["wibble", "baz"]]), 0, "merge worked" );
     
     // not public API
-    _COMPARATORS.unregister("stringMap");
+    MochiKit.Base.comparatorRegistry.unregister("stringMap");
     
     try {
         compare(a, b);

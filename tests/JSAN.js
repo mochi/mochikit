@@ -8,16 +8,14 @@ JSAN - JavaScript Archive Network
 
   <script type="text/javascript" src="/js/JSAN.js"></script>
   <script>
-      var jsan = new JSAN('/js', '/jsan');
-      jsan.use('Test.Simple');
-      plan('tests', 1);
+      JSAN.use('Test.Simple');
+      plan({tests: 1});
       ok(1 == 1, 'one does equal one!');
   </script>
 
   // Or in a library.
   try {
-      var jsan = new JSAN();
-      jsan.use('Some.Library');
+      JSAN.use('Some.Library');
   } catch (e) {
       alert("Requires JSAN");
   }
@@ -43,11 +41,11 @@ to C<includePath> using C<addRepository()>.
 var JSAN = function () {
     for (var i = 0; i < arguments.length; i++) {
         var repository = arguments[i];
-        if (repository != null) this.addRepository(repository);
+        if (repository != null) JSAN.addRepository(repository);
     }
 }
 
-JSAN.VERSION = 0.02;
+JSAN.VERSION = 0.06;
 
 /*
 
@@ -96,11 +94,75 @@ it to discover problems.
 */
 
 JSAN.globalScope   = self;
-JSAN.includePath   = [];
+JSAN.includePath   = ['.', 'lib'];
 JSAN.errorLevel    = "none";
 JSAN.errorMessage  = "";
 
 JSAN._includeCache = {};
+
+/*
+
+=head2 Class Methods
+
+=head3 JSAN.use()
+
+    JSAN.use('Test.Simple');
+    JSAN.use('DOM.Display');
+
+This function allows you to skip most of the overhead of creating a C<JSAN>
+object and just import code. It's useful because you can import code with just
+this line. It is the recommended way of importing code.
+
+=cut
+
+*/
+
+JSAN.use = function () {
+    JSAN.prototype.use.apply(JSAN.prototype, arguments);
+}
+
+/*
+
+=head3 JSAN.addRepository()
+
+  JSAN.addRepository('js/private');
+
+Add a path to C<includePath>. This will move the repository to the
+beginning of the list and it will be checked first for libraries. Calling
+C<addRepository()> will add your include path for the entirety of the
+request, no matter how many times you call C<JSAN.use()> or create
+new C<JSAN> objects.
+
+=cut
+
+*/
+
+JSAN.addRepository = function (repository) {
+    JSAN.includePath.unshift(repository);
+    return JSAN;
+}
+
+JSAN._findMyPath = function () {
+    if (document) {
+        var scripts = document.getElementsByTagName('script');
+        for ( var i = 0; i < scripts.length; i++ ) {
+            var src = scripts[i].getAttribute('src');
+            if (src) {
+                var inc = src.match(/^(.*?)\/?JSAN.js/);
+                if (inc && inc[1]) {
+                    var repo = inc[1];
+                    for (var j = 0; j < JSAN.includePath.length; j++) {
+                        if (JSAN.includePath[j] == repo) {
+                            return;
+                        }
+                    }
+                    JSAN.addRepository(repo);
+                }
+            }
+        }
+    }
+}
+JSAN._findMyPath();
 
 JSAN.prototype = {
     _req: null,
@@ -114,16 +176,16 @@ JSAN.prototype = {
   jsan.use('Test.Simple');
 
 Download and import a library. There is a mapping that is done with the
-library name. It must be converted into a URL. Here is how it works.
+library name: it must be converted into a URL. Here is how it works.
 
   Test.Simple        Test/Simple.js
   HTTP.Request       HTTP/Request.js
   Foo.Bar.Baz        Foo/Bar/Baz.js
 
-Each C<includePath> is prepended to the libraries URL representation
-creating the full URL to the library.
+Each C<includePath> is then prepended, and the file requested, until it is
+found.  The first working path in C<includePath> is used.
 
-The library's constructor and prototype is imported into the calling
+The library's constructor and prototype are imported into the calling
 context. You can also request certain functions, or groups of functions,
 to be imported explicitly. Here is an example of each.
 
@@ -159,23 +221,6 @@ to be imported explicitly. Here is an example of each.
         }
     },
 
-/*
-
-=head3 addRepository()
-
-  jsan.addRepository('js/private');
-
-Add a path to C<includePath>. This will move the repository to the
-beginning of the list and it will be checked first for libraries.
-
-=cut
-
-*/
-
-    addRepository: function(repository) {
-        JSAN.includePath.unshift(repository);
-    },
-    
     _handleError: function (msg, level) {
         if (!level) level = JSAN.errorLevel;
         JSAN.errorMessage = msg;
@@ -218,7 +263,9 @@ beginning of the list and it will be checked first for libraries.
             if (i == spaces.length - 1) {
                 if (typeof parent[name] == 'undefined') {
                     parent[name] = classdef;
-                    parent[name].prototype = classdef.prototype;
+                    if ( typeof classdef['prototype'] != 'undefined' ) {
+                        parent[name].prototype = classdef.prototype;
+                    }
                 }
             } else {
                 if (parent[name] == undefined) {
@@ -336,7 +383,7 @@ namespace. The namespace must match the library name as well so C<use()>
 can import the classes and functions correctly.
 
 The name of this library, C<JSAN>, or the name of our testing system,
-C<Test.Simple>, are exapmles of namespaces. A namespace is built by
+C<Test.Simple>, are examples of namespaces. A namespace is built by
 defining objects at each level until you reach the final name.
 
 Defining a namespace for JSAN is simple.
@@ -381,14 +428,14 @@ the prototype in your namespace.
 
 =head2 Exporting
 
-The C<use()> function supports an Exporter sytle system. This means that
+The C<use()> function supports an Exporter style system. This means that
 you can create functions that will be exported to the caller
 automatically, functions that will be exported when requested, and
 groups of functions - called tags - that are exported when requested.
 
 =head3 EXPORT
 
-Set up functions that are auto exported B<unless> the caller declares a
+Set up functions that are auto-exported B<unless> the caller declares a
 function list.
 
   Name.Space.EXPORT = [ 'functionOne', 'functionTwo' ];
@@ -403,7 +450,7 @@ Importing specific functions.
 
 =head3 EXPORT_OK
 
-Set up funcitons that can be exported but only by request.
+Set up functions that are exported only by request.
 
   Name.Space.EXPORT    = [ 'functionOne', 'functionTwo' ];
   Name.Space.EXPORT_OK = [ 'specialOne',  'specialTwo'  ];
