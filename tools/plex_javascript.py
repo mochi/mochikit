@@ -14,7 +14,8 @@ chars = re(r"'([^\\'\n]|\\')*'")
 string = re(r'"([^\\"\n]|\\")*"')
 regex = re(r'/([^\\/]|\\/)*/')
 space = Rep1(Any(' \t\r\n'))
-assignment = Any('=')
+inequality = Str('===', '!==', '==', '>=' '<=', '><', '<>', '>', '<', '!=')
+assignment = Str('=')
 singleLineComment = Str('//') + Rep(AnyBut('\r\n'))
 blockCommentStart = Str('/*')
 blockCommentEnd = Str('*/')
@@ -115,6 +116,7 @@ class JavaScriptScanner(Scanner):
             (anonymousFunction, begin_function),
             (namedFunction, begin_namedFunction),
             (expression, 'expression'),
+            (inequality, 'inequality'),
             (assignment, 'assignment'),
             (singleLineComment, do_singleLineComment),
             (string, 'string'),
