@@ -1,3 +1,5 @@
+__MochiKit_Compat__ = true;
+
 (function (/* ... */) {
     var scripts = document.getElementsByTagName("script");
     var base = null;
