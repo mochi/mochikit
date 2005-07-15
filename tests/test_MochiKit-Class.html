@@ -1,0 +1,113 @@
+<html>
+<head>
+    <script type="text/javascript" src="Test/Builder.js"></script>
+    <script type="text/javascript" src="Test/More.js"></script>
+    <script type="text/javascript" src="../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../MochiKit/Class.js"></script>
+</head>
+<body>
+
+<pre id="test">
+<script type="text/javascript">
+try {
+        
+    // Counting the number of tests is really lame
+    plan({'tests': 22});
+   
+    var cls = subclass("MyClass");
+    var a = cls();
+    var b = new cls();
+    ok(a.__class__ == cls, "class is ok");
+    ok(a instanceof cls, "cls() instanceof cls");
+    ok(b instanceof cls, "new cls() instanceof cls");
+    cls.prototype.muck = 1;
+    ok(a.muck == 1, "prototype inheritance works");
+    a.muck = 2;
+    ok(b.muck == 1, "copy on write for instance()");
+    b.muck = 3;
+    ok(a.muck == 2, "copy on write for new instance()");
+    var initializeCount = 0;
+    var args = [];
+    var cls2 = subclass("MySubclass", cls, {
+        'initialize': function () {
+            var arglist = [];
+            for (var i = 0; i < arguments.length; i++) {
+                arglist.push(arguments[i]);
+            }
+            args.push(arglist);
+            this.initializeCount = ++initializeCount;
+        }
+    });
+    ok(initializeCount == 0, "initializeCount starts at 0");
+    ok(cls2.prototype instanceof cls, "prototype inheritance OK");
+    var c = cls2();
+    ok(initializeCount == 1, "initialize called once for instance()");
+    c = new cls2();
+    ok(initializeCount == 2, "initialize called once for new instance()");
+    var cls3 = subclass("MyOtherSubclass", cls2);
+    c = cls3();
+    ok(initializeCount == 3, "super initialize called once");
+    ok(c instanceof cls, "inheritance still ok");
+    var preinit = [];
+    var postinit = [];
+    cls3.prototype.initialize = function () {
+        preinit.push(initializeCount);
+        var args = ['initialize'];
+        for (var i = 0; i < arguments.length; i++) {
+            args.push(arguments[i]);
+        }
+        this.__super__.apply(this, args);
+        postinit.push(initializeCount);
+    }
+    ok(preinit.length == 0, "sanity check before creating stuff");
+    c = cls3();
+    ok(preinit.length == 1 && postinit.length == 1, "new initialize called");
+    ok(preinit[0] + 1 == postinit[0], "correct relative values");
+    ok(postinit[0] == initializeCount, "matches initializeCount");
+    var isBorked = false;
+    while (args.length) {
+        isBorked |= (args.shift().length != 0);
+    }
+    ok(!isBorked, "initialize called with the right args");
+
+    c = cls3(0, 1, 2, 3);
+    c = new cls3(0, 1, 2, 3);
+    ok(args.length == 2, "initialize called again");
+    isBorked = false;
+    while (args.length) {
+        var largs = args.shift();
+        isBorked |= (largs.length != 4);
+        for (var i = 0; i < largs.length; i++) {
+            isBorked |= (largs[i] != i);
+        }
+    }
+    ok(!isBorked, "arguments look like they're passed around OK");
+
+    ok(cls().toString() != cls().toString(), "objects have a unique string repr");
+    ok(cls().__id__ != cls().__id__, "objects have a unique id");
+    
+
+    
+    // Done!
+
+    ok( true, "test suite finished!");
+    
+} catch (err) {
+    
+    var s = "test suite failure!\n";
+    var o = {};
+    var k = null;
+    for (k in err) {
+        // ensure unique keys?!
+        if (!o[k]) {
+            s +=  k + ": " + err[k] + "\n";
+            o[k] = err[k];
+        }
+    }
+    ok ( false, s );
+
+}
+</script>
+</pre>
+</body>
+</html>
