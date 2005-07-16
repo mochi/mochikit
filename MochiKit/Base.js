@@ -11,8 +11,19 @@ MochiKit.Base.toString = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 }
 
+// XXX: Internet Explorer is REALLY REALLY REALLY BROKEN
+// So we have to put this later..
+
+// XXX
+// XXX I HATE INTERNET EXPLORER
+// XXX IT NEEDS TO DIE. NOW.
+// XXX
+// XXX
+
+/*
 // The birth pod for MochiKit; scopetastic
 MochiKit.Base.__new__ = function () {
+*/
     var update = function (self, obj/*, ... */) {
         /***
 
@@ -527,6 +538,18 @@ MochiKit.Base.__new__ = function () {
             throw new TypeError(repr(a) + " and " + repr(b) + " can not be compared");
         }
     };
+
+// XXX
+// XXX I HATE INTERNET EXPLORER
+// XXX IT NEEDS TO DIE. NOW.
+// XXX
+// XXX
+
+
+// The birth pod for MochiKit; scopetastic
+MochiKit.Base.__new__ = function () {
+
+
 
     var isArrayLike = function () {
         /***
