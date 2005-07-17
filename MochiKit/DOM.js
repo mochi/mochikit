@@ -512,13 +512,7 @@ MochiKit.DOM.escapeHTML = function (s) {
 
     ***/
     var buf = [];
-    var _TRANSTABLE = {
-        "<": "&lt;",
-        ">": "&gt;",
-        "&": "&amp;",
-        "'": "&apos;",
-        '"': "&quot;"
-    };
+    var _TRANSTABLE = MochiKit.DOM._TRANSTABLE;
     for (var i = 0; i < s.length; i++) {
         var c = s.charAt(i);
         var o = _TRANSTABLE[c];
@@ -643,7 +637,7 @@ MochiKit.DOM.scrapeText = function (node) {
 
 MochiKit.DOM.__new__ = function () {
 
-    this.domConverters = new AdapterRegistry(); 
+    this.domConverters = new MochiKit.Base.AdapterRegistry(); 
 
     var __tmpElement = document.createElement("span");
     if (__tmpElement.attributes.length > 0) {
@@ -689,6 +683,14 @@ MochiKit.DOM.__new__ = function () {
     this.A = createDOMFunc("a");
     this.DIV = createDOMFunc("div");
     this.IMG = createDOMFunc("img");
+
+    this._TRANSTABLE = {
+        "<": "&lt;",
+        ">": "&gt;",
+        "&": "&amp;",
+        "'": "&apos;",
+        '"': "&quot;"
+    };
 
     var partial = MochiKit.Base.partial;
     this.hideElement = partial(this.setDisplayForElement, "none");
