@@ -7,7 +7,7 @@ try {
         throw "";
     }
 } catch (e) {
-    alert("MochiKit.DateTime depends on MochiKit.Base!");
+    throw "MochiKit.DateTime depends on MochiKit.Base!";
 }
         
 if (typeof(MochiKit.DateTime) == 'undefined') {

@@ -7,7 +7,7 @@ try {
         throw "";
     }
 } catch (e) {
-    alert("MochiKit.Async depends on MochiKit.Base!");
+    throw "MochiKit.Async depends on MochiKit.Base!";
 }
 
 if (typeof(MochiKit.Async) == 'undefined') {
