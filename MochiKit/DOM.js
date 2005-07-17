@@ -512,7 +512,13 @@ MochiKit.DOM.escapeHTML = function (s) {
 
     ***/
     var buf = [];
-    var _TRANSTABLE = MochiKit.DOM._TRANSTABLE;
+    var _TRANSTABLE = {
+        "<": "&lt;",
+        ">": "&gt;",
+        "&": "&amp;",
+        "'": "&apos;",
+        '"': "&quot;"
+    };
     for (var i = 0; i < s.length; i++) {
         var c = s.charAt(i);
         var o = _TRANSTABLE[c];
@@ -683,14 +689,6 @@ MochiKit.DOM.__new__ = function () {
     this.A = createDOMFunc("a");
     this.DIV = createDOMFunc("div");
     this.IMG = createDOMFunc("img");
-
-    this._TRANSTABLE = {
-        "<": "&lt;",
-        ">": "&gt;",
-        "&": "&amp;",
-        "'": "&apos;",
-        '"': "&quot;"
-    };
 
     var partial = MochiKit.Base.partial;
     this.hideElement = partial(this.setDisplayForElement, "none");
