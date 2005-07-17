@@ -4,8 +4,11 @@ if (typeof(MochiKit) == 'undefined') {
 MochiKit.Class = {};
 MochiKit.Class.NAME = 'MochiKit.Class';
 MochiKit.Class.VERSION = '0.5';
-MochiKit.Class.toString = function () {
+MochiKit.Class.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
+}
+MochiKit.Class.toString = function () {
+    return this.__repr__();
 }
 MochiKit.Class.EXPORT = ['subclass'];
 MochiKit.Class.EXPORT_OK = [];
