@@ -661,7 +661,7 @@ MochiKit.Base.compareDateLike = function (a, b) {
         return 1;
     }
     var repr = MochiKit.Base.repr;
-    throw TypeError(repr(a) + " and " + repr(b) + " can not be compared");
+    throw new TypeError(repr(a) + " and " + repr(b) + " can not be compared");
 };
 
 MochiKit.Base.compareArrayLike = function (a, b) {
