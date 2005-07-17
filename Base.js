@@ -142,6 +142,16 @@ MochiKit.Base.NamedError = function (name) {
     this.name = name;
 };
 MochiKit.Base.NamedError.prototype = new Error();
+MochiKit.Base.NamedError.prototype.repr = function () {
+    if (this.message && this.message != this.name) {
+        return this.name + "(" + repr(this.message) + ")";
+    } else {
+        return this.name + "()";
+    }
+}
+MochiKit.Base.NamedError.prototype.toString = function () {
+    return this.repr();
+}
 
 MochiKit.Base.operator = {
     /***
@@ -507,7 +517,7 @@ MochiKit.Base.bindMethods = function (self) {
 };
 
 // A singleton raised when no suitable adapter is found
-MochiKit.Base.NotFound = new MochiKit.Base.NamedError("NotFound");
+MochiKit.Base.NotFound = new MochiKit.Base.NamedError("MochiKit.Base.NotFound");
 
 MochiKit.Base.AdapterRegistry = function () {
     /***
