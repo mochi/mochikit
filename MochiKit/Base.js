@@ -1022,6 +1022,12 @@ MochiKit.Base.__new__ = function () {
 
 MochiKit.Base.__new__();
 
+//
+// XXX: Internet Explorer blows
+//
+compare = MochiKit.Base.compare;
+
+
 if (typeof(JSAN) == 'undefined' 
     || (typeof(__MochiKit_Compat__) == 'boolean' && __MochiKit_Compat__)) {
         (function (self) {
