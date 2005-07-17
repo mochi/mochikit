@@ -7,7 +7,7 @@ try {
         throw "";
     }
 } catch (e) {
-    alert("MochiKit.Logging depends on MochiKit.Base!");
+    throw "MochiKit.Logging depends on MochiKit.Base!";
 }
 
 if (typeof(MochiKit.Logging) == 'undefined') {

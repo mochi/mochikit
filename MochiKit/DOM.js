@@ -7,7 +7,7 @@ try {
         throw "";
     }
 } catch (e) {
-    alert("MochiKit.DOM depends on MochiKit.Iter!");
+    throw "MochiKit.DOM depends on MochiKit.Iter!";
 }
 
 if (typeof(MochiKit.DOM) == 'undefined') {

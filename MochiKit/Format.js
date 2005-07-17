@@ -9,7 +9,7 @@ try {
 } catch (e) {
     // well, not for anything but EXPORT_TAGS use of concat(...),
     // but I'm going to pretend.
-    alert("MochiKit.Format depends on MochiKit.Base!");
+    throw "MochiKit.Format depends on MochiKit.Base!";
 }
 
 if (typeof(MochiKit.Format) == 'undefined') {
