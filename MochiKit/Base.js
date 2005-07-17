@@ -7,8 +7,11 @@ if (typeof(MochiKit.Base) == 'undefined') {
 
 MochiKit.Base.VERSION = "0.5";
 MochiKit.Base.NAME = "MochiKit.Base"
-MochiKit.Base.toString = function () {
+MochiKit.Base.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
+}
+MochiKit.Base.toString = function () {
+    return this.__repr__();
 }
 
 MochiKit.Base.extend = function (self, obj, /* optional */skip) {
@@ -705,15 +708,19 @@ MochiKit.Base.repr = function (o) {
     ***/
 
     try {
-        if (typeof(o.repr) == 'function') {
+        if (typeof(o.__repr__) == 'function') {
+            return o.__repr__();
+        } else if (typeof(o.repr) == 'function' && o.repr != arguments.callee) {
             return o.repr();
         }
-    } catch (e) {
-        // pass
-    }
-    try {
         return MochiKit.Base.reprRegistry.match(o);
     } catch (e) {
+        if (typeof(o.NAME) == 'string' && (
+                o.toString == Function.prototype.toString ||
+                o.toString == Object.prototype.toString
+            )) {
+            return o.NAME;
+        }
         return o;
     }
 };
@@ -931,6 +938,26 @@ MochiKit.Base.nodeWalk = function (node, visitor) {
     }
 };
 
+   
+MochiKit.Base.nameFunctions = function (namespace) {
+    var base = namespace.NAME;
+    if (typeof(base) == 'undefined') {
+        base = '';
+    } else {
+        base = base + '.';
+    }
+    for (var name in namespace) {
+        var o = namespace[name];
+        if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
+            try {
+                o.NAME = base + name;
+            } catch (e) {
+                // pass
+            }
+        }
+    }
+}
+
 MochiKit.Base.EXPORT = [
     "extend",
     "update",
@@ -978,6 +1005,7 @@ MochiKit.Base.EXPORT = [
 ];
 
 MochiKit.Base.EXPORT_OK = [
+    "nameFunctions",
     "comparatorRegistry",
     "reprRegistry",
     "compareDateLike",
@@ -989,7 +1017,7 @@ MochiKit.Base.EXPORT_OK = [
     "reprNull"
 ];
 
-   
+
 MochiKit.Base.__new__ = function () {
 
     this.listMax = this.partial(this.listMinMax, 1);
@@ -1012,11 +1040,13 @@ MochiKit.Base.__new__ = function () {
     this.registerRepr("undefined", this.isUndefined, this.reprUndefined);
     this.registerRepr("null", this.isNull, this.reprNull);
 
+    var all = this.concat(this.EXPORT, this.EXPORT_OK);
     this.EXPORT_TAGS = {
         ":common": this.concat(this.EXPORT_OK),
-        ":all": this.concat(this.EXPORT, this.EXPORT_OK)
+        ":all": all
     };
 
+    this.nameFunctions(this);
 
 };
 
