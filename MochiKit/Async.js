@@ -32,7 +32,7 @@ MochiKit.Async.AlreadyCalledError = function (deferred) {
     ***/
     this.deferred = deferred;
 };
-MochiKit.Async.AlreadyCalledError.prototype = new MochiKit.Base.NamedError("AlreadyCalledError");
+MochiKit.Async.AlreadyCalledError.prototype = new MochiKit.Base.NamedError("MochiKit.Async.AlreadyCalledError");
 
 MochiKit.Async.CancelledError = function (deferred) {
     /***
@@ -42,7 +42,7 @@ MochiKit.Async.CancelledError = function (deferred) {
     ***/
     this.deferred = deferred;
 };
-MochiKit.Async.CancelledError.prototype = new MochiKit.Base.NamedError("CancelledError");
+MochiKit.Async.CancelledError.prototype = new MochiKit.Base.NamedError("MochiKit.Async.CancelledError");
 
 MochiKit.Async.BrowserComplianceError = function (msg) {
     /***
@@ -55,12 +55,12 @@ MochiKit.Async.BrowserComplianceError = function (msg) {
     ***/
     this.message = msg;
 };
-MochiKit.Async.BrowserComplianceError.prototype = new MochiKit.Base.NamedError("BrowserComplianceError");
+MochiKit.Async.BrowserComplianceError.prototype = new MochiKit.Base.NamedError("MochiKit.Async.BrowserComplianceError");
 
 MochiKit.Async.GenericError = function (msg) {
     this.message = msg;
 };
-MochiKit.Async.GenericError.prototype = new MochiKit.Base.NamedError("GenericError");
+MochiKit.Async.GenericError.prototype = new MochiKit.Base.NamedError("MochiKit.Async.GenericError");
 
 MochiKit.Async.XMLHttpRequestError = function (req, msg) {
     /***
@@ -77,7 +77,7 @@ MochiKit.Async.XMLHttpRequestError = function (req, msg) {
         // pass
     }
 };
-MochiKit.Async.XMLHttpRequestError.prototype = new MochiKit.Base.NamedError("XMLHttpRequestError");
+MochiKit.Async.XMLHttpRequestError.prototype = new MochiKit.Base.NamedError("MochiKit.Async.XMLHttpRequestError");
 
 
 MochiKit.Async.Deferred = function (/* optional */ canceller) {
