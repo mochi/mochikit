@@ -7,7 +7,8 @@ try {
         throw "";
     }
 } catch (e) {
-    alert("MochiKit.Iter depends on MochiKit.Base!");}  
+    throw "MochiKit.Iter depends on MochiKit.Base!";
+}  
             
 if (typeof(MochiKit.Iter) == 'undefined') {
     MochiKit.Iter = {};
