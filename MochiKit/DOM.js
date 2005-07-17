@@ -586,7 +586,7 @@ MochiKit.DOM.__new__ = function () {
         return lst;
     };
 
-    var setDisplayForElements = function (display, element/*, ...*/) {
+    var setDisplayForElement = function (display, element/*, ...*/) {
         /***
 
             Change the style.display for the given element(s).  Usually
@@ -602,8 +602,8 @@ MochiKit.DOM.__new__ = function () {
         });
     };
 
-    var hideElement = partial(setDisplayForElements, "none");
-    var showElement = partial(setDisplayForElements, "block");
+    var hideElement = partial(setDisplayForElement, "none");
+    var showElement = partial(setDisplayForElement, "block");
 
     var scrapeText = function (node) {
         /***
@@ -652,7 +652,7 @@ MochiKit.DOM.__new__ = function () {
         ["escapeHTML", escapeHTML],
         ["toHTML", toHTML],
         ["emitHTML", emitHTML],
-        ["setDisplayForElements", setDisplayForElements],
+        ["setDisplayForElement", setDisplayForElement],
         ["hideElement", hideElement],
         ["showElement", showElement],
         ["scrapeText", scrapeText]
