@@ -90,7 +90,7 @@ try {
     });
     B = subclass("B", A, {
         "func": function () {
-            return arguments.callee.nextMethod(this)() + "B"; }
+            return arguments.callee.nextMethod(this) + "B"; }
     });
     C = subclass("C", B, {
         "func": function () {

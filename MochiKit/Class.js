@@ -97,7 +97,7 @@ MochiKit.Class.subclass = function (name, /* optional */superClass, body) {
                 //
                 // OR:
                 //
-                // arguments.callee.nextMethod(this)(arg1, arg2, arg3);
+                // arguments.callee.nextMethod(this, arg1, arg2, arg3);
                 ...
             }
         });
@@ -156,10 +156,11 @@ MochiKit.Class.__new__ = function () {
     }
         
     var nextMethod = function (self) {
-        var next_method = this.getNextMethod();
-        return function () {
-            return next_method.apply(self, arguments);
-        };
+        var args = [];
+        for (var i = 1; i < arguments.length; i++) {
+            args.push(arguments[i]);
+        }
+        return this.getNextMethod().apply(self, args);
     };
 
     this.subclass = function (name, /* optional */superClass, body) {
