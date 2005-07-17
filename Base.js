@@ -295,8 +295,7 @@ MochiKit.Base.isArrayLike = function () {
         var o = arguments[i];
         var typ = typeof(o);
         if (
-            typ == 'undefined' ||
-            typ == 'string' ||
+            typ != 'object' ||
             o == null ||
             typeof(o.length) != 'number'
         ) {
@@ -721,7 +720,7 @@ MochiKit.Base.repr = function (o) {
             )) {
             return o.NAME;
         }
-        return o;
+        return o.toString();
     }
 };
 
