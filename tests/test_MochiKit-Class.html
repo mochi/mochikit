@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 22});
+    plan({'tests': 32});
    
     var cls = subclass("MyClass");
     var a = cls();
@@ -49,28 +49,27 @@ try {
     ok(c instanceof cls, "inheritance still ok");
     var preinit = [];
     var postinit = [];
-    cls3.prototype.initialize = function () {
-        preinit.push(initializeCount);
-        var args = ['initialize'];
-        for (var i = 0; i < arguments.length; i++) {
-            args.push(arguments[i]);
+    var cls4 = subclass("YetAnotherSubclass", cls3, {
+        "initialize": function () {
+            preinit.push(initializeCount);
+            arguments.callee.getNextMethod().apply(this, arguments);
+            postinit.push(initializeCount);
         }
-        this.__super__.apply(this, args);
-        postinit.push(initializeCount);
-    }
+    });
     ok(preinit.length == 0, "sanity check before creating stuff");
-    c = cls3();
+    c = cls4();
     ok(preinit.length == 1 && postinit.length == 1, "new initialize called");
     ok(preinit[0] + 1 == postinit[0], "correct relative values");
     ok(postinit[0] == initializeCount, "matches initializeCount");
     var isBorked = false;
     while (args.length) {
-        isBorked |= (args.shift().length != 0);
+        var arg = args.shift();
+        isBorked |= (arg.length != 0);
     }
     ok(!isBorked, "initialize called with the right args");
 
-    c = cls3(0, 1, 2, 3);
-    c = new cls3(0, 1, 2, 3);
+    c = cls4(0, 1, 2, 3);
+    c = new cls4(0, 1, 2, 3);
     ok(args.length == 2, "initialize called again");
     isBorked = false;
     while (args.length) {
@@ -85,6 +84,37 @@ try {
     ok(cls().toString() != cls().toString(), "objects have a unique string repr");
     ok(cls().__id__ != cls().__id__, "objects have a unique id");
     
+
+    A = subclass("A", null, {
+        "func": function () { return "A"; }
+    });
+    B = subclass("B", A, {
+        "func": function () {
+            return arguments.callee.nextMethod(this)() + "B"; }
+    });
+    C = subclass("C", B, {
+        "func": function () {
+            var rval = arguments.callee.getNextMethod().apply(this, arguments);
+            return rval + "C";
+        }
+    });
+
+    is( A().func(), "A", "no super method" );
+    is( B().func(), "AB", "one super method" );
+    is( C().func(), "ABC", "two super methods" );
+    is( A.prototype.func.NAME, "A.func", "setting the name, w00t" );
+    D = subclass("D", C, {
+        "func": A.prototype.func
+    });
+    is( D.prototype.func.NAME, "D.func", "proper copying" );
+    is( D().func(), "A", "still calls!" );
+    is( A.prototype.func.NAME, "A.func", "D didn't screw it up" );
+    E = subclass("E", D, {
+        "func": D.prototype.func
+    });
+    is( E.prototype.func.NAME, "E.func", "proper copying (2)" );
+    is( E().func(), "A", "still calls (2)!" );
+    is( A.prototype.func.NAME, "A.func", "E didn't screw it up" );
 
     
     // Done!
