@@ -27,6 +27,9 @@ MochiKit.Class.__new__ = function () {
     var instanceToString = function () {
         return "[" + this.__class__.NAME + " #" + this.__id__ + "]";
     };
+    var forwardToRepr = function () {
+        return this.__repr__();
+    }
     this.subclass = function (name, /* optional */superClass, body) {
         // allow superClass to be null or undefined
         if (!superClass) {
@@ -52,11 +55,18 @@ MochiKit.Class.__new__ = function () {
         };
         rval.NAME = name;
         rval.superClass = superClass;
-        rval.toString = classToString;
+        rval.toString = forwardToRepr;
+        rval.__repr__ = classtoString;
 
         var proto = new superClass(__clone__);
         if (typeof(proto.toString) == 'undefined' || (proto.toString == Object.prototype.toString)) {
             proto.toString = instanceToString;
+        }
+        if (typeof(proto.__repr__) == 'undefined') {
+            proto.__repr__ = instanceToString;
+        }
+        if (proto.toString == Object.prototype.toString) {
+            proto.toString = forwardToRepr;
         }
         if (typeof(body) != 'undefined' && body != null) {
             for (var k in body) {
