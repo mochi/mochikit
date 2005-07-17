@@ -82,6 +82,23 @@ MochiKit.Format.EXPORT_TAGS = {
     ':common': MochiKit.Format.EXPORT
 };
 
+MochiKit.Format.__new__ = function () {
+    // MochiKit.Base.nameFunctions(this);
+    var base = this.NAME + ".";
+    for (var k in this) {
+        var o = this[k];
+        if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
+            try {
+                o.NAME = base + k;
+            } catch (e) {
+                // pass
+            }
+        }
+    }
+}
+
+MochiKit.Format.__new__();
+
 if (typeof(JSAN) == 'undefined'
     || (typeof(__MochiKit_Compat__) == 'boolean' && __MochiKit_Compat__)) {
     (function (self) {
