@@ -813,6 +813,11 @@ MochiKit.Iter.__new__ = function () {
 
 MochiKit.Iter.__new__();
 
+//
+// XXX: Internet Explorer blows
+//
+reduce = MochiKit.Iter.reduce;
+
 if (typeof(JSAN) == 'undefined'
     || (typeof(__MochiKit_Compat__) == 'boolean' && __MochiKit_Compat__)) {
     (function (self) {
