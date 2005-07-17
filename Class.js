@@ -56,7 +56,7 @@ MochiKit.Class.__new__ = function () {
         rval.NAME = name;
         rval.superClass = superClass;
         rval.toString = forwardToRepr;
-        rval.__repr__ = classtoString;
+        rval.__repr__ = classToString;
 
         var proto = new superClass(__clone__);
         if (typeof(proto.toString) == 'undefined' || (proto.toString == Object.prototype.toString)) {
@@ -85,6 +85,7 @@ MochiKit.Class.__new__ = function () {
         rval.prototype = proto;
         return rval;
     };
+    this.subclass.NAME = this.NAME + "." + "subclass";
 };
 
 MochiKit.Class.__new__();
