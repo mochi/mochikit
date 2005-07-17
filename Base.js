@@ -650,6 +650,39 @@ MochiKit.Base.compare = function (a, b) {
     }
 };
 
+MochiKit.Base.compareDateLike = function (a, b) {
+    a = a.getTime();
+    b = b.getTime();
+    if (a == b) {
+        return 0;
+    } else if (a < b) {
+        return -1;
+    } else if (a > b) {
+        return 1;
+    }
+    var repr = MochiKit.Base.repr;
+    throw TypeError(repr(a) + " and " + repr(b) + " can not be compared");
+};
+
+MochiKit.Base.compareArrayLike = function (a, b) {
+    var compare = MochiKit.Base.compare;
+    var count = a.length;
+    var rval = 0;
+    if (count > b.length) {
+        rval = 1;
+    } else if (count < b.length) {
+        rval = -1;
+        count = b.length;
+    }
+    for (var i = 0; i < count; i++) {
+        var cmp = compare(a[i], b[i]);
+        if (cmp) {
+            return cmp;
+        }
+    }
+    return rval;
+};
+
 MochiKit.Base.registerRepr = function (name, check, wrap, /* optional */override) {
     /***
 
@@ -683,6 +716,27 @@ MochiKit.Base.repr = function (o) {
     } catch (e) {
         return o;
     }
+};
+
+MochiKit.Base.reprArrayLike = function (o) {
+    return "[" + MochiKit.Base.map(MochiKit.Base.repr, o).join(", ") + "]";
+};
+
+MochiKit.Base.reprString = function (o) { 
+    o = '"' + o.replace(/(["\\])/g, '\\$1') + '"';
+    return o.replace(/(\n)/g, "\\n");
+};
+
+MochiKit.Base.reprNumber = function (o) {
+    return o.toString();
+};
+
+MochiKit.Base.reprUndefined = function (o) {
+    return "undefined";
+};
+
+MochiKit.Base.reprNull = function (o) {
+    return "null";
 };
 
 MochiKit.Base.objEqual = function (a, b) {
@@ -891,6 +945,7 @@ MochiKit.Base.EXPORT = [
     "isCallable",
     "isUndefined",
     "isUndefinedOrNull",
+    "isNull",
     "isNotEmpty",
     "isArrayLike",
     "isDateLike",
@@ -924,7 +979,14 @@ MochiKit.Base.EXPORT = [
 
 MochiKit.Base.EXPORT_OK = [
     "comparatorRegistry",
-    "reprRegistry"
+    "reprRegistry",
+    "compareDateLike",
+    "compareArrayLike",
+    "reprArrayLike",
+    "reprString",
+    "reprNumber",
+    "reprUndefined",
+    "reprNull"
 ];
 
    
@@ -940,81 +1002,15 @@ MochiKit.Base.__new__ = function () {
     this.zip = this.partial(this.map, null);
 
     this.comparatorRegistry = new this.AdapterRegistry();
-
-    var compare = this.compare;
-
-    // Register a comparator to compare array contents
-    this.registerComparator(
-        "arrayLike",
-        this.isArrayLike,
-        function (a, b) {
-            var count = a.length;
-            var rval = 0;
-            if (count > b.length) {
-                rval = 1;
-            } else if (count < b.length) {
-                rval = -1;
-                count = b.length;
-            }
-            for (var i = 0; i < count; i++) {
-                var cmp = compare(a[i], b[i]);
-                if (cmp) {
-                    return cmp;
-                }
-            }
-            return rval;
-        }
-    );
-
-    // Register a comparator to compare dates
-    this.registerComparator(
-        "dateLike",
-        this.isDateLike,
-        function (a, b) {
-            return compare(a.getTime(), b.getTime());
-        }
-    );
-
+    this.registerComparator("dateLike", this.isDateLike, this.compareDateLike);
+    this.registerComparator("arrayLike", this.isArrayLike, this.compareArrayLike);
 
     this.reprRegistry = new this.AdapterRegistry();
-    var map = this.map;
-    this.registerRepr("arrayLike",
-        this.isArrayLike,
-        function (o) {
-            return "[" + map(repr, o).join(", ") + "]";
-        }
-    );
-
-    this.registerRepr("string",
-        this.typeMatcher("string"),
-        function (o) { 
-            o = '"' + o.replace(/(["\\])/g, '\\$1') + '"';
-            return o.replace(/(\n)/g, "\\n");
-        }
-    ); 
-
-    this.registerRepr("numbers",
-        this.typeMatcher("number", "boolean"),
-        function (o) {
-            return o.toString();
-        }
-    );
-
-    this.registerRepr("undefined",
-        this.typeMatcher("undefined"),
-        function (o) {
-            return "undefined";
-        }
-    );
-
-    this.registerRepr("null",
-        function (o) {
-            return o == null;
-        },
-        function (o) {
-            return "null";
-        }
-    );
+    this.registerRepr("arrayLike", this.isArrayLike, this.reprArrayLike);
+    this.registerRepr("string", this.typeMatcher("string"), this.reprString);
+    this.registerRepr("numbers", this.typeMatcher("number", "boolean"), this.reprNumber);
+    this.registerRepr("undefined", this.isUndefined, this.reprUndefined);
+    this.registerRepr("null", this.isNull, this.reprNull);
 
     this.EXPORT_TAGS = {
         ":common": this.concat(this.EXPORT_OK),
