@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 80});
+    plan({'tests': 85});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -281,7 +281,16 @@ try {
         ok( e instanceof TypeError, "bad comparison raised TypeError" );
     }
     
+    var o = {"__repr__": function () { return "__repr__"; }};
+    is( repr(o), "__repr__", "__repr__ protocol" );
+    is( repr(MochiKit.Base), MochiKit.Base.__repr__(), "__repr__ protocol when repr is defined" );
+    var o = {"NAME": "NAME"};
+    is( repr(o), "NAME", "NAME protocol (obj)" );
+    o = function () { return "TACO" };
+    o.NAME = "NAME";
+    is( repr(o), "NAME", "NAME protocol (func)" );
     
+    is( repr(MochiKit.Base.nameFunctions), "MochiKit.Base.nameFunctions", "test nameFunctions" );
     // Done!
 
     ok( true, "test suite finished!");
