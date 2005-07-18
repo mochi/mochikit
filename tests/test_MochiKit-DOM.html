@@ -13,7 +13,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 16});
+    plan({'tests': 24});
 
     lst = [];
     o = {"blah": function () { lst.push("original"); }};
@@ -25,7 +25,7 @@ try {
     is( lst.join(" "), "original new stuff", "callStack in correct order" );
     is( o.blah, null, "set to null" );
     
-    is( escapeHTML("<>'\"&bar"), "&lt;&gt;&apos;&quot;&amp;bar", "escapeHTML" );
+    is( escapeHTML("<>'\"&bar"), "&lt;&gt;&apos;&quot;&amp;bar", "escapeHTML" ); // for emacs highlighting: "
 
     var isDOM = function (value, expected, message) {
         is( escapeHTML(toHTML(value)), escapeHTML(expected), message );
@@ -81,7 +81,23 @@ try {
             swapElementClass
 
     */
-    
+
+    d = createDOM("span", {"class": "foo"});
+    MochiKit.DOM.setElementClass(d, "bar baz");
+    ok( d.className == "bar baz", "setElementClass");
+    MochiKit.DOM.toggleElementClass("bar", d);
+    ok( d.className == "baz", "toggleElementClass: " + d.className);
+    MochiKit.DOM.toggleElementClass("bar", d);
+    ok( MochiKit.DOM.hasElementClass(d, "baz", "bar"), 
+        "toggleElementClass 2: " + d.className);
+    MochiKit.DOM.addElementClass(d, "bar");
+    ok( MochiKit.DOM.hasElementClass(d, "baz", "bar"), 
+        "toggleElementClass 3: " + d.className);
+    ok( MochiKit.DOM.addElementClass(d, "blah"), "addElementClass return");
+    ok( MochiKit.DOM.hasElementClass(d, "baz", "bar", "blah"), "addElementClass action");
+    ok( ! MochiKit.DOM.hasElementClass(d, "not"), "hasElementClass single");
+    ok( ! MochiKit.DOM.hasElementClass(d, "baz", "not"), "hasElementClass multiple");
+
     ok( true, "test suite finished!");
     
 } catch (err) {

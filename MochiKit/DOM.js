@@ -50,6 +50,7 @@ MochiKit.DOM.EXPORT = [
     "addElementClass",
     "removeElementClass",
     "swapElementClass",
+    "hasElementClass",
     "escapeHTML",
     "toHTML",
     "emitHTML",
@@ -455,7 +456,7 @@ MochiKit.DOM.addElementClass = function (element, className) {
     }
     // append class
     MochiKit.DOM.setElementClass(obj, cls + " " + className);
-    return false;
+    return true;
 };
 
 MochiKit.DOM.removeElementClass = function (element, className) {
@@ -502,6 +503,29 @@ MochiKit.DOM.swapElementClass = function (element, fromClass, toClass) {
         return MochiKit.DOM.addElementClass(obj, toClass);
     }
     return false;
+};
+
+MochiKit.DOM.hasElementClass = function (element, className/*...*/) {
+  /***
+      
+      Return true if className is found in the element
+
+  ***/
+  var obj = MochiKit.DOM.getElement(element);
+  var classes = obj.className.split(" ");
+  for (var i = 1; i < arguments.length; i++) {
+    good = false;
+    for (var j = 0; j < classes.length; j++) {
+      if (classes[j] == arguments[i]) {
+	good = true;
+	break;
+      }
+    }
+    if (! good) {
+      return false;
+    }
+  }
+  return true;
 };
 
 MochiKit.DOM.escapeHTML = function (s) {
