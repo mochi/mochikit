@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<title>MochiKit.DateTime</title>
+</head>
+<body>
+<div class="document" id="mochikit-datetime">
+<h1 class="title">MochiKit.DateTime</h1>
+<h2 class="subtitle" id="functions">Functions</h2>
+<!-- -*- mode: rst -*- -->
+<dl class="docutils">
+<dt>isoDate(str):</dt>
+<dd>Convert an ISO 8601 date (YYYY-MM-DD) to a Date object.</dd>
+<dt>isoTimestamp(str):</dt>
+<dd><p class="first">Convert an ISO 8601 timestamp (or something close to it) to
+a Date object.  Will accept the &quot;de facto&quot; form:</p>
+<blockquote>
+YYYY-MM-DD hh:mm:ss</blockquote>
+<p>or (the proper form):</p>
+<blockquote class="last">
+YYYY-MM-DDThh:mm:ss</blockquote>
+</dd>
+<dt>toISOTime(date):</dt>
+<dd>Get the hh:mm:ss from the given Date object.</dd>
+<dt>toISOTimestamp(date, realISO):</dt>
+<dd><p class="first">Convert a Date object to something that's ALMOST but not quite an
+ISO 8601 timestamp.  If it was a proper ISO timestamp it would be:</p>
+<blockquote>
+YYYY-MM-DDThh:mm:ss</blockquote>
+<p>However, we see junk in SQL and other places that looks like this:</p>
+<blockquote>
+YYYY-MM-DD hh:mm:ss</blockquote>
+<p class="last">So, this function returns the latter form, despite its name, unless
+you pass true for realISO.</p>
+</dd>
+<dt>toISODate(date):</dt>
+<dd>Convert a Date object to an ISO 8601 date string (YYYY-MM-DD)</dd>
+<dt>americanDate(d):</dt>
+<dd>Converts a MM/DD/YYYY date to a Date object</dd>
+<dt>toPaddedAmericanDate(d):</dt>
+<dd>Converts a Date object to an MM/DD/YYYY date, e.g. 01/01/2001</dd>
+<dt>toAmericanDate(d):</dt>
+<dd>Converts a Date object to an M/D/YYYY date, e.g. 1/1/2001</dd>
+</dl>
+</div>
+</body>
+</html>

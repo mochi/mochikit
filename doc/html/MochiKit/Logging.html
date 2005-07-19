@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<title>MochiKit.Logging</title>
+</head>
+<body>
+<div class="document" id="mochikit-logging">
+<h1 class="title">MochiKit.Logging</h1>
+<!-- -*- mode: rst -*- -->
+<div class="section" id="constructors">
+<h1><a name="constructors">Constructors</a></h1>
+<p>LogMessage(num, level, info):</p>
+<blockquote>
+<p>Properties:</p>
+<blockquote>
+<dl class="docutils">
+<dt>num:</dt>
+<dd>Identifier for the log message</dd>
+<dt>level:</dt>
+<dd>Level of the log message</dd>
+<dt>info:</dt>
+<dd>All other arguments passed to log function as an Array</dd>
+<dt>timestamp:</dt>
+<dd>Date object timestamping the log message</dd>
+</dl>
+</blockquote>
+</blockquote>
+<p>Logger([maxSize]):</p>
+<blockquote>
+<p>A basic logger object that has a buffer of recent messages
+plus a listener dispatch mechanism for &quot;real-time&quot; logging
+of important messages</p>
+<p>maxSize is the maximum number of entries in the log.
+If maxSize &gt;= 0, then the log will not buffer more than that
+many messages.</p>
+<p>There is a default logger available named &quot;logger&quot;, and several
+of its methods are also global functions:</p>
+<blockquote>
+logger.log      -&gt; log
+logger.debug    -&gt; logDebug
+logger.warning  -&gt; logWarning
+logger.error    -&gt; logError
+logger.fatal    -&gt; logFatal</blockquote>
+</blockquote>
+<dl class="docutils">
+<dt>Logger.prototype.clear():</dt>
+<dd>Clear all messages from the message buffer.</dd>
+<dt>Logger.prototype.dispatchListeners(msg):</dt>
+<dd>Dispatch a log message to all listeners.</dd>
+<dt>Logger.prototype.addListener(ident, filter, listener):</dt>
+<dd><p class="first">Add a listener for log messages.</p>
+<p>ident is a unique identifier that may be used to remove the listener
+later on.</p>
+<dl class="docutils">
+<dt>filter can be one of the following:</dt>
+<dd><dl class="first last docutils">
+<dt>null:</dt>
+<dd>listener(msg) will be called for every log message
+received.</dd>
+<dt>string:</dt>
+<dd>logLevelAtLeast(filter) will be used as the function
+(see below).</dd>
+<dt>function:</dt>
+<dd>filter(msg) will be called for every msg, if it returns
+true then listener(msg) will be called.</dd>
+</dl>
+</dd>
+</dl>
+<p>listener is a function that takes one argument, a log message.  A log
+message has three properties:</p>
+<blockquote class="last">
+<dl class="docutils">
+<dt>num:</dt>
+<dd>A counter that uniquely identifies a log message (per-logger)</dd>
+<dt>level:</dt>
+<dd>A string or number representing the log level.  If string, you
+may want to use LogLevel[level] for comparison.</dd>
+<dt>info:</dt>
+<dd>A list of objects passed as arguments to the log function.</dd>
+</dl>
+</blockquote>
+</dd>
+<dt>Logger.prototype.removeListener(ident):</dt>
+<dd>Remove a listener using the ident given to addListener</dd>
+<dt>Logger.prototype.baseLog(level, message[, ...]):</dt>
+<dd><p class="first">The base functionality behind all of the log functions.
+The first argument is the log level as a string or number,
+and all other arguments are used as the info list.</p>
+<p>This function is available partially applied as:</p>
+<blockquote>
+Logger.debug    'DEBUG'
+Logger.log      'INFO'
+Logger.error    'ERROR'
+Logger.fatal    'FATAL'
+Logger.warning  'WARNING'</blockquote>
+<p class="last">For the default logger, these are also available as global functions,
+see the Logger constructor documentation for more info.</p>
+</dd>
+<dt>Logger.prototype.getMessages(howMany):</dt>
+<dd>Return a list of up to howMany messages from the message buffer.</dd>
+<dt>Logger.prototype.getMessageText(howMany):</dt>
+<dd><p class="first">Get a string representing up to the last howMany messages in the
+message buffer.  The default is 30.</p>
+<p>The message looks like this:</p>
+<blockquote>
+<dl class="docutils">
+<dt>LAST {messages.length} MESSAGES:</dt>
+<dd>[{msg.num}] {msg.level}: {m.info.join(' ')}
+[{msg.num}] {msg.level}: {m.info.join(' ')}
+...</dd>
+</dl>
+</blockquote>
+<p class="last">If you want some other format, use Logger.getMessages and do it
+yourself.</p>
+</dd>
+<dt>Logger.prototype.debuggingBookmarklet():</dt>
+<dd>Pop up the contents of the logger in a useful way for browsers,
+currently just an alert with this.getMessageText().  The idea is to
+make it smarter at some point, and this method allows us to do that
+without changing any bookmarklets.</dd>
+</dl>
+</div>
+<div class="section" id="functions">
+<h1><a name="functions">Functions</a></h1>
+<dl class="docutils">
+<dt>logLevelAtLeast(minLevel):</dt>
+<dd>Return a function that will match log messages whose level
+is at least minLevel</dd>
+<dt>alertListener(msg):</dt>
+<dd>Ultra-obnoxious alert(...) listener</dd>
+<dt>debug(message[, info[, ...]]):</dt>
+<dd>Log DEBUG message to the default logger</dd>
+<dt>warning(message[, info[, ...]]):</dt>
+<dd>Log a WARNING message to the default logger</dd>
+<dt>error(message[, info[, ...]]):</dt>
+<dd>Log an ERROR message to the default logger</dd>
+<dt>fatal(message[, info[, ...]]):</dt>
+<dd>Log a FATAL message to the default logger</dd>
+</dl>
+</div>
+</div>
+</body>
+</html>
