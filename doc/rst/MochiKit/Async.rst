@@ -32,7 +32,9 @@ Constructors
 Deferred():
     Encapsulates a sequence of callbacks in response to a value that
     may not yet be available.  This is modeled after the Deferred class
-    from Twisted <http://twistedmatrix.com>.
+    from `Twisted`_.
+
+.. _`Twisted`: http://twistedmatrix.com/
 
     Why do we want this?  JavaScript has no threads, and even if it did,
     threads are hard.  Deferreds are a way of abstracting non-blocking

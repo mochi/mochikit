@@ -13,7 +13,9 @@ registerDOMConverter(name, check, wrap[, override]):
 
 createDOM(name, [, attrs[, node[, ...]]]):
     Create a DOM fragment in a really convenient manner, much like
-    Nevow's <http://nevow.com> stan.
+    `Nevow`_'s stan.
+
+.. _`Nevow`: http://nevow.com/
 
     Partially applied versions of this function for common tags are
     available as aliases:
@@ -101,7 +103,7 @@ createDOM(name, [, attrs[, node[, ...]]]):
         Note that it will do the right thing for IE, so don't do
         the class -> className hack yourself.
 
-    *nodes:
+    node...:
         All additional parameters will be coerced into DOM
         nodes that are appended as children using the
         following rules:
@@ -135,7 +137,7 @@ createDOMFunc(tag[, attrs[, node[, ...]]]):
     attrs:
         Optionally specify the attributes to apply
 
-    *nodes:
+    node...:
         Optionally specify any children nodes it should have
 
     returns:

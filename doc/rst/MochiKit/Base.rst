@@ -79,76 +79,99 @@ items(obj):
 operator:
     A table of JavaScript's operators for usage with map, filter, etc.
 
-    =============== =================== ===============================
-                    Unary Logic Operators
-    -------------------------------------------------------------------
-    Operator        Implementation  Description
-    =============== =================== ===============================
-    truth(a)        !!a                 Logical truth
-    lognot(a)       !a                  Logical not
-    identity(a)     a                   Logical identity
-    =============== =================== ===============================
+    Unary Logic Operators:
 
-    =============== =================== ===============================
-                       Unary Math Operators
-    -------------------------------------------------------------------
-    Operator        Implementation  Description
-    =============== =================== ===============================
-    not(a)          ~a                  Bitwise not
-    neg(a)          -a                  Negation
-    =============== =================== ===============================
+    +----------------+----------------------+-------------------------------+
+    | Operator       | Implementation       | Description                   |
+    +================+======================+===============================+
+    | truth(a)       | !!a                  | Logical truth                 |
+    +----------------+----------------------+-------------------------------+
+    | lognot(a)      | !a                   | Logical not                   |
+    +----------------+----------------------+-------------------------------+
+    | identity(a)    | a                    | Logical identity              |
+    +----------------+----------------------+-------------------------------+
 
-    =============== =================== ===============================
-                        Binary Operators
-    -------------------------------------------------------------------
-    Operator        Implementation  Description
-    =============== =================== ===============================
-    add(a, b)       a + b               Addition
-    div(a, b)       a / b               Division
-    mod(a, b)       a % b               Modulus
-    and(a, b)       a & b               Bitwise and
-    or(a, b)        a | b               Bitwise or
-    xor(a, b)       a ^ b               Bitwise exclusive or
-    lshift(a, b)    a << b              Bitwise left shift
-    rshift(a, b)    a >> b              Bitwise signed right shift
-    zrshfit(a, b)   a >>> b             Bitwise unsigned right shift
-    =============== =================== ===============================
+    Unary Math Operators: 
 
-    =============== =================== ===============================
-                        Built-in Comparators
-    -------------------------------------------------------------------
-    Operator        Implementation      Description
-    =============== =================== ===============================
-    eq(a, b)        a == b              Equals
-    ne(a, b)        a != b              Not equals
-    gt(a, b)        a > b               Greater than
-    ge(a, b)        a >= b              Greater than or equal to
-    lt(a, b)        a < b               Less than
-    le(a, b)        a <= b              Less than or equal to
-    =============== =================== ===============================
+    +----------------+----------------------+-------------------------------+
+    | Operator       | Implementation       | Description                   |
+    +================+======================+===============================+
+    | not(a)         | ~a                   | Bitwise not                   |
+    +----------------+----------------------+-------------------------------+
+    | neg(a)         | -a                   | Negation                      |
+    +----------------+----------------------+-------------------------------+
 
-    =============== =================== ===============================
-                Extended Comparators (uses compare)
-    -------------------------------------------------------------------
-    Operator        Implementation      Description
-    =============== =================== ===============================
-    ceq(a, b)       compare(a, b) == 0  Equals
-    cne(a, b)       compare(a, b) != 0  Not equals
-    cgt(a, b)       compare(a, b) == 1  Greater than
-    cge(a, b)       compare(a, b) != -1 Greater than or equal to
-    clt(a, b)       compare(a, b) == -1 Less than
-    cle(a, b)       compare(a, b) != 1  Less than or equal to
-    =============== =================== ===============================
+    Binary Operators:
 
-    =============== =================== ===============================
-                Binary Logical Operators
-    -------------------------------------------------------------------
-    Operator        Implementation      Description
-    =============== =================== ===============================
-    logand(a, b)    a && b              Logical and
-    logor(a, b)     a || b              Logical or
-    contains(a, b)  b in a              Has property (note order)
-    =============== =================== ===============================
+    +----------------+----------------------+-------------------------------+
+    | Operator       | Implementation       | Description                   |
+    +================+======================+===============================+
+    | add(a, b)      | a + b                | Addition                      |
+    +----------------+----------------------+-------------------------------+
+    | div(a, b)      | a / b                | Division                      |
+    +----------------+----------------------+-------------------------------+
+    | mod(a, b)      | a % b                | Modulus                       |
+    +----------------+----------------------+-------------------------------+
+    | and(a, b)      | a & b                | Bitwise and                   |
+    +----------------+----------------------+-------------------------------+
+    | or(a, b)       | a | b                | Bitwise or                    |
+    +----------------+----------------------+-------------------------------+
+    | xor(a, b)      | a ^ b                | Bitwise exclusive or          |
+    +----------------+----------------------+-------------------------------+
+    | lshift(a, b)   | a << b               | Bitwise left shift            |
+    +----------------+----------------------+-------------------------------+
+    | rshift(a, b)   | a >> b               | Bitwise signed right shift    |
+    +----------------+----------------------+-------------------------------+
+    | zrshfit(a, b)  | a >>> b              | Bitwise unsigned right shift  |
+    +----------------+----------------------+-------------------------------+
+
+    Built-in Comparators:
+
+    +----------------+----------------------+-------------------------------+
+    | Operator       | Implementation       | Description                   |
+    +================+======================+===============================+
+    | eq(a, b)       | a == b               | Equals                        |
+    +----------------+----------------------+-------------------------------+
+    | ne(a, b)       | a != b               | Not equals                    |
+    +----------------+----------------------+-------------------------------+
+    | gt(a, b)       | a > b                | Greater than                  |
+    +----------------+----------------------+-------------------------------+
+    | ge(a, b)       | a >= b               | Greater than or equal to      |
+    +----------------+----------------------+-------------------------------+
+    | lt(a, b)       | a < b                | Less than                     |
+    +----------------+----------------------+-------------------------------+
+    | le(a, b)       | a <= b               | Less than or equal to         |
+    +----------------+----------------------+-------------------------------+
+
+    Extended Comparators (uses compare):
+
+    +----------------+----------------------+-------------------------------+
+    | Operator       | Implementation       | Description                   |
+    +================+======================+===============================+
+    | ceq(a, b)      | compare(a, b) == 0   | Equals                        |
+    +----------------+----------------------+-------------------------------+
+    | cne(a, b)      | compare(a, b) != 0   | Not equals                    |
+    +----------------+----------------------+-------------------------------+
+    | cgt(a, b)      | compare(a, b) == 1   | Greater than                  |
+    +----------------+----------------------+-------------------------------+
+    | cge(a, b)      | compare(a, b) != -1  | Greater than or equal to      |
+    +----------------+----------------------+-------------------------------+
+    | clt(a, b)      | compare(a, b) == -1  | Less than                     |
+    +----------------+----------------------+-------------------------------+
+    | cle(a, b)      | compare(a, b) != 1   | Less than or equal to         |
+    +----------------+----------------------+-------------------------------+
+
+    Binary Logical Operators:
+
+    +----------------+----------------------+-------------------------------+
+    | Operator       | Implementation       | Description                   |
+    +================+======================+===============================+
+    | logand(a, b)   | a && b               | Logical and                   |
+    +----------------+----------------------+-------------------------------+
+    | logor(a, b)    | a || b               | Logical or                    |
+    +----------------+----------------------+-------------------------------+
+    | contains(a, b) | b in a               | Has property (note order)     |
+    +----------------+----------------------+-------------------------------+
 
 forward(name):
     Returns a function that forwards a method call to this.name(...)
@@ -233,9 +256,15 @@ registerComparator(name, check, comparator[, override]):
 
     comparator is a function (a, b) that returns:
 
-         0 when a == b
-         1 when a > b
-        -1 when a < b
+    +-------+-----------+
+    | Value | Condition |
+    +-------+-----------+
+    | 0     | a == b    |
+    +-------+-----------+
+    | 1     | a > b     |
+    +-------+-----------+
+    | -1    | a < b     |
+    +-------+-----------+
 
     comparator is guaranteed to only be called if check(a, b)
     returns a true value.
@@ -255,13 +284,17 @@ compare(a, b):
            do something useful, which should work for numbers
            and strings.
 
-    Returns what one would expect from a comparison function.
+    Returns what one would expect from a comparison function:
 
-    returns:
-
-         0 when a == b
-         1 when a > b 
-        -1 when a < b
+    +-------+-----------+
+    | Value | Condition |
+    +-------+-----------+
+    | 0     | a == b    |
+    +-------+-----------+
+    | 1     | a > b     |
+    +-------+-----------+
+    | -1    | a < b     |
+    +-------+-----------+
 
 registerRepr(name, check, wrap[, override]):
     Register a repr function.  repr functions should take
