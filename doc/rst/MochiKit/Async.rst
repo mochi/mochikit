@@ -216,3 +216,13 @@ loadJSONDoc(url):
     returns:
         Deferred that will callback with the evaluated JSON response
         upon successful XMLHttpRequest
+
+XMLHttpRequest():
+    Return an XMLHttpRequest-like object for the current platform.
+
+    In order of preference:
+
+    - new XMLHttpRequest()
+    - new ActiveXObject('Msxml2.XMLHTTP')
+    - new ActiveXObject('Microsoft.XMLHTTP')
+    - new ActiveXObject('Msxml2.XMLHTTP.4.0')

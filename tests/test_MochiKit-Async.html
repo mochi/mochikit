@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 19});
+    plan({'tests': 20});
 
     var increment = function (res) {
         return res + 1;
@@ -170,6 +170,13 @@ try {
     var obj = [1,2,3,4,"asdf",{"a":["b", "c"]}];
     isDeeply(obj, evalJSONRequest(fakeReq), "evalJSONRequest");
 
+    try {
+        MochiKit.Async.getXMLHttpRequest();
+        ok(true, "getXMLHttpRequest");
+    } catch (e) {
+        ok(false, "no love from getXMLHttpRequest");
+    }
+    
     ok( true, "test suite finished!");
     
 } catch (err) {
