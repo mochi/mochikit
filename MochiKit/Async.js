@@ -1,3 +1,13 @@
+/*
+
+MochiKit.Async 0.5
+
+See <http://mochikit.com/> for documentation, downloads, license, etc.
+
+(c) 2005 Bob Ippolito.  All rights Reserved.
+
+*/
+
 if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Base");
 }
