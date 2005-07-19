@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<title>MochiKit.Iter</title>
+</head>
+<body>
+<div class="document" id="mochikit-iter">
+<h1 class="title">MochiKit.Iter</h1>
+<!-- -*- mode: rst -*- -->
+<div class="section" id="errors">
+<h1><a name="errors">Errors</a></h1>
+<dl class="docutils">
+<dt>StopIteration:</dt>
+<dd>The singleton NamedError that signifies the end of an iterator</dd>
+</dl>
+</div>
+<div class="section" id="functions">
+<h1><a name="functions">Functions</a></h1>
+<dl class="docutils">
+<dt>registerIteratorFactory(name, check, iterfactory[, override]):</dt>
+<dd><p class="first">Register an iterator factory for use with the iter function.</p>
+<p>check is a function (a) that returns true if a can be converted
+into an iterator with iterfactory.</p>
+<p>iterfactory is a function (a) that returns an object with a
+&quot;next&quot; function that returns the next value in the sequence.</p>
+<p>iterfactory is guaranteed to only be called if check(a)
+returns a true value.</p>
+<p class="last">If override is given and true, then it will be made the
+highest precedence iterator factory.  Otherwise, the lowest.</p>
+</dd>
+<dt>iter(iterable[, sentinel]):</dt>
+<dd><p class="first">Convert the given argument to an iterator (object implementing
+&quot;next&quot;).</p>
+<ol class="arabic simple">
+<li>If iterable is an iterator (implements &quot;next&quot;), then it will be
+returned as-is.</li>
+<li>If iterable is an iterator factory (implements &quot;iter&quot;), then the
+result of iterable.iter() will be returned.</li>
+<li>Otherwise, the iterator factory registry is used to find a 
+match.</li>
+<li>If no factory is found, it will throw TypeError</li>
+</ol>
+<p>When used directly, using an iterator should look like this:</p>
+<pre class="last literal-block">
+var it = iter(iterable);
+try {
+    while (var o = it.next()) {
+        // use o
+    }
+} catch (e) {
+    if (e != StopIteration) {
+        throw e;
+    }
+    // pass
+}
+</pre>
+</dd>
+<dt>count(n):</dt>
+<dd>count([n]) --&gt; n, n + 1, n + 2, ...</dd>
+<dt>cycle(p):</dt>
+<dd>cycle(p) --&gt; p0, p1, ... plast, p0, p1, ...</dd>
+<dt>repeat(elem[, n]):</dt>
+<dd>repeat(elem, [,n]) --&gt; elem, elem, elem, ... endlessly or up to n times</dd>
+<dt>next(iterator):</dt>
+<dd>Return the next value from the iterator</dd>
+<dt>izip(p, q[, ...]):</dt>
+<dd>izip(p, q, ...) --&gt; (p0, q0, ...), (p1, q1, ...), ...</dd>
+<dt>ifilter(pred, seq):</dt>
+<dd>ifilter(pred, seq) --&gt; elements of seq where pred(elem) is true</dd>
+<dt>ifilterfalse(pred, seq):</dt>
+<dd>ifilterfalse(pred, seq) --&gt; elements of seq where pred(elem) is false</dd>
+<dt>islice(seq, [start,] stop[, step]):</dt>
+<dd><dl class="first last docutils">
+<dt>islice(seq, [start,] stop[, step])  --&gt; elements from </dt>
+<dd>seq[start:stop:step] (in Python slice syntax)</dd>
+</dl>
+</dd>
+<dt>imap(fun, p, q[, ...]):</dt>
+<dd>imap(fun, p, q, ...) --&gt; fun(p0, q0, ...), fun(p1, q1, ...), ...</dd>
+<dt>applymap(fun, seq):</dt>
+<dd>applymap(fun, seq) --&gt; fun.apply(this, seq0), fun.apply(this, seq1), ...</dd>
+<dt>chain(p, q[, ...]):</dt>
+<dd>chain(p, q, ...) --&gt; p0, p1, ... plast, q0, q1, ...</dd>
+<dt>takewhile(pred, seq):</dt>
+<dd>takewhile(pred, seq) --&gt; seq[0], seq[1], ... until pred(seq[n]) fails</dd>
+<dt>dropwhile(pred, seq):</dt>
+<dd><dl class="first last docutils">
+<dt>dropwhile(pred, seq) --&gt; seq[n], seq[n + 1], starting when</dt>
+<dd>pred(seq[n]) fails</dd>
+</dl>
+</dd>
+<dt>tee(iterable, n=2):</dt>
+<dd>tee(it, n=2) --&gt; [it1, it2, it3, ... itn] splits one iterator into n</dd>
+<dt>list(iterable):</dt>
+<dd>Convert an iterable to a new array</dd>
+<dt>reduce(fn, iterable[, initial]):</dt>
+<dd><p class="first">Apply a fn = function (a, b) cumulatively to the items of an
+iterable from left to right, so as to reduce the iterable
+to a single value.</p>
+<p>For example:</p>
+<pre class="literal-block">
+reduce(function (a, b) { return x + y; }, [1, 2, 3, 4, 5])
+</pre>
+<p>calculates:</p>
+<pre class="literal-block">
+((((1 + 2) + 3) + 4) + 5).
+</pre>
+<p>If initial is given, it is placed before the items of the sequence
+in the calculation, and serves as a default when the sequence is
+empty.</p>
+<p>Note that the above example could be written more clearly as:</p>
+<pre class="literal-block">
+reduce(operator.add, [1, 2, 3, 4, 5])
+</pre>
+<p>Or even simpler:</p>
+<pre class="last literal-block">
+sum([1, 2, 3, 4, 5])
+</pre>
+</dd>
+<dt>range([start,] stop[, step]):</dt>
+<dd>Return an iterator containing an arithmetic progression of integers.
+range(i, j) returns iter([i, i + 1, i + 2, ..., j - 1]);
+start (!) defaults to 0.  When step is given, it specifies the
+increment (or decrement).  For example, range(4) returns
+iter([0, 1, 2, 3]).  The end point is omitted!  These are exactly the
+valid elements for an array of 4 elements.</dd>
+<dt>sum(iterable, start=0):</dt>
+<dd><p class="first">Returns the sum of a sequence of numbers (NOT strings) plus the value
+of parameter 'start' (with a default of 0).  When the sequence is
+empty, returns start.</p>
+<p>Equivalent to:</p>
+<pre class="last literal-block">
+reduce(operator.add, iterable, start);
+</pre>
+</dd>
+<dt>exhaust(iterable):</dt>
+<dd>Exhausts an iterable without saving the results anywhere,
+like list(iterable) when you don't care what the output is.</dd>
+<dt>forEach(iterable, func[, self]):</dt>
+<dd>Call func for each item in iterable.</dd>
+<dt>every(iterable, func):</dt>
+<dd>Return true if func(item) is true for every item in iterable</dd>
+<dt>sorted(iterable[, cmp]):</dt>
+<dd>Return a sorted array from iterable</dd>
+<dt>reversed(iterable):</dt>
+<dd>Return a reversed array from iterable.</dd>
+<dt>some(iterable, func):</dt>
+<dd>Return true if func(item) is true for at least one item in iterable</dd>
+<dt>iextend(lst, iterable):</dt>
+<dd>Just like list(iterable), except it pushes results on lst</dd>
+</dl>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<title>MochiKit.DOM</title>
+</head>
+<body>
+<div class="document" id="mochikit-dom">
+<h1 class="title">MochiKit.DOM</h1>
+<h2 class="subtitle" id="functions">Functions</h2>
+<!-- -*- mode: rst -*- -->
+<dl class="docutils">
+<dt>registerDOMConverter(name, check, wrap[, override]):</dt>
+<dd>Register an adapter to convert objects that match check(obj, ctx)
+to a DOM element, or something that can be converted to a DOM
+element (i.e. number, bool, string, function, iterable).</dd>
+<dt>createDOM(name, [, attrs[, node[, ...]]]):</dt>
+<dd>Create a DOM fragment in a really convenient manner, much like
+<a class="reference" href="http://nevow.com/">Nevow</a>'s stan.</dd>
+</dl>
+<blockquote>
+<p>Partially applied versions of this function for common tags are
+available as aliases:</p>
+<ul class="simple">
+<li>TABLE</li>
+<li>TR</li>
+<li>TD</li>
+<li>TH</li>
+<li>TBODY</li>
+<li>TFOOT</li>
+<li>THEAD</li>
+<li>SPAN</li>
+<li>INPUT</li>
+<li>A</li>
+<li>DIV</li>
+</ul>
+<p>Usage:</p>
+<pre class="literal-block">
+var rows = [
+    [&quot;dataA1&quot;, &quot;dataA2&quot;, &quot;dataA3&quot;],
+    [&quot;dataB1&quot;, &quot;dataB2&quot;, &quot;dataB3&quot;]
+];
+row_display = function (row) {
+    return TR(null, map(partial(TD, null), row));
+}
+var newTable = TABLE({'class': 'prettytable'}
+    THEAD(null,
+        row_display([&quot;head1&quot;, &quot;head2&quot;, &quot;head3&quot;])),
+    TFOOT(null,
+        row_display([&quot;foot1&quot;, &quot;foot2&quot;, &quot;foot3&quot;])),
+    TBODY(null,
+        map(row_display, rows)));
+</pre>
+<p>This will create a table with the following visual layout (if it
+were inserted into the document DOM):</p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">head1</th>
+<th class="head">head2</th>
+<th class="head">head3</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>dataA1</td>
+<td>dataA2</td>
+<td>dataA3</td>
+</tr>
+<tr><td>dataB1</td>
+<td>dataB2</td>
+<td>dataB3</td>
+</tr>
+<tr><td>foot1</td>
+<td>foot2</td>
+<td>foot3</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>Corresponding to the following HTML:</p>
+<pre class="literal-block">
+&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;td&gt;head1&lt;/td&gt;
+            &lt;td&gt;head2&lt;/td&gt;
+            &lt;td&gt;head3&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td&gt;foot1&lt;/td&gt;
+            &lt;td&gt;foot2&lt;/td&gt;
+            &lt;td&gt;foot3&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;dataA1&lt;/td&gt;
+            &lt;td&gt;dataA2&lt;/td&gt;
+            &lt;td&gt;dataA3&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;dataB1&lt;/td&gt;
+            &lt;td&gt;dataB2&lt;/td&gt;
+            &lt;td&gt;dataB3&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+</pre>
+<dl class="docutils">
+<dt>name:</dt>
+<dd>The kind of fragment to create (e.g. 'span').</dd>
+<dt>attrs:</dt>
+<dd><p class="first">A mapping of attributes or null, (e.g. {'style': 'display:block'}).</p>
+<p class="last">Note that it will do the right thing for IE, so don't do
+the class -&gt; className hack yourself.</p>
+</dd>
+<dt>node...:</dt>
+<dd><p class="first">All additional parameters will be coerced into DOM
+nodes that are appended as children using the
+following rules:</p>
+<ol class="last arabic simple">
+<li>Functions are called with a &quot;this&quot; of the parent
+node and their return value is subject to the
+following rules (even this one)</li>
+<li>undefined and null are ignored.</li>
+<li>Iterables are flattened (as if they were passed
+in-line as nodes) and each return value is
+subject to all of these rules.</li>
+<li>Values that look like DOM nodes (objects with a
+nodeType &gt; 0) are appendChild'ed to the created
+DOM fragment.</li>
+<li>Strings are converted to textNodes.</li>
+<li>Objects that are not strings are converted to
+objects known to these rules using a
+&quot;registerDOMConverter&quot; adapter if one exists.</li>
+<li>If no adapter is available, toString() is used to
+create a textNode.</li>
+</ol>
+</dd>
+<dt>returns:</dt>
+<dd>A DOM element</dd>
+</dl>
+</blockquote>
+<dl class="docutils">
+<dt>createDOMFunc(tag[, attrs[, node[, ...]]]):</dt>
+<dd><p class="first">Convenience function to create a partially applied createDOM</p>
+<dl class="last docutils">
+<dt>tag:</dt>
+<dd>The name of the tag</dd>
+<dt>attrs:</dt>
+<dd>Optionally specify the attributes to apply</dd>
+<dt>node...:</dt>
+<dd>Optionally specify any children nodes it should have</dd>
+<dt>returns:</dt>
+<dd>function</dd>
+</dl>
+</dd>
+<dt>swapDOM(dest, src):</dt>
+<dd><p class="first">Replace dest in a DOM tree with src, returning src</p>
+<dl class="last docutils">
+<dt>dest:</dt>
+<dd>a DOM element to be replaced</dd>
+<dt>src:</dt>
+<dd>the DOM element to replace it with</dd>
+<dt>returns:</dt>
+<dd>a DOM element (src)</dd>
+</dl>
+</dd>
+<dt>getElement(id[, ...]):</dt>
+<dd><p class="first">A small quick little function to encapsulate the getElementById
+method.  It includes a check to ensure we can use that method.</p>
+<p>If the id isn't a string, it will be returned as-is.</p>
+<p>Also available as $(...) for compatibility/convenience with &quot;other&quot;
+js frameworks (bah).</p>
+<p class="last">If multiple arguments are given, an array will be returned.</p>
+</dd>
+<dt>addLoadEvent(func):</dt>
+<dd>This will stack window.onload functions on top of each other.
+Each function added will be called after onload in the
+order that they were added.</dd>
+<dt>focusOnLoad(element):</dt>
+<dd>Add an onload event to focus the given element</dd>
+<dt>setElementClass(element, className):</dt>
+<dd>Set the entire class attribute of an element to className.</dd>
+<dt>toggleElementClass(className[, element[, ...]]):</dt>
+<dd>Toggle the presence of a given className in the class attribute
+of all given elements.</dd>
+<dt>addElementClass(element, className):</dt>
+<dd>Ensure that the given element has className set as part of its
+class attribute.  This will not disturb other class names.</dd>
+<dt>removeElementClass(element, className):</dt>
+<dd>Ensure that the given element does not have className set as part
+of its class attribute.  This will not disturb other class names.</dd>
+<dt>swapElementClass(element, fromClass, toClass):</dt>
+<dd>If fromClass is set on element, replace it with toClass.  This
+will not disturb other classes on that element.</dd>
+<dt>hasElementClass(element, className[, ...]):</dt>
+<dd>Return true if className is found in the element</dd>
+<dt>escapeHTML(s):</dt>
+<dd>Make a string safe for HTML, converting the usual suspects (lt,
+gt, quot, apos, amp)</dd>
+<dt>toHTML(dom):</dt>
+<dd>Convert a DOM tree to a HTML string using emitHTML</dd>
+<dt>emitHTML(dom[, lst]):</dt>
+<dd><p class="first">Convert a DOM tree to an Array of HTML string fragments</p>
+<p class="last">You probably want to use toHTML instead.</p>
+</dd>
+<dt>setDisplayForElement(display, element[, ...]):</dt>
+<dd><p class="first">Change the style.display for the given element(s).  Usually
+used as the partial forms:</p>
+<blockquote class="last">
+showElement(element, ...);
+hideElement(element, ...);</blockquote>
+</dd>
+<dt>scrapeText(node):</dt>
+<dd>Walk a DOM tree and scrape all of the text out of it as an Array.</dd>
+</dl>
+</div>
+</body>
+</html>
