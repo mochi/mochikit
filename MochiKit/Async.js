@@ -456,7 +456,7 @@ MochiKit.Async.fail = function (/* optional */result) {
 
 MochiKit.Async.getXMLHttpRequest = function () {
     var self = arguments.callee;
-    if (!self.XMLHttpRequest)
+    if (!self.XMLHttpRequest) {
         var tryThese = [
             function () { return new XMLHttpRequest(); },
             function () { return new ActiveXObject('Msxml2.XMLHTTP'); },
@@ -464,7 +464,7 @@ MochiKit.Async.getXMLHttpRequest = function () {
             function () { return new ActiveXObject('Msxml2.XMLHTTP.4.0'); },
             function () {
                 throw new MochiKit.Async.BrowserComplianceError("Browser does not support XMLHttpRequest");
-            };
+            }
         ];
         for (var i = 0; i < tryThese.length; i++) {
             var func = tryThese[i];
@@ -477,7 +477,7 @@ MochiKit.Async.getXMLHttpRequest = function () {
         }
     }
     return self.XMLHttpRequest();
-}
+};
 
 MochiKit.Async.doSimpleXMLHttpRequest = function (url) {
     /***
