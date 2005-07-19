@@ -454,6 +454,31 @@ MochiKit.Async.fail = function (/* optional */result) {
     return d;
 };
 
+MochiKit.Async.getXMLHttpRequest = function () {
+    var self = arguments.callee;
+    if (!self.XMLHttpRequest)
+        var tryThese = [
+            function () { return new XMLHttpRequest(); },
+            function () { return new ActiveXObject('Msxml2.XMLHTTP'); },
+            function () { return new ActiveXObject('Microsoft.XMLHTTP'); },
+            function () { return new ActiveXObject('Msxml2.XMLHTTP.4.0'); },
+            function () {
+                throw new MochiKit.Async.BrowserComplianceError("Browser does not support XMLHttpRequest");
+            };
+        ];
+        for (var i = 0; i < tryThese.length; i++) {
+            var func = tryThese[i];
+            try {
+                self.XMLHttpRequest = func;
+                return func();
+            } catch (e) {
+                // pass
+            }
+        }
+    }
+    return self.XMLHttpRequest();
+}
+
 MochiKit.Async.doSimpleXMLHttpRequest = function (url) {
     /***
 
@@ -519,25 +544,15 @@ MochiKit.Async.doSimpleXMLHttpRequest = function (url) {
         }
     }
 
-    // branch for native XMLHttpRequest object
-    if (window.XMLHttpRequest) {
-        req = new XMLHttpRequest();
+    try {
+        req = MochiKit.Async.getXMLHttpRequest();
         req.onreadystatechange = onreadystatechange;
         req.open("GET", url, true);
         req.send(null);
-    // branch for IE/Windows ActiveX version
-    } else if (window.ActiveXObject) {
-        req = new ActiveXObject("Microsoft.XMLHTTP");
-        if (req) {
-            req.onreadystatechange = onreadystatechange;
-            req.open("GET", url, true);
-            req.send();
-        } else {
-            d.errback(new MochiKit.Async.BrowserComplianceError("Browser does not support XMLHttpRequest"));
-        }
-    } else {
-        d.errback(new MochiKit.Async.BrowserComplianceError("Browser does not support XMLHttpRequest"));
+    } catch (e) {
+        d.errback(e);
     }
+
     return d;
 };
 
@@ -565,14 +580,16 @@ MochiKit.Async.EXPORT = [
     "GenericError",
     "XMLHttpRequestError",
     "Deferred",
-    "evalJSONRequest",
     "succeed",
     "fail",
+    "getXMLHttpRequest",
     "doSimpleXMLHttpRequest",
     "loadJSONDoc"
 ];
     
-MochiKit.Async.EXPORT_OK = [];
+MochiKit.Async.EXPORT_OK = [
+    "evalJSONRequest"
+];
 
 MochiKit.Async.__new__ = function () {
 
