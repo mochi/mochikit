@@ -13,7 +13,6 @@ if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Format");
     JSAN.use("MochiKit.Async");
     JSAN.use("MochiKit.DOM");
-    JSAN.use("MochiKit.Class");
 } else {
     __MochiKit_Compat__ = true;
     (function (/* ... */) {
