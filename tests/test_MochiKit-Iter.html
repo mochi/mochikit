@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 40});
+    plan({'tests': 41});
 
     is( sum([1, 2, 3, 4, 5]), 15, "sum works on Arrays" );
     is( compare(list([1, 2, 3]), [1, 2, 3]), 0, "list([x]) == [x]" );
@@ -51,6 +51,9 @@ try {
 
     c = applymap(operator.add, [[1, 2], [2, 4], [3, 6]]);
     is( compare(list(c), [3, 6, 9]), 0, "applymap()" );
+
+    c = applymap(function (a) { return [this, a]; }, [[1], [2]], 1);
+    is( compare(list(c), [[1, 1], [1, 2]]), 0, "applymap(self)" );
 
     c = chain(range(2), range(3));
     is( compare(list(c), [0, 1, 0, 1, 2]), 0, "chain(p, q)" );
