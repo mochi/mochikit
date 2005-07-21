@@ -1,26 +1,256 @@
 .. -*- mode: rst -*-
 
-MochiKit.Base
+Name
+====
+
+MochiKit.Base - functional programming and useful comparisons
+
+Synopsis
+========
+
+::
+
+    myObjectRepr = function () {
+        // gives a nice, stable string representation for objects,
+        // ignoring any methods
+        var keyValuePairs = [];
+        for (var k in this) {
+            var v = this[k];
+            if (typeof(v) != 'function') {
+                keyValuePairs.push([k, v]);
+            }
+        };
+        keyValuePairs.sort(compare);
+        return "{" + map(
+            function (pair) {
+                return map(repr, pair).join(":");
+            }, 
+            keyValuePairs
+        ).join(", ") + "}";
+    };
+            
+    // repr() will look for objects that have a repr method
+    myObjectArray = [
+        {"a": 3, "b": 2, "repr": myObjectRepr},
+        {"a": 1, "b": 2, "repr", myObjectRepr}
+    ];
+
+    // sort it by the "a" property, check to see if it matches
+    myObjectArray.sort(keyComparator("a"));
+    expectedRepr = '[{"a": 1, "b": 2}, {"a": 3, "b": 2}]';
+    assert( repr(myObjectArray) == expectedRepr );
+
+    // get just the "a" values out into an array
+    sortedAValues = map(itemgetter("a"), myObjectArray);
+    assert( compare(sortedAValues, [1, 3]) == 0 );
+
+Description
+===========
+
+MochiKit.Base is the foundation for the MochiKit suite.  It provides:
+
+- An extensible comparison facility (``compare``, ``registerComparator``)
+- An extensible programmer representation facility (``repr``)
+- A simple adaptation facility (``AdapterRegistry``)
+- Convenience functions for manipulating objects (``update``, ``extend``, etc.)
+- Array-based functional programming (``map``, ``filter``, ``setdefault``, etc.)
+- Bound and partially applied functions (``bind``, ``partial``)
+
+Python users will feel at home with MochiKit.Base, as the facilities are
+quite similar to those available as part of Python and the Python standard
+library.
+
+Dependencies
+============
+
+None.
+
+Overview
+========
+
+Comparison
+----------
+
+The comparators (operators for comparison) in JavaScript are deeply broken,
+and it is not possible to teach them new tricks.
+
+The extensible comparison facility exposed by MochiKit as a simple
+``compare(a, b)`` function, which should be used in lieu of JavaScript's
+operators whenever comparing objects other than numbers or strings (though you
+can certainly use ``compare`` for those, too!).
+
+The ``compare`` function has the same signature and return value as a sort
+function for ``Array.prototype.sort``, and is often used in that context.
+
+Defining new comparators for the ``compare`` function to use is done
+by adding an entry to its ``AdapterRegistry`` with the ``registerComparator``
+function.
+
+Programmer Representation
+-------------------------
+
+JavaScript's default representation mechanism, ``toString``, is notorious
+for having terrible default behavior.  It's also very unwise to change that
+default, as other JavaScript code you may be using may depend on it.
+
+It's also useful to separate the concept of a "string representation" and a
+"string representation for programmers", much like Python does with its str
+and repr protocols.
+
+``repr`` provides this programmer representation for JavaScript, in a way
+that doesn't require object prototype hacking: using an ``AdapterRegistry``.
+Objects that implement the repr protocol can either implement a ``.repr()``
+or ``.__repr__()`` method, or they can simply have an adapter setup to
+generate programmer representations.  By default, the registry provides
+nice representations for ``null``, ``undefined``, ``Array``, and objects or
+functions with a ``NAME`` attribute that use the default ``toString``.  For
+objects that ``repr`` doesn't already understand, it simply defaults to
+``toString``, so it will integrate seamlessly with code that implements
+the idiomatic JavaScript ``toString`` method!
+
+To define a programmer representation for your own objects, simply add
+a ``.repr()`` or ``.__repr__()`` method that returns a string.  For
+objects that you didn't create (e.g., from a script you didn't write, or a 
+built-in object), it is instead recommended that you create an adapter
+with ``registerRepr``.
+
+Adapter Registries
+------------------
+
+MochiKit makes extensive use of adapter registries, which enable you to
+implement object-specific behaviors for objects that you do not necessarily
+want to modify, such as built-in objects.  This is especially useful because
+JavaScript does not provide a method for hiding user-defined properties from
+``for propName in obj`` enumeration.
+
+``AdapterRegistry`` is simply an encapsulation for an ordered list of "check"
+and "wrap" function pairs.  Each ``AdapterRegistry`` instance should perform
+one function, but may have multiple ways to achieve that function based upon
+the arguments.  One way to think of it is as a poor man's generic function,
+or multiple dispatch (on arbitrary functions, not just type!).
+
+Check functions take one or more arguments, and return ``true`` if the
+argument list is suitable for the wrap function.  Check functions should
+perform "cheap" checks of an object's type or contents, before the
+"expensive" wrap function is called.
+
+Wrap functions take the same arguments as check functions and do some
+operation, such as creating a programmer representation or comparing
+both arguments.
+
+Convenience Functions
+---------------------
+
+Much of MochiKit.Base is there to simply remove the grunt work of doing
+generic JavaScript programming.
+
+Need to take every property from one object and set them on another?  No
+problem, just call ``update(dest, src)``!  What if you just wanted to
+update keys that weren't already set?  Look no further than
+``setdefault(dest, src[, ...])``.
+
+Need to extend an Array with another array?  Or even an array-like object
+such as a ``NodeList`` or the special ``arguments`` object?  Even if you
+need to skip the first few elements of the source array-like object, it's
+no problem with ``extend(dstArray, srcArrayLike[, skip])``!
+
+Wouldn't it be convenient to have all of the JavaScript operators were
+available as functions somewhere?  That's what the ``operators`` table is for,
+and it even comes with additional operators based on the ``compare`` function.
+
+Need to walk some tree of objects and manipulate or find something in it?
+A DOM element tree perhaps?  Use ``nodeWalk(node, visitor)``!
+
+There's plenty more, so check out the `API Reference`_ below.
+
+Functional Programming
+----------------------
+
+Functional programming constructs such as ``map`` and ``filter`` can save you
+a lot of time, because JavaScript iteration is error-prone and arduous.
+Writing less code is the best way to prevent bugs, and functional programming
+can help you do that.
+
+MochiKit.Base ships with a few simple Array-based functional programming
+constructs, namely ``map`` and ``filter``, and their "extended" brethren,
+``xmap`` and ``xfilter``.
+
+``map(func, arrayLike[, ...])`` takes a function and an array-like
+object, and creates a new ``Array``.  The new ``Array`` is the result of
+``func(element)`` for every element of ``arrayLike``, much
+like the ``Array.prototype.map`` extension in Mozilla.  However, MochiKit.Base
+takes that a step further and gives you the full blown Python version of
+``map``, which will take several array-like objects, and calls the function
+with one argument per given array-like, like this::
+
+   var arrayOne = [1, 2, 3, 4, 5];
+   var arrayTwo = [1, 5, 2, 4, 3];
+   var arrayThree = [5, 2, 1, 3, 4];
+   var biggestElements = map(objMax, arrayOne, arrayTwo, arrayThree);
+   assert( objEqual(biggestElements, [5, 5, 3, 4, 5]) );
+
+``filter(func, arrayLike)`` takes a function and an array-like object, and
+returns a new ``Array``.  This is basically identical to the
+``Array.prototype.filter`` extension in Mozilla.
+
+``xmap`` and ``xfilter`` are just special forms of ``map`` and ``filter``
+that accept a function as the first argument, and use the extra arguments as
+the array-like.  Not terribly interesting, but a definite time-saver in some
+cases.
+
+If you appreciate the functional programming facilities here,
+you should definitely check out `MochiKit.Iter`_, which provides for full
+blown iterators, ``range``, ``reduce``, and a near-complete port of Python's
+``itertools`` module, with some extra stuff thrown in for good measure!
+
+.. _`MochiKit.Iter`: Iter.html
+
+Bound and Partial Functions
+---------------------------
+
+JavaScript's method-calling special form and lack of bound functions (functions
+that know what ``this`` should be) are one of the first stumbling blocks that
+programmers new to JavaScript face.  The ``bind(func, self)`` method fixes
+that right up by returning a new function that calls func with the right
+``this``.
+
+In order to take real advantage of all this fancy functional programming stuff,
+you're probably going to want partial application.  This allows you to create
+a new function from an existing function that remembers some of the arguments.
+For example, if you wanted to compare a given object to a slew of other 
+objects, you could do something like this::
+
+    compareWithOne = partial(compare, 1);
+    results = map(compareWithOne, [0, 1, 2, 3]);
+    assert( objEqual(results, [-1, 0, 1, 1]) );
+
+One of the better uses of partial functions is in `MochiKit.DOM`_, which is
+certainly a must-see for those of you creating lots of DOM elements with
+JavaScript!
+
+.. _`MochiKit.DOM`: DOM.html
+
+API Reference
 =============
 
 Errors
 ------
 
-NamedError:
-    Used to create new errors (e.g. NotFound)
-
-NotFound:
+``NotFound``:
     A singleton error raised when no suitable adapter is found
 
 Constructors
 ------------
 
-AdapterRegistry:
+``NamedError``:
+    Convenience constructor for creating new errors (e.g. ``NotFound``)
+
+``AdapterRegistry``:
     A registry to facilitate adaptation.
 
     All check/wrap functions in this registry should be of the same arity.
 
-AdapterRegistry.prototype.register(name, check, wrap[, override]):
+``AdapterRegistry.prototype.register(name, check, wrap[, override])``:
     The check function should return true if the given arguments are
     appropriate for the wrap function.
 
@@ -28,26 +258,26 @@ AdapterRegistry.prototype.register(name, check, wrap[, override]):
     highest priority.  Otherwise, it will be the lowest priority
     adapter.
 
-AdapterRegistry.prototype.match(obj[, ...]):
+``AdapterRegistry.prototype.match(obj[, ...])``:
     Find an adapter for the given arguments.
     
-    If no suitable adapter is found, throws NotFound.
+    If no suitable adapter is found, throws ``NotFound``.
 
-AdapterRegistry.prototype.unregister(name):
+``AdapterRegistry.prototype.unregister(name)``:
     Remove a named adapter from the registry
 
 
 Functions
 ---------
 
-extend(self, obj[, skip]):
+``extend(self, obj[, skip])``:
     Mutate an array by extending it with an array-like obj,
     starting with the "skip" index of obj.  If null is given
     as the initial array, a new one will be created.
 
     This mutates *and returns* the given array, be warned.
 
-update(self, obj[, ...]):
+``update(self, obj[, ...])``:
     Mutate an object by replacing its key:value pairs with those
     from other object(s).  Key:value pairs from later objects will
     overwrite those from earlier objects.
@@ -57,27 +287,35 @@ update(self, obj[, ...]):
     This mutates *and returns* the given object, be warned.
 
     A version of this function that creates a new object is available
-    as merge(o1, o2, ...)
+    as ``merge(a, b[, ...])``
 
-setdefault(self, obj[, ...]):
-    Mutate an object by replacing its key:value pairs with those
-    from other object(s) IF they are not already set on the initial
-    object.
+``merge(obj[, ...])``:
+    Create a new instance of ``Object`` that contains every property
+    from all given objects.  If a property is defined on more than
+    one of the objects, the last property is used.
+
+    This is a special form of ``update(self, obj[, ...])``, specifically,
+    it is defined as ``partial(update, null)``.
+
+``setdefault(self, obj[, ...])``:
+    Mutate an object by adding all properties from other object(s)
+    that it does not already have set.
     
-    If null is given as the initial object, a new one will be created.
+    If ``self`` is ``null``, a new ``Object`` instance will be created
+    and returned.
 
-    This mutates *and returns* the given object, be warned.
+    This mutates *and returns* the given ``self``, be warned.
 
-keys(obj):
-    Return an array of the property names of an object
-    (in no particular order).
+``keys(obj)``:
+    Return an ``Array`` of the property names of an object
+    (in the order determined by ``for propName in obj``).
     
-items(obj):
-    Return an array of [propertyName, propertyValue] pairs for an
-    object (in no particular order).
+``items(obj)``:
+    Return an ``Array`` of ``[propertyName, propertyValue]`` pairs for the
+    given ``obj`` (in the order deterined by ``for propName in obj``).
 
 operator:
-    A table of JavaScript's operators for usage with map, filter, etc.
+    A table of JavaScript's operators for usage with ``map``, ``filter``, etc.
 
     Unary Logic Operators:
 
@@ -173,88 +411,90 @@ operator:
     | contains(a, b) | b in a               | Has property (note order)     |
     +----------------+----------------------+-------------------------------+
 
-forward(name):
-    Returns a function that forwards a method call to this.name(...)
+``forward(name)``:
+    Returns a function that forwards a method call to ``this.name(...)``
 
-itemgetter(name):
-    Returns a function(obj) that returns obj[name]
+``itemgetter(name)``:
+    Returns a ``function(obj)`` that returns ``obj[name]``
 
-typeMatcher(typ[, ...]):
+``typeMatcher(typ[, ...])``:
     Given a set of types (as string arguments),
-    returns a function(obj[, ...]) that will return true if the
+    returns a ``function(obj[, ...])`` that will return ``true`` if the
     types of the given arguments are all members of that set.
 
-isNull(obj[, ...]):
-    Returns true if all arguments are null.
+``isNull(obj[, ...])``:
+    Returns ``true`` if all arguments are ``null``.
 
-isUndefinedOrNull(obj[, ...]):
-    Returns true if all arguments are undefined or null
+``isUndefinedOrNull(obj[, ...])``:
+    Returns ``true`` if all arguments are undefined or ``null``
 
-isNotEmpty(obj[, ...]):
-    Returns true if all the given array or string arguments
-    are not empty (obj.length > 0)
+``isNotEmpty(obj[, ...])``:
+    Returns ``true`` if all the given ``Array``-like or string arguments
+    are not empty ``(obj.length > 0)``
 
-isArrayLike(obj[, ...]):
-    Returns true if all given arguments are Array-like
+``isArrayLike(obj[, ...])``:
+    Returns ``true`` if all given arguments are ``Array``-like (have a
+    ``.length`` property and ``typeof(obj) == 'object'``)
 
-isDateLike(obj[, ...]):
-    Returns true if all given arguments are Date-like
+``isDateLike(obj[, ...])``:
+    Returns ``true`` if all given arguments are ``Date``-like (have a 
+    ``.getTime()`` method)
 
-xmap(fn, obj[, ...):
-    Return an array composed of fn(obj) for every obj given as an
-    argument.
+``xmap(fn, obj[, ...)``:
+    Return a new ``Array`` composed of ``fn(obj)`` for every ``obj``
+    given as an argument.
 
-    If fn is null, operator.identity is used.
+    If ``fn`` is ``null``, ``operator.identity`` is used.
 
-map(fn, lst[, ...]):
-    Return a new array composed of the results of fn(x) for every x in
-    lst
+``map(fn, lst[, ...])``:
+    Return a new array composed of the results of ``fn(x)`` for every ``x`` in
+    ``lst``.
 
-    If fn is null, and only one sequence argument is given the identity
+    If fn is ``null``, and only one sequence argument is given the identity
     function is used.
     
-        map(null, lst) -> lst.slice();
+        ``map(null, lst)`` -> ``lst.slice()``;
 
-    If fn is null, and more than one sequence is given as arguments,
-    then the Array function is used, making it equivalent to zip.
+    If ``fn`` is ``null``, and more than one sequence is given as arguments,
+    then the ``Array`` function is used, making it equivalent to ``zip``.
 
-        map(null, p, q, ...)
-            -> zip(p, q, ...)
-            -> [[p0, q0, ...], [p1, q1, ...], ...];
+        ``map(null, p, q, ...)``
+            -> ``zip(p, q, ...)``
+            -> ``[[p0, q0, ...], [p1, q1, ...], ...];``
 
-xfilter(fn, obj[, ...]):
-    Returns a new array composed of the arguments where
-    fn(obj) returns a true value.
+``xfilter(fn, obj[, ...])``:
+    Returns a new ``Array`` composed of the arguments where
+    ``fn(obj)`` returns a true value.
 
-    If fn is null, operator.truth will be used.
+    If ``fn`` is ``null``, ``operator.truth`` will be used.
 
-filter(fn, lst):
-    Returns a new array composed of elements from lst where
-    fn(lst[i]) returns a true value.
+``filter(fn, lst)``:
+    Returns a new ``Array`` composed of all elements from ``lst`` where
+    ``fn(lst[i])`` returns a true value.
 
-    If fn is null, operator.truth will be used.
+    If ``fn`` is ``null``, ``operator.truth`` will be used.
 
-bind(func, self):
-    Return a copy of func bound to self.  This means whenever
-    and however the return value is called, "this" will always
-    reference the given "self".
+``bind(func, self)``:
+    Return a copy of ``func`` bound to ``self``.  This means whenever
+    and however the returned function is called, ``this`` will always
+    reference the given ``self``.
 
-    Calling bind(func, self) on an already bound function will
-    return a new function that is bound to the new self.
+    Calling ``bind(func, self)`` on an already bound function will
+    return a new function that is bound to the new ``self``!
 
-bindMethods(self):
-    Bind all functions in self to self,
+``bindMethods(self)``:
+    Bind all methods of ``self`` present on self to ``self``,
     which gives you a semi-Pythonic sort of instance.
 
-registerComparator(name, check, comparator[, override]):
-    Register a comparator for use with the compare function.
+``registerComparator(name, check, comparator[, override])``:
+    Register a comparator for use with ``compare``.
 
-    name should be a unique identifier describing the comparator.
+    ``name`` should be a unique identifier describing the comparator.
 
-    check is a function (a, b) that returns true if a and b
-    can be compared with comparator.
+    ``check`` is a ``function(a, b)`` that returns ``true`` if ``a`` and ``b``
+    can be compared with ``comparator``.
 
-    comparator is a function (a, b) that returns:
+    ``comparator`` is a ``function(a, b)`` that returns:
 
     +-------+-----------+
     | Value | Condition |
@@ -266,23 +506,26 @@ registerComparator(name, check, comparator[, override]):
     | -1    | a < b     |
     +-------+-----------+
 
-    comparator is guaranteed to only be called if check(a, b)
-    returns a true value.
+    ``comparator`` is guaranteed to only be called if ``check(a, b)``
+    returns a ``true`` value.
 
-    If override is given and true, then it will be made the
+    If ``override`` is ``true``, then it will be made the
     highest precedence comparator.  Otherwise, the lowest.
 
-compare(a, b):
+``compare(a, b)``:
     Compare two objects in a sensible manner.  Currently this is:
     
-        1. undefined and null compare equal to each other
-        2. undefined and null are less than anything else
-        3. comparators registered with registerComparator are
+        1. ``undefined`` and ``null`` compare equal to each other
+        2. ``undefined`` and ``null`` are less than anything else
+        3. If JavaScript says ``a == b``, then we trust it
+        4. comparators registered with registerComparator are
            used to find a good comparator.  Built-in comparators
-           are currently available for arrays and dates.
-        4. Otherwise hope that the built-in comparison operators
+           are currently available for ``Array``-like and ``Date``-like
+           objects.
+        5. Otherwise hope that the built-in comparison operators
            do something useful, which should work for numbers
            and strings.
+        6. If neither ``a < b`` or ``a > b``, then throw a ``TypeError``
 
     Returns what one would expect from a comparison function:
 
@@ -296,48 +539,51 @@ compare(a, b):
     | -1    | a < b     |
     +-------+-----------+
 
-registerRepr(name, check, wrap[, override]):
-    Register a repr function.  repr functions should take
-    one argument and return a string representation of it
+``registerRepr(name, check, wrap[, override])``:
+    Register a programmer representation function.
+    ``repr`` functions should take one argument and 
+    return a string representation of it
     suitable for developers, primarily used when debugging.
 
-    If override is given, it is used as the highest priority
+    If ``override`` is given, it is used as the highest priority
     repr, otherwise it will be used as the lowest.
 
-repr(o):
-    Return a "programmer representation" for an object
+``repr(o)``:
+    Return a programmer representation for an object.  See the
+    `Programmer Representation`_ overview for more information about this
+    function.
 
-objEqual(a, b):
+``objEqual(a, b)``:
     Compare the equality of two objects.
 
-arrayEqual(self, arr):
+``arrayEqual(self, arr)``:
     Compare two arrays for equality, with a fast-path for length
     differences.
 
-concat(lst[, ...]):
+``concat(lst[, ...])``:
     Concatenates all given array-like arguments and returns
-    a new array::
+    a new ``Array``::
 
         var lst = concat(["1","3","5"], ["2","4","6"]);
-        assert(lst.toString() == "1,3,5,2,4,6");
+        assert( lst.toString() == "1,3,5,2,4,6" );
 
-keyComparator(key[, ...]):
-    A comparator factory that compares a[key] with b[key].
-    e.g.:
+``keyComparator(key[, ...])``:
+    A comparator factory that compares ``a[key]`` with ``b[key]``.
+    e.g.::
 
         var lst = ["a", "bbb", "cc"];
         lst.sort(keyComparator("length"));
-        assert(lst.toString() == "a,cc,bbb");
+        assert( lst.toString() == "a,cc,bbb" );
 
-reverseKeyComparator(key):
-    A comparator factory that compares a[key] with b[key] in reverse.
-    e.g.:
+``reverseKeyComparator(key)``:
+    A comparator factory that compares ``a[key]`` with ``b[key]`` in reverse.
+    e.g.::
 
         var lst = ["a", "bbb", "cc"];
         lst.sort(reverseKeyComparator("length"));
         assert(lst.toString() == "bbb,cc,aa");
 
-partial(func, arg[, ...]):
+``partial(func, arg[, ...])``:
     Return a partially applied function, e.g.::
 
         addNumbers = function (a, b) {
@@ -348,42 +594,51 @@ partial(func, arg[, ...]):
 
         assert(addOne(2) == 3);
 
-    NOTE: This could be used to implement, but is NOT currying.
+    *NOTE*: This could be used to implement, but is NOT currying.
  
-listMinMax(which, lst):
-    If which == -1 then it will return the smallest
+``listMinMax(which, lst)``:
+    If ``which == -1`` then it will return the smallest
+    element of the ``Array``-like ``lst``.  This is also available
+    as ``listMin(lst)``.
+
+    If ``which == 1`` then it will return the largest
     element of the array-like lst.  This is also available
-    as::
+    as ``listMax(list)``.
 
-        listMin(lst)
+``listMin(lst)``:
+    Return the smallest element of an ``Array``-like object, as determined
+    by ``compare``.  This is a special form of ``listMinMax``, specifically
+    ``partial(listMinMax, -1)``.
 
+``listMax(lst)``:
+    Return the largest element of an ``Array``-like object, as determined
+    by ``compare``.  This is a special form of ``listMinMax``, specifically
+    ``partial(listMinMax, 1)``.
 
-    If which == 1 then it will return the largest
-    element of the array-like lst.  This is also available
-    as::
+``objMax(obj[, ...])``:
+    Return the maximum object out of the given arguments.  This is similar to
+    ``listMax``, except is uses the arguments instead of a given
+    ``Array``-like.
         
-        listMax(list)
+``objMin(obj[, ...])``:
+    Return the minimum object out of the given arguments.  This is similar
+    to ``listMin``, except it uses the arguments instead of a given
+    ``Array``-like.
 
-objMax(obj[, ...]):
-    Return the maximum object out of the given arguments
-        
-objMin(obj[, ...]):
-    Return the minimum object out of the given arguments
-
-nodeWalk(node, visitor):
+``nodeWalk(node, visitor)``:
     Non-recursive generic node walking function (e.g. for a DOM)
 
-    node:
+    ``node``:
         The initial node to be searched.
 
-    visitor:
+    ``visitor``:
         The visitor function, will be called as
-        visitor(node), and should return an Array-like
-        of notes to be searched next (e.g.  node.childNodes).
+        ``visitor(node)``, and should return an ``Array``-like
+        of nodes to be searched next (e.g.  ``node.childNodes``).
 
-nameFunctions(namespace):
-    Given a namespace with a NAME property, find all functions in it and
-    give them nice NAME properties too.  e.g.::
+``nameFunctions(namespace)``:
+    Given a namespace with a ``NAME`` property, find all functions in it and
+    give them nice ``NAME`` properties too (for use with ``repr``).  e.g.::
 
         namespace = {
             NAME: "Awesome",
