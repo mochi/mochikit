@@ -5,6 +5,7 @@ Name
 
 MochiKit.Base - functional programming and useful comparisons
 
+
 Synopsis
 ========
 
@@ -60,10 +61,12 @@ Python users will feel at home with MochiKit.Base, as the facilities are
 quite similar to those available as part of Python and the Python standard
 library.
 
+
 Dependencies
 ============
 
 None.
+
 
 Overview
 ========
@@ -85,6 +88,7 @@ function for ``Array.prototype.sort``, and is often used in that context.
 Defining new comparators for the ``compare`` function to use is done
 by adding an entry to its ``AdapterRegistry`` with the ``registerComparator``
 function.
+
 
 Programmer Representation
 -------------------------
@@ -114,6 +118,7 @@ objects that you didn't create (e.g., from a script you didn't write, or a
 built-in object), it is instead recommended that you create an adapter
 with ``registerRepr``.
 
+
 Adapter Registries
 ------------------
 
@@ -137,6 +142,7 @@ perform "cheap" checks of an object's type or contents, before the
 Wrap functions take the same arguments as check functions and do some
 operation, such as creating a programmer representation or comparing
 both arguments.
+
 
 Convenience Functions
 ---------------------
@@ -162,6 +168,7 @@ Need to walk some tree of objects and manipulate or find something in it?
 A DOM element tree perhaps?  Use ``nodeWalk(node, visitor)``!
 
 There's plenty more, so check out the `API Reference`_ below.
+
 
 Functional Programming
 ----------------------
@@ -205,6 +212,7 @@ blown iterators, ``range``, ``reduce``, and a near-complete port of Python's
 
 .. _`MochiKit.Iter`: Iter.html
 
+
 Bound and Partial Functions
 ---------------------------
 
@@ -230,6 +238,7 @@ JavaScript!
 
 .. _`MochiKit.DOM`: DOM.html
 
+
 API Reference
 =============
 
@@ -238,6 +247,7 @@ Errors
 
 ``NotFound``:
     A singleton error raised when no suitable adapter is found
+
 
 Constructors
 ------------
@@ -271,13 +281,16 @@ Functions
 ---------
 
 ``extend(self, obj[, skip])``:
+
     Mutate an array by extending it with an array-like obj,
     starting with the "skip" index of obj.  If null is given
     as the initial array, a new one will be created.
 
     This mutates *and returns* the given array, be warned.
 
+
 ``update(self, obj[, ...])``:
+
     Mutate an object by replacing its key:value pairs with those
     from other object(s).  Key:value pairs from later objects will
     overwrite those from earlier objects.
@@ -289,7 +302,9 @@ Functions
     A version of this function that creates a new object is available
     as ``merge(a, b[, ...])``
 
+
 ``merge(obj[, ...])``:
+
     Create a new instance of ``Object`` that contains every property
     from all given objects.  If a property is defined on more than
     one of the objects, the last property is used.
@@ -297,7 +312,9 @@ Functions
     This is a special form of ``update(self, obj[, ...])``, specifically,
     it is defined as ``partial(update, null)``.
 
+
 ``setdefault(self, obj[, ...])``:
+
     Mutate an object by adding all properties from other object(s)
     that it does not already have set.
     
@@ -306,15 +323,21 @@ Functions
 
     This mutates *and returns* the given ``self``, be warned.
 
+
 ``keys(obj)``:
+
     Return an ``Array`` of the property names of an object
     (in the order determined by ``for propName in obj``).
     
+
 ``items(obj)``:
+
     Return an ``Array`` of ``[propertyName, propertyValue]`` pairs for the
     given ``obj`` (in the order deterined by ``for propName in obj``).
 
-operator:
+
+``operator``:
+
     A table of JavaScript's operators for usage with ``map``, ``filter``, etc.
 
     Unary Logic Operators:
@@ -411,42 +434,62 @@ operator:
     | contains(a, b) | b in a               | Has property (note order)     |
     +----------------+----------------------+-------------------------------+
 
+
 ``forward(name)``:
+
     Returns a function that forwards a method call to ``this.name(...)``
 
+
 ``itemgetter(name)``:
+
     Returns a ``function(obj)`` that returns ``obj[name]``
 
+
 ``typeMatcher(typ[, ...])``:
+
     Given a set of types (as string arguments),
     returns a ``function(obj[, ...])`` that will return ``true`` if the
     types of the given arguments are all members of that set.
 
+
 ``isNull(obj[, ...])``:
+
     Returns ``true`` if all arguments are ``null``.
 
+
 ``isUndefinedOrNull(obj[, ...])``:
+
     Returns ``true`` if all arguments are undefined or ``null``
 
+
 ``isNotEmpty(obj[, ...])``:
+
     Returns ``true`` if all the given ``Array``-like or string arguments
     are not empty ``(obj.length > 0)``
 
+
 ``isArrayLike(obj[, ...])``:
+
     Returns ``true`` if all given arguments are ``Array``-like (have a
     ``.length`` property and ``typeof(obj) == 'object'``)
 
+
 ``isDateLike(obj[, ...])``:
+
     Returns ``true`` if all given arguments are ``Date``-like (have a 
     ``.getTime()`` method)
 
+
 ``xmap(fn, obj[, ...)``:
+
     Return a new ``Array`` composed of ``fn(obj)`` for every ``obj``
     given as an argument.
 
     If ``fn`` is ``null``, ``operator.identity`` is used.
 
+
 ``map(fn, lst[, ...])``:
+
     Return a new array composed of the results of ``fn(x)`` for every ``x`` in
     ``lst``.
 
@@ -462,19 +505,25 @@ operator:
             -> ``zip(p, q, ...)``
             -> ``[[p0, q0, ...], [p1, q1, ...], ...];``
 
+
 ``xfilter(fn, obj[, ...])``:
+
     Returns a new ``Array`` composed of the arguments where
     ``fn(obj)`` returns a true value.
 
     If ``fn`` is ``null``, ``operator.truth`` will be used.
 
+
 ``filter(fn, lst)``:
+
     Returns a new ``Array`` composed of all elements from ``lst`` where
     ``fn(lst[i])`` returns a true value.
 
     If ``fn`` is ``null``, ``operator.truth`` will be used.
 
+
 ``bind(func, self)``:
+
     Return a copy of ``func`` bound to ``self``.  This means whenever
     and however the returned function is called, ``this`` will always
     reference the given ``self``.
@@ -482,11 +531,15 @@ operator:
     Calling ``bind(func, self)`` on an already bound function will
     return a new function that is bound to the new ``self``!
 
+
 ``bindMethods(self)``:
+
     Bind all methods of ``self`` present on self to ``self``,
     which gives you a semi-Pythonic sort of instance.
 
+
 ``registerComparator(name, check, comparator[, override])``:
+
     Register a comparator for use with ``compare``.
 
     ``name`` should be a unique identifier describing the comparator.
@@ -512,7 +565,9 @@ operator:
     If ``override`` is ``true``, then it will be made the
     highest precedence comparator.  Otherwise, the lowest.
 
+
 ``compare(a, b)``:
+
     Compare two objects in a sensible manner.  Currently this is:
     
         1. ``undefined`` and ``null`` compare equal to each other
@@ -539,7 +594,9 @@ operator:
     | -1    | a < b     |
     +-------+-----------+
 
+
 ``registerRepr(name, check, wrap[, override])``:
+
     Register a programmer representation function.
     ``repr`` functions should take one argument and 
     return a string representation of it
@@ -548,26 +605,36 @@ operator:
     If ``override`` is given, it is used as the highest priority
     repr, otherwise it will be used as the lowest.
 
+
 ``repr(o)``:
+
     Return a programmer representation for an object.  See the
     `Programmer Representation`_ overview for more information about this
     function.
 
+
 ``objEqual(a, b)``:
+
     Compare the equality of two objects.
 
+
 ``arrayEqual(self, arr)``:
+
     Compare two arrays for equality, with a fast-path for length
     differences.
 
+
 ``concat(lst[, ...])``:
+
     Concatenates all given array-like arguments and returns
     a new ``Array``::
 
         var lst = concat(["1","3","5"], ["2","4","6"]);
         assert( lst.toString() == "1,3,5,2,4,6" );
 
+
 ``keyComparator(key[, ...])``:
+
     A comparator factory that compares ``a[key]`` with ``b[key]``.
     e.g.::
 
@@ -575,7 +642,9 @@ operator:
         lst.sort(keyComparator("length"));
         assert( lst.toString() == "a,cc,bbb" );
 
+
 ``reverseKeyComparator(key)``:
+
     A comparator factory that compares ``a[key]`` with ``b[key]`` in reverse.
     e.g.::
 
@@ -583,7 +652,9 @@ operator:
         lst.sort(reverseKeyComparator("length"));
         assert(lst.toString() == "bbb,cc,aa");
 
+
 ``partial(func, arg[, ...])``:
+
     Return a partially applied function, e.g.::
 
         addNumbers = function (a, b) {
@@ -596,7 +667,9 @@ operator:
 
     *NOTE*: This could be used to implement, but is NOT currying.
  
+
 ``listMinMax(which, lst)``:
+
     If ``which == -1`` then it will return the smallest
     element of the ``Array``-like ``lst``.  This is also available
     as ``listMin(lst)``.
@@ -605,27 +678,37 @@ operator:
     element of the array-like lst.  This is also available
     as ``listMax(list)``.
 
+
 ``listMin(lst)``:
+
     Return the smallest element of an ``Array``-like object, as determined
     by ``compare``.  This is a special form of ``listMinMax``, specifically
     ``partial(listMinMax, -1)``.
 
+
 ``listMax(lst)``:
+
     Return the largest element of an ``Array``-like object, as determined
     by ``compare``.  This is a special form of ``listMinMax``, specifically
     ``partial(listMinMax, 1)``.
 
+
 ``objMax(obj[, ...])``:
+
     Return the maximum object out of the given arguments.  This is similar to
     ``listMax``, except is uses the arguments instead of a given
     ``Array``-like.
         
+
 ``objMin(obj[, ...])``:
+
     Return the minimum object out of the given arguments.  This is similar
     to ``listMin``, except it uses the arguments instead of a given
     ``Array``-like.
 
+
 ``nodeWalk(node, visitor)``:
+
     Non-recursive generic node walking function (e.g. for a DOM)
 
     ``node``:
@@ -636,7 +719,9 @@ operator:
         ``visitor(node)``, and should return an ``Array``-like
         of nodes to be searched next (e.g.  ``node.childNodes``).
 
+
 ``nameFunctions(namespace)``:
+
     Given a namespace with a ``NAME`` property, find all functions in it and
     give them nice ``NAME`` properties too (for use with ``repr``).  e.g.::
 
@@ -647,10 +732,12 @@ operator:
         nameFunctions(namespace);
         assert( namespace.Dude.NAME == 'Awesome.Dude' );
 
+
 Authors
 =======
 
 - Bob Ippolito <bob@redivi.com>
+
 
 Copyright
 =========
