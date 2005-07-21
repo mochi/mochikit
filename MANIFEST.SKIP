@@ -1,5 +1,8 @@
 ^_build
 ^Build$
+^Build.PL$
+^tools$
+^scripts$
 ^blib
 ~$
 \.bak$
