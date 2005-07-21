@@ -222,12 +222,16 @@ Functions
 
 
 ``range([start,] stop[, step])``:
+
     Return an iterator containing an arithmetic progression of integers.
+
     ``range(i, j)`` returns ``iter([i, i + 1, i + 2, ..., j - 1]);``
+
     ``start`` (!) defaults to ``0``.  When ``step`` is given, it specifies the
-    increment (or decrement).  For example, ``range(4)`` returns
-    ``iter([0, 1, 2, 3])``.  The end point is omitted!  These are exactly the
-    valid elements for an array of 4 elements.
+    increment (or decrement).  The end point is omitted!
+    
+    For example, ``range(4)`` returns ``iter([0, 1, 2, 3])``.
+    This iterates over exactly the valid indexes for an array of 4 elements.
         
 
 ``sum(iterable, start=0)``:

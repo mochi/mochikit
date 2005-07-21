@@ -344,8 +344,8 @@ Functions
     Change the ``style.display`` for the given element(s).  Usually
     used as the partial forms:
 
-        ``showElement(element, ...);``
-        ``hideElement(element, ...);``
+    - ``showElement(element, ...);``
+    - ``hideElement(element, ...);``
 
     Elements are looked up with ``getElement``, so string identifiers are
     acceptable.
@@ -353,14 +353,16 @@ Functions
 
 ``showElement(element, ...)``:
 
-    Partial form of ``setDisplayForElement``, specifically:
-    ``partial(setDisplayForElement("block"))``.
+    Partial form of ``setDisplayForElement``, specifically::
+
+        partial(setDisplayForElement("block"))
 
 
 ``hideElement(element, ...);``
 
-    Partial form of ``setDisplayForElement``, specifically:
-    ``partial(setDisplayForElement("none"))``.
+    Partial form of ``setDisplayForElement``, specifically::
+
+        partial(setDisplayForElement("none"))
 
 
 ``scrapeText(node)``:

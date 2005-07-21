@@ -192,15 +192,15 @@ reduce(operator.add, [1, 2, 3, 4, 5])
 sum([1, 2, 3, 4, 5])
 </pre>
 </blockquote>
-<dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">range([start,]</span> <span class="pre">stop[,</span> <span class="pre">step])</span></tt>:</dt>
-<dd>Return an iterator containing an arithmetic progression of integers.
-<tt class="docutils literal"><span class="pre">range(i,</span> <span class="pre">j)</span></tt> returns <tt class="docutils literal"><span class="pre">iter([i,</span> <span class="pre">i</span> <span class="pre">+</span> <span class="pre">1,</span> <span class="pre">i</span> <span class="pre">+</span> <span class="pre">2,</span> <span class="pre">...,</span> <span class="pre">j</span> <span class="pre">-</span> <span class="pre">1]);</span></tt>
-<tt class="docutils literal"><span class="pre">start</span></tt> (!) defaults to <tt class="docutils literal"><span class="pre">0</span></tt>.  When <tt class="docutils literal"><span class="pre">step</span></tt> is given, it specifies the
-increment (or decrement).  For example, <tt class="docutils literal"><span class="pre">range(4)</span></tt> returns
-<tt class="docutils literal"><span class="pre">iter([0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3])</span></tt>.  The end point is omitted!  These are exactly the
-valid elements for an array of 4 elements.</dd>
-</dl>
+<p><tt class="docutils literal"><span class="pre">range([start,]</span> <span class="pre">stop[,</span> <span class="pre">step])</span></tt>:</p>
+<blockquote>
+<p>Return an iterator containing an arithmetic progression of integers.</p>
+<p><tt class="docutils literal"><span class="pre">range(i,</span> <span class="pre">j)</span></tt> returns <tt class="docutils literal"><span class="pre">iter([i,</span> <span class="pre">i</span> <span class="pre">+</span> <span class="pre">1,</span> <span class="pre">i</span> <span class="pre">+</span> <span class="pre">2,</span> <span class="pre">...,</span> <span class="pre">j</span> <span class="pre">-</span> <span class="pre">1]);</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">start</span></tt> (!) defaults to <tt class="docutils literal"><span class="pre">0</span></tt>.  When <tt class="docutils literal"><span class="pre">step</span></tt> is given, it specifies the
+increment (or decrement).  The end point is omitted!</p>
+<p>For example, <tt class="docutils literal"><span class="pre">range(4)</span></tt> returns <tt class="docutils literal"><span class="pre">iter([0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3])</span></tt>.
+This iterates over exactly the valid indexes for an array of 4 elements.</p>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">sum(iterable,</span> <span class="pre">start=0)</span></tt>:</p>
 <blockquote>
 <p>Returns the sum of a sequence of numbers plus the value

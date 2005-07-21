@@ -246,6 +246,7 @@ Errors
 ------
 
 ``NotFound``:
+
     A singleton error raised when no suitable adapter is found
 
 
@@ -253,14 +254,19 @@ Constructors
 ------------
 
 ``NamedError``:
+
     Convenience constructor for creating new errors (e.g. ``NotFound``)
 
+
 ``AdapterRegistry``:
+    
     A registry to facilitate adaptation.
 
     All check/wrap functions in this registry should be of the same arity.
 
+
 ``AdapterRegistry.prototype.register(name, check, wrap[, override])``:
+
     The check function should return true if the given arguments are
     appropriate for the wrap function.
 
@@ -268,12 +274,16 @@ Constructors
     highest priority.  Otherwise, it will be the lowest priority
     adapter.
 
+
 ``AdapterRegistry.prototype.match(obj[, ...])``:
+
     Find an adapter for the given arguments.
     
     If no suitable adapter is found, throws ``NotFound``.
 
+
 ``AdapterRegistry.prototype.unregister(name)``:
+
     Remove a named adapter from the registry
 
 

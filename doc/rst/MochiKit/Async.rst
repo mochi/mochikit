@@ -5,6 +5,7 @@ Name
 
 MochiKit.Async - manage asynchronous tasks
 
+
 Synopsis
 ========
 
@@ -34,12 +35,14 @@ MochiKit.Async provides facilities to manage asynchronous
 (as in AJAX [1]_) tasks. The model for asynchronous computation
 used in this module is heavily inspired by Twisted [2]_.
 
+
 Dependencies
 ============
 
 - `MochiKit.Base`_
 
 .. _`MochiKit.Base`: Base.html
+
 
 Overview
 ========
@@ -101,30 +104,41 @@ Errors
 ------
 
 ``AlreadyCalledError``:
+
     Thrown by a ``Deferred`` if ``.callback`` or
     ``.errback`` are called more than once.
 
+
 ``CancelledError``:
+
     Thrown by a ``Deferred`` when it is cancelled,
     unless a canceller is present and throws something else.
 
+
 ``BrowserComplianceError``:
+
     Thrown when the JavaScript runtime is not capable of performing
     the given function.  Currently, this happens if the browser
     does not support ``XMLHttpRequest``.
 
+
 ``GenericError``:
+
     Results passed to ``.fail`` or ``.errback`` of a ``Deferred``
     are wrapped by this ``Error`` if ``!(result instanceof Error)``.
 
+
 ``XMLHttpRequestError``:
+
     Thrown when an ``XMLHttpRequest`` does not complete successfully
     for any reason.
+
 
 Constructors
 ------------
 
 ``Deferred()``:
+
     Encapsulates a sequence of callbacks in response to a value that
     may not yet be available.  This is modeled after the Deferred class
     from Twisted [3]_.
@@ -212,7 +226,9 @@ Constructors
     returns a different ``Error``), so errbacks should be prepared to handle
     that ``Error`` gracefully for cancellable ``Deferreds``.
 
+
 ``Deferred.prototype.cancel()``:
+
     Cancels a ``Deferred`` that has not yet received a value,
     or is waiting on another ``Deferred`` as its value.
 
@@ -221,13 +237,17 @@ Constructors
     was no canceller, then the errback chain is started
     with ``CancelledError``.
         
+
 ``Deferred.prototype.callback([result])``:
+
     Begin the callback sequence with a non-``Error`` result.
     
     *NOTE*: Either ``.callback`` or ``.errback`` should
     be called exactly once on a ``Deferred``.
 
+
 ``Deferred.prototype.errback([result])``:
+
     Begin the callback sequence with an error result.  If 
     ``!(result instanceof Error)``, it will be wrapped
     with ``GenericError``.
@@ -235,18 +255,26 @@ Constructors
     *NOTE*: Either ``.callback`` or ``.errback`` should
     be called exactly once on a ``Deferred``.
 
+
 ``Deferred.prototype.addBoth(func)``:
+
     Add the same function as both a callback and an errback as the
     next element on the callback sequence.  This is useful for code
     that you want to guarantee to run, e.g. a finalizer.
 
+
 ``Deferred.prototype.addCallback(func)``:
+
     Add a single callback to the end of the callback sequence.
 
+
 ``Deferred.prototype.addErrback(func)``:
+
     Add a single errback to the end of the callback sequence.
 
+
 ``Deferred.prototype.addCallbacks(callback, errback)``:
+
     Add separate callback and errback to the end of the callback
     sequence.  Either callback or errback may be ``null``,
     but not both.
@@ -256,6 +284,7 @@ Functions
 ---------
 
 ``evalJSONRequest(req)``:
+
     Evaluate a JSON [4]_ ``XMLHttpRequest``
 
     ``req``:
@@ -264,7 +293,9 @@ Functions
     ``returns``:
         A JavaScript object
 
+
 ``succeed([result])``:
+
     Return a Deferred that has already had ``.callback(result)`` called.
 
     This is useful when you're writing synchronous code to an asynchronous
@@ -281,7 +312,9 @@ Functions
     returns:
         a new ``Deferred``
 
+
 ``fail([result])``:
+
     Return a Deferred that has already had '.errback(result)' called.
 
     See succeed's documentation for rationale.
@@ -292,7 +325,9 @@ Functions
     returns:
         a new ``Deferred``
 
+
 ``doSimpleXMLHttpRequest(url)``:
+
     Perform a simple ``XMLHttpRequest`` and wrap it with a
     ``Deferred`` that may be cancelled.
 
@@ -303,7 +338,9 @@ Functions
         ``Deferred`` that will callback with the ``XMLHttpRequest``
         instance on success
     
+    
 ``loadJSONDoc(url)``:
+
     Do a simple ``XMLHttpRequest`` to a URL and get the response
     as a JSON [4]_ document.
 
@@ -314,7 +351,9 @@ Functions
         ``Deferred`` that will callback with the evaluated JSON [4]_
         response upon successful ``XMLHttpRequest``
 
+
 ``getXMLHttpRequest()``:
+
     Return an ``XMLHttpRequest`` compliant object for the current
     platform.
 
@@ -333,6 +372,7 @@ See Also
 .. [3] Twisted Deferred Reference: http://twistedmatrix.com/projects/core/documentation/howto/defer.html
 .. [4] JSON, JavaScript Object Notation: http://json.org/
 
+
 ToDo
 ====
 
@@ -341,10 +381,12 @@ ToDo
 - ``doSimpleXMLHttpRequest`` equivalent that accepts a request
   instead of a URL
 
+
 Authors
 =======
 
 - Bob Ippolito <bob@redivi.com>
+
 
 Copyright
 =========
