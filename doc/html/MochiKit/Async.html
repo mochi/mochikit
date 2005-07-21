@@ -10,38 +10,94 @@
 <div class="document" id="mochikit-async">
 <h1 class="title">MochiKit.Async</h1>
 <!-- -*- mode: rst -*- -->
+<p><tt class="docutils literal"><span class="pre">MochiKit.Async</span></tt> provides facilities to manage asynchronous
+(as in AJAX <a class="footnote-reference" href="#id7" id="id1" name="id1">[1]</a>) tasks.  The model for asynchronous
+computation used in this module is heavily inspired by
+Twisted <a class="footnote-reference" href="#id8" id="id2" name="id2">[2]</a>.</p>
+<!-- contents: Table of Contents -->
+<div class="section" id="overview">
+<h1><a name="overview">Overview</a></h1>
+<div class="section" id="deferred">
+<h2><a name="deferred">Deferred</a></h2>
+<p>The Deferred constructor encapsulates a single value that
+is not available yet.  The most important example of this
+in the context of a web browser would be an <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>
+to a server.  The importance of the Deferred is that it
+allows a consistent API to be exposed for all asynchronous
+computations that occur exactly once.</p>
+<p>The producer of the Deferred is responsible for doing all
+of the complicated work behind the scenes.  This often
+means waiting for a timer to fire, or waiting for an event
+(e.g. <tt class="docutils literal"><span class="pre">onreadystatechange</span></tt> of <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>).  
+It could also be coordinating several events (e.g.
+<tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> with a timeout, or several Deferreds
+(e.g. fetching a set of XML documents that should be 
+processed at the same time).</p>
+<p>Since these sorts of tasks do not respond immediately, the
+producer of the Deferred does the following steps before
+returning to the consumer:</p>
+<ol class="arabic simple">
+<li>Create a <tt class="docutils literal"><span class="pre">new</span> <span class="pre">Deferred();</span></tt> object and keep a reference
+to it, because it will be needed later when the value is
+ready.</li>
+<li>Setup the conditions to create the value requested (e.g.
+create a new <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>, set its 
+<tt class="docutils literal"><span class="pre">onreadystatechange</span></tt>).</li>
+<li>Return the Deferred object.</li>
+</ol>
+<p>Since the value is not yet ready, the consumer attaches
+a function to the Deferred that will be called when the
+value is ready.  This is not unlike <tt class="docutils literal"><span class="pre">setTimeout</span></tt>, or
+other similar facilities you may already be familiar with.
+The consumer can also attach an &quot;errback&quot; to the Deferred,
+which is a callback for error handling.</p>
+<p>When the value is ready, the producer simply calls
+<tt class="docutils literal"><span class="pre">myDeferred.callback(theValue)</span></tt>.  If an error occurred,
+it should call <tt class="docutils literal"><span class="pre">myDeferred.errback(theValue)</span></tt> instead.
+As soon as this happens, the callback that the consumer
+attached to the Deferred is called with <tt class="docutils literal"><span class="pre">theValue</span></tt>
+as the only argument.</p>
+<p>There are quite a few additional &quot;advanced&quot; features
+baked into Deferred, such as cancellation and 
+callback chains, so take a look at the API
+reference if you would like to know more!</p>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h1><a name="api-reference">API Reference</a></h1>
 <div class="section" id="errors">
-<h1><a name="errors">Errors</a></h1>
+<h2><a name="errors">Errors</a></h2>
 <dl class="docutils">
-<dt>AlreadyCalledError:</dt>
-<dd>Thrown by the Deferred if callback or errback happens
-after it was already fired.</dd>
-<dt>CancelledError:</dt>
-<dd>Thrown by the Deferred cancellation mechanism.</dd>
-<dt>BrowserComplianceError:</dt>
+<dt><tt class="docutils literal"><span class="pre">AlreadyCalledError</span></tt>:</dt>
+<dd>Thrown by a <tt class="docutils literal"><span class="pre">Deferred</span></tt> if <tt class="docutils literal"><span class="pre">.callback</span></tt> or
+<tt class="docutils literal"><span class="pre">.errback</span></tt> are called more than once.</dd>
+<dt><tt class="docutils literal"><span class="pre">CancelledError</span></tt>:</dt>
+<dd>Thrown by a <tt class="docutils literal"><span class="pre">Deferred</span></tt> when it is cancelled,
+unless a canceller is present and throws something else.</dd>
+<dt><tt class="docutils literal"><span class="pre">BrowserComplianceError</span></tt>:</dt>
 <dd>Thrown when the JavaScript runtime is not capable of performing
-the given function.  Technically, this should really never be
-raised because a non-conforming JavaScript runtime probably
-isn't going to support exceptions in the first place.</dd>
-<dt>GenericError:</dt>
-<dd>Objects passed to fail or errback are wrapped by GenericError
-if they are not instanceof Error</dd>
-<dt>XMLHttpRequestError:</dt>
-<dd>Raised when an XMLHttpRequest does not complete for any reason.</dd>
+the given function.  Currently, this happens if the browser
+does not support <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">GenericError</span></tt>:</dt>
+<dd>Results passed to <tt class="docutils literal"><span class="pre">.fail</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> of a <tt class="docutils literal"><span class="pre">Deferred</span></tt>
+are wrapped by this <tt class="docutils literal"><span class="pre">Error</span></tt> if <tt class="docutils literal"><span class="pre">!(result</span> <span class="pre">instanceof</span> <span class="pre">Error)</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">XMLHttpRequestError</span></tt>:</dt>
+<dd>Thrown when an <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> does not complete successfully
+for any reason.</dd>
 </dl>
 </div>
 <div class="section" id="constructors">
-<h1><a name="constructors">Constructors</a></h1>
+<h2><a name="constructors">Constructors</a></h2>
 <dl class="docutils">
-<dt>Deferred():</dt>
+<dt><tt class="docutils literal"><span class="pre">Deferred()</span></tt>:</dt>
 <dd>Encapsulates a sequence of callbacks in response to a value that
 may not yet be available.  This is modeled after the Deferred class
-from <a class="reference" href="http://twistedmatrix.com/">Twisted</a>.</dd>
+from Twisted <a class="footnote-reference" href="#id9" id="id3" name="id3">[3]</a>.</dd>
 </dl>
 <blockquote>
 <p>Why do we want this?  JavaScript has no threads, and even if it did,
 threads are hard.  Deferreds are a way of abstracting non-blocking
-events, such as the final response to an XMLHttpRequest.</p>
+events, such as the final response to an <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>.</p>
 <p>The sequence of callbacks is internally represented as a list
 of 2-tuples containing the callback/errback pair.  For example,
 the following call sequence:</p>
@@ -52,7 +108,7 @@ d.addErrback(myErrback);
 d.addBoth(myBoth);
 d.addCallbacks(myCallback, myErrback);
 </pre>
-<p>is translated into a Deferred with the following internal
+<p>is translated into a <tt class="docutils literal"><span class="pre">Deferred</span></tt> with the following internal
 representation:</p>
 <pre class="literal-block">
 [
@@ -62,7 +118,7 @@ representation:</p>
     [myCallback, myErrback]
 ]
 </pre>
-<p>The Deferred also keeps track of its current status (fired).
+<p>The <tt class="docutils literal"><span class="pre">Deferred</span></tt> also keeps track of its current status (fired).
 Its status may be one of three things:</p>
 <blockquote>
 <table border="1" class="docutils">
@@ -88,18 +144,17 @@ Its status may be one of three things:</p>
 </tbody>
 </table>
 </blockquote>
-<p>A Deferred will be in the error state if one of the following
+<p>A <tt class="docutils literal"><span class="pre">Deferred</span></tt> will be in the error state if one of the following
 three conditions are met:</p>
 <ol class="arabic simple">
-<li>The result given to callback or errback is &quot;instanceof&quot; Error</li>
-<li>The previous callback or errback raised an exception while executing</li>
-<li>The previous callback or errback returned a value &quot;instanceof&quot; Error</li>
+<li>The result given to callback or errback is &quot;<tt class="docutils literal"><span class="pre">instanceof</span> <span class="pre">Error</span></tt>&quot;</li>
+<li>The callback or errback thew an <tt class="docutils literal"><span class="pre">Error</span></tt> while executing</li>
 </ol>
-<p>Otherwise, the Deferred will be in the success state.  The state of the
-Deferred determines the next element in the callback sequence to run.</p>
+<p>Otherwise, the <tt class="docutils literal"><span class="pre">Deferred</span></tt> will be in the success state.  The state of the
+<tt class="docutils literal"><span class="pre">Deferred</span></tt> determines the next element in the callback sequence to run.</p>
 <p>When a callback or errback occurs with the example deferred chain, something
 equivalent to the following will happen (imagine that exceptions are caught
-and returned):</p>
+and returned as-is):</p>
 <pre class="literal-block">
 // d.callback(result) or d.errback(result)
 if (!(result instanceof Error)) {
@@ -116,122 +171,151 @@ if (result instanceof Error) {
 }
 </pre>
 <p>The result is then stored away in case another step is added to the
-callback sequence.  Since the Deferred already has a value available,
+callback sequence.  Since the <tt class="docutils literal"><span class="pre">Deferred</span></tt> already has a value available,
 any new callbacks added will be called immediately.</p>
 <p>There are two other &quot;advanced&quot; details about this implementation that are 
 useful:</p>
-<p>Callbacks are allowed to return Deferred instances themselves, so
-you can build complicated sequences of events with ease.</p>
-<p>The creator of the Deferred may specify a canceller.  The canceller
-is a function that will be called if Deferred.cancel is called before
-the Deferred fires.  You can use this to implement clean aborting of an
-XMLHttpRequest, etc.  Note that cancel will fire the deferred with a
-CancelledError (unless your canceller returns another kind of error),
-so the errbacks should be prepared to handle that error for cancellable
-Deferreds.</p>
+<p>Callbacks are allowed to return <tt class="docutils literal"><span class="pre">Deferred</span></tt> instances themselves, so
+you can build complicated sequences of events with (relative) ease.</p>
+<p>The creator of the <tt class="docutils literal"><span class="pre">Deferred</span></tt> may specify a canceller.  The canceller
+is a function that will be called if <tt class="docutils literal"><span class="pre">Deferred.cancel</span></tt> is called
+before the <tt class="docutils literal"><span class="pre">Deferred</span></tt> fires.  You can use this to allow an <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>
+to be cleanly cancelled, for example.  Note that cancel will fire the
+<tt class="docutils literal"><span class="pre">Deferred</span></tt> with a <tt class="docutils literal"><span class="pre">CancelledError</span></tt> (unless your canceller throws or
+returns a different <tt class="docutils literal"><span class="pre">Error</span></tt>), so errbacks should be prepared to handle
+that <tt class="docutils literal"><span class="pre">Error</span></tt> gracefully for cancellable <tt class="docutils literal"><span class="pre">Deferreds</span></tt>.</p>
 </blockquote>
 <dl class="docutils">
-<dt>Deferred.prototype.cancel():</dt>
-<dd><p class="first">Cancels a Deferred that has not yet received a value,
-or is waiting on another Deferred as its value.</p>
+<dt><tt class="docutils literal"><span class="pre">Deferred.prototype.cancel()</span></tt>:</dt>
+<dd><p class="first">Cancels a <tt class="docutils literal"><span class="pre">Deferred</span></tt> that has not yet received a value,
+or is waiting on another <tt class="docutils literal"><span class="pre">Deferred</span></tt> as its value.</p>
 <p class="last">If a canceller is defined, the canceller is called.
-If the canceller did not return an error, or there
+If the canceller did not return an <tt class="docutils literal"><span class="pre">Error</span></tt>, or there
 was no canceller, then the errback chain is started
-with CancelledError.</p>
+with <tt class="docutils literal"><span class="pre">CancelledError</span></tt>.</p>
 </dd>
-<dt>Deferred.prototype.callback([result]):</dt>
-<dd><p class="first">Begin the callback sequence with a non-error result.</p>
-<p class="last">NOTE: callback or errback should only be called once
-on a given Deferred.</p>
+<dt><tt class="docutils literal"><span class="pre">Deferred.prototype.callback([result])</span></tt>:</dt>
+<dd><p class="first">Begin the callback sequence with a non-<tt class="docutils literal"><span class="pre">Error</span></tt> result.</p>
+<p class="last"><em>NOTE</em>: Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
+be called exactly once on a <tt class="docutils literal"><span class="pre">Deferred</span></tt>.</p>
 </dd>
-<dt>Deferred.prototype.errback([result]):</dt>
-<dd><p class="first">Begin the callback sequence with an error result.  If result is not given
-or is not instanceof Error, it will be wrapped with GenericError.</p>
-<p class="last">NOTE: callback or errback should only be called once
-on a given Deferred.</p>
+<dt><tt class="docutils literal"><span class="pre">Deferred.prototype.errback([result])</span></tt>:</dt>
+<dd><p class="first">Begin the callback sequence with an error result.  If 
+<tt class="docutils literal"><span class="pre">!(result</span> <span class="pre">instanceof</span> <span class="pre">Error)</span></tt>, it will be wrapped
+with <tt class="docutils literal"><span class="pre">GenericError</span></tt>.</p>
+<p class="last"><em>NOTE</em>: Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
+be called exactly once on a <tt class="docutils literal"><span class="pre">Deferred</span></tt>.</p>
 </dd>
-<dt>Deferred.prototype.addBoth(func):</dt>
+<dt><tt class="docutils literal"><span class="pre">Deferred.prototype.addBoth(func)</span></tt>:</dt>
 <dd>Add the same function as both a callback and an errback as the
 next element on the callback sequence.  This is useful for code
 that you want to guarantee to run, e.g. a finalizer.</dd>
-<dt>Deferred.prototype.addCallback(func):</dt>
+<dt><tt class="docutils literal"><span class="pre">Deferred.prototype.addCallback(func)</span></tt>:</dt>
 <dd>Add a single callback to the end of the callback sequence.</dd>
-<dt>Deferred.prototype.addErrback(func):</dt>
+<dt><tt class="docutils literal"><span class="pre">Deferred.prototype.addErrback(func)</span></tt>:</dt>
 <dd>Add a single errback to the end of the callback sequence.</dd>
-<dt>Deferred.prototype.addCallbacks(callback, errback):</dt>
+<dt><tt class="docutils literal"><span class="pre">Deferred.prototype.addCallbacks(callback,</span> <span class="pre">errback)</span></tt>:</dt>
 <dd>Add separate callback and errback to the end of the callback
-sequence.  Either callback or errback may be null, but not both.</dd>
+sequence.  Either callback or errback may be <tt class="docutils literal"><span class="pre">null</span></tt>,
+but not both.</dd>
 </dl>
 </div>
 <div class="section" id="functions">
-<h1><a name="functions">Functions</a></h1>
+<h2><a name="functions">Functions</a></h2>
 <dl class="docutils">
-<dt>evalJSONRequest(req):</dt>
-<dd><p class="first">Evaluate a JSON (JavaScript Object Notation) XMLHttpRequest</p>
+<dt><tt class="docutils literal"><span class="pre">evalJSONRequest(req)</span></tt>:</dt>
+<dd><p class="first">Evaluate a JSON <a class="footnote-reference" href="#id10" id="id4" name="id4">[4]</a> <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt></p>
 <dl class="last docutils">
-<dt>req:</dt>
+<dt><tt class="docutils literal"><span class="pre">req</span></tt>:</dt>
 <dd>The request whose responseText is to be evaluated</dd>
-<dt>returns:</dt>
+<dt><tt class="docutils literal"><span class="pre">returns</span></tt>:</dt>
 <dd>A JavaScript object</dd>
 </dl>
 </dd>
-<dt>succeed([result]):</dt>
-<dd><p class="first">Return a Deferred that has already had '.callback(result)' called.</p>
+<dt><tt class="docutils literal"><span class="pre">succeed([result])</span></tt>:</dt>
+<dd><p class="first">Return a Deferred that has already had <tt class="docutils literal"><span class="pre">.callback(result)</span></tt> called.</p>
 <p>This is useful when you're writing synchronous code to an asynchronous
 interface: i.e., some code is calling you expecting a Deferred result,
 but you don't actually need to do anything asynchronous.  Just return
-succeed(theResult).</p>
-<p>See fail for a version of this function that uses a failing Deferred
+<tt class="docutils literal"><span class="pre">succeed(theResult)</span></tt>.</p>
+<p>See fail for a version of this function that uses a failing <tt class="docutils literal"><span class="pre">Deferred</span></tt>
 rather than a successful one.</p>
 <dl class="last docutils">
-<dt>result:</dt>
-<dd>The result to give to the Deferred's 'callback' method.</dd>
+<dt><tt class="docutils literal"><span class="pre">result</span></tt>:</dt>
+<dd>The result to give to the Deferred's <tt class="docutils literal"><span class="pre">.callback(result)</span></tt> method.</dd>
 <dt>returns:</dt>
-<dd>a new Deferred</dd>
+<dd>a new <tt class="docutils literal"><span class="pre">Deferred</span></tt></dd>
 </dl>
 </dd>
-<dt>fail([result]):</dt>
+<dt><tt class="docutils literal"><span class="pre">fail([result])</span></tt>:</dt>
 <dd><p class="first">Return a Deferred that has already had '.errback(result)' called.</p>
 <p>See succeed's documentation for rationale.</p>
 <dl class="last docutils">
-<dt>result:</dt>
-<dd>The same argument that Deferred.errback takes.</dd>
+<dt><tt class="docutils literal"><span class="pre">result</span></tt>:</dt>
+<dd>The result to give to the Deferred's <tt class="docutils literal"><span class="pre">.errback(result)</span></tt> method.</dd>
 <dt>returns:</dt>
-<dd>a new Deferred</dd>
+<dd>a new <tt class="docutils literal"><span class="pre">Deferred</span></tt></dd>
 </dl>
 </dd>
-<dt>doSimpleXMLHttpRequest(url):</dt>
-<dd><p class="first">Perform a simple cancellable XMLHttpRequest using a Deferred.</p>
+<dt><tt class="docutils literal"><span class="pre">doSimpleXMLHttpRequest(url)</span></tt>:</dt>
+<dd><p class="first">Perform a simple <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> and wrap it with a
+<tt class="docutils literal"><span class="pre">Deferred</span></tt> that may be cancelled.</p>
 <dl class="last docutils">
-<dt>url:</dt>
+<dt><tt class="docutils literal"><span class="pre">url</span></tt>:</dt>
 <dd>The URL to GET</dd>
 <dt>returns:</dt>
-<dd>Deferred that will callback with the XMLHttpRequest instance
-on success</dd>
+<dd><tt class="docutils literal"><span class="pre">Deferred</span></tt> that will callback with the <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>
+instance on success</dd>
 </dl>
 </dd>
-<dt>loadJSONDoc(url):</dt>
-<dd><p class="first">Do a simple XMLHttpRequest to a URL and get the response
-as a JSON document.</p>
+<dt><tt class="docutils literal"><span class="pre">loadJSONDoc(url)</span></tt>:</dt>
+<dd><p class="first">Do a simple <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> to a URL and get the response
+as a JSON <a class="footnote-reference" href="#id10" id="id5" name="id5">[4]</a> document.</p>
 <dl class="last docutils">
-<dt>url:</dt>
+<dt><tt class="docutils literal"><span class="pre">url</span></tt>:</dt>
 <dd>The URL to GET</dd>
 <dt>returns:</dt>
-<dd>Deferred that will callback with the evaluated JSON response
-upon successful XMLHttpRequest</dd>
+<dd><tt class="docutils literal"><span class="pre">Deferred</span></tt> that will callback with the evaluated JSON <a class="footnote-reference" href="#id10" id="id6" name="id6">[4]</a>
+response upon successful <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt></dd>
 </dl>
 </dd>
-<dt>XMLHttpRequest():</dt>
-<dd><p class="first">Return an XMLHttpRequest-like object for the current platform.</p>
+<dt><tt class="docutils literal"><span class="pre">getXMLHttpRequest()</span></tt>:</dt>
+<dd><p class="first">Return an <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> compliant object for the current
+platform.</p>
 <p>In order of preference:</p>
 <ul class="last simple">
-<li>new XMLHttpRequest()</li>
-<li>new ActiveXObject('Msxml2.XMLHTTP')</li>
-<li>new ActiveXObject('Microsoft.XMLHTTP')</li>
-<li>new ActiveXObject('Msxml2.XMLHTTP.4.0')</li>
+<li><tt class="docutils literal"><span class="pre">new</span> <span class="pre">XMLHttpRequest()</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">new</span> <span class="pre">ActiveXObject('Msxml2.XMLHTTP')</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">new</span> <span class="pre">ActiveXObject('Microsoft.XMLHTTP')</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">new</span> <span class="pre">ActiveXObject('Msxml2.XMLHTTP.4.0')</span></tt></li>
 </ul>
 </dd>
 </dl>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1" name="id7">[1]</a></td><td>AJAX, Asynchronous JavaScript and XML: <a class="reference" href="http://en.wikipedia.org/wiki/AJAX">http://en.wikipedia.org/wiki/AJAX</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2" name="id8">[2]</a></td><td>Twisted, an event-driven networking framework written in Python: <a class="reference" href="http://twistedmatrix.com/">http://twistedmatrix.com/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3" name="id9">[3]</a></td><td>Twisted Deferred Reference: <a class="reference" href="http://twistedmatrix.com/projects/core/documentation/howto/defer.html">http://twistedmatrix.com/projects/core/documentation/howto/defer.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a name="id10">[4]</a></td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id5">2</a>, <a class="fn-backref" href="#id6">3</a>)</em> JavaScript Object Notation: <a class="reference" href="http://json.org/">http://json.org/</a></td></tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </body>
