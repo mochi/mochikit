@@ -4,47 +4,99 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 <meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
-<title>MochiKit.DateTime</title>
+<title></title>
 </head>
 <body>
-<div class="document" id="mochikit-datetime">
-<h1 class="title">MochiKit.DateTime</h1>
-<h2 class="subtitle" id="functions">Functions</h2>
+<div class="document">
 <!-- -*- mode: rst -*- -->
-<dl class="docutils">
-<dt>isoDate(str):</dt>
-<dd>Convert an ISO 8601 date (YYYY-MM-DD) to a Date object.</dd>
-<dt>isoTimestamp(str):</dt>
-<dd><p class="first">Convert an ISO 8601 timestamp (or something close to it) to
-a Date object.  Will accept the &quot;de facto&quot; form:</p>
+<div class="section" id="name">
+<h1><a name="name">Name</a></h1>
+<p>MochiKit.DateTime - &quot;what time is it anyway?&quot;</p>
+</div>
+<div class="section" id="synopsis">
+<h1><a name="synopsis">Synopsis</a></h1>
+<pre class="literal-block">
+stringDate = toISOTimestamp(new Date());
+daeObject = isoTimestamp(stringDate);
+</pre>
+</div>
+<div class="section" id="description">
+<h1><a name="description">Description</a></h1>
+<p>Remote servers don't give you JavaScript Date objects, and they certainly
+don't want them from you, so you need to deal with string representations
+of dates and timestamps.  MochiKit.Date does that.</p>
+</div>
+<div class="section" id="dependencies">
+<h1><a name="dependencies">Dependencies</a></h1>
+<p>None.</p>
+</div>
+<div class="section" id="api-reference">
+<h1><a name="api-reference">API Reference</a></h1>
+<div class="section" id="functions">
+<h2><a name="functions">Functions</a></h2>
+<p><tt class="docutils literal"><span class="pre">isoDate(str)</span></tt>:</p>
+<blockquote>
+Convert an ISO 8601 date (YYYY-MM-DD) to a <tt class="docutils literal"><span class="pre">Date</span></tt> object.</blockquote>
+<p><tt class="docutils literal"><span class="pre">isoTimestamp(str)</span></tt>:</p>
+<blockquote>
+<p>Convert a subset of ISO 8601 <a class="footnote-reference" href="#id3" id="id1" name="id1">[1]</a> timestamps (or something close to it)
+to a <tt class="docutils literal"><span class="pre">Date</span></tt> object.  Will accept the &quot;de facto&quot; form:</p>
 <blockquote>
 YYYY-MM-DD hh:mm:ss</blockquote>
 <p>or (the proper form):</p>
-<blockquote class="last">
+<blockquote>
 YYYY-MM-DDThh:mm:ss</blockquote>
-</dd>
-<dt>toISOTime(date):</dt>
-<dd>Get the hh:mm:ss from the given Date object.</dd>
-<dt>toISOTimestamp(date, realISO):</dt>
-<dd><p class="first">Convert a Date object to something that's ALMOST but not quite an
-ISO 8601 timestamp.  If it was a proper ISO timestamp it would be:</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">toISOTime(date)</span></tt>:</p>
+<blockquote>
+Get the hh:mm:ss from the given <tt class="docutils literal"><span class="pre">Date</span></tt> object as a string.</blockquote>
+<p><tt class="docutils literal"><span class="pre">toISOTimestamp(date,</span> <span class="pre">realISO)</span></tt>:</p>
+<blockquote>
+<p>Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to something that's ALMOST but not quite an
+ISO 8601 [1]_timestamp.  If it was a proper ISO timestamp it would be:</p>
 <blockquote>
 YYYY-MM-DDThh:mm:ss</blockquote>
 <p>However, we see junk in SQL and other places that looks like this:</p>
 <blockquote>
 YYYY-MM-DD hh:mm:ss</blockquote>
-<p class="last">So, this function returns the latter form, despite its name, unless
-you pass true for realISO.</p>
-</dd>
-<dt>toISODate(date):</dt>
-<dd>Convert a Date object to an ISO 8601 date string (YYYY-MM-DD)</dd>
-<dt>americanDate(d):</dt>
-<dd>Converts a MM/DD/YYYY date to a Date object</dd>
-<dt>toPaddedAmericanDate(d):</dt>
-<dd>Converts a Date object to an MM/DD/YYYY date, e.g. 01/01/2001</dd>
-<dt>toAmericanDate(d):</dt>
-<dd>Converts a Date object to an M/D/YYYY date, e.g. 1/1/2001</dd>
-</dl>
+<p>So, this function returns the latter form, despite its name, unless
+you pass <tt class="docutils literal"><span class="pre">true</span></tt> for <tt class="docutils literal"><span class="pre">realISO</span></tt>.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">toISODate(date)</span></tt>:</p>
+<blockquote>
+Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an ISO 8601 <a class="footnote-reference" href="#id3" id="id2" name="id2">[1]</a> date string (YYYY-MM-DD)</blockquote>
+<p><tt class="docutils literal"><span class="pre">americanDate(d)</span></tt>:</p>
+<blockquote>
+Converts a MM/DD/YYYY date to a <tt class="docutils literal"><span class="pre">Date</span></tt> object</blockquote>
+<p><tt class="docutils literal"><span class="pre">toPaddedAmericanDate(d)</span></tt>:</p>
+<blockquote>
+Converts a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an MM/DD/YYYY date, e.g. 01/01/2001</blockquote>
+<p><tt class="docutils literal"><span class="pre">toAmericanDate(d)</span></tt>:</p>
+<blockquote>
+Converts a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an M/D/YYYY date, e.g. 1/1/2001</blockquote>
+</div>
+</div>
+<div class="section" id="see-also">
+<h1><a name="see-also">See Also</a></h1>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a name="id3">[1]</a></td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> W3C profile of ISO 8601: <a class="reference" href="http://www.w3.org/TR/NOTE-datetime">http://www.w3.org/TR/NOTE-datetime</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="authors">
+<h1><a name="authors">Authors</a></h1>
+<ul class="simple">
+<li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
+</ul>
+</div>
+<div class="section" id="copyright">
+<h1><a name="copyright">Copyright</a></h1>
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is free software;
+you can redistribute it and/or modify it under the terms of the
+<a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
+</div>
 </div>
 </body>
 </html>
