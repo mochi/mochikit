@@ -4,24 +4,65 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 <meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
-<title>MochiKit.Format</title>
+<title></title>
 </head>
 <body>
-<div class="document" id="mochikit-format">
-<h1 class="title">MochiKit.Format</h1>
-<h2 class="subtitle" id="functions">Functions</h2>
+<div class="document">
 <!-- -*- mode: rst -*- -->
-<dl class="docutils">
-<dt>twoDigitAverage(numerator, denominator):</dt>
-<dd><p class="first">Calculate an average from a numerator and a denominator and return
+<div class="section" id="name">
+<h1><a name="name">Name</a></h1>
+<p>MochiKit.Format - string formatting goes here</p>
+</div>
+<div class="section" id="synopsis">
+<h1><a name="synopsis">Synopsis</a></h1>
+<pre class="literal-block">
+assert( twoDigitAverage(1, 0) == &quot;0&quot; );
+assert( twoDigitFloat(1.2345) == &quot;1.23&quot; );
+assert( twoDigitFloat(1) == &quot;1&quot; );
+assert( percentFormat(1.234567) == &quot;123.45%&quot; );
+
+assert( thisModuleNeedsMoreStuff );
+</pre>
+</div>
+<div class="section" id="description">
+<h1><a name="description">Description</a></h1>
+<p>Formatting strings and stringifying numbers is boring, so a couple useful
+functions in that domain live here.  So far, there's not much to see here.</p>
+</div>
+<div class="section" id="dependencies">
+<h1><a name="dependencies">Dependencies</a></h1>
+<p>None.</p>
+</div>
+<div class="section" id="api-reference">
+<h1><a name="api-reference">API Reference</a></h1>
+<div class="section" id="functions">
+<h2><a name="functions">Functions</a></h2>
+<p><tt class="docutils literal"><span class="pre">twoDigitAverage(numerator,</span> <span class="pre">denominator)</span></tt>:</p>
+<blockquote>
+<p>Calculate an average from a numerator and a denominator and return
 it as a string with two digits of precision (e.g. &quot;1.23&quot;).</p>
-<p class="last">If the denominator is 0, &quot;0&quot; will be returned instead of NaN.</p>
-</dd>
-<dt>twoDigitFloat(someFloat):</dt>
-<dd>Roughly equivalent to: sprintf(&quot;%.2f&quot;, someFloat)</dd>
-<dt>percentFormat(someFloat):</dt>
-<dd>Roughly equivalent to: sprintf(&quot;%.2f%%&quot;, someFloat * 100)</dd>
-</dl>
+<p>If the denominator is 0, &quot;0&quot; will be returned instead of NaN.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">twoDigitFloat(someFloat)</span></tt>:</p>
+<blockquote>
+Roughly equivalent to: <tt class="docutils literal"><span class="pre">sprintf(&quot;%.2f&quot;,</span> <span class="pre">someFloat)</span></tt></blockquote>
+<p><tt class="docutils literal"><span class="pre">percentFormat(someFloat)</span></tt>:</p>
+<blockquote>
+Roughly equivalent to: <tt class="docutils literal"><span class="pre">sprintf(&quot;%.2f%%&quot;,</span> <span class="pre">someFloat</span> <span class="pre">*</span> <span class="pre">100)</span></tt></blockquote>
+</div>
+</div>
+<div class="section" id="authors">
+<h1><a name="authors">Authors</a></h1>
+<ul class="simple">
+<li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
+</ul>
+</div>
+<div class="section" id="copyright">
+<h1><a name="copyright">Copyright</a></h1>
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is free software;
+you can redistribute it and/or modify it under the terms of the
+<a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
+</div>
 </div>
 </body>
 </html>
