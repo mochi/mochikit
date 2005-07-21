@@ -1,17 +1,48 @@
 .. -*- mode: rst -*-
 
-MochiKit.Async
-==============
+Name
+====
 
-``MochiKit.Async`` provides facilities to manage asynchronous
-(as in AJAX [1]_) tasks.  The model for asynchronous
-computation used in this module is heavily inspired by
-Twisted [2]_.
+MochiKit.Async - manage asynchronous tasks
 
-.. contents: Table of Contents
+Synopsis
+========
+
+::
+
+    var url = "/src/b/bo/bob/MochiKit.Async/META.json";
+    var d = loadJSONDoc(url);
+    var gotMetadata = function (meta) {
+        if (MochiKit.Async.VERSION == meta.version) {
+            alert("You have the newest MochiKit.Async!");
+        } else {
+            alert("MochiKit.Async " 
+                + meta.version
+                + " is available, upgrade!");
+        }
+    };
+    var metadataFetchFailed = function (err) {
+      alert("The metadata for MochiKit.Async could not be fetched :(");
+    };
+    d.addCallbacks(gotMetadata, metadataFetchFailed);
+    
+  
+Description
+===========
+
+MochiKit.Async provides facilities to manage asynchronous
+(as in AJAX [1]_) tasks. The model for asynchronous computation
+used in this module is heavily inspired by Twisted [2]_.
+
+Dependencies
+============
+
+- `MochiKit.Base`_
+
+.. _`MochiKit.Base`: Base.html
 
 Overview
-~~~~~~~~
+========
 
 Deferred
 --------
@@ -64,7 +95,7 @@ callback chains, so take a look at the API
 reference if you would like to know more!
 
 API Reference
-~~~~~~~~~~~~~
+=============
 
 Errors
 ------
@@ -294,11 +325,32 @@ Functions
     - ``new ActiveXObject('Microsoft.XMLHTTP')``
     - ``new ActiveXObject('Msxml2.XMLHTTP.4.0')``
 
+See Also
+========
+
 .. [1] AJAX, Asynchronous JavaScript and XML: http://en.wikipedia.org/wiki/AJAX
-
 .. [2] Twisted, an event-driven networking framework written in Python: http://twistedmatrix.com/
-
 .. [3] Twisted Deferred Reference: http://twistedmatrix.com/projects/core/documentation/howto/defer.html
-
 .. [4] JSON, JavaScript Object Notation: http://json.org/
 
+ToDo
+====
+
+- Add ``callLater``
+- Add some examples
+- ``doSimpleXMLHttpRequest`` equivalent that accepts a request
+  instead of a URL
+
+Authors
+=======
+
+- Bob Ippolito <bob@redivi.com>
+
+Copyright
+=========
+
+Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is free software;
+you can redistribute it and/or modify it under the terms of the
+`MIT License`_.
+
+.. _`MIT License`: http://www.opensource.org/licenses/mit-license.php
