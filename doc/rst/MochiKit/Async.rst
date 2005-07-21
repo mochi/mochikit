@@ -156,7 +156,7 @@ Constructors
         ]
 
     The ``Deferred`` also keeps track of its current status (fired).
-    Its status may be one of three things:
+    Its status may be one of the following three values:
     
         
         ===== ================================
