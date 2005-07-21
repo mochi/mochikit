@@ -323,11 +323,11 @@ MochiKit.Iter.imap = function (fun, p, q/*, ...*/) {
     };
 };
     
-MochiKit.Iter.applymap = function (fun, seq) {
+MochiKit.Iter.applymap = function (fun, seq, self) {
     /***
 
         applymap(fun, seq) -->
-            fun.apply(this, seq0), fun.apply(this, seq1), ...
+            fun.apply(self, seq0), fun.apply(self, seq1), ...
 
     ***/
     seq = MochiKit.Iter.iter(seq);
@@ -335,7 +335,7 @@ MochiKit.Iter.applymap = function (fun, seq) {
         "repr": function () { return "applymap(...)"; },
         "toString": MochiKit.Base.forward("repr"),
         "next": function () {
-            return fun.apply(this, seq.next());
+            return fun.apply(self, seq.next());
         }
     };
 };
