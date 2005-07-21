@@ -733,6 +733,13 @@ Functions
         assert( namespace.Dude.NAME == 'Awesome.Dude' );
 
 
+ToDo
+====
+
+- Unify ``bind`` and ``partial``, at least in implementation (they're unified
+  with themselves, but not each other.. they should be).
+
+
 Authors
 =======
 
