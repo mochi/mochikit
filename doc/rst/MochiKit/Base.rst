@@ -646,3 +646,17 @@ operator:
         }
         nameFunctions(namespace);
         assert( namespace.Dude.NAME == 'Awesome.Dude' );
+
+Authors
+=======
+
+- Bob Ippolito <bob@redivi.com>
+
+Copyright
+=========
+
+Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is free software;
+you can redistribute it and/or modify it under the terms of the
+`MIT License`_.
+
+.. _`MIT License`: http://www.opensource.org/licenses/mit-license.php
