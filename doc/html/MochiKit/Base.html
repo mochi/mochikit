@@ -241,44 +241,50 @@ adapter.</p>
 </div>
 <div class="section" id="functions">
 <h2><a name="functions">Functions</a></h2>
-<dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">extend(self,</span> <span class="pre">obj[,</span> <span class="pre">skip])</span></tt>:</dt>
-<dd><p class="first">Mutate an array by extending it with an array-like obj,
+<p><tt class="docutils literal"><span class="pre">extend(self,</span> <span class="pre">obj[,</span> <span class="pre">skip])</span></tt>:</p>
+<blockquote>
+<p>Mutate an array by extending it with an array-like obj,
 starting with the &quot;skip&quot; index of obj.  If null is given
 as the initial array, a new one will be created.</p>
-<p class="last">This mutates <em>and returns</em> the given array, be warned.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">update(self,</span> <span class="pre">obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd><p class="first">Mutate an object by replacing its key:value pairs with those
+<p>This mutates <em>and returns</em> the given array, be warned.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">update(self,</span> <span class="pre">obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>Mutate an object by replacing its key:value pairs with those
 from other object(s).  Key:value pairs from later objects will
 overwrite those from earlier objects.</p>
 <p>If null is given as the initial object, a new one will be created.</p>
 <p>This mutates <em>and returns</em> the given object, be warned.</p>
-<p class="last">A version of this function that creates a new object is available
+<p>A version of this function that creates a new object is available
 as <tt class="docutils literal"><span class="pre">merge(a,</span> <span class="pre">b[,</span> <span class="pre">...])</span></tt></p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">merge(obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd><p class="first">Create a new instance of <tt class="docutils literal"><span class="pre">Object</span></tt> that contains every property
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">merge(obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>Create a new instance of <tt class="docutils literal"><span class="pre">Object</span></tt> that contains every property
 from all given objects.  If a property is defined on more than
 one of the objects, the last property is used.</p>
-<p class="last">This is a special form of <tt class="docutils literal"><span class="pre">update(self,</span> <span class="pre">obj[,</span> <span class="pre">...])</span></tt>, specifically,
+<p>This is a special form of <tt class="docutils literal"><span class="pre">update(self,</span> <span class="pre">obj[,</span> <span class="pre">...])</span></tt>, specifically,
 it is defined as <tt class="docutils literal"><span class="pre">partial(update,</span> <span class="pre">null)</span></tt>.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">setdefault(self,</span> <span class="pre">obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd><p class="first">Mutate an object by adding all properties from other object(s)
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">setdefault(self,</span> <span class="pre">obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>Mutate an object by adding all properties from other object(s)
 that it does not already have set.</p>
 <p>If <tt class="docutils literal"><span class="pre">self</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, a new <tt class="docutils literal"><span class="pre">Object</span></tt> instance will be created
 and returned.</p>
-<p class="last">This mutates <em>and returns</em> the given <tt class="docutils literal"><span class="pre">self</span></tt>, be warned.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">keys(obj)</span></tt>:</dt>
-<dd>Return an <tt class="docutils literal"><span class="pre">Array</span></tt> of the property names of an object
-(in the order determined by <tt class="docutils literal"><span class="pre">for</span> <span class="pre">propName</span> <span class="pre">in</span> <span class="pre">obj</span></tt>).</dd>
-<dt><tt class="docutils literal"><span class="pre">items(obj)</span></tt>:</dt>
-<dd>Return an <tt class="docutils literal"><span class="pre">Array</span></tt> of <tt class="docutils literal"><span class="pre">[propertyName,</span> <span class="pre">propertyValue]</span></tt> pairs for the
-given <tt class="docutils literal"><span class="pre">obj</span></tt> (in the order deterined by <tt class="docutils literal"><span class="pre">for</span> <span class="pre">propName</span> <span class="pre">in</span> <span class="pre">obj</span></tt>).</dd>
-<dt>operator:</dt>
-<dd><p class="first">A table of JavaScript's operators for usage with <tt class="docutils literal"><span class="pre">map</span></tt>, <tt class="docutils literal"><span class="pre">filter</span></tt>, etc.</p>
+<p>This mutates <em>and returns</em> the given <tt class="docutils literal"><span class="pre">self</span></tt>, be warned.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">keys(obj)</span></tt>:</p>
+<blockquote>
+Return an <tt class="docutils literal"><span class="pre">Array</span></tt> of the property names of an object
+(in the order determined by <tt class="docutils literal"><span class="pre">for</span> <span class="pre">propName</span> <span class="pre">in</span> <span class="pre">obj</span></tt>).</blockquote>
+<p><tt class="docutils literal"><span class="pre">items(obj)</span></tt>:</p>
+<blockquote>
+Return an <tt class="docutils literal"><span class="pre">Array</span></tt> of <tt class="docutils literal"><span class="pre">[propertyName,</span> <span class="pre">propertyValue]</span></tt> pairs for the
+given <tt class="docutils literal"><span class="pre">obj</span></tt> (in the order deterined by <tt class="docutils literal"><span class="pre">for</span> <span class="pre">propName</span> <span class="pre">in</span> <span class="pre">obj</span></tt>).</blockquote>
+<p><tt class="docutils literal"><span class="pre">operator</span></tt>:</p>
+<blockquote>
+<p>A table of JavaScript's operators for usage with <tt class="docutils literal"><span class="pre">map</span></tt>, <tt class="docutils literal"><span class="pre">filter</span></tt>, etc.</p>
 <p>Unary Logic Operators:</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -464,7 +470,7 @@ given <tt class="docutils literal"><span class="pre">obj</span></tt> (in the ord
 </tbody>
 </table>
 <p>Binary Logical Operators:</p>
-<table border="1" class="last docutils">
+<table border="1" class="docutils">
 <colgroup>
 <col width="23%" />
 <col width="32%" />
@@ -491,35 +497,45 @@ given <tt class="docutils literal"><span class="pre">obj</span></tt> (in the ord
 </tr>
 </tbody>
 </table>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">forward(name)</span></tt>:</dt>
-<dd>Returns a function that forwards a method call to <tt class="docutils literal"><span class="pre">this.name(...)</span></tt></dd>
-<dt><tt class="docutils literal"><span class="pre">itemgetter(name)</span></tt>:</dt>
-<dd>Returns a <tt class="docutils literal"><span class="pre">function(obj)</span></tt> that returns <tt class="docutils literal"><span class="pre">obj[name]</span></tt></dd>
-<dt><tt class="docutils literal"><span class="pre">typeMatcher(typ[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd>Given a set of types (as string arguments),
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">forward(name)</span></tt>:</p>
+<blockquote>
+Returns a function that forwards a method call to <tt class="docutils literal"><span class="pre">this.name(...)</span></tt></blockquote>
+<p><tt class="docutils literal"><span class="pre">itemgetter(name)</span></tt>:</p>
+<blockquote>
+Returns a <tt class="docutils literal"><span class="pre">function(obj)</span></tt> that returns <tt class="docutils literal"><span class="pre">obj[name]</span></tt></blockquote>
+<p><tt class="docutils literal"><span class="pre">typeMatcher(typ[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+Given a set of types (as string arguments),
 returns a <tt class="docutils literal"><span class="pre">function(obj[,</span> <span class="pre">...])</span></tt> that will return <tt class="docutils literal"><span class="pre">true</span></tt> if the
-types of the given arguments are all members of that set.</dd>
-<dt><tt class="docutils literal"><span class="pre">isNull(obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all arguments are <tt class="docutils literal"><span class="pre">null</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">isUndefinedOrNull(obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all arguments are undefined or <tt class="docutils literal"><span class="pre">null</span></tt></dd>
-<dt><tt class="docutils literal"><span class="pre">isNotEmpty(obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all the given <tt class="docutils literal"><span class="pre">Array</span></tt>-like or string arguments
-are not empty <tt class="docutils literal"><span class="pre">(obj.length</span> <span class="pre">&gt;</span> <span class="pre">0)</span></tt></dd>
-<dt><tt class="docutils literal"><span class="pre">isArrayLike(obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all given arguments are <tt class="docutils literal"><span class="pre">Array</span></tt>-like (have a
-<tt class="docutils literal"><span class="pre">.length</span></tt> property and <tt class="docutils literal"><span class="pre">typeof(obj)</span> <span class="pre">==</span> <span class="pre">'object'</span></tt>)</dd>
-<dt><tt class="docutils literal"><span class="pre">isDateLike(obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all given arguments are <tt class="docutils literal"><span class="pre">Date</span></tt>-like (have a 
-<tt class="docutils literal"><span class="pre">.getTime()</span></tt> method)</dd>
-<dt><tt class="docutils literal"><span class="pre">xmap(fn,</span> <span class="pre">obj[,</span> <span class="pre">...)</span></tt>:</dt>
-<dd><p class="first">Return a new <tt class="docutils literal"><span class="pre">Array</span></tt> composed of <tt class="docutils literal"><span class="pre">fn(obj)</span></tt> for every <tt class="docutils literal"><span class="pre">obj</span></tt>
+types of the given arguments are all members of that set.</blockquote>
+<p><tt class="docutils literal"><span class="pre">isNull(obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all arguments are <tt class="docutils literal"><span class="pre">null</span></tt>.</blockquote>
+<p><tt class="docutils literal"><span class="pre">isUndefinedOrNull(obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all arguments are undefined or <tt class="docutils literal"><span class="pre">null</span></tt></blockquote>
+<p><tt class="docutils literal"><span class="pre">isNotEmpty(obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all the given <tt class="docutils literal"><span class="pre">Array</span></tt>-like or string arguments
+are not empty <tt class="docutils literal"><span class="pre">(obj.length</span> <span class="pre">&gt;</span> <span class="pre">0)</span></tt></blockquote>
+<p><tt class="docutils literal"><span class="pre">isArrayLike(obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all given arguments are <tt class="docutils literal"><span class="pre">Array</span></tt>-like (have a
+<tt class="docutils literal"><span class="pre">.length</span></tt> property and <tt class="docutils literal"><span class="pre">typeof(obj)</span> <span class="pre">==</span> <span class="pre">'object'</span></tt>)</blockquote>
+<p><tt class="docutils literal"><span class="pre">isDateLike(obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all given arguments are <tt class="docutils literal"><span class="pre">Date</span></tt>-like (have a 
+<tt class="docutils literal"><span class="pre">.getTime()</span></tt> method)</blockquote>
+<p><tt class="docutils literal"><span class="pre">xmap(fn,</span> <span class="pre">obj[,</span> <span class="pre">...)</span></tt>:</p>
+<blockquote>
+<p>Return a new <tt class="docutils literal"><span class="pre">Array</span></tt> composed of <tt class="docutils literal"><span class="pre">fn(obj)</span></tt> for every <tt class="docutils literal"><span class="pre">obj</span></tt>
 given as an argument.</p>
-<p class="last">If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, <tt class="docutils literal"><span class="pre">operator.identity</span></tt> is used.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">map(fn,</span> <span class="pre">lst[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd><p class="first">Return a new array composed of the results of <tt class="docutils literal"><span class="pre">fn(x)</span></tt> for every <tt class="docutils literal"><span class="pre">x</span></tt> in
+<p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, <tt class="docutils literal"><span class="pre">operator.identity</span></tt> is used.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">map(fn,</span> <span class="pre">lst[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>Return a new array composed of the results of <tt class="docutils literal"><span class="pre">fn(x)</span></tt> for every <tt class="docutils literal"><span class="pre">x</span></tt> in
 <tt class="docutils literal"><span class="pre">lst</span></tt>.</p>
 <p>If fn is <tt class="docutils literal"><span class="pre">null</span></tt>, and only one sequence argument is given the identity
 function is used.</p>
@@ -527,36 +543,41 @@ function is used.</p>
 <tt class="docutils literal"><span class="pre">map(null,</span> <span class="pre">lst)</span></tt> -&gt; <tt class="docutils literal"><span class="pre">lst.slice()</span></tt>;</blockquote>
 <p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, and more than one sequence is given as arguments,
 then the <tt class="docutils literal"><span class="pre">Array</span></tt> function is used, making it equivalent to <tt class="docutils literal"><span class="pre">zip</span></tt>.</p>
-<blockquote class="last">
+<blockquote>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">map(null,</span> <span class="pre">p,</span> <span class="pre">q,</span> <span class="pre">...)</span></tt></dt>
 <dd>-&gt; <tt class="docutils literal"><span class="pre">zip(p,</span> <span class="pre">q,</span> <span class="pre">...)</span></tt>
 -&gt; <tt class="docutils literal"><span class="pre">[[p0,</span> <span class="pre">q0,</span> <span class="pre">...],</span> <span class="pre">[p1,</span> <span class="pre">q1,</span> <span class="pre">...],</span> <span class="pre">...];</span></tt></dd>
 </dl>
 </blockquote>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">xfilter(fn,</span> <span class="pre">obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd><p class="first">Returns a new <tt class="docutils literal"><span class="pre">Array</span></tt> composed of the arguments where
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">xfilter(fn,</span> <span class="pre">obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>Returns a new <tt class="docutils literal"><span class="pre">Array</span></tt> composed of the arguments where
 <tt class="docutils literal"><span class="pre">fn(obj)</span></tt> returns a true value.</p>
-<p class="last">If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, <tt class="docutils literal"><span class="pre">operator.truth</span></tt> will be used.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">filter(fn,</span> <span class="pre">lst)</span></tt>:</dt>
-<dd><p class="first">Returns a new <tt class="docutils literal"><span class="pre">Array</span></tt> composed of all elements from <tt class="docutils literal"><span class="pre">lst</span></tt> where
+<p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, <tt class="docutils literal"><span class="pre">operator.truth</span></tt> will be used.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">filter(fn,</span> <span class="pre">lst)</span></tt>:</p>
+<blockquote>
+<p>Returns a new <tt class="docutils literal"><span class="pre">Array</span></tt> composed of all elements from <tt class="docutils literal"><span class="pre">lst</span></tt> where
 <tt class="docutils literal"><span class="pre">fn(lst[i])</span></tt> returns a true value.</p>
-<p class="last">If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, <tt class="docutils literal"><span class="pre">operator.truth</span></tt> will be used.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">bind(func,</span> <span class="pre">self)</span></tt>:</dt>
-<dd><p class="first">Return a copy of <tt class="docutils literal"><span class="pre">func</span></tt> bound to <tt class="docutils literal"><span class="pre">self</span></tt>.  This means whenever
+<p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, <tt class="docutils literal"><span class="pre">operator.truth</span></tt> will be used.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">bind(func,</span> <span class="pre">self)</span></tt>:</p>
+<blockquote>
+<p>Return a copy of <tt class="docutils literal"><span class="pre">func</span></tt> bound to <tt class="docutils literal"><span class="pre">self</span></tt>.  This means whenever
 and however the returned function is called, <tt class="docutils literal"><span class="pre">this</span></tt> will always
 reference the given <tt class="docutils literal"><span class="pre">self</span></tt>.</p>
-<p class="last">Calling <tt class="docutils literal"><span class="pre">bind(func,</span> <span class="pre">self)</span></tt> on an already bound function will
+<p>Calling <tt class="docutils literal"><span class="pre">bind(func,</span> <span class="pre">self)</span></tt> on an already bound function will
 return a new function that is bound to the new <tt class="docutils literal"><span class="pre">self</span></tt>!</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">bindMethods(self)</span></tt>:</dt>
-<dd>Bind all methods of <tt class="docutils literal"><span class="pre">self</span></tt> present on self to <tt class="docutils literal"><span class="pre">self</span></tt>,
-which gives you a semi-Pythonic sort of instance.</dd>
-<dt><tt class="docutils literal"><span class="pre">registerComparator(name,</span> <span class="pre">check,</span> <span class="pre">comparator[,</span> <span class="pre">override])</span></tt>:</dt>
-<dd><p class="first">Register a comparator for use with <tt class="docutils literal"><span class="pre">compare</span></tt>.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">bindMethods(self)</span></tt>:</p>
+<blockquote>
+Bind all methods of <tt class="docutils literal"><span class="pre">self</span></tt> present on self to <tt class="docutils literal"><span class="pre">self</span></tt>,
+which gives you a semi-Pythonic sort of instance.</blockquote>
+<p><tt class="docutils literal"><span class="pre">registerComparator(name,</span> <span class="pre">check,</span> <span class="pre">comparator[,</span> <span class="pre">override])</span></tt>:</p>
+<blockquote>
+<p>Register a comparator for use with <tt class="docutils literal"><span class="pre">compare</span></tt>.</p>
 <p><tt class="docutils literal"><span class="pre">name</span></tt> should be a unique identifier describing the comparator.</p>
 <p><tt class="docutils literal"><span class="pre">check</span></tt> is a <tt class="docutils literal"><span class="pre">function(a,</span> <span class="pre">b)</span></tt> that returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">a</span></tt> and <tt class="docutils literal"><span class="pre">b</span></tt>
 can be compared with <tt class="docutils literal"><span class="pre">comparator</span></tt>.</p>
@@ -583,11 +604,12 @@ can be compared with <tt class="docutils literal"><span class="pre">comparator</
 </table>
 <p><tt class="docutils literal"><span class="pre">comparator</span></tt> is guaranteed to only be called if <tt class="docutils literal"><span class="pre">check(a,</span> <span class="pre">b)</span></tt>
 returns a <tt class="docutils literal"><span class="pre">true</span></tt> value.</p>
-<p class="last">If <tt class="docutils literal"><span class="pre">override</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then it will be made the
+<p>If <tt class="docutils literal"><span class="pre">override</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then it will be made the
 highest precedence comparator.  Otherwise, the lowest.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">compare(a,</span> <span class="pre">b)</span></tt>:</dt>
-<dd><p class="first">Compare two objects in a sensible manner.  Currently this is:</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">compare(a,</span> <span class="pre">b)</span></tt>:</p>
+<blockquote>
+<p>Compare two objects in a sensible manner.  Currently this is:</p>
 <blockquote>
 <ol class="arabic simple">
 <li><tt class="docutils literal"><span class="pre">undefined</span></tt> and <tt class="docutils literal"><span class="pre">null</span></tt> compare equal to each other</li>
@@ -604,7 +626,7 @@ and strings.</li>
 </ol>
 </blockquote>
 <p>Returns what one would expect from a comparison function:</p>
-<table border="1" class="last docutils">
+<table border="1" class="docutils">
 <colgroup>
 <col width="39%" />
 <col width="61%" />
@@ -624,52 +646,60 @@ and strings.</li>
 </tr>
 </tbody>
 </table>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">registerRepr(name,</span> <span class="pre">check,</span> <span class="pre">wrap[,</span> <span class="pre">override])</span></tt>:</dt>
-<dd><p class="first">Register a programmer representation function.
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">registerRepr(name,</span> <span class="pre">check,</span> <span class="pre">wrap[,</span> <span class="pre">override])</span></tt>:</p>
+<blockquote>
+<p>Register a programmer representation function.
 <tt class="docutils literal"><span class="pre">repr</span></tt> functions should take one argument and 
 return a string representation of it
 suitable for developers, primarily used when debugging.</p>
-<p class="last">If <tt class="docutils literal"><span class="pre">override</span></tt> is given, it is used as the highest priority
+<p>If <tt class="docutils literal"><span class="pre">override</span></tt> is given, it is used as the highest priority
 repr, otherwise it will be used as the lowest.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">repr(o)</span></tt>:</dt>
-<dd>Return a programmer representation for an object.  See the
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">repr(o)</span></tt>:</p>
+<blockquote>
+Return a programmer representation for an object.  See the
 <a class="reference" href="#programmer-representation">Programmer Representation</a> overview for more information about this
-function.</dd>
-<dt><tt class="docutils literal"><span class="pre">objEqual(a,</span> <span class="pre">b)</span></tt>:</dt>
-<dd>Compare the equality of two objects.</dd>
-<dt><tt class="docutils literal"><span class="pre">arrayEqual(self,</span> <span class="pre">arr)</span></tt>:</dt>
-<dd>Compare two arrays for equality, with a fast-path for length
-differences.</dd>
-<dt><tt class="docutils literal"><span class="pre">concat(lst[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd><p class="first">Concatenates all given array-like arguments and returns
+function.</blockquote>
+<p><tt class="docutils literal"><span class="pre">objEqual(a,</span> <span class="pre">b)</span></tt>:</p>
+<blockquote>
+Compare the equality of two objects.</blockquote>
+<p><tt class="docutils literal"><span class="pre">arrayEqual(self,</span> <span class="pre">arr)</span></tt>:</p>
+<blockquote>
+Compare two arrays for equality, with a fast-path for length
+differences.</blockquote>
+<p><tt class="docutils literal"><span class="pre">concat(lst[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>Concatenates all given array-like arguments and returns
 a new <tt class="docutils literal"><span class="pre">Array</span></tt>:</p>
-<pre class="last literal-block">
+<pre class="literal-block">
 var lst = concat([&quot;1&quot;,&quot;3&quot;,&quot;5&quot;], [&quot;2&quot;,&quot;4&quot;,&quot;6&quot;]);
 assert( lst.toString() == &quot;1,3,5,2,4,6&quot; );
 </pre>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">keyComparator(key[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd><p class="first">A comparator factory that compares <tt class="docutils literal"><span class="pre">a[key]</span></tt> with <tt class="docutils literal"><span class="pre">b[key]</span></tt>.
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">keyComparator(key[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>A comparator factory that compares <tt class="docutils literal"><span class="pre">a[key]</span></tt> with <tt class="docutils literal"><span class="pre">b[key]</span></tt>.
 e.g.:</p>
-<pre class="last literal-block">
+<pre class="literal-block">
 var lst = [&quot;a&quot;, &quot;bbb&quot;, &quot;cc&quot;];
 lst.sort(keyComparator(&quot;length&quot;));
 assert( lst.toString() == &quot;a,cc,bbb&quot; );
 </pre>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">reverseKeyComparator(key)</span></tt>:</dt>
-<dd><p class="first">A comparator factory that compares <tt class="docutils literal"><span class="pre">a[key]</span></tt> with <tt class="docutils literal"><span class="pre">b[key]</span></tt> in reverse.
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">reverseKeyComparator(key)</span></tt>:</p>
+<blockquote>
+<p>A comparator factory that compares <tt class="docutils literal"><span class="pre">a[key]</span></tt> with <tt class="docutils literal"><span class="pre">b[key]</span></tt> in reverse.
 e.g.:</p>
-<pre class="last literal-block">
+<pre class="literal-block">
 var lst = [&quot;a&quot;, &quot;bbb&quot;, &quot;cc&quot;];
 lst.sort(reverseKeyComparator(&quot;length&quot;));
 assert(lst.toString() == &quot;bbb,cc,aa&quot;);
 </pre>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">partial(func,</span> <span class="pre">arg[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd><p class="first">Return a partially applied function, e.g.:</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">partial(func,</span> <span class="pre">arg[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>Return a partially applied function, e.g.:</p>
 <pre class="literal-block">
 addNumbers = function (a, b) {
     return a + b;
@@ -679,35 +709,41 @@ addOne = partial(addNumbers, 1);
 
 assert(addOne(2) == 3);
 </pre>
-<p class="last"><em>NOTE</em>: This could be used to implement, but is NOT currying.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">listMinMax(which,</span> <span class="pre">lst)</span></tt>:</dt>
-<dd><p class="first">If <tt class="docutils literal"><span class="pre">which</span> <span class="pre">==</span> <span class="pre">-1</span></tt> then it will return the smallest
+<p><em>NOTE</em>: This could be used to implement, but is NOT currying.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">listMinMax(which,</span> <span class="pre">lst)</span></tt>:</p>
+<blockquote>
+<p>If <tt class="docutils literal"><span class="pre">which</span> <span class="pre">==</span> <span class="pre">-1</span></tt> then it will return the smallest
 element of the <tt class="docutils literal"><span class="pre">Array</span></tt>-like <tt class="docutils literal"><span class="pre">lst</span></tt>.  This is also available
 as <tt class="docutils literal"><span class="pre">listMin(lst)</span></tt>.</p>
-<p class="last">If <tt class="docutils literal"><span class="pre">which</span> <span class="pre">==</span> <span class="pre">1</span></tt> then it will return the largest
+<p>If <tt class="docutils literal"><span class="pre">which</span> <span class="pre">==</span> <span class="pre">1</span></tt> then it will return the largest
 element of the array-like lst.  This is also available
 as <tt class="docutils literal"><span class="pre">listMax(list)</span></tt>.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">listMin(lst)</span></tt>:</dt>
-<dd>Return the smallest element of an <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, as determined
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">listMin(lst)</span></tt>:</p>
+<blockquote>
+Return the smallest element of an <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, as determined
 by <tt class="docutils literal"><span class="pre">compare</span></tt>.  This is a special form of <tt class="docutils literal"><span class="pre">listMinMax</span></tt>, specifically
-<tt class="docutils literal"><span class="pre">partial(listMinMax,</span> <span class="pre">-1)</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">listMax(lst)</span></tt>:</dt>
-<dd>Return the largest element of an <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, as determined
+<tt class="docutils literal"><span class="pre">partial(listMinMax,</span> <span class="pre">-1)</span></tt>.</blockquote>
+<p><tt class="docutils literal"><span class="pre">listMax(lst)</span></tt>:</p>
+<blockquote>
+Return the largest element of an <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, as determined
 by <tt class="docutils literal"><span class="pre">compare</span></tt>.  This is a special form of <tt class="docutils literal"><span class="pre">listMinMax</span></tt>, specifically
-<tt class="docutils literal"><span class="pre">partial(listMinMax,</span> <span class="pre">1)</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">objMax(obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd>Return the maximum object out of the given arguments.  This is similar to
+<tt class="docutils literal"><span class="pre">partial(listMinMax,</span> <span class="pre">1)</span></tt>.</blockquote>
+<p><tt class="docutils literal"><span class="pre">objMax(obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+Return the maximum object out of the given arguments.  This is similar to
 <tt class="docutils literal"><span class="pre">listMax</span></tt>, except is uses the arguments instead of a given
-<tt class="docutils literal"><span class="pre">Array</span></tt>-like.</dd>
-<dt><tt class="docutils literal"><span class="pre">objMin(obj[,</span> <span class="pre">...])</span></tt>:</dt>
-<dd>Return the minimum object out of the given arguments.  This is similar
+<tt class="docutils literal"><span class="pre">Array</span></tt>-like.</blockquote>
+<p><tt class="docutils literal"><span class="pre">objMin(obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+Return the minimum object out of the given arguments.  This is similar
 to <tt class="docutils literal"><span class="pre">listMin</span></tt>, except it uses the arguments instead of a given
-<tt class="docutils literal"><span class="pre">Array</span></tt>-like.</dd>
-<dt><tt class="docutils literal"><span class="pre">nodeWalk(node,</span> <span class="pre">visitor)</span></tt>:</dt>
-<dd><p class="first">Non-recursive generic node walking function (e.g. for a DOM)</p>
-<dl class="last docutils">
+<tt class="docutils literal"><span class="pre">Array</span></tt>-like.</blockquote>
+<p><tt class="docutils literal"><span class="pre">nodeWalk(node,</span> <span class="pre">visitor)</span></tt>:</p>
+<blockquote>
+<p>Non-recursive generic node walking function (e.g. for a DOM)</p>
+<dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
 <dd>The initial node to be searched.</dd>
 <dt><tt class="docutils literal"><span class="pre">visitor</span></tt>:</dt>
@@ -715,11 +751,12 @@ to <tt class="docutils literal"><span class="pre">listMin</span></tt>, except it
 <tt class="docutils literal"><span class="pre">visitor(node)</span></tt>, and should return an <tt class="docutils literal"><span class="pre">Array</span></tt>-like
 of nodes to be searched next (e.g.  <tt class="docutils literal"><span class="pre">node.childNodes</span></tt>).</dd>
 </dl>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">nameFunctions(namespace)</span></tt>:</dt>
-<dd><p class="first">Given a namespace with a <tt class="docutils literal"><span class="pre">NAME</span></tt> property, find all functions in it and
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">nameFunctions(namespace)</span></tt>:</p>
+<blockquote>
+<p>Given a namespace with a <tt class="docutils literal"><span class="pre">NAME</span></tt> property, find all functions in it and
 give them nice <tt class="docutils literal"><span class="pre">NAME</span></tt> properties too (for use with <tt class="docutils literal"><span class="pre">repr</span></tt>).  e.g.:</p>
-<pre class="last literal-block">
+<pre class="literal-block">
 namespace = {
     NAME: &quot;Awesome&quot;,
     Dude: function () {}
@@ -727,8 +764,7 @@ namespace = {
 nameFunctions(namespace);
 assert( namespace.Dude.NAME == 'Awesome.Dude' );
 </pre>
-</dd>
-</dl>
+</blockquote>
 </div>
 </div>
 <div class="section" id="authors">

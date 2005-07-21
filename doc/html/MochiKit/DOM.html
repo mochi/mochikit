@@ -4,39 +4,91 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 <meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
-<title>MochiKit.DOM</title>
+<title></title>
 </head>
 <body>
-<div class="document" id="mochikit-dom">
-<h1 class="title">MochiKit.DOM</h1>
-<h2 class="subtitle" id="functions">Functions</h2>
+<div class="document">
 <!-- -*- mode: rst -*- -->
-<dl class="docutils">
-<dt>registerDOMConverter(name, check, wrap[, override]):</dt>
-<dd>Register an adapter to convert objects that match check(obj, ctx)
-to a DOM element, or something that can be converted to a DOM
-element (i.e. number, bool, string, function, iterable).</dd>
-<dt>createDOM(name, [, attrs[, node[, ...]]]):</dt>
-<dd>Create a DOM fragment in a really convenient manner, much like
-<a class="reference" href="http://nevow.com/">Nevow</a>'s stan.</dd>
-</dl>
-<blockquote>
-<p>Partially applied versions of this function for common tags are
-available as aliases:</p>
+<div class="section" id="name">
+<h1><a name="name">Name</a></h1>
+<p>MochiKit.DOM - painless DOM manipulation API</p>
+</div>
+<div class="section" id="synopsis">
+<h1><a name="synopsis">Synopsis</a></h1>
+<pre class="literal-block">
+var rows = [
+    [&quot;dataA1&quot;, &quot;dataA2&quot;, &quot;dataA3&quot;],
+    [&quot;dataB1&quot;, &quot;dataB2&quot;, &quot;dataB3&quot;]
+];
+row_display = function (row) {
+    return TR(null, map(partial(TD, null), row));
+}
+var newTable = TABLE({'class': 'prettytable'}
+    THEAD(null,
+        row_display([&quot;head1&quot;, &quot;head2&quot;, &quot;head3&quot;])),
+    TFOOT(null,
+        row_display([&quot;foot1&quot;, &quot;foot2&quot;, &quot;foot3&quot;])),
+    TBODY(null,
+        map(row_display, rows)));
+// put that in your document.createElement and smoke it!
+swapDOM(oldTable, newTable);
+</pre>
+</div>
+<div class="section" id="description">
+<h1><a name="description">Description</a></h1>
+<p>As you probably know, the DOM APIs are some of the most painful Java-inspired
+APIs you'll run across from a highly dynamic language.  Don't worry about that
+though, because they provide a reasonable basis to built something that
+sucks a lot less.</p>
+<p>MochiKit.DOM takes much of its inspiration from Nevow's <a class="footnote-reference" href="#id6" id="id1" name="id1">[1]</a> stan <a class="footnote-reference" href="#id7" id="id2" name="id2">[2]</a>.
+This means you choose a tag, give it some attributes, then stuff it full
+of <em>whatever objects you want</em>.  MochiKit.DOM isn't stupid, it knows that
+a string should be a text node, and that you want functions to be called,
+and that <tt class="docutils literal"><span class="pre">Array</span></tt>-like objects should be expanded, and stupid <tt class="docutils literal"><span class="pre">null</span></tt> values
+should be skipped.</p>
+<p>Hell, it will let you return strings from functions, use <a class="reference" href="Iter.html">MochiKit.Iter</a>, 
+and you can even teach it new tricks with <tt class="docutils literal"><span class="pre">registerDOMConverter</span></tt>.  If you
+have never used an API like this for creating DOM elements, you've been
+wasting your damn time.  Get with it!</p>
+</div>
+<div class="section" id="dependencies">
+<h1><a name="dependencies">Dependencies</a></h1>
 <ul class="simple">
-<li>TABLE</li>
-<li>TR</li>
-<li>TD</li>
-<li>TH</li>
-<li>TBODY</li>
-<li>TFOOT</li>
-<li>THEAD</li>
-<li>SPAN</li>
-<li>INPUT</li>
-<li>A</li>
-<li>DIV</li>
+<li><a class="reference" href="Base.html">MochiKit.Base</a></li>
+<li><a class="reference" href="Iter.html">MochiKit.Iter</a></li>
 </ul>
-<p>Usage:</p>
+</div>
+<div class="section" id="overview">
+<h1><a name="overview">Overview</a></h1>
+<div class="section" id="dom-coercion-rules">
+<h2><a name="dom-coercion-rules">DOM Coercion Rules</a></h2>
+<p>In order of precedence, <tt class="docutils literal"><span class="pre">createDOM</span></tt> coerces given arguments to DOM
+nodes using the following rules:</p>
+<ol class="arabic simple">
+<li>Functions are called with a <tt class="docutils literal"><span class="pre">this</span></tt> of the parent
+node and their return value is subject to the
+following rules (even this one)</li>
+<li><tt class="docutils literal"><span class="pre">undefined</span></tt> and <tt class="docutils literal"><span class="pre">null</span></tt> are ignored.</li>
+<li>Iterables (see <a class="reference" href="Iter.html">MochiKit.Iter</a>) are flattened
+(as if they were passed in-line as nodes) and each
+return value is subject to all of these rules.</li>
+<li>Values that look like DOM nodes (objects with a
+<tt class="docutils literal"><span class="pre">.nodeType</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt>) are <tt class="docutils literal"><span class="pre">.appendChild</span></tt>'ed to the created
+DOM fragment.</li>
+<li>Strings are wrapped up with <tt class="docutils literal"><span class="pre">document.createTextNode</span></tt></li>
+<li>Objects that are not strings are run through the <tt class="docutils literal"><span class="pre">domConverters</span></tt>
+<tt class="docutils literal"><span class="pre">AdapterRegistry</span></tt> (see <a class="reference" href="Base.html">MochiKit.Base</a> and <tt class="docutils literal"><span class="pre">registerDOMConverter</span></tt>).
+The value returned by the adapter is subject to these same rules (e.g.
+adapters are allowed to return a string, which will be coerced into a
+text node).</li>
+<li>If no adapter is available, <tt class="docutils literal"><span class="pre">.toString()</span></tt> is used to create a text node.</li>
+</ol>
+</div>
+<div class="section" id="creating-dom-element-trees">
+<h2><a name="creating-dom-element-trees">Creating DOM Element Trees</a></h2>
+<p><tt class="docutils literal"><span class="pre">createDOM</span></tt> provides you with an excellent facility for creating DOM trees
+that is easy on the wrists.  One of the best ways to understand how to use
+it is to take a look at an example:</p>
 <pre class="literal-block">
 var rows = [
     [&quot;dataA1&quot;, &quot;dataA2&quot;, &quot;dataA3&quot;],
@@ -115,115 +167,204 @@ were inserted into the document DOM):</p>
     &lt;/tbody&gt;
 &lt;/table&gt;
 </pre>
+</div>
+<div class="section" id="functions">
+<h2><a name="functions">Functions</a></h2>
+<p><tt class="docutils literal"><span class="pre">registerDOMConverter(name,</span> <span class="pre">check,</span> <span class="pre">wrap[,</span> <span class="pre">override])</span></tt>:</p>
+<blockquote>
+Register an adapter to convert objects that match <tt class="docutils literal"><span class="pre">check(obj,</span> <span class="pre">ctx)</span></tt>
+to a DOM element, or something that can be converted to a DOM
+element (i.e. number, bool, string, function, iterable).</blockquote>
+<p><tt class="docutils literal"><span class="pre">createDOM(name,</span> <span class="pre">[,</span> <span class="pre">attrs[,</span> <span class="pre">node[,</span> <span class="pre">...]]])</span></tt>:</p>
+<blockquote>
+<p>Create a DOM fragment in a really convenient manner, much like
+Nevow`s <a class="footnote-reference" href="#id6" id="id4" name="id4">[1]</a> stan <a class="footnote-reference" href="#id7" id="id5" name="id5">[2]</a>.</p>
+<p>Partially applied versions of this function for common tags are
+available as aliases:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">TABLE</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">TR</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">TD</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">TH</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">TBODY</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">TFOOT</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">THEAD</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">SPAN</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">INPUT</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">A</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">DIV</span></tt></li>
+</ul>
+<p>See <a class="reference" href="#creating-dom-element-trees">Creating DOM Element Trees</a> for a comprehensive example.</p>
 <dl class="docutils">
-<dt>name:</dt>
+<dt><tt class="docutils literal"><span class="pre">name</span></tt>:</dt>
 <dd>The kind of fragment to create (e.g. 'span').</dd>
-<dt>attrs:</dt>
-<dd><p class="first">A mapping of attributes or null, (e.g. {'style': 'display:block'}).</p>
+<dt><tt class="docutils literal"><span class="pre">attrs</span></tt>:</dt>
+<dd><p class="first">An object whose properties will be used as the attributes
+(e.g. <tt class="docutils literal"><span class="pre">{'style':</span> <span class="pre">'display:block'}</span></tt>), or <tt class="docutils literal"><span class="pre">null</span></tt> if no
+attributes need to be set.</p>
 <p class="last">Note that it will do the right thing for IE, so don't do
-the class -&gt; className hack yourself.</p>
+the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself.</p>
 </dd>
-<dt>node...:</dt>
-<dd><p class="first">All additional parameters will be coerced into DOM
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>...:</dt>
+<dd>All additional arguments, if any, will be coerced into DOM
 nodes that are appended as children using the
-following rules:</p>
-<ol class="last arabic simple">
-<li>Functions are called with a &quot;this&quot; of the parent
-node and their return value is subject to the
-following rules (even this one)</li>
-<li>undefined and null are ignored.</li>
-<li>Iterables are flattened (as if they were passed
-in-line as nodes) and each return value is
-subject to all of these rules.</li>
-<li>Values that look like DOM nodes (objects with a
-nodeType &gt; 0) are appendChild'ed to the created
-DOM fragment.</li>
-<li>Strings are converted to textNodes.</li>
-<li>Objects that are not strings are converted to
-objects known to these rules using a
-&quot;registerDOMConverter&quot; adapter if one exists.</li>
-<li>If no adapter is available, toString() is used to
-create a textNode.</li>
-</ol>
-</dd>
+<a class="reference" href="#dom-coercion-rules">DOM Coercion Rules</a>.</dd>
 <dt>returns:</dt>
 <dd>A DOM element</dd>
 </dl>
 </blockquote>
+<p><tt class="docutils literal"><span class="pre">createDOMFunc(tag[,</span> <span class="pre">attrs[,</span> <span class="pre">node[,</span> <span class="pre">...]]])</span></tt>:</p>
+<blockquote>
+<p>Convenience function to create a partially applied createDOM
+function.  You'd want to use this if you add additional convenience
+functions for creating tags, or if you find yourself creating
+a lot of tags with a bunch of the same attributes or contents.</p>
+<p>See <tt class="docutils literal"><span class="pre">createDOM</span></tt> for more detailed descriptions of the arguments.</p>
 <dl class="docutils">
-<dt>createDOMFunc(tag[, attrs[, node[, ...]]]):</dt>
-<dd><p class="first">Convenience function to create a partially applied createDOM</p>
-<dl class="last docutils">
-<dt>tag:</dt>
+<dt><tt class="docutils literal"><span class="pre">tag</span></tt>:</dt>
 <dd>The name of the tag</dd>
-<dt>attrs:</dt>
+<dt><tt class="docutils literal"><span class="pre">attrs</span></tt>:</dt>
 <dd>Optionally specify the attributes to apply</dd>
-<dt>node...:</dt>
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>...:</dt>
 <dd>Optionally specify any children nodes it should have</dd>
 <dt>returns:</dt>
-<dd>function</dd>
+<dd>function that takes additional arguments and calls <tt class="docutils literal"><span class="pre">createDOM</span></tt></dd>
 </dl>
-</dd>
-<dt>swapDOM(dest, src):</dt>
-<dd><p class="first">Replace dest in a DOM tree with src, returning src</p>
-<dl class="last docutils">
-<dt>dest:</dt>
-<dd>a DOM element to be replaced</dd>
-<dt>src:</dt>
-<dd>the DOM element to replace it with</dd>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">swapDOM(dest,</span> <span class="pre">src)</span></tt>:</p>
+<blockquote>
+<p>Replace <tt class="docutils literal"><span class="pre">dest</span></tt> in a DOM tree with <tt class="docutils literal"><span class="pre">src</span></tt>, returning <tt class="docutils literal"><span class="pre">src</span></tt>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">dest</span></tt>:</dt>
+<dd>a DOM element (or string id of one) to be replaced</dd>
+<dt><tt class="docutils literal"><span class="pre">src</span></tt>:</dt>
+<dd>the DOM element (or string id of one) to replace it with</dd>
 <dt>returns:</dt>
-<dd>a DOM element (src)</dd>
+<dd>a DOM element (<tt class="docutils literal"><span class="pre">src</span></tt>)</dd>
 </dl>
-</dd>
-<dt>getElement(id[, ...]):</dt>
-<dd><p class="first">A small quick little function to encapsulate the getElementById
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">getElement(id[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>A small quick little function to encapsulate the <tt class="docutils literal"><span class="pre">getElementById</span></tt>
 method.  It includes a check to ensure we can use that method.</p>
 <p>If the id isn't a string, it will be returned as-is.</p>
-<p>Also available as $(...) for compatibility/convenience with &quot;other&quot;
-js frameworks (bah).</p>
-<p class="last">If multiple arguments are given, an array will be returned.</p>
-</dd>
-<dt>addLoadEvent(func):</dt>
-<dd>This will stack window.onload functions on top of each other.
-Each function added will be called after onload in the
-order that they were added.</dd>
-<dt>focusOnLoad(element):</dt>
-<dd>Add an onload event to focus the given element</dd>
-<dt>setElementClass(element, className):</dt>
-<dd>Set the entire class attribute of an element to className.</dd>
-<dt>toggleElementClass(className[, element[, ...]]):</dt>
-<dd>Toggle the presence of a given className in the class attribute
-of all given elements.</dd>
-<dt>addElementClass(element, className):</dt>
-<dd>Ensure that the given element has className set as part of its
-class attribute.  This will not disturb other class names.</dd>
-<dt>removeElementClass(element, className):</dt>
-<dd>Ensure that the given element does not have className set as part
-of its class attribute.  This will not disturb other class names.</dd>
-<dt>swapElementClass(element, fromClass, toClass):</dt>
-<dd>If fromClass is set on element, replace it with toClass.  This
-will not disturb other classes on that element.</dd>
-<dt>hasElementClass(element, className[, ...]):</dt>
-<dd>Return true if className is found in the element</dd>
-<dt>escapeHTML(s):</dt>
-<dd>Make a string safe for HTML, converting the usual suspects (lt,
-gt, quot, apos, amp)</dd>
-<dt>toHTML(dom):</dt>
-<dd>Convert a DOM tree to a HTML string using emitHTML</dd>
-<dt>emitHTML(dom[, lst]):</dt>
-<dd><p class="first">Convert a DOM tree to an Array of HTML string fragments</p>
-<p class="last">You probably want to use toHTML instead.</p>
-</dd>
-<dt>setDisplayForElement(display, element[, ...]):</dt>
-<dd><p class="first">Change the style.display for the given element(s).  Usually
+<p>Also available as <tt class="docutils literal"><span class="pre">$(...)</span></tt> for compatibility/convenience with other
+JavaScript frameworks.</p>
+<p>If multiple arguments are given, an <tt class="docutils literal"><span class="pre">Array</span></tt> will be returned.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">$(id[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+An alias for <tt class="docutils literal"><span class="pre">getElement(id[,</span> <span class="pre">...])</span></tt></blockquote>
+<p><tt class="docutils literal"><span class="pre">addLoadEvent(func)</span></tt>:</p>
+<blockquote>
+This will stack <tt class="docutils literal"><span class="pre">window.onload</span></tt> functions on top of each other.
+Each function added will be called after <tt class="docutils literal"><span class="pre">onload</span></tt> in the
+order that they were added.</blockquote>
+<p><tt class="docutils literal"><span class="pre">focusOnLoad(element)</span></tt>:</p>
+<blockquote>
+Add an onload event to focus the given element</blockquote>
+<p><tt class="docutils literal"><span class="pre">setElementClass(element,</span> <span class="pre">className)</span></tt>:</p>
+<blockquote>
+Set the entire class attribute of <tt class="docutils literal"><span class="pre">element</span></tt> to <tt class="docutils literal"><span class="pre">className</span></tt>.
+<tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <tt class="docutils literal"><span class="pre">getElement</span></tt>, so string identifiers
+are also acceptable.</blockquote>
+<p><tt class="docutils literal"><span class="pre">toggleElementClass(className[,</span> <span class="pre">element[,</span> <span class="pre">...]])</span></tt>:</p>
+<blockquote>
+Toggle the presence of a given <tt class="docutils literal"><span class="pre">className</span></tt> in the class attribute
+of all given elements.  All elements will be looked up with <tt class="docutils literal"><span class="pre">getElement</span></tt>,
+so string identifiers are acceptable.</blockquote>
+<p><tt class="docutils literal"><span class="pre">addElementClass(element,</span> <span class="pre">className)</span></tt>:</p>
+<blockquote>
+Ensure that the given <tt class="docutils literal"><span class="pre">element</span></tt> has <tt class="docutils literal"><span class="pre">className</span></tt> set as part of its
+class attribute.  This will not disturb other class names.
+<tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <tt class="docutils literal"><span class="pre">getElement</span></tt>, so string identifiers
+are also acceptable.</blockquote>
+<p><tt class="docutils literal"><span class="pre">removeElementClass(element,</span> <span class="pre">className)</span></tt>:</p>
+<blockquote>
+Ensure that the given <tt class="docutils literal"><span class="pre">element</span></tt> does not have <tt class="docutils literal"><span class="pre">className</span></tt> set as part
+of its class attribute.  This will not disturb other class names.
+<tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <tt class="docutils literal"><span class="pre">getElement</span></tt>, so string identifiers
+are also acceptable.</blockquote>
+<p><tt class="docutils literal"><span class="pre">swapElementClass(element,</span> <span class="pre">fromClass,</span> <span class="pre">toClass)</span></tt>:</p>
+<blockquote>
+If <tt class="docutils literal"><span class="pre">fromClass</span></tt> is set on <tt class="docutils literal"><span class="pre">element</span></tt>, replace it with <tt class="docutils literal"><span class="pre">toClass</span></tt>.
+This will not disturb other classes on that element.
+<tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <tt class="docutils literal"><span class="pre">getElement</span></tt>, so string identifiers
+are also acceptable.</blockquote>
+<p><tt class="docutils literal"><span class="pre">hasElementClass(element,</span> <span class="pre">className[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+Return <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">className</span></tt> is found on the <tt class="docutils literal"><span class="pre">element</span></tt>.
+<tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <tt class="docutils literal"><span class="pre">getElement</span></tt>, so string identifiers
+are also acceptable.</blockquote>
+<p><tt class="docutils literal"><span class="pre">escapeHTML(s)</span></tt>:</p>
+<blockquote>
+Make a string safe for HTML, converting the usual suspects (lt,
+gt, quot, apos, amp)</blockquote>
+<p><tt class="docutils literal"><span class="pre">toHTML(dom)</span></tt>:</p>
+<blockquote>
+Convert a DOM tree to a HTML string using <tt class="docutils literal"><span class="pre">emitHTML</span></tt></blockquote>
+<p><tt class="docutils literal"><span class="pre">emitHTML(dom[,</span> <span class="pre">lst])</span></tt>:</p>
+<blockquote>
+<p>Convert a DOM tree to an <tt class="docutils literal"><span class="pre">Array</span></tt> of HTML string fragments</p>
+<p>You probably want to use <tt class="docutils literal"><span class="pre">toHTML</span></tt> instead.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">setDisplayForElement(display,</span> <span class="pre">element[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>Change the <tt class="docutils literal"><span class="pre">style.display</span></tt> for the given element(s).  Usually
 used as the partial forms:</p>
-<blockquote class="last">
-showElement(element, ...);
-hideElement(element, ...);</blockquote>
-</dd>
-<dt>scrapeText(node):</dt>
-<dd>Walk a DOM tree and scrape all of the text out of it as an Array.</dd>
-</dl>
+<blockquote>
+<tt class="docutils literal"><span class="pre">showElement(element,</span> <span class="pre">...);</span></tt>
+<tt class="docutils literal"><span class="pre">hideElement(element,</span> <span class="pre">...);</span></tt></blockquote>
+<p>Elements are looked up with <tt class="docutils literal"><span class="pre">getElement</span></tt>, so string identifiers are
+acceptable.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">showElement(element,</span> <span class="pre">...)</span></tt>:</p>
+<blockquote>
+Partial form of <tt class="docutils literal"><span class="pre">setDisplayForElement</span></tt>, specifically:
+<tt class="docutils literal"><span class="pre">partial(setDisplayForElement(&quot;block&quot;))</span></tt>.</blockquote>
+<p><tt class="docutils literal"><span class="pre">hideElement(element,</span> <span class="pre">...);</span></tt></p>
+<blockquote>
+Partial form of <tt class="docutils literal"><span class="pre">setDisplayForElement</span></tt>, specifically:
+<tt class="docutils literal"><span class="pre">partial(setDisplayForElement(&quot;none&quot;))</span></tt>.</blockquote>
+<p><tt class="docutils literal"><span class="pre">scrapeText(node)</span></tt>:</p>
+<blockquote>
+Walk a DOM tree and scrape all of the text out of it as an <tt class="docutils literal"><span class="pre">Array</span></tt>.
+Typically you will want to do get the string with:
+<tt class="docutils literal"><span class="pre">scrapeText(node).join('')</span></tt></blockquote>
+</div>
+</div>
+<div class="section" id="see-also">
+<h1><a name="see-also">See Also</a></h1>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a name="id6">[1]</a></td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> Nevow, a web application construction kit for Python: <a class="reference" href="http://nevow.com/">http://nevow.com/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a name="id7">[2]</a></td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id5">2</a>)</em> nevow.stan is a domain specific language for Python 
+(read as &quot;crazy getitem/call overloading abuse&quot;) that Donovan and I
+schemed up at PyCon 2003 at this super ninja Python/C++ programmer's
+(David Abrahams) hotel room.  Donovan later inflicted this upon the
+masses in Nevow.  Check out the Divmod project page for some
+examples: <a class="reference" href="http://nevow.com/Nevow2004Tutorial.html">http://nevow.com/Nevow2004Tutorial.html</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="authors">
+<h1><a name="authors">Authors</a></h1>
+<ul class="simple">
+<li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
+</ul>
+</div>
+<div class="section" id="copyright">
+<h1><a name="copyright">Copyright</a></h1>
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is free software;
+you can redistribute it and/or modify it under the terms of the
+<a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
+</div>
 </div>
 </body>
 </html>
