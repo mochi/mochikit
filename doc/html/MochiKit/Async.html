@@ -4,17 +4,47 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 <meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
-<title>MochiKit.Async</title>
+<title></title>
 </head>
 <body>
-<div class="document" id="mochikit-async">
-<h1 class="title">MochiKit.Async</h1>
+<div class="document">
 <!-- -*- mode: rst -*- -->
-<p><tt class="docutils literal"><span class="pre">MochiKit.Async</span></tt> provides facilities to manage asynchronous
-(as in AJAX <a class="footnote-reference" href="#id7" id="id1" name="id1">[1]</a>) tasks.  The model for asynchronous
-computation used in this module is heavily inspired by
-Twisted <a class="footnote-reference" href="#id8" id="id2" name="id2">[2]</a>.</p>
-<!-- contents: Table of Contents -->
+<div class="section" id="name">
+<h1><a name="name">Name</a></h1>
+<p>MochiKit.Async - manage asynchronous tasks</p>
+</div>
+<div class="section" id="synopsis">
+<h1><a name="synopsis">Synopsis</a></h1>
+<pre class="literal-block">
+var url = &quot;/src/b/bo/bob/MochiKit.Async/META.json&quot;;
+var d = loadJSONDoc(url);
+var gotMetadata = function (meta) {
+    if (MochiKit.Async.VERSION == meta.version) {
+        alert(&quot;You have the newest MochiKit.Async!&quot;);
+    } else {
+        alert(&quot;MochiKit.Async &quot; 
+            + meta.version
+            + &quot; is available, upgrade!&quot;);
+    }
+};
+var metadataFetchFailed = function (err) {
+  alert(&quot;The metadata for MochiKit.Async could not be fetched :(&quot;);
+};
+d.addCallbacks(gotMetadata, metadataFetchFailed);
+</pre>
+</div>
+<div class="section" id="description">
+<h1><a name="description">Description</a></h1>
+<p>MochiKit.Async provides facilities to manage asynchronous
+(as in AJAX <a class="footnote-reference" href="#id7" id="id1" name="id1">[1]</a>) tasks. The model for asynchronous computation
+used in this module is heavily inspired by Twisted <a class="footnote-reference" href="#id8" id="id2" name="id2">[2]</a>.</p>
+</div>
+<div class="section" id="dependencies">
+<h1><a name="dependencies">Dependencies</a></h1>
+<ul class="simple">
+<li><a class="reference" href="Base.html">MochiKit.Base</a></li>
+</ul>
+</div>
 <div class="section" id="overview">
 <h1><a name="overview">Overview</a></h1>
 <div class="section" id="deferred">
@@ -291,6 +321,10 @@ platform.</p>
 </ul>
 </dd>
 </dl>
+</div>
+</div>
+<div class="section" id="see-also">
+<h1><a name="see-also">See Also</a></h1>
 <table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -312,10 +346,30 @@ platform.</p>
 <table class="docutils footnote" frame="void" id="id10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a name="id10">[4]</a></td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id5">2</a>, <a class="fn-backref" href="#id6">3</a>)</em> JavaScript Object Notation: <a class="reference" href="http://json.org/">http://json.org/</a></td></tr>
+<tr><td class="label"><a name="id10">[4]</a></td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id5">2</a>, <a class="fn-backref" href="#id6">3</a>)</em> JSON, JavaScript Object Notation: <a class="reference" href="http://json.org/">http://json.org/</a></td></tr>
 </tbody>
 </table>
 </div>
+<div class="section" id="todo">
+<h1><a name="todo">ToDo</a></h1>
+<ul class="simple">
+<li>Add <tt class="docutils literal"><span class="pre">callLater</span></tt></li>
+<li>Add some examples</li>
+<li><tt class="docutils literal"><span class="pre">doSimpleXMLHttpRequest</span></tt> equivalent that accepts a request
+instead of a URL</li>
+</ul>
+</div>
+<div class="section" id="authors">
+<h1><a name="authors">Authors</a></h1>
+<ul class="simple">
+<li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
+</ul>
+</div>
+<div class="section" id="copyright">
+<h1><a name="copyright">Copyright</a></h1>
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is free software;
+you can redistribute it and/or modify it under the terms of the
+<a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
 </div>
 </div>
 </body>
