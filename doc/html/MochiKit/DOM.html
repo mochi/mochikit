@@ -312,20 +312,27 @@ Convert a DOM tree to a HTML string using <tt class="docutils literal"><span cla
 <blockquote>
 <p>Change the <tt class="docutils literal"><span class="pre">style.display</span></tt> for the given element(s).  Usually
 used as the partial forms:</p>
-<blockquote>
-<tt class="docutils literal"><span class="pre">showElement(element,</span> <span class="pre">...);</span></tt>
-<tt class="docutils literal"><span class="pre">hideElement(element,</span> <span class="pre">...);</span></tt></blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">showElement(element,</span> <span class="pre">...);</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">hideElement(element,</span> <span class="pre">...);</span></tt></li>
+</ul>
 <p>Elements are looked up with <tt class="docutils literal"><span class="pre">getElement</span></tt>, so string identifiers are
 acceptable.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">showElement(element,</span> <span class="pre">...)</span></tt>:</p>
 <blockquote>
-Partial form of <tt class="docutils literal"><span class="pre">setDisplayForElement</span></tt>, specifically:
-<tt class="docutils literal"><span class="pre">partial(setDisplayForElement(&quot;block&quot;))</span></tt>.</blockquote>
+<p>Partial form of <tt class="docutils literal"><span class="pre">setDisplayForElement</span></tt>, specifically:</p>
+<pre class="literal-block">
+partial(setDisplayForElement(&quot;block&quot;))
+</pre>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">hideElement(element,</span> <span class="pre">...);</span></tt></p>
 <blockquote>
-Partial form of <tt class="docutils literal"><span class="pre">setDisplayForElement</span></tt>, specifically:
-<tt class="docutils literal"><span class="pre">partial(setDisplayForElement(&quot;none&quot;))</span></tt>.</blockquote>
+<p>Partial form of <tt class="docutils literal"><span class="pre">setDisplayForElement</span></tt>, specifically:</p>
+<pre class="literal-block">
+partial(setDisplayForElement(&quot;none&quot;))
+</pre>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">scrapeText(node)</span></tt>:</p>
 <blockquote>
 Walk a DOM tree and scrape all of the text out of it as an <tt class="docutils literal"><span class="pre">Array</span></tt>.
