@@ -802,8 +802,8 @@ MochiKit.Iter.EXPORT = [
 ];
 
 MochiKit.Iter.__new__ = function () {
-    this.StopIteration = new NamedError("StopIteration");
-    this.iteratorRegistry = new AdapterRegistry();
+    this.StopIteration = new MochiKit.Base.NamedError("StopIteration");
+    this.iteratorRegistry = new MochiKit.Base.AdapterRegistry();
     // Register the iterator factory for arrays
     this.registerIteratorFactory(
         "arrayLike",
