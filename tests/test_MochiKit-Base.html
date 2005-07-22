@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 85});
+    plan({'tests': 90});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -23,6 +23,8 @@ try {
     is( boundFunc("foo"), "self foo", "boundFunc bound to self properly" );
     is( not_self.boundFunc("foo"), "self foo", "boundFunc bound to self on another obj" );
     is( bind(boundFunc, not_self)("foo"), "not self foo", "boundFunc successfully rebound!" );
+    is( bind(boundFunc, undefined, "foo")(), "self foo", "boundFunc partial no self change" );
+    is( bind(boundFunc, not_self, "foo")(), "not self foo", "boundFunc partial self change" );
 
     // test bindMethods
 
@@ -83,9 +85,14 @@ try {
     var a = [];
     var func = function (a, b) { return this.value + a + b; };
     var self = {"value": 1, "func": func};
+    var self2 = {"value": 2};
     is( self.func(2, 3), 6, "setup for test is correct" );
     self.funcTwo = partial(self.func, 2);
     is( self.funcTwo(3), 6, "partial application works" );
+    is( bind(self.funcTwo, self2)(3), 7, "rebinding partial works" );
+    self.funcTwo = bind(bind(self.funcTwo, self2), null);
+    is( self.funcTwo(3), 6, "re-unbinding partial application works" );
+
     
     // nodeWalk test
     // ... looks a lot like a DOM tree on purpose
@@ -160,9 +167,12 @@ try {
     is( isNotEmpty([]), false, "0 element list is empty" );
 
     // test filter
+    var greaterThanThis = function (x) { return x > this; };
     var greaterThanOne = function (x) { return x > 1; };
     var res = filter(greaterThanOne, [-1, 0, 1, 2, 3]);
     ok( objEqual(res, [2, 3]), "filter works" );
+    var res = filter(greaterThanThis, [-1, 0, 1, 2, 3], 1);
+    ok( objEqual(res, [2, 3]), "filter self works" );
     var res2 = xfilter(greaterThanOne, -1, 0, 1, 2, 3);
     ok( objEqual(res2, res), "xfilter works" );
  

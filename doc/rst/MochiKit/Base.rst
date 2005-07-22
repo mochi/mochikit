@@ -196,9 +196,10 @@ with one argument per given array-like, like this::
    var biggestElements = map(objMax, arrayOne, arrayTwo, arrayThree);
    assert( objEqual(biggestElements, [5, 5, 3, 4, 5]) );
 
-``filter(func, arrayLike)`` takes a function and an array-like object, and
-returns a new ``Array``.  This is basically identical to the
-``Array.prototype.filter`` extension in Mozilla.
+``filter(func, arrayLike[, self])`` takes a function and an array-like object,
+and returns a new ``Array``.  This is basically identical to the
+``Array.prototype.filter`` extension in Mozilla.  self, if given, will be
+used as ``this`` in the context of func when called.
 
 ``xmap`` and ``xfilter`` are just special forms of ``map`` and ``filter``
 that accept a function as the first argument, and use the extra arguments as
@@ -532,14 +533,27 @@ Functions
     If ``fn`` is ``null``, ``operator.truth`` will be used.
 
 
-``bind(func, self)``:
+``bind(func, self[, arg, ...])``:
 
     Return a copy of ``func`` bound to ``self``.  This means whenever
     and however the returned function is called, ``this`` will always
     reference the given ``self``.
 
     Calling ``bind(func, self)`` on an already bound function will
-    return a new function that is bound to the new ``self``!
+    return a new function that is bound to the new ``self``!  If
+    ``self`` is ``undefined``, then the previous ``self`` is used.
+    If ``self`` is ``null``, then the ``this`` object is used
+    (which may or may not be the global object).  To force binding
+    to the global object, you should pass it explicitly.
+
+    Additional arguments, if given, will be partially applied to
+    the function.  These three expressions are equivalent and
+    return equally efficient functions (``bind`` and ``partial``
+    share the same code path)::
+
+    - ``bind(oldfunc, self, arg1, arg2)``
+    - ``bind(partial(oldfunc, arg1, arg2), self)``
+    - ``partial(bind(oldfunc, self), arg1, arg2)``
 
 
 ``bindMethods(self)``:
@@ -675,6 +689,14 @@ Functions
 
         assert(addOne(2) == 3);
 
+    ``partial`` is a special form of ``bind`` that does not alter
+    the bound ``self`` (if any).  It is equivalent to calling::
+
+        bind(func, undefined, arg[, ...]);
+
+    See the documentation for ``bind`` for more details about
+    this facility.
+    
     *NOTE*: This could be used to implement, but is NOT currying.
  
 
@@ -741,13 +763,6 @@ Functions
         }
         nameFunctions(namespace);
         assert( namespace.Dude.NAME == 'Awesome.Dude' );
-
-
-ToDo
-====
-
-- Unify ``bind`` and ``partial``, at least in implementation (they're unified
-  with themselves, but not each other.. they should be).
 
 
 Authors

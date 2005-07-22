@@ -172,9 +172,10 @@ var arrayThree = [5, 2, 1, 3, 4];
 var biggestElements = map(objMax, arrayOne, arrayTwo, arrayThree);
 assert( objEqual(biggestElements, [5, 5, 3, 4, 5]) );
 </pre>
-<p><tt class="docutils literal"><span class="pre">filter(func,</span> <span class="pre">arrayLike)</span></tt> takes a function and an array-like object, and
-returns a new <tt class="docutils literal"><span class="pre">Array</span></tt>.  This is basically identical to the
-<tt class="docutils literal"><span class="pre">Array.prototype.filter</span></tt> extension in Mozilla.</p>
+<p><tt class="docutils literal"><span class="pre">filter(func,</span> <span class="pre">arrayLike[,</span> <span class="pre">self])</span></tt> takes a function and an array-like object,
+and returns a new <tt class="docutils literal"><span class="pre">Array</span></tt>.  This is basically identical to the
+<tt class="docutils literal"><span class="pre">Array.prototype.filter</span></tt> extension in Mozilla.  self, if given, will be
+used as <tt class="docutils literal"><span class="pre">this</span></tt> in the context of func when called.</p>
 <p><tt class="docutils literal"><span class="pre">xmap</span></tt> and <tt class="docutils literal"><span class="pre">xfilter</span></tt> are just special forms of <tt class="docutils literal"><span class="pre">map</span></tt> and <tt class="docutils literal"><span class="pre">filter</span></tt>
 that accept a function as the first argument, and use the extra arguments as
 the array-like.  Not terribly interesting, but a definite time-saver in some
@@ -565,13 +566,26 @@ then the <tt class="docutils literal"><span class="pre">Array</span></tt> functi
 <tt class="docutils literal"><span class="pre">fn(lst[i])</span></tt> returns a true value.</p>
 <p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, <tt class="docutils literal"><span class="pre">operator.truth</span></tt> will be used.</p>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">bind(func,</span> <span class="pre">self)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">bind(func,</span> <span class="pre">self[,</span> <span class="pre">arg,</span> <span class="pre">...])</span></tt>:</p>
 <blockquote>
 <p>Return a copy of <tt class="docutils literal"><span class="pre">func</span></tt> bound to <tt class="docutils literal"><span class="pre">self</span></tt>.  This means whenever
 and however the returned function is called, <tt class="docutils literal"><span class="pre">this</span></tt> will always
 reference the given <tt class="docutils literal"><span class="pre">self</span></tt>.</p>
 <p>Calling <tt class="docutils literal"><span class="pre">bind(func,</span> <span class="pre">self)</span></tt> on an already bound function will
-return a new function that is bound to the new <tt class="docutils literal"><span class="pre">self</span></tt>!</p>
+return a new function that is bound to the new <tt class="docutils literal"><span class="pre">self</span></tt>!  If
+<tt class="docutils literal"><span class="pre">self</span></tt> is <tt class="docutils literal"><span class="pre">undefined</span></tt>, then the previous <tt class="docutils literal"><span class="pre">self</span></tt> is used.
+If <tt class="docutils literal"><span class="pre">self</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, then the <tt class="docutils literal"><span class="pre">this</span></tt> object is used
+(which may or may not be the global object).  To force binding
+to the global object, you should pass it explicitly.</p>
+<p>Additional arguments, if given, will be partially applied to
+the function.  These three expressions are equivalent and
+return equally efficient functions (<tt class="docutils literal"><span class="pre">bind</span></tt> and <tt class="docutils literal"><span class="pre">partial</span></tt>
+share the same code path):</p>
+<pre class="literal-block">
+- ``bind(oldfunc, self, arg1, arg2)``
+- ``bind(partial(oldfunc, arg1, arg2), self)``
+- ``partial(bind(oldfunc, self), arg1, arg2)``
+</pre>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">bindMethods(self)</span></tt>:</p>
 <blockquote>
@@ -711,6 +725,13 @@ addOne = partial(addNumbers, 1);
 
 assert(addOne(2) == 3);
 </pre>
+<p><tt class="docutils literal"><span class="pre">partial</span></tt> is a special form of <tt class="docutils literal"><span class="pre">bind</span></tt> that does not alter
+the bound <tt class="docutils literal"><span class="pre">self</span></tt> (if any).  It is equivalent to calling:</p>
+<pre class="literal-block">
+bind(func, undefined, arg[, ...]);
+</pre>
+<p>See the documentation for <tt class="docutils literal"><span class="pre">bind</span></tt> for more details about
+this facility.</p>
 <p><em>NOTE</em>: This could be used to implement, but is NOT currying.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">listMinMax(which,</span> <span class="pre">lst)</span></tt>:</p>
@@ -768,13 +789,6 @@ assert( namespace.Dude.NAME == 'Awesome.Dude' );
 </pre>
 </blockquote>
 </div>
-</div>
-<div class="section" id="todo">
-<h1><a name="todo">ToDo</a></h1>
-<ul class="simple">
-<li>Unify <tt class="docutils literal"><span class="pre">bind</span></tt> and <tt class="docutils literal"><span class="pre">partial</span></tt>, at least in implementation (they're unified
-with themselves, but not each other.. they should be).</li>
-</ul>
 </div>
 <div class="section" id="authors">
 <h1><a name="authors">Authors</a></h1>
