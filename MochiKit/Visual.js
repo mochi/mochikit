@@ -650,6 +650,7 @@ MochiKit.Visual.EXPORT = [
     "HSBtoRGB",
     "toColorPart",
     "Color",
+    "roundClass"
 ];
 MochiKit.Visual.EXPORT_OK = [];
 
