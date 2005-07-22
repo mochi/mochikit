@@ -2,18 +2,9 @@
 <html>
     <head>
         <title>Demo of MochiKit Visual Elements</title>
+        <link href="rounded_corners.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="../../MochiKit/MochiKit.js"></script>
-        <style type="text/css">
-            h1 { background: darkgreen; color: yellow; text-align: center; }
-            h2 { background: darkgreen; color: yellow; padding-top: 0.25em;}
-        </style>
-        <script type="text/javascript">//<[![CDATA
-            addLoadEvent(function () {
-                swapDOM("visual_version", SPAN(null, MochiKit.Visual.VERSION));
-                roundClass("h1", null);
-                roundClass("h2", null, {corners: "bottom"});
-            });
-        //]]></script>
+        <script type="text/javascript" src="rounded_corners.js"></script>
     </head>
     <body>
         <h1>MochiKit Visuals <span id="visual_version"></span></h1>
