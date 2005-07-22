@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 90});
+    plan({'tests': 91});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -83,12 +83,19 @@ try {
     
     // test partial application
     var a = [];
-    var func = function (a, b) { return this.value + a + b; };
+    var func = function (a, b) {
+        if (arguments.length != 2) {
+            return "bad args";
+        } else {
+            return this.value + a + b;
+        }
+    };
     var self = {"value": 1, "func": func};
     var self2 = {"value": 2};
     is( self.func(2, 3), 6, "setup for test is correct" );
     self.funcTwo = partial(self.func, 2);
     is( self.funcTwo(3), 6, "partial application works" );
+    is( self.funcTwo(3), 6, "partial application works still" );
     is( bind(self.funcTwo, self2)(3), 7, "rebinding partial works" );
     self.funcTwo = bind(bind(self.funcTwo, self2), null);
     is( self.funcTwo(3), 6, "re-unbinding partial application works" );
