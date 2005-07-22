@@ -37,9 +37,6 @@ MochiKit.Base.extend = function (self, obj, /* optional */skip) {
     
     // Extend an array with an array-like object starting
     // from the skip index
-    if (!self) {
-        self = [];
-    }
     if (!skip) {
         skip = 0;
     }
@@ -54,6 +51,9 @@ MochiKit.Base.extend = function (self, obj, /* optional */skip) {
             } else {
                 throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
             }
+        }
+        if (!self) {
+            return Array.prototype.slice.call(obj, skip);
         }
         for (var i = skip; i < l; i++) {
             self.push(obj[i]);
@@ -398,6 +398,10 @@ MochiKit.Base.map = function (fn, lst/*, lst... */) {
             return MochiKit.Base.extend(null, lst);
         }
         // fast path for map(fn, lst)
+        if (typeof(Array.prototype.map) == 'function') {
+            // Mozilla fast-path
+            return Array.prototype.map.call(lst, fn);
+        }
         var rval = [];
         for (var i = 0; i < lst.length; i++) {
             rval.push(fn(lst[i]));
@@ -437,14 +441,6 @@ MochiKit.Base.map = function (fn, lst/*, lst... */) {
 };
 
 MochiKit.Base.xfilter = function (fn/*, obj... */) {
-    /***
-
-        Returns a new array composed of the arguments where
-        fn(arg) returns a true value.
-
-        If fn is null, operator.truth will be used.
-
-    ***/
     var rval = [];
     if (fn == null) {
         fn = MochiKit.Base.operator.truth;
@@ -458,15 +454,7 @@ MochiKit.Base.xfilter = function (fn/*, obj... */) {
     return rval;
 };
 
-MochiKit.Base.filter = function (fn, lst) {
-    /***
-
-        Returns a new array composed of elements from lst where
-        fn(lst[i]) returns a true value.
-
-        If fn is null, operator.truth will be used.
-
-    ***/
+MochiKit.Base.filter = function (fn, lst, self) {
     var rval = [];
     // allow an iterable to be passed
     if (!MochiKit.Base.isArrayLike(lst)) {
@@ -479,14 +467,28 @@ MochiKit.Base.filter = function (fn, lst) {
     if (fn == null) {
         fn = MochiKit.Base.operator.truth;
     }
-    for (var i = 0; i < lst.length; i++) {
-        var o = lst[i];
-        if (fn(o)) {
-            rval.push(o);
+    if (typeof(Array.prototype.filter) == 'function') {
+        // Mozilla fast-path
+        return Array.prototype.filter.call(lst, fn, self);
+    }
+    else if (typeof(self) == 'undefined' || self == null) {
+        for (var i = 0; i < lst.length; i++) {
+            var o = lst[i];
+            if (fn(o)) {
+                rval.push(o);
+            }
+        }
+    } else {
+        for (var i = 0; i < lst.length; i++) {
+            var o = lst[i];
+            if (fn.call(self, o)) {
+                rval.push(o);
+            }
         }
     }
     return rval;
 };
+
 
 MochiKit.Base.bind = function (func, self) {
     /***
