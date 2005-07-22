@@ -34,7 +34,7 @@ Description
 
 As you probably know, the DOM APIs are some of the most painful Java-inspired
 APIs you'll run across from a highly dynamic language.  Don't worry about that
-though, because they provide a reasonable basis to built something that
+though, because they provide a reasonable basis to build something that
 sucks a lot less.
 
 MochiKit.DOM takes much of its inspiration from Nevow's [1]_ stan [2]_.
