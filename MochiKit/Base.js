@@ -510,7 +510,7 @@ MochiKit.Base.bind = function (func, self/* args... */) {
         var args = arguments;
         var me = arguments.callee;
         if (me.im_preargs.length > 0) {
-            args = MochiKit.Base.extend(me.im_preargs, args);
+            args = MochiKit.Base.concat(me.im_preargs, args);
         }
         var self = me.im_self;
         if (!self) {
