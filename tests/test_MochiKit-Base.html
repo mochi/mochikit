@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 91});
+    plan({'tests': 92});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -275,11 +275,12 @@ try {
 
     is( compare(a, b), 0, "registerComparator" );
 
-    update(a, {"foo": "bar"}, {"wibble": "baz"})
+    update(a, {"foo": "bar"}, {"wibble": "baz"}, undefined, null, {"grr": 1});
     is( a.foo, "bar", "update worked (first obj)" );
     is( a.wibble, "baz", "update worked (second obj)" );
-
+    is( a.grr, 1, "update worked (skipped undefined and null)" );
     is( compare(a, b), 1, "update worked (comparison)" );
+
 
     setdefault(a, {"foo": "unf"}, {"bar": "web taco"} );
     is( a.foo, "bar", "setdefault worked (skipped existing)" );
