@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<title></title>
+</head>
+<body>
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<div class="section" id="name">
+<h1><a name="name">Name</a></h1>
+<p>MochiKit.Visual - visual effects</p>
+</div>
+<div class="section" id="synopsis">
+<h1><a name="synopsis">Synopsis</a></h1>
+<pre class="literal-block">
+// round the corners of all h1 elements
+roundClass(&quot;h1&quot;, null);
+
+// round the top left corner of the element with the id &quot;title&quot;
+new RoundCorner(&quot;title&quot;, {corners: &quot;tl&quot;});
+</pre>
+</div>
+<div class="section" id="description">
+<h1><a name="description">Description</a></h1>
+<p>MochiKit.Visual provides visual effects and support functions for visuals.</p>
+</div>
+<div class="section" id="dependencies">
+<h1><a name="dependencies">Dependencies</a></h1>
+<ul class="simple">
+<li><a class="reference" href="Base.html">MochiKit.Base</a></li>
+</ul>
+<ul class="simple">
+<li><a class="reference" href="DOM.html">MochiKit.DOM</a></li>
+</ul>
+</div>
+<div class="section" id="overview">
+<h1><a name="overview">Overview</a></h1>
+<p>At this time, MochiKit.Visual provides one visual effect: rounded corners
+for your HTML elements. These rounded corners are created completely
+through CSS manipulations and require no external images or style sheets.
+This implementation was adapted from <a class="reference" href="http://www.openrico.org">Rico</a>.</p>
+<p>The Visual package also includes some functions for computing colors and a
+Color object that provides some useful methods for working with colors.</p>
+</div>
+<div class="section" id="api-reference">
+<h1><a name="api-reference">API Reference</a></h1>
+<div class="section" id="constructors">
+<h2><a name="constructors">Constructors</a></h2>
+<p><tt class="docutils literal"><span class="pre">Color(red,</span> <span class="pre">green,</span> <span class="pre">blue)</span></tt>:</p>
+<blockquote>
+Represents a color.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.setRed(r)</span></tt>:</p>
+<blockquote>
+Sets the red value of this color.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.setGreen(g)</span></tt>:</p>
+<blockquote>
+Sets the green value of this color.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.setBlue(b)</span></tt>:</p>
+<blockquote>
+Sets the blue value of this color.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.setHue(h)</span></tt>:</p>
+<blockquote>
+Sets this color's RGB values based on the provided hue value.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.setSaturation(s)</span></tt>:</p>
+<blockquote>
+Sets this color's RGB values based on the provided saturation value.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.setBrightness(b)</span></tt>:</p>
+<blockquote>
+Sets this color's RGB values based on the provided brightness value.</blockquote>
+<p><tt class="docutils literal"><span class="pre">RoundCorners(element,</span> <span class="pre">options)</span></tt>:</p>
+<blockquote>
+<p>When instantiated, this will immediately round the corners of the
+specified element. The element can be given as either a string 
+with the element ID, or as an element object.</p>
+<p>The options mapping has the following defaults:
+* corners : &quot;all&quot;,
+* color   : &quot;fromElement&quot;,
+* bgColor : &quot;fromParent&quot;,
+* blend   : true,
+* border  : false,
+* compact : false</p>
+<p><em>corners</em> specifies which corners of the element should be rounded.
+Choices are: all, top, bottom, tl (top left), bl (bottom left),
+tr (top right), br (bottom right).</p>
+<p><em>blend</em> specifies whether the color and background color should be blended
+together to produce the border color.</p>
+</blockquote>
+</div>
+<div class="section" id="functions">
+<h2><a name="functions">Functions</a></h2>
+<p><tt class="docutils literal"><span class="pre">roundClass(tagName,</span> <span class="pre">className,</span> <span class="pre">options)</span></tt>:</p>
+<blockquote>
+Rounds all of the elements that match the tagName and className
+specifiers, using the options provided. tagName or className can
+be null to match all tags or classes. For more information about
+the options, see the RoundCorners constructor above.</blockquote>
+<p><tt class="docutils literal"><span class="pre">createFromHex(hexCode)</span></tt>:</p>
+<blockquote>
+Constructs a Color object based on the hex code provided. The code
+can be passed in with or without a leading &quot;#&quot;.</blockquote>
+<p><tt class="docutils literal"><span class="pre">getElementsComputedStyle(htmlElement,</span> <span class="pre">cssProperty,</span> <span class="pre">mozillaEquivalentCSS)</span></tt>:</p>
+<blockquote>
+Looks up a CSS property for the given element. The element can be
+specified as either a string with the element's ID or the element
+object itself.</blockquote>
+<p><tt class="docutils literal"><span class="pre">createColorFromBackground(elem)</span></tt>:</p>
+<blockquote>
+Creates a Color object based on the background of the provided
+element.</blockquote>
+<p><tt class="docutils literal"><span class="pre">HSBtoRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">brightness)</span></tt>:</p>
+<blockquote>
+Computes RGB values from the provided HSB values. The return value is a
+mapping with &quot;r&quot;, &quot;g&quot;, and &quot;b&quot; keys.</blockquote>
+<p><tt class="docutils literal"><span class="pre">RGBtoHSB(r,</span> <span class="pre">g,</span> <span class="pre">b)</span></tt>:</p>
+<blockquote>
+Computes HSB values based on the provided RGB values. The return value is
+a mapping with &quot;h&quot;, &quot;s&quot; and &quot;b&quot; keys.</blockquote>
+</div>
+</div>
+</div>
+</body>
+</html>

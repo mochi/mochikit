@@ -22,6 +22,7 @@ if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Format");
     JSAN.use("MochiKit.Async");
     JSAN.use("MochiKit.DOM");
+    JSAN.use("MochiKit.Visual");
 } else {
     __MochiKit_Compat__ = true;
     (function (/* ... */) {
@@ -62,6 +63,7 @@ if (typeof(JSAN) != 'undefined') {
         "DateTime",
         "Format",
         "Async",
-        "DOM"
+        "DOM",
+        "Visual"
     );
 }
