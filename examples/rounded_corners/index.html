@@ -1,30 +1,26 @@
 <html>
     <head>
         <title>Demo of MochiKit Visual Elements</title>
-        <script type="text/javascript" src="JSAN.js"></script>
-        <script type="text/javascript" src="../MochiKit/Base.js"></script>
-        <script type="text/javascript" src="../MochiKit/Iter.js"></script>
-        <script type="text/javascript" src="../MochiKit/DOM.js"></script>
-        <script type="text/javascript" src="../MochiKit/Visual.js"></script>
+        <script type="text/javascript" src="../../MochiKit/MochiKit.js"></script>
         <style type="text/css">
-        h1 { background: darkgreen; color: yellow; text-align: center; }
-        h2 { background: darkgreen; color: yellow; padding-top: 0.25em;}
+            h1 { background: darkgreen; color: yellow; text-align: center; }
+            h2 { background: darkgreen; color: yellow; padding-top: 0.25em;}
         </style>
-        <script type="text/javascript">
-        function bodyOnLoad()
-        {
-            MochiKit.Visual.roundClass("h1", null);
-            MochiKit.Visual.roundClass("h2", null, { corners: "bottom"});
-        }
-        </script>
+        <script type="text/javascript">//<[![CDATA
+            addLoadEvent(function () {
+                swapDOM("visual_version", SPAN(null, MochiKit.Visual.VERSION));
+                roundClass("h1", null);
+                roundClass("h2", null, {corners: "bottom"});
+            });
+        //]]></script>
     </head>
-    <body onload="bodyOnLoad()">
-        <h1>MochiKit Visuals
-        <script type="text/javascript">
-            document.write(MochiKit.Visual.VERSION);
-        </script></h1>
+    <body>
+        <h1>MochiKit Visuals <span id="visual_version"></span></h1>
         <h2>Rounded Corners</h2>
-        <p>The heading at the top of this page should have all four corners rounded. The
-        heading for this section should just have the bottom corners rounded.</p>
+        <p>
+            The heading at the top of this page should have all four corners
+            rounded. The heading for this section should just have the bottom
+            corners rounded.
+        </p>
     </body>
 </html>
