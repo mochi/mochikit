@@ -53,7 +53,7 @@ MochiKit.Base.extend = function (self, obj, /* optional */skip) {
             }
         }
         if (!self) {
-            return Array.prototype.slice.call(obj, skip);
+            self = [];
         }
         for (var i = skip; i < l; i++) {
             self.push(obj[i]);
