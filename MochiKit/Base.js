@@ -490,27 +490,38 @@ MochiKit.Base.filter = function (fn, lst, self) {
 };
 
 
-MochiKit.Base.bind = function (func, self) {
-    /***
-        
-        Return a copy of func bound to self.  This means whenever
-        and however the return value is called, "this" will always
-        reference the given "self".
-
-        Calling bind(func, self) on an already bound function will
-        return a new function that is bound to the new self.
-
-    ***/
+MochiKit.Base.bind = function (func, self/* args... */) {
     var im_func = func.im_func;
+    var im_preargs = func.im_preargs;
+    var im_self = func.im_self;
     if (typeof(im_func) != 'function') {
         im_func = func;
     }
-    func = function () {
-        return func.im_func.apply(func.im_self, arguments);
+    if (typeof(self) != 'undefined') {
+        im_self = self;
+    }
+    if (typeof(im_preargs) == 'undefined') {
+        im_preargs = [];
+    } else  {
+        im_preargs = im_preargs.slice();
+    }
+    MochiKit.Base.extend(im_preargs, arguments, 2);
+    var newfunc = function () {
+        var args = arguments;
+        var me = arguments.callee;
+        if (me.im_preargs.length > 0) {
+            args = MochiKit.Base.extend(me.im_preargs, args);
+        }
+        var self = me.im_self;
+        if (!self) {
+            self = this;
+        }
+        return me.im_func.apply(self, args);
     };
-    func.im_self = self;
-    func.im_func = im_func;
-    return func;
+    newfunc.im_self = im_self;
+    newfunc.im_func = im_func;
+    newfunc.im_preargs = im_preargs;
+    return newfunc;
 };
 
 MochiKit.Base.bindMethods = function (self) {
@@ -856,36 +867,8 @@ MochiKit.Base.reverseKeyComparator = function (key) {
 };
 
 MochiKit.Base.partial = function (func) {
-    /***
-
-        Return a partially applied function, e.g.:
-
-            addNumbers = function (a, b) {
-                return a + b;
-            }
-
-            addOne = partial(addNumbers, 1);
-
-            assert(addOne(2) == 3);
-
-        NOTE: This could be used to implement, but is NOT currying.
-
-    ***/
-    var preargs = null;
-    if (typeof(func.partial_func) != 'undefined') {
-        preargs = func.partial_preargs;
-        func = func.partial_func;
-    }
-    var extend = MochiKit.Base.extend;
-    preargs = extend(preargs, arguments, 1);
-    var rval = function () {
-        return func.apply(this, extend(preargs.slice(), arguments));
-    }
-    rval.partial_preargs = preargs;
-    rval.partial_func = func;
-    return rval;
+    return MochiKit.Base.bind.apply(this, MochiKit.Base.extend([func, undefined], arguments, 1));
 };
-
  
 MochiKit.Base.listMinMax = function (which, lst) {
     /***
