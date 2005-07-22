@@ -52,6 +52,7 @@ MochiKit.DOM.EXPORT = [
     "IMG",
     "getElement",
     "$",
+    "getElementsByTagAndClassName",
     "addToCallStack",
     "addLoadEvent",
     "focusOnLoad",
@@ -358,6 +359,35 @@ MochiKit.DOM.getElement = function (id) {
         return MochiKit.Base.map(getElement, arguments);
     }
 };
+
+/* This function was adapted from Rico. http://www.openrico.org. */
+
+MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className) {
+    if (tagName == null) {
+        tagName = '*';
+    }
+    var children = document.getElementsByTagName(tagName) || document.all;
+    var elements = [];
+
+    if (className == null) {
+        return children;
+    }
+
+    for (var i = 0; i < children.length; i++) {
+        var child = children[i];
+        var classNames = child.className.split(' ');
+        for (var j = 0; j < classNames.length; j++) {
+            if (classNames[j] == className) {
+                elements.push(child);
+                break;
+            }
+        }
+    }
+
+    return elements;
+}
+
+/* end of Rico adaptation. */
 
 MochiKit.DOM.addToCallStack = function (target, path, func, once) {
     var existing = target[path];
@@ -734,7 +764,7 @@ MochiKit.DOM.__new__ = function () {
 
     this.EXPORT_TAGS = {
         ":common": this.EXPORT,
-        ":all": concat(this.EXPORT, this.EXPORT_OK)
+        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
     };
 
     MochiKit.Base.nameFunctions(this);
