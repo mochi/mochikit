@@ -258,6 +258,13 @@ Functions
 
     If multiple arguments are given, an ``Array`` will be returned.
 
+``getElementsByTagAndClassName(tagName, className)``:
+
+    Returns an array of elements that match the tag name and class name provided.
+    
+    If tagName is null or "*", all elements will be searched for the matching class.
+    
+    If className is null, all elements matching the provided tag are returned.
 
 ``$(id[, ...])``:
 
