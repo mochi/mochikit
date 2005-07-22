@@ -44,10 +44,10 @@ a string should be a text node, and that you want functions to be called,
 and that ``Array``-like objects should be expanded, and stupid ``null`` values
 should be skipped.
 
-Hell, it will let you return strings from functions, use `MochiKit.Iter`_, 
-and you can even teach it new tricks with ``registerDOMConverter``.  If you
-have never used an API like this for creating DOM elements, you've been
-wasting your damn time.  Get with it!
+Hell, it will let you return strings from functions, and use iterators from
+`MochiKit.Iter`_.  If that's not enough, just teach it new tricks with
+``registerDOMConverter``.  If you have never used an API like this for
+creating DOM elements, you've been wasting your damn time.  Get with it!
     
 .. _`MochiKit.Iter`: Iter.html
 
