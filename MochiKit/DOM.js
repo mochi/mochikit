@@ -335,6 +335,8 @@ MochiKit.DOM.swapDOM = function (dest, src) {
         @rtype: a DOM element (src)
 
     ***/
+    dest = MochiKit.DOM.getElement(dest);
+    src = MochiKit.DOM.getElement(src);
     var parent = dest.parentNode;
     parent.insertBefore(src, dest);
     parent.removeChild(dest);
