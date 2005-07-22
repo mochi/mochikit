@@ -86,8 +86,10 @@ MochiKit.Base.update = function (self, obj/*, ... */) {
     }
     for (var i = 1; i < arguments.length; i++) {
         var o = arguments[i];
-        for (var k in o) {
-            self[k] = o[k];
+        if (typeof(o) != 'undefined' && o != null) {
+            for (var k in o) {
+                self[k] = o[k];
+            }
         }
     }
     return self;
