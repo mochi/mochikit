@@ -249,7 +249,7 @@ MochiKit.Visual.Color.fromRGBString = function (rgbCode) {
     for (var i = 0; i < rgbChunks.length; i++) {
         var c = rgbChunks[i];
         var val;
-        if (c[c.length - 1] == '%') {
+        if (c.charAt(c.length - 1) == '%') {
             val = 2.55 * parseInt(c.substring(0, c.length - 1), 10);
         } else {
             val = parseInt(c, 10);
