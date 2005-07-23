@@ -59,7 +59,7 @@ Constructors
 
     Represents a color.  Component values should be integers between ``0``
     and ``255``.  You should use one of the ``Color`` factory
-    functions such as ``Color.fromRGB``, ``Color.fromHSB``, etc. instead
+    functions such as ``Color.fromRGB``, ``Color.fromHSL``, etc. instead
     of constructing ``Color`` objects directly.
 
     ``Color`` instances can be compared with ``MochiKit.Base.compare``
@@ -77,14 +77,14 @@ Constructors
         ``Color.fromRGB({r: red, g: green, b: blue})``
 
 
-``Color.fromHSB(hue, saturation, brightness)``:
+``Color.fromHSL(hue, saturation, lightness)``:
 
     Return a ``Color`` object from the given ``hue``, ``saturation``,
-    ``brightness`` values.  Values should be numbers between ``0.0`` and
+    ``lightness`` values.  Values should be numbers between ``0.0`` and
     ``1.0``.
 
     Alternate form:
-        ``Color.fromHSB({h: hue, s: saturation, b: brightness})``
+        ``Color.fromHSL({h: hue, s: saturation, b: lightness})``
 
 
 ``Color.fromHexString(hexString)``:
@@ -128,10 +128,10 @@ Constructors
     ``saturation`` value.
 
 
-``Color.prototype.colorWithBrightness(brightness)``:
+``Color.prototype.colorWithLightness(lightness)``:
 
     Return a new ``Color`` based on this color, but with the provided
-    ``brightness`` value.
+    ``lightness`` value.
 
 
 ``Color.prototype.darkerColorWithLevel(level)``:
@@ -140,9 +140,9 @@ Constructors
     ``level`` (between ``0`` and ``1.0``).
 
 
-``Color.prototype.brighterColorWithLevel(level)``:
+``Color.prototype.lighterColorWithLevel(level)``:
 
-    Return a new ``Color`` based on this color, but brighter by the given
+    Return a new ``Color`` based on this color, but lighter by the given
     ``level`` (between ``0`` and ``1.0``).
 
 
@@ -154,15 +154,15 @@ Constructors
     color's.
 
 
-``Color.prototype.isBright()``:
+``Color.prototype.isLight()``:
 
-    Return ``true`` if the brightness value of this color is greater than
+    Return ``true`` if the lightness value of this color is greater than
     ``0.5``.
 
 
 ``Color.prototype.isDark()``:
 
-    Return ``true`` if the brightness value of this color is less than or
+    Return ``true`` if the lightness value of this color is less than or
     equal to ``0.5``.
 
 
@@ -188,10 +188,10 @@ Constructors
         assert( Color.whiteColor().toHexString() == "#FFFFFF" );
 
 
-``Color.prototype.asHSB()``:
+``Color.prototype.asHSL()``:
 
-    Return the HSB (hue, saturation, brightness) components of this color
-    as an object with ``h``, ``s``, and ``b`` properties, with floating
+    Return the HSL (hue, saturation, lightness) components of this color
+    as an object with ``h``, ``s``, and ``l`` properties, with floating
     point values between ``0.0`` and ``1.0``.
 
 
@@ -321,22 +321,22 @@ Functions
     object itself.
     
 
-``hsbToRGB(hue, saturation, brightness)``:
+``hslToRGB(hue, saturation, lightness)``:
 
-    Computes RGB values from the provided HSB values. The return value is a
+    Computes RGB values from the provided HSL values. The return value is a
     mapping with ``"r"``, ``"g"``, and ``"b"`` keys.
     
     Alternate form:
-        ``hsbToRGB({h: hue,  s: saturation, b: brightness})``.
+        ``hslToRGB({h: hue,  s: saturation, l: lightness})``.
 
 
-``rgbToHSB(red, green, blue)``:
+``rgbToHSL(red, green, blue)``:
 
-    Computes HSB values based on the provided RGB values. The return value is
-    a mapping with ``"h"``, ``"s"`` and ``"b"`` keys.
+    Computes HSL values based on the provided RGB values. The return value is
+    a mapping with ``"h"``, ``"s"`` and ``"l"`` keys.
     
     Alternate form:
-        ``rgbToHSB({r: red, g: green, b: blue})``.
+        ``rgbToHSL({r: red, g: green, b: blue})``.
 
 ``toColorPart(num)``:
 

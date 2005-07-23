@@ -52,7 +52,7 @@ This implementation was adapted from <a class="reference" href="http://www.openr
 <blockquote>
 <p>Represents a color.  Component values should be integers between <tt class="docutils literal"><span class="pre">0</span></tt>
 and <tt class="docutils literal"><span class="pre">255</span></tt>.  You should use one of the <tt class="docutils literal"><span class="pre">Color</span></tt> factory
-functions such as <tt class="docutils literal"><span class="pre">Color.fromRGB</span></tt>, <tt class="docutils literal"><span class="pre">Color.fromHSB</span></tt>, etc. instead
+functions such as <tt class="docutils literal"><span class="pre">Color.fromRGB</span></tt>, <tt class="docutils literal"><span class="pre">Color.fromHSL</span></tt>, etc. instead
 of constructing <tt class="docutils literal"><span class="pre">Color</span></tt> objects directly.</p>
 <p><tt class="docutils literal"><span class="pre">Color</span></tt> instances can be compared with <tt class="docutils literal"><span class="pre">MochiKit.Base.compare</span></tt>
 (though ordering is on RGB, so is not particularly meaningful),
@@ -68,14 +68,14 @@ values.  Values should be integers between <tt class="docutils literal"><span cl
 <dd><tt class="docutils literal"><span class="pre">Color.fromRGB({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue})</span></tt></dd>
 </dl>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.fromHSB(hue,</span> <span class="pre">saturation,</span> <span class="pre">brightness)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">Color.fromHSL(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness)</span></tt>:</p>
 <blockquote>
 <p>Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given <tt class="docutils literal"><span class="pre">hue</span></tt>, <tt class="docutils literal"><span class="pre">saturation</span></tt>,
-<tt class="docutils literal"><span class="pre">brightness</span></tt> values.  Values should be numbers between <tt class="docutils literal"><span class="pre">0.0</span></tt> and
+<tt class="docutils literal"><span class="pre">lightness</span></tt> values.  Values should be numbers between <tt class="docutils literal"><span class="pre">0.0</span></tt> and
 <tt class="docutils literal"><span class="pre">1.0</span></tt>.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">Color.fromHSB({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">b:</span> <span class="pre">brightness})</span></tt></dd>
+<dd><tt class="docutils literal"><span class="pre">Color.fromHSL({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">b:</span> <span class="pre">lightness})</span></tt></dd>
 </dl>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.fromHexString(hexString)</span></tt>:</p>
@@ -107,17 +107,17 @@ Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> ba
 <blockquote>
 Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
 <tt class="docutils literal"><span class="pre">saturation</span></tt> value.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithBrightness(brightness)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithLightness(lightness)</span></tt>:</p>
 <blockquote>
 Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
-<tt class="docutils literal"><span class="pre">brightness</span></tt> value.</blockquote>
+<tt class="docutils literal"><span class="pre">lightness</span></tt> value.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.prototype.darkerColorWithLevel(level)</span></tt>:</p>
 <blockquote>
 Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but darker by the given
 <tt class="docutils literal"><span class="pre">level</span></tt> (between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.brighterColorWithLevel(level)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.lighterColorWithLevel(level)</span></tt>:</p>
 <blockquote>
-Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but brighter by the given
+Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but lighter by the given
 <tt class="docutils literal"><span class="pre">level</span></tt> (between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>).</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.prototype.blendedColor(other,</span> <span class="pre">fraction=0.5)</span></tt>:</p>
 <blockquote>
@@ -125,13 +125,13 @@ Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> wh
 of this color and <tt class="docutils literal"><span class="pre">other</span></tt>.  Each component of the returned color
 is the <tt class="docutils literal"><span class="pre">fraction</span></tt> of other's value plus <tt class="docutils literal"><span class="pre">1</span> <span class="pre">-</span> <span class="pre">fraction</span></tt> of this
 color's.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.isBright()</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.isLight()</span></tt>:</p>
 <blockquote>
-Return <tt class="docutils literal"><span class="pre">true</span></tt> if the brightness value of this color is greater than
+Return <tt class="docutils literal"><span class="pre">true</span></tt> if the lightness value of this color is greater than
 <tt class="docutils literal"><span class="pre">0.5</span></tt>.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.prototype.isDark()</span></tt>:</p>
 <blockquote>
-Return <tt class="docutils literal"><span class="pre">true</span></tt> if the brightness value of this color is less than or
+Return <tt class="docutils literal"><span class="pre">true</span></tt> if the lightness value of this color is less than or
 equal to <tt class="docutils literal"><span class="pre">0.5</span></tt>.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.prototype.toRGBString()</span></tt>:</p>
 <blockquote>
@@ -150,10 +150,10 @@ with <tt class="docutils literal"><span class="pre">r</span></tt>, <tt class="do
 assert( Color.whiteColor().toHexString() == &quot;#FFFFFF&quot; );
 </pre>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.asHSB()</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.asHSL()</span></tt>:</p>
 <blockquote>
-Return the HSB (hue, saturation, brightness) components of this color
-as an object with <tt class="docutils literal"><span class="pre">h</span></tt>, <tt class="docutils literal"><span class="pre">s</span></tt>, and <tt class="docutils literal"><span class="pre">b</span></tt> properties, with floating
+Return the HSL (hue, saturation, lightness) components of this color
+as an object with <tt class="docutils literal"><span class="pre">h</span></tt>, <tt class="docutils literal"><span class="pre">s</span></tt>, and <tt class="docutils literal"><span class="pre">l</span></tt> properties, with floating
 point values between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.blackColor()</span></tt>:</p>
 <blockquote>
@@ -267,22 +267,22 @@ the options, see the <tt class="docutils literal"><span class="pre">roundElement
 Looks up a CSS property for the given element. The element can be
 specified as either a string with the element's ID or the element
 object itself.</blockquote>
-<p><tt class="docutils literal"><span class="pre">hsbToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">brightness)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">hslToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness)</span></tt>:</p>
 <blockquote>
-<p>Computes RGB values from the provided HSB values. The return value is a
+<p>Computes RGB values from the provided HSL values. The return value is a
 mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;g&quot;</span></tt>, and <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> keys.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">hsbToRGB({h:</span> <span class="pre">hue,</span>&nbsp; <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">b:</span> <span class="pre">brightness})</span></tt>.</dd>
+<dd><tt class="docutils literal"><span class="pre">hslToRGB({h:</span> <span class="pre">hue,</span>&nbsp; <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">l:</span> <span class="pre">lightness})</span></tt>.</dd>
 </dl>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">rgbToHSB(red,</span> <span class="pre">green,</span> <span class="pre">blue)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">rgbToHSL(red,</span> <span class="pre">green,</span> <span class="pre">blue)</span></tt>:</p>
 <blockquote>
-<p>Computes HSB values based on the provided RGB values. The return value is
-a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> keys.</p>
+<p>Computes HSL values based on the provided RGB values. The return value is
+a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;l&quot;</span></tt> keys.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">rgbToHSB({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue})</span></tt>.</dd>
+<dd><tt class="docutils literal"><span class="pre">rgbToHSL({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue})</span></tt>.</dd>
 </dl>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">toColorPart(num)</span></tt>:</p>
