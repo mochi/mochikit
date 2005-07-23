@@ -101,13 +101,20 @@ Constructors
     RGB values ``[255, 255, 255]`` (white).
 
 
+``Color.fromName(colorName)``:
+
+    Returns a ``Color`` object corresponding to the given
+    SVG 1.0 color keyword name [1]_ as per the W3C CSS3
+    Color Module [2]_.
+
 ``Color.fromString(rgbOrHexString)``:
 
-    Returns a ``Color`` object from the given RGB or hex string, or ``null``
-    if the string is not appropriate for either method.
+    Returns a ``Color`` object from the given RGB, hex, or name.  Will
+    return ``null`` if the string can not be parsed by any of these 
+    methods.
 
-    See ``Color.fromHexString`` and ``Color.fromRGBString`` for 
-    more information.
+    See ``Color.fromHexString``, ``Color.fromRGBString``, and
+    ``Color.fromName`` more information.
     
 
 ``Color.fromBackground(elem)``:
@@ -342,6 +349,13 @@ Functions
 
     Convert num to a zero padded hexadecimal digit for use in a hexadecimal
     color string.  Num should be between ``0`` and ``255``.
+
+
+See Also
+========
+
+.. [1] SVG 1.0 color keywords: http://www.w3.org/TR/SVG/types.html#ColorKeywords
+.. [2] W3C CSS3 Color Module: http://www.w3.org/TR/css3-color/#svg-color
 
 
 Authors

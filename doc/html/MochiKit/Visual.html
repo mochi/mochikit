@@ -88,12 +88,18 @@ RGB values <tt class="docutils literal"><span class="pre">[255,</span> <span cla
 Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given decimal rgb color string.
 For example, <tt class="docutils literal"><span class="pre">&quot;rgb(255,255,255)&quot;</span></tt> would return a <tt class="docutils literal"><span class="pre">Color</span></tt> with
 RGB values <tt class="docutils literal"><span class="pre">[255,</span> <span class="pre">255,</span> <span class="pre">255]</span></tt> (white).</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.fromName(colorName)</span></tt>:</p>
+<blockquote>
+Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object corresponding to the given
+SVG 1.0 color keyword name <a class="footnote-reference" href="#id3" id="id1" name="id1">[1]</a> as per the W3C CSS3
+Color Module <a class="footnote-reference" href="#id4" id="id2" name="id2">[2]</a>.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.fromString(rgbOrHexString)</span></tt>:</p>
 <blockquote>
-<p>Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given RGB or hex string, or <tt class="docutils literal"><span class="pre">null</span></tt>
-if the string is not appropriate for either method.</p>
-<p>See <tt class="docutils literal"><span class="pre">Color.fromHexString</span></tt> and <tt class="docutils literal"><span class="pre">Color.fromRGBString</span></tt> for 
-more information.</p>
+<p>Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given RGB, hex, or name.  Will
+return <tt class="docutils literal"><span class="pre">null</span></tt> if the string can not be parsed by any of these 
+methods.</p>
+<p>See <tt class="docutils literal"><span class="pre">Color.fromHexString</span></tt>, <tt class="docutils literal"><span class="pre">Color.fromRGBString</span></tt>, and
+<tt class="docutils literal"><span class="pre">Color.fromName</span></tt> more information.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.fromBackground(elem)</span></tt>:</p>
 <blockquote>
@@ -290,6 +296,21 @@ a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</spa
 Convert num to a zero padded hexadecimal digit for use in a hexadecimal
 color string.  Num should be between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</blockquote>
 </div>
+</div>
+<div class="section" id="see-also">
+<h1><a name="see-also">See Also</a></h1>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1" name="id3">[1]</a></td><td>SVG 1.0 color keywords: <a class="reference" href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">http://www.w3.org/TR/SVG/types.html#ColorKeywords</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2" name="id4">[2]</a></td><td>W3C CSS3 Color Module: <a class="reference" href="http://www.w3.org/TR/css3-color/#svg-color">http://www.w3.org/TR/css3-color/#svg-color</a></td></tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="authors">
 <h1><a name="authors">Authors</a></h1>
