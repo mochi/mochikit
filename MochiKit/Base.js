@@ -317,7 +317,7 @@ MochiKit.Base.isArrayLike = function () {
         var o = arguments[i];
         var typ = typeof(o);
         if (
-            typ == 'string' ||
+            (typ != 'object' && !(typ == 'function' && typeof(typ.item) == 'function')) ||
             o == null ||
             typeof(o.length) != 'number'
         ) {
