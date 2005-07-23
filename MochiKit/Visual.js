@@ -38,31 +38,27 @@ MochiKit.Visual.toString = function () {
     return this.__repr__();
 };
 
-/*
-    The following section is partially adapted from
-    Rico <http://www.openrico.org>
-*/
+
+MochiKit.Visual.clampColorComponent = function (v) {
+    if (v < 0) {
+        return 0;
+    } else if (v > 255) {
+        return 255;
+    } else {
+        return Math.round(v);
+    }
+};
 
 MochiKit.Visual.Color = function (red, green, blue, alpha) {
-    // TODO: support alpha
-    if (arguments.length == 1) {
-        this.rgb = {
-            "r": red.r,
-            "g": red.g,
-            "b": red.b,
-            "a": red.a
-        };
-    } else {
-        this.rgb = {
-            "r": red,
-            "g": green,
-            "b": blue,
-            "a": alpha
-        };
+    if (typeof(alpha) == 'undefined' || alpha == null) {
+        alpha = 1.0;
     }
-    if (typeof(this.rgb.a) == 'undefined' || this.rgb.a == null) {
-        this.rgb.a = 1.0;
-    }
+    this.rgb = {
+        "r": red,
+        "g": green,
+        "b": blue,
+        "a": alpha
+    };
 };
 
 
@@ -120,18 +116,16 @@ MochiKit.Visual.Color.prototype = {
         var d = other.rgb;
         var df = fraction;
         return MochiKit.Visual.Color.fromRGB(
-            Math.floor((s.r * sf) + (d.r * df)),
-            Math.floor((s.g * sf) + (d.g * df)),
-            Math.floor((s.b * sf) + (d.b * df))
+            (s.r * sf) + (d.r * df),
+            (s.g * sf) + (d.g * df),
+            (s.b * sf) + (d.b * df)
         );
     },
 
     "compareRGB": function (other) {
-        var sc = this.rgb;
-        var dc = other.rgb;
         return MochiKit.Base.compare(
-            [sc.r, sc.g, sc.b, sc.a],
-            [dc.r, dc.g, dc.b, dc.a]
+            this.toHexString(),
+            other.toHexString()
         );
     },
         
@@ -145,7 +139,13 @@ MochiKit.Visual.Color.prototype = {
 
     "toRGBString": function () {
         var c = this.rgb;
-        return "rgb(" + c.r + "," + c.g + "," + c.b + ")";
+        var ccc = MochiKit.Visual.clampColorComponent;
+        var rval = this._rgbString;
+        if (!rval) {
+            rval = "rgb(" + ccc(c.r) + "," + ccc(c.g) + "," + ccc(c.b) + ")";
+            this._rgbString = rval;
+        }
+        return rval;
     },
 
     "asRGB": function () {
@@ -161,10 +161,17 @@ MochiKit.Visual.Color.prototype = {
     "toHexString": function () {
         var m = MochiKit.Visual;
         var c = this.rgb;
-        return ("#" + 
-            m.toColorPart(c.r) +
-            m.toColorPart(c.g) +
-            m.toColorPart(c.b));
+        var ccc = MochiKit.Visual.clampColorComponent;
+        var rval = this._hexString;
+        if (!rval) {
+            rval = ("#" + 
+                m.toColorPart(ccc(c.r)) +
+                m.toColorPart(ccc(c.g)) +
+                m.toColorPart(ccc(c.b))
+            );
+            this._hexString = rval;
+        }
+        return rval;
     },
 
     "asHSL": function () {
@@ -188,53 +195,28 @@ MochiKit.Visual.Color.prototype = {
 
     "repr": function () {
         var c = this.rgb;
-        var col = [c.r, c.g, c.b];
+        var col = [c.r, c.g, c.b, c.a];
         return this.__class__.NAME + "(" + col.join(", ") + ")";
     }
 
 };
 
 MochiKit.Visual.Color.fromRGB = function (red, green, blue, alpha) {
+    // designated initializer
     var Color = MochiKit.Visual.Color;
-    if (arguments.length > 1) {
-        return new Color(red, green, blue, alpha);
+    if (arguments.length == 1) {
+        var rgb = red;
+        red = rgb.r;
+        green = rgb.g;
+        blue = rgb.b;
+        alpha = rgb.a;
     }
-    return new Color(red);
+    return new Color(red, green, blue, alpha);
 };
 
 MochiKit.Visual.Color.fromHSL = function (hue, saturation, lightness, alpha) {
     var m = MochiKit.Visual;
     return m.Color.fromRGB(m.hslToRGB.apply(m, arguments));
-};
-
-MochiKit.Visual.Color.fromHexString = function (hexCode) {
-    if (hexCode.indexOf('#') == 0) {
-        hexCode = hexCode.substring(1);
-    }
-    var r = parseInt(hexCode.substring(0, 2), 16);
-    var g = parseInt(hexCode.substring(2, 4), 16);
-    var b = parseInt(hexCode.substring(4, 6), 16);
-    return MochiKit.Visual.Color.fromRGB(r, g, b);
-};
-
-MochiKit.Visual.Color.fromRGBString = function (rgbCode) {
-    if (rgbCode.indexOf("rgb") == 0) {
-        rgbCode = rgbCode.substring(rgbCode.indexOf("(", 3) + 1, rgbCode.length - 1);
-    } 
-    var rgbChunks = rgbCode.split(/\s*,\s*/);
-    var rgbInts = [];
-    for (var i = 0; i < rgbChunks.length; i++) {
-        var c = rgbChunks[i];
-        var val;
-        if (c[c.length - 1] == '%') {
-            val = Math.floor(2.55 * parseInt(c.substring(0, c.length - 1), 10));
-        } else {
-            val = parseInt(c, 10);
-        }
-        rgbInts.push(val);
-    }
-    var Color = MochiKit.Visual.Color;
-    return Color.fromRGB.apply(Color, rgbInts);
 };
 
 MochiKit.Visual.Color.fromName = function (name) {
@@ -257,10 +239,43 @@ MochiKit.Visual.Color.fromString = function (colorString) {
     return self.fromName(colorString);
 };
 
-/**
- * Factory method for creating a color from the background of
- * an HTML element.
- */
+
+MochiKit.Visual.Color.fromRGBString = function (rgbCode) {
+    if (rgbCode.indexOf("rgb") == 0) {
+        rgbCode = rgbCode.substring(rgbCode.indexOf("(", 3) + 1, rgbCode.length - 1);
+    } 
+    var rgbChunks = rgbCode.split(/\s*,\s*/);
+    var rgbInts = [];
+    for (var i = 0; i < rgbChunks.length; i++) {
+        var c = rgbChunks[i];
+        var val;
+        if (c[c.length - 1] == '%') {
+            val = 2.55 * parseInt(c.substring(0, c.length - 1), 10);
+        } else {
+            val = parseInt(c, 10);
+        }
+        rgbInts.push(val);
+    }
+    var Color = MochiKit.Visual.Color;
+    return Color.fromRGB.apply(Color, rgbInts);
+};
+
+
+/*
+    The following section is partially adapted from
+    Rico <http://www.openrico.org>
+*/
+
+MochiKit.Visual.Color.fromHexString = function (hexCode) {
+    if (hexCode.indexOf('#') == 0) {
+        hexCode = hexCode.substring(1);
+    }
+    var r = parseInt(hexCode.substring(0, 2), 16);
+    var g = parseInt(hexCode.substring(2, 4), 16);
+    var b = parseInt(hexCode.substring(4, 6), 16);
+    return MochiKit.Visual.Color.fromRGB(r, g, b);
+};
+
 MochiKit.Visual.Color.fromBackground = function (elem) {
 
     var m = MochiKit.Visual;
@@ -303,12 +318,13 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
 };
 
 
-MochiKit.Visual.hslToRGB = function (hue, saturation, lightness) {
+MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
     if (arguments.length == 1) {
         var hsl = hue;
         hue = hsl.h;
         saturation = hsl.s;
         lightness = hsl.l;
+        alpha = hsl.a;
     }
 
     var red   = 0;
@@ -327,66 +343,68 @@ MochiKit.Visual.hslToRGB = function (hue, saturation, lightness) {
         var q = lightness * (1.0 - saturation * f);
         var t = lightness * (1.0 - (saturation * (1.0 - f)));
 
-        switch (parseInt(h)) {
+        switch (Math.floor(h)) {
             case 0:
-                red   = (lightness * 255.0 + 0.5);
-                green = (t * 255.0 + 0.5);
-                blue  = (p * 255.0 + 0.5);
+                red   = lightness;
+                green = t;
+                blue  = p;
                 break;
             case 1:
-                red   = (q * 255.0 + 0.5);
-                green = (lightness * 255.0 + 0.5);
-                blue  = (p * 255.0 + 0.5);
+                red   = q;
+                green = lightness;
+                blue  = p;
                 break;
             case 2:
-                red   = (p * 255.0 + 0.5);
-                green = (lightness * 255.0 + 0.5);
-                blue  = (t * 255.0 + 0.5);
+                red   = p;
+                green = lightness;
+                blue  = t;
                 break;
             case 3:
-                red   = (p * 255.0 + 0.5);
-                green = (q * 255.0 + 0.5);
-                blue  = (lightness * 255.0 + 0.5);
+                red   = p;
+                green = q;
+                blue  = lightness;
                 break;
             case 4:
-                red   = (t * 255.0 + 0.5);
-                green = (p * 255.0 + 0.5);
-                blue  = (lightness * 255.0 + 0.5);
+                red   = t;
+                green = p;
+                blue  = lightness;
                 break;
             case 5:
-                red   = (lightness * 255.0 + 0.5);
-                green = (p * 255.0 + 0.5);
-                blue  = (q * 255.0 + 0.5);
+                red   = lightness;
+                green = p;
+                blue  = q;
                 break;
 	    }
 	}
 
     return {
-        "r": parseInt(red),
-        "g": parseInt(green),
-        "b": parseInt(blue)
+        "r": red * 255.0,
+        "g": green * 255.0,
+        "b": blue * 255.0,
+        "a": alpha
     };
 }
 
-MochiKit.Visual.rgbToHSL = function (r, g, b) {
+MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
     if (arguments.length == 1) {
-        var rgb = r;
-        r = rgb.r;
-        g = rgb.g;
-        b = rgb.b;
+        var rgb = red;
+        red = rgb.r;
+        green = rgb.g;
+        blue = rgb.b;
+        alpha = rgb.a;
     }
     var hue;
     var saturaton;
     var lightness;
 
-    var cmax = (r > g) ? r : g;
-    if (b > cmax) {
-        cmax = b;
+    var cmax = (red > green) ? red : green;
+    if (blue > cmax) {
+        cmax = blue;
     }
 
-    var cmin = (r < g) ? r : g;
-    if (b < cmin) {
-        cmin = b;
+    var cmin = (red < green) ? red : green;
+    if (blue < cmin) {
+        cmin = blue;
     }
 
     lightness = cmax / 255.0;
@@ -399,13 +417,13 @@ MochiKit.Visual.rgbToHSL = function (r, g, b) {
     if (saturation == 0) {
         hue = 0;
     } else {
-        var redc   = (cmax - r) / (cmax - cmin);
-        var greenc = (cmax - g) / (cmax - cmin);
-        var bluec  = (cmax - b) / (cmax - cmin);
+        var redc   = (cmax - red) / (cmax - cmin);
+        var greenc = (cmax - green) / (cmax - cmin);
+        var bluec  = (cmax - blue) / (cmax - cmin);
 
-        if (r == cmax) {
+        if (red == cmax) {
             hue = bluec - greenc;
-        } else if (g == cmax) {
+        } else if (green == cmax) {
             hue = 2.0 + redc - bluec;
         } else {
             hue = 4.0 + greenc - redc;
@@ -420,7 +438,8 @@ MochiKit.Visual.rgbToHSL = function (r, g, b) {
     return {
         "h": hue,
         "s": saturation,
-        "l": lightness
+        "l": lightness,
+        "a": alpha
     };
 };
 
@@ -770,7 +789,7 @@ MochiKit.Visual.__new__  = function () {
         var name = k + "Color";
         var bindArgs = concat(
             [makeColor, this.Color, name],
-            map(function (x) { return Math.floor(x * 255); }, colors[k])
+            map(function (x) { return x * 255; }, colors[k])
         );
         this.Color[name] = bind.apply(null, bindArgs);
     }
@@ -792,7 +811,7 @@ MochiKit.Visual.__new__  = function () {
         
     this.EXPORT_TAGS = {
         ":common": this.EXPORT,
-        ":all": this.EXPORT
+        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
     };
 
     MochiKit.Base.nameFunctions(this);
@@ -800,14 +819,17 @@ MochiKit.Visual.__new__  = function () {
 };
 
 MochiKit.Visual.EXPORT = [
-    "rgbToHSL",
-    "hslToRGB",
-    "toColorPart",
     "Color",
     "roundElement",
     "roundClass"
 ];
-MochiKit.Visual.EXPORT_OK = [];
+
+MochiKit.Visual.EXPORT_OK = [
+    "clampColorComponent",
+    "rgbToHSL",
+    "hslToRGB",
+    "toColorPart"
+];
 
 MochiKit.Visual.__new__();
 

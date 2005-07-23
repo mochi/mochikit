@@ -336,6 +336,8 @@ Functions
     Alternate form:
         ``hslToRGB({h: hue,  s: saturation, l: lightness})``.
 
+    ``hslToRGB`` is not exported by default when using JSAN.
+
 
 ``rgbToHSL(red, green, blue)``:
 
@@ -345,10 +347,32 @@ Functions
     Alternate form:
         ``rgbToHSL({r: red, g: green, b: blue})``.
 
+    ``rgbToHSL`` is not exported by default when using JSAN.
+
+
 ``toColorPart(num)``:
 
     Convert num to a zero padded hexadecimal digit for use in a hexadecimal
     color string.  Num should be between ``0`` and ``255``.
+
+    ``toColorPart`` is not exported by default when using JSAN.
+
+
+``clampColorComponent(num)``:
+
+    Clamps a component value to integers between ``0`` and ``255``.
+
+    ``clampColorComponent`` is not exported by default when using JSAN.
+
+
+ToDo
+====
+
+- Support ``rgba(...)`` strings
+- Support ``hsl(...)`` strings
+- Support ``hsla(...)`` strings
+- Support alpha (blend, etc.)
+- Possibly move to 1.0 based RGB component model?
 
 
 See Also

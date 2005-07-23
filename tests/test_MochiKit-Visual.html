@@ -14,7 +14,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 33});
+    plan({'tests': 37});
    
     is( Color.whiteColor().toHexString(), "#ffffff", "whiteColor has right hex" );
     is( Color.blackColor().toHexString(), "#000000", "blackColor has right hex" );
@@ -66,6 +66,10 @@ try {
     rgb = Color.brownColor().asRGB();
     is( rgb.r, 153, "asRGB returns copy" );
 
+    is( Color.fromName("aqua").toHexString(), "#00ffff", "aqua fromName" );
+    is( Color.fromString("aqua").toHexString(), "#00ffff", "aqua fromString" );
+    is( Color.fromRGBString("rgb( 0, 255, 255)").toHexString(), "#00ffff", "fromRGBString with spaces" );
+    is( Color.fromRGBString("rgb( 0, 100%, 255)").toHexString(), "#00ffff", "fromRGBString with percents" );
     
     // Done!
 
