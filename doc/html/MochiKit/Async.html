@@ -296,6 +296,21 @@ rather than a successful one.</p>
 <dd>a new <tt class="docutils literal"><span class="pre">Deferred</span></tt></dd>
 </dl>
 </blockquote>
+<p><tt class="docutils literal"><span class="pre">sendXMLHttpRequest(req[,</span> <span class="pre">sendContent])</span></tt>:</p>
+<blockquote>
+<p>Set an <tt class="docutils literal"><span class="pre">onreadystatechange</span></tt> handler on an <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> object
+and send it off.  Will return a cancellable <tt class="docutils literal"><span class="pre">Deferred</span></tt> that will
+callback on success.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">req</span></tt>:</dt>
+<dd>An preconfigured <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> object (open has been called).</dd>
+<dt><tt class="docutils literal"><span class="pre">sendContent</span></tt>:</dt>
+<dd>Optional string or DOM content to send over the <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>.</dd>
+<dt>returns:</dt>
+<dd><tt class="docutils literal"><span class="pre">Deferred</span></tt> that will callback with the <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> instance
+on success.</dd>
+</dl>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">doSimpleXMLHttpRequest(url)</span></tt>:</p>
 <blockquote>
 <p>Perform a simple <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> and wrap it with a
