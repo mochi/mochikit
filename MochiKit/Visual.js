@@ -71,44 +71,44 @@ MochiKit.Visual.Color.prototype = {
     "__class__": MochiKit.Visual.Color,
 
     "colorWithHue": function (hue) {
-        // get an HSB model, and set the new hue...
-        var hsb = this.asHSB();
-        hsb.h = hue;
+        // get an HSL model, and set the new hue...
+        var hsl = this.asHSL();
+        hsl.h = hue;
         var m = MochiKit.Visual;
         // convert back to RGB...
-        return m.Color.fromHSB(hsb);
+        return m.Color.fromHSL(hsl);
     },
 
     "colorWithSaturation": function (saturation) {
-        // get an HSB model, and set the new hue...
-        var hsb = this.asHSB();
-        hsb.s = saturation;
+        // get an HSL model, and set the new hue...
+        var hsl = this.asHSL();
+        hsl.s = saturation;
         var m = MochiKit.Visual;
         // convert back to RGB...
-        return m.Color.fromHSB(hsb);
+        return m.Color.fromHSL(hsl);
     },
 
-    "colorWithBrightness": function (brightness) {
-        // get an HSB model, and set the new hue...
-        var hsb = this.asHSB();
-        hsb.b = brightness;
+    "colorWithLightness": function (lightness) {
+        // get an HSL model, and set the new hue...
+        var hsl = this.asHSL();
+        hsl.l = lightness;
         var m = MochiKit.Visual;
         // convert back to RGB...
-        return m.Color.fromHSB(hsb);
+        return m.Color.fromHSL(hsl);
     },
 
     "darkerColorWithLevel": function (level) {
-        var hsb  = this.asHSB();
-        hsb.b = Math.max(hsb.b - level, 0);
+        var hsl  = this.asHSL();
+        hsl.l = Math.max(hsl.l - level, 0);
         var m = MochiKit.Visual;
-        return m.Color.fromHSB(hsb);
+        return m.Color.fromHSL(hsl);
     },
 
-    "brighterColorWithLevel": function (level) {
-        var hsb  = this.asHSB();
-        Math.min(hsb.b + level, 1);
+    "lighterColorWithLevel": function (level) {
+        var hsl  = this.asHSL();
+        Math.min(hsl.l + level, 1);
         var m = MochiKit.Visual;
-        return m.Color.fromHSB(hsb);
+        return m.Color.fromHSL(hsl);
     },
 
     "blendedColor": function (other, /* optional */ fraction) {
@@ -135,12 +135,12 @@ MochiKit.Visual.Color.prototype = {
         );
     },
         
-    "isBright": function () {
-        return this.asHSB().b > 0.5;
+    "isLight": function () {
+        return this.asHSL().b > 0.5;
     },
 
     "isDark": function () {
-        return (!this.isBright());
+        return (!this.isLight());
     },
 
     "toRGBString": function () {
@@ -167,17 +167,17 @@ MochiKit.Visual.Color.prototype = {
             m.toColorPart(c.b));
     },
 
-    "asHSB": function () {
-        var hsb = this.hsb;
+    "asHSL": function () {
+        var hsl = this.hsl;
         var c = this.rgb;
-        if (typeof(hsb) == 'undefined' || hsb == null) {
-            hsb = MochiKit.Visual.rgbToHSB(this.rgb);
-            this.hsb = hsb;
+        if (typeof(hsl) == 'undefined' || hsl == null) {
+            hsl = MochiKit.Visual.rgbToHSL(this.rgb);
+            this.hsl = hsl;
         }
         return {
-            "h": hsb.h,
-            "s": hsb.s,
-            "b": hsb.b,
+            "h": hsl.h,
+            "s": hsl.s,
+            "l": hsl.l,
             "a": c.a
         };
     },
@@ -202,9 +202,9 @@ MochiKit.Visual.Color.fromRGB = function (red, green, blue, alpha) {
     return new Color(red);
 };
 
-MochiKit.Visual.Color.fromHSB = function (hue, saturation, brightness, alpha) {
+MochiKit.Visual.Color.fromHSL = function (hue, saturation, lightness, alpha) {
     var m = MochiKit.Visual;
-    return m.Color.fromRGB(m.hsbToRGB.apply(m, arguments));
+    return m.Color.fromRGB(m.hslToRGB.apply(m, arguments));
 };
 
 MochiKit.Visual.Color.fromHexString = function (hexCode) {
@@ -286,12 +286,12 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
 };
 
 
-MochiKit.Visual.hsbToRGB = function (hue, saturation, brightness) {
+MochiKit.Visual.hslToRGB = function (hue, saturation, lightness) {
     if (arguments.length == 1) {
-        var hsb = hue;
-        hue = hsb.h;
-        saturation = hsb.s;
-        brightness = hsb.b;
+        var hsl = hue;
+        hue = hsl.h;
+        saturation = hsl.s;
+        lightness = hsl.l;
     }
 
     var red   = 0;
@@ -299,45 +299,45 @@ MochiKit.Visual.hsbToRGB = function (hue, saturation, brightness) {
     var blue  = 0;
 
     if (saturation == 0) {
-        red = parseInt(brightness * 255.0 + 0.5);
+        red = parseInt(lightness * 255.0 + 0.5);
         green = red;
         blue = red;
     }
     else {
         var h = (hue - Math.floor(hue)) * 6.0;
         var f = h - Math.floor(h);
-        var p = brightness * (1.0 - saturation);
-        var q = brightness * (1.0 - saturation * f);
-        var t = brightness * (1.0 - (saturation * (1.0 - f)));
+        var p = lightness * (1.0 - saturation);
+        var q = lightness * (1.0 - saturation * f);
+        var t = lightness * (1.0 - (saturation * (1.0 - f)));
 
         switch (parseInt(h)) {
             case 0:
-                red   = (brightness * 255.0 + 0.5);
+                red   = (lightness * 255.0 + 0.5);
                 green = (t * 255.0 + 0.5);
                 blue  = (p * 255.0 + 0.5);
                 break;
             case 1:
                 red   = (q * 255.0 + 0.5);
-                green = (brightness * 255.0 + 0.5);
+                green = (lightness * 255.0 + 0.5);
                 blue  = (p * 255.0 + 0.5);
                 break;
             case 2:
                 red   = (p * 255.0 + 0.5);
-                green = (brightness * 255.0 + 0.5);
+                green = (lightness * 255.0 + 0.5);
                 blue  = (t * 255.0 + 0.5);
                 break;
             case 3:
                 red   = (p * 255.0 + 0.5);
                 green = (q * 255.0 + 0.5);
-                blue  = (brightness * 255.0 + 0.5);
+                blue  = (lightness * 255.0 + 0.5);
                 break;
             case 4:
                 red   = (t * 255.0 + 0.5);
                 green = (p * 255.0 + 0.5);
-                blue  = (brightness * 255.0 + 0.5);
+                blue  = (lightness * 255.0 + 0.5);
                 break;
             case 5:
-                red   = (brightness * 255.0 + 0.5);
+                red   = (lightness * 255.0 + 0.5);
                 green = (p * 255.0 + 0.5);
                 blue  = (q * 255.0 + 0.5);
                 break;
@@ -351,7 +351,7 @@ MochiKit.Visual.hsbToRGB = function (hue, saturation, brightness) {
     };
 }
 
-MochiKit.Visual.rgbToHSB = function (r, g, b) {
+MochiKit.Visual.rgbToHSL = function (r, g, b) {
     if (arguments.length == 1) {
         var rgb = r;
         r = rgb.r;
@@ -360,7 +360,7 @@ MochiKit.Visual.rgbToHSB = function (r, g, b) {
     }
     var hue;
     var saturaton;
-    var brightness;
+    var lightness;
 
     var cmax = (r > g) ? r : g;
     if (b > cmax) {
@@ -372,7 +372,7 @@ MochiKit.Visual.rgbToHSB = function (r, g, b) {
         cmin = b;
     }
 
-    brightness = cmax / 255.0;
+    lightness = cmax / 255.0;
     if (cmax != 0) {
         saturation = (cmax - cmin) / cmax;
     } else {
@@ -403,7 +403,7 @@ MochiKit.Visual.rgbToHSB = function (r, g, b) {
     return {
         "h": hue,
         "s": saturation,
-        "b": brightness
+        "l": lightness
     };
 };
 
@@ -783,8 +783,8 @@ MochiKit.Visual.__new__  = function () {
 };
 
 MochiKit.Visual.EXPORT = [
-    "rgbToHSB",
-    "hsbToRGB",
+    "rgbToHSL",
+    "hslToRGB",
     "toColorPart",
     "Color",
     "roundElement",

@@ -32,32 +32,32 @@ try {
     is( Color.fromRGBString("rgb(190,222,173)").toHexString(), "#bedead", "round-trip rgb" );
     is( Color.fromString("rgb(190,222,173)").toHexString(), "#bedead", "round-trip rgb" );
 
-    var hsb = Color.whiteColor().asHSB();
-    is( hsb.h, 0.0, "white hsb.h" );
-    is( hsb.s, 0.0, "white hsb.s" );
-    is( hsb.b, 1.0, "white hsb.b" );
-    hsb = Color.brownColor().asHSB();
-    is( hsb.h, (30.0 / 360.0), "brown hsb.h" );
-    is( hsb.s, (2.0 / 3.0), "brown hsb.s" );
-    is( hsb.b, 0.6, "brown hsb.b" );
+    var hsl = Color.whiteColor().asHSL();
+    is( hsl.h, 0.0, "white hsl.h" );
+    is( hsl.s, 0.0, "white hsl.s" );
+    is( hsl.l, 1.0, "white hsl.l" );
+    hsl = Color.brownColor().asHSL();
+    is( hsl.h, (30.0 / 360.0), "brown hsl.h" );
+    is( hsl.s, (2.0 / 3.0), "brown hsl.s" );
+    is( hsl.l, 0.6, "brown hsl.l" );
     is( 
-        Color.fromHSB(hsb.h, hsb.s, hsb.b).toHexString(),
+        Color.fromHSL(hsl.h, hsl.s, hsl.l).toHexString(),
         Color.brownColor().toHexString(),
-        "fromHSB works with components"
+        "fromHSL works with components"
     );
     is( 
-        Color.fromHSB(hsb).toHexString(),
+        Color.fromHSL(hsl).toHexString(),
         Color.brownColor().toHexString(),
-        "fromHSB alt form"
+        "fromHSL alt form"
     );
-    is( Color.fromHSB(0, 0, 0).toHexString(), "#000000", "fromHSB to black" );
-    hsb = Color.blackColor().asHSB();
-    is( hsb.h, 0.0, "black hsb.h" );
-    is( hsb.s, 0.0, "black hsb.s" );
-    is( hsb.b, 0.0, "black hsb.b" );
-    hsb.h = 1.0;
-    hsb = Color.blackColor().asHSB();
-    is( hsb.h, 0.0, "asHSB returns copy" );
+    is( Color.fromHSL(0, 0, 0).toHexString(), "#000000", "fromHSL to black" );
+    hsl = Color.blackColor().asHSL();
+    is( hsl.h, 0.0, "black hsl.h" );
+    is( hsl.s, 0.0, "black hsl.s" );
+    is( hsl.l, 0.0, "black hsl.l" );
+    hsl.h = 1.0;
+    hsl = Color.blackColor().asHSL();
+    is( hsl.h, 0.0, "asHSL returns copy" );
     var rgb = Color.brownColor().asRGB();
     is( rgb.r, 153, "brown rgb.r" );
     is( rgb.g, 102, "brown rgb.g" );
