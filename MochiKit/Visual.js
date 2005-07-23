@@ -249,21 +249,6 @@ MochiKit.Visual.Color.fromString = function (colorString) {
     return null;
 };
 
-
-MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, mozillaEquivalentCSS) {
-    if (arguments.length == 2) {
-        mozillaEquivalentCSS = cssProperty;
-    }
-    var el = MochiKit.DOM.getElement(htmlElement);
-    if (el.currentStyle) {
-        return el.currentStyle[cssProperty];
-    } else {
-        var style = document.defaultView.getComputedStyle(el, null);
-        return style.getPropertyValue(mozillaEquivalentCSS);
-    }
-};
-
-
 /**
  * Factory method for creating a color from the background of
  * an HTML element.
@@ -294,6 +279,21 @@ MochiKit.Visual.Color.fromBackground = function (elem) {
     }
     return color;
 };
+
+
+MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, mozillaEquivalentCSS) {
+    if (arguments.length == 2) {
+        mozillaEquivalentCSS = cssProperty;
+    }
+    var el = MochiKit.DOM.getElement(htmlElement);
+    if (el.currentStyle) {
+        return el.currentStyle[cssProperty];
+    } else {
+        var style = document.defaultView.getComputedStyle(el, null);
+        return style.getPropertyValue(mozillaEquivalentCSS);
+    }
+};
+
 
 MochiKit.Visual.hsbToRGB = function (hue, saturation, brightness) {
 
