@@ -57,14 +57,66 @@ Constructors
 
 ``Color(red, green, blue)``:
 
-    Represents a color.  An alternate form is also accepted for convenience:
-    ``Color({r: red, g: green, b: blue})``.  Component values should be
-    integers between ``0`` and ``255``.
+    Represents a color.  Component values should be integers between ``0``
+    and ``255``.  It is recommended that you use one of the ``Color`` factory
+    functions such as ``Color.fromRGB``, ``Color.fromHSB``, etc. instead
+    of constructing ``Color`` objects directly.
 
     ``Color`` instances can be compared with ``MochiKit.Base.compare``
     (though ordering is on RGB, so is not particularly meaningful),
     and the default ``toString`` implementation returns
     ``this.toHexString()``.
+
+    Alternate form:
+        ``Color({r: red, g: green, b: blue})``.
+
+
+``Color.fromRGB(red, green, blue)``:
+
+    Return a ``Color`` object from the given ``red``, ``green``, ``blue``
+    values.  Values should be integers between ``0`` and ``255``.
+
+    Alternate form:
+        ``Color.fromRGB({r: red, g: green, b: blue})``
+
+
+``Color.fromHSB(hue, saturation, brightness)``:
+
+    Return a ``Color`` object from the given ``hue``, ``saturation``,
+    ``brightness`` values.  Values should be numbers between ``0.0`` and
+    ``1.0``.
+
+    Alternate form:
+        ``Color.fromHSB({h: hue, s: saturation, b: brightness})``
+
+
+``Color.fromHexString(hexString)``:
+
+    Returns a ``Color`` object from the given hexadecimal color string.
+    For example, ``"#FFFFFF"`` would return a ``Color`` with
+    RGB values ``[255, 255, 255]`` (white).
+
+
+``Color.fromRGBString(rgbString)``:
+
+    Returns a ``Color`` object from the given decimal rgb color string.
+    For example, ``"rgb(255,255,255)"`` would return a ``Color`` with
+    RGB values ``[255, 255, 255]`` (white).
+
+
+``Color.fromString(rgbOrHexString)``:
+
+    Returns a ``Color`` object from the given RGB or hex string, or ``null``
+    if the string is not appropriate for either method.
+
+    See ``Color.fromHexString`` and ``Color.fromRGBString`` for 
+    more information.
+    
+
+``Color.fromBackground(elem)``:
+
+    Returns a ``Color`` object based on the background of the provided
+    element.
     
 
 ``Color.prototype.colorWithHue(hue)``:
@@ -136,10 +188,7 @@ Constructors
 
     For example::
 
-        var whiteRGB = Color.whiteColor().asRGB();
-        assert( whiteRGB.r == 255 );
-        assert( whiteRGB.g == 255 );
-        assert( whiteRGB.b == 255 );
+        assert( Color.whiteColor().toHexString() == "#FFFFFF" );
 
 
 ``Color.prototype.asHSB()``:
@@ -268,23 +317,11 @@ Functions
     the options, see the ``RoundCorners`` constructor above.
 
 
-``createFromHex(hexCode)``:
-
-    Constructs a ``Color`` object based on the hex code provided. The code
-    can be passed in with or without a leading "#".
-    
-
 ``getElementsComputedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)``:
 
     Looks up a CSS property for the given element. The element can be
     specified as either a string with the element's ID or the element
     object itself.
-    
-
-``createColorFromBackground(elem)``:
-
-    Creates a ``Color`` object based on the background of the provided
-    element.
     
 
 ``hsbToRGB(hue, saturation, brightness)``:
@@ -299,12 +336,18 @@ Functions
     a mapping with ``"h"``, ``"s"`` and ``"b"`` keys.
     
 
+``toColorPart(num)``:
+
+    Convert num to a zero padded hexadecimal digit for use in a hexadecimal
+    color string.
+
+
 Authors
 =======
 
 - Kevin Dangoor <dangoor@gmail.com>
 - Bob Ippolito <bob@redivi.com>
-- Includes code adapted from Rico <http://openrico.org/>
+- Originally adapted from Rico <http://openrico.org/> (though little remains)
 
 
 Copyright

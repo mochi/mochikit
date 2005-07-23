@@ -50,14 +50,59 @@ This implementation was adapted from <a class="reference" href="http://www.openr
 <h2><a name="constructors">Constructors</a></h2>
 <p><tt class="docutils literal"><span class="pre">Color(red,</span> <span class="pre">green,</span> <span class="pre">blue)</span></tt>:</p>
 <blockquote>
-<p>Represents a color.  An alternate form is also accepted for convenience:
-<tt class="docutils literal"><span class="pre">Color({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue})</span></tt>.  Component values should be
-integers between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
+<p>Represents a color.  Component values should be integers between <tt class="docutils literal"><span class="pre">0</span></tt>
+and <tt class="docutils literal"><span class="pre">255</span></tt>.  It is recommended that you use one of the <tt class="docutils literal"><span class="pre">Color</span></tt> factory
+functions such as <tt class="docutils literal"><span class="pre">Color.fromRGB</span></tt>, <tt class="docutils literal"><span class="pre">Color.fromHSB</span></tt>, etc. instead
+of constructing <tt class="docutils literal"><span class="pre">Color</span></tt> objects directly.</p>
 <p><tt class="docutils literal"><span class="pre">Color</span></tt> instances can be compared with <tt class="docutils literal"><span class="pre">MochiKit.Base.compare</span></tt>
 (though ordering is on RGB, so is not particularly meaningful),
 and the default <tt class="docutils literal"><span class="pre">toString</span></tt> implementation returns
 <tt class="docutils literal"><span class="pre">this.toHexString()</span></tt>.</p>
+<dl class="docutils">
+<dt>Alternate form:</dt>
+<dd><tt class="docutils literal"><span class="pre">Color({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue})</span></tt>.</dd>
+</dl>
 </blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.fromRGB(red,</span> <span class="pre">green,</span> <span class="pre">blue)</span></tt>:</p>
+<blockquote>
+<p>Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given <tt class="docutils literal"><span class="pre">red</span></tt>, <tt class="docutils literal"><span class="pre">green</span></tt>, <tt class="docutils literal"><span class="pre">blue</span></tt>
+values.  Values should be integers between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
+<dl class="docutils">
+<dt>Alternate form:</dt>
+<dd><tt class="docutils literal"><span class="pre">Color.fromRGB({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue})</span></tt></dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.fromHSB(hue,</span> <span class="pre">saturation,</span> <span class="pre">brightness)</span></tt>:</p>
+<blockquote>
+<p>Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given <tt class="docutils literal"><span class="pre">hue</span></tt>, <tt class="docutils literal"><span class="pre">saturation</span></tt>,
+<tt class="docutils literal"><span class="pre">brightness</span></tt> values.  Values should be numbers between <tt class="docutils literal"><span class="pre">0.0</span></tt> and
+<tt class="docutils literal"><span class="pre">1.0</span></tt>.</p>
+<dl class="docutils">
+<dt>Alternate form:</dt>
+<dd><tt class="docutils literal"><span class="pre">Color.fromHSB({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">b:</span> <span class="pre">brightness})</span></tt></dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.fromHexString(hexString)</span></tt>:</p>
+<blockquote>
+Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given hexadecimal color string.
+For example, <tt class="docutils literal"><span class="pre">&quot;#FFFFFF&quot;</span></tt> would return a <tt class="docutils literal"><span class="pre">Color</span></tt> with
+RGB values <tt class="docutils literal"><span class="pre">[255,</span> <span class="pre">255,</span> <span class="pre">255]</span></tt> (white).</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.fromRGBString(rgbString)</span></tt>:</p>
+<blockquote>
+Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given decimal rgb color string.
+For example, <tt class="docutils literal"><span class="pre">&quot;rgb(255,255,255)&quot;</span></tt> would return a <tt class="docutils literal"><span class="pre">Color</span></tt> with
+RGB values <tt class="docutils literal"><span class="pre">[255,</span> <span class="pre">255,</span> <span class="pre">255]</span></tt> (white).</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.fromString(rgbOrHexString)</span></tt>:</p>
+<blockquote>
+<p>Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given RGB or hex string, or <tt class="docutils literal"><span class="pre">null</span></tt>
+if the string is not appropriate for either method.</p>
+<p>See <tt class="docutils literal"><span class="pre">Color.fromHexString</span></tt> and <tt class="docutils literal"><span class="pre">Color.fromRGBString</span></tt> for 
+more information.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.fromBackground(elem)</span></tt>:</p>
+<blockquote>
+Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object based on the background of the provided
+element.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithHue(hue)</span></tt>:</p>
 <blockquote>
 Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
@@ -106,10 +151,7 @@ with <tt class="docutils literal"><span class="pre">r</span></tt>, <tt class="do
 <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
 <p>For example:</p>
 <pre class="literal-block">
-var whiteRGB = Color.whiteColor().asRGB();
-assert( whiteRGB.r == 255 );
-assert( whiteRGB.g == 255 );
-assert( whiteRGB.b == 255 );
+assert( Color.whiteColor().toHexString() == &quot;#FFFFFF&quot; );
 </pre>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.prototype.asHSB()</span></tt>:</p>
@@ -224,19 +266,11 @@ Rounds all of the elements that match the <tt class="docutils literal"><span cla
 specifiers, using the options provided.  <tt class="docutils literal"><span class="pre">tagName</span></tt> or <tt class="docutils literal"><span class="pre">className</span></tt> can
 be <tt class="docutils literal"><span class="pre">null</span></tt> to match all tags or classes.  For more information about
 the options, see the <tt class="docutils literal"><span class="pre">RoundCorners</span></tt> constructor above.</blockquote>
-<p><tt class="docutils literal"><span class="pre">createFromHex(hexCode)</span></tt>:</p>
-<blockquote>
-Constructs a <tt class="docutils literal"><span class="pre">Color</span></tt> object based on the hex code provided. The code
-can be passed in with or without a leading &quot;#&quot;.</blockquote>
 <p><tt class="docutils literal"><span class="pre">getElementsComputedStyle(htmlElement,</span> <span class="pre">cssProperty,</span> <span class="pre">mozillaEquivalentCSS)</span></tt>:</p>
 <blockquote>
 Looks up a CSS property for the given element. The element can be
 specified as either a string with the element's ID or the element
 object itself.</blockquote>
-<p><tt class="docutils literal"><span class="pre">createColorFromBackground(elem)</span></tt>:</p>
-<blockquote>
-Creates a <tt class="docutils literal"><span class="pre">Color</span></tt> object based on the background of the provided
-element.</blockquote>
 <p><tt class="docutils literal"><span class="pre">hsbToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">brightness)</span></tt>:</p>
 <blockquote>
 Computes RGB values from the provided HSB values. The return value is a
@@ -245,6 +279,10 @@ mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span>
 <blockquote>
 Computes HSB values based on the provided RGB values. The return value is
 a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> keys.</blockquote>
+<p><tt class="docutils literal"><span class="pre">toColorPart(num)</span></tt>:</p>
+<blockquote>
+Convert num to a zero padded hexadecimal digit for use in a hexadecimal
+color string.</blockquote>
 </div>
 </div>
 <div class="section" id="authors">
@@ -252,7 +290,7 @@ a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</spa
 <ul class="simple">
 <li>Kevin Dangoor &lt;<a class="reference" href="mailto:dangoor&#64;gmail.com">dangoor&#64;gmail.com</a>&gt;</li>
 <li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
-<li>Includes code adapted from Rico &lt;<a class="reference" href="http://openrico.org/">http://openrico.org/</a>&gt;</li>
+<li>Originally adapted from Rico &lt;<a class="reference" href="http://openrico.org/">http://openrico.org/</a>&gt; (though little remains)</li>
 </ul>
 </div>
 <div class="section" id="copyright">
