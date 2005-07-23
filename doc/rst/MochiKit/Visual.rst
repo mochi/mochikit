@@ -299,7 +299,7 @@ Constructors
         - br (bottom right)
 
         Example:
-            `"tl br"``: top-left and bottom-right corners are rounded
+            ``"tl br"``: top-left and bottom-right corners are rounded
     
     blend:
         specifies whether the color and background color should be blended
