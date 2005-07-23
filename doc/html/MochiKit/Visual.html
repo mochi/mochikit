@@ -20,7 +20,7 @@
 roundClass(&quot;h1&quot;, null);
 
 // round the top left corner of the element with the id &quot;title&quot;
-new RoundCorner(&quot;title&quot;, {corners: &quot;tl&quot;});
+roundElement(&quot;title&quot;, {corners: &quot;tl&quot;});
 </pre>
 </div>
 <div class="section" id="description">
@@ -48,20 +48,16 @@ This implementation was adapted from <a class="reference" href="http://www.openr
 <h1><a name="api-reference">API Reference</a></h1>
 <div class="section" id="constructors">
 <h2><a name="constructors">Constructors</a></h2>
-<p><tt class="docutils literal"><span class="pre">Color(red,</span> <span class="pre">green,</span> <span class="pre">blue)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">Color()</span></tt>:</p>
 <blockquote>
 <p>Represents a color.  Component values should be integers between <tt class="docutils literal"><span class="pre">0</span></tt>
-and <tt class="docutils literal"><span class="pre">255</span></tt>.  It is recommended that you use one of the <tt class="docutils literal"><span class="pre">Color</span></tt> factory
+and <tt class="docutils literal"><span class="pre">255</span></tt>.  You should use one of the <tt class="docutils literal"><span class="pre">Color</span></tt> factory
 functions such as <tt class="docutils literal"><span class="pre">Color.fromRGB</span></tt>, <tt class="docutils literal"><span class="pre">Color.fromHSB</span></tt>, etc. instead
 of constructing <tt class="docutils literal"><span class="pre">Color</span></tt> objects directly.</p>
 <p><tt class="docutils literal"><span class="pre">Color</span></tt> instances can be compared with <tt class="docutils literal"><span class="pre">MochiKit.Base.compare</span></tt>
 (though ordering is on RGB, so is not particularly meaningful),
 and the default <tt class="docutils literal"><span class="pre">toString</span></tt> implementation returns
 <tt class="docutils literal"><span class="pre">this.toHexString()</span></tt>.</p>
-<dl class="docutils">
-<dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">Color({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue})</span></tt>.</dd>
-</dl>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.fromRGB(red,</span> <span class="pre">green,</span> <span class="pre">blue)</span></tt>:</p>
 <blockquote>
@@ -139,11 +135,11 @@ Return <tt class="docutils literal"><span class="pre">true</span></tt> if the br
 equal to <tt class="docutils literal"><span class="pre">0.5</span></tt>.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.prototype.toRGBString()</span></tt>:</p>
 <blockquote>
-Return the decimal &quot;rgb(red, green, blue)&quot; string representation of this
+Return the decimal <tt class="docutils literal"><span class="pre">&quot;rgb(red,</span> <span class="pre">green,</span> <span class="pre">blue)&quot;</span></tt> string representation of this
 color.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.prototype.toHexString()</span></tt>:</p>
 <blockquote>
-Return the hexadecimal &quot;#RRGGBB&quot; string representation of this color.</blockquote>
+Return the hexadecimal <tt class="docutils literal"><span class="pre">&quot;#RRGGBB&quot;</span></tt> string representation of this color.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.prototype.asRGB()</span></tt>:</p>
 <blockquote>
 <p>Return the RGB (red, green, blue) components of this color as an object
@@ -201,35 +197,38 @@ Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object
 <p><tt class="docutils literal"><span class="pre">Color.yellowColor()</span></tt>:</p>
 <blockquote>
 Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 255, 255, 0.</blockquote>
-<p><tt class="docutils literal"><span class="pre">RoundCorners(element,</span> <span class="pre">options)</span></tt>:</p>
+</div>
+<div class="section" id="functions">
+<h2><a name="functions">Functions</a></h2>
+<p><tt class="docutils literal"><span class="pre">roundElement(element[,</span> <span class="pre">options])</span></tt>:</p>
 <blockquote>
-<p>When instantiated, this will immediately round the corners of the
-specified element. The element can be given as either a string 
+<p>Immediately round the corners of the specified element.
+The element can be given as either a string 
 with the element ID, or as an element object.</p>
 <p>The options mapping has the following defaults:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="41%" />
-<col width="59%" />
+<col width="35%" />
+<col width="65%" />
 </colgroup>
 <tbody valign="top">
 <tr><td>corners</td>
-<td>&quot;all&quot;,</td>
+<td><tt class="docutils literal"><span class="pre">&quot;all&quot;</span></tt></td>
 </tr>
 <tr><td>color</td>
-<td>&quot;fromElement&quot;</td>
+<td><tt class="docutils literal"><span class="pre">&quot;fromElement&quot;</span></tt></td>
 </tr>
 <tr><td>bgColor</td>
-<td>&quot;fromParent&quot;</td>
+<td><tt class="docutils literal"><span class="pre">&quot;fromParent&quot;</span></tt></td>
 </tr>
 <tr><td>blend</td>
-<td>true</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
 </tr>
 <tr><td>border</td>
-<td>false</td>
+<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
 </tr>
 <tr><td>compact</td>
-<td>false</td>
+<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
 </tr>
 </tbody>
 </table>
@@ -257,15 +256,12 @@ Choices are:</p>
 together to produce the border color.</dd>
 </dl>
 </blockquote>
-</div>
-<div class="section" id="functions">
-<h2><a name="functions">Functions</a></h2>
-<p><tt class="docutils literal"><span class="pre">roundClass(tagName,</span> <span class="pre">className,</span> <span class="pre">options)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">roundClass(tagName[,</span> <span class="pre">className[,</span> <span class="pre">options]])</span></tt>:</p>
 <blockquote>
 Rounds all of the elements that match the <tt class="docutils literal"><span class="pre">tagName</span></tt> and <tt class="docutils literal"><span class="pre">className</span></tt>
 specifiers, using the options provided.  <tt class="docutils literal"><span class="pre">tagName</span></tt> or <tt class="docutils literal"><span class="pre">className</span></tt> can
 be <tt class="docutils literal"><span class="pre">null</span></tt> to match all tags or classes.  For more information about
-the options, see the <tt class="docutils literal"><span class="pre">RoundCorners</span></tt> constructor above.</blockquote>
+the options, see the <tt class="docutils literal"><span class="pre">roundElement</span></tt> function above.</blockquote>
 <p><tt class="docutils literal"><span class="pre">getElementsComputedStyle(htmlElement,</span> <span class="pre">cssProperty,</span> <span class="pre">mozillaEquivalentCSS)</span></tt>:</p>
 <blockquote>
 Looks up a CSS property for the given element. The element can be
@@ -273,16 +269,26 @@ specified as either a string with the element's ID or the element
 object itself.</blockquote>
 <p><tt class="docutils literal"><span class="pre">hsbToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">brightness)</span></tt>:</p>
 <blockquote>
-Computes RGB values from the provided HSB values. The return value is a
-mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;g&quot;</span></tt>, and <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> keys.</blockquote>
-<p><tt class="docutils literal"><span class="pre">rgbToHSB(r,</span> <span class="pre">g,</span> <span class="pre">b)</span></tt>:</p>
+<p>Computes RGB values from the provided HSB values. The return value is a
+mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;g&quot;</span></tt>, and <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> keys.</p>
+<dl class="docutils">
+<dt>Alternate form:</dt>
+<dd><tt class="docutils literal"><span class="pre">hsbToRGB({h:</span> <span class="pre">hue,</span>&nbsp; <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">b:</span> <span class="pre">brightness})</span></tt>.</dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">rgbToHSB(red,</span> <span class="pre">green,</span> <span class="pre">blue)</span></tt>:</p>
 <blockquote>
-Computes HSB values based on the provided RGB values. The return value is
-a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> keys.</blockquote>
+<p>Computes HSB values based on the provided RGB values. The return value is
+a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> keys.</p>
+<dl class="docutils">
+<dt>Alternate form:</dt>
+<dd><tt class="docutils literal"><span class="pre">rgbToHSB({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue})</span></tt>.</dd>
+</dl>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">toColorPart(num)</span></tt>:</p>
 <blockquote>
 Convert num to a zero padded hexadecimal digit for use in a hexadecimal
-color string.</blockquote>
+color string.  Num should be between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</blockquote>
 </div>
 </div>
 <div class="section" id="authors">

@@ -15,7 +15,7 @@ Synopsis
     roundClass("h1", null);
     
     // round the top left corner of the element with the id "title"
-    new RoundCorner("title", {corners: "tl"});
+    roundElement("title", {corners: "tl"});
     
 
 Description
@@ -55,10 +55,10 @@ API Reference
 Constructors
 ------------
 
-``Color(red, green, blue)``:
+``Color()``:
 
     Represents a color.  Component values should be integers between ``0``
-    and ``255``.  It is recommended that you use one of the ``Color`` factory
+    and ``255``.  You should use one of the ``Color`` factory
     functions such as ``Color.fromRGB``, ``Color.fromHSB``, etc. instead
     of constructing ``Color`` objects directly.
 
@@ -66,9 +66,6 @@ Constructors
     (though ordering is on RGB, so is not particularly meaningful),
     and the default ``toString`` implementation returns
     ``this.toHexString()``.
-
-    Alternate form:
-        ``Color({r: red, g: green, b: blue})``.
 
 
 ``Color.fromRGB(red, green, blue)``:
@@ -171,13 +168,13 @@ Constructors
 
 ``Color.prototype.toRGBString()``:
 
-    Return the decimal "rgb(red, green, blue)" string representation of this
+    Return the decimal ``"rgb(red, green, blue)"`` string representation of this
     color.
 
 
 ``Color.prototype.toHexString()``:
 
-    Return the hexadecimal "#RRGGBB" string representation of this color.
+    Return the hexadecimal ``"#RRGGBB"`` string representation of this color.
 
 
 ``Color.prototype.asRGB()``:
@@ -268,22 +265,25 @@ Constructors
     Return a ``Color`` object whose RGB values are 255, 255, 0.
 
 
-``RoundCorners(element, options)``:
+Functions
+---------
 
-    When instantiated, this will immediately round the corners of the
-    specified element. The element can be given as either a string 
+``roundElement(element[, options])``:
+
+    Immediately round the corners of the specified element.
+    The element can be given as either a string 
     with the element ID, or as an element object.
     
     The options mapping has the following defaults:
 
-    ========= =============
-    corners   "all",
-    color     "fromElement"
-    bgColor   "fromParent"
-    blend     true
-    border    false
-    compact   false
-    ========= =============
+    ========= =================
+    corners   ``"all"``
+    color     ``"fromElement"``
+    bgColor   ``"fromParent"``
+    blend     ``true``
+    border    ``false``
+    compact   ``false``
+    ========= =================
     
     corners:
 
@@ -306,15 +306,12 @@ Constructors
         together to produce the border color.
     
 
-Functions
----------
-
-``roundClass(tagName, className, options)``:
+``roundClass(tagName[, className[, options]])``:
 
     Rounds all of the elements that match the ``tagName`` and ``className``
     specifiers, using the options provided.  ``tagName`` or ``className`` can
     be ``null`` to match all tags or classes.  For more information about
-    the options, see the ``RoundCorners`` constructor above.
+    the options, see the ``roundElement`` function above.
 
 
 ``getElementsComputedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)``:
@@ -329,17 +326,22 @@ Functions
     Computes RGB values from the provided HSB values. The return value is a
     mapping with ``"r"``, ``"g"``, and ``"b"`` keys.
     
+    Alternate form:
+        ``hsbToRGB({h: hue,  s: saturation, b: brightness})``.
 
-``rgbToHSB(r, g, b)``:
+
+``rgbToHSB(red, green, blue)``:
 
     Computes HSB values based on the provided RGB values. The return value is
     a mapping with ``"h"``, ``"s"`` and ``"b"`` keys.
     
+    Alternate form:
+        ``rgbToHSB({r: red, g: green, b: blue})``.
 
 ``toColorPart(num)``:
 
     Convert num to a zero padded hexadecimal digit for use in a hexadecimal
-    color string.
+    color string.  Num should be between ``0`` and ``255``.
 
 
 Authors
