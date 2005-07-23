@@ -1,0 +1,92 @@
+<html>
+<head>
+    <script type="text/javascript" src="Test/Builder.js"></script>
+    <script type="text/javascript" src="Test/More.js"></script>
+    <script type="text/javascript" src="../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../MochiKit/Iter.js"></script>
+    <script type="text/javascript" src="../MochiKit/DOM.js"></script>
+    <script type="text/javascript" src="../MochiKit/Visual.js"></script>
+</head>
+<body>
+
+<pre id="test">
+<script type="text/javascript">
+try {
+        
+    // Counting the number of tests is really lame
+    plan({'tests': 33});
+   
+    is( Color.whiteColor().toHexString(), "#ffffff", "whiteColor has right hex" );
+    is( Color.blackColor().toHexString(), "#000000", "blackColor has right hex" );
+    is( Color.blueColor().toHexString(), "#0000ff", "blueColor has right hex" );
+    is( Color.redColor().toHexString(), "#ff0000", "redColor has right hex" );
+    is( Color.greenColor().toHexString(), "#00ff00", "greenColor has right hex" );
+    is( compare(Color.whiteColor(), Color.whiteColor()), 0, "default colors compare right" );
+    ok( Color.whiteColor() == Color.whiteColor(), "default colors are interned" );
+    ok( Color.whiteColor().toRGBString(), "rgb(255,255,255)", "toRGBString white" );
+    ok( Color.blueColor().toRGBString(), "rgb(0,0,255)", "toRGBString blue" );
+    is( Color.fromRGB(190, 222, 173).toHexString(), "#bedead", "fromRGB works" );
+    is( Color.fromRGB({r:190,g:222,b:173}).toHexString(), "#bedead", "alt fromRGB works" );
+    is( Color.fromHexString("#bedead").toHexString(), "#bedead", "round-trip hex" );
+    is( Color.fromString("#bedead").toHexString(), "#bedead", "round-trip string(hex)" );
+    is( Color.fromRGBString("rgb(190,222,173)").toHexString(), "#bedead", "round-trip rgb" );
+    is( Color.fromString("rgb(190,222,173)").toHexString(), "#bedead", "round-trip rgb" );
+
+    var hsb = Color.whiteColor().asHSB();
+    is( hsb.h, 0.0, "white hsb.h" );
+    is( hsb.s, 0.0, "white hsb.s" );
+    is( hsb.b, 1.0, "white hsb.b" );
+    hsb = Color.brownColor().asHSB();
+    is( hsb.h, (30.0 / 360.0), "brown hsb.h" );
+    is( hsb.s, (2.0 / 3.0), "brown hsb.s" );
+    is( hsb.b, 0.6, "brown hsb.b" );
+    is( 
+        Color.fromHSB(hsb.h, hsb.s, hsb.b).toHexString(),
+        Color.brownColor().toHexString(),
+        "fromHSB works with components"
+    );
+    is( 
+        Color.fromHSB(hsb).toHexString(),
+        Color.brownColor().toHexString(),
+        "fromHSB alt form"
+    );
+    is( Color.fromHSB(0, 0, 0).toHexString(), "#000000", "fromHSB to black" );
+    hsb = Color.blackColor().asHSB();
+    is( hsb.h, 0.0, "black hsb.h" );
+    is( hsb.s, 0.0, "black hsb.s" );
+    is( hsb.b, 0.0, "black hsb.b" );
+    hsb.h = 1.0;
+    hsb = Color.blackColor().asHSB();
+    is( hsb.h, 0.0, "asHSB returns copy" );
+    var rgb = Color.brownColor().asRGB();
+    is( rgb.r, 153, "brown rgb.r" );
+    is( rgb.g, 102, "brown rgb.g" );
+    is( rgb.b, 51, "brown rgb.b" );
+    rgb.r = 0;
+    rgb = Color.brownColor().asRGB();
+    is( rgb.r, 153, "asRGB returns copy" );
+
+    
+    // Done!
+
+    ok( true, "test suite finished!");
+    
+} catch (err) {
+    
+    var s = "test suite failure!\n";
+    var o = {};
+    var k = null;
+    for (k in err) {
+        // ensure unique keys?!
+        if (!o[k]) {
+            s +=  k + ": " + err[k] + "\n";
+            o[k] = err[k];
+        }
+    }
+    ok ( false, s );
+
+}
+</script>
+</pre>
+</body>
+</html>

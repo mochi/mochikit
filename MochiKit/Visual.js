@@ -290,8 +290,8 @@ MochiKit.Visual.hsbToRGB = function (hue, saturation, brightness) {
     if (arguments.length == 1) {
         var hsb = hue;
         hue = hsb.h;
-        saturation = hue.s;
-        brightness = hue.b;
+        saturation = hsb.s;
+        brightness = hsb.b;
     }
 
     var red   = 0;
@@ -742,7 +742,7 @@ MochiKit.Visual.__new__  = function () {
 
     var makeColor = function (name, r, g, b) {
         var rval = this.fromRGB(r, g, b);
-        this.name = function () { return rval; };
+        this[name] = function () { return rval; };
         return rval;
     }
 
