@@ -98,7 +98,7 @@ MochiKit.Iter.iter = function (iterable, /* optional */ sentinel) {
         return MochiKit.Iter.iteratorRegistry.match(iterable);
     } catch (e) {
         if (e == MochiKit.Base.NotFound) {
-            log('iterable.length =', MochiKit.Base.repr(iterable.length));
+            log('iterable.length =', MochiKit.Base.repr(iterable.length), typeof(iterable.length));
             e = new TypeError(MochiKit.Base.repr(iterable) + " is not iterable");
         }
         throw e;
