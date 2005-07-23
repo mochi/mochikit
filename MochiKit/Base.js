@@ -755,7 +755,7 @@ MochiKit.Base.repr = function (o) {
             )) {
             return o.NAME;
         }
-        return o.toString();
+        return o;
     }
 };
 
