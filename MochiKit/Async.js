@@ -479,17 +479,10 @@ MochiKit.Async.getXMLHttpRequest = function () {
     return self.XMLHttpRequest();
 };
 
-MochiKit.Async.doSimpleXMLHttpRequest = function (url) {
-    /***
-
-    Perform a simple cancellable XMLHttpRequest using a Deferred.
-
-    @param url: The URL to GET
-
-    @rtype: L{Deferred} returning the XMLHttpRequest
-
-    ***/
-    var req;
+MochiKit.Async.sendXMLHttpRequest = function (req, /* optional */ sendContent) {
+    if (typeof(sendContent) == 'undefined') {
+        send = null;
+    }
 
     var canceller = function () {
         // IE SUCKS
@@ -543,17 +536,26 @@ MochiKit.Async.doSimpleXMLHttpRequest = function (url) {
             }
         }
     }
-
     try {
-        req = MochiKit.Async.getXMLHttpRequest();
         req.onreadystatechange = onreadystatechange;
-        req.open("GET", url, true);
-        req.send(null);
+        req.send(sendContent);
     } catch (e) {
+        try {
+            req.onreadystatechange = null;
+        } catch (ignore) {
+            // pass
+        }
         d.errback(e);
     }
 
     return d;
+
+}
+
+MochiKit.Async.doSimpleXMLHttpRequest = function (url) {
+    var req = MochiKit.Async.getXMLHttpRequest();
+    req.open("GET", url, true);
+    return MochiKit.Async.sendXMLHttpRequest(req);
 };
 
 MochiKit.Async.loadJSONDoc = function (url) {

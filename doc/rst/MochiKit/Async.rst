@@ -326,6 +326,23 @@ Functions
         a new ``Deferred``
 
 
+``sendXMLHttpRequest(req[, sendContent])``:
+
+    Set an ``onreadystatechange`` handler on an ``XMLHttpRequest`` object
+    and send it off.  Will return a cancellable ``Deferred`` that will
+    callback on success.
+    
+    ``req``:
+        An preconfigured ``XMLHttpRequest`` object (open has been called).
+
+    ``sendContent``:
+        Optional string or DOM content to send over the ``XMLHttpRequest``.
+
+    returns:
+        ``Deferred`` that will callback with the ``XMLHttpRequest`` instance
+        on success.
+
+
 ``doSimpleXMLHttpRequest(url)``:
 
     Perform a simple ``XMLHttpRequest`` and wrap it with a
