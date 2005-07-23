@@ -70,28 +70,28 @@ MochiKit.Visual.Color.prototype = {
 
     "__class__": MochiKit.Visual.Color,
 
-    "colorWithHue": function (h) {
+    "colorWithHue": function (hue) {
         // get an HSB model, and set the new hue...
         var hsb = this.asHSB();
-        hsb.h = h;
+        hsb.h = hue;
         var m = MochiKit.Visual;
         // convert back to RGB...
         return m.Color.fromHSB(hsb);
     },
 
-    "colorWithSaturation": function (s) {
+    "colorWithSaturation": function (saturation) {
         // get an HSB model, and set the new hue...
         var hsb = this.asHSB();
-        hsb.s = s;
+        hsb.s = saturation;
         var m = MochiKit.Visual;
         // convert back to RGB...
         return m.Color.fromHSB(hsb);
     },
 
-    "colorWithBrightness": function (b) {
+    "colorWithBrightness": function (brightness) {
         // get an HSB model, and set the new hue...
         var hsb = this.asHSB();
-        hsb.b = b;
+        hsb.b = brightness;
         var m = MochiKit.Visual;
         // convert back to RGB...
         return m.Color.fromHSB(hsb);
@@ -171,7 +171,7 @@ MochiKit.Visual.Color.prototype = {
         var hsb = this.hsb;
         var c = this.rgb;
         if (typeof(hsb) == 'undefined' || hsb == null) {
-            hsb = MochiKit.Visual.rgbToHSB(c.r, c.g, c.b);
+            hsb = MochiKit.Visual.rgbToHSB(this.rgb);
             this.hsb = hsb;
         }
         return {
@@ -203,17 +203,8 @@ MochiKit.Visual.Color.fromRGB = function (red, green, blue, alpha) {
 };
 
 MochiKit.Visual.Color.fromHSB = function (hue, saturation, brightness, alpha) {
-    var hsb = hue;
-    if (arguments.length > 1) {
-        hsb = {
-            h: hue,
-            s: saturation,
-            b: brightness,
-            a: alpha
-        };
-    }
     var m = MochiKit.Visual;
-    return m.Color.fromRGB(m.hsbToRGB(hsb));
+    return m.Color.fromRGB(m.hsbToRGB.apply(m, arguments));
 };
 
 MochiKit.Visual.Color.fromHexString = function (hexCode) {
@@ -296,6 +287,12 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
 
 
 MochiKit.Visual.hsbToRGB = function (hue, saturation, brightness) {
+    if (arguments.length == 1) {
+        var hsb = hue;
+        hue = hsb.h;
+        saturation = hue.s;
+        brightness = hue.b;
+    }
 
     var red   = 0;
     var green = 0;
@@ -355,6 +352,12 @@ MochiKit.Visual.hsbToRGB = function (hue, saturation, brightness) {
 }
 
 MochiKit.Visual.rgbToHSB = function (r, g, b) {
+    if (arguments.length == 1) {
+        var rgb = r;
+        r = rgb.r;
+        g = rgb.g;
+        b = rgb.b;
+    }
     var hue;
     var saturaton;
     var brightness;
@@ -412,7 +415,11 @@ MochiKit.Visual.toColorPart = function (num) {
     return digits;
 };
 
-MochiKit.Visual.RoundCorners = function (e, options) {
+MochiKit.Visual.roundElement = function (e, options) {
+    new MochiKit.Visual._RoundCorners(e, options);
+};
+
+MochiKit.Visual._RoundCorners = function (e, options) {
     var e = MochiKit.DOM.getElement(e);
     this._setOptions(options);
 
@@ -429,7 +436,7 @@ MochiKit.Visual.RoundCorners = function (e, options) {
     this._roundCornersImpl(e, color, bgColor);
 };
 
-MochiKit.Visual.RoundCorners.prototype = {
+MochiKit.Visual._RoundCorners.prototype = {
     "_roundCornersImpl": function (e, color, bgColor) {
         if (this.options.border) {
             this._renderBorder(e, bgColor);
@@ -708,7 +715,7 @@ MochiKit.Visual.roundClass = function (tagName, className, options) {
         tagName, className
     );
     for (var i = 0; i < elements.length; i++) {
-        new MochiKit.Visual.RoundCorners(elements[i], options);
+        roundElement(elements[i], options);
     }
 };
 
@@ -730,7 +737,7 @@ MochiKit.Visual.__new__  = function () {
         purple: [0.5, 0, 0.5],
         red: [1, 0, 0],
         white: [1, 1, 1],
-        yellow: [255, 255, 0]
+        yellow: [1, 1, 0]
     }
 
     var makeColor = function (name, r, g, b) {
@@ -776,11 +783,11 @@ MochiKit.Visual.__new__  = function () {
 };
 
 MochiKit.Visual.EXPORT = [
-    "RoundCorners",
     "rgbToHSB",
     "hsbToRGB",
     "toColorPart",
     "Color",
+    "roundElement",
     "roundClass"
 ];
 MochiKit.Visual.EXPORT_OK = [];
