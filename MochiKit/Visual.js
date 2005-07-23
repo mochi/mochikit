@@ -43,19 +43,25 @@ MochiKit.Visual.toString = function () {
     Rico <http://www.openrico.org>
 */
 
-MochiKit.Visual.Color = function (red, green, blue) {
+MochiKit.Visual.Color = function (red, green, blue, alpha) {
+    // TODO: support alpha
     if (arguments.length == 1) {
         this.rgb = {
             "r": red.r,
             "g": red.g,
-            "b": red.b
+            "b": red.b,
+            "a": red.a
         };
     } else {
         this.rgb = {
             "r": red,
             "g": green,
-            "b": blue
+            "b": blue,
+            "a": alpha
         };
+    }
+    if (typeof(this.rgb.a) == 'undefined' || this.rgb.a == null) {
+        this.rgb.a = 1.0;
     }
 };
 
@@ -117,7 +123,7 @@ MochiKit.Visual.Color.prototype = {
         var sf = 1.0 - fraction;
         var s = this.rgb;
         var d = other.rgb;
-        var ff = fraction;
+        var df = fraction;
         return new MochiKit.Visual.Color(
             Math.floor((s.r * sf) + (d.r * df)),
             Math.floor((s.g * sf) + (d.g * df)),
@@ -151,7 +157,8 @@ MochiKit.Visual.Color.prototype = {
         return {
             "r": c.r,
             "g": c.g,
-            "b": c.b
+            "b": c.b,
+            "a": c.a
         };
     },
 
@@ -190,7 +197,7 @@ MochiKit.Visual.Color.prototype = {
 };
 
 
-MochiKit.Visual.createFromHex = function (hexCode) {
+MochiKit.Visual.Color.fromHex = function (hexCode) {
     if (hexCode.indexOf('#') == 0) {
         hexCode = hexCode.substring(1);
     }
@@ -198,6 +205,29 @@ MochiKit.Visual.createFromHex = function (hexCode) {
     var g = parseInt(hexCode.substring(2, 4), 16);
     var b = parseInt(hexCode.substring(4, 6), 16);
     return new MochiKit.Visual.Color(r, g, b);
+};
+
+MochiKit.Visual.Color.fromRGB = function (rgbCode) {
+    if (rgbCode.indexOf("rgb") == 0) {
+        rgbCode = rgbCode.substring(rgbCode.indexOf("(", 3) + 1, rgbCode.length - 1);
+    } 
+    var colorArray = rgbCode.split(",");
+    return new MochiKit.Visual.Color(
+        parseInt(colorArray[0]),
+        parseInt(colorArray[1]),
+        parseInt(colorArray[2])
+    );
+};
+
+MochiKit.Visual.Color.fromString = function (colorString) {
+    // TODO: support RGBA
+    var self = MochiKit.Visual.Color;
+    if (colorString.indexOf("rgb(") == 0) {
+        return self.fromRGB(colorString);
+    } else if (colorString.indexOf("#") == 0) {
+        return self.fromHex(colorString);
+    }
+    return null;
 };
 
 
@@ -219,38 +249,31 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
  * Factory method for creating a color from the background of
  * an HTML element.
  */
-MochiKit.Visual.createColorFromBackground = function (elem) {
+MochiKit.Visual.Color.fromBackground = function (elem) {
 
-    var actualColor = MochiKit.Visual.getElementsComputedStyle(
-        MochiKit.DOM.getElement(elem),
-        "backgroundColor",
-        "background-color"
-    );
-
-    if (actualColor == "transparent" && elem.parent) {
-        return MochiKit.Visual.createColorFromBackground(elem.parent);
-    }
-
-    if (actualColor == null) {
-        return new MochiKit.Visual.Color(255, 255, 255);
-    }
-
-    if (actualColor.indexOf("rgb(") == 0) {
-        var colors = actualColor.substring(4, actualColor.length - 1);
-        var colorArray = colors.split(",");
-        return new MochiKit.Visual.Color(
-            parseInt(colorArray[0]),
-            parseInt(colorArray[1]),
-            parseInt(colorArray[2])
+    var m = MochiKit.Visual;
+    var actualColor;
+    while (true) {
+        actualColor = m.getElementsComputedStyle(
+            MochiKit.DOM.getElement(elem),
+            "backgroundColor",
+            "background-color"
         );
+        if (actualColor == "transparent" && elem.parent) {
+            elem = elem.parent;
+        } else {
+            break;
+        }
     }
-    if (actualColor.indexOf("#") == 0) {
-        var r = parseInt(actualColor.substring(1, 3), 16);
-        var g = parseInt(actualColor.substring(3, 5), 16);
-        var b = parseInt(actualColor.substring(5), 16);
-        return new MochiKit.Visual.Color(r, g, b);
+
+    var color = null;
+    if (actualColor) {
+        color = m.Color.fromString(actualColor);
     }
-    return new MochiKit.Visual.Color(255, 255, 255);
+    if (color == null) {
+        color = m.Color.whiteColor();
+    }
+    return color;
 };
 
 MochiKit.Visual.hsbToRGB = function (hue, saturation, brightness) {
@@ -337,9 +360,9 @@ MochiKit.Visual.rgbToHSB = function (r, g, b) {
     if (saturation == 0) {
         hue = 0;
     } else {
-        var redc   = (cmax - r)/(cmax - cmin);
-        var greenc = (cmax - g)/(cmax - cmin);
-        var bluec  = (cmax - b)/(cmax - cmin);
+        var redc   = (cmax - r) / (cmax - cmin);
+        var greenc = (cmax - g) / (cmax - cmin);
+        var bluec  = (cmax - b) / (cmax - cmin);
 
         if (r == cmax) {
             hue = bluec - greenc;
@@ -443,23 +466,23 @@ MochiKit.Visual.RoundCorners.prototype = {
 
         var inStyle = slice.style;
         inStyle.backgroundColor = color;
-        inStyle.display  = "block";
-        inStyle.height   = "1px";
+        inStyle.display = "block";
+        inStyle.height = "1px";
         inStyle.overflow = "hidden";
         inStyle.fontSize = "1px";
 
         var borderColor = this._borderColor(color, bgColor);
         if (this.options.border && n == 0) {
-            inStyle.borderTopStyle    = "solid";
-            inStyle.borderTopWidth    = "1px";
-            inStyle.borderLeftWidth   = "0px";
-            inStyle.borderRightWidth  = "0px";
+            inStyle.borderTopStyle = "solid";
+            inStyle.borderTopWidth = "1px";
+            inStyle.borderLeftWidth = "0px";
+            inStyle.borderRightWidth = "0px";
             inStyle.borderBottomWidth = "0px";
             // assumes css compliant box model
-            inStyle.height            = "0px";
-            inStyle.borderColor       = borderColor;
+            inStyle.height = "0px";
+            inStyle.borderColor = borderColor;
         } else if (borderColor) {
-            inStyle.borderColor = borderColor.asHex();
+            inStyle.borderColor = borderColor.toHexString();
             inStyle.borderStyle = "solid";
             inStyle.borderWidth = "0px 1px";
         }
@@ -624,23 +647,20 @@ MochiKit.Visual.RoundCorners.prototype = {
 
     "_hasString": function (str) {
         for (var i = 1; i< arguments.length; i++) {
-            if (str.indexOf(arguments[i]) >= 0) return true;
+            if (str.indexOf(arguments[i]) != -1) {
+                return true;
+            }
         }
         return false;
     },
 
     "_blend": function (c1, c2) {
-        var cc1 = MochiKit.Visual.createFromHex(c1);
-        cc1.blend(MochiKit.Visual.createFromHex(c2));
-        return cc1;
+        var c = MochiKit.Visual.Color;
+        return c.fromHex(c1).blendedColor(c.fromHex(c2));
     },
 
     "_background": function (el) {
-        try {
-            return MochiKit.Visual.createColorFromBackground(el).asHex();
-        } catch(err) {
-            return "#ffffff";
-        }
+        return MochiKit.Visual.Color.fromBackground(el).toHexString();
     },
 
     "_isTransparent": function () {
@@ -738,7 +758,6 @@ MochiKit.Visual.__new__  = function () {
 
 MochiKit.Visual.EXPORT = [
     "RoundCorners",
-    "createColorFromBackground",
     "rgbToHSB",
     "hsbToRGB",
     "toColorPart",
