@@ -38,84 +38,103 @@ MochiKit.Visual.toString = function () {
     return this.__repr__();
 };
 
-/* The following section is adapted from Rico (http://www.openrico.org) */
+/*
+    The following section is partially adapted from
+    Rico <http://www.openrico.org>
+*/
+
 MochiKit.Visual.Color = function (red, green, blue) {
-    this.rgb = {
-        "r": red,
-        "g": green,
-        "b": blue
-    };
+    if (arguments.length == 1) {
+        this.rgb = {
+            "r": red.r,
+            "g": red.g,
+            "b": red.b
+        };
+    } else {
+        this.rgb = {
+            "r": red,
+            "g": green,
+            "b": blue
+        };
+    }
 };
+
 
 MochiKit.Visual.Color.prototype = {
 
-    "setRed": function (r) {
-        this.rgb.r = r;
-    },
+    "__class__": MochiKit.Visual.Color,
 
-    "setGreen": function (g) {
-        this.rgb.g = g;
-    },
-
-    "setBlue": function (b) {
-        this.rgb.b = b;
-    },
-
-    "setHue": function (h) {
+    "colorWithHue": function (h) {
         // get an HSB model, and set the new hue...
         var hsb = this.asHSB();
         hsb.h = h;
-
+        var m = MochiKit.Visual;
         // convert back to RGB...
-        this.rgb = MochiKit.Visual.HSBtoRGB(hsb.h, hsb.s, hsb.b);
+        return new m.Color(m.hsbToRGB(hsb));
     },
 
-    "setSaturation": function (s) {
+    "colorWithSaturation": function (s) {
         // get an HSB model, and set the new hue...
         var hsb = this.asHSB();
         hsb.s = s;
-
-        // convert back to RGB and set values...
-        this.rgb = MochiKit.Visual.HSBtoRGB(hsb.h, hsb.s, hsb.b);
+        var m = MochiKit.Visual;
+        // convert back to RGB...
+        return new m.Color(m.hsbToRGB(hsb));
     },
 
-    "setBrightness": function (b) {
+    "colorWithBrightness": function (b) {
         // get an HSB model, and set the new hue...
         var hsb = this.asHSB();
         hsb.b = b;
-
-        // convert back to RGB and set values...
-        this.rgb = MochiKit.Visual.HSBtoRGB(hsb.h, hsb.s, hsb.b);
+        var m = MochiKit.Visual;
+        // convert back to RGB...
+        return new m.Color(m.hsbToRGB(hsb));
     },
 
-    "darken": function (percent) {
+    "darkerColorWithLevel": function (level) {
         var hsb  = this.asHSB();
-        this.rgb = MochiKit.Visual.HSBtoRGB(
+        var m = MochiKit.Visual;
+        return new m.Color(m.hsbToRGB(
             hsb.h,
             hsb.s,
-            Math.max(hsb.b - percent, 0)
+            Math.max(hsb.b - level, 0)
+        ));
+    },
+
+    "brighterColorWithLevel": function (level) {
+        var hsb  = this.asHSB();
+        this.rgb = MochiKit.Visual.hsbToRGB(
+            hsb.h,
+            hsb.s,
+            Math.min(hsb.b + level, 1)
         );
     },
 
-    "brighten": function (percent) {
-        var hsb  = this.asHSB();
-        this.rgb = MochiKit.Visual.HSBtoRGB(
-            hsb.h,
-            hsb.s,
-            Math.min(hsb.b + percent, 1)
+    "blendedColor": function (other, /* optional */ fraction) {
+        if (typeof(fraction) == 'undefined' || fraction == null) {
+            fraction = 0.5;
+        }
+        var sf = 1.0 - fraction;
+        var s = this.rgb;
+        var d = other.rgb;
+        var ff = fraction;
+        return new MochiKit.Visual.Color(
+            Math.floor((s.r * sf) + (d.r * df)),
+            Math.floor((s.g * sf) + (d.g * df)),
+            Math.floor((s.b * sf) + (d.b * df))
         );
     },
 
-    "blend": function (other) {
-        this.rgb = {
-            "r": Math.floor((this.rgb.r + other.rgb.r) / 2),
-            "g": Math.floor((this.rgb.g + other.rgb.g) / 2),
-            "b": Math.floor((this.rgb.b + other.rgb.b) / 2)
-        };
+    "compareRGB": function (other) {
+        var sc = this.rgb;
+        var dc = other.rgb;
+        return MochiKit.Base.compare(
+            [sc.r, sc.g, sc.b],
+            [dc.r, dc.g, dc.b]
+        );
     },
-
+        
     "isBright": function () {
-        var hsb = this.asHSB();
         return this.asHSB().b > 0.5;
     },
 
@@ -123,30 +142,53 @@ MochiKit.Visual.Color.prototype = {
         return (!this.isBright());
     },
 
-    "asRGB": function () {
+    "toRGBString": function () {
         return "rgb(" + this.rgb.r + "," + this.rgb.g + "," + this.rgb.b + ")";
     },
 
-    "asHex": function () {
+    "asRGB": function () {
+        var c = this.rgb;
+        return {
+            "r": c.r,
+            "g": c.g,
+            "b": c.b
+        };
+    },
+
+    "toHexString": function () {
+        var m = MochiKit.Visual;
+        var c = this.rgb;
         return ("#" + 
-            MochiKit.Visual.toColorPart(this.rgb.r) +
-            MochiKit.Visual.toColorPart(this.rgb.g) +
-            MochiKit.Visual.toColorPart(this.rgb.b));
+            m.toColorPart(c.r) +
+            m.toColorPart(c.g) +
+            m.toColorPart(c.b));
     },
 
     "asHSB": function () {
-        return MochiKit.Visual.RGBtoHSB(this.rgb.r, this.rgb.g, this.rgb.b);
+        var hsb = this.hsb;
+        if (typeof(hsb) == 'undefined' || hsb == null) {
+            hsb = MochiKit.Visual.rgbToHSB(this.rgb.r, this.rgb.g, this.rgb.b);
+            this.hsb = hsb;
+        }
+        return {
+            "h": hsb.h,
+            "s": hsb.s,
+            "b": hsb.b
+        };
     },
 
     "toString": function () {
-        return this.asHex();
+        return this.toHexString();
     },
 
     "repr": function () {
-        return this.asRGB();
+        var c = this.rgb;
+        var col = [c.r, c.g, c.b];
+        return this.__class__.NAME + "(" + col.join(", ") + ")";
     }
 
 };
+
 
 MochiKit.Visual.createFromHex = function (hexCode) {
     if (hexCode.indexOf('#') == 0) {
@@ -211,7 +253,7 @@ MochiKit.Visual.createColorFromBackground = function (elem) {
     return new MochiKit.Visual.Color(255, 255, 255);
 };
 
-MochiKit.Visual.HSBtoRGB = function (hue, saturation, brightness) {
+MochiKit.Visual.hsbToRGB = function (hue, saturation, brightness) {
 
     var red   = 0;
     var green = 0;
@@ -270,7 +312,7 @@ MochiKit.Visual.HSBtoRGB = function (hue, saturation, brightness) {
     };
 }
 
-MochiKit.Visual.RGBtoHSB = function (r, g, b) {
+MochiKit.Visual.rgbToHSB = function (r, g, b) {
     var hue;
     var saturaton;
     var brightness;
@@ -634,20 +676,71 @@ MochiKit.Visual.roundClass = function (tagName, className, options) {
 /* end of Rico adaptation */
 
 MochiKit.Visual.__new__  = function () {
-   this.EXPORT_TAGS = {
-       ":common": this.EXPORT,
-       ":all": this.EXPORT
-   };
+    var third = 1.0 / 3.0;
+    var colors = {
+        black: [0, 0, 0],
+        blue: [0, 0, 1],
+        brown: [0.6, 0.4, 0.2],
+        cyan: [0, 1, 1],
+        darkGray: [third, third, third],
+        gray: [0.5, 0.5, 0.5],
+        green: [0, 1, 0],
+        lightGray: [2 * third, 2 * third, 2 * third],
+        magenta: [1, 0, 1],
+        orange: [1, 0.5, 0],
+        purple: [0.5, 0, 0.5],
+        red: [1, 0, 0],
+        white: [1, 1, 1],
+        yellow: [255, 255, 0]
+    }
 
-   MochiKit.Base.nameFunctions(this);
+    var makeColor = function (name, r, g, b) {
+        var rval = new this(r, g, b);
+        this.name = function () { return rval; };
+        return rval;
+    }
+
+    var bind = MochiKit.Base.bind;
+    var map = MochiKit.Base.map;
+    var concat = MochiKit.Base.concat;
+    for (var k in colors) {
+        var name = k + "Color";
+        var bindArgs = concat(
+            [makeColor, this.Color, name],
+            map(function (x) { return Math.floor(x * 255); }, colors[k])
+        );
+        this.Color[name] = bind.apply(null, bindArgs);
+    }
+
+    var isColor = function () {
+        for (var i = 0; i < arguments.length; i++) {
+            if (!(arguments[i] instanceof Color)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    var compareColor = function (a, b) {
+        return a.compareRGB(b);
+    }
+
+    registerComparator(this.Color.NAME, isColor, compareColor);
+        
+    this.EXPORT_TAGS = {
+        ":common": this.EXPORT,
+        ":all": this.EXPORT
+    };
+
+    MochiKit.Base.nameFunctions(this);
 
 };
 
 MochiKit.Visual.EXPORT = [
     "RoundCorners",
     "createColorFromBackground",
-    "RGBtoHSB",
-    "HSBtoRGB",
+    "rgbToHSB",
+    "hsbToRGB",
     "toColorPart",
     "Color",
     "roundClass"

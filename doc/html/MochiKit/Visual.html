@@ -31,8 +31,7 @@ new RoundCorner(&quot;title&quot;, {corners: &quot;tl&quot;});
 <h1><a name="dependencies">Dependencies</a></h1>
 <ul class="simple">
 <li><a class="reference" href="Base.html">MochiKit.Base</a></li>
-</ul>
-<ul class="simple">
+<li><a class="reference" href="Iter.html">MochiKit.Iter</a></li>
 <li><a class="reference" href="DOM.html">MochiKit.DOM</a></li>
 </ul>
 </div>
@@ -43,7 +42,7 @@ for your HTML elements. These rounded corners are created completely
 through CSS manipulations and require no external images or style sheets.
 This implementation was adapted from <a class="reference" href="http://www.openrico.org">Rico</a>.</p>
 <p>The Visual package also includes some functions for computing colors and a
-Color object that provides some useful methods for working with colors.</p>
+<tt class="docutils literal"><span class="pre">Color</span></tt> object that provides some useful methods for working with colors.</p>
 </div>
 <div class="section" id="api-reference">
 <h1><a name="api-reference">API Reference</a></h1>
@@ -51,55 +50,183 @@ Color object that provides some useful methods for working with colors.</p>
 <h2><a name="constructors">Constructors</a></h2>
 <p><tt class="docutils literal"><span class="pre">Color(red,</span> <span class="pre">green,</span> <span class="pre">blue)</span></tt>:</p>
 <blockquote>
-Represents a color.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.setRed(r)</span></tt>:</p>
+<p>Represents a color.  An alternate form is also accepted for convenience:
+<tt class="docutils literal"><span class="pre">Color({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue})</span></tt>.  Component values should be
+integers between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">Color</span></tt> instances can be compared with <tt class="docutils literal"><span class="pre">MochiKit.Base.compare</span></tt>
+(though ordering is on RGB, so is not particularly meaningful),
+and the default <tt class="docutils literal"><span class="pre">toString</span></tt> implementation returns
+<tt class="docutils literal"><span class="pre">this.toHexString()</span></tt>.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithHue(hue)</span></tt>:</p>
 <blockquote>
-Sets the red value of this color.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.setGreen(g)</span></tt>:</p>
+Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
+<tt class="docutils literal"><span class="pre">hue</span></tt> value.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithSaturation(saturation)</span></tt>:</p>
 <blockquote>
-Sets the green value of this color.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.setBlue(b)</span></tt>:</p>
+Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
+<tt class="docutils literal"><span class="pre">saturation</span></tt> value.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithBrightness(brightness)</span></tt>:</p>
 <blockquote>
-Sets the blue value of this color.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.setHue(h)</span></tt>:</p>
+Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
+<tt class="docutils literal"><span class="pre">brightness</span></tt> value.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.darkerColorWithLevel(level)</span></tt>:</p>
 <blockquote>
-Sets this color's RGB values based on the provided hue value.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.setSaturation(s)</span></tt>:</p>
+Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but darker by the given
+<tt class="docutils literal"><span class="pre">level</span></tt> (between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>).</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.brighterColorWithLevel(level)</span></tt>:</p>
 <blockquote>
-Sets this color's RGB values based on the provided saturation value.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.setBrightness(b)</span></tt>:</p>
+Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but brighter by the given
+<tt class="docutils literal"><span class="pre">level</span></tt> (between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>).</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.blendedColor(other,</span> <span class="pre">fraction=0.5)</span></tt>:</p>
 <blockquote>
-Sets this color's RGB values based on the provided brightness value.</blockquote>
+Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> whose RGB component values are a weighted sum
+of this color and <tt class="docutils literal"><span class="pre">other</span></tt>.  Each component of the returned color
+is the <tt class="docutils literal"><span class="pre">fraction</span></tt> of other's value plus <tt class="docutils literal"><span class="pre">1</span> <span class="pre">-</span> <span class="pre">fraction</span></tt> of this
+color's.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.isBright()</span></tt>:</p>
+<blockquote>
+Return <tt class="docutils literal"><span class="pre">true</span></tt> if the brightness value of this color is greater than
+<tt class="docutils literal"><span class="pre">0.5</span></tt>.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.isDark()</span></tt>:</p>
+<blockquote>
+Return <tt class="docutils literal"><span class="pre">true</span></tt> if the brightness value of this color is less than or
+equal to <tt class="docutils literal"><span class="pre">0.5</span></tt>.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.toRGBString()</span></tt>:</p>
+<blockquote>
+Return the decimal &quot;rgb(red, green, blue)&quot; string representation of this
+color.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.toHexString()</span></tt>:</p>
+<blockquote>
+Return the hexadecimal &quot;#RRGGBB&quot; string representation of this color.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.asRGB()</span></tt>:</p>
+<blockquote>
+<p>Return the RGB (red, green, blue) components of this color as an object
+with <tt class="docutils literal"><span class="pre">r</span></tt>, <tt class="docutils literal"><span class="pre">g</span></tt>, and <tt class="docutils literal"><span class="pre">b</span></tt> properties, with integer values between
+<tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
+<p>For example:</p>
+<pre class="literal-block">
+var whiteRGB = Color.whiteColor().asRGB();
+assert( whiteRGB.r == 255 );
+assert( whiteRGB.g == 255 );
+assert( whiteRGB.b == 255 );
+</pre>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.asHSB()</span></tt>:</p>
+<blockquote>
+Return the HSB (hue, saturation, brightness) components of this color
+as an object with <tt class="docutils literal"><span class="pre">h</span></tt>, <tt class="docutils literal"><span class="pre">s</span></tt>, and <tt class="docutils literal"><span class="pre">b</span></tt> properties, with floating
+point values between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.blackColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0, 0, 0.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.blueColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0, 0, 255.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.brownColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 153, 102, 51.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.cyanColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0, 255, 255.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.darkGrayColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 85, 85, 85.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.grayColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 127, 127, 127.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.greenColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0, 255, 0.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.lightGrayColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 170, 170, 170.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.magentaColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 255, 0, 255.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.orangeColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 255, 127, 0.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.purpleColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 127, 0, 127.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.redColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 255, 0, 0.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.whiteColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 255, 255, 255.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.yellowColor()</span></tt>:</p>
+<blockquote>
+Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 255, 255, 0.</blockquote>
 <p><tt class="docutils literal"><span class="pre">RoundCorners(element,</span> <span class="pre">options)</span></tt>:</p>
 <blockquote>
 <p>When instantiated, this will immediately round the corners of the
 specified element. The element can be given as either a string 
 with the element ID, or as an element object.</p>
-<p>The options mapping has the following defaults:
-* corners : &quot;all&quot;,
-* color   : &quot;fromElement&quot;,
-* bgColor : &quot;fromParent&quot;,
-* blend   : true,
-* border  : false,
-* compact : false</p>
-<p><em>corners</em> specifies which corners of the element should be rounded.
-Choices are: all, top, bottom, tl (top left), bl (bottom left),
-tr (top right), br (bottom right).</p>
-<p><em>blend</em> specifies whether the color and background color should be blended
-together to produce the border color.</p>
+<p>The options mapping has the following defaults:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>corners</td>
+<td>&quot;all&quot;,</td>
+</tr>
+<tr><td>color</td>
+<td>&quot;fromElement&quot;</td>
+</tr>
+<tr><td>bgColor</td>
+<td>&quot;fromParent&quot;</td>
+</tr>
+<tr><td>blend</td>
+<td>true</td>
+</tr>
+<tr><td>border</td>
+<td>false</td>
+</tr>
+<tr><td>compact</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>corners:</p>
+<blockquote>
+<p>specifies which corners of the element should be rounded.
+Choices are:</p>
+<ul class="simple">
+<li>all</li>
+<li>top</li>
+<li>bottom</li>
+<li>tl (top left)</li>
+<li>bl (bottom left)</li>
+<li>tr (top right)</li>
+<li>br (bottom right)</li>
+</ul>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><cite>&quot;tl br&quot;`</cite>: top-left and bottom-right corners are rounded</dd>
+</dl>
+</blockquote>
+<dl class="docutils">
+<dt>blend:</dt>
+<dd>specifies whether the color and background color should be blended
+together to produce the border color.</dd>
+</dl>
 </blockquote>
 </div>
 <div class="section" id="functions">
 <h2><a name="functions">Functions</a></h2>
 <p><tt class="docutils literal"><span class="pre">roundClass(tagName,</span> <span class="pre">className,</span> <span class="pre">options)</span></tt>:</p>
 <blockquote>
-Rounds all of the elements that match the tagName and className
-specifiers, using the options provided. tagName or className can
-be null to match all tags or classes. For more information about
-the options, see the RoundCorners constructor above.</blockquote>
+Rounds all of the elements that match the <tt class="docutils literal"><span class="pre">tagName</span></tt> and <tt class="docutils literal"><span class="pre">className</span></tt>
+specifiers, using the options provided.  <tt class="docutils literal"><span class="pre">tagName</span></tt> or <tt class="docutils literal"><span class="pre">className</span></tt> can
+be <tt class="docutils literal"><span class="pre">null</span></tt> to match all tags or classes.  For more information about
+the options, see the <tt class="docutils literal"><span class="pre">RoundCorners</span></tt> constructor above.</blockquote>
 <p><tt class="docutils literal"><span class="pre">createFromHex(hexCode)</span></tt>:</p>
 <blockquote>
-Constructs a Color object based on the hex code provided. The code
+Constructs a <tt class="docutils literal"><span class="pre">Color</span></tt> object based on the hex code provided. The code
 can be passed in with or without a leading &quot;#&quot;.</blockquote>
 <p><tt class="docutils literal"><span class="pre">getElementsComputedStyle(htmlElement,</span> <span class="pre">cssProperty,</span> <span class="pre">mozillaEquivalentCSS)</span></tt>:</p>
 <blockquote>
@@ -108,17 +235,33 @@ specified as either a string with the element's ID or the element
 object itself.</blockquote>
 <p><tt class="docutils literal"><span class="pre">createColorFromBackground(elem)</span></tt>:</p>
 <blockquote>
-Creates a Color object based on the background of the provided
+Creates a <tt class="docutils literal"><span class="pre">Color</span></tt> object based on the background of the provided
 element.</blockquote>
-<p><tt class="docutils literal"><span class="pre">HSBtoRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">brightness)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">hsbToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">brightness)</span></tt>:</p>
 <blockquote>
 Computes RGB values from the provided HSB values. The return value is a
-mapping with &quot;r&quot;, &quot;g&quot;, and &quot;b&quot; keys.</blockquote>
-<p><tt class="docutils literal"><span class="pre">RGBtoHSB(r,</span> <span class="pre">g,</span> <span class="pre">b)</span></tt>:</p>
+mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;g&quot;</span></tt>, and <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> keys.</blockquote>
+<p><tt class="docutils literal"><span class="pre">rgbToHSB(r,</span> <span class="pre">g,</span> <span class="pre">b)</span></tt>:</p>
 <blockquote>
 Computes HSB values based on the provided RGB values. The return value is
-a mapping with &quot;h&quot;, &quot;s&quot; and &quot;b&quot; keys.</blockquote>
+a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> keys.</blockquote>
 </div>
+</div>
+<div class="section" id="authors">
+<h1><a name="authors">Authors</a></h1>
+<ul class="simple">
+<li>Kevin Dangoor &lt;<a class="reference" href="mailto:dangoor&#64;gmail.com">dangoor&#64;gmail.com</a>&gt;</li>
+<li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
+<li>Includes code adapted from Rico &lt;<a class="reference" href="http://openrico.org/">http://openrico.org/</a>&gt;</li>
+</ul>
+</div>
+<div class="section" id="copyright">
+<h1><a name="copyright">Copyright</a></h1>
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is free software;
+you can redistribute it and/or modify it under the terms of the
+<a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
+<p>Portions adapted from <a class="reference" href="http://www.openrico.org">Rico</a> are available under the terms of the
+<a class="reference" href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License, Version 2.0</a>.</p>
 </div>
 </div>
 </body>
