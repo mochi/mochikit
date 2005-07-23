@@ -17,6 +17,20 @@ Synopsis
     // round the top left corner of the element with the id "title"
     roundElement("title", {corners: "tl"});
     
+    // RGB color expressions are supported
+    assert(
+        objEqual(Color.whiteColor(), Color.fromString("rgb(255,100%, 255)"))
+    );
+
+    // So is instantiating directly from HSL or RGB values
+    assert( objEqual(Color.fromRGB(255, 255, 255), Color.fromHSL(0, 0, 1) );
+
+    // Or even SVG color keyword names, as per CSS3!
+    assert( Color.fromString("aquamarine"), "#7fffd4" );
+        
+    // NSColor-like colors built in
+    assert( Color.whiteColor().toHexString() == "#ffffff" );
+    
 
 Description
 ===========
