@@ -76,7 +76,7 @@ MochiKit.Visual.Color.prototype = {
         hsb.h = h;
         var m = MochiKit.Visual;
         // convert back to RGB...
-        return new m.Color(m.hsbToRGB(hsb));
+        return m.Color.fromHSB(hsb);
     },
 
     "colorWithSaturation": function (s) {
@@ -85,7 +85,7 @@ MochiKit.Visual.Color.prototype = {
         hsb.s = s;
         var m = MochiKit.Visual;
         // convert back to RGB...
-        return new m.Color(m.hsbToRGB(hsb));
+        return m.Color.fromHSB(hsb);
     },
 
     "colorWithBrightness": function (b) {
@@ -94,26 +94,21 @@ MochiKit.Visual.Color.prototype = {
         hsb.b = b;
         var m = MochiKit.Visual;
         // convert back to RGB...
-        return new m.Color(m.hsbToRGB(hsb));
+        return m.Color.fromHSB(hsb);
     },
 
     "darkerColorWithLevel": function (level) {
         var hsb  = this.asHSB();
+        hsb.b = Math.max(hsb.b - level, 0);
         var m = MochiKit.Visual;
-        return new m.Color(m.hsbToRGB(
-            hsb.h,
-            hsb.s,
-            Math.max(hsb.b - level, 0)
-        ));
+        return m.Color.fromHSB(hsb);
     },
 
     "brighterColorWithLevel": function (level) {
         var hsb  = this.asHSB();
-        this.rgb = MochiKit.Visual.hsbToRGB(
-            hsb.h,
-            hsb.s,
-            Math.min(hsb.b + level, 1)
-        );
+        Math.min(hsb.b + level, 1);
+        var m = MochiKit.Visual;
+        return m.Color.fromHSB(hsb);
     },
 
     "blendedColor": function (other, /* optional */ fraction) {
@@ -124,7 +119,7 @@ MochiKit.Visual.Color.prototype = {
         var s = this.rgb;
         var d = other.rgb;
         var df = fraction;
-        return new MochiKit.Visual.Color(
+        return MochiKit.Visual.Color.fromRGB(
             Math.floor((s.r * sf) + (d.r * df)),
             Math.floor((s.g * sf) + (d.g * df)),
             Math.floor((s.b * sf) + (d.b * df))
@@ -135,8 +130,8 @@ MochiKit.Visual.Color.prototype = {
         var sc = this.rgb;
         var dc = other.rgb;
         return MochiKit.Base.compare(
-            [sc.r, sc.g, sc.b],
-            [dc.r, dc.g, dc.b]
+            [sc.r, sc.g, sc.b, sc.a],
+            [dc.r, dc.g, dc.b, dc.a]
         );
     },
         
@@ -149,7 +144,8 @@ MochiKit.Visual.Color.prototype = {
     },
 
     "toRGBString": function () {
-        return "rgb(" + this.rgb.r + "," + this.rgb.g + "," + this.rgb.b + ")";
+        var c = this.rgb;
+        return "rgb(" + c.r + "," + c.g + "," + c.b + ")";
     },
 
     "asRGB": function () {
@@ -173,14 +169,16 @@ MochiKit.Visual.Color.prototype = {
 
     "asHSB": function () {
         var hsb = this.hsb;
+        var c = this.rgb;
         if (typeof(hsb) == 'undefined' || hsb == null) {
-            hsb = MochiKit.Visual.rgbToHSB(this.rgb.r, this.rgb.g, this.rgb.b);
+            hsb = MochiKit.Visual.rgbToHSB(c.r, c.g, c.b);
             this.hsb = hsb;
         }
         return {
             "h": hsb.h,
             "s": hsb.s,
-            "b": hsb.b
+            "b": hsb.b,
+            "a": c.a
         };
     },
 
@@ -196,23 +194,44 @@ MochiKit.Visual.Color.prototype = {
 
 };
 
+MochiKit.Visual.Color.fromRGB = function (red, green, blue, alpha) {
+    var Color = MochiKit.Visual.Color;
+    if (arguments.length > 1) {
+        return new Color(red, green, blue, alpha);
+    }
+    return new Color(red);
+};
 
-MochiKit.Visual.Color.fromHex = function (hexCode) {
+MochiKit.Visual.Color.fromHSB = function (hue, saturation, brightness, alpha) {
+    var hsb = hue;
+    if (arguments.length > 1) {
+        hsb = {
+            h: hue,
+            s: saturation,
+            b: brightness,
+            a: alpha
+        };
+    }
+    var m = MochiKit.Visual;
+    return m.Color.fromRGB(m.hsbToRGB(hsb));
+};
+
+MochiKit.Visual.Color.fromHexString = function (hexCode) {
     if (hexCode.indexOf('#') == 0) {
         hexCode = hexCode.substring(1);
     }
     var r = parseInt(hexCode.substring(0, 2), 16);
     var g = parseInt(hexCode.substring(2, 4), 16);
     var b = parseInt(hexCode.substring(4, 6), 16);
-    return new MochiKit.Visual.Color(r, g, b);
+    return MochiKit.Visual.Color.fromRGB(r, g, b);
 };
 
-MochiKit.Visual.Color.fromRGB = function (rgbCode) {
+MochiKit.Visual.Color.fromRGBString = function (rgbCode) {
     if (rgbCode.indexOf("rgb") == 0) {
         rgbCode = rgbCode.substring(rgbCode.indexOf("(", 3) + 1, rgbCode.length - 1);
     } 
     var colorArray = rgbCode.split(",");
-    return new MochiKit.Visual.Color(
+    return MochiKit.Visual.Color.fromRGB(
         parseInt(colorArray[0]),
         parseInt(colorArray[1]),
         parseInt(colorArray[2])
@@ -223,9 +242,9 @@ MochiKit.Visual.Color.fromString = function (colorString) {
     // TODO: support RGBA
     var self = MochiKit.Visual.Color;
     if (colorString.indexOf("rgb(") == 0) {
-        return self.fromRGB(colorString);
+        return self.fromRGBString(colorString);
     } else if (colorString.indexOf("#") == 0) {
-        return self.fromHex(colorString);
+        return self.fromHexString(colorString);
     }
     return null;
 };
@@ -656,7 +675,7 @@ MochiKit.Visual.RoundCorners.prototype = {
 
     "_blend": function (c1, c2) {
         var c = MochiKit.Visual.Color;
-        return c.fromHex(c1).blendedColor(c.fromHex(c2));
+        return c.fromHexString(c1).blendedColor(c.fromHexString(c2));
     },
 
     "_background": function (el) {
@@ -715,7 +734,7 @@ MochiKit.Visual.__new__  = function () {
     }
 
     var makeColor = function (name, r, g, b) {
-        var rval = new this(r, g, b);
+        var rval = this.fromRGB(r, g, b);
         this.name = function () { return rval; };
         return rval;
     }
