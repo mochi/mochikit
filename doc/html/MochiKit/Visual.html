@@ -281,6 +281,7 @@ mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span>
 <dt>Alternate form:</dt>
 <dd><tt class="docutils literal"><span class="pre">hslToRGB({h:</span> <span class="pre">hue,</span>&nbsp; <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">l:</span> <span class="pre">lightness})</span></tt>.</dd>
 </dl>
+<p><tt class="docutils literal"><span class="pre">hslToRGB</span></tt> is not exported by default when using JSAN.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">rgbToHSL(red,</span> <span class="pre">green,</span> <span class="pre">blue)</span></tt>:</p>
 <blockquote>
@@ -290,12 +291,30 @@ a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</spa
 <dt>Alternate form:</dt>
 <dd><tt class="docutils literal"><span class="pre">rgbToHSL({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue})</span></tt>.</dd>
 </dl>
+<p><tt class="docutils literal"><span class="pre">rgbToHSL</span></tt> is not exported by default when using JSAN.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">toColorPart(num)</span></tt>:</p>
 <blockquote>
-Convert num to a zero padded hexadecimal digit for use in a hexadecimal
-color string.  Num should be between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</blockquote>
+<p>Convert num to a zero padded hexadecimal digit for use in a hexadecimal
+color string.  Num should be between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">toColorPart</span></tt> is not exported by default when using JSAN.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">clampColorComponent(num)</span></tt>:</p>
+<blockquote>
+<p>Clamps a component value to integers between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">clampColorComponent</span></tt> is not exported by default when using JSAN.</p>
+</blockquote>
 </div>
+</div>
+<div class="section" id="todo">
+<h1><a name="todo">ToDo</a></h1>
+<ul class="simple">
+<li>Support <tt class="docutils literal"><span class="pre">rgba(...)</span></tt> strings</li>
+<li>Support <tt class="docutils literal"><span class="pre">hsl(...)</span></tt> strings</li>
+<li>Support <tt class="docutils literal"><span class="pre">hsla(...)</span></tt> strings</li>
+<li>Support alpha (blend, etc.)</li>
+<li>Possibly move to 1.0 based RGB component model?</li>
+</ul>
 </div>
 <div class="section" id="see-also">
 <h1><a name="see-also">See Also</a></h1>
