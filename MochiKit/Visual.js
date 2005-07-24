@@ -427,16 +427,17 @@ MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
         } else {
             saturation = delta / (2 - max - min);
         }
-        var deltaRed = (((max - red) / 6) + (delta / 2)) / delta;
-        var deltaGreen = (((max - green) / 6) + (delta / 2)) / delta;
-        var deltaBlue = (((max - blue) / 6) + (delta / 2)) / delta;
-        if (red == max) {
-            hue = deltaBlue - deltaGreen;
-        } else if (green == max) {
-            hue = (1 / 3) + deltaRed - deltaBlue;
-        } else {
-            hue = (2 / 3) + deltaGreen - deltaRed;
+        if (delta == 0.0) {
+            delta = 1.0;
         }
+        if (red == max) {
+            hue = (green - blue) / delta;
+        } else if (green == max) {
+            hue = 2 + ((blue - red) / delta);
+        } else {
+            hue = 4 + ((red - green) / delta);
+        }
+        hue /= 6;
         if (hue < 0) {
             hue += 1;
         }
