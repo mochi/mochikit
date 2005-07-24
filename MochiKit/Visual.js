@@ -347,6 +347,110 @@ MochiKit.Visual.Color.fromBackground = function (elem) {
     return m.Color.whiteColor();
 };
 
+MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
+    if (arguments.length == 1) {
+        var hsl = hue;
+        hue = hsl.h;
+        saturation = hsl.s;
+        lightness = hsl.l;
+        alpha = hsl.a;
+    }
+    if (saturation == 0) {
+        return {
+            "r": lightness,
+            "g": lightness,
+            "b": lightness,
+            "a": alpha
+        };
+    }
+    var v;
+    if (lightness < 0.5) {
+        v = lightness * (1 + saturation);
+    } else {
+        v = lightness + saturation - (lightness * saturation);
+    }
+    var y = lightness + lightness - v;
+    var h6 = 6 * hue;
+    var f = Math.floor(h6);
+    var x = y + ((v - y) * (h6 - f));
+    var z = v - ((v - y) * (h6 - f));
+    var r;
+    var g;
+    var b;
+    switch (f) {
+        case 0: r = v; g = x; b = y; break;
+        case 1: r = z; g = v; b = y; break;
+        case 2: r = y; g = v; b = x; break;
+        case 3: r = y; g = z; b = v; break;
+        case 4: r = x; g = y; b = v; break;
+        case 5: r = v; g = y; b = z; break;
+        default: r = v; g = x; b = y; break;
+    }
+    return {
+        "r": r,
+        "g": g,
+        "b": b,
+        "a": alpha
+    };
+        
+};
+        
+MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
+    if (arguments.length == 1) {
+        var rgb = red;
+        red = rgb.r;
+        green = rgb.g;
+        blue = rgb.b;
+        alpha = rgb.a;
+    }
+    var hue;
+    var saturation;
+    var lightness;
+    if (red == green && red == blue) {
+        hue = saturation = 0;
+        lightness = red;
+    } else {
+        var cmax = (green > blue) ? green : blue;
+        if (red > cmax) {
+            cmax = red;
+        }
+        var cmin = (green < blue) ? green : blue;
+        if (red < cmin) {
+            cmin = red;
+        }
+        var scale = 1.0 / (cmax - cmin);
+        saturation = cmax - cmin;
+        lightness = 0.5 * (cmin + cmax);
+        if (red == cmax) {
+            hue = scale * (green - blue);
+        } else if (green == cmax) {
+            hue = 2.0 + (scale * (blue - red));
+        } else {
+            hue = 4.0 + (scale * (red - green));
+        }
+        if (hue > 1) {
+            hue /= 6;
+        } else if (hue < 0) {
+            hue += 1;
+        }
+    }
+    return {
+        "h": hue,
+        "s": saturation,
+        "l": lightness,
+        "a": alpha
+    }
+};
+
+MochiKit.Visual.toColorPart = function (num) {
+    var digits = Math.round(num).toString(16);
+    if (num < 16) {
+        return '0' + digits;
+    }
+    return digits;
+};
+
+
 /*
     The following section is partially adapted from
     Rico <http://www.openrico.org>
@@ -363,139 +467,6 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
         var style = document.defaultView.getComputedStyle(el, null);
         return style.getPropertyValue(mozillaEquivalentCSS);
     }
-};
-
-
-MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
-    if (arguments.length == 1) {
-        var hsl = hue;
-        hue = hsl.h;
-        saturation = hsl.s;
-        lightness = hsl.l;
-        alpha = hsl.a;
-    }
-
-    var red   = 0;
-    var green = 0;
-    var blue  = 0;
-
-    if (saturation == 0) {
-        red = lightness;
-        green = red;
-        blue = red;
-    } else {
-        var h = (hue - Math.floor(hue)) * 6.0;
-        var f = h - Math.floor(h);
-        var p = lightness * (1.0 - saturation);
-        var q = lightness * (1.0 - saturation * f);
-        var t = lightness * (1.0 - (saturation * (1.0 - f)));
-
-        switch (Math.floor(h)) {
-            case 0:
-                red   = lightness;
-                green = t;
-                blue  = p;
-                break;
-            case 1:
-                red   = q;
-                green = lightness;
-                blue  = p;
-                break;
-            case 2:
-                red   = p;
-                green = lightness;
-                blue  = t;
-                break;
-            case 3:
-                red   = p;
-                green = q;
-                blue  = lightness;
-                break;
-            case 4:
-                red   = t;
-                green = p;
-                blue  = lightness;
-                break;
-            case 5:
-                red   = lightness;
-                green = p;
-                blue  = q;
-                break;
-	    }
-	}
-
-    return {
-        "r": red,
-        "g": green,
-        "b": blue,
-        "a": alpha
-    };
-};
-
-MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
-    if (arguments.length == 1) {
-        var rgb = red;
-        red = rgb.r;
-        green = rgb.g;
-        blue = rgb.b;
-        alpha = rgb.a;
-    }
-    var hue;
-    var saturaton;
-    var lightness;
-
-    var cmax = (red > green) ? red : green;
-    if (blue > cmax) {
-        cmax = blue;
-    }
-
-    var cmin = (red < green) ? red : green;
-    if (blue < cmin) {
-        cmin = blue;
-    }
-
-    lightness = cmax;
-    if (cmax != 0) {
-        saturation = (cmax - cmin) / cmax;
-    } else {
-        saturation = 0;
-    }
-
-    if (saturation == 0) {
-        hue = 0;
-    } else {
-        var redc   = (cmax - red) / (cmax - cmin);
-        var greenc = (cmax - green) / (cmax - cmin);
-        var bluec  = (cmax - blue) / (cmax - cmin);
-
-        if (red == cmax) {
-            hue = bluec - greenc;
-        } else if (green == cmax) {
-            hue = 2.0 + redc - bluec;
-        } else {
-            hue = 4.0 + greenc - redc;
-        }
-
-        hue = hue / 6.0;
-        if (hue < 0) {
-            hue = hue + 1.0;
-        }
-    }
-
-    return {
-        "h": hue,
-        "s": saturation,
-        "l": lightness,
-        "a": alpha
-    };
-};
-
-MochiKit.Visual.toColorPart = function (num) {
-    var digits = Math.round(num).toString(16);
-    if (num < 16) {
-        return '0' + digits;
-    }
-    return digits;
 };
 
 MochiKit.Visual.roundElement = function (e, options) {
