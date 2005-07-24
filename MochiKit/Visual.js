@@ -390,9 +390,10 @@ MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
         }
         var m1 = (2.0 * lightness) - m2;
         var f = MochiKit.Visual._hslValue;
-        red = f(m1, m2, hue * 6 + 2);
-        green = f(m1, m2, hue * 6);
-        blue = f(m1, m2, hue * 6 - 2);
+        var h6 = hue * 6.0;
+        red = f(m1, m2, h6 + 2);
+        green = f(m1, m2, h6);
+        blue = f(m1, m2, h6 - 2);
     }
     return {
         "r": red,
