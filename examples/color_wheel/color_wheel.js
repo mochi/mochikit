@@ -45,8 +45,9 @@ var colorWheelOnLoad = function () {
     colorCanary.style.color = "rgba(100,100,100,0.5)";
     var colorFunc;
     if (colorCanary.style.color == "blue") { 
+        var bgColor = Color.fromBackground();
         colorFunc  = function (color, alpha) {
-            return Color.whiteColor().blendedColor(color, alpha);
+            return bgColor.blendedColor(color, alpha);
         };
     } else {
         colorFunc = function (color, alpha) {
