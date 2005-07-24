@@ -44,7 +44,7 @@ var colorWheelOnLoad = function () {
     colorCanary.style.color = "blue";
     try {
         colorCanary.style.color = "rgba(100,100,100,0.5)";
-    } catch (e)
+    } catch (e) {
         // IE passtastic
     }
     var colorFunc;
