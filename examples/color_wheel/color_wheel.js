@@ -51,11 +51,11 @@ var colorWheelOnLoad = function () {
     if (colorCanary.style.color == "blue") { 
         var bgColor = Color.fromBackground();
         colorFunc  = function (color, alpha) {
-            return bgColor.blendedColor(color, alpha);
+            return bgColor.blendedColor(color, alpha).toHexString();
         };
     } else {
         colorFunc = function (color, alpha) {
-            return color.colorWithAlpha(alpha);
+            return color.colorWithAlpha(alpha).toRGBString();
         }
     }
     var intervalFunc = function (cycle, timeout) {
