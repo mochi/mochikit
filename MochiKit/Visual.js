@@ -347,6 +347,25 @@ MochiKit.Visual.Color.fromBackground = function (elem) {
     return m.Color.whiteColor();
 };
 
+MochiKit.Visual._hslValue = function (n1, n2, hue) {
+    if (hue > 6.0) {
+        hue -= 6.0;
+    } else if (hue < 0.0) {
+        hue += 6.0;
+    }
+    var val;
+    if (hue < 1.0) {
+        val = n1 + (n2 - n1) * hue;
+    } else if (hue < 3.0) {
+        val = n2;
+    } else if (hue < 4.0) {
+        val = n1 + (n2 - n1) * (4.0 - hue);
+    } else {
+        val = n1;
+    }
+    return val;
+};
+    
 MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
     if (arguments.length == 1) {
         var hsl = hue;
@@ -355,46 +374,35 @@ MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
         lightness = hsl.l;
         alpha = hsl.a;
     }
+    var red;
+    var green;
+    var blue;
     if (saturation == 0) {
-        return {
-            "r": lightness,
-            "g": lightness,
-            "b": lightness,
-            "a": alpha
-        };
-    }
-    var v;
-    if (lightness < 0.5) {
-        v = lightness * (1 + saturation);
+        red = lightness;
+        green = lightness;
+        blue = lightness;
     } else {
-        v = lightness + saturation - (lightness * saturation);
-    }
-    var y = lightness + lightness - v;
-    var h6 = 6 * hue;
-    var f = Math.floor(h6);
-    var x = y + ((v - y) * (h6 - f));
-    var z = v - ((v - y) * (h6 - f));
-    var r;
-    var g;
-    var b;
-    switch (f) {
-        case 0: r = v; g = x; b = y; break;
-        case 1: r = z; g = v; b = y; break;
-        case 2: r = y; g = v; b = x; break;
-        case 3: r = y; g = z; b = v; break;
-        case 4: r = x; g = y; b = v; break;
-        case 5: r = v; g = y; b = z; break;
-        default: r = v; g = x; b = y; break;
+        var m2;
+        if (lightness <= 0.5) {
+            m2 = lightness * (1.0 + saturation);
+        } else {
+            m2 = lightness + saturation - (lightness * saturation);
+        }
+        var m1 = (2.0 * lightness) - m2;
+        var f = MochiKit.Visual._hslValue;
+        red = f(m1, m2, hue * 6 + 2);
+        green = f(m1, m2, hue * 6);
+        blue = f(m1, m2, hue * 6 - 2);
     }
     return {
-        "r": r,
-        "g": g,
-        "b": b,
+        "r": red,
+        "g": green,
+        "b": blue,
         "a": alpha
+
     };
-        
 };
-        
+
 MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
     if (arguments.length == 1) {
         var rgb = red;
@@ -403,43 +411,45 @@ MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
         blue = rgb.b;
         alpha = rgb.a;
     }
+    var max = Math.max(red, Math.max(green, blue));
+    var min = Math.min(red, Math.min(green, blue));
     var hue;
     var saturation;
-    var lightness;
-    if (red == green && red == blue) {
-        hue = saturation = 0;
-        lightness = red;
+    var lightness = (max + min) / 2.0;
+    var delta = max - min;
+    if (delta == 0) {
+        hue = 0;
+        saturation = 0;
     } else {
-        var cmax = (green > blue) ? green : blue;
-        if (red > cmax) {
-            cmax = red;
-        }
-        var cmin = (green < blue) ? green : blue;
-        if (red < cmin) {
-            cmin = red;
-        }
-        var scale = 1.0 / (cmax - cmin);
-        saturation = cmax - cmin;
-        lightness = 0.5 * (cmin + cmax);
-        if (red == cmax) {
-            hue = scale * (green - blue);
-        } else if (green == cmax) {
-            hue = 2.0 + (scale * (blue - red));
+        if (lightness <= 0.5) {
+            saturation = delta / (max + min);
         } else {
-            hue = 4.0 + (scale * (red - green));
+            saturation = delta / (2 - max - min);
         }
-        if (hue > 1) {
-            hue /= 6;
-        } else if (hue < 0) {
+        var deltaRed = (((max - red) / 6) + (delta / 2)) / delta;
+        var deltaGreen = (((max - green) / 6) + (delta / 2)) / delta;
+        var deltaBlue = (((max - blue) / 6) + (delta / 2)) / delta;
+        if (red == max) {
+            hue = deltaBlue - deltaGreen;
+        } else if (green == max) {
+            hue = (1 / 3) + deltaRed - deltaBlue;
+        } else {
+            hue = (2 / 3) + deltaGreen - deltaRed;
+        }
+        if (hue < 0) {
             hue += 1;
         }
+        if (hue > 1) {
+            hue -= 1;
+        }
+        
     }
     return {
         "h": hue,
         "s": saturation,
         "l": lightness,
         "a": alpha
-    }
+    };
 };
 
 MochiKit.Visual.toColorPart = function (num) {
