@@ -40,6 +40,19 @@ var colorWheelOnLoad = function () {
         "color_wheel",
         DIV(null, map(itemgetter(1), colorDivs))
     );
+    var colorCanary = DIV(null, "");
+    colorCanary.style.color = "blue";
+    colorCanary.style.color = "rgba(100,100,100,0.5)";
+    var colorFunc;
+    if (colorCanary.style.color == "blue") { 
+        colorFunc  = function (color, alpha) {
+            return Color.whiteColor().blendedColor(color, alpha);
+        };
+    } else {
+        colorFunc = function (color, alpha) {
+            return color.colorWithAlpha(alpha);
+        }
+    }
     var intervalFunc = function (cycle, timeout) {
         var target = 0.5 + (0.5 * Math.sin(Math.PI * (cycle / 180)));
         for (var i = 0; i < colorDivs.length; i++) {
@@ -51,10 +64,10 @@ var colorWheelOnLoad = function () {
                 style.display = "none";
             } else {
                 style.display ="";
-                style.color = color.colorWithAlpha(alpha);
+                style.color = colorFunc(color, alpha);
             }
         }
         setTimeout(partial(intervalFunc, cycle + 2, timeout), timeout);
-    }
+    };
     intervalFunc(0, 200);
 };
