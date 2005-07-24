@@ -462,6 +462,9 @@ MochiKit.Visual.toColorPart = function (num) {
     return digits;
 };
 
+MochiKit.Visual.roundElement = function (e, options) {
+    new MochiKit.Visual._RoundCorners(e, options);
+};
 
 /*
     The following section is partially adapted from
@@ -479,10 +482,6 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
         var style = document.defaultView.getComputedStyle(el, null);
         return style.getPropertyValue(mozillaEquivalentCSS);
     }
-};
-
-MochiKit.Visual.roundElement = function (e, options) {
-    new MochiKit.Visual._RoundCorners(e, options);
 };
 
 MochiKit.Visual._RoundCorners = function (e, options) {
@@ -789,6 +788,7 @@ MochiKit.Visual.__new__  = function () {
     
     var third = 1.0 / 3.0;
     var colors = {
+        // NSColor colors plus transparent
         black: [0, 0, 0],
         blue: [0, 0, 1],
         brown: [0.6, 0.4, 0.2],

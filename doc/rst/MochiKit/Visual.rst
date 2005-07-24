@@ -455,8 +455,7 @@ Functions
 
 ``clampColorComponent(num, scale)``:
 
-    Returns ``num * scale`` rounded to the nearest integer and 
-    clamped between ``0`` and ``scale``.
+    Returns ``num * scale`` clamped between ``0`` and ``scale``.
 
     ``clampColorComponent`` is not exported by default when using JSAN.
 
