@@ -39,11 +39,12 @@ MochiKit.Visual.toString = function () {
 };
 
 
-MochiKit.Visual.clampColorComponent = function (v) {
+MochiKit.Visual.clampColorComponent = function (v, scale) {
+    v *= scale;
     if (v < 0) {
         return 0;
-    } else if (v > 255) {
-        return 255;
+    } else if (v > scale) {
+        return scale;
     } else {
         return Math.round(v);
     }
@@ -118,14 +119,17 @@ MochiKit.Visual.Color.prototype = {
         return MochiKit.Visual.Color.fromRGB(
             (s.r * sf) + (d.r * df),
             (s.g * sf) + (d.g * df),
-            (s.b * sf) + (d.b * df)
+            (s.b * sf) + (d.b * df),
+            (s.a * sf) + (d.a * df)
         );
     },
 
     "compareRGB": function (other) {
+        var a = this.asRGB();
+        var b = other.asRGB();
         return MochiKit.Base.compare(
-            this.toHexString(),
-            other.toHexString()
+            [a.r, a.g, a.b, a.a],
+            [b.r, b.g, b.b, b.a]
         );
     },
         
@@ -137,25 +141,53 @@ MochiKit.Visual.Color.prototype = {
         return (!this.isLight());
     },
 
+    "toHSLString": function () {
+        var c = this.asHSL();
+        var ccc = MochiKit.Visual.clampColorComponent;
+        var rval = this._hslString;
+        if (!rval) {
+            var mid = (
+                ccc(c.h, 360)
+                + "," + ccc(c.s, 360) 
+                + "," + ccc(c.l, 360)
+            );
+            var a = c.a;
+            if (a >= 1) {
+                a = 1;
+                rval = "hsl(" + mid + ")";
+            } else {
+                if (a <= 0) {
+                    a = 0;
+                }
+                rval = "hsla(" + mid + "," + a + ")";
+            }
+            this._hslString = rval;
+        }
+        return rval;
+    },
+
     "toRGBString": function () {
         var c = this.rgb;
         var ccc = MochiKit.Visual.clampColorComponent;
         var rval = this._rgbString;
         if (!rval) {
-            rval = "rgb(" + ccc(c.r) + "," + ccc(c.g) + "," + ccc(c.b) + ")";
+            var mid = (
+                ccc(c.r, 255)
+                + "," + ccc(c.g, 255)
+                + "," + ccc(c.b, 255)
+            );
+            if (c.a != 1) {
+                rval = "rgba(" + mid + "," + c.a + ")";
+            } else {
+                rval = "rgb(" + mid + ")";
+            }
             this._rgbString = rval;
         }
         return rval;
     },
 
     "asRGB": function () {
-        var c = this.rgb;
-        return {
-            "r": c.r,
-            "g": c.g,
-            "b": c.b,
-            "a": c.a
-        };
+        return MochiKit.Base.clone(this.rgb);
     },
 
     "toHexString": function () {
@@ -165,9 +197,9 @@ MochiKit.Visual.Color.prototype = {
         var rval = this._hexString;
         if (!rval) {
             rval = ("#" + 
-                m.toColorPart(ccc(c.r)) +
-                m.toColorPart(ccc(c.g)) +
-                m.toColorPart(ccc(c.b))
+                m.toColorPart(ccc(c.r, 255)) +
+                m.toColorPart(ccc(c.g, 255)) +
+                m.toColorPart(ccc(c.b, 255))
             );
             this._hexString = rval;
         }
@@ -181,16 +213,11 @@ MochiKit.Visual.Color.prototype = {
             hsl = MochiKit.Visual.rgbToHSL(this.rgb);
             this.hsl = hsl;
         }
-        return {
-            "h": hsl.h,
-            "s": hsl.s,
-            "l": hsl.l,
-            "a": c.a
-        };
+        return MochiKit.Base.clone(hsl);
     },
 
     "toString": function () {
-        return this.toHexString();
+        return this.toRGBString();
     },
 
     "repr": function () {
@@ -224,85 +251,99 @@ MochiKit.Visual.Color.fromName = function (name) {
     var htmlColor = Color._namedColors[name.toLowerCase()];
     if (typeof(htmlColor) == 'string') {
         return Color.fromHexString(htmlColor);
+    } else if (name == "transparent") {
+        return Color.transparentColor();
     }
     return null;
-}
+};
 
 MochiKit.Visual.Color.fromString = function (colorString) {
     // TODO: support RGBA
     var self = MochiKit.Visual.Color;
-    if (colorString.indexOf("rgb(") == 0) {
+    var three = colorString.substr(0, 3);
+    if (three == "rgb") {
         return self.fromRGBString(colorString);
-    } else if (colorString.indexOf("#") == 0) {
+    } else if (three == "hsl") {
+        return self.fromHSLString(colorString);
+    } else if (colorString.charAt(0) == "#") {
         return self.fromHexString(colorString);
     }
     return self.fromName(colorString);
 };
 
 
-MochiKit.Visual.Color.fromRGBString = function (rgbCode) {
-    if (rgbCode.indexOf("rgb") == 0) {
-        rgbCode = rgbCode.substring(rgbCode.indexOf("(", 3) + 1, rgbCode.length - 1);
-    } 
-    var rgbChunks = rgbCode.split(/\s*,\s*/);
-    var rgbInts = [];
-    for (var i = 0; i < rgbChunks.length; i++) {
-        var c = rgbChunks[i];
-        var val;
-        if (c.charAt(c.length - 1) == '%') {
-            val = 2.55 * parseInt(c.substring(0, c.length - 1), 10);
-        } else {
-            val = parseInt(c, 10);
+MochiKit.Visual.Color.fromHexString = function (hexCode) {
+    if (hexCode.charAt(0) == '#') {
+        hexCode = hexCode.substring(1);
+    }
+    var components = [];
+    if (hexCode.length == 3) {
+        for (var i = 0; i < 3; i++) {
+            var hex = hexCode.substr(i, 1);
+            components.push(parseInt(hex + hex, 16) / 255.0);
         }
-        rgbInts.push(val);
+    } else {
+        for (var i = 0; i < 6; i += 2) {
+            var hex = hexCode.substr(i, 2);
+            components.push(parseInt(hex, 16) / 255.0);
+        }
     }
     var Color = MochiKit.Visual.Color;
-    return Color.fromRGB.apply(Color, rgbInts);
+    return Color.fromRGB.apply(Color, components);
 };
+        
 
+MochiKit.Visual.Color._fromColorString = function (pre, method, scale, colorCode) {
+    // parses either HSL or RGB
+    if (colorCode.indexOf(pre) == 0) {
+        colorCode = colorCode.substring(colorCode.indexOf("(", 3) + 1, colorCode.length - 1);
+    } 
+    var colorChunks = colorCode.split(/\s*,\s*/);
+    var colorFloats = [];
+    scale = 1.0 / scale;
+    for (var i = 0; i < colorChunks.length; i++) {
+        var c = colorChunks[i];
+        var val;
+        if (c.charAt(c.length - 1) == '%') {
+            val = 0.01 * parseFloat(c.substring(0, c.length - 1));
+        } else {
+            val = parseFloat(c);
+            if (i != 3) {
+                val *= scale;
+            }
+        }
+        colorFloats.push(val);
+    }
+    return this[method].apply(this, colorFloats);
+};
+    
+MochiKit.Visual.Color.fromBackground = function (elem) {
+    var m = MochiKit.Visual;
+    while (elem) {
+        var actualColor = m.getElementsComputedStyle(
+            MochiKit.DOM.getElement(elem),
+            "backgroundColor",
+            "background-color"
+        );
+        if (!actualColor) {
+            break;
+        }
+        var color = m.Color.fromString(actualColor);
+        if (!color) {
+            break;
+        }
+        if (color.asRGB().a > 0) {
+            return color;
+        }
+        elem = elem.parent;
+    }
+    return m.Color.whiteColor();
+};
 
 /*
     The following section is partially adapted from
     Rico <http://www.openrico.org>
 */
-
-MochiKit.Visual.Color.fromHexString = function (hexCode) {
-    if (hexCode.indexOf('#') == 0) {
-        hexCode = hexCode.substring(1);
-    }
-    var r = parseInt(hexCode.substring(0, 2), 16);
-    var g = parseInt(hexCode.substring(2, 4), 16);
-    var b = parseInt(hexCode.substring(4, 6), 16);
-    return MochiKit.Visual.Color.fromRGB(r, g, b);
-};
-
-MochiKit.Visual.Color.fromBackground = function (elem) {
-
-    var m = MochiKit.Visual;
-    var actualColor;
-    while (true) {
-        actualColor = m.getElementsComputedStyle(
-            MochiKit.DOM.getElement(elem),
-            "backgroundColor",
-            "background-color"
-        );
-        if (actualColor == "transparent" && elem.parent) {
-            elem = elem.parent;
-        } else {
-            break;
-        }
-    }
-
-    var color = null;
-    if (actualColor) {
-        color = m.Color.fromString(actualColor);
-    }
-    if (color == null) {
-        color = m.Color.whiteColor();
-    }
-    return color;
-};
-
 
 MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, mozillaEquivalentCSS) {
     if (arguments.length == 2) {
@@ -332,11 +373,10 @@ MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
     var blue  = 0;
 
     if (saturation == 0) {
-        red = parseInt(lightness * 255.0 + 0.5);
+        red = lightness;
         green = red;
         blue = red;
-    }
-    else {
+    } else {
         var h = (hue - Math.floor(hue)) * 6.0;
         var f = h - Math.floor(h);
         var p = lightness * (1.0 - saturation);
@@ -378,12 +418,12 @@ MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
 	}
 
     return {
-        "r": red * 255.0,
-        "g": green * 255.0,
-        "b": blue * 255.0,
+        "r": red,
+        "g": green,
+        "b": blue,
         "a": alpha
     };
-}
+};
 
 MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
     if (arguments.length == 1) {
@@ -407,7 +447,7 @@ MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
         cmin = blue;
     }
 
-    lightness = cmax / 255.0;
+    lightness = cmax;
     if (cmax != 0) {
         saturation = (cmax - cmin) / cmax;
     } else {
@@ -460,13 +500,19 @@ MochiKit.Visual._RoundCorners = function (e, options) {
     this._setOptions(options);
 
     var color = this.options.color;
+    var m = MochiKit.Visual;
     if (this.options.color == "fromElement") {
-        color = this._background(e);
+        color = m.Color.fromBackground(e);
+    } else if (!(color instanceof m.Color)) {
+        color = m.Color.fromString(color);
     }
+    this.isTransparent = (color.asRGB().a <= 0);
 
     var bgColor = this.options.bgColor;
     if (this.options.bgColor == "fromParent") {
-        bgColor = this._background(e.offsetParent);
+        bgColor = m.Color.fromBackground(e.offsetParent);
+    } else if (!(bgColor instanceof m.Color)) {
+        bgColor = m.Color.fromString(bgColor);
     }
 
     this._roundCornersImpl(e, color, bgColor);
@@ -517,9 +563,7 @@ MochiKit.Visual._RoundCorners.prototype = {
 
     "_createCorner": function (bgColor) {
         var corner = document.createElement("div");
-        corner.style.backgroundColor = (
-            this._isTransparent() ?  "transparent" : bgColor
-        );
+        corner.style.backgroundColor = bgColor.toString();
         return corner;
     },
 
@@ -527,7 +571,7 @@ MochiKit.Visual._RoundCorners.prototype = {
         var slice = document.createElement("span");
 
         var inStyle = slice.style;
-        inStyle.backgroundColor = color;
+        inStyle.backgroundColor = color.toString();
         inStyle.display = "block";
         inStyle.height = "1px";
         inStyle.overflow = "hidden";
@@ -542,9 +586,9 @@ MochiKit.Visual._RoundCorners.prototype = {
             inStyle.borderBottomWidth = "0px";
             // assumes css compliant box model
             inStyle.height = "0px";
-            inStyle.borderColor = borderColor;
+            inStyle.borderColor = borderColor.toString();
         } else if (borderColor) {
-            inStyle.borderColor = borderColor.toHexString();
+            inStyle.borderColor = borderColor.toString();
             inStyle.borderStyle = "solid";
             inStyle.borderWidth = "0px 1px";
         }
@@ -571,9 +615,6 @@ MochiKit.Visual._RoundCorners.prototype = {
         MochiKit.Base.update(this.options, options);
 
         this.options.numSlices = (this.options.compact ? 2 : 4);
-        if (this._isTransparent()) {
-            this.options.blend = false;
-        }
     },
 
     "_whichSideTop": function () {
@@ -622,52 +663,52 @@ MochiKit.Visual._RoundCorners.prototype = {
         } else if (this.options.border) {
             return this.options.border;
         } else if (this.options.blend) {
-            return this._blend(bgColor, color);
+            return bgColor.blendedColor(color);
         }
         return "";
     },
 
 
     "_setMargin": function (el, n, corners) {
-        var marginSize = this._marginSize(n);
+        var marginSize = this._marginSize(n) + "px";
         var whichSide = (
             corners == "top" ? this._whichSideTop() : this._whichSideBottom()
         );
         var style = el.style;
 
         if (whichSide == "left") {
-            style.marginLeft = marginSize + "px";
+            style.marginLeft = marginSize;
             style.marginRight = "0px";
         } else if (whichSide == "right") {
-            style.marginRight = marginSize + "px";
+            style.marginRight = marginSize;
             style.marginLeft  = "0px";
         } else {
-            style.marginLeft = marginSize + "px";
-            style.marginRight = marginSize + "px";
+            style.marginLeft = marginSize;
+            style.marginRight = marginSize;
         }
     },
 
     "_setBorder": function (el, n, corners) {
-        var borderSize = this._borderSize(n);
+        var borderSize = this._borderSize(n) + "px";
         var whichSide = (
             corners == "top" ? this._whichSideTop() : this._whichSideBottom()
         );
 
         var style = el.style;
         if (whichSide == "left") {
-            style.borderLeftWidth = borderSize + "px";
+            style.borderLeftWidth = borderSize;
             style.borderRightWidth = "0px";
         } else if (whichSide == "right") {
-            style.borderRightWidth = borderSize + "px";
+            style.borderRightWidth = borderSize;
             style.borderLeftWidth  = "0px";
         } else {
-            style.borderLeftWidth = borderSize + "px";
-            style.borderRightWidth = borderSize + "px";
+            style.borderLeftWidth = borderSize;
+            style.borderRightWidth = borderSize;
         }
     },
 
     "_marginSize": function (n) {
-        if (this._isTransparent()) {
+        if (this.isTransparent) {
             return 0;
         }
 
@@ -689,22 +730,21 @@ MochiKit.Visual._RoundCorners.prototype = {
 
     "_borderSize": function (n) {
         var o = this.options;
-        if (o.compact && (o.blend || this._isTransparent())) {
+        var borderSizes;
+        if (o.compact && (o.blend || this.isTransparent)) {
             return 1;
         } else if (o.compact) {
-            var compactBorderSizes = [1, 0];
-            return compactBorderSizes[n];
+            borderSizes = [1, 0];
         } else if (o.blend) {
-            var blendedBorderSizes = [2, 1, 1, 1];
-            return blendedBorderSizes[n];
+            borderSizes = [2, 1, 1, 1];
         } else if (o.border) {
-            var actualBorderSizes = [0, 2, 0, 0];
-            return actualBorderSizes[n];
-        } else if (this._isTransparent()) {
-            var transparentBorderSizes = [5, 3, 2, 1];
-            return transparentBorderSizes[n];
+            borderSizes = [0, 2, 0, 0];
+        } else if (this.isTransparent) {
+            borderSizes = [5, 3, 2, 1];
+        } else {
+            return 0;
         }
-        return 0;
+        return borderSizes[n];
     },
 
     "_hasString": function (str) {
@@ -714,19 +754,6 @@ MochiKit.Visual._RoundCorners.prototype = {
             }
         }
         return false;
-    },
-
-    "_blend": function (c1, c2) {
-        var c = MochiKit.Visual.Color;
-        return c.fromHexString(c1).blendedColor(c.fromHexString(c2));
-    },
-
-    "_background": function (el) {
-        return MochiKit.Visual.Color.fromBackground(el).toHexString();
-    },
-
-    "_isTransparent": function () {
-        return this.options.color == "transparent";
     },
 
     "_isTopRounded": function () {
@@ -758,6 +785,16 @@ MochiKit.Visual.roundClass = function (tagName, className, options) {
 /* end of Rico adaptation */
 
 MochiKit.Visual.__new__  = function () {
+    var bind = MochiKit.Base.bind;
+    var map = MochiKit.Base.map;
+    var concat = MochiKit.Base.concat;
+    this.Color.fromRGBString = bind(
+        this.Color._fromColorString, this.Color, "rgb", "fromRGB", 255
+    );
+    this.Color.fromHSLString = bind(
+        this.Color._fromColorString, this.Color, "hsl", "fromHSL", 360
+    );
+    
     var third = 1.0 / 3.0;
     var colors = {
         black: [0, 0, 0],
@@ -772,24 +809,22 @@ MochiKit.Visual.__new__  = function () {
         orange: [1, 0.5, 0],
         purple: [0.5, 0, 0.5],
         red: [1, 0, 0],
+        transparent: [0, 0, 0, 0],
         white: [1, 1, 1],
         yellow: [1, 1, 0]
-    }
+    };
 
-    var makeColor = function (name, r, g, b) {
-        var rval = this.fromRGB(r, g, b);
+    var makeColor = function (name, r, g, b, a) {
+        var rval = this.fromRGB(r, g, b, a);
         this[name] = function () { return rval; };
         return rval;
     }
 
-    var bind = MochiKit.Base.bind;
-    var map = MochiKit.Base.map;
-    var concat = MochiKit.Base.concat;
     for (var k in colors) {
         var name = k + "Color";
         var bindArgs = concat(
             [makeColor, this.Color, name],
-            map(function (x) { return x * 255; }, colors[k])
+            colors[k]
         );
         this.Color[name] = bind.apply(null, bindArgs);
     }

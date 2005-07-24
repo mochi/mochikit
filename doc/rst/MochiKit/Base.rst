@@ -155,6 +155,10 @@ problem, just call ``update(dest, src)``!  What if you just wanted to
 update keys that weren't already set?  Look no further than
 ``setdefault(dest, src[, ...])``.
 
+Want to return a mutable object, but don't want to suffer the consequences
+if the user mutates it?  Just ``clone(it)`` and you'll get a copy-on-write
+clone.  Cheaper than a copy!
+
 Need to extend an Array with another array?  Or even an array-like object
 such as a ``NodeList`` or the special ``arguments`` object?  Even if you
 need to skip the first few elements of the source array-like object, it's
@@ -290,6 +294,17 @@ Constructors
 
 Functions
 ---------
+
+``clone(obj)``:
+
+    Return a new object using ``obj`` as its prototype.  Use this
+    if you want to return a mutable object (e.g. instance state),
+    but don't want the user to mutate it.  If they do, it won't
+    have any effect on the original ``obj``.
+    
+    Note that this is a shallow clone, so mutable properties will
+    have to be cloned separately if you want to "protect" them.
+
 
 ``extend(self, obj[, skip])``:
 
