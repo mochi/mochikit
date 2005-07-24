@@ -67,6 +67,12 @@ MochiKit.Visual.Color.prototype = {
 
     "__class__": MochiKit.Visual.Color,
 
+    "colorWithAlpha": function (alpha) {
+        var rgb = this.rgb;
+        var m = MochiKit.Visual;
+        return m.Color.fromRGB(rgb.r, rgb.g, rgb.b, alpha);
+    },
+
     "colorWithHue": function (hue) {
         // get an HSL model, and set the new hue...
         var hsl = this.asHSL();
@@ -879,6 +885,10 @@ if (typeof(JSAN) == 'undefined'
 }
 
 // Full table of css3 X11 colors <http://www.w3.org/TR/css3-color/#X11COLORS>
+MochiKit.Visual.Color.namedColors = function () {
+    return MochiKit.Base.clone(MochiKit.Visual.Color._namedColors);
+}
+
 MochiKit.Visual.Color._namedColors = {
     aliceblue: "#f0f8ff",
     antiquewhite: "#faebd7",
