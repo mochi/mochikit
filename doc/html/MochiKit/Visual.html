@@ -73,6 +73,8 @@ of constructing <tt class="docutils literal"><span class="pre">Color</span></tt>
 (though ordering is on RGB, so is not particularly meaningful),
 and the default <tt class="docutils literal"><span class="pre">toString</span></tt> implementation returns
 <tt class="docutils literal"><span class="pre">this.toHexString()</span></tt>.</p>
+<p>Colors are immutable, and much of the architecture is inspired by
+AppKit's NSColor <a class="footnote-reference" href="#id4" id="id1" name="id1">[1]</a></p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.fromRGB(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
 <blockquote>
@@ -113,8 +115,8 @@ RGB values <tt class="docutils literal"><span class="pre">[0/360,</span> <span c
 <p><tt class="docutils literal"><span class="pre">Color.fromName(colorName)</span></tt>:</p>
 <blockquote>
 Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object corresponding to the given
-SVG 1.0 color keyword name <a class="footnote-reference" href="#id3" id="id1" name="id1">[1]</a> as per the W3C CSS3
-Color Module <a class="footnote-reference" href="#id4" id="id2" name="id2">[2]</a>.  <tt class="docutils literal"><span class="pre">&quot;transparent&quot;</span></tt> is also accepted
+SVG 1.0 color keyword name <a class="footnote-reference" href="#id5" id="id2" name="id2">[2]</a> as per the W3C CSS3
+Color Module <a class="footnote-reference" href="#id6" id="id3" name="id3">[3]</a>.  <tt class="docutils literal"><span class="pre">&quot;transparent&quot;</span></tt> is also accepted
 as a color name, and will return <tt class="docutils literal"><span class="pre">Color.transparentColor()</span></tt>.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.fromString(rgbOrHexString)</span></tt>:</p>
 <blockquote>
@@ -364,28 +366,35 @@ a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</spa
 <p><tt class="docutils literal"><span class="pre">toColorPart(num)</span></tt>:</p>
 <blockquote>
 <p>Convert num to a zero padded hexadecimal digit for use in a hexadecimal
-color string.  Num should be between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
+color string.  Num should be an integer between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
 <p><tt class="docutils literal"><span class="pre">toColorPart</span></tt> is not exported by default when using JSAN.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">clampColorComponent(num,</span> <span class="pre">scale)</span></tt>:</p>
 <blockquote>
-<p>Returns <tt class="docutils literal"><span class="pre">num</span> <span class="pre">*</span> <span class="pre">scale</span></tt> clamped between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">scale</span></tt>.</p>
+<p>Returns <tt class="docutils literal"><span class="pre">num</span> <span class="pre">*</span> <span class="pre">scale</span></tt> rounded to the nearest integer and 
+clamped between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">scale</span></tt>.</p>
 <p><tt class="docutils literal"><span class="pre">clampColorComponent</span></tt> is not exported by default when using JSAN.</p>
 </blockquote>
 </div>
 </div>
 <div class="section" id="see-also">
 <h1><a name="see-also">See Also</a></h1>
-<table class="docutils footnote" frame="void" id="id3" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1" name="id3">[1]</a></td><td>SVG 1.0 color keywords: <a class="reference" href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">http://www.w3.org/TR/SVG/types.html#ColorKeywords</a></td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2" name="id4">[2]</a></td><td>W3C CSS3 Color Module: <a class="reference" href="http://www.w3.org/TR/css3-color/#svg-color">http://www.w3.org/TR/css3-color/#svg-color</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id1" name="id4">[1]</a></td><td>Application Kit Reference - NSColor: <a class="reference" href="http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Classes/NSColor.html">http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Classes/NSColor.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2" name="id5">[2]</a></td><td>SVG 1.0 color keywords: <a class="reference" href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">http://www.w3.org/TR/SVG/types.html#ColorKeywords</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3" name="id6">[3]</a></td><td>W3C CSS3 Color Module: <a class="reference" href="http://www.w3.org/TR/css3-color/#svg-color">http://www.w3.org/TR/css3-color/#svg-color</a></td></tr>
 </tbody>
 </table>
 </div>
