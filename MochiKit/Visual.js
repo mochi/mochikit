@@ -46,7 +46,7 @@ MochiKit.Visual.clampColorComponent = function (v, scale) {
     } else if (v > scale) {
         return scale;
     } else {
-        return Math.round(v);
+        return v;
     }
 };
 
@@ -153,9 +153,9 @@ MochiKit.Visual.Color.prototype = {
         var rval = this._hslString;
         if (!rval) {
             var mid = (
-                ccc(c.h, 360)
-                + "," + ccc(c.s, 360) 
-                + "," + ccc(c.l, 360)
+                ccc(c.h, 360).toFixed(0)
+                + "," + ccc(c.s, 100).toPrecision(4) + "%" 
+                + "," + ccc(c.l, 100).toPrecision(4) + "%"
             );
             var a = c.a;
             if (a >= 1) {
@@ -178,9 +178,9 @@ MochiKit.Visual.Color.prototype = {
         var rval = this._rgbString;
         if (!rval) {
             var mid = (
-                ccc(c.r, 255)
-                + "," + ccc(c.g, 255)
-                + "," + ccc(c.b, 255)
+                ccc(c.r, 255).toFixed(0)
+                + "," + ccc(c.g, 255).toFixed(0)
+                + "," + ccc(c.b, 255).toFixed(0)
             );
             if (c.a != 1) {
                 rval = "rgba(" + mid + "," + c.a + ")";
@@ -299,24 +299,25 @@ MochiKit.Visual.Color.fromHexString = function (hexCode) {
 };
         
 
-MochiKit.Visual.Color._fromColorString = function (pre, method, scale, colorCode) {
+MochiKit.Visual.Color._fromColorString = function (pre, method, scales, colorCode) {
     // parses either HSL or RGB
     if (colorCode.indexOf(pre) == 0) {
         colorCode = colorCode.substring(colorCode.indexOf("(", 3) + 1, colorCode.length - 1);
     } 
     var colorChunks = colorCode.split(/\s*,\s*/);
     var colorFloats = [];
-    scale = 1.0 / scale;
     for (var i = 0; i < colorChunks.length; i++) {
         var c = colorChunks[i];
         var val;
+        var three = c.substring(c.length - 3);
         if (c.charAt(c.length - 1) == '%') {
             val = 0.01 * parseFloat(c.substring(0, c.length - 1));
+        } else if (three == "deg") {
+            val = parseFloat(c) / 360.0;
+        } else if (three == "rad") {
+            val = parseFloat(c) / (Math.PI * 2);
         } else {
-            val = parseFloat(c);
-            if (i != 3) {
-                val *= scale;
-            }
+            val = scales[i] * parseFloat(c);
         }
         colorFloats.push(val);
     }
@@ -490,7 +491,7 @@ MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
 };
 
 MochiKit.Visual.toColorPart = function (num) {
-    var digits = num.toString(16);
+    var digits = Math.round(num).toString(16);
     if (num < 16) {
         return '0' + digits;
     }
@@ -795,10 +796,12 @@ MochiKit.Visual.__new__  = function () {
     var map = MochiKit.Base.map;
     var concat = MochiKit.Base.concat;
     this.Color.fromRGBString = bind(
-        this.Color._fromColorString, this.Color, "rgb", "fromRGB", 255
+        this.Color._fromColorString, this.Color, "rgb", "fromRGB",
+        [1.0/255.0, 1.0/255.0, 1.0/255.0, 1]
     );
     this.Color.fromHSLString = bind(
-        this.Color._fromColorString, this.Color, "hsl", "fromHSL", 360
+        this.Color._fromColorString, this.Color, "hsl", "fromHSL",
+        [1.0/360.0, 0.01, 0.01, 1]
     );
     
     var third = 1.0 / 3.0;

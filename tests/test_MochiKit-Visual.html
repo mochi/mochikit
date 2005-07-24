@@ -32,32 +32,36 @@ try {
     is( Color.fromRGBString("rgb(190,222,173)").toHexString(), "#bedead", "round-trip rgb" );
     is( Color.fromString("rgb(190,222,173)").toHexString(), "#bedead", "round-trip rgb" );
 
-    var hsl = Color.whiteColor().asHSL();
-    is( hsl.h, 0.0, "white hsl.h" );
-    is( hsl.s, 0.0, "white hsl.s" );
-    is( hsl.l, 1.0, "white hsl.l" );
-    hsl = Color.brownColor().asHSL();
-    is( hsl.h, (30.0 / 360.0), "brown hsl.h" );
-    is( hsl.s, (2.0 / 3.0), "brown hsl.s" );
-    is( hsl.l, 0.6, "brown hsl.l" );
+    var hsl = Color.redColor().asHSL();
+    is( hsl.h, 0.0, "red hsl.h" );
+    is( hsl.s, 1.0, "red hsl.s" );
+    is( hsl.l, 0.5, "red hsl.l" );
+    hsl = Color.fromRGB(0, 0, 0.5).asHSL();
+    is( hsl.h, 2/3, "darkblue hsl.h" );
+    is( hsl.s, 0.5, "darkblue hsl.s" );
+    is( hsl.l, 0.25, "darkblue hsl.l" );
+    hsl = Color.fromRGB(0.5, 1, 0.5).asHSL();
+    is( hsl.h, 1/3, "aqua hsl.h" );
+    is( hsl.s, 0.5, "aqua hsl.s" );
+    is( hsl.l, 0.75, "aqua hsl.l" );
     is( 
         Color.fromHSL(hsl.h, hsl.s, hsl.l).toHexString(),
-        Color.brownColor().toHexString(),
+        Color.fromRGB(0.5, 1, 0.5).toHexString(),
         "fromHSL works with components"
     );
     is( 
         Color.fromHSL(hsl).toHexString(),
-        Color.brownColor().toHexString(),
+        Color.fromRGB(0.5, 1, 0.5).toHexString(),
         "fromHSL alt form"
     );
     is(
-        Color.fromString("hsl(30,240,216)").toHexString(),
-        Color.brownColor().toHexString(),
+        Color.fromString("hsl(120,50%,75%)").toHexString(),
+        "#80ff80",
         "fromHSLString"
     );
     is(
-        Color.brownColor().toHSLString(),
-        "hsl(30,240,216)",
+        Color.fromRGB(0.5, 1, 0.5).toHSLString(),
+        "hsl(120,50.00%,75.00%)",
         "toHSLString"
     );
     is( Color.fromHSL(0, 0, 0).toHexString(), "#000000", "fromHSL to black" );
