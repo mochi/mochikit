@@ -42,7 +42,11 @@ var colorWheelOnLoad = function () {
     );
     var colorCanary = DIV(null, "");
     colorCanary.style.color = "blue";
-    colorCanary.style.color = "rgba(100,100,100,0.5)";
+    try {
+        colorCanary.style.color = "rgba(100,100,100,0.5)";
+    } catch (e)
+        // IE passtastic
+    }
     var colorFunc;
     if (colorCanary.style.color == "blue") { 
         var bgColor = Color.fromBackground();
