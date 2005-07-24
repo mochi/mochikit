@@ -155,6 +155,20 @@ Constructors
     element.
     
 
+``Color.namedColors()``:
+
+    Returns an object with properties for each SVG 1.0 color keyword
+    name [2]_ supported by CSS3 [3]_.  Property names are the color keyword
+    name in lowercase, and the value is a string suitable for
+    ``Color.fromString()``.
+
+
+``Color.prototype.colorWithAlpha(alpha)``:
+
+    Return a new ``Color`` based on this color, but with the provided
+    ``alpha`` value.
+
+
 ``Color.prototype.colorWithHue(hue)``:
 
     Return a new ``Color`` based on this color, but with the provided
