@@ -138,6 +138,9 @@ generic JavaScript programming.</p>
 problem, just call <tt class="docutils literal"><span class="pre">update(dest,</span> <span class="pre">src)</span></tt>!  What if you just wanted to
 update keys that weren't already set?  Look no further than
 <tt class="docutils literal"><span class="pre">setdefault(dest,</span> <span class="pre">src[,</span> <span class="pre">...])</span></tt>.</p>
+<p>Want to return a mutable object, but don't want to suffer the consequences
+if the user mutates it?  Just <tt class="docutils literal"><span class="pre">clone(it)</span></tt> and you'll get a copy-on-write
+clone.  Cheaper than a copy!</p>
 <p>Need to extend an Array with another array?  Or even an array-like object
 such as a <tt class="docutils literal"><span class="pre">NodeList</span></tt> or the special <tt class="docutils literal"><span class="pre">arguments</span></tt> object?  Even if you
 need to skip the first few elements of the source array-like object, it's
@@ -244,6 +247,15 @@ Remove a named adapter from the registry</blockquote>
 </div>
 <div class="section" id="functions">
 <h2><a name="functions">Functions</a></h2>
+<p><tt class="docutils literal"><span class="pre">clone(obj)</span></tt>:</p>
+<blockquote>
+<p>Return a new object using <tt class="docutils literal"><span class="pre">obj</span></tt> as its prototype.  Use this
+if you want to return a mutable object (e.g. instance state),
+but don't want the user to mutate it.  If they do, it won't
+have any effect on the original <tt class="docutils literal"><span class="pre">obj</span></tt>.</p>
+<p>Note that this is a shallow clone, so mutable properties will
+have to be cloned separately if you want to &quot;protect&quot; them.</p>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">extend(self,</span> <span class="pre">obj[,</span> <span class="pre">skip])</span></tt>:</p>
 <blockquote>
 <p>Mutate an array by extending it with an array-like obj,

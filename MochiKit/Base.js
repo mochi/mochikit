@@ -24,6 +24,14 @@ MochiKit.Base.toString = function () {
     return this.__repr__();
 }
 
+MochiKit.Base.clone = function (obj) {
+    var me = arguments.callee;
+    if (arguments.length == 1) {
+        me.prototype = obj;
+        return new me();
+    }
+};
+        
 MochiKit.Base.extend = function (self, obj, /* optional */skip) {
     /***
 
@@ -965,6 +973,7 @@ MochiKit.Base.nameFunctions = function (namespace) {
 }
 
 MochiKit.Base.EXPORT = [
+    "clone",
     "extend",
     "update",
     "setdefault",

@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 92});
+    plan({'tests': 99});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -43,6 +43,21 @@ try {
     is( o.func(), "boring", "bindMethods doesn't break shit" );
     is( p.func(), "boring", "bindMethods works on other objects" );
     is( func(), "boring", "bindMethods works on functions" );
+
+    var p = clone(o);
+    ok( p instanceof O, "cloned correct inheritance" );
+    var q = clone(p);
+    ok( q instanceof O, "clone-cloned correct inheritance" );
+    q.foo = "bar";
+    is( p.foo, undefined, "clone-clone is copy-on-write" );
+    p.bar = "foo";
+    is( o.bar, undefined, "clone is copy-on-write" );
+    is( q.bar, "foo", "clone-clone has proper delegation" );
+    // unbind
+    p.func = bind(p.func, null);
+    is( p.func(), "boring", "clone function calls correct" );
+    q.value = "awesome";
+    is( q.func(), "awesome", "clone really does work" );
     
     // test boring boolean funcs
 

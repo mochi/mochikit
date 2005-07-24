@@ -22,8 +22,9 @@ Synopsis
         objEqual(Color.whiteColor(), Color.fromString("rgb(255,100%, 255)"))
     );
 
-    // So is instantiating directly from HSL or RGB values
-    assert( objEqual(Color.fromRGB(255, 255, 255), Color.fromHSL(0, 0, 1) );
+    // So is instantiating directly from HSL or RGB values.
+    // Note that fromRGB and fromHSL take numbers between 0.0 and 1.0!
+    assert( objEqual(Color.fromRGB(1.0, 1.0, 1.0), Color.fromHSL(0.0, 0.0, 1.0) );
 
     // Or even SVG color keyword names, as per CSS3!
     assert( Color.fromString("aquamarine"), "#7fffd4" );
@@ -36,6 +37,7 @@ Description
 ===========
 
 MochiKit.Visual provides visual effects and support functions for visuals.
+
 
 Dependencies
 ============
@@ -71,8 +73,8 @@ Constructors
 
 ``Color()``:
 
-    Represents a color.  Component values should be integers between ``0``
-    and ``255``.  You should use one of the ``Color`` factory
+    Represents a color.  Component values should be integers between ``0.0``
+    and ``1.0``.  You should use one of the ``Color`` factory
     functions such as ``Color.fromRGB``, ``Color.fromHSL``, etc. instead
     of constructing ``Color`` objects directly.
 
@@ -82,53 +84,66 @@ Constructors
     ``this.toHexString()``.
 
 
-``Color.fromRGB(red, green, blue)``:
+``Color.fromRGB(red, green, blue, alpha=1.0)``:
 
-    Return a ``Color`` object from the given ``red``, ``green``, ``blue``
-    values.  Values should be integers between ``0`` and ``255``.
+    Return a ``Color`` object from the given ``red``, ``green``, ``blue``,
+    and ``alpha`` values.  Values should be numbers between ``0`` and ``1.0``.
+
+    If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
 
     Alternate form:
-        ``Color.fromRGB({r: red, g: green, b: blue})``
+        ``Color.fromRGB({r: red, g: green, b: blue, a: alpha})``
 
 
-``Color.fromHSL(hue, saturation, lightness)``:
+``Color.fromHSL(hue, saturation, lightness, alpha=1.0)``:
 
     Return a ``Color`` object from the given ``hue``, ``saturation``,
     ``lightness`` values.  Values should be numbers between ``0.0`` and
     ``1.0``.
 
+    If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
+
     Alternate form:
-        ``Color.fromHSL({h: hue, s: saturation, b: lightness})``
+        ``Color.fromHSL({h: hue, s: saturation, b: lightness, a: alpha})``
 
 
 ``Color.fromHexString(hexString)``:
 
     Returns a ``Color`` object from the given hexadecimal color string.
     For example, ``"#FFFFFF"`` would return a ``Color`` with
-    RGB values ``[255, 255, 255]`` (white).
+    RGB values ``[255/255, 255/255, 255/255]`` (white).
 
 
 ``Color.fromRGBString(rgbString)``:
 
     Returns a ``Color`` object from the given decimal rgb color string.
     For example, ``"rgb(255,255,255)"`` would return a ``Color`` with
-    RGB values ``[255, 255, 255]`` (white).
+    RGB values ``[255/255, 255/255, 255/255]`` (white).
+
+
+``Color.fromHSLString(rgbString)``:
+
+    Returns a ``Color`` object from the given decimal hsl color string.
+    For example, ``"hsl(0,0,360)"`` would return a ``Color`` with
+    RGB values ``[0/360, 0/360, 360/360]`` (white).
 
 
 ``Color.fromName(colorName)``:
 
     Returns a ``Color`` object corresponding to the given
     SVG 1.0 color keyword name [1]_ as per the W3C CSS3
-    Color Module [2]_.
+    Color Module [2]_.  ``"transparent"`` is also accepted
+    as a color name, and will return ``Color.transparentColor()``.
+
 
 ``Color.fromString(rgbOrHexString)``:
 
-    Returns a ``Color`` object from the given RGB, hex, or name.  Will
-    return ``null`` if the string can not be parsed by any of these 
+    Returns a ``Color`` object from the given RGB, HSL, hex, or name.
+    Will return ``null`` if the string can not be parsed by any of these 
     methods.
 
-    See ``Color.fromHexString``, ``Color.fromRGBString``, and
-    ``Color.fromName`` more information.
+    See ``Color.fromHexString``, ``Color.fromRGBString``, 
+    ``Color.fromHSLString`` and ``Color.fromName`` more information.
     
 
 ``Color.fromBackground(elem)``:
@@ -169,7 +184,7 @@ Constructors
 
 ``Color.prototype.blendedColor(other, fraction=0.5)``:
 
-    Return a new ``Color`` whose RGB component values are a weighted sum
+    Return a new ``Color`` whose RGBA component values are a weighted sum
     of this color and ``other``.  Each component of the returned color
     is the ``fraction`` of other's value plus ``1 - fraction`` of this
     color's.
@@ -180,110 +195,159 @@ Constructors
     Return ``true`` if the lightness value of this color is greater than
     ``0.5``.
 
+    Note that ``alpha`` is ignored for this calculation (color components
+    are not premultiplied).
 
 ``Color.prototype.isDark()``:
 
     Return ``true`` if the lightness value of this color is less than or
     equal to ``0.5``.
 
+    Note that ``alpha`` is ignored for this calculation (color components
+    are not premultiplied).
+
 
 ``Color.prototype.toRGBString()``:
 
     Return the decimal ``"rgb(red, green, blue)"`` string representation of this
     color.
+    
+    If the alpha component is not ``1.0`` (fully opaque), the
+    ``"rgba(red, green, blue, alpha)"`` string representation will be used.
+
+    For example::
+
+        assert( Color.whiteColor().toRGBString() == "rgb(255,255,255)" );
+
+
+``Color.prototype.toHSLString()``:
+
+    Return the decimal ``"hsl(hue, saturation, lightness)"``
+    string representation of this color.
+
+    If the alpha component is not ``1.0`` (fully opaque), the
+    ``"hsla(hue, saturation, lightness, alpha)"`` string representation
+    will be used.
+
+    For example::
+
+        assert( Color.whiteColor().toHSLString() == "hsl(0,0,360)" );
 
 
 ``Color.prototype.toHexString()``:
 
     Return the hexadecimal ``"#RRGGBB"`` string representation of this color.
 
-
-``Color.prototype.asRGB()``:
-
-    Return the RGB (red, green, blue) components of this color as an object
-    with ``r``, ``g``, and ``b`` properties, with integer values between
-    ``0`` and ``255``.
+    Note that the alpha component is completely ignored for hexadecimal
+    string representations!
 
     For example::
 
         assert( Color.whiteColor().toHexString() == "#FFFFFF" );
 
 
+``Color.prototype.asRGB()``:
+
+    Return the RGB (red, green, blue, alph) components of this color as an
+    object with ``r``, ``g``, ``b``, and ``a`` properties that have
+    values between ``0.0`` and ``1.0``.
+
+
 ``Color.prototype.asHSL()``:
 
-    Return the HSL (hue, saturation, lightness) components of this color
-    as an object with ``h``, ``s``, and ``l`` properties, with floating
-    point values between ``0.0`` and ``1.0``.
+    Return the HSL (hue, saturation, lightness, alpha) components of this
+    color as an object with ``h``, ``s``, ``l`` and ``a`` properties
+    that have values between ``0.0`` and ``1.0``.
 
 
 ``Color.blackColor()``:
 
-    Return a ``Color`` object whose RGB values are 0, 0, 0.
+    Return a ``Color`` object whose RGB values are 0, 0, 0
+    (#000000).
 
 
 ``Color.blueColor()``:
     
-    Return a ``Color`` object whose RGB values are 0, 0, 255.
+    Return a ``Color`` object whose RGB values are 0, 0, 1
+    (#0000ff).
 
 
 ``Color.brownColor()``:
 
-    Return a ``Color`` object whose RGB values are 153, 102, 51.
+    Return a ``Color`` object whose RGB values are 0.6, 0.4, 0.2
+    (#996633).
 
 
 ``Color.cyanColor()``:
 
-    Return a ``Color`` object whose RGB values are 0, 255, 255.
+    Return a ``Color`` object whose RGB values are 0, 1, 1
+    (#00ffff).
 
 
 ``Color.darkGrayColor()``:
 
-    Return a ``Color`` object whose RGB values are 85, 85, 85.
+    Return a ``Color`` object whose RGB values are 1/3, 1/3, 1/3
+    (#555555).
 
 
 ``Color.grayColor()``:
 
-    Return a ``Color`` object whose RGB values are 127, 127, 127.
+    Return a ``Color`` object whose RGB values are 0.5, 0.5, 0.5
+    (#808080).
 
 
 ``Color.greenColor()``:
 
-    Return a ``Color`` object whose RGB values are 0, 255, 0.
+    Return a ``Color`` object whose RGB values are 0, 1, 0.
+    (#00ff00).
 
 
 ``Color.lightGrayColor()``:
 
-    Return a ``Color`` object whose RGB values are 170, 170, 170.
+    Return a ``Color`` object whose RGB values are 2/3, 2/3, 2/3
+    (#aaaaaa).
 
 
 ``Color.magentaColor()``:
 
-    Return a ``Color`` object whose RGB values are 255, 0, 255.
+    Return a ``Color`` object whose RGB values are 1, 0, 1
+    (#ff00ff).
 
 
 ``Color.orangeColor()``:
 
-    Return a ``Color`` object whose RGB values are 255, 127, 0.
+    Return a ``Color`` object whose RGB values are 1, 0.5, 0
+    (#ff8000).
 
 
 ``Color.purpleColor()``:
 
-    Return a ``Color`` object whose RGB values are 127, 0, 127.
+    Return a ``Color`` object whose RGB values are 0.5, 0, 0.5
+    (#800080).
 
 
 ``Color.redColor()``:
 
-    Return a ``Color`` object whose RGB values are 255, 0, 0.
+    Return a ``Color`` object whose RGB values are 1, 0, 0
+    (#ff0000).
 
 
 ``Color.whiteColor()``:
 
-    Return a ``Color`` object whose RGB values are 255, 255, 255.
+    Return a ``Color`` object whose RGB values are 1, 1, 1
+    (#ffffff).
 
 
 ``Color.yellowColor()``:
 
-    Return a ``Color`` object whose RGB values are 255, 255, 0.
+    Return a ``Color`` object whose RGB values are 1, 1, 0
+    (#ffff00).
+
+
+``Color.transparentColor()``:
+
+    Return a ``Color`` object that is completely transparent
+    (has alpha component of 0).
 
 
 Functions
@@ -342,24 +406,24 @@ Functions
     object itself.
     
 
-``hslToRGB(hue, saturation, lightness)``:
+``hslToRGB(hue, saturation, lightness, alpha)``:
 
     Computes RGB values from the provided HSL values. The return value is a
-    mapping with ``"r"``, ``"g"``, and ``"b"`` keys.
+    mapping with ``"r"``, ``"g"``, ``"b"`` and ``"a"`` keys.
     
     Alternate form:
-        ``hslToRGB({h: hue,  s: saturation, l: lightness})``.
+        ``hslToRGB({h: hue,  s: saturation, l: lightness, a: alpha})``.
 
     ``hslToRGB`` is not exported by default when using JSAN.
 
 
-``rgbToHSL(red, green, blue)``:
+``rgbToHSL(red, green, blue, alpha)``:
 
     Computes HSL values based on the provided RGB values. The return value is
-    a mapping with ``"h"``, ``"s"`` and ``"l"`` keys.
+    a mapping with ``"h"``, ``"s"``, ``"l"`` and ``"a"`` keys.
     
     Alternate form:
-        ``rgbToHSL({r: red, g: green, b: blue})``.
+        ``rgbToHSL({r: red, g: green, b: blue, a: alpha})``.
 
     ``rgbToHSL`` is not exported by default when using JSAN.
 
@@ -372,21 +436,11 @@ Functions
     ``toColorPart`` is not exported by default when using JSAN.
 
 
-``clampColorComponent(num)``:
+``clampColorComponent(num, scale)``:
 
-    Clamps a component value to integers between ``0`` and ``255``.
+    Returns ``num * scale`` clamped between ``0`` and ``scale``.
 
     ``clampColorComponent`` is not exported by default when using JSAN.
-
-
-ToDo
-====
-
-- Support ``rgba(...)`` strings
-- Support ``hsl(...)`` strings
-- Support ``hsla(...)`` strings
-- Support alpha (blend, etc.)
-- Possibly move to 1.0 based RGB component model?
 
 
 See Also

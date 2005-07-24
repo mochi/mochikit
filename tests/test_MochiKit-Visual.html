@@ -14,7 +14,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 37});
+    plan({'tests': 45});
    
     is( Color.whiteColor().toHexString(), "#ffffff", "whiteColor has right hex" );
     is( Color.blackColor().toHexString(), "#000000", "blackColor has right hex" );
@@ -25,8 +25,8 @@ try {
     ok( Color.whiteColor() == Color.whiteColor(), "default colors are interned" );
     ok( Color.whiteColor().toRGBString(), "rgb(255,255,255)", "toRGBString white" );
     ok( Color.blueColor().toRGBString(), "rgb(0,0,255)", "toRGBString blue" );
-    is( Color.fromRGB(190, 222, 173).toHexString(), "#bedead", "fromRGB works" );
-    is( Color.fromRGB({r:190,g:222,b:173}).toHexString(), "#bedead", "alt fromRGB works" );
+    is( Color.fromRGB(190/255, 222/255, 173/255).toHexString(), "#bedead", "fromRGB works" );
+    is( Color.fromRGB({r:190/255,g:222/255,b:173/255}).toHexString(), "#bedead", "alt fromRGB works" );
     is( Color.fromHexString("#bedead").toHexString(), "#bedead", "round-trip hex" );
     is( Color.fromString("#bedead").toHexString(), "#bedead", "round-trip string(hex)" );
     is( Color.fromRGBString("rgb(190,222,173)").toHexString(), "#bedead", "round-trip rgb" );
@@ -50,6 +50,16 @@ try {
         Color.brownColor().toHexString(),
         "fromHSL alt form"
     );
+    is(
+        Color.fromString("hsl(30,240,216)").toHexString(),
+        Color.brownColor().toHexString(),
+        "fromHSLString"
+    );
+    is(
+        Color.brownColor().toHSLString(),
+        "hsl(30,240,216)",
+        "toHSLString"
+    );
     is( Color.fromHSL(0, 0, 0).toHexString(), "#000000", "fromHSL to black" );
     hsl = Color.blackColor().asHSL();
     is( hsl.h, 0.0, "black hsl.h" );
@@ -59,15 +69,21 @@ try {
     hsl = Color.blackColor().asHSL();
     is( hsl.h, 0.0, "asHSL returns copy" );
     var rgb = Color.brownColor().asRGB();
-    is( rgb.r, 153, "brown rgb.r" );
-    is( rgb.g, 102, "brown rgb.g" );
-    is( rgb.b, 51, "brown rgb.b" );
+    is( rgb.r, 153/255, "brown rgb.r" );
+    is( rgb.g, 102/255, "brown rgb.g" );
+    is( rgb.b, 51/255, "brown rgb.b" );
     rgb.r = 0;
     rgb = Color.brownColor().asRGB();
-    is( rgb.r, 153, "asRGB returns copy" );
+    is( rgb.r, 153/255, "asRGB returns copy" );
 
     is( Color.fromName("aqua").toHexString(), "#00ffff", "aqua fromName" );
     is( Color.fromString("aqua").toHexString(), "#00ffff", "aqua fromString" );
+    is( Color.fromName("transparent"), Color.transparentColor(), "transparent fromName" );
+    is( Color.fromString("transparent"), Color.transparentColor(), "transparent fromString" );
+    is( Color.transparentColor().toRGBString(), "rgba(0,0,0,0)", "transparent toRGBString" );
+    is( Color.fromRGBString("rgba( 0, 255, 255, 50%)").asRGB().a, 0.5, "rgba parsing alpha correctly" );
+    is( Color.fromRGBString("rgba( 0, 255, 255, 50%)").toRGBString(), "rgba(0,255,255,0.5)", "rgba output correctly" );
+    is( Color.fromRGBString("rgba( 0, 255, 255, 1)").toHexString(), "#00ffff", "fromRGBString with spaces and alpha" );
     is( Color.fromRGBString("rgb( 0, 255, 255)").toHexString(), "#00ffff", "fromRGBString with spaces" );
     is( Color.fromRGBString("rgb( 0, 100%, 255)").toHexString(), "#00ffff", "fromRGBString with percents" );
     
