@@ -83,6 +83,9 @@ Constructors
     and the default ``toString`` implementation returns
     ``this.toHexString()``.
 
+    Colors are immutable, and much of the architecture is inspired by
+    AppKit's NSColor [1]_ 
+
 
 ``Color.fromRGB(red, green, blue, alpha=1.0)``:
 
@@ -131,8 +134,8 @@ Constructors
 ``Color.fromName(colorName)``:
 
     Returns a ``Color`` object corresponding to the given
-    SVG 1.0 color keyword name [1]_ as per the W3C CSS3
-    Color Module [2]_.  ``"transparent"`` is also accepted
+    SVG 1.0 color keyword name [2]_ as per the W3C CSS3
+    Color Module [3]_.  ``"transparent"`` is also accepted
     as a color name, and will return ``Color.transparentColor()``.
 
 
@@ -431,14 +434,15 @@ Functions
 ``toColorPart(num)``:
 
     Convert num to a zero padded hexadecimal digit for use in a hexadecimal
-    color string.  Num should be between ``0`` and ``255``.
+    color string.  Num should be an integer between ``0`` and ``255``.
 
     ``toColorPart`` is not exported by default when using JSAN.
 
 
 ``clampColorComponent(num, scale)``:
 
-    Returns ``num * scale`` clamped between ``0`` and ``scale``.
+    Returns ``num * scale`` rounded to the nearest integer and 
+    clamped between ``0`` and ``scale``.
 
     ``clampColorComponent`` is not exported by default when using JSAN.
 
@@ -446,8 +450,9 @@ Functions
 See Also
 ========
 
-.. [1] SVG 1.0 color keywords: http://www.w3.org/TR/SVG/types.html#ColorKeywords
-.. [2] W3C CSS3 Color Module: http://www.w3.org/TR/css3-color/#svg-color
+.. [1] Application Kit Reference - NSColor: http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Classes/NSColor.html
+.. [2] SVG 1.0 color keywords: http://www.w3.org/TR/SVG/types.html#ColorKeywords
+.. [3] W3C CSS3 Color Module: http://www.w3.org/TR/css3-color/#svg-color
 
 
 Authors
