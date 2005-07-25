@@ -180,13 +180,17 @@ try {
     ok( true, "synchronous test suite finished!");
 
     var t = (new Date().getTime());
+    var endtest = 0;
     checkCallLater = function (originalTime) {
         is(originalTime, t, "argument passed in OK");
         is(arguments.length, 1, "argument count right");
-        tx.endAsync(async.pop());
+        if (endtest) {
+            tx.endAsync(async);
+        }
+        endtest++;
     };
-    var tx = Test.Builder.create();
-    var async = [tx.beginAsync(1000), tx.beginAsync(1000)];
+    var tx = new Test.Builder();
+    var async = tx.beginAsync(1000);
     callLater(0.25, checkCallLater, t);
     wait(0.25, t).addCallback(checkCallLater);
     
