@@ -186,7 +186,7 @@ try {
         async.pop().endAsync();
     };
     var t = Test.Builder.create();
-    var async = [t.beginAsync(1), t.beginAsync(1)];
+    var async = [t.beginAsync(1000), t.beginAsync(1000)];
     callLater(0.25, checkCallLater, t);
     wait(0.25, t).addCallback(checkCallLater);
     
