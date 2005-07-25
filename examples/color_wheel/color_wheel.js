@@ -72,7 +72,8 @@ var colorWheelOnLoad = function () {
                 style.color = colorFunc(color, alpha);
             }
         }
-        setTimeout(partial(intervalFunc, cycle + 2, timeout), timeout);
+        callLater(timeout, arguments.callee, cycle + 2, timeout);
     };
-    intervalFunc(0, 200);
+    // 5 fps
+    intervalFunc(0, 1/5);
 };
