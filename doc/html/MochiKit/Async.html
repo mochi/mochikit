@@ -276,8 +276,8 @@ but not both.</blockquote>
 interface: i.e., some code is calling you expecting a Deferred result,
 but you don't actually need to do anything asynchronous.  Just return
 <tt class="docutils literal"><span class="pre">succeed(theResult)</span></tt>.</p>
-<p>See fail for a version of this function that uses a failing <tt class="docutils literal"><span class="pre">Deferred</span></tt>
-rather than a successful one.</p>
+<p>See <tt class="docutils literal"><span class="pre">fail</span></tt> for a version of this function that uses a failing
+<tt class="docutils literal"><span class="pre">Deferred</span></tt> rather than a successful one.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">result</span></tt>:</dt>
 <dd>The result to give to the Deferred's <tt class="docutils literal"><span class="pre">.callback(result)</span></tt> method.</dd>
@@ -287,8 +287,8 @@ rather than a successful one.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">fail([result])</span></tt>:</p>
 <blockquote>
-<p>Return a Deferred that has already had '.errback(result)' called.</p>
-<p>See succeed's documentation for rationale.</p>
+<p>Return a Deferred that has already had <tt class="docutils literal"><span class="pre">.errback(result)</span></tt> called.</p>
+<p>See <tt class="docutils literal"><span class="pre">succeed</span></tt> documentation for rationale.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">result</span></tt>:</dt>
 <dd>The result to give to the Deferred's <tt class="docutils literal"><span class="pre">.errback(result)</span></tt> method.</dd>
@@ -347,6 +347,20 @@ platform.</p>
 <li><tt class="docutils literal"><span class="pre">new</span> <span class="pre">ActiveXObject('Msxml2.XMLHTTP.4.0')</span></tt></li>
 </ul>
 </blockquote>
+<p><tt class="docutils literal"><span class="pre">wait(seconds[,</span> <span class="pre">res])</span></tt>:</p>
+<blockquote>
+Return a new cancellable <tt class="docutils literal"><span class="pre">Deferred</span></tt> that will <tt class="docutils literal"><span class="pre">.callback(res)</span></tt>
+after at least <tt class="docutils literal"><span class="pre">seconds</span></tt> seconds have elapsed.</blockquote>
+<p><tt class="docutils literal"><span class="pre">callLater(seconds,</span> <span class="pre">func[,</span> <span class="pre">args...])</span></tt>:</p>
+<blockquote>
+<p>Call <tt class="docutils literal"><span class="pre">func(args...)</span></tt> after at least <tt class="docutils literal"><span class="pre">seconds</span></tt> seconds have elapsed.
+This is a convenience method for:</p>
+<pre class="literal-block">
+func = partial.apply(extend(null, arguments, 1));
+return wait(seconds).addCallback(function (res) { return func() });
+</pre>
+<p>Returns a cancellable <tt class="docutils literal"><span class="pre">Deferred</span></tt>.</p>
+</blockquote>
 </div>
 </div>
 <div class="section" id="see-also">
@@ -379,7 +393,6 @@ platform.</p>
 <div class="section" id="todo">
 <h1><a name="todo">ToDo</a></h1>
 <ul class="simple">
-<li>Add <tt class="docutils literal"><span class="pre">callLater</span></tt></li>
 <li>Add some examples</li>
 <li><tt class="docutils literal"><span class="pre">doSimpleXMLHttpRequest</span></tt> equivalent that accepts a request
 instead of a URL</li>

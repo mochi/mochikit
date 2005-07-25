@@ -575,6 +575,26 @@ MochiKit.Async.loadJSONDoc = function (url) {
     return d;
 };
 
+MochiKit.Async.wait = function (seconds, /* optional */value) {
+    var d = new MochiKit.Async.Deferred();
+    var bind = MochiKit.Base.bind;
+    var partial = MochiKit.Base.partial;
+    if (typeof(value) != 'undefined') {
+        d.addCallback(function () { return value; });
+    }
+    var timeout = setTimeout(bind(d.callback, d), Math.floor(seconds * 1000));
+    d.canceller = partial(clearTimeout, timeout);
+    return d;
+};
+
+MochiKit.Async.callLater = function (seconds, func) {
+    var m = MochiKit.Base;
+    var func = m.partial.apply(m.extend(null, arguments, 1));
+    return MochiKit.Async.wait(seconds).addCallback(
+        function (res) { return func(); }
+    );
+};
+
 MochiKit.Async.EXPORT = [
     "AlreadyCalledError",
     "CancelledError",
@@ -586,7 +606,9 @@ MochiKit.Async.EXPORT = [
     "fail",
     "getXMLHttpRequest",
     "doSimpleXMLHttpRequest",
-    "loadJSONDoc"
+    "loadJSONDoc",
+    "wait",
+    "callLater"
 ];
     
 MochiKit.Async.EXPORT_OK = [
