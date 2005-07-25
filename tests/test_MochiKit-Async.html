@@ -177,7 +177,17 @@ try {
         ok(false, "no love from getXMLHttpRequest");
     }
     
-    ok( true, "test suite finished!");
+    ok( true, "synchronous test suite finished!");
+
+    callLater(0, diag, "tests below here are not counted in the plan, Test.Simple can't test async stuff yet.");
+    var t = (new Date().getTime());
+    checkCallLater = function (originalTime) {
+        diag('two tests should pass here (and this will be done twice):');
+        is(originalTime, t, "argument passed in OK");
+        is(arguments.length, 1, "argument count right");
+    };
+    callLater(0.25, checkCallLater, t);
+    wait(0.25, t).addCallback(checkCallLater);
     
 } catch (err) {
     
