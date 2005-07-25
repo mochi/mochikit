@@ -379,6 +379,21 @@ Functions
     ``scrapeText(node).join('')``
 
 
+``addToCallStack(target, path, func[, once])``:
+
+    Set the property ``path`` of ``target`` to a function that calls the
+    existing function at that property (if any), then calls ``func``.
+
+    If ``target[path]()`` returns exactly ``false``, then ``func`` will
+    not be called.
+
+    If ``once`` is ``true``, then ``target[path]`` is set to ``null`` after
+    the function call stack has completed.
+
+    If called several times for the same ``target[path]``, it will create
+    a stack of functions (instead of just a pair).
+
+
 See Also
 ========
 

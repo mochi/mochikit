@@ -344,6 +344,17 @@ partial(setDisplayForElement(&quot;none&quot;))
 Walk a DOM tree and scrape all of the text out of it as an <tt class="docutils literal"><span class="pre">Array</span></tt>.
 Typically you will want to do get the string with:
 <tt class="docutils literal"><span class="pre">scrapeText(node).join('')</span></tt></blockquote>
+<p><tt class="docutils literal"><span class="pre">addToCallStack(target,</span> <span class="pre">path,</span> <span class="pre">func[,</span> <span class="pre">once])</span></tt>:</p>
+<blockquote>
+<p>Set the property <tt class="docutils literal"><span class="pre">path</span></tt> of <tt class="docutils literal"><span class="pre">target</span></tt> to a function that calls the
+existing function at that property (if any), then calls <tt class="docutils literal"><span class="pre">func</span></tt>.</p>
+<p>If <tt class="docutils literal"><span class="pre">target[path]()</span></tt> returns exactly <tt class="docutils literal"><span class="pre">false</span></tt>, then <tt class="docutils literal"><span class="pre">func</span></tt> will
+not be called.</p>
+<p>If <tt class="docutils literal"><span class="pre">once</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then <tt class="docutils literal"><span class="pre">target[path]</span></tt> is set to <tt class="docutils literal"><span class="pre">null</span></tt> after
+the function call stack has completed.</p>
+<p>If called several times for the same <tt class="docutils literal"><span class="pre">target[path]</span></tt>, it will create
+a stack of functions (instead of just a pair).</p>
+</blockquote>
 </div>
 </div>
 <div class="section" id="see-also">
