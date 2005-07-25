@@ -303,8 +303,8 @@ Functions
     but you don't actually need to do anything asynchronous.  Just return
     ``succeed(theResult)``.
 
-    See fail for a version of this function that uses a failing ``Deferred``
-    rather than a successful one.
+    See ``fail`` for a version of this function that uses a failing
+    ``Deferred`` rather than a successful one.
 
     ``result``:
         The result to give to the Deferred's ``.callback(result)`` method.
@@ -315,9 +315,9 @@ Functions
 
 ``fail([result])``:
 
-    Return a Deferred that has already had '.errback(result)' called.
+    Return a Deferred that has already had ``.errback(result)`` called.
 
-    See succeed's documentation for rationale.
+    See ``succeed`` documentation for rationale.
 
     ``result``:
         The result to give to the Deferred's ``.errback(result)`` method.
@@ -381,6 +381,24 @@ Functions
     - ``new ActiveXObject('Microsoft.XMLHTTP')``
     - ``new ActiveXObject('Msxml2.XMLHTTP.4.0')``
 
+
+``wait(seconds[, res])``:
+
+    Return a new cancellable ``Deferred`` that will ``.callback(res)``
+    after at least ``seconds`` seconds have elapsed.
+
+
+``callLater(seconds, func[, args...])``:
+
+    Call ``func(args...)`` after at least ``seconds`` seconds have elapsed.
+    This is a convenience method for::
+
+        func = partial.apply(extend(null, arguments, 1));
+        return wait(seconds).addCallback(function (res) { return func() });
+
+    Returns a cancellable ``Deferred``.
+
+
 See Also
 ========
 
@@ -393,7 +411,6 @@ See Also
 ToDo
 ====
 
-- Add ``callLater``
 - Add some examples
 - ``doSimpleXMLHttpRequest`` equivalent that accepts a request
   instead of a URL
