@@ -3,7 +3,7 @@
 Name
 ====
 
-MochiKit.Visual - visual effects
+MochiKit.Visual - visual effects and colors
 
 
 Synopsis
