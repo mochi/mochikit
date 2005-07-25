@@ -13,7 +13,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 24});
+    plan({'tests': 26});
 
     lst = [];
     o = {"blah": function () { lst.push("original"); }};
@@ -24,6 +24,16 @@ try {
     o.blah();
     is( lst.join(" "), "original new stuff", "callStack in correct order" );
     is( o.blah, null, "set to null" );
+    lst = [];
+    o = {"blah": function () { lst.push("original"); }};
+    addToCallStack(o, "blah",
+        function () { lst.push("new"); return false;}, false);
+    addToCallStack(o, "blah", function () { lst.push("stuff"); }, false);
+    o.blah();
+    is( lst.join(" "), "original new", "callStack in correct order (abort)" );
+    o.blah();
+    is( lst.join(" "), "original new original new", "callStack in correct order (again)" );
+    
     
     is( escapeHTML("<>'\"&bar"), "&lt;&gt;&apos;&quot;&amp;bar", "escapeHTML" ); // for emacs highlighting: "
 

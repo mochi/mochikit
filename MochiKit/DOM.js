@@ -362,16 +362,14 @@ MochiKit.DOM.getElement = function (id) {
     }
 };
 
-/* This function was adapted from Rico. http://www.openrico.org. */
-
 MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className) {
-    if (tagName == null) {
+    if (typeof(tagName) == 'undefined' || tagName == null) {
         tagName = '*';
     }
     var children = document.getElementsByTagName(tagName) || document.all;
     var elements = [];
 
-    if (className == null) {
+    if (typeof(className) == 'undefined' || className == null) {
         return children;
     }
 
@@ -389,8 +387,6 @@ MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className) {
     return elements;
 }
 
-/* end of Rico adaptation. */
-
 MochiKit.DOM.addToCallStack = function (target, path, func, once) {
     var existing = target[path];
     var regfunc = existing;
@@ -398,7 +394,9 @@ MochiKit.DOM.addToCallStack = function (target, path, func, once) {
         var regfunc = function () {
             var callStack = regfunc.callStack;
             for (var i = 0; i < callStack.length; i++) {
-                callStack[i].apply(this, arguments);
+                if (callStack[i].apply(this, arguments) === false) {
+                    break;
+                }
             }
             if (once) {
                 try {
