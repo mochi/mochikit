@@ -1,0 +1,21 @@
+<html>
+<head>
+    <script type="text/javascript" src="JSAN.js"></script>
+</head>
+<body>
+
+<pre id="test">
+<script type="text/javascript">
+    // TODO: Make this a harness for the other tests
+    JSAN.use('Test.More');
+    JSAN.use('MochiKit.MochiKit');
+    plan({"tests": 4});
+    is( isUndefined(null), false, "null is not undefined" );
+    is( isUndefined(""), false, "empty string is not undefined" );
+    is( isUndefined(undefined), true, "undefined is undefined" );
+    is( isUndefined({}.foo), true, "missing property is undefined" );
+
+</script>
+</pre>
+</body>
+</html>

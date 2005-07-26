@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 */
 if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base");
+    JSAN.use("MochiKit.Base", []);
 }
 
 try {
