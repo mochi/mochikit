@@ -704,6 +704,7 @@ MochiKit.DOM.__new__ = function () {
     this.domConverters = new MochiKit.Base.AdapterRegistry(); 
 
     var __tmpElement = document.createElement("span");
+    var attributeArray;
     if (__tmpElement.attributes.length > 0) {
         // for braindead browsers (IE) that insert extra junk
         var filter = MochiKit.Base.filter;
