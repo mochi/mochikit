@@ -332,7 +332,7 @@ MochiKit.Logging.__new__ = function () {
 
     var bind = MochiKit.Base.bind;
 
-    logger = new Logger();
+    var logger = new Logger();
     this.log = bind(logger.log, logger);
     this.logError = bind(logger.error, logger);
     this.logDebug = bind(logger.debug, logger);
