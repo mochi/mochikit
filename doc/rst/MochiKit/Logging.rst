@@ -149,7 +149,7 @@ Constructors
             may want to use ``LogLevel[level]`` for comparison.
         
         ``info``:
-            An Array of objects passed as additonal arguments to the ``log``
+            An Array of objects passed as additional arguments to the ``log``
             function.
 
 
