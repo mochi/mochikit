@@ -290,7 +290,7 @@ Functions
     ``req``:
         The request whose responseText is to be evaluated
 
-    ``returns``:
+    *returns*:
         A JavaScript object
 
 
@@ -309,7 +309,7 @@ Functions
     ``result``:
         The result to give to the Deferred's ``.callback(result)`` method.
 
-    returns:
+    *returns*:
         a new ``Deferred``
 
 
@@ -322,7 +322,7 @@ Functions
     ``result``:
         The result to give to the Deferred's ``.errback(result)`` method.
 
-    returns:
+    *returns*:
         a new ``Deferred``
 
 
@@ -338,7 +338,7 @@ Functions
     ``sendContent``:
         Optional string or DOM content to send over the ``XMLHttpRequest``.
 
-    returns:
+    *returns*:
         ``Deferred`` that will callback with the ``XMLHttpRequest`` instance
         on success.
 
@@ -351,7 +351,7 @@ Functions
     ``url``:
         The URL to GET
 
-    returns:
+    *returns*:
         ``Deferred`` that will callback with the ``XMLHttpRequest``
         instance on success
     
@@ -364,7 +364,7 @@ Functions
     ``url``:
         The URL to GET
 
-    returns:
+    *returns*:
         ``Deferred`` that will callback with the evaluated JSON [4]_
         response upon successful ``XMLHttpRequest``
 
@@ -412,8 +412,6 @@ ToDo
 ====
 
 - Add some examples
-- ``doSimpleXMLHttpRequest`` equivalent that accepts a request
-  instead of a URL
 
 
 Authors
