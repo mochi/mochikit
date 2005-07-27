@@ -23,6 +23,8 @@ def main():
                     settings_overrides=dict(
                         input_encoding='utf8',
                         output_encoding='utf8',
+                        embed_stylesheet=False,
+                        stylesheet_path='include/documentation.css',
                     ),
                 )
 
