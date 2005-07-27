@@ -359,7 +359,7 @@ Functions
 ``items(obj)``:
 
     Return an ``Array`` of ``[propertyName, propertyValue]`` pairs for the
-    given ``obj`` (in the order deterined by ``for propName in obj``).
+    given ``obj`` (in the order determined by ``for propName in obj``).
 
 
 ``operator``:
