@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+.. title:: MochiKit.DateTime - "what time is it anyway?"
 
 Name
 ====

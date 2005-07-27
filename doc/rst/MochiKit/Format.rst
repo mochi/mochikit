@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+.. title:: MochiKit.Format - string formatting goes here
 
 Name
 ====

@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+.. title:: MochiKit.Async - manage asynchronous tasks
 
 Name
 ====
@@ -242,8 +242,8 @@ Constructors
 
     Begin the callback sequence with a non-``Error`` result.
     
-    *NOTE*: Either ``.callback`` or ``.errback`` should
-    be called exactly once on a ``Deferred``.
+.. note:: Either ``.callback`` or ``.errback`` should
+          be called exactly once on a ``Deferred``.
 
 
 ``Deferred.prototype.errback([result])``:
@@ -252,8 +252,8 @@ Constructors
     ``!(result instanceof Error)``, it will be wrapped
     with ``GenericError``.
 
-    *NOTE*: Either ``.callback`` or ``.errback`` should
-    be called exactly once on a ``Deferred``.
+.. note:: Either ``.callback`` or ``.errback`` should
+          be called exactly once on a ``Deferred``.
 
 
 ``Deferred.prototype.addBoth(func)``:
