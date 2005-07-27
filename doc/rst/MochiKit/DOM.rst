@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+.. title:: MochiKit.DOM - painless DOM manipulation API
 
 Name
 ====

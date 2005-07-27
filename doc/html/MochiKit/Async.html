@@ -4,12 +4,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 <meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
-<title></title>
+<title>MochiKit.Async - manage asynchronous tasks</title>
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
 </head>
 <body>
 <div class="document">
-<!-- -*- mode: rst -*- -->
 <div class="section" id="name">
 <h1><a name="name">Name</a></h1>
 <p>MochiKit.Async - manage asynchronous tasks</p>
@@ -229,18 +228,22 @@ with <tt class="docutils literal"><span class="pre">CancelledError</span></tt>.<
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">Deferred.prototype.callback([result])</span></tt>:</p>
 <blockquote>
-<p>Begin the callback sequence with a non-<tt class="docutils literal"><span class="pre">Error</span></tt> result.</p>
-<p><em>NOTE</em>: Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
+Begin the callback sequence with a non-<tt class="docutils literal"><span class="pre">Error</span></tt> result.</blockquote>
+<div class="note">
+<p class="first admonition-title">Note</p>
+<p class="last">Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
 be called exactly once on a <tt class="docutils literal"><span class="pre">Deferred</span></tt>.</p>
-</blockquote>
+</div>
 <p><tt class="docutils literal"><span class="pre">Deferred.prototype.errback([result])</span></tt>:</p>
 <blockquote>
-<p>Begin the callback sequence with an error result.  If 
+Begin the callback sequence with an error result.  If 
 <tt class="docutils literal"><span class="pre">!(result</span> <span class="pre">instanceof</span> <span class="pre">Error)</span></tt>, it will be wrapped
-with <tt class="docutils literal"><span class="pre">GenericError</span></tt>.</p>
-<p><em>NOTE</em>: Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
+with <tt class="docutils literal"><span class="pre">GenericError</span></tt>.</blockquote>
+<div class="note">
+<p class="first admonition-title">Note</p>
+<p class="last">Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
 be called exactly once on a <tt class="docutils literal"><span class="pre">Deferred</span></tt>.</p>
-</blockquote>
+</div>
 <p><tt class="docutils literal"><span class="pre">Deferred.prototype.addBoth(func)</span></tt>:</p>
 <blockquote>
 Add the same function as both a callback and an errback as the

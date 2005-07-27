@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+.. title:: MochiKit.Iter - itertools for JavaScript; iteration made HARD, and then easy
 
 Name
 ====

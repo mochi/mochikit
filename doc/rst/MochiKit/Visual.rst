@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+.. title:: MochiKit.Visual - visual effects and colors
 
 Name
 ====

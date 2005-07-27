@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+.. title:: MochiKit Documentation Index
 
 Distribution
 ============

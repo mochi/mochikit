@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+.. title:: MochiKit.Logging - we're all tired of alert()
 
 Name
 ====
@@ -149,6 +149,7 @@ Constructors
             may want to use ``LogLevel[level]`` for comparison.
         
         ``info``:
+            typo fix
             An Array of objects passed as additional arguments to the ``log``
             function.
 

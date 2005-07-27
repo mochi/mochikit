@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+.. title:: MochiKit.Base - functional programming and useful comparisons
 
 Name
 ====
@@ -712,7 +712,7 @@ Functions
     See the documentation for ``bind`` for more details about
     this facility.
     
-    *NOTE*: This could be used to implement, but is NOT currying.
+.. note:: This could be used to implement, but is NOT currying.
  
 
 ``listMinMax(which, lst)``:
