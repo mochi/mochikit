@@ -415,8 +415,9 @@ Authors
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is free software;
-you can redistribute it and/or modify it under the terms of the
-`MIT License`_.
+Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
+free software; you can redistribute it and/or modify it under the terms of the
+`MIT License`_ or the `Academic Free License v2.1`_.
 
 .. _`MIT License`: http://www.opensource.org/licenses/mit-license.php
+.. _`Academic Free License v2.1`: http://www.opensource.org/licenses/afl-2.1.php
