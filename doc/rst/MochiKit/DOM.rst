@@ -206,7 +206,7 @@ Functions
         nodes that are appended as children using the
         `DOM Coercion Rules`_.
 
-    returns:
+    *returns*:
         A DOM element
 
 
@@ -228,7 +228,7 @@ Functions
     ``node``...:
         Optionally specify any children nodes it should have
 
-    returns:
+    *returns*:
         function that takes additional arguments and calls ``createDOM``
 
 
@@ -242,7 +242,7 @@ Functions
     ``src``:
         the DOM element (or string id of one) to replace it with
 
-    returns:
+    *returns*:
         a DOM element (``src``)
 
 

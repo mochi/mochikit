@@ -266,7 +266,7 @@ but not both.</blockquote>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">req</span></tt>:</dt>
 <dd>The request whose responseText is to be evaluated</dd>
-<dt><tt class="docutils literal"><span class="pre">returns</span></tt>:</dt>
+<dt><em>returns</em>:</dt>
 <dd>A JavaScript object</dd>
 </dl>
 </blockquote>
@@ -282,7 +282,7 @@ but you don't actually need to do anything asynchronous.  Just return
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">result</span></tt>:</dt>
 <dd>The result to give to the Deferred's <tt class="docutils literal"><span class="pre">.callback(result)</span></tt> method.</dd>
-<dt>returns:</dt>
+<dt><em>returns</em>:</dt>
 <dd>a new <tt class="docutils literal"><span class="pre">Deferred</span></tt></dd>
 </dl>
 </blockquote>
@@ -293,7 +293,7 @@ but you don't actually need to do anything asynchronous.  Just return
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">result</span></tt>:</dt>
 <dd>The result to give to the Deferred's <tt class="docutils literal"><span class="pre">.errback(result)</span></tt> method.</dd>
-<dt>returns:</dt>
+<dt><em>returns</em>:</dt>
 <dd>a new <tt class="docutils literal"><span class="pre">Deferred</span></tt></dd>
 </dl>
 </blockquote>
@@ -307,7 +307,7 @@ callback on success.</p>
 <dd>An preconfigured <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> object (open has been called).</dd>
 <dt><tt class="docutils literal"><span class="pre">sendContent</span></tt>:</dt>
 <dd>Optional string or DOM content to send over the <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>.</dd>
-<dt>returns:</dt>
+<dt><em>returns</em>:</dt>
 <dd><tt class="docutils literal"><span class="pre">Deferred</span></tt> that will callback with the <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> instance
 on success.</dd>
 </dl>
@@ -319,7 +319,7 @@ on success.</dd>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">url</span></tt>:</dt>
 <dd>The URL to GET</dd>
-<dt>returns:</dt>
+<dt><em>returns</em>:</dt>
 <dd><tt class="docutils literal"><span class="pre">Deferred</span></tt> that will callback with the <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>
 instance on success</dd>
 </dl>
@@ -331,7 +331,7 @@ as a JSON <a class="footnote-reference" href="#id10" id="id5" name="id5">[4]</a>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">url</span></tt>:</dt>
 <dd>The URL to GET</dd>
-<dt>returns:</dt>
+<dt><em>returns</em>:</dt>
 <dd><tt class="docutils literal"><span class="pre">Deferred</span></tt> that will callback with the evaluated JSON <a class="footnote-reference" href="#id10" id="id6" name="id6">[4]</a>
 response upon successful <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt></dd>
 </dl>
@@ -395,8 +395,6 @@ return wait(seconds).addCallback(function (res) { return func() });
 <h1><a name="todo">ToDo</a></h1>
 <ul class="simple">
 <li>Add some examples</li>
-<li><tt class="docutils literal"><span class="pre">doSimpleXMLHttpRequest</span></tt> equivalent that accepts a request
-instead of a URL</li>
 </ul>
 </div>
 <div class="section" id="authors">
