@@ -111,7 +111,7 @@ Functions
             // pass
         }
 
-    This is ugly, so you should use the higher order funtions to work
+    This is ugly, so you should use the higher order functions to work
     with iterators whenever possible.
 
 
