@@ -839,7 +839,7 @@ MochiKit.Visual.__new__  = function () {
         return a.compareRGB(b);
     }
 
-    registerComparator(this.Color.NAME, isColor, compareColor);
+    MochiKit.Base.registerComparator(this.Color.NAME, isColor, compareColor);
         
     this.EXPORT_TAGS = {
         ":common": this.EXPORT,
