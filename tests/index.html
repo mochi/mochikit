@@ -1,11 +1,12 @@
 <html>
 <head>
-  <!-- This harness does not work locally in Safari -->
-  <script type="text/javascript" src="JSAN.js"></script>
+    <!-- This harness does not work locally in Safari -->
+    <script type="text/javascript" src="../MochiKit/Compat.js"></script>
+    <script type="text/javascript" src="JSAN.js"></script>
 </head>
 <body>
 <script type="text/javascript">
-new JSAN(".").use("Test.Harness.Browser");
+JSAN.use("Test.Harness.Browser");
 Test.Harness.Browser.runTests(
     'test_MochiKit-Async.html',
     'test_MochiKit-Base.html',
