@@ -1,0 +1,8 @@
+XXXX-XX-XX      v0.60
+
+    - Several minor documentation corrections
+    - MochiKit.Compat to workaround IE 5.5 issues (5.0 still not supported)
+
+2005-07-27      v0.50
+
+    - Initial Release
