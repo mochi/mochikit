@@ -12,6 +12,13 @@ Synopsis
 ::
 
     var url = "/src/b/bo/bob/MochiKit.Async/META.json";
+    /*
+
+        META.json looks something like this:
+
+        {"name": "MochiKit", "version": "0.5"}
+
+    */
     var d = loadJSONDoc(url);
     var gotMetadata = function (meta) {
         if (MochiKit.Async.VERSION == meta.version) {
