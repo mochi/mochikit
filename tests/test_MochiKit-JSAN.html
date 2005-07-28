@@ -13,6 +13,7 @@
     var lst = [];
     plan({"tests": 1});
     var wc = {};
+    wc['MochiKit'] = true;
     for (var k in window) { wc[k] = true; }
     for (var k in window) { wc[k] = true; }
     JSAN.use('MochiKit.MochiKit', []);
@@ -23,7 +24,7 @@
     }
     lst.sort();
     pollution = lst.join(" ");
-    is(pollution, "MochiKit compare reduce", "namespace pollution?");
+    is(pollution, "compare reduce", "namespace pollution?");
     JSAN.use('MochiKit.MochiKit');
 
 </script>
