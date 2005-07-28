@@ -124,11 +124,11 @@ Constructors
     RGB values ``[255/255, 255/255, 255/255]`` (white).
 
 
-``Color.fromHSLString(rgbString)``:
+``Color.fromHSLString(hslString)``:
 
     Returns a ``Color`` object from the given decimal hsl color string.
-    For example, ``"hsl(0,0,360)"`` would return a ``Color`` with
-    RGB values ``[0/360, 0/360, 360/360]`` (white).
+    For example, ``"hsl(0,0%,100%)"`` would return a ``Color`` with
+    HSL values ``[0/360, 0/360, 360/360]`` (white).
 
 
 ``Color.fromName(colorName)``:
