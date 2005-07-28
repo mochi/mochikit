@@ -61,4 +61,35 @@ for fn in FILES:
     META['provides'][modname] = dict(file=fn, version=VERSION)
 if not os.path.exists('dist'):
     os.makedirs('dist')
-sys.stdout.writelines(json_encode(META))
+
+pkg = '%(name)s-%(version)s' % META
+z = zipfile.ZipFile(
+    os.path.join('dist', pkg) + '.zip',
+    'w',
+    zipfile.ZIP_DEFLATED
+)
+MANIFEST = ['META.json', 'MANIFEST\t\t\tThis list of files']
+z.writestr(os.path.join(pkg, 'META.json'), ''.join(json_encode(META)))
+
+IGNOREDIRS = ['.svn', 'dist', 'scripts']
+src = os.path.join('.', '')
+dst = os.path.join(pkg, '')
+
+for root, dirs, files in os.walk(src):
+    for ex in IGNOREDIRS:
+        if ex in dirs:
+            dirs.remove(ex)
+    for fn in files:
+        if fn.startswith('.') or fn == 'build.py':
+            continue
+        fn = os.path.join(root, fn)
+        mfn = fn[len(src):]
+        MANIFEST.append(mfn)
+        if mfn.startswith('MochiKit/'):
+            mfn = 'lib/' + mfn
+        dstfn = os.path.join(dst, mfn)
+        z.write(fn, dstfn)
+
+z.writestr(os.path.join(pkg, 'MANIFEST'), '\n'.join(MANIFEST + ['']))
+
+z.close()
