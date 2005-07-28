@@ -27,6 +27,7 @@ MochiKit.MochiKit.toString = function () {
 };
 
 MochiKit.MochiKit.SUBMODULES = [
+    "Compat",
     "Base",
     "Iter",
     "Logging",
