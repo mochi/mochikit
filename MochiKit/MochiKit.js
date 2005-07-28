@@ -37,16 +37,22 @@ MochiKit.MochiKit.SUBMODULES = [
     "Visual"
 ];
 
-if (typeof(JSAN) != 'undefined') {
-    // hopefully this makes it easier for static analysis?
-    JSAN.use("MochiKit.Base", []);
-    JSAN.use("MochiKit.Iter", []);
-    JSAN.use("MochiKit.Logging", []);
-    JSAN.use("MochiKit.DateTime", []);
-    JSAN.use("MochiKit.Format", []);
-    JSAN.use("MochiKit.Async", []);
-    JSAN.use("MochiKit.DOM", []);
-    JSAN.use("MochiKit.Visual", []);
+if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
+    if (typeof(dojo) != 'undefined') {
+        dojo.provides('MochiKit.MochiKit');
+        dojo.require("MochiKit.*");
+    }
+    if (typeof(JSAN) != 'undefined') {
+        // hopefully this makes it easier for static analysis?
+        JSAN.use("MochiKit.Base", []);
+        JSAN.use("MochiKit.Iter", []);
+        JSAN.use("MochiKit.Logging", []);
+        JSAN.use("MochiKit.DateTime", []);
+        JSAN.use("MochiKit.Format", []);
+        JSAN.use("MochiKit.Async", []);
+        JSAN.use("MochiKit.DOM", []);
+        JSAN.use("MochiKit.Visual", []);
+    }
     (function () {
         var extend = MochiKit.Base.extend;
         var self = MochiKit.MochiKit;

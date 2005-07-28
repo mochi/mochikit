@@ -1,6 +1,6 @@
 /*
 
-MochiKit.Iter 0.5
+MochiKit.DOM 0.5
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,6 +8,10 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 */
 
+if (typeof(dojo) != 'undefined') {
+    dojo.provide("MochiKit.DOM");
+    dojo.require("MochiKit.Iter");
+}
 if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Iter", []);
 }
@@ -774,7 +778,7 @@ MochiKit.DOM.__new__ = function () {
 
 MochiKit.DOM.__new__();
 
-if (typeof(JSAN) == 'undefined'
+if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
     || (typeof(__MochiKit_Compat__) == 'boolean' && __MochiKit_Compat__)) {
     (function (self) {
             var all = self.EXPORT_TAGS[":all"];

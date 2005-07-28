@@ -8,6 +8,11 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 */
 
+if (typeof(dojo) != 'undefined') {
+    dojo.provide('MochiKit.Visual');
+    dojo.require('MochiKit.Base');
+    dojo.require('MochiKit.DOM');
+}
 
 if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Base", []);
@@ -860,7 +865,7 @@ MochiKit.Visual.EXPORT_OK = [
 
 MochiKit.Visual.__new__();
 
-if (typeof(JSAN) == 'undefined'
+if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
     || (typeof(__MochiKit_Compat__) == 'boolean' && __MochiKit_Compat__)) {
     (function (self) {
             var all = self.EXPORT_TAGS[":all"];
