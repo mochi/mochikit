@@ -1,5 +1,5 @@
 dojo.hostenv.conditionalLoadModule({
-    common: [
+    "common": [
         "MochiKit.Base",
         "MochiKit.Iter",
         "MochiKit.Logging",
@@ -7,7 +7,8 @@ dojo.hostenv.conditionalLoadModule({
         "MochiKit.Format",
         "MochiKit.Async",
         "MochiKit.Visual"
-    browser: [
+    ],
+    "browser": [
         "MochiKit.DOM"
     ]
 });
