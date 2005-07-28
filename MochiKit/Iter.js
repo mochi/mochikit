@@ -7,6 +7,11 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 (c) 2005 Bob Ippolito.  All rights Reserved.
 
 */
+if (typeof(dojo) != 'undefined') {
+    dojo.provide('MochiKit.Iter');
+    dojo.require('MochiKit.Base');
+}
+
 if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Base", []);
 }   
@@ -827,7 +832,7 @@ MochiKit.Iter.__new__();
 //
 reduce = MochiKit.Iter.reduce;
 
-if (typeof(JSAN) == 'undefined'
+if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
     || (typeof(__MochiKit_Compat__) == 'boolean' && __MochiKit_Compat__)) {
     (function (self) {
             var all = self.EXPORT_TAGS[":all"];
