@@ -17,6 +17,13 @@
 <h1><a name="synopsis">Synopsis</a></h1>
 <pre class="literal-block">
 var url = &quot;/src/b/bo/bob/MochiKit.Async/META.json&quot;;
+/*
+
+    META.json looks something like this:
+
+    {&quot;name&quot;: &quot;MochiKit&quot;, &quot;version&quot;: &quot;0.5&quot;}
+
+*/
 var d = loadJSONDoc(url);
 var gotMetadata = function (meta) {
     if (MochiKit.Async.VERSION == meta.version) {
