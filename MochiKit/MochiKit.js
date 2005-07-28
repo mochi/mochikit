@@ -27,7 +27,6 @@ MochiKit.MochiKit.toString = function () {
 };
 
 MochiKit.MochiKit.SUBMODULES = [
-    "Compat",
     "Base",
     "Iter",
     "Logging",
@@ -101,6 +100,7 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
             return;
         }
         var modules = MochiKit.MochiKit.SUBMODULES;
+        modules.unshift("Compat");
         for (var i = 0; i < modules.length; i++) {
             var uri = base + modules[i] + '.js';
             if (uri in allScripts) {
