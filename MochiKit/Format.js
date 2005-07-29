@@ -114,7 +114,7 @@ MochiKit.Format.__new__ = function () {
 MochiKit.Format.__new__();
 
 if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(__MochiKit_Compat__) == 'boolean' && __MochiKit_Compat__)) {
+    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
     (function (self) {
             var all = self.EXPORT_TAGS[":all"];
             for (var i = 0; i < all.length; i++) {

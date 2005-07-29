@@ -82,7 +82,9 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
     }());
     
 } else {
-    __MochiKit_Compat__ = true;
+    if (typeof(MochiKit.__compat__) == 'undefined') {
+        MochiKit.__compat__ = true;
+    }
     (function () {
         var scripts = document.getElementsByTagName("script");
         var base = null;
@@ -102,18 +104,22 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         var modules = MochiKit.MochiKit.SUBMODULES;
         modules.unshift("Compat");
         for (var i = 0; i < modules.length; i++) {
+            if (MochiKit[modules[i]]) {
+                continue;
+            }
             var uri = base + modules[i] + '.js';
             if (uri in allScripts) {
                 continue;
             }
-            var tag = '<' + 'script src="' + uri + '" type="text/javascript"' + '>' + '<' + '/script' + '>';
-            document.write(tag);
-            // the following doesn't work in Safari
             if (false) {
+                // doesn't work in Safari
                 var s = document.createElement('script');
                 s.setAttribute("src", uri);
                 s.setAttribute("type", "text/javascript");
                 baseElem.parentNode.appendChild(s);
+            } else {
+                var tag = '<' + 'script src="' + uri + '" type="text/javascript"' + '>' + '<' + '/script' + '>';
+                document.write(tag);
             }
         }
     })();
