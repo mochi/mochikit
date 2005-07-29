@@ -2,6 +2,7 @@ import os
 import sys
 import glob
 import zipfile
+execfile('pack.py')
 def json_encode(o, indent=0):
     if isinstance(o, dict):
         if len(o) == 0:
@@ -43,7 +44,7 @@ def json_encode(o, indent=0):
         yield str(o)
     else:
         raise NotImplementedError
-VERSION = '0.50'
+VERSION = '0.60'
 META = dict(
     name='MochiKit',
     author=['Bob Ippolito <bob@redivi.com>'],
@@ -80,7 +81,7 @@ for root, dirs, files in os.walk(src):
         if ex in dirs:
             dirs.remove(ex)
     for fn in files:
-        if fn.startswith('.') or fn == 'build.py':
+        if fn.startswith('.') or fn in ('build.py', 'pack.py'):
             continue
         fn = os.path.join(root, fn)
         mfn = fn[len(src):]
@@ -88,7 +89,16 @@ for root, dirs, files in os.walk(src):
         if mfn.startswith('MochiKit/'):
             mfn = 'lib/' + mfn
         dstfn = os.path.join(dst, mfn)
-        z.write(fn, dstfn)
+        if os.path.splitext(fn)[1] == '.html':
+            s = file(fn).read()
+            s = s.replace('/MochiKit/', '/lib/MochiKit/')
+            s = s.replace(
+                "JSAN.addRepository('..');",
+                'JSAN.addRepository("../lib");',
+            )
+            z.writestr(dstfn, s)
+        else:
+            z.write(fn, dstfn)
 
 z.writestr(os.path.join(pkg, 'MANIFEST'), '\n'.join(MANIFEST + ['']))
 
