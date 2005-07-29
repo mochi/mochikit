@@ -1,4 +1,4 @@
-/*
+/***
 
 MochiKit.Visual 0.60
 
@@ -6,7 +6,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 (c) 2005 Bob Ippolito and others.  All rights Reserved.
 
-*/
+***/
 
 if (typeof(dojo) != 'undefined') {
     dojo.provide('MochiKit.Visual');
