@@ -1,4 +1,4 @@
-2005-07-29      v0.51
+2005-08-01      v0.60
 
     - Added a "packed" version in packed/MochiKit/MochiKit.js
     - Changed build script to rewrite the URLs in tests to account for the
