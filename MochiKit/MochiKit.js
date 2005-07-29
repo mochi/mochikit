@@ -1,6 +1,6 @@
 /*
 
-MochiKit.MochiKit 0.5
+MochiKit.MochiKit 0.60
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -17,7 +17,7 @@ if (typeof(MochiKit.MochiKit) == 'undefined') {
 }
 
 MochiKit.MochiKit.NAME = "MochiKit.MochiKit";
-MochiKit.MochiKit.VERSION = "0.5";
+MochiKit.MochiKit.VERSION = "0.60";
 MochiKit.MochiKit.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
