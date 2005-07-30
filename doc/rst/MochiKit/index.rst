@@ -23,7 +23,6 @@ MochiKit - makes JavaScript suck a bit less
 .. _`Logging`: Logging.html
 .. _`Visual`: Visual.html
 
-
 See Also
 ========
 
@@ -38,6 +37,12 @@ See Also
 - `MochiKit on JSAN`_: the JSAN distribution page for MochiKit
 - `MochiKit tag on del.icio.us`_: Recent bookmarks related to MochiKit
 - `MochiKit tag on Technorati`_: Recent blog entries related to MochiKit
+
+
+Version History
+===============
+
+.. include:: VersionHistory.rst
 
 
 Copyright
