@@ -1,8 +1,10 @@
+#!/usr/bin/env python
+execfile('scripts/make_docs.py')
+execfile('scripts/pack.py')
 import os
 import sys
 import glob
 import zipfile
-execfile('scripts/pack.py')
 def json_encode(o, indent=0):
     if isinstance(o, dict):
         if len(o) == 0:
@@ -69,8 +71,12 @@ z = zipfile.ZipFile(
     'w',
     zipfile.ZIP_DEFLATED
 )
-MANIFEST = ['META.json', 'MANIFEST\t\t\tThis list of files']
+MANIFEST = ['Changes', 'META.json', 'MANIFEST\t\t\tThis list of files']
 z.writestr(os.path.join(pkg, 'META.json'), ''.join(json_encode(META)))
+z.write(
+    os.path.join('doc', 'rst', 'MochiKit', 'VersionHistory.rst'),
+    os.path.join(pkg, 'Changes')
+)
 
 IGNOREDIRS = ['.svn', 'dist', 'scripts']
 src = os.path.join('.', '')
