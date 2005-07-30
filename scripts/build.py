@@ -2,7 +2,7 @@ import os
 import sys
 import glob
 import zipfile
-execfile('pack.py')
+execfile('scripts/pack.py')
 def json_encode(o, indent=0):
     if isinstance(o, dict):
         if len(o) == 0:
