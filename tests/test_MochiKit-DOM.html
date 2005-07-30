@@ -14,7 +14,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 26});
+    plan({'tests': 41});
 
     lst = [];
     o = {"blah": function () { lst.push("original"); }};
@@ -61,7 +61,7 @@ try {
     );
     d = createDOM("span", null, d);
     // not yet public API
-    MochiKit.DOM.domConverters.unregister("taco");
+    domConverters.unregister("taco");
 
     isDOM( d, "<span>Goddamn, I like pork tacos</span>", "createDOM with custom converter" );
     
@@ -84,31 +84,68 @@ try {
     /*
 
         TODO:
-            addLoadEvent
-            setElementClass
-            toggleElementClass
-            addElementClass
-            removeElementClass
-            swapElementClass
+            addLoadEvent (async test?)
 
     */
 
     d = createDOM("span", {"class": "foo"});
-    MochiKit.DOM.setElementClass(d, "bar baz");
+    setElementClass(d, "bar baz");
     ok( d.className == "bar baz", "setElementClass");
-    MochiKit.DOM.toggleElementClass("bar", d);
+    toggleElementClass("bar", d);
     ok( d.className == "baz", "toggleElementClass: " + d.className);
-    MochiKit.DOM.toggleElementClass("bar", d);
-    ok( MochiKit.DOM.hasElementClass(d, "baz", "bar"), 
+    toggleElementClass("bar", d);
+    ok( hasElementClass(d, "baz", "bar"), 
         "toggleElementClass 2: " + d.className);
-    MochiKit.DOM.addElementClass(d, "bar");
-    ok( MochiKit.DOM.hasElementClass(d, "baz", "bar"), 
+    addElementClass(d, "bar");
+    ok( hasElementClass(d, "baz", "bar"), 
         "toggleElementClass 3: " + d.className);
-    ok( MochiKit.DOM.addElementClass(d, "blah"), "addElementClass return");
-    ok( MochiKit.DOM.hasElementClass(d, "baz", "bar", "blah"), "addElementClass action");
-    ok( ! MochiKit.DOM.hasElementClass(d, "not"), "hasElementClass single");
-    ok( ! MochiKit.DOM.hasElementClass(d, "baz", "not"), "hasElementClass multiple");
+    ok( addElementClass(d, "blah"), "addElementClass return");
+    ok( hasElementClass(d, "baz", "bar", "blah"), "addElementClass action");
+    ok( !hasElementClass(d, "not"), "hasElementClass single");
+    ok( !hasElementClass(d, "baz", "not"), "hasElementClass multiple");
+    ok( removeElementClass(d, "blah"), "removeElementClass" );
+    ok( !removeElementClass(d, "blah"), "removeElementClass again" );
+    ok( !hasElementClass(d, "blah"), "removeElementClass again (hasElement)" );
+    removeElementClass(d, "baz");
+    ok( !swapElementClass(d, "blah", "baz"), "false swapElementClass" );
+    ok( !hasElementClass(d, "baz"), "false swapElementClass from" );
+    ok( !hasElementClass(d, "blah"), "false swapElementClass to" );
+    addElementClass(d, "blah");
+    ok( swapElementClass(d, "blah", "baz"), "swapElementClass" );
+    ok( hasElementClass(d, "baz"), "swapElementClass has toClass" );
+    ok( !hasElementClass(d, "blah"), "swapElementClass !has fromClass" );
+    ok( !swapElementClass(d, "blah", "baz"), "swapElementClass twice" );
+    ok( hasElementClass(d, "baz"), "swapElementClass has toClass" );
+    ok( !hasElementClass(d, "blah"), "swapElementClass !has fromClass" );
 
+    TABLE;
+    TBODY;
+    TR;
+    var t = TABLE(null,
+        TBODY({"class": "foo bar", "id":"tbody0"},
+            TR({"class": "foo", "id":"tr0"}),
+            TR({"class": "bar", "id":"tr1"})
+        )
+    );
+
+    var matchElements = getElementsByTagAndClassName;
+    is(
+        map(itemgetter("id"), matchElements(null, "foo", t)).join(" "),
+        "tbody0 tr0",
+        "getElementsByTagAndClassName found all tags with foo class"
+    );
+    is(
+        map(itemgetter("id"), matchElements("tr", "foo", t)).join(" "),
+        "tr0",
+        "getElementsByTagAndClassName found all tr tags with foo class"
+    );
+    is(
+        map(itemgetter("id"), matchElements("tr", null, t)).join(" "),
+        "tr0 tr1",
+        "getElementsByTagAndClassName found all tr tags"
+    );
+        
+    
     ok( true, "test suite finished!");
     
 } catch (err) {

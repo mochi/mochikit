@@ -366,17 +366,19 @@ MochiKit.DOM.getElement = function (id) {
     }
 };
 
-MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className) {
+MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className, /* optional */parent) {
     if (typeof(tagName) == 'undefined' || tagName == null) {
         tagName = '*';
     }
-    var children = document.getElementsByTagName(tagName) || document.all;
-    var elements = [];
-
+    if (typeof(parent) == 'undefined' || parent == null) {
+        parent = document;
+    }
+    var children = parent.getElementsByTagName(tagName) || document.all;
     if (typeof(className) == 'undefined' || className == null) {
         return children;
     }
 
+    var elements = [];
     for (var i = 0; i < children.length; i++) {
         var child = children[i];
         var classNames = child.className.split(' ');
@@ -543,10 +545,11 @@ MochiKit.DOM.swapElementClass = function (element, fromClass, toClass) {
 
     ***/
     var obj = MochiKit.DOM.getElement(element);
-    if (MochiKit.DOM.removeElementClass(obj, fromClass)) {
-        return MochiKit.DOM.addElementClass(obj, toClass);
+    var res = MochiKit.DOM.removeElementClass(obj, fromClass);
+    if (res) {
+        MochiKit.DOM.addElementClass(obj, toClass);
     }
-    return false;
+    return res;
 };
 
 MochiKit.DOM.hasElementClass = function (element, className/*...*/) {
