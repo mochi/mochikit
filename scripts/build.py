@@ -81,7 +81,7 @@ for root, dirs, files in os.walk(src):
         if ex in dirs:
             dirs.remove(ex)
     for fn in files:
-        if fn.startswith('.') or fn in ('build.py', 'pack.py'):
+        if fn.startswith('.'):
             continue
         fn = os.path.join(root, fn)
         mfn = fn[len(src):]
