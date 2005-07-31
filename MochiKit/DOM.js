@@ -285,7 +285,16 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
         } else {
             // IE is insane in the membrane
             for (var k in attrs) {
-                elem.setAttribute((k == "class" ? "className" : k), attrs[k]);
+                var v = attrs[k];
+                if (k == "class") {
+                    elem.className = v;
+                } else if (k == "checked") {
+                    if (v == "false" || v == "0") {
+                        v = false;
+                    }
+                    elem.checked = !!v;
+                }
+                elem.setAttribute(k, attrs[k]);
             }
         }
     }
