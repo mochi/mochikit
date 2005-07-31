@@ -5,6 +5,7 @@ import os
 import sys
 import glob
 import zipfile
+import re
 def json_encode(o, indent=0):
     if isinstance(o, dict):
         if len(o) == 0:
@@ -46,7 +47,10 @@ def json_encode(o, indent=0):
         yield str(o)
     else:
         raise NotImplementedError
-VERSION = '0.60'
+VERSION = re.search(
+    r"""(?mxs)MochiKit.MochiKit.VERSION\s*=\s*['"]([^'"]+)""",
+    file('MochiKit/MochiKit.js').read()
+).group(1)
 META = dict(
     name='MochiKit',
     author=['Bob Ippolito <bob@redivi.com>'],
