@@ -1,7 +1,14 @@
-#!/usr/bin/env/python
+#!/usr/bin/env python
+#
+# custom_rhino.jar from:
+#   http://dojotoolkit.org/svn/dojo/buildscripts/lib/custom_rhino.jar
+#
 import os
 import re
 import sys
+import shutil
+import tempfile
+import subprocess
 mk = file('MochiKit/MochiKit.js').read()
 outf = file('packed/MochiKit/MochiKit.js', 'w')
 VERSION = re.search(
@@ -12,11 +19,17 @@ SUBMODULES = (["Compat"] + map(str.strip, re.search(
     r"""(?mxs)MochiKit.MochiKit.SUBMODULES\s*=\s*\[([^\]]+)""",
     mk
 ).group(1).replace(' ', '').replace('"', '').split(',')))
-DECOMMENT = re.compile(r"""(?mxs)(/\*\*\*.*?\*\*\*/)""")
 alltext = '\n'.join(
     [file('MochiKit/%s.js' % m).read() for m in SUBMODULES]
     + [mk])
-alltext = DECOMMENT.sub('', alltext)
+
+tf = tempfile.NamedTemporaryFile(suffix='.js')
+tf.write(alltext)
+tf.flush()
+p = subprocess.Popen(
+    ['java', '-jar', 'scripts/custom_rhino.jar', '-c', tf.name],
+    stdout=subprocess.PIPE,
+)
 print >>outf, """/***
 
     MochiKit.MochiKit %(VERSION)s : PACKED VERSION
@@ -30,6 +43,7 @@ print >>outf, """/***
 
 ***/
 """ % locals()
-print >>outf, alltext
+shutil.copyfileobj(p.stdout, outf)
+outf.write('\n')
 outf.flush()
 outf.close()
