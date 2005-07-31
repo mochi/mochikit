@@ -176,17 +176,20 @@ Functions
     Partially applied versions of this function for common tags are
     available as aliases:
 
+    - ``A``
+    - ``DIV``
+    - ``INPUT``
+    - ``SPAN``
     - ``TABLE``
+    - ``TBODY``
+    - ``THEAD``
+    - ``TFOOT``
     - ``TR``
     - ``TD``
     - ``TH``
-    - ``TBODY``
-    - ``TFOOT``
-    - ``THEAD``
-    - ``SPAN``
-    - ``INPUT``
-    - ``A``
-    - ``DIV``
+    - ``UL``
+    - ``OL``
+    - ``LI``
 
     See `Creating DOM Element Trees`_ for a comprehensive example.
 
