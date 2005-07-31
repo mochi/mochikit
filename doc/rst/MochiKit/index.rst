@@ -31,7 +31,9 @@ See Also
 .. _`MochiKit on JSAN`: http://openjsan.org/doc/b/bo/bob/MochiKit/
 .. _`MochiKit tag on del.icio.us`: http://del.icio.us/tag/mochikit
 .. _`MochiKit tag on Technorati`: http://technorati.com/tag/mochikit
+.. _`Google Groups: MochiKit`: http://groups-beta.google.com/group/mochikit
 
+- `Google Groups: MochiKit`_: The official mailing list for discussions related to development of and with MochiKit
 - `mochikit.com`_: MochiKit's home on the web
 - `from __future__ import *`_: Bob Ippolito's blog
 - `MochiKit on JSAN`_: the JSAN distribution page for MochiKit
