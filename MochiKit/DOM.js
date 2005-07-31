@@ -291,8 +291,9 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
             };
             for (var k in attrs) {
                 var v = attrs[k];
-                if (k in IE_IS_REALLY_AWFUL_AND_SHOULD_DIE) {
-                    elem[IE_IS_REALLY_AWFUL_AND_SHOULD_DIE[k]] = v;
+                var renamed = IE_IS_REALLY_AWFUL_AND_SHOULD_DIE[k];
+                if (typeof(renamed) == 'string') {
+                    elem[renamed] = v;
                  } else {
                     elem.setAttribute(k, v);
                 }
