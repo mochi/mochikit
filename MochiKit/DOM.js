@@ -293,8 +293,9 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
                         v = false;
                     }
                     elem.checked = !!v;
+                } else {
+                    elem.setAttribute(k, v);
                 }
-                elem.setAttribute(k, attrs[k]);
             }
         }
     }
