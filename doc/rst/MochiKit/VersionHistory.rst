@@ -1,5 +1,7 @@
 XXXX-XX-XX      v0.70
 
+- More workarounds for Internet "worst browser ever" Explorer's setAttribute,
+  checked -> defaultChecked, and onclick -> onclick.
 - Added UL, OL, LI convenience createDOM aliases to MochiKit.DOM
 - Packing is now done by Dojo's custom Rhino interpreter, so it's much smaller
   now!
