@@ -292,7 +292,7 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
                     if (v == "false" || v == "0") {
                         v = false;
                     }
-                    elem.checked = !!v;
+                    elem.defaultChecked = !!v;
                 } else {
                     elem.setAttribute(k, v);
                 }
