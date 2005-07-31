@@ -11,4149 +11,3026 @@
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Compat');
+if(typeof (dojo)!="undefined"){
+dojo.provide("MochiKit.Compat");
 }
-if (typeof(MochiKit) == 'undefined') {
-    MochiKit = {};
+if(typeof (MochiKit)=="undefined"){
+MochiKit={};
 }
-if (typeof(MochiKit.Compat) == 'undefined') {
-    MochiKit.Compat = {};
+if(typeof (MochiKit.Compat)=="undefined"){
+MochiKit.Compat={};
 }
-
-MochiKit.Compat.NAME = 'MochiKit.Compat';
-MochiKit.Compat.VERSION = '0.60';
-MochiKit.Compat.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
+MochiKit.Compat.NAME="MochiKit.Compat";
+MochiKit.Compat.VERSION="0.60";
+MochiKit.Compat.__repr__=function(){
+return "["+this.NAME+" "+this.VERSION+"]";
 };
-MochiKit.Compat.toString = function () {
-    return this.__repr__();
+MochiKit.Compat.toString=function(){
+return this.__repr__();
 };
-
-if (!Array.prototype.push) {
-    Array.prototype.push = function() {
-        var startLength = this.length;
-        for (var i = 0; i < arguments.length; i++) {
-            this[startLength + i] = arguments[i];
-        }
-        return this.length;
-    };
+if(!Array.prototype.push){
+Array.prototype.push=function(){
+var _1=this.length;
+for(var i=0;i<arguments.length;i++){
+this[_1+i]=arguments[i];
 }
-
-if (!Function.prototype.apply) {
-    // Based on code from http://www.youngpup.net/
-    Function.prototype.apply = function(object, parameters) {
-        var parameterStrings = [];
-        if (!object) {
-            object = window;
-        }
-        if (!parameters) {
-            parameters = [];
-        }
-        for (var i = 0; i < parameters.length; i++) {
-            parameterStrings[i] = 'parameters[' + i + ']';
-        }
-
-        object.__apply__ = this;
-        var result = eval(
-            'object.__apply__(' + 
-            parameterStrings.join(', ') +
-            ')'
-        );
-        object.__apply__ = null;
-
-        return result;
-    };
+return this.length;
+};
 }
-
-MochiKit.Compat.EXPORT = [];
-MochiKit.Compat.EXPORT_OK = [];
-MochiKit.Compat.EXPORT_TAGS = {
-    ":all": [],
-    ":common": []
-};
-
-
-
-if (typeof(dojo) != 'undefined') {
-    dojo.provide("MochiKit.Base");
+if(!Function.prototype.apply){
+Function.prototype.apply=function(_3,_4){
+var _5=[];
+if(!_3){
+_3=window;
 }
-
-if (typeof(MochiKit) == 'undefined') {
-    MochiKit = {};
+if(!_4){
+_4=[];
 }
-if (typeof(MochiKit.Base) == 'undefined') {
-    MochiKit.Base = {};
+for(var i=0;i<_4.length;i++){
+_5[i]="parameters["+i+"]";
 }
-
-MochiKit.Base.VERSION = "0.60";
-MochiKit.Base.NAME = "MochiKit.Base"
-MochiKit.Base.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
+_3.__apply__=this;
+var _6=eval("object.__apply__("+_5.join(", ")+")");
+_3.__apply__=null;
+return _6;
+};
 }
-MochiKit.Base.toString = function () {
-    return this.__repr__();
+MochiKit.Compat.EXPORT=[];
+MochiKit.Compat.EXPORT_OK=[];
+MochiKit.Compat.EXPORT_TAGS={":all":[],":common":[]};
+if(typeof (dojo)!="undefined"){
+dojo.provide("MochiKit.Base");
 }
-
-MochiKit.Base.clone = function (obj) {
-    var me = arguments.callee;
-    if (arguments.length == 1) {
-        me.prototype = obj;
-        return new me();
-    }
-};
-        
-MochiKit.Base.extend = function (self, obj, /* optional */skip) {
-    
-    
-    // Extend an array with an array-like object starting
-    // from the skip index
-    if (!skip) {
-        skip = 0;
-    }
-    if (obj) {
-        // allow iterable fall-through, but skip the full isArrayLike
-        // check for speed, this is called often.
-        var l = obj.length;
-        if (typeof(l) != 'number' /* !isArrayLike(obj) */) {
-            if (MochiKit.Iter) {
-                obj = MochiKit.Iter.list(obj);
-                l = obj.length;
-            } else {
-                throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
-            }
-        }
-        if (!self) {
-            self = [];
-        }
-        for (var i = skip; i < l; i++) {
-            self.push(obj[i]);
-        }
-    }
-    // This mutates, but it's convenient to return because
-    // it's often used like a constructor when turning some
-    // ghetto array-like to a real array
-    return self;
-};
-
-
-MochiKit.Base.update = function (self, obj/*, ... */) {
-    
-    if (self == null) {
-        self = {};
-    }
-    for (var i = 1; i < arguments.length; i++) {
-        var o = arguments[i];
-        if (typeof(o) != 'undefined' && o != null) {
-            for (var k in o) {
-                self[k] = o[k];
-            }
-        }
-    }
-    return self;
-};
-
-MochiKit.Base.setdefault = function (self, obj/*, ...*/) {
-    
-    if (self == null) {
-        self = {};
-    }
-    for (var i = 1; i < arguments.length; i++) {
-        var o = arguments[i];
-        for (var k in o) {
-            if (!(k in self)) {
-                self[k] = o[k];
-            }
-        }
-    }
-    return self;
-};
-
-MochiKit.Base.keys = function (obj) {
-    
-    var rval = [];
-    for (var prop in obj) {
-        rval.push(prop);
-    }
-    return rval;
-};
-    
-MochiKit.Base.items = function (obj) {
-    
-    var rval = [];
-    for (var prop in obj) {
-        rval.push([prop, obj[prop]]);
-    }
-    return rval;
-};
-
-MochiKit.Base.NamedError = function (name) {
-    this.message = name;
-    this.name = name;
-};
-MochiKit.Base.NamedError.prototype = new Error();
-MochiKit.Base.NamedError.prototype.repr = function () {
-    if (this.message && this.message != this.name) {
-        return this.name + "(" + repr(this.message) + ")";
-    } else {
-        return this.name + "()";
-    }
+if(typeof (MochiKit)=="undefined"){
+MochiKit={};
 }
-MochiKit.Base.NamedError.prototype.toString = function () {
-    return this.repr();
+if(typeof (MochiKit.Base)=="undefined"){
+MochiKit.Base={};
 }
-
-MochiKit.Base.operator = {
-    
-
-    // unary logic operators
-    "truth": function (a) { return !!a; }, 
-    "lognot": function (a) { return !a; },
-    "identity": function (a) { return a; },
-
-    // bitwise unary operators
-    "not": function (a) { return ~a; },
-    "neg": function (a) { return -a; },
-
-    // binary operators
-    "add": function (a, b) { return a + b; },
-    "div": function (a, b) { return a / b; },
-    "mod": function (a, b) { return a % b; },
-
-    // bitwise binary operators
-    "and": function (a, b) { return a & b; },
-    "or": function (a, b) { return a | b; },
-    "xor": function (a, b) { return a ^ b; },
-    "lshift": function (a, b) { return a << b; },
-    "rshift": function (a, b) { return a >> b; },
-    "zrshift": function (a, b) { return a >>> b; },
-
-    // near-worthless build-in comparators
-    "eq": function (a, b) { return a == b; },
-    "ne": function (a, b) { return a != b; },
-    "gt": function (a, b) { return a > b; },
-    "ge": function (a, b) { return a >= b; },
-    "lt": function (a, b) { return a < b; },
-    "le": function (a, b) { return a <= b; },
-
-    // compare comparators
-    "ceq": function (a, b) { return MochiKit.Base.compare(a, b) == 0; },
-    "cne": function (a, b) { return MochiKit.Base.compare(a, b) != 0; },
-    "cgt": function (a, b) { return MochiKit.Base.compare(a, b) == 1; },
-    "cge": function (a, b) { return MochiKit.Base.compare(a, b) != -1; },
-    "clt": function (a, b) { return MochiKit.Base.compare(a, b) == -1; },
-    "cle": function (a, b) { return MochiKit.Base.compare(a, b) != 1; },
-
-    // binary logical operators
-    "logand": function (a, b) { return a && b; },
-    "logor": function (a, b) { return a || b; },
-    "contains": function (a, b) { return b in a; }
+MochiKit.Base.VERSION="0.60";
+MochiKit.Base.NAME="MochiKit.Base";
+MochiKit.Base.__repr__=function(){
+return "["+this.NAME+" "+this.VERSION+"]";
 };
-
-MochiKit.Base.forward = function (func) {
-    
-    return function () {
-        return this[func].apply(this, arguments);
-    };
+MochiKit.Base.toString=function(){
+return this.__repr__();
 };
-
-MochiKit.Base.itemgetter = function (func) {
-    
-    return function (arg) {
-        return arg[func];
-    };
-};
-
-MochiKit.Base.typeMatcher = function (/* typ */) {
-    
-    
-    var types = {};
-    for (var i = 0; i < arguments.length; i++) {
-        var typ = arguments[i];
-        types[typ] = typ;
-    }
-    return function () { 
-        for (var i = 0; i < arguments.length; i++) {
-            if (!(typeof(arguments[i]) in types)) {
-                return false;
-            }
-        }
-        return true;
-    };
-};
-
-MochiKit.Base.isNull = function (/* ... */) {
-    
-    for (var i = 0; i < arguments.length; i++) {
-        if (arguments[i] != null) {
-            return false;
-        }
-    }
-    return true;
+MochiKit.Base.clone=function(_7){
+var me=arguments.callee;
+if(arguments.length==1){
+me.prototype=_7;
+return new me();
 }
-
-MochiKit.Base.isUndefinedOrNull = function (/* ... */) {
-    
-    for (var i = 0; i < arguments.length; i++) {
-        var o = arguments[i];
-        if (!(typeof(o) == 'undefined' || o == null)) {
-            return false;
-        }
-    }
-    return true;
 };
-
-MochiKit.Base.isNotEmpty = function (obj) {
-    
-    for (var i = 0; i < arguments.length; i++) {
-        var o = arguments[i];
-        if (!(o && o.length)) {
-            return false;
-        }
-    }
-    return true;
-};
-
-MochiKit.Base.isArrayLike = function () {
-    
-    for (var i = 0; i < arguments.length; i++) {
-        var o = arguments[i];
-        var typ = typeof(o);
-        if (
-            (typ != 'object' && !(typ == 'function' && typeof(o.item) == 'function')) ||
-            o == null ||
-            typeof(o.length) != 'number'
-        ) {
-            return false;
-        }
-    }
-    return true;
-};
-
-MochiKit.Base.isDateLike = function () {
-    
-    for (var i = 0; i < arguments.length; i++) {
-        var o = arguments[i];
-        if (typeof(o) != "object" || typeof(o.getTime) != 'function') {
-            return false;
-        }
-    }
-    return true;
-};
-
-
-MochiKit.Base.xmap = function (fn/*, obj... */) {
-    
-    if (fn == null) {
-        return MochiKit.Base.extend(null, arguments, 1);
-    }
-    var rval = [];
-    for (var i = 1; i < arguments.length; i++) {
-        rval.push(fn(arguments[i]));
-    }
-    return rval;
-};
-
-MochiKit.Base.map = function (fn, lst/*, lst... */) {
-    
-    var isArrayLike = MochiKit.Base.isArrayLike;
-    if (arguments.length <= 2) {
-        // allow an iterable to be passed
-        if (!isArrayLike(lst)) {
-            if (MochiKit.Iter) {
-                // fast path for map(null, iterable)
-                lst = MochiKit.Iter.list(lst);
-                if (fn == null) {
-                    return lst;
-                }
-            } else {
-                throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
-            }
-        }
-        // fast path for map(null, lst)
-        if (fn == null) {
-            return MochiKit.Base.extend(null, lst);
-        }
-        // fast path for map(fn, lst)
-        if (typeof(Array.prototype.map) == 'function') {
-            // Mozilla fast-path
-            return Array.prototype.map.call(lst, fn);
-        }
-        var rval = [];
-        for (var i = 0; i < lst.length; i++) {
-            rval.push(fn(lst[i]));
-        }
-        return rval;
-    } else {
-        // default for map(null, ...) is zip(...)
-        if (fn == null) {
-            fn = Array;
-        }
-        var length = null;
-        for (var i = 1; i < arguments.length; i++) {
-            // allow iterables to be passed
-            if (!isArrayLike(arguments[i])) {
-                if (MochiKit.Iter) {
-                    arguments[i] = MochiKit.Iter.list(arguments[i]);
-                } else {
-                    throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
-                }
-            }
-            // find the minimum length
-            var l = arguments[i].length;
-            if (length == null || length > l) {
-                length = l;
-            }
-        }
-        var rval = [];
-        for (var i = 0; i < length; i++) {
-            var args = [];
-            for (var j = 1; j < arguments.length; j++) {
-                args.push(arguments[j][i]);
-            }
-            rval.push(fn.apply(this, args));
-        }
-        return rval;
-    }
-};
-
-MochiKit.Base.xfilter = function (fn/*, obj... */) {
-    var rval = [];
-    if (fn == null) {
-        fn = MochiKit.Base.operator.truth;
-    }
-    for (var i = 1; i < arguments.length; i++) {
-        var o = arguments[i];
-        if (fn(o)) {
-            rval.push(o);
-        }
-    }
-    return rval;
-};
-
-MochiKit.Base.filter = function (fn, lst, self) {
-    var rval = [];
-    // allow an iterable to be passed
-    if (!MochiKit.Base.isArrayLike(lst)) {
-        if (MochiKit.Iter) {
-            lst = MochiKit.Iter.list(lst);
-        } else {
-            throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
-        }
-    }
-    if (fn == null) {
-        fn = MochiKit.Base.operator.truth;
-    }
-    if (typeof(Array.prototype.filter) == 'function') {
-        // Mozilla fast-path
-        return Array.prototype.filter.call(lst, fn, self);
-    }
-    else if (typeof(self) == 'undefined' || self == null) {
-        for (var i = 0; i < lst.length; i++) {
-            var o = lst[i];
-            if (fn(o)) {
-                rval.push(o);
-            }
-        }
-    } else {
-        for (var i = 0; i < lst.length; i++) {
-            var o = lst[i];
-            if (fn.call(self, o)) {
-                rval.push(o);
-            }
-        }
-    }
-    return rval;
-};
-
-
-MochiKit.Base.bind = function (func, self/* args... */) {
-    var im_func = func.im_func;
-    var im_preargs = func.im_preargs;
-    var im_self = func.im_self;
-    if (typeof(im_func) != 'function') {
-        im_func = func;
-    }
-    if (typeof(self) != 'undefined') {
-        im_self = self;
-    }
-    if (typeof(im_preargs) == 'undefined') {
-        im_preargs = [];
-    } else  {
-        im_preargs = im_preargs.slice();
-    }
-    MochiKit.Base.extend(im_preargs, arguments, 2);
-    var newfunc = function () {
-        var args = arguments;
-        var me = arguments.callee;
-        if (me.im_preargs.length > 0) {
-            args = MochiKit.Base.concat(me.im_preargs, args);
-        }
-        var self = me.im_self;
-        if (!self) {
-            self = this;
-        }
-        return me.im_func.apply(self, args);
-    };
-    newfunc.im_self = im_self;
-    newfunc.im_func = im_func;
-    newfunc.im_preargs = im_preargs;
-    return newfunc;
-};
-
-MochiKit.Base.bindMethods = function (self) {
-    
-    for (var k in self) {
-        var func = self[k];
-        if (typeof(func) == 'function') {
-            self[k] = bind(func, self);
-        }
-    }
-};
-
-// A singleton raised when no suitable adapter is found
-MochiKit.Base.NotFound = new MochiKit.Base.NamedError("MochiKit.Base.NotFound");
-
-MochiKit.Base.AdapterRegistry = function () {
-    
-    this.pairs = [];
-};
-
-MochiKit.Base.AdapterRegistry.prototype.register = function (name, check, wrap, /* optional */ override) {
-    
-
-    if (override) {
-        this.pairs.unshift([name, check, wrap]);
-    } else {
-        this.pairs.push([name, check, wrap]);
-    }
-};
-
-MochiKit.Base.AdapterRegistry.prototype.match = function (/* ... */) {
-    
-    for (var i = 0; i < this.pairs.length; i++) {
-        var pair = this.pairs[i];
-        if (pair[1].apply(this, arguments)) {
-            return pair[2].apply(this, arguments);
-        }
-    }
-    throw MochiKit.Base.NotFound;
-};
-
-MochiKit.Base.AdapterRegistry.prototype.unregister = function (name) {
-    
-    for (var i = 0; i < this.pairs.length; i++) {
-        var pair = this.pairs[i];
-        if (pair[0] == name) {
-            this.pairs.splice(i, 1);
-            return true;
-        }
-    }
-    return false;
-};
-
-MochiKit.Base.registerComparator = function (name, check, comparator, /* optional */ override) {
-    
-    MochiKit.Base.comparatorRegistry.register(name, check, comparator, override);
-};
-
-MochiKit.Base.compare = function (a, b) {
-    
-    if (a == b) {
-        return 0;
-    }
-    var aIsNull = (typeof(a) == 'undefined' || a == null);
-    var bIsNull = (typeof(b) == 'undefined' || b == null);
-    if (aIsNull && bIsNull) {
-        return 0;
-    } else if (aIsNull) {
-        return -1;
-    } else if (bIsNull) {
-        return 1;
-    }
-    try {
-        return MochiKit.Base.comparatorRegistry.match(a, b);
-    } catch (e) {
-        if (e != MochiKit.Base.NotFound) {
-            throw e;
-        }
-        if (a < b) {
-            return -1;
-        } else if (a > b) {
-            return 1;
-        }
-        // These types can't be compared
-        var repr = MochiKit.Base.repr;
-        throw new TypeError(repr(a) + " and " + repr(b) + " can not be compared");
-    }
-};
-
-MochiKit.Base.compareDateLike = function (a, b) {
-    a = a.getTime();
-    b = b.getTime();
-    if (a == b) {
-        return 0;
-    } else if (a < b) {
-        return -1;
-    } else if (a > b) {
-        return 1;
-    }
-    var repr = MochiKit.Base.repr;
-    throw new TypeError(repr(a) + " and " + repr(b) + " can not be compared");
-};
-
-MochiKit.Base.compareArrayLike = function (a, b) {
-    var compare = MochiKit.Base.compare;
-    var count = a.length;
-    var rval = 0;
-    if (count > b.length) {
-        rval = 1;
-    } else if (count < b.length) {
-        rval = -1;
-        count = b.length;
-    }
-    for (var i = 0; i < count; i++) {
-        var cmp = compare(a[i], b[i]);
-        if (cmp) {
-            return cmp;
-        }
-    }
-    return rval;
-};
-
-MochiKit.Base.registerRepr = function (name, check, wrap, /* optional */override) {
-    
-    MochiKit.Base.reprRegistry.register(name, check, wrap, override);
-};
-
-MochiKit.Base.repr = function (o) {
-    
-
-    try {
-        if (typeof(o.__repr__) == 'function') {
-            return o.__repr__();
-        } else if (typeof(o.repr) == 'function' && o.repr != arguments.callee) {
-            return o.repr();
-        }
-        return MochiKit.Base.reprRegistry.match(o);
-    } catch (e) {
-        if (typeof(o.NAME) == 'string' && (
-                o.toString == Function.prototype.toString ||
-                o.toString == Object.prototype.toString
-            )) {
-            return o.NAME;
-        }
-        return o;
-    }
-};
-
-MochiKit.Base.reprArrayLike = function (o) {
-    return "[" + MochiKit.Base.map(MochiKit.Base.repr, o).join(", ") + "]";
-};
-
-MochiKit.Base.reprString = function (o) { 
-    o = '"' + o.replace(/(["\\])/g, '\\$1') + '"';
-    return o.replace(/(\n)/g, "\\n");
-};
-
-MochiKit.Base.reprNumber = function (o) {
-    return o.toString();
-};
-
-MochiKit.Base.reprUndefined = function (o) {
-    return "undefined";
-};
-
-MochiKit.Base.reprNull = function (o) {
-    return "null";
-};
-
-MochiKit.Base.objEqual = function (a, b) {
-    
-    return (MochiKit.Base.compare(a, b) == 0);
-};
-
-MochiKit.Base.arrayEqual = function (self, arr) {
-    
-    if (self.length != arr.length) {
-        return false;
-    }
-    return (MochiKit.Base.compare(self, arr) == 0);
-};
-
-MochiKit.Base.concat = function (/* lst... */) {
-    
-    var rval = [];
-    var extend = MochiKit.Base.extend;
-    for (var i = 0; i < arguments.length; i++) {
-        extend(rval, arguments[i]);
-    }
-    return rval;
-};
-
-MochiKit.Base.keyComparator = function (key/* ... */) {
-    
-    // fast-path for single key comparisons
-    var compare = MochiKit.Base.compare;
-    if (arguments.length == 1) {
-        return function (a, b) {
-            return compare(a[key], b[key]);
-        }
-    }
-    var compareKeys = MochiKit.Base.extend(null, arguments);
-    return function (a, b) {
-        var rval = 0;
-        // keep comparing until something is inequal or we run out of
-        // keys to compare
-        for (var i = 0; (rval == 0) && (i < compareKeys.length); i++) {
-            var key = compareKeys[i];
-            rval = compare(a[key], b[key]);
-        }
-        return rval;
-    };
-};
-
-MochiKit.Base.reverseKeyComparator = function (key) {
-    
-    var comparator = MochiKit.Base.keyComparator.apply(this, arguments);
-    return function (a, b) {
-        return comparator(b, a);
-    }
-};
-
-MochiKit.Base.partial = function (func) {
-    return MochiKit.Base.bind.apply(this, MochiKit.Base.extend([func, undefined], arguments, 1));
-};
- 
-MochiKit.Base.listMinMax = function (which, lst) {
-    
-    if (lst.length == 0) {
-        return null;
-    }
-    var cur = lst[0];
-    var compare = MochiKit.Base.compare;
-    for (var i = 1; i < lst.length; i++) {
-        var o = lst[i];
-        if (compare(o, cur) == which) {
-            cur = o;
-        }
-    }
-    return cur;
-};
-
-MochiKit.Base.objMax = function (/* obj... */) {
-    
-    return MochiKit.Base.listMinMax(1, arguments);
-};
-        
-MochiKit.Base.objMin = function (/* obj... */) {
-    
-    return MochiKit.Base.listMinMax(-1, arguments);
-};
-
-MochiKit.Base.nodeWalk = function (node, visitor) {
-    
-    var nodes = [node];
-    var extend = MochiKit.Base.extend;
-    while (nodes.length) {
-        var res = visitor(nodes.shift());
-        if (res) {
-            extend(nodes, res);
-        }
-    }
-};
-
-   
-MochiKit.Base.nameFunctions = function (namespace) {
-    var base = namespace.NAME;
-    if (typeof(base) == 'undefined') {
-        base = '';
-    } else {
-        base = base + '.';
-    }
-    for (var name in namespace) {
-        var o = namespace[name];
-        if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
-            try {
-                o.NAME = base + name;
-            } catch (e) {
-                // pass
-            }
-        }
-    }
+MochiKit.Base.extend=function(_9,obj,_11){
+if(!_11){
+_11=0;
 }
-
-MochiKit.Base.EXPORT = [
-    "clone",
-    "extend",
-    "update",
-    "setdefault",
-    "keys",
-    "items",
-    "NamedError",
-    "operator",
-    "forward",
-    "itemgetter",
-    "typeMatcher",
-    "isCallable",
-    "isUndefined",
-    "isUndefinedOrNull",
-    "isNull",
-    "isNotEmpty",
-    "isArrayLike",
-    "isDateLike",
-    "xmap",
-    "map",
-    "xfilter",
-    "filter",
-    "bind",
-    "bindMethods",
-    "NotFound",
-    "AdapterRegistry",
-    "registerComparator",
-    "compare",
-    "registerRepr",
-    "repr",
-    "objEqual",
-    "arrayEqual",
-    "concat",
-    "keyComparator",
-    "reverseKeyComparator",
-    "partial",
-    "merge",
-    "listMinMax",
-    "listMax",
-    "listMin",
-    "objMax",
-    "objMin",
-    "nodeWalk",
-    "zip"
-];
-
-MochiKit.Base.EXPORT_OK = [
-    "nameFunctions",
-    "comparatorRegistry",
-    "reprRegistry",
-    "compareDateLike",
-    "compareArrayLike",
-    "reprArrayLike",
-    "reprString",
-    "reprNumber",
-    "reprUndefined",
-    "reprNull"
-];
-
-
-MochiKit.Base.__new__ = function () {
-
-    this.listMax = this.partial(this.listMinMax, 1);
-    this.listMin = this.partial(this.listMinMax, -1);
-
-    this.isCallable = this.typeMatcher('function');
-    this.isUndefined = this.typeMatcher('undefined');
-
-    this.merge = this.partial(this.update, null);
-    this.zip = this.partial(this.map, null);
-
-    this.comparatorRegistry = new this.AdapterRegistry();
-    this.registerComparator("dateLike", this.isDateLike, this.compareDateLike);
-    this.registerComparator("arrayLike", this.isArrayLike, this.compareArrayLike);
-
-    this.reprRegistry = new this.AdapterRegistry();
-    this.registerRepr("arrayLike", this.isArrayLike, this.reprArrayLike);
-    this.registerRepr("string", this.typeMatcher("string"), this.reprString);
-    this.registerRepr("numbers", this.typeMatcher("number", "boolean"), this.reprNumber);
-    this.registerRepr("undefined", this.isUndefined, this.reprUndefined);
-    this.registerRepr("null", this.isNull, this.reprNull);
-
-    var all = this.concat(this.EXPORT, this.EXPORT_OK);
-    this.EXPORT_TAGS = {
-        ":common": this.concat(this.EXPORT_OK),
-        ":all": all
-    };
-
-    this.nameFunctions(this);
-
+if(obj){
+var l=obj.length;
+if(typeof (l)!="number"){
+if(MochiKit.Iter){
+obj=MochiKit.Iter.list(obj);
+l=obj.length;
+}else{
+throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
+}
+}
+if(!_9){
+_9=[];
+}
+for(var i=_11;i<l;i++){
+_9.push(obj[i]);
+}
+}
+return _9;
 };
-
+MochiKit.Base.update=function(_13,obj){
+if(_13==null){
+_13={};
+}
+for(var i=1;i<arguments.length;i++){
+var o=arguments[i];
+if(typeof (o)!="undefined"&&o!=null){
+for(var k in o){
+_13[k]=o[k];
+}
+}
+}
+return _13;
+};
+MochiKit.Base.setdefault=function(_16,obj){
+if(_16==null){
+_16={};
+}
+for(var i=1;i<arguments.length;i++){
+var o=arguments[i];
+for(var k in o){
+if(!(k in _16)){
+_16[k]=o[k];
+}
+}
+}
+return _16;
+};
+MochiKit.Base.keys=function(obj){
+var _17=[];
+for(var _18 in obj){
+_17.push(_18);
+}
+return _17;
+};
+MochiKit.Base.items=function(obj){
+var _19=[];
+for(var _20 in obj){
+_19.push([_20,obj[_20]]);
+}
+return _19;
+};
+MochiKit.Base.NamedError=function(_21){
+this.message=_21;
+this.name=_21;
+};
+MochiKit.Base.NamedError.prototype=new Error();
+MochiKit.Base.NamedError.prototype.repr=function(){
+if(this.message&&this.message!=this.name){
+return this.name+"("+repr(this.message)+")";
+}else{
+return this.name+"()";
+}
+};
+MochiKit.Base.NamedError.prototype.toString=function(){
+return this.repr();
+};
+MochiKit.Base.operator={"truth":function(a){
+return !!a;
+},"lognot":function(a){
+return !a;
+},"identity":function(a){
+return a;
+},"not":function(a){
+return ~a;
+},"neg":function(a){
+return -a;
+},"add":function(a,b){
+return a+b;
+},"div":function(a,b){
+return a/b;
+},"mod":function(a,b){
+return a%b;
+},"and":function(a,b){
+return a&b;
+},"or":function(a,b){
+return a|b;
+},"xor":function(a,b){
+return a^b;
+},"lshift":function(a,b){
+return a<<b;
+},"rshift":function(a,b){
+return a>>b;
+},"zrshift":function(a,b){
+return a>>>b;
+},"eq":function(a,b){
+return a==b;
+},"ne":function(a,b){
+return a!=b;
+},"gt":function(a,b){
+return a>b;
+},"ge":function(a,b){
+return a>=b;
+},"lt":function(a,b){
+return a<b;
+},"le":function(a,b){
+return a<=b;
+},"ceq":function(a,b){
+return MochiKit.Base.compare(a,b)==0;
+},"cne":function(a,b){
+return MochiKit.Base.compare(a,b)!=0;
+},"cgt":function(a,b){
+return MochiKit.Base.compare(a,b)==1;
+},"cge":function(a,b){
+return MochiKit.Base.compare(a,b)!=-1;
+},"clt":function(a,b){
+return MochiKit.Base.compare(a,b)==-1;
+},"cle":function(a,b){
+return MochiKit.Base.compare(a,b)!=1;
+},"logand":function(a,b){
+return a&&b;
+},"logor":function(a,b){
+return a||b;
+},"contains":function(a,b){
+return b in a;
+}};
+MochiKit.Base.forward=function(_24){
+return function(){
+return this[_24].apply(this,arguments);
+};
+};
+MochiKit.Base.itemgetter=function(_25){
+return function(arg){
+return arg[_25];
+};
+};
+MochiKit.Base.typeMatcher=function(){
+var _27={};
+for(var i=0;i<arguments.length;i++){
+var typ=arguments[i];
+_27[typ]=typ;
+}
+return function(){
+for(var i=0;i<arguments.length;i++){
+if(!(typeof (arguments[i]) in _27)){
+return false;
+}
+}
+return true;
+};
+};
+MochiKit.Base.isNull=function(){
+for(var i=0;i<arguments.length;i++){
+if(arguments[i]!=null){
+return false;
+}
+}
+return true;
+};
+MochiKit.Base.isUndefinedOrNull=function(){
+for(var i=0;i<arguments.length;i++){
+var o=arguments[i];
+if(!(typeof (o)=="undefined"||o==null)){
+return false;
+}
+}
+return true;
+};
+MochiKit.Base.isNotEmpty=function(obj){
+for(var i=0;i<arguments.length;i++){
+var o=arguments[i];
+if(!(o&&o.length)){
+return false;
+}
+}
+return true;
+};
+MochiKit.Base.isArrayLike=function(){
+for(var i=0;i<arguments.length;i++){
+var o=arguments[i];
+var typ=typeof (o);
+if((typ!="object"&&!(typ=="function"&&typeof (o.item)=="function"))||o==null||typeof (o.length)!="number"){
+return false;
+}
+}
+return true;
+};
+MochiKit.Base.isDateLike=function(){
+for(var i=0;i<arguments.length;i++){
+var o=arguments[i];
+if(typeof (o)!="object"||typeof (o.getTime)!="function"){
+return false;
+}
+}
+return true;
+};
+MochiKit.Base.xmap=function(fn){
+if(fn==null){
+return MochiKit.Base.extend(null,arguments,1);
+}
+var _30=[];
+for(var i=1;i<arguments.length;i++){
+_30.push(fn(arguments[i]));
+}
+return _30;
+};
+MochiKit.Base.map=function(fn,lst){
+var _32=MochiKit.Base.isArrayLike;
+if(arguments.length<=2){
+if(!_32(lst)){
+if(MochiKit.Iter){
+lst=MochiKit.Iter.list(lst);
+if(fn==null){
+return lst;
+}
+}else{
+throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
+}
+}
+if(fn==null){
+return MochiKit.Base.extend(null,lst);
+}
+if(typeof (Array.prototype.map)=="function"){
+return Array.prototype.map.call(lst,fn);
+}
+var _33=[];
+for(var i=0;i<lst.length;i++){
+_33.push(fn(lst[i]));
+}
+return _33;
+}else{
+if(fn==null){
+fn=Array;
+}
+var _34=null;
+for(var i=1;i<arguments.length;i++){
+if(!_32(arguments[i])){
+if(MochiKit.Iter){
+arguments[i]=MochiKit.Iter.list(arguments[i]);
+}else{
+throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
+}
+}
+var l=arguments[i].length;
+if(_34==null||_34>l){
+_34=l;
+}
+}
+var _33=[];
+for(var i=0;i<_34;i++){
+var _35=[];
+for(var j=1;j<arguments.length;j++){
+_35.push(arguments[j][i]);
+}
+_33.push(fn.apply(this,_35));
+}
+return _33;
+}
+};
+MochiKit.Base.xfilter=function(fn){
+var _37=[];
+if(fn==null){
+fn=MochiKit.Base.operator.truth;
+}
+for(var i=1;i<arguments.length;i++){
+var o=arguments[i];
+if(fn(o)){
+_37.push(o);
+}
+}
+return _37;
+};
+MochiKit.Base.filter=function(fn,lst,_38){
+var _39=[];
+if(!MochiKit.Base.isArrayLike(lst)){
+if(MochiKit.Iter){
+lst=MochiKit.Iter.list(lst);
+}else{
+throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
+}
+}
+if(fn==null){
+fn=MochiKit.Base.operator.truth;
+}
+if(typeof (Array.prototype.filter)=="function"){
+return Array.prototype.filter.call(lst,fn,_38);
+}else{
+if(typeof (_38)=="undefined"||_38==null){
+for(var i=0;i<lst.length;i++){
+var o=lst[i];
+if(fn(o)){
+_39.push(o);
+}
+}
+}else{
+for(var i=0;i<lst.length;i++){
+var o=lst[i];
+if(fn.call(_38,o)){
+_39.push(o);
+}
+}
+}
+}
+return _39;
+};
+MochiKit.Base.bind=function(_40,_41){
+var _42=_40.im_func;
+var _43=_40.im_preargs;
+var _44=_40.im_self;
+if(typeof (_42)!="function"){
+_42=_40;
+}
+if(typeof (_41)!="undefined"){
+_44=_41;
+}
+if(typeof (_43)=="undefined"){
+_43=[];
+}else{
+_43=_43.slice();
+}
+MochiKit.Base.extend(_43,arguments,2);
+var _45=function(){
+var _46=arguments;
+var me=arguments.callee;
+if(me.im_preargs.length>0){
+_46=MochiKit.Base.concat(me.im_preargs,_46);
+}
+var _41=me.im_self;
+if(!_41){
+_41=this;
+}
+return me.im_func.apply(_41,_46);
+};
+_45.im_self=_44;
+_45.im_func=_42;
+_45.im_preargs=_43;
+return _45;
+};
+MochiKit.Base.bindMethods=function(_47){
+for(var k in _47){
+var _48=_47[k];
+if(typeof (_48)=="function"){
+_47[k]=bind(_48,_47);
+}
+}
+};
+MochiKit.Base.NotFound=new MochiKit.Base.NamedError("MochiKit.Base.NotFound");
+MochiKit.Base.AdapterRegistry=function(){
+this.pairs=[];
+};
+MochiKit.Base.AdapterRegistry.prototype.register=function(_49,_50,_51,_52){
+if(_52){
+this.pairs.unshift([_49,_50,_51]);
+}else{
+this.pairs.push([_49,_50,_51]);
+}
+};
+MochiKit.Base.AdapterRegistry.prototype.match=function(){
+for(var i=0;i<this.pairs.length;i++){
+var _53=this.pairs[i];
+if(_53[1].apply(this,arguments)){
+return _53[2].apply(this,arguments);
+}
+}
+throw MochiKit.Base.NotFound;
+};
+MochiKit.Base.AdapterRegistry.prototype.unregister=function(_54){
+for(var i=0;i<this.pairs.length;i++){
+var _55=this.pairs[i];
+if(_55[0]==_54){
+this.pairs.splice(i,1);
+return true;
+}
+}
+return false;
+};
+MochiKit.Base.registerComparator=function(_56,_57,_58,_59){
+MochiKit.Base.comparatorRegistry.register(_56,_57,_58,_59);
+};
+MochiKit.Base.compare=function(a,b){
+if(a==b){
+return 0;
+}
+var _60=(typeof (a)=="undefined"||a==null);
+var _61=(typeof (b)=="undefined"||b==null);
+if(_60&&_61){
+return 0;
+}else{
+if(_60){
+return -1;
+}else{
+if(_61){
+return 1;
+}
+}
+}
+try{
+return MochiKit.Base.comparatorRegistry.match(a,b);
+}
+catch(e){
+if(e!=MochiKit.Base.NotFound){
+throw e;
+}
+if(a<b){
+return -1;
+}else{
+if(a>b){
+return 1;
+}
+}
+var _62=MochiKit.Base.repr;
+throw new TypeError(_62(a)+" and "+_62(b)+" can not be compared");
+}
+};
+MochiKit.Base.compareDateLike=function(a,b){
+a=a.getTime();
+b=b.getTime();
+if(a==b){
+return 0;
+}else{
+if(a<b){
+return -1;
+}else{
+if(a>b){
+return 1;
+}
+}
+}
+var _63=MochiKit.Base.repr;
+throw new TypeError(_63(a)+" and "+_63(b)+" can not be compared");
+};
+MochiKit.Base.compareArrayLike=function(a,b){
+var _64=MochiKit.Base.compare;
+var _65=a.length;
+var _66=0;
+if(_65>b.length){
+_66=1;
+}else{
+if(_65<b.length){
+_66=-1;
+_65=b.length;
+}
+}
+for(var i=0;i<_65;i++){
+var cmp=_64(a[i],b[i]);
+if(cmp){
+return cmp;
+}
+}
+return _66;
+};
+MochiKit.Base.registerRepr=function(_68,_69,_70,_71){
+MochiKit.Base.reprRegistry.register(_68,_69,_70,_71);
+};
+MochiKit.Base.repr=function(o){
+try{
+if(typeof (o.__repr__)=="function"){
+return o.__repr__();
+}else{
+if(typeof (o.repr)=="function"&&o.repr!=arguments.callee){
+return o.repr();
+}
+}
+return MochiKit.Base.reprRegistry.match(o);
+}
+catch(e){
+if(typeof (o.NAME)=="string"&&(o.toString==Function.prototype.toString||o.toString==Object.prototype.toString)){
+return o.NAME;
+}
+return o;
+}
+};
+MochiKit.Base.reprArrayLike=function(o){
+return "["+MochiKit.Base.map(MochiKit.Base.repr,o).join(", ")+"]";
+};
+MochiKit.Base.reprString=function(o){
+o="\""+o.replace(/(["\\])/g,"\\$1")+"\"";
+return o.replace(/(\n)/g,"\\n");
+};
+MochiKit.Base.reprNumber=function(o){
+return o.toString();
+};
+MochiKit.Base.reprUndefined=function(o){
+return "undefined";
+};
+MochiKit.Base.reprNull=function(o){
+return "null";
+};
+MochiKit.Base.objEqual=function(a,b){
+return (MochiKit.Base.compare(a,b)==0);
+};
+MochiKit.Base.arrayEqual=function(_72,arr){
+if(_72.length!=arr.length){
+return false;
+}
+return (MochiKit.Base.compare(_72,arr)==0);
+};
+MochiKit.Base.concat=function(){
+var _74=[];
+var _75=MochiKit.Base.extend;
+for(var i=0;i<arguments.length;i++){
+_75(_74,arguments[i]);
+}
+return _74;
+};
+MochiKit.Base.keyComparator=function(key){
+var _77=MochiKit.Base.compare;
+if(arguments.length==1){
+return function(a,b){
+return _77(a[key],b[key]);
+};
+}
+var _78=MochiKit.Base.extend(null,arguments);
+return function(a,b){
+var _79=0;
+for(var i=0;(_79==0)&&(i<_78.length);i++){
+var key=_78[i];
+_79=_77(a[key],b[key]);
+}
+return _79;
+};
+};
+MochiKit.Base.reverseKeyComparator=function(key){
+var _80=MochiKit.Base.keyComparator.apply(this,arguments);
+return function(a,b){
+return _80(b,a);
+};
+};
+MochiKit.Base.partial=function(_81){
+return MochiKit.Base.bind.apply(this,MochiKit.Base.extend([_81,undefined],arguments,1));
+};
+MochiKit.Base.listMinMax=function(_82,lst){
+if(lst.length==0){
+return null;
+}
+var cur=lst[0];
+var _84=MochiKit.Base.compare;
+for(var i=1;i<lst.length;i++){
+var o=lst[i];
+if(_84(o,cur)==_82){
+cur=o;
+}
+}
+return cur;
+};
+MochiKit.Base.objMax=function(){
+return MochiKit.Base.listMinMax(1,arguments);
+};
+MochiKit.Base.objMin=function(){
+return MochiKit.Base.listMinMax(-1,arguments);
+};
+MochiKit.Base.nodeWalk=function(_85,_86){
+var _87=[_85];
+var _88=MochiKit.Base.extend;
+while(_87.length){
+var res=_86(_87.shift());
+if(res){
+_88(_87,res);
+}
+}
+};
+MochiKit.Base.nameFunctions=function(_90){
+var _91=_90.NAME;
+if(typeof (_91)=="undefined"){
+_91="";
+}else{
+_91=_91+".";
+}
+for(var _92 in _90){
+var o=_90[_92];
+if(typeof (o)=="function"&&typeof (o.NAME)=="undefined"){
+try{
+o.NAME=_91+_92;
+}
+catch(e){
+}
+}
+}
+};
+MochiKit.Base.EXPORT=["clone","extend","update","setdefault","keys","items","NamedError","operator","forward","itemgetter","typeMatcher","isCallable","isUndefined","isUndefinedOrNull","isNull","isNotEmpty","isArrayLike","isDateLike","xmap","map","xfilter","filter","bind","bindMethods","NotFound","AdapterRegistry","registerComparator","compare","registerRepr","repr","objEqual","arrayEqual","concat","keyComparator","reverseKeyComparator","partial","merge","listMinMax","listMax","listMin","objMax","objMin","nodeWalk","zip"];
+MochiKit.Base.EXPORT_OK=["nameFunctions","comparatorRegistry","reprRegistry","compareDateLike","compareArrayLike","reprArrayLike","reprString","reprNumber","reprUndefined","reprNull"];
+MochiKit.Base.__new__=function(){
+this.listMax=this.partial(this.listMinMax,1);
+this.listMin=this.partial(this.listMinMax,-1);
+this.isCallable=this.typeMatcher("function");
+this.isUndefined=this.typeMatcher("undefined");
+this.merge=this.partial(this.update,null);
+this.zip=this.partial(this.map,null);
+this.comparatorRegistry=new this.AdapterRegistry();
+this.registerComparator("dateLike",this.isDateLike,this.compareDateLike);
+this.registerComparator("arrayLike",this.isArrayLike,this.compareArrayLike);
+this.reprRegistry=new this.AdapterRegistry();
+this.registerRepr("arrayLike",this.isArrayLike,this.reprArrayLike);
+this.registerRepr("string",this.typeMatcher("string"),this.reprString);
+this.registerRepr("numbers",this.typeMatcher("number","boolean"),this.reprNumber);
+this.registerRepr("undefined",this.isUndefined,this.reprUndefined);
+this.registerRepr("null",this.isNull,this.reprNull);
+var all=this.concat(this.EXPORT,this.EXPORT_OK);
+this.EXPORT_TAGS={":common":this.concat(this.EXPORT_OK),":all":all};
+this.nameFunctions(this);
+};
 MochiKit.Base.__new__();
-
-//
-// XXX: Internet Explorer blows
-//
-compare = MochiKit.Base.compare;
-
-
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-        (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.Base);
+compare=MochiKit.Base.compare;
+if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(typeof (MochiKit.__compat__)=="boolean"&&MochiKit.__compat__)){
+(function(_94){
+var all=_94.EXPORT_TAGS[":all"];
+for(var i=0;i<all.length;i++){
+this[all[i]]=_94[all[i]];
 }
-
-
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Iter');
-    dojo.require('MochiKit.Base');
+})(MochiKit.Base);
 }
-
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base", []);
-}   
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Iter depends on MochiKit.Base!";
-}  
-            
-if (typeof(MochiKit.Iter) == 'undefined') {
-    MochiKit.Iter = {};
-}           
-        
-MochiKit.Iter.NAME = "MochiKit.Iter";
-MochiKit.Iter.VERSION = "0.60";
-MochiKit.Iter.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
+if(typeof (dojo)!="undefined"){
+dojo.provide("MochiKit.Iter");
+dojo.require("MochiKit.Base");
 }
-MochiKit.Iter.toString = function () {
-    return this.__repr__();
+if(typeof (JSAN)!="undefined"){
+JSAN.use("MochiKit.Base",[]);
 }
-
-MochiKit.Iter.registerIteratorFactory = function (name, check, iterfactory, /* optional */ override) {
-    
-
-    MochiKit.Iter.iteratorRegistry.register(name, check, iterfactory, override);
+try{
+if(typeof (MochiKit.Base)=="undefined"){
+throw "";
+}
+}
+catch(e){
+throw "MochiKit.Iter depends on MochiKit.Base!";
+}
+if(typeof (MochiKit.Iter)=="undefined"){
+MochiKit.Iter={};
+}
+MochiKit.Iter.NAME="MochiKit.Iter";
+MochiKit.Iter.VERSION="0.60";
+MochiKit.Iter.__repr__=function(){
+return "["+this.NAME+" "+this.VERSION+"]";
 };
-
-MochiKit.Iter.iter = function (iterable, /* optional */ sentinel) {
-    
-    
-    if (arguments.length == 2) {
-        return MochiKit.Iter.takewhile(
-            function (a) { return a != sentinel; },
-            iterable);
-    }
-    if (typeof(iterable.next) == 'function') {
-        return iterable;
-    } else if (typeof(iterable.iter) == 'function') {
-        return iterable.iter();
-    }
-    try {
-        return MochiKit.Iter.iteratorRegistry.match(iterable);
-    } catch (e) {
-        if (e == MochiKit.Base.NotFound) {
-            e = new TypeError(typeof(iterable) + ": " + MochiKit.Base.repr(iterable) + " is not iterable");
-        }
-        throw e;
-    }
+MochiKit.Iter.toString=function(){
+return this.__repr__();
 };
-
-MochiKit.Iter.count = function (n) {
-    
-    if (!n) {
-        n = 0;
-    }
-    return {
-        "repr": function () { return "count(" + n + ")"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () { return n++; }
-    };
+MochiKit.Iter.registerIteratorFactory=function(_95,_96,_97,_98){
+MochiKit.Iter.iteratorRegistry.register(_95,_96,_97,_98);
 };
-
-MochiKit.Iter.cycle = function (p) {
-    
-    var lst = [];
-    var iterator = MochiKit.Iter.iter(p);
-    return {
-        "repr": function () { return "cycle(...)"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            try {
-                var rval = iterator.next();
-                lst.push(rval);
-                return rval;
-            } catch (e) {
-                if (e != MochiKit.Iter.StopIteration) {
-                    throw e;
-                }
-                if (lst.length == 0) {
-                    this.next = function () {
-                        throw MochiKit.Iter.StopIteration;
-                    };
-                } else {
-                    var i = -1;
-                    this.next = function () {
-                        i = (i + 1) % lst.length;
-                        return lst[i];
-                    }
-                }
-                return this.next();
-            }
-        }
-    }
+MochiKit.Iter.iter=function(_99,_100){
+if(arguments.length==2){
+return MochiKit.Iter.takewhile(function(a){
+return a!=_100;
+},_99);
+}
+if(typeof (_99.next)=="function"){
+return _99;
+}else{
+if(typeof (_99.iter)=="function"){
+return _99.iter();
+}
+}
+try{
+return MochiKit.Iter.iteratorRegistry.match(_99);
+}
+catch(e){
+if(e==MochiKit.Base.NotFound){
+e=new TypeError(typeof (_99)+": "+MochiKit.Base.repr(_99)+" is not iterable");
+}
+throw e;
+}
 };
-
-MochiKit.Iter.repeat = function (elem, /* optional */n) {
-    
-    if (typeof(n) == 'undefined') {
-        return {
-            "repr": function () {
-                return "repeat(" + MochiKit.Base.repr(elem) + ")";
-            },
-            "toString": MochiKit.Base.forward("repr"),
-            "next": function () {
-                return elem;
-            }
-        };
-    }
-    return {
-        "repr": function () {
-            return "repeat(" + MochiKit.Base.repr(elem) + ", " + n + ")";
-        },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            if (n <= 0) {
-                throw MochiKit.Iter.StopIteration;
-            }
-            n -= 1;
-            return elem;
-        }
-    };
+MochiKit.Iter.count=function(n){
+if(!n){
+n=0;
+}
+return {"repr":function(){
+return "count("+n+")";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+return n++;
+}};
 };
-        
-MochiKit.Iter.next = function (iterator) {
-    
-    return iterator.next();
+MochiKit.Iter.cycle=function(p){
+var lst=[];
+var _103=MochiKit.Iter.iter(p);
+return {"repr":function(){
+return "cycle(...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+try{
+var rval=_103.next();
+lst.push(rval);
+return rval;
+}
+catch(e){
+if(e!=MochiKit.Iter.StopIteration){
+throw e;
+}
+if(lst.length==0){
+this.next=function(){
+throw MochiKit.Iter.StopIteration;
 };
-
-MochiKit.Iter.izip = function (p, q/*, ...*/) {
-    
-    var map = MochiKit.Base.map;
-    var next = MochiKit.Iter.next;
-    var iterables = map(iter, arguments);
-    return {
-        "repr" : function () { return "izip(...)"; },
-        "toString" : MochiKit.Base.forward("repr"),
-        "next": function () { return map(next, iterables); }
-    };
+}else{
+var i=-1;
+this.next=function(){
+i=(i+1)%lst.length;
+return lst[i];
 };
-
-MochiKit.Iter.ifilter = function (pred, seq) {
-    
-    seq = MochiKit.Iter.iter(seq);
-    if (pred == null) {
-        pred = MochiKit.Base.operator.truth;
-    }
-    return {
-        "repr": function () { return "ifilter(...)"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            while (true) {
-                var rval = seq.next();
-                if (pred(rval)) {
-                    return rval;
-                }
-            }
-        }
-    }
+}
+return this.next();
+}
+}};
 };
-
-MochiKit.Iter.ifilterfalse = function (pred, seq) {
-    
-    seq = MochiKit.Iter.iter(seq);
-    if (pred == null) {
-        pred = MochiKit.Base.operator.truth;
-    }
-    return {
-        "repr": function () { return "ifilterfalse(...)"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            while (true) {
-                var rval = seq.next();
-                if (!pred(rval)) {
-                    return rval;
-                }
-            }
-        }
-    }
+MochiKit.Iter.repeat=function(elem,n){
+if(typeof (n)=="undefined"){
+return {"repr":function(){
+return "repeat("+MochiKit.Base.repr(elem)+")";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+return elem;
+}};
+}
+return {"repr":function(){
+return "repeat("+MochiKit.Base.repr(elem)+", "+n+")";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+if(n<=0){
+throw MochiKit.Iter.StopIteration;
+}
+n-=1;
+return elem;
+}};
 };
- 
-MochiKit.Iter.islice = function (seq/*, [start,] stop[, step] */) {
-    
-    seq = MochiKit.Iter.iter(seq);
-    var start = 0;
-    var stop = 0;
-    var step = 1;
-    var i = -1;
-    if (arguments.length == 2) {
-        stop = arguments[1];
-    } else if (arguments.length == 3) {
-        start = arguments[1];
-        stop = arguments[2];
-    } else {
-        start = arguments[1];
-        stop = arguments[2];
-        step = arguments[3];
-    }
-    return {
-        "repr": function () {
-            return "islice(" + ["...", start, stop, step].join(", ") + ")";
-        },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            var rval;
-            while (i < start) {
-                rval = seq.next();
-                i++;
-            }
-            if (start >= stop) {
-                throw MochiKit.Iter.StopIteration;
-            }
-            start += step;
-            return rval;
-        }
-    };
+MochiKit.Iter.next=function(_106){
+return _106.next();
 };
-
-MochiKit.Iter.imap = function (fun, p, q/*, ...*/) {
-    
-    var map = MochiKit.Base.map;
-    var iterables = map(MochiKit.Iter.iter, MochiKit.Base.extend(null, arguments, 1));
-    return {
-        "repr": function () { return "imap(...)"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            return fun.apply(this, map(next, iterables));
-        }
-    };
+MochiKit.Iter.izip=function(p,q){
+var map=MochiKit.Base.map;
+var next=MochiKit.Iter.next;
+var _110=map(iter,arguments);
+return {"repr":function(){
+return "izip(...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+return map(next,_110);
+}};
 };
-    
-MochiKit.Iter.applymap = function (fun, seq, self) {
-    
-    seq = MochiKit.Iter.iter(seq);
-    return {
-        "repr": function () { return "applymap(...)"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            return fun.apply(self, seq.next());
-        }
-    };
+MochiKit.Iter.ifilter=function(pred,seq){
+seq=MochiKit.Iter.iter(seq);
+if(pred==null){
+pred=MochiKit.Base.operator.truth;
+}
+return {"repr":function(){
+return "ifilter(...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+while(true){
+var rval=seq.next();
+if(pred(rval)){
+return rval;
+}
+}
+}};
 };
-
-MochiKit.Iter.chain = function (p, q/*, ...*/) {
-    
-    // dumb fast path
-    var iter = MochiKit.Iter.iter;
-    if (arguments.length == 1) {
-        return iter(arguments[0]);
-    }
-    var argiter = MochiKit.Base.map(iter, arguments);
-    var bind = MochiKit.Base.bind;
-    return {
-        "repr": function () { return "chain(...)"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            while (argiter.length > 1) {
-                try {
-                    return argiter[0].next();
-                } catch (e) {
-                    if (e != MochiKit.Iter.StopIteration) {
-                        throw e;
-                    }
-                    argiter.shift();
-                }
-            }
-            if (argiter.length == 1) {
-                // optimize last element
-                var arg = argiter.shift();
-                this.next = bind(arg.next, arg);
-                return this.next();
-            }
-            throw MochiKit.Iter.StopIteration;
-        }
-    };
+MochiKit.Iter.ifilterfalse=function(pred,seq){
+seq=MochiKit.Iter.iter(seq);
+if(pred==null){
+pred=MochiKit.Base.operator.truth;
+}
+return {"repr":function(){
+return "ifilterfalse(...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+while(true){
+var rval=seq.next();
+if(!pred(rval)){
+return rval;
+}
+}
+}};
 };
-
-MochiKit.Iter.takewhile = function (pred, seq) {
-    
-    seq = MochiKit.Iter.iter(seq);
-    return {
-        "repr": function () { return "takewhile(...)"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            var rval = seq.next();
-            if (!pred(rval)) {
-                this.next = function () {
-                    throw MochiKit.Iter.StopIteration;
-                };
-                throw MochiKit.Iter.StopIteration;
-            }
-            return rval;
-        }
-    };
+MochiKit.Iter.islice=function(seq){
+seq=MochiKit.Iter.iter(seq);
+var _113=0;
+var stop=0;
+var step=1;
+var i=-1;
+if(arguments.length==2){
+stop=arguments[1];
+}else{
+if(arguments.length==3){
+_113=arguments[1];
+stop=arguments[2];
+}else{
+_113=arguments[1];
+stop=arguments[2];
+step=arguments[3];
+}
+}
+return {"repr":function(){
+return "islice("+["...",_113,stop,step].join(", ")+")";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+var rval;
+while(i<_113){
+rval=seq.next();
+i++;
+}
+if(_113>=stop){
+throw MochiKit.Iter.StopIteration;
+}
+_113+=step;
+return rval;
+}};
 };
-
-MochiKit.Iter.dropwhile = function (pred, seq) {
-    
-    seq = MochiKit.Iter.iter(seq);
-    var bind = MochiKit.Base.bind;
-    return {
-        "repr": function () { return "dropwhile(...)"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            while (true) {
-                var rval = seq.next();
-                if (!pred(rval)) {
-                    break;
-                }
-            }
-            this.next = bind(seq.next, seq);
-            return rval;
-        }
-    };
+MochiKit.Iter.imap=function(fun,p,q){
+var map=MochiKit.Base.map;
+var _117=map(MochiKit.Iter.iter,MochiKit.Base.extend(null,arguments,1));
+return {"repr":function(){
+return "imap(...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+return fun.apply(this,map(next,_117));
+}};
 };
-
-MochiKit.Iter._tee = function (ident, sync, iterable) {
-    sync.pos[ident] = -1;
-    var listMin = MochiKit.Base.listMin;
-    return {
-        "repr": function () { return "tee(" + ident + ", ...)"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            var rval;
-            var i = sync.pos[ident];
-
-            if (i == sync.max) {
-                rval = iterable.next();
-                sync.deque.push(rval);
-                sync.max += 1;
-                sync.pos[ident] += 1;
-            } else {
-                rval = sync.deque[i - sync.min];
-                sync.pos[ident] += 1;
-                if (i == sync.min && listMin(sync.pos) != sync.min) {
-                    sync.min += 1;
-                    sync.deque.shift();
-                }
-            }
-            return rval;
-        }
-    };
+MochiKit.Iter.applymap=function(fun,seq,self){
+seq=MochiKit.Iter.iter(seq);
+return {"repr":function(){
+return "applymap(...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+return fun.apply(self,seq.next());
+}};
 };
-
-MochiKit.Iter.tee = function (iterable, n/* = 2 */) {
-    
-    var rval = [];
-    var sync = {
-        "pos": [],
-        "deque": [],
-        "max": -1,
-        "min": -1
-    };
-    if (arguments.length == 1) {
-        n = 2;
-    }
-    iterable = MochiKit.Iter.iter(iterable);
-    var _tee = MochiKit.Iter._tee;
-    for (var i = 0; i < n; i++) {
-        rval.push(_tee(i, sync, iterable));
-    }
-    return rval;
+MochiKit.Iter.chain=function(p,q){
+var iter=MochiKit.Iter.iter;
+if(arguments.length==1){
+return iter(arguments[0]);
+}
+var _120=MochiKit.Base.map(iter,arguments);
+var bind=MochiKit.Base.bind;
+return {"repr":function(){
+return "chain(...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+while(_120.length>1){
+try{
+return _120[0].next();
+}
+catch(e){
+if(e!=MochiKit.Iter.StopIteration){
+throw e;
+}
+_120.shift();
+}
+}
+if(_120.length==1){
+var arg=_120.shift();
+this.next=bind(arg.next,arg);
+return this.next();
+}
+throw MochiKit.Iter.StopIteration;
+}};
 };
-
-MochiKit.Iter.list = function (iterable) {
-    
-
-    // Fast-path for Array and Array-like
-    if (typeof(iterable.slice) == 'function') {
-        return iterable.slice();
-    } else if (MochiKit.Base.isArrayLike(iterable)) {
-        return MochiKit.Base.concat(iterable);
-    }
-
-    iterable = MochiKit.Iter.iter(iterable);
-    var rval = [];
-    try {
-        while (true) {
-            rval.push(iterable.next());
-        }
-    } catch (e) {
-        if (e != MochiKit.Iter.StopIteration) {
-            throw e;
-        }
-        return rval;
-    }
+MochiKit.Iter.takewhile=function(pred,seq){
+seq=MochiKit.Iter.iter(seq);
+return {"repr":function(){
+return "takewhile(...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+var rval=seq.next();
+if(!pred(rval)){
+this.next=function(){
+throw MochiKit.Iter.StopIteration;
 };
-
-    
-MochiKit.Iter.reduce = function (fn, iterable, /* optional */initial) {
-    
-    var i = 0;
-    var x = initial;
-    iterable = MochiKit.Iter.iter(iterable);
-    if (arguments.length < 3) {
-        try {
-            x = iterable.next();
-        } catch (e) {
-            if (e == MochiKit.Iter.StopIteration) {
-                e = new TypeError("reduce() of empty sequence with no initial value");
-            }
-            throw e;
-        }
-        i++;
-    }
-    try {
-        while (true) {
-            x = fn(x, iterable.next());
-        }
-    } catch (e) {
-        if (e != MochiKit.Iter.StopIteration) {
-            throw e;
-        }
-        return x;
-    }
+throw MochiKit.Iter.StopIteration;
+}
+return rval;
+}};
 };
-
-MochiKit.Iter.range = function (/* [start,] stop[, step] */) {
-    
-    var start = 0;
-    var stop = 0;
-    var step = 1;
-    if (arguments.length == 1) {
-        stop = arguments[0];
-    } else if (arguments.length == 2) {
-        start = arguments[0];
-        stop = arguments[1];
-    } else if (arguments.length == 3) {
-        start = arguments[0];
-        stop = arguments[1];
-        step = arguments[2];
-    } else {
-        throw TypeError("range() takes 1, 2, or 3 arguments!");
-    }
-    return {
-        "next": function () {
-            if (start >= stop) {
-                throw MochiKit.Iter.StopIteration;
-            }
-            var rval = start;
-            start += step;
-            return rval;
-        },
-        "repr": function () {
-            return "range(" + [start, stop, step].join(", ") + ")";
-        },
-        "toString": MochiKit.Base.forward("repr")
-    };
+MochiKit.Iter.dropwhile=function(pred,seq){
+seq=MochiKit.Iter.iter(seq);
+var bind=MochiKit.Base.bind;
+return {"repr":function(){
+return "dropwhile(...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+while(true){
+var rval=seq.next();
+if(!pred(rval)){
+break;
+}
+}
+this.next=bind(seq.next,seq);
+return rval;
+}};
 };
-        
-MochiKit.Iter.sum = function (iterable, start/* = 0 */) {
-    
-    var x = start ? start : 0;
-    iterable = MochiKit.Iter.iter(iterable);
-    try {
-        while (true) {
-            x += iterable.next();
-        }
-    } catch (e) {
-        if (e != MochiKit.Iter.StopIteration) {
-            throw e;
-        }
-        return x;
-    }
+MochiKit.Iter._tee=function(_122,sync,_124){
+sync.pos[_122]=-1;
+var _125=MochiKit.Base.listMin;
+return {"repr":function(){
+return "tee("+_122+", ...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+var rval;
+var i=sync.pos[_122];
+if(i==sync.max){
+rval=_124.next();
+sync.deque.push(rval);
+sync.max+=1;
+sync.pos[_122]+=1;
+}else{
+rval=sync.deque[i-sync.min];
+sync.pos[_122]+=1;
+if(i==sync.min&&_125(sync.pos)!=sync.min){
+sync.min+=1;
+sync.deque.shift();
+}
+}
+return rval;
+}};
 };
-        
-MochiKit.Iter.exhaust = function (iterable) {
-    
-
-    iterable = MochiKit.Iter.iter(iterable);
-    try {
-        while (true) {
-            iterable.next();
-        }
-    } catch (e) {
-        if (e != MochiKit.Iter.StopIteration) {
-            throw e;
-        }
-    }
+MochiKit.Iter.tee=function(_126,n){
+var rval=[];
+var sync={"pos":[],"deque":[],"max":-1,"min":-1};
+if(arguments.length==1){
+n=2;
+}
+_126=MochiKit.Iter.iter(_126);
+var _tee=MochiKit.Iter._tee;
+for(var i=0;i<n;i++){
+rval.push(_tee(i,sync,_126));
+}
+return rval;
 };
-
-MochiKit.Iter.forEach = function (iterable, func, /* optional */self) {
-    
-    if (arguments.length > 2) {
-        func = MochiKit.Base.bind(func, self);
-    }
-    // fast path for array
-    if (MochiKit.Base.isArrayLike(iterable)) {
-        for (var i = 0; i < iterable.length; i++) {
-            func(iterable[i]);
-        }
-    } else {
-        MochiKit.Iter.exhaust(MochiKit.Iter.imap(func, iterable));
-    }
+MochiKit.Iter.list=function(_128){
+if(typeof (_128.slice)=="function"){
+return _128.slice();
+}else{
+if(MochiKit.Base.isArrayLike(_128)){
+return MochiKit.Base.concat(_128);
+}
+}
+_128=MochiKit.Iter.iter(_128);
+var rval=[];
+try{
+while(true){
+rval.push(_128.next());
+}
+}
+catch(e){
+if(e!=MochiKit.Iter.StopIteration){
+throw e;
+}
+return rval;
+}
 };
-
-MochiKit.Iter.every = function (iterable, func) {
-    
-    try {
-        MochiKit.Iter.ifilterfalse(func, iterable).next();
-        return false;
-    } catch (e) {
-        if (e != MochiKit.Iter.StopIteration) {
-            throw e;
-        }
-        return true;
-    }
+MochiKit.Iter.reduce=function(fn,_129,_130){
+var i=0;
+var x=_130;
+_129=MochiKit.Iter.iter(_129);
+if(arguments.length<3){
+try{
+x=_129.next();
+}
+catch(e){
+if(e==MochiKit.Iter.StopIteration){
+e=new TypeError("reduce() of empty sequence with no initial value");
+}
+throw e;
+}
+i++;
+}
+try{
+while(true){
+x=fn(x,_129.next());
+}
+}
+catch(e){
+if(e!=MochiKit.Iter.StopIteration){
+throw e;
+}
+return x;
+}
 };
-
-MochiKit.Iter.sorted = function (iterable, /* optional */cmp) {
-    
-    var rval = MochiKit.Iter.list(iterable);
-    if (arguments.length == 1) {
-        cmp = MochiKit.Base.compare;
-    }
-    rval.sort(cmp);
-    return rval;
+MochiKit.Iter.range=function(){
+var _132=0;
+var stop=0;
+var step=1;
+if(arguments.length==1){
+stop=arguments[0];
+}else{
+if(arguments.length==2){
+_132=arguments[0];
+stop=arguments[1];
+}else{
+if(arguments.length==3){
+_132=arguments[0];
+stop=arguments[1];
+step=arguments[2];
+}else{
+throw TypeError("range() takes 1, 2, or 3 arguments!");
+}
+}
+}
+return {"next":function(){
+if(_132>=stop){
+throw MochiKit.Iter.StopIteration;
+}
+var rval=_132;
+_132+=step;
+return rval;
+},"repr":function(){
+return "range("+[_132,stop,step].join(", ")+")";
+},"toString":MochiKit.Base.forward("repr")};
 };
-
-MochiKit.Iter.reversed = function (iterable) {
-    
-    var rval = MochiKit.Iter.list(iterable);
-    rval.reverse();
-    return rval;
+MochiKit.Iter.sum=function(_133,_134){
+var x=_134?_134:0;
+_133=MochiKit.Iter.iter(_133);
+try{
+while(true){
+x+=_133.next();
+}
+}
+catch(e){
+if(e!=MochiKit.Iter.StopIteration){
+throw e;
+}
+return x;
+}
 };
-
-MochiKit.Iter.some = function (iterable, func) {
-    
-    try {
-        MochiKit.Iter.ifilter(func, iterable).next();
-        return true;
-    } catch (e) {
-        if (e != MochiKit.Iter.StopIteration) {
-            throw e;
-        }
-        return false;
-    }
+MochiKit.Iter.exhaust=function(_135){
+_135=MochiKit.Iter.iter(_135);
+try{
+while(true){
+_135.next();
+}
+}
+catch(e){
+if(e!=MochiKit.Iter.StopIteration){
+throw e;
+}
+}
 };
-
-MochiKit.Iter.iextend = function (lst, iterable) {
-    
-    
-    iterable = MochiKit.Iter.iter(iterable);
-    try {
-        while (true) {
-            lst.push(iterable.next());
-        }
-    } catch (e) {
-        if (e != MochiKit.Iter.StopIteration) {
-            throw e;
-        }
-    }
-    return lst;
+MochiKit.Iter.forEach=function(_136,func,self){
+if(arguments.length>2){
+func=MochiKit.Base.bind(func,self);
+}
+if(MochiKit.Base.isArrayLike(_136)){
+for(var i=0;i<_136.length;i++){
+func(_136[i]);
+}
+}else{
+MochiKit.Iter.exhaust(MochiKit.Iter.imap(func,_136));
+}
 };
-
-
-MochiKit.Iter.arrayLikeIter = function (iterable) {
-    var i = 0;
-    return {
-        "repr": function () { return "arrayLikeIter(...)"; },
-        "toString": MochiKit.Base.forward("repr"),
-        "next": function () {
-            if (i >= iterable.length) {
-                throw MochiKit.Iter.StopIteration;
-            }
-            return iterable[i++];
-        }
-    };
+MochiKit.Iter.every=function(_138,func){
+try{
+MochiKit.Iter.ifilterfalse(func,_138).next();
+return false;
+}
+catch(e){
+if(e!=MochiKit.Iter.StopIteration){
+throw e;
+}
+return true;
+}
 };
-
-
-MochiKit.Iter.EXPORT_OK = [
-    "iteratorRegistry",
-    "arrayLikeIter"
-];
-
-MochiKit.Iter.EXPORT = [
-    "StopIteration",
-    "registerIteratorFactory",
-    "iter",
-    "count",
-    "cycle",
-    "repeat",
-    "next",
-    "izip",
-    "ifilter",
-    "ifilterfalse",
-    "islice",
-    "imap",
-    "applymap",
-    "chain",
-    "takewhile",
-    "dropwhile",
-    "tee",
-    "list",
-    "reduce",
-    "range",
-    "sum",
-    "exhaust",
-    "forEach",
-    "every",
-    "sorted",
-    "reversed",
-    "some",
-    "iextend"
-];
-
-MochiKit.Iter.__new__ = function () {
-    this.StopIteration = new MochiKit.Base.NamedError("StopIteration");
-    this.iteratorRegistry = new MochiKit.Base.AdapterRegistry();
-    // Register the iterator factory for arrays
-    this.registerIteratorFactory(
-        "arrayLike",
-        MochiKit.Base.isArrayLike,
-        this.arrayLikeIter
-    );
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
-    MochiKit.Base.nameFunctions(this);
-        
+MochiKit.Iter.sorted=function(_139,cmp){
+var rval=MochiKit.Iter.list(_139);
+if(arguments.length==1){
+cmp=MochiKit.Base.compare;
+}
+rval.sort(cmp);
+return rval;
 };
-
+MochiKit.Iter.reversed=function(_140){
+var rval=MochiKit.Iter.list(_140);
+rval.reverse();
+return rval;
+};
+MochiKit.Iter.some=function(_141,func){
+try{
+MochiKit.Iter.ifilter(func,_141).next();
+return true;
+}
+catch(e){
+if(e!=MochiKit.Iter.StopIteration){
+throw e;
+}
+return false;
+}
+};
+MochiKit.Iter.iextend=function(lst,_142){
+_142=MochiKit.Iter.iter(_142);
+try{
+while(true){
+lst.push(_142.next());
+}
+}
+catch(e){
+if(e!=MochiKit.Iter.StopIteration){
+throw e;
+}
+}
+return lst;
+};
+MochiKit.Iter.arrayLikeIter=function(_143){
+var i=0;
+return {"repr":function(){
+return "arrayLikeIter(...)";
+},"toString":MochiKit.Base.forward("repr"),"next":function(){
+if(i>=_143.length){
+throw MochiKit.Iter.StopIteration;
+}
+return _143[i++];
+}};
+};
+MochiKit.Iter.EXPORT_OK=["iteratorRegistry","arrayLikeIter"];
+MochiKit.Iter.EXPORT=["StopIteration","registerIteratorFactory","iter","count","cycle","repeat","next","izip","ifilter","ifilterfalse","islice","imap","applymap","chain","takewhile","dropwhile","tee","list","reduce","range","sum","exhaust","forEach","every","sorted","reversed","some","iextend"];
+MochiKit.Iter.__new__=function(){
+this.StopIteration=new MochiKit.Base.NamedError("StopIteration");
+this.iteratorRegistry=new MochiKit.Base.AdapterRegistry();
+this.registerIteratorFactory("arrayLike",MochiKit.Base.isArrayLike,this.arrayLikeIter);
+this.EXPORT_TAGS={":common":this.EXPORT,":all":MochiKit.Base.concat(this.EXPORT,this.EXPORT_OK)};
+MochiKit.Base.nameFunctions(this);
+};
 MochiKit.Iter.__new__();
-
-//
-// XXX: Internet Explorer blows
-//
-reduce = MochiKit.Iter.reduce;
-
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-    (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.Iter);
+reduce=MochiKit.Iter.reduce;
+if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(typeof (MochiKit.__compat__)=="boolean"&&MochiKit.__compat__)){
+(function(self){
+var all=self.EXPORT_TAGS[":all"];
+for(var i=0;i<all.length;i++){
+this[all[i]]=self[all[i]];
 }
-
-
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Logging');
-    dojo.require('MochiKit.Base');
+})(MochiKit.Iter);
 }
-
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base", []);
+if(typeof (dojo)!="undefined"){
+dojo.provide("MochiKit.Logging");
+dojo.require("MochiKit.Base");
 }
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Logging depends on MochiKit.Base!";
+if(typeof (JSAN)!="undefined"){
+JSAN.use("MochiKit.Base",[]);
 }
-
-if (typeof(MochiKit.Logging) == 'undefined') {
-    MochiKit.Logging = {};
+try{
+if(typeof (MochiKit.Base)=="undefined"){
+throw "";
 }
-
-MochiKit.Logging.NAME = "MochiKit.Logging";
-MochiKit.Logging.VERSION = "0.60";
-MochiKit.Logging.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
+}
+catch(e){
+throw "MochiKit.Logging depends on MochiKit.Base!";
+}
+if(typeof (MochiKit.Logging)=="undefined"){
+MochiKit.Logging={};
+}
+MochiKit.Logging.NAME="MochiKit.Logging";
+MochiKit.Logging.VERSION="0.60";
+MochiKit.Logging.__repr__=function(){
+return "["+this.NAME+" "+this.VERSION+"]";
 };
-
-MochiKit.Logging.toString = function () {
-    return this.__repr__();
+MochiKit.Logging.toString=function(){
+return this.__repr__();
 };
-
-
-MochiKit.Logging.EXPORT = [
-    "LogLevel",
-    "LogMessage",
-    "Logger",
-    "alertListener",
-    "logger",
-    "log",
-    "logError",
-    "logDebug",
-    "logFatal",
-    "logWarning"
-];
-
-
-MochiKit.Logging.EXPORT_OK = [
-    "logLevelAtLeast",
-    "isLogMessage",
-    "compareLogMessage"
-];
-
-
-MochiKit.Logging.logLevelAtLeast = function (minLevel) {
-    
-    if (typeof(minLevel) == 'string') {
-        minLevel = MochiKit.Logging.LogLevel[minLevel];
-    }
-    return function (msg) {
-        var msgLevel = msg.level;
-        if (typeof(msgLevel) == 'string') {
-            msgLevel = MochiKit.Logging.LogLevel[msgLevel];
-        }
-        return msgLevel >= minLevel;
-    }
+MochiKit.Logging.EXPORT=["LogLevel","LogMessage","Logger","alertListener","logger","log","logError","logDebug","logFatal","logWarning"];
+MochiKit.Logging.EXPORT_OK=["logLevelAtLeast","isLogMessage","compareLogMessage"];
+MochiKit.Logging.logLevelAtLeast=function(_144){
+if(typeof (_144)=="string"){
+_144=MochiKit.Logging.LogLevel[_144];
+}
+return function(msg){
+var _146=msg.level;
+if(typeof (_146)=="string"){
+_146=MochiKit.Logging.LogLevel[_146];
+}
+return _146>=_144;
 };
-
-MochiKit.Logging.LogMessage = function (num, level, info) {
-    this.num = num;
-    this.level = level;
-    this.info = info;
-    this.timestamp = new Date();
 };
-
-MochiKit.Logging.LogMessage.prototype.repr = function () {
-    return 'LogMessage(' + 
-        MochiKit.Base.map(
-            MochiKit.Base.repr,
-            [this.num, this.level, this.info]
-        ).join(', ') + ')';
+MochiKit.Logging.LogMessage=function(num,_148,info){
+this.num=num;
+this.level=_148;
+this.info=info;
+this.timestamp=new Date();
 };
-
-MochiKit.Logging.LogMessage.prototype.toString = function () {
-    return this.repr();
+MochiKit.Logging.LogMessage.prototype.repr=function(){
+return "LogMessage("+MochiKit.Base.map(MochiKit.Base.repr,[this.num,this.level,this.info]).join(", ")+")";
 };
-
-MochiKit.Logging.isLogMessage = function (/* ... */) {
-    var LogMessage = MochiKit.Logging.LogMessage;
-    for (var i = 0; i < arguments.length; i++) {
-        if (!(arguments[i] instanceof LogMessage)) {
-            return false;
-        }
-    }
-    return true;
+MochiKit.Logging.LogMessage.prototype.toString=function(){
+return this.repr();
 };
-
-MochiKit.Logging.compareLogMessage = function (a, b) {
-    return MochiKit.Base.compare([a.level, a.info], [b.level, b.info]);
+MochiKit.Logging.isLogMessage=function(){
+var _150=MochiKit.Logging.LogMessage;
+for(var i=0;i<arguments.length;i++){
+if(!(arguments[i] instanceof _150)){
+return false;
+}
+}
+return true;
 };
-
-MochiKit.Logging.Logger = function (/* optional */maxSize) {
-    
-    this.counter = 0;
-    if (typeof(maxSize) == 'undefined' || maxSize == null) {
-        maxSize = -1;
-    }
-    this.maxSize = maxSize;
-    this._messages = [];
-    this.listeners = {};
+MochiKit.Logging.compareLogMessage=function(a,b){
+return MochiKit.Base.compare([a.level,a.info],[b.level,b.info]);
 };
-
-MochiKit.Logging.Logger.prototype.clear = function () {
-    
-    this._messages.splice(0, this._messages.length);
+MochiKit.Logging.Logger=function(_151){
+this.counter=0;
+if(typeof (_151)=="undefined"||_151==null){
+_151=-1;
+}
+this.maxSize=_151;
+this._messages=[];
+this.listeners={};
 };
-
-MochiKit.Logging.Logger.prototype.dispatchListeners = function (msg) {
-    
-    for (var k in this.listeners) {
-        var pair = this.listeners[k];
-        if (pair[0] && !pair[0](msg)) {
-            continue;
-        }
-        pair[1](msg);
-    }
+MochiKit.Logging.Logger.prototype.clear=function(){
+this._messages.splice(0,this._messages.length);
 };
-
-MochiKit.Logging.Logger.prototype.addListener = function (ident, filter, listener) {
-    
-            
-            
-    if (typeof(filter) == 'string') {
-        filter = MochiKit.Logging.logLevelAtLeast(filter);
-    }
-    this.listeners[ident] = [filter, listener];
+MochiKit.Logging.Logger.prototype.dispatchListeners=function(msg){
+for(var k in this.listeners){
+var pair=this.listeners[k];
+if(pair[0]&&!pair[0](msg)){
+continue;
+}
+pair[1](msg);
+}
 };
-
-MochiKit.Logging.Logger.prototype.removeListener = function (ident) {
-    
-    delete this.listeners[ident];
+MochiKit.Logging.Logger.prototype.addListener=function(_153,_154,_155){
+if(typeof (_154)=="string"){
+_154=MochiKit.Logging.logLevelAtLeast(_154);
+}
+this.listeners[_153]=[_154,_155];
 };
-
-MochiKit.Logging.Logger.prototype.baseLog = function (level, message/*, ...*/) {
-    
-            
-    var msg = new MochiKit.Logging.LogMessage(
-        this.counter,
-        level,
-        MochiKit.Base.extend(null, arguments, 1)
-    );
-    this._messages.push(msg);
-    this.dispatchListeners(msg);
-    this.counter += 1;
-    while (this.maxSize >= 0 && this._messages.length > this.maxSize) {
-        this._messges.shift();
-    }
+MochiKit.Logging.Logger.prototype.removeListener=function(_156){
+delete this.listeners[_156];
 };
-
-MochiKit.Logging.Logger.prototype.getMessages = function (howMany) {
-    
-    var firstMsg = 0;
-    if (!(typeof(howMany) == 'undefined' || howMany == null)) {
-        firstMsg = Math.max(0, this._messages.length - howMany);
-    }
-    return this._messages.slice(firstMsg);
+MochiKit.Logging.Logger.prototype.baseLog=function(_157,_158){
+var msg=new MochiKit.Logging.LogMessage(this.counter,_157,MochiKit.Base.extend(null,arguments,1));
+this._messages.push(msg);
+this.dispatchListeners(msg);
+this.counter+=1;
+while(this.maxSize>=0&&this._messages.length>this.maxSize){
+this._messges.shift();
+}
 };
-
-MochiKit.Logging.Logger.prototype.getMessageText = function (howMany) {
-    
-    if (typeof(howMany) == 'undefined' || howMany == null) {
-        howMany = 30;
-    }
-    var messages = this.getMessages(howMany);
-    if (messages.length) {
-        var lst = map(function (m) {
-            return '\n  [' + m.num + '] ' + m.level + ': ' + m.info.join(' '); 
-        }, messages);
-        lst.unshift('LAST ' + messages.length + ' MESSAGES:');
-        return lst.join('');
-    }
-    return '';
+MochiKit.Logging.Logger.prototype.getMessages=function(_159){
+var _160=0;
+if(!(typeof (_159)=="undefined"||_159==null)){
+_160=Math.max(0,this._messages.length-_159);
+}
+return this._messages.slice(_160);
 };
-
-MochiKit.Logging.Logger.prototype.debuggingBookmarklet = function () {
-    alert(this.getMessageText());
+MochiKit.Logging.Logger.prototype.getMessageText=function(_161){
+if(typeof (_161)=="undefined"||_161==null){
+_161=30;
+}
+var _162=this.getMessages(_161);
+if(_162.length){
+var lst=map(function(m){
+return "\n  ["+m.num+"] "+m.level+": "+m.info.join(" ");
+},_162);
+lst.unshift("LAST "+_162.length+" MESSAGES:");
+return lst.join("");
+}
+return "";
 };
-
-MochiKit.Logging.alertListener = function (msg) {
-    
-    alert(
-        "num: " + msg.num +
-        "\nlevel: " +  msg.level +
-        "\ninfo: " + msg.info.join(" ")
-    );
+MochiKit.Logging.Logger.prototype.debuggingBookmarklet=function(){
+alert(this.getMessageText());
 };
-
-MochiKit.Logging.__new__ = function () {
-    this.LogLevel = {
-        'ERROR': 40,
-        'FATAL': 50,
-        'WARNING': 30,
-        'INFO': 20,
-        'DEBUG': 10
-    };
-
-    MochiKit.Base.registerComparator("LogMessage",
-        this.isLogMessage,
-        this.compareLogMessage
-    );
-
-    var partial = MochiKit.Base.partial;
-
-    var Logger = this.Logger;
-    Logger.prototype.debug = partial(Logger.prototype.baseLog, 'DEBUG');
-    Logger.prototype.log = partial(Logger.prototype.baseLog, 'INFO');
-    Logger.prototype.error = partial(Logger.prototype.baseLog, 'ERROR');
-    Logger.prototype.fatal = partial(Logger.prototype.baseLog, 'FATAL');
-    Logger.prototype.warning = partial(Logger.prototype.baseLog, 'WARNING');
-
-    var bind = MochiKit.Base.bind;
-
-    var logger = new Logger();
-    this.log = bind(logger.log, logger);
-    this.logError = bind(logger.error, logger);
-    this.logDebug = bind(logger.debug, logger);
-    this.logFatal = bind(logger.fatal, logger);
-    this.logWarning = bind(logger.warning, logger);
-    this.logger = logger;
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
-    MochiKit.Base.nameFunctions(this);
-
+MochiKit.Logging.alertListener=function(msg){
+alert("num: "+msg.num+"\nlevel: "+msg.level+"\ninfo: "+msg.info.join(" "));
 };
-
+MochiKit.Logging.__new__=function(){
+this.LogLevel={"ERROR":40,"FATAL":50,"WARNING":30,"INFO":20,"DEBUG":10};
+MochiKit.Base.registerComparator("LogMessage",this.isLogMessage,this.compareLogMessage);
+var _164=MochiKit.Base.partial;
+var _165=this.Logger;
+_165.prototype.debug=_164(_165.prototype.baseLog,"DEBUG");
+_165.prototype.log=_164(_165.prototype.baseLog,"INFO");
+_165.prototype.error=_164(_165.prototype.baseLog,"ERROR");
+_165.prototype.fatal=_164(_165.prototype.baseLog,"FATAL");
+_165.prototype.warning=_164(_165.prototype.baseLog,"WARNING");
+var bind=MochiKit.Base.bind;
+var _166=new _165();
+this.log=bind(_166.log,_166);
+this.logError=bind(_166.error,_166);
+this.logDebug=bind(_166.debug,_166);
+this.logFatal=bind(_166.fatal,_166);
+this.logWarning=bind(_166.warning,_166);
+this.logger=_166;
+this.EXPORT_TAGS={":common":this.EXPORT,":all":MochiKit.Base.concat(this.EXPORT,this.EXPORT_OK)};
+MochiKit.Base.nameFunctions(this);
+};
 MochiKit.Logging.__new__();
-
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-    (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.Logging);
+if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(typeof (MochiKit.__compat__)=="boolean"&&MochiKit.__compat__)){
+(function(self){
+var all=self.EXPORT_TAGS[":all"];
+for(var i=0;i<all.length;i++){
+this[all[i]]=self[all[i]];
 }
-
-
-
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.DateTime');
+})(MochiKit.Logging);
 }
-
-if (typeof(MochiKit) == 'undefined') {
-    MochiKit = {};
+if(typeof (dojo)!="undefined"){
+dojo.provide("MochiKit.DateTime");
 }
-       
-if (typeof(MochiKit.DateTime) == 'undefined') {
-    MochiKit.DateTime = {};
+if(typeof (MochiKit)=="undefined"){
+MochiKit={};
 }
-
-MochiKit.DateTime.NAME = "MochiKit.DateTime";
-MochiKit.DateTime.VERSION = "0.60";
-MochiKit.DateTime.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
+if(typeof (MochiKit.DateTime)=="undefined"){
+MochiKit.DateTime={};
 }
-MochiKit.DateTime.toString = function () {
-    return this.__repr__();
+MochiKit.DateTime.NAME="MochiKit.DateTime";
+MochiKit.DateTime.VERSION="0.60";
+MochiKit.DateTime.__repr__=function(){
+return "["+this.NAME+" "+this.VERSION+"]";
+};
+MochiKit.DateTime.toString=function(){
+return this.__repr__();
+};
+MochiKit.DateTime.isoDate=function(str){
+var iso=str.split("-");
+return new Date(iso[0],iso[1]-1,iso[2]);
+};
+MochiKit.DateTime.isoTimestamp=function(str){
+var tmp=str.split(" ");
+if(tmp.length==1){
+tmp=str.split("T");
 }
-
-MochiKit.DateTime.isoDate = function (str) {
-    
-    var iso = str.split('-');
-    return new Date(iso[0], iso[1] - 1, iso[2]);
+var iso=tmp[0].split("-");
+var t=tmp[1].split(":");
+return new Date(iso[0],iso[1]-1,iso[2],t[0],t[1],t[2]);
 };
-
-MochiKit.DateTime.isoTimestamp = function (str) {
-    
-    var tmp = str.split(' ');
-    if (tmp.length == 1) {
-        tmp = str.split('T');
-    }
-    var iso = tmp[0].split('-');
-    var t = tmp[1].split(':');
-    return new Date(iso[0], iso[1] - 1, iso[2], t[0], t[1], t[2]);
+MochiKit.DateTime.toISOTime=function(date){
+var hh=date.getHours();
+var mm=date.getMinutes();
+var ss=date.getSeconds();
+var lst=[hh,((mm<10)?"0"+mm:mm),((ss<10)?"0"+ss:ss)];
+return lst.join(":");
 };
-
-MochiKit.DateTime.toISOTime = function (date) {
-    
-    var hh = date.getHours();
-    var mm = date.getMinutes();
-    var ss = date.getSeconds();
-    var lst = [hh, ((mm < 10) ? "0" + mm : mm), ((ss < 10) ? "0" + ss : ss)];
-    return lst.join(":");
+MochiKit.DateTime.toISOTimestamp=function(date,_175){
+var sep=_175?"T":" ";
+return MochiKit.DateTime.toISODate(date)+sep+MochiKit.DateTime.toISOTime(date);
 };
-
-MochiKit.DateTime.toISOTimestamp = function (date, realISO) {
-    
-    var sep = realISO ? "T" : " ";
-    return MochiKit.DateTime.toISODate(date) + sep + MochiKit.DateTime.toISOTime(date);
+MochiKit.DateTime.toISODate=function(date){
+return [date.getFullYear(),date.getMonth()+1,date.getDate()].join("-");
 };
-
-MochiKit.DateTime.toISODate = function (date) {
-    
-    return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join("-");
+MochiKit.DateTime.americanDate=function(d){
+var a=d.split("/");
+return new Date(a[2],a[0]-1,a[1]);
 };
-
-MochiKit.DateTime.americanDate = function (d) {
-    
-    var a = d.split('/');
-    return new Date(a[2], a[0] - 1, a[1]);
+var _padTwo=function(n){
+return (n>9)?n:"0"+n;
 };
-
-var _padTwo = function (n) {
-    return (n > 9) ? n : "0" + n;
+MochiKit.DateTime.toPaddedAmericanDate=function(d){
+return [_padTwo(d.getMonth()+1),_padTwo(d.getDate()),d.getFullYear()].join("/");
 };
-
-MochiKit.DateTime.toPaddedAmericanDate = function (d) {
-    
-    return [
-        _padTwo(d.getMonth() + 1),
-        _padTwo(d.getDate()),
-        d.getFullYear()
-    ].join('/');
+MochiKit.DateTime.toAmericanDate=function(d){
+return [d.getMonth()+1,d.getDate(),d.getFullYear()].join("/");
 };
-
-MochiKit.DateTime.toAmericanDate = function (d) {
-    
-    return [d.getMonth() + 1, d.getDate(), d.getFullYear()].join('/');
-};
-
-MochiKit.DateTime.EXPORT = [
-    "isoDate",
-    "isoTimestamp",
-    "toISOTime",
-    "toISOTimestamp",
-    "toISODate",
-    "americanDate",
-    "toPaddedAmericanDate",
-    "toAmericanDate"
-];
-
-MochiKit.DateTime.EXPORT_OK = [];
-MochiKit.DateTime.EXPORT_TAGS = {
-    ":common": MochiKit.DateTime.EXPORT,
-    ":all": MochiKit.DateTime.EXPORT
+MochiKit.DateTime.EXPORT=["isoDate","isoTimestamp","toISOTime","toISOTimestamp","toISODate","americanDate","toPaddedAmericanDate","toAmericanDate"];
+MochiKit.DateTime.EXPORT_OK=[];
+MochiKit.DateTime.EXPORT_TAGS={":common":MochiKit.DateTime.EXPORT,":all":MochiKit.DateTime.EXPORT};
+MochiKit.DateTime.__new__=function(){
+var base=this.NAME+".";
+for(var k in this){
+var o=this[k];
+if(typeof (o)=="function"&&typeof (o.NAME)=="undefined"){
+try{
+o.NAME=base+k;
 }
-
-MochiKit.DateTime.__new__ = function () {
-    // MochiKit.Base.nameFunctions(this);
-    var base = this.NAME + ".";
-    for (var k in this) {
-        var o = this[k];
-        if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
-            try {
-                o.NAME = base + k;
-            } catch (e) {
-                // pass
-            }
-        }   
-    }
+catch(e){
 }
-
+}
+}
+};
 MochiKit.DateTime.__new__();
-
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-    (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.DateTime);
+if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(typeof (MochiKit.__compat__)=="boolean"&&MochiKit.__compat__)){
+(function(self){
+var all=self.EXPORT_TAGS[":all"];
+for(var i=0;i<all.length;i++){
+this[all[i]]=self[all[i]];
 }
-
-
-
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Format');
+})(MochiKit.DateTime);
 }
-
-if (typeof(MochiKit) == 'undefined') {
-    MochiKit = {};
+if(typeof (dojo)!="undefined"){
+dojo.provide("MochiKit.Format");
 }
-
-if (typeof(MochiKit.Format) == 'undefined') {
-    MochiKit.Format = {};
+if(typeof (MochiKit)=="undefined"){
+MochiKit={};
 }
-
-MochiKit.Format.NAME = "MochiKit.Format";
-MochiKit.Format.VERSION = "0.60";
-MochiKit.Format.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
+if(typeof (MochiKit.Format)=="undefined"){
+MochiKit.Format={};
 }
-MochiKit.Format.toString = function () {
-    return this.__repr__();
-}
-
-MochiKit.Format.twoDigitAverage = function (numerator, denominator) {
-    
-    if (denominator) {
-        var res = numerator / denominator;
-        if (!isNaN(res)) {
-            return MochiKit.Format.twoDigitFloat(numerator / denominator);
-        }
-    }
-    return "0";
+MochiKit.Format.NAME="MochiKit.Format";
+MochiKit.Format.VERSION="0.60";
+MochiKit.Format.__repr__=function(){
+return "["+this.NAME+" "+this.VERSION+"]";
 };
-
-MochiKit.Format.twoDigitFloat = function (someFloat) {
-    
-    var sign = (someFloat < 0 ? '-' : '');
-    var s = Math.floor(Math.abs(someFloat) * 100).toString();
-    if (s == '0') {
-        return s;
-    }
-    if (s.length < 3) {
-        while (s.charAt(s.length - 1) == '0') {
-            s = s.substring(0, s.length - 1);
-        }
-        return sign + '0.' + s;
-    }
-    var head = sign + s.substring(0, s.length - 2);
-    var tail = s.substring(s.length - 2, s.length);
-    if (tail == '00') {
-        return head;
-    } else if (tail.charAt(1) == '0') {
-        return head + '.' + tail.charAt(0);
-    } else {
-        return head + '.' + tail;
-    }
+MochiKit.Format.toString=function(){
+return this.__repr__();
 };
-
-MochiKit.Format.percentFormat = function (someFloat) {
-    
-    return MochiKit.Format.twoDigitFloat(100 * someFloat) + '%';
-};
-
-MochiKit.Format.EXPORT = [
-    "twoDigitAverage",
-    "twoDigitFloat",
-    "percentFormat"
-];
-
-MochiKit.Format.EXPORT_OK = [];
-MochiKit.Format.EXPORT_TAGS = {
-    ':all': MochiKit.Format.EXPORT,
-    ':common': MochiKit.Format.EXPORT
-};
-
-MochiKit.Format.__new__ = function () {
-    // MochiKit.Base.nameFunctions(this);
-    var base = this.NAME + ".";
-    for (var k in this) {
-        var o = this[k];
-        if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
-            try {
-                o.NAME = base + k;
-            } catch (e) {
-                // pass
-            }
-        }
-    }
+MochiKit.Format.twoDigitAverage=function(_179,_180){
+if(_180){
+var res=_179/_180;
+if(!isNaN(res)){
+return MochiKit.Format.twoDigitFloat(_179/_180);
 }
-
+}
+return "0";
+};
+MochiKit.Format.twoDigitFloat=function(_181){
+var sign=(_181<0?"-":"");
+var s=Math.floor(Math.abs(_181)*100).toString();
+if(s=="0"){
+return s;
+}
+if(s.length<3){
+while(s.charAt(s.length-1)=="0"){
+s=s.substring(0,s.length-1);
+}
+return sign+"0."+s;
+}
+var head=sign+s.substring(0,s.length-2);
+var tail=s.substring(s.length-2,s.length);
+if(tail=="00"){
+return head;
+}else{
+if(tail.charAt(1)=="0"){
+return head+"."+tail.charAt(0);
+}else{
+return head+"."+tail;
+}
+}
+};
+MochiKit.Format.percentFormat=function(_186){
+return MochiKit.Format.twoDigitFloat(100*_186)+"%";
+};
+MochiKit.Format.EXPORT=["twoDigitAverage","twoDigitFloat","percentFormat"];
+MochiKit.Format.EXPORT_OK=[];
+MochiKit.Format.EXPORT_TAGS={":all":MochiKit.Format.EXPORT,":common":MochiKit.Format.EXPORT};
+MochiKit.Format.__new__=function(){
+var base=this.NAME+".";
+for(var k in this){
+var o=this[k];
+if(typeof (o)=="function"&&typeof (o.NAME)=="undefined"){
+try{
+o.NAME=base+k;
+}
+catch(e){
+}
+}
+}
+};
 MochiKit.Format.__new__();
-
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-    (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.Format);
+if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(typeof (MochiKit.__compat__)=="boolean"&&MochiKit.__compat__)){
+(function(self){
+var all=self.EXPORT_TAGS[":all"];
+for(var i=0;i<all.length;i++){
+this[all[i]]=self[all[i]];
 }
-
-
-
-if (typeof(dojo) != 'undefined') {
-    dojo.provide("MochiKit.Async");
-    dojo.require("MochiKit.Base");
+})(MochiKit.Format);
 }
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base", []);
+if(typeof (dojo)!="undefined"){
+dojo.provide("MochiKit.Async");
+dojo.require("MochiKit.Base");
 }
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Async depends on MochiKit.Base!";
+if(typeof (JSAN)!="undefined"){
+JSAN.use("MochiKit.Base",[]);
 }
-
-if (typeof(MochiKit.Async) == 'undefined') {
-    MochiKit.Async = {};
+try{
+if(typeof (MochiKit.Base)=="undefined"){
+throw "";
 }
-
-MochiKit.Async.NAME = "MochiKit.Async";
-MochiKit.Async.VERSION = "0.60";
-MochiKit.Async.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
 }
-MochiKit.Async.toString = function () {
-    return this.__repr__();
+catch(e){
+throw "MochiKit.Async depends on MochiKit.Base!";
 }
-
-MochiKit.Async.AlreadyCalledError = function (deferred) {
-    
-    this.deferred = deferred;
+if(typeof (MochiKit.Async)=="undefined"){
+MochiKit.Async={};
+}
+MochiKit.Async.NAME="MochiKit.Async";
+MochiKit.Async.VERSION="0.60";
+MochiKit.Async.__repr__=function(){
+return "["+this.NAME+" "+this.VERSION+"]";
 };
-MochiKit.Async.AlreadyCalledError.prototype = new MochiKit.Base.NamedError("MochiKit.Async.AlreadyCalledError");
-
-MochiKit.Async.CancelledError = function (deferred) {
-    
-    this.deferred = deferred;
+MochiKit.Async.toString=function(){
+return this.__repr__();
 };
-MochiKit.Async.CancelledError.prototype = new MochiKit.Base.NamedError("MochiKit.Async.CancelledError");
-
-MochiKit.Async.BrowserComplianceError = function (msg) {
-    
-    this.message = msg;
+MochiKit.Async.AlreadyCalledError=function(_187){
+this.deferred=_187;
 };
-MochiKit.Async.BrowserComplianceError.prototype = new MochiKit.Base.NamedError("MochiKit.Async.BrowserComplianceError");
-
-MochiKit.Async.GenericError = function (msg) {
-    this.message = msg;
+MochiKit.Async.AlreadyCalledError.prototype=new MochiKit.Base.NamedError("MochiKit.Async.AlreadyCalledError");
+MochiKit.Async.CancelledError=function(_188){
+this.deferred=_188;
 };
-MochiKit.Async.GenericError.prototype = new MochiKit.Base.NamedError("MochiKit.Async.GenericError");
-
-MochiKit.Async.XMLHttpRequestError = function (req, msg) {
-    
-    this.req = req;
-    this.message = msg;
-    try {
-        // Strange but true that this can raise in some cases.
-        this.number = req.status;
-    } catch (e) {
-        // pass
-    }
+MochiKit.Async.CancelledError.prototype=new MochiKit.Base.NamedError("MochiKit.Async.CancelledError");
+MochiKit.Async.BrowserComplianceError=function(msg){
+this.message=msg;
 };
-MochiKit.Async.XMLHttpRequestError.prototype = new MochiKit.Base.NamedError("MochiKit.Async.XMLHttpRequestError");
-
-
-MochiKit.Async.Deferred = function (/* optional */ canceller) {
-    
-
-    
-    this.chain = [];
-    this.id = this._nextId();
-    this.fired = -1;
-    this.paused = 0;
-    this.results = [null, null];
-    this.canceller = canceller;
-    this.silentlyCancelled = false;
+MochiKit.Async.BrowserComplianceError.prototype=new MochiKit.Base.NamedError("MochiKit.Async.BrowserComplianceError");
+MochiKit.Async.GenericError=function(msg){
+this.message=msg;
 };
-
-MochiKit.Async.Deferred.prototype.repr = function () {
-    var state;
-    if (this.fired == -1) {
-        state = 'unfired';
-    } else if (this.fired == 0) {
-        state = 'success';
-    } else {
-        state = 'error';
-    }
-    return 'Deferred(' + this.id + ', ' + state + ')';
+MochiKit.Async.GenericError.prototype=new MochiKit.Base.NamedError("MochiKit.Async.GenericError");
+MochiKit.Async.XMLHttpRequestError=function(req,msg){
+this.req=req;
+this.message=msg;
+try{
+this.number=req.status;
+}
+catch(e){
+}
 };
-
-MochiKit.Async.Deferred.prototype.toString = MochiKit.Base.forward("repr");
-
-MochiKit.Async.Deferred.prototype._nextId = (function () {
-    var x = 0;
-    return function () {
-        return ++x;
-    }
+MochiKit.Async.XMLHttpRequestError.prototype=new MochiKit.Base.NamedError("MochiKit.Async.XMLHttpRequestError");
+MochiKit.Async.Deferred=function(_190){
+this.chain=[];
+this.id=this._nextId();
+this.fired=-1;
+this.paused=0;
+this.results=[null,null];
+this.canceller=_190;
+this.silentlyCancelled=false;
+};
+MochiKit.Async.Deferred.prototype.repr=function(){
+var _191;
+if(this.fired==-1){
+_191="unfired";
+}else{
+if(this.fired==0){
+_191="success";
+}else{
+_191="error";
+}
+}
+return "Deferred("+this.id+", "+_191+")";
+};
+MochiKit.Async.Deferred.prototype.toString=MochiKit.Base.forward("repr");
+MochiKit.Async.Deferred.prototype._nextId=(function(){
+var x=0;
+return function(){
+return ++x;
+};
 })();
-
-MochiKit.Async.Deferred.prototype.cancel = function () {
-    
-    if (this.fired == -1) {
-        if (this.canceller) {
-            this.canceller(this);
-        } else {
-            this.silentlyCancelled = true;
-        }
-        if (this.fired == -1) {
-            this.errback(new MochiKit.Async.CancelledError(this));
-        }
-    } else if ((this.fired == 0) && (this.results[0] instanceof MochiKit.Async.Deferred)) {
-        this.results[0].cancel();
-    }
-};
-        
-
-MochiKit.Async.Deferred.prototype._pause = function () {
-    
-    this.paused++;
-};
-
-MochiKit.Async.Deferred.prototype._unpause = function () {
-    
-    this.paused--;
-    if ((this.paused == 0) && (this.fired >= 0)) {
-        this._fire();
-    }
-};
-
-MochiKit.Async.Deferred.prototype._continue = function (res) {
-    
-    this._resback(res);
-    this._unpause();
-};
-
-MochiKit.Async.Deferred.prototype._resback = function (res) {
-    
-    this.fired = ((res instanceof Error) ? 1 : 0);
-    this.results[this.fired] = res;
-    this._fire();
-};
-
-MochiKit.Async.Deferred.prototype._check = function () {
-    if (this.fired != -1) {
-        if (!this.silentlyCancelled) {
-            throw new MochiKit.Async.AlreadyCalledError(this);
-        }
-        this.silentlyCancelled = false;
-        return;
-    }
-};
-
-MochiKit.Async.Deferred.prototype.callback = function (res) {
-    
-    this._check();
-    this._resback(res);
-};
-
-MochiKit.Async.Deferred.prototype.errback = function (res) {
-    
-    this._check();
-    if (!(res instanceof Error)) {
-        res = new MochiKit.Async.GenericError(res);
-    }
-    this._resback(res);
-};
-
-MochiKit.Async.Deferred.prototype.addBoth = function (fn) {
-    
-    return this.addCallbacks(fn, fn);
-};
-
-MochiKit.Async.Deferred.prototype.addCallback = function (fn) {
-    
-    return this.addCallbacks(fn, null);
-};
-
-MochiKit.Async.Deferred.prototype.addErrback = function (fn) {
-    
-    return this.addCallbacks(null, fn);
-};
-
-MochiKit.Async.Deferred.prototype.addCallbacks = function (cb, eb) {
-    
-    this.chain.push([cb, eb])
-    if (this.fired >= 0) {
-        this._fire();
-    }
-    return this;
-};
-
-MochiKit.Async.Deferred.prototype._fire = function () {
-    
-    var chain = this.chain;
-    var fired = this.fired;
-    var res = this.results[fired];
-    var self = this;
-    var cb = null;
-    while (chain.length > 0 && this.paused == 0) {
-        // Array
-        var pair = chain.shift();
-        var f = pair[fired];
-        if (f == null) {
-            continue;
-        }
-        try {
-            res = f(res);
-            fired = ((res instanceof Error) ? 1 : 0);
-            if (res instanceof MochiKit.Async.Deferred) {
-                cb = function (res) {
-                    self._continue(res);
-                }
-                this._pause();
-            }
-        } catch (err) {
-            fired = 1;
-            res = err;
-        }
-    }
-    this.fired = fired;
-    this.results[fired] = res;
-    if (cb && this.paused) {
-        // this is for "tail recursion" in case the dependent deferred
-        // is already fired
-        res.addBoth(cb);
-    }
-};
-
-MochiKit.Async.evalJSONRequest = function (req) {
-    
-    return eval('(' + req.responseText + ')');
-};
-
-MochiKit.Async.succeed = function (/* optional */result) {
-    
-    var d = new MochiKit.Async.Deferred();
-    d.callback.apply(d, arguments);
-    return d;
-};
-
-MochiKit.Async.fail = function (/* optional */result) {
-    
-    var d = new MochiKit.Async.Deferred();
-    d.errback.apply(d, arguments);
-    return d;
-};
-
-MochiKit.Async.getXMLHttpRequest = function () {
-    var self = arguments.callee;
-    if (!self.XMLHttpRequest) {
-        var tryThese = [
-            function () { return new XMLHttpRequest(); },
-            function () { return new ActiveXObject('Msxml2.XMLHTTP'); },
-            function () { return new ActiveXObject('Microsoft.XMLHTTP'); },
-            function () { return new ActiveXObject('Msxml2.XMLHTTP.4.0'); },
-            function () {
-                throw new MochiKit.Async.BrowserComplianceError("Browser does not support XMLHttpRequest");
-            }
-        ];
-        for (var i = 0; i < tryThese.length; i++) {
-            var func = tryThese[i];
-            try {
-                self.XMLHttpRequest = func;
-                return func();
-            } catch (e) {
-                // pass
-            }
-        }
-    }
-    return self.XMLHttpRequest();
-};
-
-MochiKit.Async.sendXMLHttpRequest = function (req, /* optional */ sendContent) {
-    if (typeof(sendContent) == 'undefined') {
-        send = null;
-    }
-
-    var canceller = function () {
-        // IE SUCKS
-        try {
-            req.onreadystatechange = null;
-        } catch (e) {
-            try {
-                req.onreadystatechange = function () {};
-            } catch (e) {
-            }
-        }
-        req.abort();
-    }
-
-    var d = new MochiKit.Async.Deferred(canceller);
-    
-    var onreadystatechange = function () {
-        // MochiKit.Logging.logDebug('req.readyState', req.readyState);
-        if (req.readyState == 4) {
-            // IE SUCKS
-            try {
-                req.onreadystatechange = null;
-            } catch (e) {
-                try {
-                    req.onreadystatechange = function () {};
-                } catch (e) {
-                }
-            }
-            var status = null;
-            try {
-                status = req.status;
-                if (typeof(status) == 'undefined' && MochiKit.Base.isNotEmpty(req.responseText)) {
-                    // XXX: Safari heisenbug workaround
-                    // MochiKit.Logging.logDebug('Fixing up status due to Safari heisenbug');
-                    status = 200;
-                }
-            } catch (e) {
-                // pass
-                // MochiKit.Logging.logDebug('error getting status?', repr(items(e)));
-            }
-            if (status == 200) { // OK
-                d.callback(req);
-            } else {
-                var err = new MochiKit.Async.XMLHttpRequestError(req, "Request failed");
-                if (err.number) {
-                    // XXX: This seems to happen on page change
-                    d.errback(err);
-                } else {
-                    // MochiKit.Logging.logDebug("Ignoring XMLHttpRequest, undefined status");
-                }
-            }
-        }
-    }
-    try {
-        req.onreadystatechange = onreadystatechange;
-        req.send(sendContent);
-    } catch (e) {
-        try {
-            req.onreadystatechange = null;
-        } catch (ignore) {
-            // pass
-        }
-        d.errback(e);
-    }
-
-    return d;
-
+MochiKit.Async.Deferred.prototype.cancel=function(){
+if(this.fired==-1){
+if(this.canceller){
+this.canceller(this);
+}else{
+this.silentlyCancelled=true;
 }
-
-MochiKit.Async.doSimpleXMLHttpRequest = function (url) {
-    var req = MochiKit.Async.getXMLHttpRequest();
-    req.open("GET", url, true);
-    return MochiKit.Async.sendXMLHttpRequest(req);
+if(this.fired==-1){
+this.errback(new MochiKit.Async.CancelledError(this));
+}
+}else{
+if((this.fired==0)&&(this.results[0] instanceof MochiKit.Async.Deferred)){
+this.results[0].cancel();
+}
+}
 };
-
-MochiKit.Async.loadJSONDoc = function (url) {
-    
-
-    var d = MochiKit.Async.doSimpleXMLHttpRequest(url);
-    d = d.addCallback(MochiKit.Async.evalJSONRequest);
-    return d;
+MochiKit.Async.Deferred.prototype._pause=function(){
+this.paused++;
 };
-
-MochiKit.Async.wait = function (seconds, /* optional */value) {
-    var d = new MochiKit.Async.Deferred();
-    var bind = MochiKit.Base.bind;
-    var partial = MochiKit.Base.partial;
-    if (typeof(value) != 'undefined') {
-        d.addCallback(function () { return value; });
-    }
-    var timeout = setTimeout(bind(d.callback, d), Math.floor(seconds * 1000));
-    d.canceller = partial(clearTimeout, timeout);
-    return d;
+MochiKit.Async.Deferred.prototype._unpause=function(){
+this.paused--;
+if((this.paused==0)&&(this.fired>=0)){
+this._fire();
+}
 };
-
-MochiKit.Async.callLater = function (seconds, func) {
-    var m = MochiKit.Base;
-    var func = m.partial.apply(null, m.extend(null, arguments, 1));
-    return MochiKit.Async.wait(seconds).addCallback(
-        function (res) { return func(); }
-    );
+MochiKit.Async.Deferred.prototype._continue=function(res){
+this._resback(res);
+this._unpause();
 };
-
-MochiKit.Async.EXPORT = [
-    "AlreadyCalledError",
-    "CancelledError",
-    "BrowserComplianceError",
-    "GenericError",
-    "XMLHttpRequestError",
-    "Deferred",
-    "succeed",
-    "fail",
-    "getXMLHttpRequest",
-    "doSimpleXMLHttpRequest",
-    "loadJSONDoc",
-    "wait",
-    "callLater"
-];
-    
-MochiKit.Async.EXPORT_OK = [
-    "evalJSONRequest"
-];
-
-MochiKit.Async.__new__ = function () {
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
-    MochiKit.Base.nameFunctions(this);
-
+MochiKit.Async.Deferred.prototype._resback=function(res){
+this.fired=((res instanceof Error)?1:0);
+this.results[this.fired]=res;
+this._fire();
 };
-
+MochiKit.Async.Deferred.prototype._check=function(){
+if(this.fired!=-1){
+if(!this.silentlyCancelled){
+throw new MochiKit.Async.AlreadyCalledError(this);
+}
+this.silentlyCancelled=false;
+return;
+}
+};
+MochiKit.Async.Deferred.prototype.callback=function(res){
+this._check();
+this._resback(res);
+};
+MochiKit.Async.Deferred.prototype.errback=function(res){
+this._check();
+if(!(res instanceof Error)){
+res=new MochiKit.Async.GenericError(res);
+}
+this._resback(res);
+};
+MochiKit.Async.Deferred.prototype.addBoth=function(fn){
+return this.addCallbacks(fn,fn);
+};
+MochiKit.Async.Deferred.prototype.addCallback=function(fn){
+return this.addCallbacks(fn,null);
+};
+MochiKit.Async.Deferred.prototype.addErrback=function(fn){
+return this.addCallbacks(null,fn);
+};
+MochiKit.Async.Deferred.prototype.addCallbacks=function(cb,eb){
+this.chain.push([cb,eb]);
+if(this.fired>=0){
+this._fire();
+}
+return this;
+};
+MochiKit.Async.Deferred.prototype._fire=function(){
+var _194=this.chain;
+var _195=this.fired;
+var res=this.results[_195];
+var self=this;
+var cb=null;
+while(_194.length>0&&this.paused==0){
+var pair=_194.shift();
+var f=pair[_195];
+if(f==null){
+continue;
+}
+try{
+res=f(res);
+_195=((res instanceof Error)?1:0);
+if(res instanceof MochiKit.Async.Deferred){
+cb=function(res){
+self._continue(res);
+};
+this._pause();
+}
+}
+catch(err){
+_195=1;
+res=err;
+}
+}
+this.fired=_195;
+this.results[_195]=res;
+if(cb&&this.paused){
+res.addBoth(cb);
+}
+};
+MochiKit.Async.evalJSONRequest=function(req){
+return eval("("+req.responseText+")");
+};
+MochiKit.Async.succeed=function(_197){
+var d=new MochiKit.Async.Deferred();
+d.callback.apply(d,arguments);
+return d;
+};
+MochiKit.Async.fail=function(_198){
+var d=new MochiKit.Async.Deferred();
+d.errback.apply(d,arguments);
+return d;
+};
+MochiKit.Async.getXMLHttpRequest=function(){
+var self=arguments.callee;
+if(!self.XMLHttpRequest){
+var _199=[function(){
+return new XMLHttpRequest();
+},function(){
+return new ActiveXObject("Msxml2.XMLHTTP");
+},function(){
+return new ActiveXObject("Microsoft.XMLHTTP");
+},function(){
+return new ActiveXObject("Msxml2.XMLHTTP.4.0");
+},function(){
+throw new MochiKit.Async.BrowserComplianceError("Browser does not support XMLHttpRequest");
+}];
+for(var i=0;i<_199.length;i++){
+var func=_199[i];
+try{
+self.XMLHttpRequest=func;
+return func();
+}
+catch(e){
+}
+}
+}
+return self.XMLHttpRequest();
+};
+MochiKit.Async.sendXMLHttpRequest=function(req,_200){
+if(typeof (_200)=="undefined"){
+send=null;
+}
+var _201=function(){
+try{
+req.onreadystatechange=null;
+}
+catch(e){
+try{
+req.onreadystatechange=function(){
+};
+}
+catch(e){
+}
+}
+req.abort();
+};
+var d=new MochiKit.Async.Deferred(_201);
+var _202=function(){
+if(req.readyState==4){
+try{
+req.onreadystatechange=null;
+}
+catch(e){
+try{
+req.onreadystatechange=function(){
+};
+}
+catch(e){
+}
+}
+var _203=null;
+try{
+_203=req.status;
+if(typeof (_203)=="undefined"&&MochiKit.Base.isNotEmpty(req.responseText)){
+_203=200;
+}
+}
+catch(e){
+}
+if(_203==200){
+d.callback(req);
+}else{
+var err=new MochiKit.Async.XMLHttpRequestError(req,"Request failed");
+if(err.number){
+d.errback(err);
+}else{
+}
+}
+}
+};
+try{
+req.onreadystatechange=_202;
+req.send(_200);
+}
+catch(e){
+try{
+req.onreadystatechange=null;
+}
+catch(ignore){
+}
+d.errback(e);
+}
+return d;
+};
+MochiKit.Async.doSimpleXMLHttpRequest=function(url){
+var req=MochiKit.Async.getXMLHttpRequest();
+req.open("GET",url,true);
+return MochiKit.Async.sendXMLHttpRequest(req);
+};
+MochiKit.Async.loadJSONDoc=function(url){
+var d=MochiKit.Async.doSimpleXMLHttpRequest(url);
+d=d.addCallback(MochiKit.Async.evalJSONRequest);
+return d;
+};
+MochiKit.Async.wait=function(_206,_207){
+var d=new MochiKit.Async.Deferred();
+var bind=MochiKit.Base.bind;
+var _208=MochiKit.Base.partial;
+if(typeof (_207)!="undefined"){
+d.addCallback(function(){
+return _207;
+});
+}
+var _209=setTimeout(bind(d.callback,d),Math.floor(_206*1000));
+d.canceller=_208(clearTimeout,_209);
+return d;
+};
+MochiKit.Async.callLater=function(_210,func){
+var m=MochiKit.Base;
+var func=m.partial.apply(null,m.extend(null,arguments,1));
+return MochiKit.Async.wait(_210).addCallback(function(res){
+return func();
+});
+};
+MochiKit.Async.EXPORT=["AlreadyCalledError","CancelledError","BrowserComplianceError","GenericError","XMLHttpRequestError","Deferred","succeed","fail","getXMLHttpRequest","doSimpleXMLHttpRequest","loadJSONDoc","wait","callLater"];
+MochiKit.Async.EXPORT_OK=["evalJSONRequest"];
+MochiKit.Async.__new__=function(){
+this.EXPORT_TAGS={":common":this.EXPORT,":all":MochiKit.Base.concat(this.EXPORT,this.EXPORT_OK)};
+MochiKit.Base.nameFunctions(this);
+};
 MochiKit.Async.__new__();
-
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-    (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.Async);
+if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(typeof (MochiKit.__compat__)=="boolean"&&MochiKit.__compat__)){
+(function(self){
+var all=self.EXPORT_TAGS[":all"];
+for(var i=0;i<all.length;i++){
+this[all[i]]=self[all[i]];
 }
-
-
-
-if (typeof(dojo) != 'undefined') {
-    dojo.provide("MochiKit.DOM");
-    dojo.require("MochiKit.Iter");
+})(MochiKit.Async);
 }
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Iter", []);
+if(typeof (dojo)!="undefined"){
+dojo.provide("MochiKit.DOM");
+dojo.require("MochiKit.Iter");
 }
-
-try {
-    if (typeof(MochiKit.Iter) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.DOM depends on MochiKit.Iter!";
+if(typeof (JSAN)!="undefined"){
+JSAN.use("MochiKit.Iter",[]);
 }
-
-if (typeof(MochiKit.DOM) == 'undefined') {
-    MochiKit.DOM = {};
+try{
+if(typeof (MochiKit.Iter)=="undefined"){
+throw "";
 }
-
-MochiKit.DOM.NAME = "MochiKit.DOM";
-MochiKit.DOM.VERSION = "0.60";
-MochiKit.DOM.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
 }
-MochiKit.DOM.toString = function () {
-    return this.__repr__();
+catch(e){
+throw "MochiKit.DOM depends on MochiKit.Iter!";
 }
-
-MochiKit.DOM.EXPORT = [
-    "registerDOMConverter",
-    "coerceToDOM",
-    "createDOM",
-    "createDOMFunc",
-    "swapDOM",
-    "TD",
-    "TR",
-    "TBODY",
-    "TFOOT",
-    "TABLE",
-    "TH",
-    "INPUT",
-    "SPAN",
-    "A",
-    "DIV",
-    "IMG",
-    "getElement",
-    "$",
-    "getElementsByTagAndClassName",
-    "addToCallStack",
-    "addLoadEvent",
-    "focusOnLoad",
-    "setElementClass",
-    "toggleElementClass",
-    "addElementClass",
-    "removeElementClass",
-    "swapElementClass",
-    "hasElementClass",
-    "escapeHTML",
-    "toHTML",
-    "emitHTML",
-    "setDisplayForElement",
-    "hideElement",
-    "showElement",
-    "scrapeText"
-];
-
-MochiKit.DOM.EXPORT_OK = [
-    "domConverters"
-];
-
-
-MochiKit.DOM.registerDOMConverter = function (name, check, wrap, /* optional */override) {
-    
-    domConverters.register(name, check, wrap, override);
-};
-
-MochiKit.DOM.coerceToDOM = function (node, ctx) {
-    
-
-    var iter = MochiKit.Iter.iter;
-    var repeat = MochiKit.Iter.repeat;
-    var imap = MochiKit.Iter.imap;
-    var domConverters = MochiKit.DOM.domConverters;
-    while (true) {
-        if (typeof(node) == 'undefined' || node == null) {
-            return null;
-        }
-        if (node.nodeType > 0) {
-            return node;
-        }
-        if (typeof(node) == 'number' || typeof(node) == 'bool') {
-            node = node.toString();
-            // FALL THROUGH
-        }
-        if (typeof(node) == 'string') {
-            return document.createTextNode(node);
-        }
-        if (typeof(node.toDOM) == 'function') {
-            node = node.toDOM(ctx);
-            continue;
-        }
-        if (typeof(node) == 'function') {
-            node = node(ctx);
-            continue;
-        }
-
-        // iterable
-        var iterNodes = null;
-        try {
-            iterNodes = iter(node);
-        } catch (e) {
-            // pass
-        }
-        if (iterNodes) {
-            return imap(
-                coerceToDOM,
-                iterNodes,
-                repeat(ctx)
-            );
-        }
-
-        // adapter
-        try {
-            node = domConverters.match(node, ctx);
-            continue;
-        } catch (e) {
-            if (e != NotFound) {
-                throw e;
-            }
-        }
-
-        // fallback
-        return document.createTextNode(node.toString());
-    }
-};
-    
-MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
-    
-
-    var elem = document.createElement(name);
-    if (attrs) {
-        if (MochiKit.DOM.attributeArray.compliant) {
-            // not IE, good.
-            for (var k in attrs) {
-                elem.setAttribute(k, attrs[k]);
-            }
-        } else {
-            // IE is insane in the membrane
-            for (var k in attrs) {
-                elem.setAttribute((k == "class" ? "className" : k), attrs[k]);
-            }
-        }
-    }
-
-    nodeStack = [
-        MochiKit.DOM.coerceToDOM(
-            MochiKit.Base.extend(null, arguments, 2),
-            elem
-        )
-    ];
-    var iextend = MochiKit.Iter.iextend;
-    while (nodeStack.length) {
-        var node = nodeStack.shift();
-        if (typeof(node) == 'undefined' || node == null) {
-            // pass
-        } else if (typeof(node.nodeType) == 'number') {
-            elem.appendChild(node);
-        } else {
-            iextend(nodeStack, node);
-        }
-    }
-    return elem;
-};
-
-MochiKit.DOM.createDOMFunc = function (/* tag, attrs, *nodes */) {
-    
-    return MochiKit.Base.partial.apply(
-        this,
-        MochiKit.Base.extend([MochiKit.DOM.createDOM], arguments)
-    );
-};
-
-MochiKit.DOM.swapDOM = function (dest, src) {
-    
-    dest = MochiKit.DOM.getElement(dest);
-    src = MochiKit.DOM.getElement(src);
-    var parent = dest.parentNode;
-    parent.insertBefore(src, dest);
-    parent.removeChild(dest);
-    return src;
-};
-
-MochiKit.DOM.getElement = function (id) {
-    
-    if (arguments.length == 1) {
-        return ((typeof(id) == "string") ? document.getElementById(id) : id);
-    } else {
-        return MochiKit.Base.map(getElement, arguments);
-    }
-};
-
-MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className, /* optional */parent) {
-    if (typeof(tagName) == 'undefined' || tagName == null) {
-        tagName = '*';
-    }
-    if (typeof(parent) == 'undefined' || parent == null) {
-        parent = document;
-    }
-    var children = parent.getElementsByTagName(tagName) || document.all;
-    if (typeof(className) == 'undefined' || className == null) {
-        return children;
-    }
-
-    var elements = [];
-    for (var i = 0; i < children.length; i++) {
-        var child = children[i];
-        var classNames = child.className.split(' ');
-        for (var j = 0; j < classNames.length; j++) {
-            if (classNames[j] == className) {
-                elements.push(child);
-                break;
-            }
-        }
-    }
-
-    return elements;
+if(typeof (MochiKit.DOM)=="undefined"){
+MochiKit.DOM={};
 }
-
-MochiKit.DOM.addToCallStack = function (target, path, func, once) {
-    var existing = target[path];
-    var regfunc = existing;
-    if (!(typeof(existing) == 'function' && existing.callStack)) {
-        var regfunc = function () {
-            var callStack = regfunc.callStack;
-            for (var i = 0; i < callStack.length; i++) {
-                if (callStack[i].apply(this, arguments) === false) {
-                    break;
-                }
-            }
-            if (once) {
-                try {
-                    target[path] = null;
-                } catch (e) {
-                    // pass
-                }
-            }
-        }
-        regfunc.callStack = [];
-        if (typeof(existing) == 'function') {
-            regfunc.callStack.push(existing);
-        }
-        target[path] = regfunc;
-    }
-    regfunc.callStack.push(func);
+MochiKit.DOM.NAME="MochiKit.DOM";
+MochiKit.DOM.VERSION="0.60";
+MochiKit.DOM.__repr__=function(){
+return "["+this.NAME+" "+this.VERSION+"]";
+};
+MochiKit.DOM.toString=function(){
+return this.__repr__();
+};
+MochiKit.DOM.EXPORT=["registerDOMConverter","coerceToDOM","createDOM","createDOMFunc","swapDOM","TD","TR","TBODY","TFOOT","TABLE","TH","INPUT","SPAN","A","DIV","IMG","getElement","$","getElementsByTagAndClassName","addToCallStack","addLoadEvent","focusOnLoad","setElementClass","toggleElementClass","addElementClass","removeElementClass","swapElementClass","hasElementClass","escapeHTML","toHTML","emitHTML","setDisplayForElement","hideElement","showElement","scrapeText"];
+MochiKit.DOM.EXPORT_OK=["domConverters"];
+MochiKit.DOM.registerDOMConverter=function(name,_212,wrap,_214){
+domConverters.register(name,_212,wrap,_214);
+};
+MochiKit.DOM.coerceToDOM=function(node,ctx){
+var iter=MochiKit.Iter.iter;
+var _217=MochiKit.Iter.repeat;
+var imap=MochiKit.Iter.imap;
+var _219=MochiKit.DOM.domConverters;
+while(true){
+if(typeof (node)=="undefined"||node==null){
+return null;
 }
-
-MochiKit.DOM.addLoadEvent = function (func) {
-    
-    MochiKit.DOM.addToCallStack(window, "onload", func, true);
-    
+if(node.nodeType>0){
+return node;
+}
+if(typeof (node)=="number"||typeof (node)=="bool"){
+node=node.toString();
+}
+if(typeof (node)=="string"){
+return document.createTextNode(node);
+}
+if(typeof (node.toDOM)=="function"){
+node=node.toDOM(ctx);
+continue;
+}
+if(typeof (node)=="function"){
+node=node(ctx);
+continue;
+}
+var _220=null;
+try{
+_220=iter(node);
+}
+catch(e){
+}
+if(_220){
+return imap(coerceToDOM,_220,_217(ctx));
+}
+try{
+node=_219.match(node,ctx);
+continue;
+}
+catch(e){
+if(e!=NotFound){
+throw e;
+}
+}
+return document.createTextNode(node.toString());
+}
 };
-
-MochiKit.DOM.focusOnLoad = function (element) {
-    MochiKit.DOM.addLoadEvent(function () {
-        element = MochiKit.DOM.getElement(element);
-        if (element) {
-            element.focus();
-        }
-    });
+MochiKit.DOM.createDOM=function(name,_221){
+var elem=document.createElement(name);
+if(_221){
+if(MochiKit.DOM.attributeArray.compliant){
+for(var k in _221){
+elem.setAttribute(k,_221[k]);
+}
+}else{
+for(var k in _221){
+elem.setAttribute((k=="class"?"className":k),_221[k]);
+}
+}
+}
+nodeStack=[MochiKit.DOM.coerceToDOM(MochiKit.Base.extend(null,arguments,2),elem)];
+var _222=MochiKit.Iter.iextend;
+while(nodeStack.length){
+var node=nodeStack.shift();
+if(typeof (node)=="undefined"||node==null){
+}else{
+if(typeof (node.nodeType)=="number"){
+elem.appendChild(node);
+}else{
+_222(nodeStack,node);
+}
+}
+}
+return elem;
 };
-        
-
-MochiKit.DOM.setElementClass = function (element, className) {
-    
-    var obj = MochiKit.DOM.getElement(element);
-    if (MochiKit.DOM.attributeArray.compliant) {
-        obj.setAttribute("class", className);
-    } else {
-        obj.setAttribute("className", className);
-    }
+MochiKit.DOM.createDOMFunc=function(){
+return MochiKit.Base.partial.apply(this,MochiKit.Base.extend([MochiKit.DOM.createDOM],arguments));
 };
-        
-MochiKit.DOM.toggleElementClass = function (className/*, element... */) {
-    
-    var getElement = MochiKit.DOM.getElement;
-    var addElementClass = MochiKit.DOM.addElementClass;
-    var removeElementClass = MochiKit.DOM.removeElementClass;
-    for (i = 1; i < arguments.length; i++) {
-        var obj = getElement(arguments[i]);
-        if (!addElementClass(obj, className)) {
-            removeElementClass(obj, className);
-        }
-    }
+MochiKit.DOM.swapDOM=function(dest,src){
+dest=MochiKit.DOM.getElement(dest);
+src=MochiKit.DOM.getElement(src);
+var _225=dest.parentNode;
+_225.insertBefore(src,dest);
+_225.removeChild(dest);
+return src;
 };
-
-MochiKit.DOM.addElementClass = function (element, className) {
-    
-    var obj = MochiKit.DOM.getElement(element);
-    var cls = obj.className;
-    // trivial case, no className yet
-    if (cls.length == 0) {
-        MochiKit.DOM.setElementClass(obj, className);
-        return true;
-    }
-    // the other trivial case, already set as the only class
-    if (cls == className) {
-        return false;
-    }
-    var classes = obj.className.split(" ");
-    for (var i = 0; i < classes.length; i++) {
-        // already present
-        if (classes[i] == className) {
-            return false;
-        }
-    }
-    // append class
-    MochiKit.DOM.setElementClass(obj, cls + " " + className);
-    return true;
+MochiKit.DOM.getElement=function(id){
+if(arguments.length==1){
+return ((typeof (id)=="string")?document.getElementById(id):id);
+}else{
+return MochiKit.Base.map(getElement,arguments);
+}
 };
-
-MochiKit.DOM.removeElementClass = function (element, className) {
-    
-    var obj = MochiKit.DOM.getElement(element);
-    var cls = obj.className;
-    // trivial case, no className yet
-    if (cls.length == 0) {
-        return false;
-    }
-    // other trivial case, set only to className
-    if (cls == className) {
-        MochiKit.DOM.setElementClass(obj, "");
-        return true;
-    }
-    var classes = obj.className.split(" ");
-    for (var i = 0; i < classes.length; i++) {
-        // already present
-        if (classes[i] == className) {
-            // only check sane case where the class is used once
-            classes.splice(i, 1);
-            MochiKit.DOM.setElementClass(obj, classes.join(" "));
-            return true;
-        }
-    }
-    // not found
-    return false;
+MochiKit.DOM.getElementsByTagAndClassName=function(_227,_228,_229){
+if(typeof (_227)=="undefined"||_227==null){
+_227="*";
+}
+if(typeof (_229)=="undefined"||_229==null){
+_229=document;
+}
+var _230=_229.getElementsByTagName(_227)||document.all;
+if(typeof (_228)=="undefined"||_228==null){
+return _230;
+}
+var _231=[];
+for(var i=0;i<_230.length;i++){
+var _232=_230[i];
+var _233=_232.className.split(" ");
+for(var j=0;j<_233.length;j++){
+if(_233[j]==_228){
+_231.push(_232);
+break;
+}
+}
+}
+return _231;
 };
-
-MochiKit.DOM.swapElementClass = function (element, fromClass, toClass) {
-    
-    var obj = MochiKit.DOM.getElement(element);
-    var res = MochiKit.DOM.removeElementClass(obj, fromClass);
-    if (res) {
-        MochiKit.DOM.addElementClass(obj, toClass);
-    }
-    return res;
+MochiKit.DOM.addToCallStack=function(_234,path,func,once){
+var _237=_234[path];
+var _238=_237;
+if(!(typeof (_237)=="function"&&_237.callStack)){
+var _238=function(){
+var _239=_238.callStack;
+for(var i=0;i<_239.length;i++){
+if(_239[i].apply(this,arguments)===false){
+break;
+}
+}
+if(once){
+try{
+_234[path]=null;
+}
+catch(e){
+}
+}
 };
-
-MochiKit.DOM.hasElementClass = function (element, className/*...*/) {
-  
-  var obj = MochiKit.DOM.getElement(element);
-  var classes = obj.className.split(" ");
-  for (var i = 1; i < arguments.length; i++) {
-    good = false;
-    for (var j = 0; j < classes.length; j++) {
-      if (classes[j] == arguments[i]) {
-	good = true;
-	break;
-      }
-    }
-    if (! good) {
-      return false;
-    }
-  }
-  return true;
+_238.callStack=[];
+if(typeof (_237)=="function"){
+_238.callStack.push(_237);
+}
+_234[path]=_238;
+}
+_238.callStack.push(func);
 };
-
-MochiKit.DOM.escapeHTML = function (s) {
-    
-    var buf = [];
-    var _TRANSTABLE = MochiKit.DOM._TRANSTABLE;
-    for (var i = 0; i < s.length; i++) {
-        var c = s.charAt(i);
-        var o = _TRANSTABLE[c];
-        if (o) {
-            c = o;
-        }
-        buf.push(c);
-    }
-    return buf.join("");
+MochiKit.DOM.addLoadEvent=function(func){
+MochiKit.DOM.addToCallStack(window,"onload",func,true);
 };
-
-MochiKit.DOM.toHTML = function (dom) {
-    
-    return MochiKit.DOM.emitHTML(dom).join("");
+MochiKit.DOM.focusOnLoad=function(_240){
+MochiKit.DOM.addLoadEvent(function(){
+_240=MochiKit.DOM.getElement(_240);
+if(_240){
+_240.focus();
+}
+});
 };
-
-MochiKit.DOM.emitHTML = function (dom, /* optional */lst) {
-    
-
-    if (typeof(lst) == 'undefined' || lst == null) {
-        lst = [];
-    }
-    // queue is the call stack, we're doing this non-recursively
-    var queue = [dom];
-    var escapeHTML = MochiKit.DOM.escapeHTML;
-    var attributeArray = MochiKit.DOM.attributeArray;
-    while (queue.length) {
-        dom = queue.pop();
-        if (typeof(dom) == 'string') {
-            lst.push(dom);
-        } else if (dom.nodeType == 1) {
-            // we're not using higher order stuff here
-            // because safari has heisenbugs.. argh.
-            //
-            // I think it might have something to do with
-            // garbage collection and function calls.
-            lst.push('<' + dom.nodeName.toLowerCase());
-            var attributes = [];
-            var domAttr = attributeArray(dom);
-            for (var i = 0; i < domAttr.length; i++) {
-                var a = domAttr[i];
-                attributes.push([
-                    " ",
-                    a.name,
-                    '="',
-                    escapeHTML(a.value),
-                    '"'
-                ]);
-            }
-            attributes.sort();
-            for (var i = 0; i < attributes.length; i++) {
-                var attrs = attributes[i];
-                for (var j = 0; j < attrs.length; j++) {
-                    lst.push(attrs[j]);
-                }
-            }
-            if (dom.hasChildNodes()) {
-                lst.push(">");
-                // queue is the FILO call stack, so we put the close tag
-                // on first
-                queue.push("</" + dom.nodeName.toLowerCase() + ">");
-                var cnodes = dom.childNodes;
-                for (var i = cnodes.length - 1; i >= 0; i--) {
-                    queue.push(cnodes[i]);
-                }
-            } else {
-                lst.push('/>');
-            }
-        } else if (dom.nodeType == 3) {
-            lst.push(escapeHTML(dom.nodeValue));
-        }
-    }
-    return lst;
+MochiKit.DOM.setElementClass=function(_241,_242){
+var obj=MochiKit.DOM.getElement(_241);
+if(MochiKit.DOM.attributeArray.compliant){
+obj.setAttribute("class",_242);
+}else{
+obj.setAttribute("className",_242);
+}
 };
-
-MochiKit.DOM.setDisplayForElement = function (display, element/*, ...*/) {
-    
-    var elements = MochiKit.Base.extend(null, arguments, 1);
-    MochiKit.Iter.forEach(
-        MochiKit.Base.filter(null, MochiKit.Base.map(getElement, elements)),
-        function (element) {
-            element.style.display = display;
-        }
-    );
+MochiKit.DOM.toggleElementClass=function(_243){
+var _244=MochiKit.DOM.getElement;
+var _245=MochiKit.DOM.addElementClass;
+var _246=MochiKit.DOM.removeElementClass;
+for(i=1;i<arguments.length;i++){
+var obj=_244(arguments[i]);
+if(!_245(obj,_243)){
+_246(obj,_243);
+}
+}
 };
-
-MochiKit.DOM.scrapeText = function (node) {
-    
-    var rval = [];
-    MochiKit.Base.nodeWalk(node, function (node) {
-        var nodeValue = node.nodeValue;
-        if (typeof(nodeValue) == 'string') {
-            rval.push(nodeValue);
-        }
-        return node.childNodes;
-    });
-    return rval;
+MochiKit.DOM.addElementClass=function(_247,_248){
+var obj=MochiKit.DOM.getElement(_247);
+var cls=obj.className;
+if(cls.length==0){
+MochiKit.DOM.setElementClass(obj,_248);
+return true;
+}
+if(cls==_248){
+return false;
+}
+var _250=obj.className.split(" ");
+for(var i=0;i<_250.length;i++){
+if(_250[i]==_248){
+return false;
+}
+}
+MochiKit.DOM.setElementClass(obj,cls+" "+_248);
+return true;
 };
-
-
-MochiKit.DOM.__new__ = function () {
-
-    this.domConverters = new MochiKit.Base.AdapterRegistry(); 
-
-    var __tmpElement = document.createElement("span");
-    var attributeArray;
-    if (__tmpElement.attributes.length > 0) {
-        // for braindead browsers (IE) that insert extra junk
-        var filter = MochiKit.Base.filter;
-        attributeArray = function (node) {
-            return filter(attributeArray.ignoreAttrFilter, node.attributes);
-        }
-        attributeArray.ignoreAttr = {};
-        MochiKit.Iter.forEach(__tmpElement.attributes, function (a) {
-            attributeArray.ignoreAttr[a.name] = a.value;
-        });
-        attributeArray.ignoreAttrFilter = function (a) {
-            return (attributeArray.ignoreAttr[a.name] != a.value);
-        }
-        attributeArray.compliant = false;
-    } else {
-        attributeArray = function (node) {
-            
-            return node.attributes;
-        }
-        attributeArray.compliant = true;
-    }
-    this.attributeArray = attributeArray;
-
-
-    // shorthand for createDOM syntax
-    var createDOMFunc = this.createDOMFunc;
-    this.TD = createDOMFunc("td");
-    this.TR = createDOMFunc("tr");
-    this.TBODY = createDOMFunc("tbody");
-    this.TFOOT = createDOMFunc("tfoot");
-    this.TABLE = createDOMFunc("table");
-    this.TH = createDOMFunc("th");
-    this.INPUT = createDOMFunc("input");
-    this.SPAN = createDOMFunc("span");
-    this.A = createDOMFunc("a");
-    this.DIV = createDOMFunc("div");
-    this.IMG = createDOMFunc("img");
-
-    this._TRANSTABLE = {
-        "<": "&lt;",
-        ">": "&gt;",
-        "&": "&amp;",
-        "'": "&apos;",
-        '"': "&quot;"
-    };
-
-    var partial = MochiKit.Base.partial;
-    this.hideElement = partial(this.setDisplayForElement, "none");
-    this.showElement = partial(this.setDisplayForElement, "block");
-
-    this.$ = this.getElement;
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
-    MochiKit.Base.nameFunctions(this);
-
+MochiKit.DOM.removeElementClass=function(_251,_252){
+var obj=MochiKit.DOM.getElement(_251);
+var cls=obj.className;
+if(cls.length==0){
+return false;
+}
+if(cls==_252){
+MochiKit.DOM.setElementClass(obj,"");
+return true;
+}
+var _253=obj.className.split(" ");
+for(var i=0;i<_253.length;i++){
+if(_253[i]==_252){
+_253.splice(i,1);
+MochiKit.DOM.setElementClass(obj,_253.join(" "));
+return true;
+}
+}
+return false;
 };
-
+MochiKit.DOM.swapElementClass=function(_254,_255,_256){
+var obj=MochiKit.DOM.getElement(_254);
+var res=MochiKit.DOM.removeElementClass(obj,_255);
+if(res){
+MochiKit.DOM.addElementClass(obj,_256);
+}
+return res;
+};
+MochiKit.DOM.hasElementClass=function(_257,_258){
+var obj=MochiKit.DOM.getElement(_257);
+var _259=obj.className.split(" ");
+for(var i=1;i<arguments.length;i++){
+good=false;
+for(var j=0;j<_259.length;j++){
+if(_259[j]==arguments[i]){
+good=true;
+break;
+}
+}
+if(!good){
+return false;
+}
+}
+return true;
+};
+MochiKit.DOM.escapeHTML=function(s){
+var buf=[];
+var _261=MochiKit.DOM._TRANSTABLE;
+for(var i=0;i<s.length;i++){
+var c=s.charAt(i);
+var o=_261[c];
+if(o){
+c=o;
+}
+buf.push(c);
+}
+return buf.join("");
+};
+MochiKit.DOM.toHTML=function(dom){
+return MochiKit.DOM.emitHTML(dom).join("");
+};
+MochiKit.DOM.emitHTML=function(dom,lst){
+if(typeof (lst)=="undefined"||lst==null){
+lst=[];
+}
+var _264=[dom];
+var _265=MochiKit.DOM.escapeHTML;
+var _266=MochiKit.DOM.attributeArray;
+while(_264.length){
+dom=_264.pop();
+if(typeof (dom)=="string"){
+lst.push(dom);
+}else{
+if(dom.nodeType==1){
+lst.push("<"+dom.nodeName.toLowerCase());
+var _267=[];
+var _268=_266(dom);
+for(var i=0;i<_268.length;i++){
+var a=_268[i];
+_267.push([" ",a.name,"=\"",_265(a.value),"\""]);
+}
+_267.sort();
+for(var i=0;i<_267.length;i++){
+var _269=_267[i];
+for(var j=0;j<_269.length;j++){
+lst.push(_269[j]);
+}
+}
+if(dom.hasChildNodes()){
+lst.push(">");
+_264.push("</"+dom.nodeName.toLowerCase()+">");
+var _270=dom.childNodes;
+for(var i=_270.length-1;i>=0;i--){
+_264.push(_270[i]);
+}
+}else{
+lst.push("/>");
+}
+}else{
+if(dom.nodeType==3){
+lst.push(_265(dom.nodeValue));
+}
+}
+}
+}
+return lst;
+};
+MochiKit.DOM.setDisplayForElement=function(_271,_272){
+var _273=MochiKit.Base.extend(null,arguments,1);
+MochiKit.Iter.forEach(MochiKit.Base.filter(null,MochiKit.Base.map(getElement,_273)),function(_272){
+_272.style.display=_271;
+});
+};
+MochiKit.DOM.scrapeText=function(node){
+var rval=[];
+MochiKit.Base.nodeWalk(node,function(node){
+var _274=node.nodeValue;
+if(typeof (_274)=="string"){
+rval.push(_274);
+}
+return node.childNodes;
+});
+return rval;
+};
+MochiKit.DOM.__new__=function(){
+this.domConverters=new MochiKit.Base.AdapterRegistry();
+var _275=document.createElement("span");
+var _276;
+if(_275.attributes.length>0){
+var _277=MochiKit.Base.filter;
+_276=function(node){
+return _277(_276.ignoreAttrFilter,node.attributes);
+};
+_276.ignoreAttr={};
+MochiKit.Iter.forEach(_275.attributes,function(a){
+_276.ignoreAttr[a.name]=a.value;
+});
+_276.ignoreAttrFilter=function(a){
+return (_276.ignoreAttr[a.name]!=a.value);
+};
+_276.compliant=false;
+}else{
+_276=function(node){
+return node.attributes;
+};
+_276.compliant=true;
+}
+this.attributeArray=_276;
+var _278=this.createDOMFunc;
+this.TD=_278("td");
+this.TR=_278("tr");
+this.TBODY=_278("tbody");
+this.TFOOT=_278("tfoot");
+this.TABLE=_278("table");
+this.TH=_278("th");
+this.INPUT=_278("input");
+this.SPAN=_278("span");
+this.A=_278("a");
+this.DIV=_278("div");
+this.IMG=_278("img");
+this._TRANSTABLE={"<":"&lt;",">":"&gt;","&":"&amp;","'":"&apos;","\"":"&quot;"};
+var _279=MochiKit.Base.partial;
+this.hideElement=_279(this.setDisplayForElement,"none");
+this.showElement=_279(this.setDisplayForElement,"block");
+this.$=this.getElement;
+this.EXPORT_TAGS={":common":this.EXPORT,":all":MochiKit.Base.concat(this.EXPORT,this.EXPORT_OK)};
+MochiKit.Base.nameFunctions(this);
+};
 MochiKit.DOM.__new__();
-
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-    (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.DOM);
+if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(typeof (MochiKit.__compat__)=="boolean"&&MochiKit.__compat__)){
+(function(self){
+var all=self.EXPORT_TAGS[":all"];
+for(var i=0;i<all.length;i++){
+this[all[i]]=self[all[i]];
 }
-
-
-
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Visual');
-    dojo.require('MochiKit.Base');
-    dojo.require('MochiKit.DOM');
+})(MochiKit.DOM);
 }
-
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base", []);
-    JSAN.use("MochiKit.DOM", []);
+if(typeof (dojo)!="undefined"){
+dojo.provide("MochiKit.Visual");
+dojo.require("MochiKit.Base");
+dojo.require("MochiKit.DOM");
 }
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined' ||
-        typeof(MochiKit.DOM) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Visual depends on MochiKit.Base and MochiKit.DOM!";
+if(typeof (JSAN)!="undefined"){
+JSAN.use("MochiKit.Base",[]);
+JSAN.use("MochiKit.DOM",[]);
 }
-
-if (typeof(MochiKit.Visual) == "undefined") {
-    MochiKit.Visual = {};
+try{
+if(typeof (MochiKit.Base)=="undefined"||typeof (MochiKit.DOM)=="undefined"){
+throw "";
 }
-
-MochiKit.Visual.NAME = "MochiKit.Visual";
-MochiKit.Visual.VERSION = "0.60";
-
-MochiKit.Visual.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
+}
+catch(e){
+throw "MochiKit.Visual depends on MochiKit.Base and MochiKit.DOM!";
+}
+if(typeof (MochiKit.Visual)=="undefined"){
+MochiKit.Visual={};
+}
+MochiKit.Visual.NAME="MochiKit.Visual";
+MochiKit.Visual.VERSION="0.60";
+MochiKit.Visual.__repr__=function(){
+return "["+this.NAME+" "+this.VERSION+"]";
 };
-
-MochiKit.Visual.toString = function () {
-    return this.__repr__();
+MochiKit.Visual.toString=function(){
+return this.__repr__();
 };
-
-
-MochiKit.Visual.clampColorComponent = function (v, scale) {
-    v *= scale;
-    if (v < 0) {
-        return 0;
-    } else if (v > scale) {
-        return scale;
-    } else {
-        return v;
-    }
+MochiKit.Visual.clampColorComponent=function(v,_281){
+v*=_281;
+if(v<0){
+return 0;
+}else{
+if(v>_281){
+return _281;
+}else{
+return v;
+}
+}
 };
-
-MochiKit.Visual.Color = function (red, green, blue, alpha) {
-    if (typeof(alpha) == 'undefined' || alpha == null) {
-        alpha = 1.0;
-    }
-    this.rgb = {
-        "r": red,
-        "g": green,
-        "b": blue,
-        "a": alpha
-    };
+MochiKit.Visual.Color=function(red,_283,blue,_285){
+if(typeof (_285)=="undefined"||_285==null){
+_285=1;
+}
+this.rgb={"r":red,"g":_283,"b":blue,"a":_285};
 };
-
-
-MochiKit.Visual.Color.prototype = {
-
-    "__class__": MochiKit.Visual.Color,
-
-    "colorWithAlpha": function (alpha) {
-        var rgb = this.rgb;
-        var m = MochiKit.Visual;
-        return m.Color.fromRGB(rgb.r, rgb.g, rgb.b, alpha);
-    },
-
-    "colorWithHue": function (hue) {
-        // get an HSL model, and set the new hue...
-        var hsl = this.asHSL();
-        hsl.h = hue;
-        var m = MochiKit.Visual;
-        // convert back to RGB...
-        return m.Color.fromHSL(hsl);
-    },
-
-    "colorWithSaturation": function (saturation) {
-        // get an HSL model, and set the new hue...
-        var hsl = this.asHSL();
-        hsl.s = saturation;
-        var m = MochiKit.Visual;
-        // convert back to RGB...
-        return m.Color.fromHSL(hsl);
-    },
-
-    "colorWithLightness": function (lightness) {
-        // get an HSL model, and set the new hue...
-        var hsl = this.asHSL();
-        hsl.l = lightness;
-        var m = MochiKit.Visual;
-        // convert back to RGB...
-        return m.Color.fromHSL(hsl);
-    },
-
-    "darkerColorWithLevel": function (level) {
-        var hsl  = this.asHSL();
-        hsl.l = Math.max(hsl.l - level, 0);
-        var m = MochiKit.Visual;
-        return m.Color.fromHSL(hsl);
-    },
-
-    "lighterColorWithLevel": function (level) {
-        var hsl  = this.asHSL();
-        Math.min(hsl.l + level, 1);
-        var m = MochiKit.Visual;
-        return m.Color.fromHSL(hsl);
-    },
-
-    "blendedColor": function (other, /* optional */ fraction) {
-        if (typeof(fraction) == 'undefined' || fraction == null) {
-            fraction = 0.5;
-        }
-        var sf = 1.0 - fraction;
-        var s = this.rgb;
-        var d = other.rgb;
-        var df = fraction;
-        return MochiKit.Visual.Color.fromRGB(
-            (s.r * sf) + (d.r * df),
-            (s.g * sf) + (d.g * df),
-            (s.b * sf) + (d.b * df),
-            (s.a * sf) + (d.a * df)
-        );
-    },
-
-    "compareRGB": function (other) {
-        var a = this.asRGB();
-        var b = other.asRGB();
-        return MochiKit.Base.compare(
-            [a.r, a.g, a.b, a.a],
-            [b.r, b.g, b.b, b.a]
-        );
-    },
-        
-    "isLight": function () {
-        return this.asHSL().b > 0.5;
-    },
-
-    "isDark": function () {
-        return (!this.isLight());
-    },
-
-    "toHSLString": function () {
-        var c = this.asHSL();
-        var ccc = MochiKit.Visual.clampColorComponent;
-        var rval = this._hslString;
-        if (!rval) {
-            var mid = (
-                ccc(c.h, 360).toFixed(0)
-                + "," + ccc(c.s, 100).toPrecision(4) + "%" 
-                + "," + ccc(c.l, 100).toPrecision(4) + "%"
-            );
-            var a = c.a;
-            if (a >= 1) {
-                a = 1;
-                rval = "hsl(" + mid + ")";
-            } else {
-                if (a <= 0) {
-                    a = 0;
-                }
-                rval = "hsla(" + mid + "," + a + ")";
-            }
-            this._hslString = rval;
-        }
-        return rval;
-    },
-
-    "toRGBString": function () {
-        var c = this.rgb;
-        var ccc = MochiKit.Visual.clampColorComponent;
-        var rval = this._rgbString;
-        if (!rval) {
-            var mid = (
-                ccc(c.r, 255).toFixed(0)
-                + "," + ccc(c.g, 255).toFixed(0)
-                + "," + ccc(c.b, 255).toFixed(0)
-            );
-            if (c.a != 1) {
-                rval = "rgba(" + mid + "," + c.a + ")";
-            } else {
-                rval = "rgb(" + mid + ")";
-            }
-            this._rgbString = rval;
-        }
-        return rval;
-    },
-
-    "asRGB": function () {
-        return MochiKit.Base.clone(this.rgb);
-    },
-
-    "toHexString": function () {
-        var m = MochiKit.Visual;
-        var c = this.rgb;
-        var ccc = MochiKit.Visual.clampColorComponent;
-        var rval = this._hexString;
-        if (!rval) {
-            rval = ("#" + 
-                m.toColorPart(ccc(c.r, 255)) +
-                m.toColorPart(ccc(c.g, 255)) +
-                m.toColorPart(ccc(c.b, 255))
-            );
-            this._hexString = rval;
-        }
-        return rval;
-    },
-
-    "asHSL": function () {
-        var hsl = this.hsl;
-        var c = this.rgb;
-        if (typeof(hsl) == 'undefined' || hsl == null) {
-            hsl = MochiKit.Visual.rgbToHSL(this.rgb);
-            this.hsl = hsl;
-        }
-        return MochiKit.Base.clone(hsl);
-    },
-
-    "toString": function () {
-        return this.toRGBString();
-    },
-
-    "repr": function () {
-        var c = this.rgb;
-        var col = [c.r, c.g, c.b, c.a];
-        return this.__class__.NAME + "(" + col.join(", ") + ")";
-    }
-
+MochiKit.Visual.Color.prototype={"__class__":MochiKit.Visual.Color,"colorWithAlpha":function(_286){
+var rgb=this.rgb;
+var m=MochiKit.Visual;
+return m.Color.fromRGB(rgb.r,rgb.g,rgb.b,_286);
+},"colorWithHue":function(hue){
+var hsl=this.asHSL();
+hsl.h=hue;
+var m=MochiKit.Visual;
+return m.Color.fromHSL(hsl);
+},"colorWithSaturation":function(_290){
+var hsl=this.asHSL();
+hsl.s=_290;
+var m=MochiKit.Visual;
+return m.Color.fromHSL(hsl);
+},"colorWithLightness":function(_291){
+var hsl=this.asHSL();
+hsl.l=_291;
+var m=MochiKit.Visual;
+return m.Color.fromHSL(hsl);
+},"darkerColorWithLevel":function(_292){
+var hsl=this.asHSL();
+hsl.l=Math.max(hsl.l-_292,0);
+var m=MochiKit.Visual;
+return m.Color.fromHSL(hsl);
+},"lighterColorWithLevel":function(_293){
+var hsl=this.asHSL();
+Math.min(hsl.l+_293,1);
+var m=MochiKit.Visual;
+return m.Color.fromHSL(hsl);
+},"blendedColor":function(_294,_295){
+if(typeof (_295)=="undefined"||_295==null){
+_295=0.5;
+}
+var sf=1-_295;
+var s=this.rgb;
+var d=_294.rgb;
+var df=_295;
+return MochiKit.Visual.Color.fromRGB((s.r*sf)+(d.r*df),(s.g*sf)+(d.g*df),(s.b*sf)+(d.b*df),(s.a*sf)+(d.a*df));
+},"compareRGB":function(_298){
+var a=this.asRGB();
+var b=_298.asRGB();
+return MochiKit.Base.compare([a.r,a.g,a.b,a.a],[b.r,b.g,b.b,b.a]);
+},"isLight":function(){
+return this.asHSL().b>0.5;
+},"isDark":function(){
+return (!this.isLight());
+},"toHSLString":function(){
+var c=this.asHSL();
+var ccc=MochiKit.Visual.clampColorComponent;
+var rval=this._hslString;
+if(!rval){
+var mid=(ccc(c.h,360).toFixed(0)+","+ccc(c.s,100).toPrecision(4)+"%"+","+ccc(c.l,100).toPrecision(4)+"%");
+var a=c.a;
+if(a>=1){
+a=1;
+rval="hsl("+mid+")";
+}else{
+if(a<=0){
+a=0;
+}
+rval="hsla("+mid+","+a+")";
+}
+this._hslString=rval;
+}
+return rval;
+},"toRGBString":function(){
+var c=this.rgb;
+var ccc=MochiKit.Visual.clampColorComponent;
+var rval=this._rgbString;
+if(!rval){
+var mid=(ccc(c.r,255).toFixed(0)+","+ccc(c.g,255).toFixed(0)+","+ccc(c.b,255).toFixed(0));
+if(c.a!=1){
+rval="rgba("+mid+","+c.a+")";
+}else{
+rval="rgb("+mid+")";
+}
+this._rgbString=rval;
+}
+return rval;
+},"asRGB":function(){
+return MochiKit.Base.clone(this.rgb);
+},"toHexString":function(){
+var m=MochiKit.Visual;
+var c=this.rgb;
+var ccc=MochiKit.Visual.clampColorComponent;
+var rval=this._hexString;
+if(!rval){
+rval=("#"+m.toColorPart(ccc(c.r,255))+m.toColorPart(ccc(c.g,255))+m.toColorPart(ccc(c.b,255)));
+this._hexString=rval;
+}
+return rval;
+},"asHSL":function(){
+var hsl=this.hsl;
+var c=this.rgb;
+if(typeof (hsl)=="undefined"||hsl==null){
+hsl=MochiKit.Visual.rgbToHSL(this.rgb);
+this.hsl=hsl;
+}
+return MochiKit.Base.clone(hsl);
+},"toString":function(){
+return this.toRGBString();
+},"repr":function(){
+var c=this.rgb;
+var col=[c.r,c.g,c.b,c.a];
+return this.__class__.NAME+"("+col.join(", ")+")";
+}};
+MochiKit.Visual.Color.fromRGB=function(red,_302,blue,_303){
+var _304=MochiKit.Visual.Color;
+if(arguments.length==1){
+var rgb=red;
+red=rgb.r;
+_302=rgb.g;
+blue=rgb.b;
+_303=rgb.a;
+}
+return new _304(red,_302,blue,_303);
 };
-
-MochiKit.Visual.Color.fromRGB = function (red, green, blue, alpha) {
-    // designated initializer
-    var Color = MochiKit.Visual.Color;
-    if (arguments.length == 1) {
-        var rgb = red;
-        red = rgb.r;
-        green = rgb.g;
-        blue = rgb.b;
-        alpha = rgb.a;
-    }
-    return new Color(red, green, blue, alpha);
+MochiKit.Visual.Color.fromHSL=function(hue,_305,_306,_307){
+var m=MochiKit.Visual;
+return m.Color.fromRGB(m.hslToRGB.apply(m,arguments));
 };
-
-MochiKit.Visual.Color.fromHSL = function (hue, saturation, lightness, alpha) {
-    var m = MochiKit.Visual;
-    return m.Color.fromRGB(m.hslToRGB.apply(m, arguments));
+MochiKit.Visual.Color.fromName=function(name){
+var _308=MochiKit.Visual.Color;
+var _309=_308._namedColors[name.toLowerCase()];
+if(typeof (_309)=="string"){
+return _308.fromHexString(_309);
+}else{
+if(name=="transparent"){
+return _308.transparentColor();
+}
+}
+return null;
 };
-
-MochiKit.Visual.Color.fromName = function (name) {
-    var Color = MochiKit.Visual.Color;
-    var htmlColor = Color._namedColors[name.toLowerCase()];
-    if (typeof(htmlColor) == 'string') {
-        return Color.fromHexString(htmlColor);
-    } else if (name == "transparent") {
-        return Color.transparentColor();
-    }
-    return null;
+MochiKit.Visual.Color.fromString=function(_310){
+var self=MochiKit.Visual.Color;
+var _311=_310.substr(0,3);
+if(_311=="rgb"){
+return self.fromRGBString(_310);
+}else{
+if(_311=="hsl"){
+return self.fromHSLString(_310);
+}else{
+if(_310.charAt(0)=="#"){
+return self.fromHexString(_310);
+}
+}
+}
+return self.fromName(_310);
 };
-
-MochiKit.Visual.Color.fromString = function (colorString) {
-    // TODO: support RGBA
-    var self = MochiKit.Visual.Color;
-    var three = colorString.substr(0, 3);
-    if (three == "rgb") {
-        return self.fromRGBString(colorString);
-    } else if (three == "hsl") {
-        return self.fromHSLString(colorString);
-    } else if (colorString.charAt(0) == "#") {
-        return self.fromHexString(colorString);
-    }
-    return self.fromName(colorString);
+MochiKit.Visual.Color.fromHexString=function(_312){
+if(_312.charAt(0)=="#"){
+_312=_312.substring(1);
+}
+var _313=[];
+if(_312.length==3){
+for(var i=0;i<3;i++){
+var hex=_312.substr(i,1);
+_313.push(parseInt(hex+hex,16)/255);
+}
+}else{
+for(var i=0;i<6;i+=2){
+var hex=_312.substr(i,2);
+_313.push(parseInt(hex,16)/255);
+}
+}
+var _315=MochiKit.Visual.Color;
+return _315.fromRGB.apply(_315,_313);
 };
-
-
-MochiKit.Visual.Color.fromHexString = function (hexCode) {
-    if (hexCode.charAt(0) == '#') {
-        hexCode = hexCode.substring(1);
-    }
-    var components = [];
-    if (hexCode.length == 3) {
-        for (var i = 0; i < 3; i++) {
-            var hex = hexCode.substr(i, 1);
-            components.push(parseInt(hex + hex, 16) / 255.0);
-        }
-    } else {
-        for (var i = 0; i < 6; i += 2) {
-            var hex = hexCode.substr(i, 2);
-            components.push(parseInt(hex, 16) / 255.0);
-        }
-    }
-    var Color = MochiKit.Visual.Color;
-    return Color.fromRGB.apply(Color, components);
+MochiKit.Visual.Color._fromColorString=function(pre,_317,_318,_319){
+if(_319.indexOf(pre)==0){
+_319=_319.substring(_319.indexOf("(",3)+1,_319.length-1);
+}
+var _320=_319.split(/\s*,\s*/);
+var _321=[];
+for(var i=0;i<_320.length;i++){
+var c=_320[i];
+var val;
+var _323=c.substring(c.length-3);
+if(c.charAt(c.length-1)=="%"){
+val=0.01*parseFloat(c.substring(0,c.length-1));
+}else{
+if(_323=="deg"){
+val=parseFloat(c)/360;
+}else{
+if(_323=="rad"){
+val=parseFloat(c)/(Math.PI*2);
+}else{
+val=_318[i]*parseFloat(c);
+}
+}
+}
+_321.push(val);
+}
+return this[_317].apply(this,_321);
 };
-        
-
-MochiKit.Visual.Color._fromColorString = function (pre, method, scales, colorCode) {
-    // parses either HSL or RGB
-    if (colorCode.indexOf(pre) == 0) {
-        colorCode = colorCode.substring(colorCode.indexOf("(", 3) + 1, colorCode.length - 1);
-    } 
-    var colorChunks = colorCode.split(/\s*,\s*/);
-    var colorFloats = [];
-    for (var i = 0; i < colorChunks.length; i++) {
-        var c = colorChunks[i];
-        var val;
-        var three = c.substring(c.length - 3);
-        if (c.charAt(c.length - 1) == '%') {
-            val = 0.01 * parseFloat(c.substring(0, c.length - 1));
-        } else if (three == "deg") {
-            val = parseFloat(c) / 360.0;
-        } else if (three == "rad") {
-            val = parseFloat(c) / (Math.PI * 2);
-        } else {
-            val = scales[i] * parseFloat(c);
-        }
-        colorFloats.push(val);
-    }
-    return this[method].apply(this, colorFloats);
+MochiKit.Visual.Color.fromBackground=function(elem){
+var m=MochiKit.Visual;
+while(elem){
+var _324=m.getElementsComputedStyle(MochiKit.DOM.getElement(elem),"backgroundColor","background-color");
+if(!_324){
+break;
+}
+var _325=m.Color.fromString(_324);
+if(!_325){
+break;
+}
+if(_325.asRGB().a>0){
+return _325;
+}
+elem=elem.parent;
+}
+return m.Color.whiteColor();
 };
-    
-MochiKit.Visual.Color.fromBackground = function (elem) {
-    var m = MochiKit.Visual;
-    while (elem) {
-        var actualColor = m.getElementsComputedStyle(
-            MochiKit.DOM.getElement(elem),
-            "backgroundColor",
-            "background-color"
-        );
-        if (!actualColor) {
-            break;
-        }
-        var color = m.Color.fromString(actualColor);
-        if (!color) {
-            break;
-        }
-        if (color.asRGB().a > 0) {
-            return color;
-        }
-        elem = elem.parent;
-    }
-    return m.Color.whiteColor();
+MochiKit.Visual._hslValue=function(n1,n2,hue){
+if(hue>6){
+hue-=6;
+}else{
+if(hue<0){
+hue+=6;
+}
+}
+var val;
+if(hue<1){
+val=n1+(n2-n1)*hue;
+}else{
+if(hue<3){
+val=n2;
+}else{
+if(hue<4){
+val=n1+(n2-n1)*(4-hue);
+}else{
+val=n1;
+}
+}
+}
+return val;
 };
-
-MochiKit.Visual._hslValue = function (n1, n2, hue) {
-    if (hue > 6.0) {
-        hue -= 6.0;
-    } else if (hue < 0.0) {
-        hue += 6.0;
-    }
-    var val;
-    if (hue < 1.0) {
-        val = n1 + (n2 - n1) * hue;
-    } else if (hue < 3.0) {
-        val = n2;
-    } else if (hue < 4.0) {
-        val = n1 + (n2 - n1) * (4.0 - hue);
-    } else {
-        val = n1;
-    }
-    return val;
+MochiKit.Visual.hslToRGB=function(hue,_328,_329,_330){
+if(arguments.length==1){
+var hsl=hue;
+hue=hsl.h;
+_328=hsl.s;
+_329=hsl.l;
+_330=hsl.a;
+}
+var red;
+var _331;
+var blue;
+if(_328==0){
+red=_329;
+_331=_329;
+blue=_329;
+}else{
+var m2;
+if(_329<=0.5){
+m2=_329*(1+_328);
+}else{
+m2=_329+_328-(_329*_328);
+}
+var m1=(2*_329)-m2;
+var f=MochiKit.Visual._hslValue;
+var h6=hue*6;
+red=f(m1,m2,h6+2);
+_331=f(m1,m2,h6);
+blue=f(m1,m2,h6-2);
+}
+return {"r":red,"g":_331,"b":blue,"a":_330};
 };
-    
-MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
-    if (arguments.length == 1) {
-        var hsl = hue;
-        hue = hsl.h;
-        saturation = hsl.s;
-        lightness = hsl.l;
-        alpha = hsl.a;
-    }
-    var red;
-    var green;
-    var blue;
-    if (saturation == 0) {
-        red = lightness;
-        green = lightness;
-        blue = lightness;
-    } else {
-        var m2;
-        if (lightness <= 0.5) {
-            m2 = lightness * (1.0 + saturation);
-        } else {
-            m2 = lightness + saturation - (lightness * saturation);
-        }
-        var m1 = (2.0 * lightness) - m2;
-        var f = MochiKit.Visual._hslValue;
-        var h6 = hue * 6.0;
-        red = f(m1, m2, h6 + 2);
-        green = f(m1, m2, h6);
-        blue = f(m1, m2, h6 - 2);
-    }
-    return {
-        "r": red,
-        "g": green,
-        "b": blue,
-        "a": alpha
-
-    };
+MochiKit.Visual.rgbToHSL=function(red,_335,blue,_336){
+if(arguments.length==1){
+var rgb=red;
+red=rgb.r;
+_335=rgb.g;
+blue=rgb.b;
+_336=rgb.a;
+}
+var max=Math.max(red,Math.max(_335,blue));
+var min=Math.min(red,Math.min(_335,blue));
+var hue;
+var _339;
+var _340=(max+min)/2;
+var _341=max-min;
+if(_341==0){
+hue=0;
+_339=0;
+}else{
+if(_340<=0.5){
+_339=_341/(max+min);
+}else{
+_339=_341/(2-max-min);
+}
+if(_341==0){
+_341=1;
+}
+if(red==max){
+hue=(_335-blue)/_341;
+}else{
+if(_335==max){
+hue=2+((blue-red)/_341);
+}else{
+hue=4+((red-_335)/_341);
+}
+}
+hue/=6;
+if(hue<0){
+hue+=1;
+}
+if(hue>1){
+hue-=1;
+}
+}
+return {"h":hue,"s":_339,"l":_340,"a":_336};
 };
-
-MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
-    if (arguments.length == 1) {
-        var rgb = red;
-        red = rgb.r;
-        green = rgb.g;
-        blue = rgb.b;
-        alpha = rgb.a;
-    }
-    var max = Math.max(red, Math.max(green, blue));
-    var min = Math.min(red, Math.min(green, blue));
-    var hue;
-    var saturation;
-    var lightness = (max + min) / 2.0;
-    var delta = max - min;
-    if (delta == 0) {
-        hue = 0;
-        saturation = 0;
-    } else {
-        if (lightness <= 0.5) {
-            saturation = delta / (max + min);
-        } else {
-            saturation = delta / (2 - max - min);
-        }
-        if (delta == 0.0) {
-            delta = 1.0;
-        }
-        if (red == max) {
-            hue = (green - blue) / delta;
-        } else if (green == max) {
-            hue = 2 + ((blue - red) / delta);
-        } else {
-            hue = 4 + ((red - green) / delta);
-        }
-        hue /= 6;
-        if (hue < 0) {
-            hue += 1;
-        }
-        if (hue > 1) {
-            hue -= 1;
-        }
-        
-    }
-    return {
-        "h": hue,
-        "s": saturation,
-        "l": lightness,
-        "a": alpha
-    };
+MochiKit.Visual.toColorPart=function(num){
+var _342=Math.round(num).toString(16);
+if(num<16){
+return "0"+_342;
+}
+return _342;
 };
-
-MochiKit.Visual.toColorPart = function (num) {
-    var digits = Math.round(num).toString(16);
-    if (num < 16) {
-        return '0' + digits;
-    }
-    return digits;
+MochiKit.Visual.roundElement=function(e,_344){
+new MochiKit.Visual._RoundCorners(e,_344);
 };
-
-MochiKit.Visual.roundElement = function (e, options) {
-    new MochiKit.Visual._RoundCorners(e, options);
+MochiKit.Visual.getElementsComputedStyle=function(_345,_346,_347){
+if(arguments.length==2){
+_347=_346;
+}
+var el=MochiKit.DOM.getElement(_345);
+if(el.currentStyle){
+return el.currentStyle[_346];
+}else{
+var _349=document.defaultView.getComputedStyle(el,null);
+return _349.getPropertyValue(_347);
+}
 };
-
-/*
-    The following section is partially adapted from
-    Rico <http://www.openrico.org>
-*/
-
-MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, mozillaEquivalentCSS) {
-    if (arguments.length == 2) {
-        mozillaEquivalentCSS = cssProperty;
-    }
-    var el = MochiKit.DOM.getElement(htmlElement);
-    if (el.currentStyle) {
-        return el.currentStyle[cssProperty];
-    } else {
-        var style = document.defaultView.getComputedStyle(el, null);
-        return style.getPropertyValue(mozillaEquivalentCSS);
-    }
+MochiKit.Visual._RoundCorners=function(e,_350){
+var e=MochiKit.DOM.getElement(e);
+this._setOptions(_350);
+var _351=this.options.color;
+var m=MochiKit.Visual;
+if(this.options.color=="fromElement"){
+_351=m.Color.fromBackground(e);
+}else{
+if(!(_351 instanceof m.Color)){
+_351=m.Color.fromString(_351);
+}
+}
+this.isTransparent=(_351.asRGB().a<=0);
+var _352=this.options.bgColor;
+if(this.options.bgColor=="fromParent"){
+_352=m.Color.fromBackground(e.offsetParent);
+}else{
+if(!(_352 instanceof m.Color)){
+_352=m.Color.fromString(_352);
+}
+}
+this._roundCornersImpl(e,_351,_352);
 };
-
-MochiKit.Visual._RoundCorners = function (e, options) {
-    var e = MochiKit.DOM.getElement(e);
-    this._setOptions(options);
-
-    var color = this.options.color;
-    var m = MochiKit.Visual;
-    if (this.options.color == "fromElement") {
-        color = m.Color.fromBackground(e);
-    } else if (!(color instanceof m.Color)) {
-        color = m.Color.fromString(color);
-    }
-    this.isTransparent = (color.asRGB().a <= 0);
-
-    var bgColor = this.options.bgColor;
-    if (this.options.bgColor == "fromParent") {
-        bgColor = m.Color.fromBackground(e.offsetParent);
-    } else if (!(bgColor instanceof m.Color)) {
-        bgColor = m.Color.fromString(bgColor);
-    }
-
-    this._roundCornersImpl(e, color, bgColor);
+MochiKit.Visual._RoundCorners.prototype={"_roundCornersImpl":function(e,_353,_354){
+if(this.options.border){
+this._renderBorder(e,_354);
+}
+if(this._isTopRounded()){
+this._roundTopCorners(e,_353,_354);
+}
+if(this._isBottomRounded()){
+this._roundBottomCorners(e,_353,_354);
+}
+},"_renderBorder":function(el,_355){
+var _356="1px solid "+this._borderColor(_355);
+var _357="border-left: "+_356;
+var _358="border-right: "+_356;
+var _359="style='"+_357+";"+_358+"'";
+el.innerHTML="<div "+_359+">"+el.innerHTML+"</div>";
+},"_roundTopCorners":function(el,_360,_361){
+var _362=this._createCorner(_361);
+for(var i=0;i<this.options.numSlices;i++){
+_362.appendChild(this._createCornerSlice(_360,_361,i,"top"));
+}
+el.style.paddingTop=0;
+el.insertBefore(_362,el.firstChild);
+},"_roundBottomCorners":function(el,_363,_364){
+var _365=this._createCorner(_364);
+for(var i=(this.options.numSlices-1);i>=0;i--){
+_365.appendChild(this._createCornerSlice(_363,_364,i,"bottom"));
+}
+el.style.paddingBottom=0;
+el.appendChild(_365);
+},"_createCorner":function(_366){
+var _367=document.createElement("div");
+_367.style.backgroundColor=_366.toString();
+return _367;
+},"_createCornerSlice":function(_368,_369,n,_370){
+var _371=document.createElement("span");
+var _372=_371.style;
+_372.backgroundColor=_368.toString();
+_372.display="block";
+_372.height="1px";
+_372.overflow="hidden";
+_372.fontSize="1px";
+var _373=this._borderColor(_368,_369);
+if(this.options.border&&n==0){
+_372.borderTopStyle="solid";
+_372.borderTopWidth="1px";
+_372.borderLeftWidth="0px";
+_372.borderRightWidth="0px";
+_372.borderBottomWidth="0px";
+_372.height="0px";
+_372.borderColor=_373.toString();
+}else{
+if(_373){
+_372.borderColor=_373.toString();
+_372.borderStyle="solid";
+_372.borderWidth="0px 1px";
+}
+}
+if(!this.options.compact&&(n==(this.options.numSlices-1))){
+_372.height="2px";
+}
+this._setMargin(_371,n,_370);
+this._setBorder(_371,n,_370);
+return _371;
+},"_setOptions":function(_374){
+this.options={corners:"all",color:"fromElement",bgColor:"fromParent",blend:true,border:false,compact:false};
+MochiKit.Base.update(this.options,_374);
+this.options.numSlices=(this.options.compact?2:4);
+},"_whichSideTop":function(){
+var _375=this.options.corners;
+if(this._hasString(_375,"all","top")){
+return "";
+}
+var _376=(_375.indexOf("tl")!=-1);
+var _377=(_375.indexOf("tr")!=-1);
+if(_376&&_377){
+return "";
+}
+if(_376){
+return "left";
+}
+if(_377){
+return "right";
+}
+return "";
+},"_whichSideBottom":function(){
+var _378=this.options.corners;
+if(this._hasString(_378,"all","bottom")){
+return "";
+}
+var _379=(_378.indexOf("bl")!=-1);
+var _380=(_378.indexOf("br")!=-1);
+if(_379&&_380){
+return "";
+}
+if(_379){
+return "left";
+}
+if(_380){
+return "right";
+}
+return "";
+},"_borderColor":function(_381,_382){
+if(_381=="transparent"){
+return _382;
+}else{
+if(this.options.border){
+return this.options.border;
+}else{
+if(this.options.blend){
+return _382.blendedColor(_381);
+}
+}
+}
+return "";
+},"_setMargin":function(el,n,_383){
+var _384=this._marginSize(n)+"px";
+var _385=(_383=="top"?this._whichSideTop():this._whichSideBottom());
+var _386=el.style;
+if(_385=="left"){
+_386.marginLeft=_384;
+_386.marginRight="0px";
+}else{
+if(_385=="right"){
+_386.marginRight=_384;
+_386.marginLeft="0px";
+}else{
+_386.marginLeft=_384;
+_386.marginRight=_384;
+}
+}
+},"_setBorder":function(el,n,_387){
+var _388=this._borderSize(n)+"px";
+var _389=(_387=="top"?this._whichSideTop():this._whichSideBottom());
+var _390=el.style;
+if(_389=="left"){
+_390.borderLeftWidth=_388;
+_390.borderRightWidth="0px";
+}else{
+if(_389=="right"){
+_390.borderRightWidth=_388;
+_390.borderLeftWidth="0px";
+}else{
+_390.borderLeftWidth=_388;
+_390.borderRightWidth=_388;
+}
+}
+},"_marginSize":function(n){
+if(this.isTransparent){
+return 0;
+}
+var o=this.options;
+if(o.compact&&o.blend){
+var _391=[1,0];
+return _391[n];
+}else{
+if(o.compact){
+var _392=[2,1];
+return _392[n];
+}else{
+if(o.blend){
+var _393=[3,2,1,0];
+return _393[n];
+}else{
+var _394=[5,3,2,1];
+return _394[n];
+}
+}
+}
+},"_borderSize":function(n){
+var o=this.options;
+var _395;
+if(o.compact&&(o.blend||this.isTransparent)){
+return 1;
+}else{
+if(o.compact){
+_395=[1,0];
+}else{
+if(o.blend){
+_395=[2,1,1,1];
+}else{
+if(o.border){
+_395=[0,2,0,0];
+}else{
+if(this.isTransparent){
+_395=[5,3,2,1];
+}else{
+return 0;
+}
+}
+}
+}
+}
+return _395[n];
+},"_hasString":function(str){
+for(var i=1;i<arguments.length;i++){
+if(str.indexOf(arguments[i])!=-1){
+return true;
+}
+}
+return false;
+},"_isTopRounded":function(){
+return this._hasString(this.options.corners,"all","top","tl","tr");
+},"_isBottomRounded":function(){
+return this._hasString(this.options.corners,"all","bottom","bl","br");
+},"_hasSingleTextChild":function(el){
+return (el.childNodes.length==1&&el.childNodes[0].nodeType==3);
+}};
+MochiKit.Visual.roundClass=function(_396,_397,_398){
+var _399=MochiKit.DOM.getElementsByTagAndClassName(_396,_397);
+for(var i=0;i<_399.length;i++){
+roundElement(_399[i],_398);
+}
 };
-
-MochiKit.Visual._RoundCorners.prototype = {
-    "_roundCornersImpl": function (e, color, bgColor) {
-        if (this.options.border) {
-            this._renderBorder(e, bgColor);
-        }
-        if (this._isTopRounded()) {
-            this._roundTopCorners(e, color, bgColor);
-        }
-        if (this._isBottomRounded()) {
-            this._roundBottomCorners(e, color, bgColor);
-        }
-    },
-
-    "_renderBorder": function (el, bgColor) {
-        var borderValue = "1px solid " + this._borderColor(bgColor);
-        var borderL = "border-left: "  + borderValue;
-        var borderR = "border-right: " + borderValue;
-        var style   = "style='" + borderL + ";" + borderR +  "'";
-        el.innerHTML = "<div " + style + ">" + el.innerHTML + "</div>";
-    },
-
-    "_roundTopCorners": function (el, color, bgColor) {
-        var corner = this._createCorner(bgColor);
-        for (var i = 0; i < this.options.numSlices; i++) {
-            corner.appendChild(
-                this._createCornerSlice(color, bgColor, i, "top")
-            );
-        }
-        el.style.paddingTop = 0;
-        el.insertBefore(corner, el.firstChild);
-    },
-
-    "_roundBottomCorners": function (el, color, bgColor) {
-        var corner = this._createCorner(bgColor);
-        for (var i = (this.options.numSlices - 1); i >= 0; i--) {
-            corner.appendChild(
-                this._createCornerSlice(color, bgColor, i, "bottom")
-            );
-        }
-        el.style.paddingBottom = 0;
-        el.appendChild(corner);
-    },
-
-    "_createCorner": function (bgColor) {
-        var corner = document.createElement("div");
-        corner.style.backgroundColor = bgColor.toString();
-        return corner;
-    },
-
-    "_createCornerSlice": function (color, bgColor, n, position) {
-        var slice = document.createElement("span");
-
-        var inStyle = slice.style;
-        inStyle.backgroundColor = color.toString();
-        inStyle.display = "block";
-        inStyle.height = "1px";
-        inStyle.overflow = "hidden";
-        inStyle.fontSize = "1px";
-
-        var borderColor = this._borderColor(color, bgColor);
-        if (this.options.border && n == 0) {
-            inStyle.borderTopStyle = "solid";
-            inStyle.borderTopWidth = "1px";
-            inStyle.borderLeftWidth = "0px";
-            inStyle.borderRightWidth = "0px";
-            inStyle.borderBottomWidth = "0px";
-            // assumes css compliant box model
-            inStyle.height = "0px";
-            inStyle.borderColor = borderColor.toString();
-        } else if (borderColor) {
-            inStyle.borderColor = borderColor.toString();
-            inStyle.borderStyle = "solid";
-            inStyle.borderWidth = "0px 1px";
-        }
-
-        if (!this.options.compact && (n == (this.options.numSlices - 1))) {
-            inStyle.height = "2px";
-        }
-
-        this._setMargin(slice, n, position);
-        this._setBorder(slice, n, position);
-
-        return slice;
-    },
-
-    "_setOptions": function (options) {
-        this.options = {
-            corners : "all",
-            color   : "fromElement",
-            bgColor : "fromParent",
-            blend   : true,
-            border  : false,
-            compact : false
-        };
-        MochiKit.Base.update(this.options, options);
-
-        this.options.numSlices = (this.options.compact ? 2 : 4);
-    },
-
-    "_whichSideTop": function () {
-        var corners = this.options.corners;
-        if (this._hasString(corners, "all", "top")) {
-            return "";
-        }
-
-        var has_tl = (corners.indexOf("tl") != -1);
-        var has_tr = (corners.indexOf("tr") != -1);
-        if (has_tl && has_tr) {
-            return "";
-        }
-        if (has_tl) {
-            return "left";
-        }
-        if (has_tr) {
-            return "right";
-        }
-        return "";
-    },
-
-    "_whichSideBottom": function () {
-        var corners = this.options.corners;
-        if (this._hasString(corners, "all", "bottom")) {
-            return "";
-        }
-
-        var has_bl = (corners.indexOf('bl') != -1);
-        var has_br = (corners.indexOf('br') != -1);
-        if (has_bl && has_br) {
-            return "";
-        }
-        if (has_bl) {
-            return "left";
-        }
-        if (has_br) {
-            return "right";
-        }
-        return "";
-    },
-
-    "_borderColor": function (color, bgColor) {
-        if (color == "transparent") {
-            return bgColor;
-        } else if (this.options.border) {
-            return this.options.border;
-        } else if (this.options.blend) {
-            return bgColor.blendedColor(color);
-        }
-        return "";
-    },
-
-
-    "_setMargin": function (el, n, corners) {
-        var marginSize = this._marginSize(n) + "px";
-        var whichSide = (
-            corners == "top" ? this._whichSideTop() : this._whichSideBottom()
-        );
-        var style = el.style;
-
-        if (whichSide == "left") {
-            style.marginLeft = marginSize;
-            style.marginRight = "0px";
-        } else if (whichSide == "right") {
-            style.marginRight = marginSize;
-            style.marginLeft  = "0px";
-        } else {
-            style.marginLeft = marginSize;
-            style.marginRight = marginSize;
-        }
-    },
-
-    "_setBorder": function (el, n, corners) {
-        var borderSize = this._borderSize(n) + "px";
-        var whichSide = (
-            corners == "top" ? this._whichSideTop() : this._whichSideBottom()
-        );
-
-        var style = el.style;
-        if (whichSide == "left") {
-            style.borderLeftWidth = borderSize;
-            style.borderRightWidth = "0px";
-        } else if (whichSide == "right") {
-            style.borderRightWidth = borderSize;
-            style.borderLeftWidth  = "0px";
-        } else {
-            style.borderLeftWidth = borderSize;
-            style.borderRightWidth = borderSize;
-        }
-    },
-
-    "_marginSize": function (n) {
-        if (this.isTransparent) {
-            return 0;
-        }
-
-        var o = this.options;
-        if (o.compact && o.blend) {
-            var smBlendedMarginSizes = [1, 0];
-            return smBlendedMarginSizes[n];
-        } else if (o.compact) {
-            var compactMarginSizes = [2, 1];
-            return compactMarginSizes[n];
-        } else if (o.blend) {
-            var blendedMarginSizes = [3, 2, 1, 0];
-            return blendedMarginSizes[n];
-        } else {
-            var marginSizes = [5, 3, 2, 1];
-            return marginSizes[n];
-        }
-    },
-
-    "_borderSize": function (n) {
-        var o = this.options;
-        var borderSizes;
-        if (o.compact && (o.blend || this.isTransparent)) {
-            return 1;
-        } else if (o.compact) {
-            borderSizes = [1, 0];
-        } else if (o.blend) {
-            borderSizes = [2, 1, 1, 1];
-        } else if (o.border) {
-            borderSizes = [0, 2, 0, 0];
-        } else if (this.isTransparent) {
-            borderSizes = [5, 3, 2, 1];
-        } else {
-            return 0;
-        }
-        return borderSizes[n];
-    },
-
-    "_hasString": function (str) {
-        for (var i = 1; i< arguments.length; i++) {
-            if (str.indexOf(arguments[i]) != -1) {
-                return true;
-            }
-        }
-        return false;
-    },
-
-    "_isTopRounded": function () {
-        return this._hasString(this.options.corners,
-            "all", "top", "tl", "tr"
-        );
-    },
-
-    "_isBottomRounded": function () {
-        return this._hasString(this.options.corners,
-            "all", "bottom", "bl", "br"
-        );
-    },
-
-    "_hasSingleTextChild": function (el) {
-        return (el.childNodes.length == 1 && el.childNodes[0].nodeType == 3);
-    }
+MochiKit.Visual.__new__=function(){
+var bind=MochiKit.Base.bind;
+var map=MochiKit.Base.map;
+var _400=MochiKit.Base.concat;
+this.Color.fromRGBString=bind(this.Color._fromColorString,this.Color,"rgb","fromRGB",[1/255,1/255,1/255,1]);
+this.Color.fromHSLString=bind(this.Color._fromColorString,this.Color,"hsl","fromHSL",[1/360,0.01,0.01,1]);
+var _401=1/3;
+var _402={black:[0,0,0],blue:[0,0,1],brown:[0.6,0.4,0.2],cyan:[0,1,1],darkGray:[_401,_401,_401],gray:[0.5,0.5,0.5],green:[0,1,0],lightGray:[2*_401,2*_401,2*_401],magenta:[1,0,1],orange:[1,0.5,0],purple:[0.5,0,0.5],red:[1,0,0],transparent:[0,0,0,0],white:[1,1,1],yellow:[1,1,0]};
+var _403=function(name,r,g,b,a){
+var rval=this.fromRGB(r,g,b,a);
+this[name]=function(){
+return rval;
 };
-
-MochiKit.Visual.roundClass = function (tagName, className, options) {
-    var elements = MochiKit.DOM.getElementsByTagAndClassName(
-        tagName, className
-    );
-    for (var i = 0; i < elements.length; i++) {
-        roundElement(elements[i], options);
-    }
+return rval;
 };
-
-/* end of Rico adaptation */
-
-MochiKit.Visual.__new__  = function () {
-    var bind = MochiKit.Base.bind;
-    var map = MochiKit.Base.map;
-    var concat = MochiKit.Base.concat;
-    this.Color.fromRGBString = bind(
-        this.Color._fromColorString, this.Color, "rgb", "fromRGB",
-        [1.0/255.0, 1.0/255.0, 1.0/255.0, 1]
-    );
-    this.Color.fromHSLString = bind(
-        this.Color._fromColorString, this.Color, "hsl", "fromHSL",
-        [1.0/360.0, 0.01, 0.01, 1]
-    );
-    
-    var third = 1.0 / 3.0;
-    var colors = {
-        // NSColor colors plus transparent
-        black: [0, 0, 0],
-        blue: [0, 0, 1],
-        brown: [0.6, 0.4, 0.2],
-        cyan: [0, 1, 1],
-        darkGray: [third, third, third],
-        gray: [0.5, 0.5, 0.5],
-        green: [0, 1, 0],
-        lightGray: [2 * third, 2 * third, 2 * third],
-        magenta: [1, 0, 1],
-        orange: [1, 0.5, 0],
-        purple: [0.5, 0, 0.5],
-        red: [1, 0, 0],
-        transparent: [0, 0, 0, 0],
-        white: [1, 1, 1],
-        yellow: [1, 1, 0]
-    };
-
-    var makeColor = function (name, r, g, b, a) {
-        var rval = this.fromRGB(r, g, b, a);
-        this[name] = function () { return rval; };
-        return rval;
-    }
-
-    for (var k in colors) {
-        var name = k + "Color";
-        var bindArgs = concat(
-            [makeColor, this.Color, name],
-            colors[k]
-        );
-        this.Color[name] = bind.apply(null, bindArgs);
-    }
-
-    var isColor = function () {
-        for (var i = 0; i < arguments.length; i++) {
-            if (!(arguments[i] instanceof Color)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    var compareColor = function (a, b) {
-        return a.compareRGB(b);
-    }
-
-    MochiKit.Base.registerComparator(this.Color.NAME, isColor, compareColor);
-        
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
-    MochiKit.Base.nameFunctions(this);
-
+for(var k in _402){
+var name=k+"Color";
+var _406=_400([_403,this.Color,name],_402[k]);
+this.Color[name]=bind.apply(null,_406);
+}
+var _407=function(){
+for(var i=0;i<arguments.length;i++){
+if(!(arguments[i] instanceof Color)){
+return false;
+}
+}
+return true;
 };
-
-MochiKit.Visual.EXPORT = [
-    "Color",
-    "roundElement",
-    "roundClass"
-];
-
-MochiKit.Visual.EXPORT_OK = [
-    "clampColorComponent",
-    "rgbToHSL",
-    "hslToRGB",
-    "toColorPart"
-];
-
+var _408=function(a,b){
+return a.compareRGB(b);
+};
+MochiKit.Base.registerComparator(this.Color.NAME,_407,_408);
+this.EXPORT_TAGS={":common":this.EXPORT,":all":MochiKit.Base.concat(this.EXPORT,this.EXPORT_OK)};
+MochiKit.Base.nameFunctions(this);
+};
+MochiKit.Visual.EXPORT=["Color","roundElement","roundClass"];
+MochiKit.Visual.EXPORT_OK=["clampColorComponent","rgbToHSL","hslToRGB","toColorPart"];
 MochiKit.Visual.__new__();
-
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-    (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.Visual);
+if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(typeof (MochiKit.__compat__)=="boolean"&&MochiKit.__compat__)){
+(function(self){
+var all=self.EXPORT_TAGS[":all"];
+for(var i=0;i<all.length;i++){
+this[all[i]]=self[all[i]];
 }
-
-// Full table of css3 X11 colors <http://www.w3.org/TR/css3-color/#X11COLORS>
-MochiKit.Visual.Color.namedColors = function () {
-    return MochiKit.Base.clone(MochiKit.Visual.Color._namedColors);
+})(MochiKit.Visual);
 }
-
-MochiKit.Visual.Color._namedColors = {
-    aliceblue: "#f0f8ff",
-    antiquewhite: "#faebd7",
-    aqua: "#00ffff",
-    aquamarine: "#7fffd4",
-    azure: "#f0ffff",
-    beige: "#f5f5dc",
-    bisque: "#ffe4c4",
-    black: "#000000",
-    blanchedalmond: "#ffebcd",
-    blue: "#0000ff",
-    blueviolet: "#8a2be2",
-    brown: "#a52a2a",
-    burlywood: "#deb887",
-    cadetblue: "#5f9ea0",
-    chartreuse: "#7fff00",
-    chocolate: "#d2691e",
-    coral: "#ff7f50",
-    cornflowerblue: "#6495ed",
-    cornsilk: "#fff8dc",
-    crimson: "#dc143c",
-    cyan: "#00ffff",
-    darkblue: "#00008b",
-    darkcyan: "#008b8b",
-    darkgoldenrod: "#b8860b",
-    darkgray: "#a9a9a9",
-    darkgreen: "#006400",
-    darkgrey: "#a9a9a9",
-    darkkhaki: "#bdb76b",
-    darkmagenta: "#8b008b",
-    darkolivegreen: "#556b2f",
-    darkorange: "#ff8c00",
-    darkorchid: "#9932cc",
-    darkred: "#8b0000",
-    darksalmon: "#e9967a",
-    darkseagreen: "#8fbc8f",
-    darkslateblue: "#483d8b",
-    darkslategray: "#2f4f4f",
-    darkslategrey: "#2f4f4f",
-    darkturquoise: "#00ced1",
-    darkviolet: "#9400d3",
-    deeppink: "#ff1493",
-    deepskyblue: "#00bfff",
-    dimgray: "#696969",
-    dimgrey: "#696969",
-    dodgerblue: "#1e90ff",
-    firebrick: "#b22222",
-    floralwhite: "#fffaf0",
-    forestgreen: "#228b22",
-    fuchsia: "#ff00ff",
-    gainsboro: "#dcdcdc",
-    ghostwhite: "#f8f8ff",
-    gold: "#ffd700",
-    goldenrod: "#daa520",
-    gray: "#808080",
-    green: "#008000",
-    greenyellow: "#adff2f",
-    grey: "#808080",
-    honeydew: "#f0fff0",
-    hotpink: "#ff69b4",
-    indianred: "#cd5c5c",
-    indigo: "#4b0082",
-    ivory: "#fffff0",
-    khaki: "#f0e68c",
-    lavender: "#e6e6fa",
-    lavenderblush: "#fff0f5",
-    lawngreen: "#7cfc00",
-    lemonchiffon: "#fffacd",
-    lightblue: "#add8e6",
-    lightcoral: "#f08080",
-    lightcyan: "#e0ffff",
-    lightgoldenrodyellow: "#fafad2",
-    lightgray: "#d3d3d3",
-    lightgreen: "#90ee90",
-    lightgrey: "#d3d3d3",
-    lightpink: "#ffb6c1",
-    lightsalmon: "#ffa07a",
-    lightseagreen: "#20b2aa",
-    lightskyblue: "#87cefa",
-    lightslategray: "#778899",
-    lightslategrey: "#778899",
-    lightsteelblue: "#b0c4de",
-    lightyellow: "#ffffe0",
-    lime: "#00ff00",
-    limegreen: "#32cd32",
-    linen: "#faf0e6",
-    magenta: "#ff00ff",
-    maroon: "#800000",
-    mediumaquamarine: "#66cdaa",
-    mediumblue: "#0000cd",
-    mediumorchid: "#ba55d3",
-    mediumpurple: "#9370db",
-    mediumseagreen: "#3cb371",
-    mediumslateblue: "#7b68ee",
-    mediumspringgreen: "#00fa9a",
-    mediumturquoise: "#48d1cc",
-    mediumvioletred: "#c71585",
-    midnightblue: "#191970",
-    mintcream: "#f5fffa",
-    mistyrose: "#ffe4e1",
-    moccasin: "#ffe4b5",
-    navajowhite: "#ffdead",
-    navy: "#000080",
-    oldlace: "#fdf5e6",
-    olive: "#808000",
-    olivedrab: "#6b8e23",
-    orange: "#ffa500",
-    orangered: "#ff4500",
-    orchid: "#da70d6",
-    palegoldenrod: "#eee8aa",
-    palegreen: "#98fb98",
-    paleturquoise: "#afeeee",
-    palevioletred: "#db7093",
-    papayawhip: "#ffefd5",
-    peachpuff: "#ffdab9",
-    peru: "#cd853f",
-    pink: "#ffc0cb",
-    plum: "#dda0dd",
-    powderblue: "#b0e0e6",
-    purple: "#800080",
-    red: "#ff0000",
-    rosybrown: "#bc8f8f",
-    royalblue: "#4169e1",
-    saddlebrown: "#8b4513",
-    salmon: "#fa8072",
-    sandybrown: "#f4a460",
-    seagreen: "#2e8b57",
-    seashell: "#fff5ee",
-    sienna: "#a0522d",
-    silver: "#c0c0c0",
-    skyblue: "#87ceeb",
-    slateblue: "#6a5acd",
-    slategray: "#708090",
-    slategrey: "#708090",
-    snow: "#fffafa",
-    springgreen: "#00ff7f",
-    steelblue: "#4682b4",
-    tan: "#d2b48c",
-    teal: "#008080",
-    thistle: "#d8bfd8",
-    tomato: "#ff6347",
-    turquoise: "#40e0d0",
-    violet: "#ee82ee",
-    wheat: "#f5deb3",
-    white: "#ffffff",
-    whitesmoke: "#f5f5f5",
-    yellow: "#ffff00",
-    yellowgreen: "#9acd32"
+MochiKit.Visual.Color.namedColors=function(){
+return MochiKit.Base.clone(MochiKit.Visual.Color._namedColors);
 };
-
-
-
-if (typeof(MochiKit) == 'undefined') {
-    MochiKit = {};
+MochiKit.Visual.Color._namedColors={aliceblue:"#f0f8ff",antiquewhite:"#faebd7",aqua:"#00ffff",aquamarine:"#7fffd4",azure:"#f0ffff",beige:"#f5f5dc",bisque:"#ffe4c4",black:"#000000",blanchedalmond:"#ffebcd",blue:"#0000ff",blueviolet:"#8a2be2",brown:"#a52a2a",burlywood:"#deb887",cadetblue:"#5f9ea0",chartreuse:"#7fff00",chocolate:"#d2691e",coral:"#ff7f50",cornflowerblue:"#6495ed",cornsilk:"#fff8dc",crimson:"#dc143c",cyan:"#00ffff",darkblue:"#00008b",darkcyan:"#008b8b",darkgoldenrod:"#b8860b",darkgray:"#a9a9a9",darkgreen:"#006400",darkgrey:"#a9a9a9",darkkhaki:"#bdb76b",darkmagenta:"#8b008b",darkolivegreen:"#556b2f",darkorange:"#ff8c00",darkorchid:"#9932cc",darkred:"#8b0000",darksalmon:"#e9967a",darkseagreen:"#8fbc8f",darkslateblue:"#483d8b",darkslategray:"#2f4f4f",darkslategrey:"#2f4f4f",darkturquoise:"#00ced1",darkviolet:"#9400d3",deeppink:"#ff1493",deepskyblue:"#00bfff",dimgray:"#696969",dimgrey:"#696969",dodgerblue:"#1e90ff",firebrick:"#b22222",floralwhite:"#fffaf0",forestgreen:"#228b22",fuchsia:"#ff00ff",gainsboro:"#dcdcdc",ghostwhite:"#f8f8ff",gold:"#ffd700",goldenrod:"#daa520",gray:"#808080",green:"#008000",greenyellow:"#adff2f",grey:"#808080",honeydew:"#f0fff0",hotpink:"#ff69b4",indianred:"#cd5c5c",indigo:"#4b0082",ivory:"#fffff0",khaki:"#f0e68c",lavender:"#e6e6fa",lavenderblush:"#fff0f5",lawngreen:"#7cfc00",lemonchiffon:"#fffacd",lightblue:"#add8e6",lightcoral:"#f08080",lightcyan:"#e0ffff",lightgoldenrodyellow:"#fafad2",lightgray:"#d3d3d3",lightgreen:"#90ee90",lightgrey:"#d3d3d3",lightpink:"#ffb6c1",lightsalmon:"#ffa07a",lightseagreen:"#20b2aa",lightskyblue:"#87cefa",lightslategray:"#778899",lightslategrey:"#778899",lightsteelblue:"#b0c4de",lightyellow:"#ffffe0",lime:"#00ff00",limegreen:"#32cd32",linen:"#faf0e6",magenta:"#ff00ff",maroon:"#800000",mediumaquamarine:"#66cdaa",mediumblue:"#0000cd",mediumorchid:"#ba55d3",mediumpurple:"#9370db",mediumseagreen:"#3cb371",mediumslateblue:"#7b68ee",mediumspringgreen:"#00fa9a",mediumturquoise:"#48d1cc",mediumvioletred:"#c71585",midnightblue:"#191970",mintcream:"#f5fffa",mistyrose:"#ffe4e1",moccasin:"#ffe4b5",navajowhite:"#ffdead",navy:"#000080",oldlace:"#fdf5e6",olive:"#808000",olivedrab:"#6b8e23",orange:"#ffa500",orangered:"#ff4500",orchid:"#da70d6",palegoldenrod:"#eee8aa",palegreen:"#98fb98",paleturquoise:"#afeeee",palevioletred:"#db7093",papayawhip:"#ffefd5",peachpuff:"#ffdab9",peru:"#cd853f",pink:"#ffc0cb",plum:"#dda0dd",powderblue:"#b0e0e6",purple:"#800080",red:"#ff0000",rosybrown:"#bc8f8f",royalblue:"#4169e1",saddlebrown:"#8b4513",salmon:"#fa8072",sandybrown:"#f4a460",seagreen:"#2e8b57",seashell:"#fff5ee",sienna:"#a0522d",silver:"#c0c0c0",skyblue:"#87ceeb",slateblue:"#6a5acd",slategray:"#708090",slategrey:"#708090",snow:"#fffafa",springgreen:"#00ff7f",steelblue:"#4682b4",tan:"#d2b48c",teal:"#008080",thistle:"#d8bfd8",tomato:"#ff6347",turquoise:"#40e0d0",violet:"#ee82ee",wheat:"#f5deb3",white:"#ffffff",whitesmoke:"#f5f5f5",yellow:"#ffff00",yellowgreen:"#9acd32"};
+if(typeof (MochiKit)=="undefined"){
+MochiKit={};
 }
-
-if (typeof(MochiKit.MochiKit) == 'undefined') {
-    MochiKit.MochiKit = {};
+if(typeof (MochiKit.MochiKit)=="undefined"){
+MochiKit.MochiKit={};
 }
-
-MochiKit.MochiKit.NAME = "MochiKit.MochiKit";
-MochiKit.MochiKit.VERSION = "0.60";
-MochiKit.MochiKit.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
+MochiKit.MochiKit.NAME="MochiKit.MochiKit";
+MochiKit.MochiKit.VERSION="0.60";
+MochiKit.MochiKit.__repr__=function(){
+return "["+this.NAME+" "+this.VERSION+"]";
 };
-
-MochiKit.MochiKit.toString = function () {
-    return this.__repr__();
+MochiKit.MochiKit.toString=function(){
+return this.__repr__();
 };
-
-MochiKit.MochiKit.SUBMODULES = [
-    "Base",
-    "Iter",
-    "Logging",
-    "DateTime",
-    "Format",
-    "Async",
-    "DOM",
-    "Visual"
-];
-
-if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
-    if (typeof(dojo) != 'undefined') {
-        dojo.provides('MochiKit.MochiKit');
-        dojo.require("MochiKit.*");
-    }
-    if (typeof(JSAN) != 'undefined') {
-        // hopefully this makes it easier for static analysis?
-        JSAN.use("MochiKit.Base", []);
-        JSAN.use("MochiKit.Iter", []);
-        JSAN.use("MochiKit.Logging", []);
-        JSAN.use("MochiKit.DateTime", []);
-        JSAN.use("MochiKit.Format", []);
-        JSAN.use("MochiKit.Async", []);
-        JSAN.use("MochiKit.DOM", []);
-        JSAN.use("MochiKit.Visual", []);
-    }
-    (function () {
-        var extend = MochiKit.Base.extend;
-        var self = MochiKit.MochiKit;
-        var modules = self.SUBMODULES;
-        var EXPORT = [];
-        var EXPORT_OK = [];
-        var EXPORT_TAGS = {};
-        for (var i = 0; i < modules.length; i++) {
-            var m = MochiKit[modules[i]];
-            extend(EXPORT, m.EXPORT);
-            extend(EXPORT_OK, m.EXPORT_OK);
-            for (var k in m.EXPORT_TAGS) {
-                EXPORT_TAGS[k] = extend(EXPORT_TAGS[k], m.EXPORT_TAGS[k]);
-            }
-            var all = m.EXPORT_TAGS[":all"];
-            if (!all) {
-                all = extend(null, m.EXPORT, m.EXPORT_OK);
-            }
-            for (var i = 0; i < all.length; i++) {
-                var k = all[i];
-                self[k] = m[k];
-            }
-        }
-        self.EXPORT = EXPORT;
-        self.EXPORT_OK = EXPORT_OK;
-        self.EXPORT_TAGS = EXPORT_TAGS;
-    }());
-    
-} else {
-    if (typeof(MochiKit.__compat__) == 'undefined') {
-        MochiKit.__compat__ = true;
-    }
-    (function () {
-        var scripts = document.getElementsByTagName("script");
-        var base = null;
-        var baseElem = null;
-        var allScripts = {};
-        for (var i = 0; i < scripts.length; i++) {
-            src = scripts[i].src;
-            allScripts[src] = true;
-            if (src.match(/MochiKit.js$/)) {
-                base = src.substring(0, src.lastIndexOf('MochiKit.js'));
-                baseElem = scripts[i];
-            }
-        }
-        if (base == null) {
-            return;
-        }
-        var modules = MochiKit.MochiKit.SUBMODULES;
-        modules.unshift("Compat");
-        for (var i = 0; i < modules.length; i++) {
-            if (MochiKit[modules[i]]) {
-                continue;
-            }
-            var uri = base + modules[i] + '.js';
-            if (uri in allScripts) {
-                continue;
-            }
-            if (false) {
-                // doesn't work in Safari
-                var s = document.createElement('script');
-                s.setAttribute("src", uri);
-                s.setAttribute("type", "text/javascript");
-                baseElem.parentNode.appendChild(s);
-            } else {
-                var tag = '<' + 'script src="' + uri + '" type="text/javascript"' + '>' + '<' + '/script' + '>';
-                document.write(tag);
-            }
-        }
-    })();
+MochiKit.MochiKit.SUBMODULES=["Base","Iter","Logging","DateTime","Format","Async","DOM","Visual"];
+if(typeof (JSAN)!="undefined"||typeof (dojo)!="undefined"){
+if(typeof (dojo)!="undefined"){
+dojo.provides("MochiKit.MochiKit");
+dojo.require("MochiKit.*");
 }
+if(typeof (JSAN)!="undefined"){
+JSAN.use("MochiKit.Base",[]);
+JSAN.use("MochiKit.Iter",[]);
+JSAN.use("MochiKit.Logging",[]);
+JSAN.use("MochiKit.DateTime",[]);
+JSAN.use("MochiKit.Format",[]);
+JSAN.use("MochiKit.Async",[]);
+JSAN.use("MochiKit.DOM",[]);
+JSAN.use("MochiKit.Visual",[]);
+}
+(function(){
+var _409=MochiKit.Base.extend;
+var self=MochiKit.MochiKit;
+var _410=self.SUBMODULES;
+var _411=[];
+var _412=[];
+var _413={};
+for(var i=0;i<_410.length;i++){
+var m=MochiKit[_410[i]];
+_409(_411,m.EXPORT);
+_409(_412,m.EXPORT_OK);
+for(var k in m.EXPORT_TAGS){
+_413[k]=_409(_413[k],m.EXPORT_TAGS[k]);
+}
+var all=m.EXPORT_TAGS[":all"];
+if(!all){
+all=_409(null,m.EXPORT,m.EXPORT_OK);
+}
+for(var i=0;i<all.length;i++){
+var k=all[i];
+self[k]=m[k];
+}
+}
+self.EXPORT=_411;
+self.EXPORT_OK=_412;
+self.EXPORT_TAGS=_413;
+}());
+}else{
+if(typeof (MochiKit.__compat__)=="undefined"){
+MochiKit.__compat__=true;
+}
+(function(){
+var _414=document.getElementsByTagName("script");
+var base=null;
+var _415=null;
+var _416={};
+for(var i=0;i<_414.length;i++){
+src=_414[i].src;
+_416[src]=true;
+if(src.match(/MochiKit.js$/)){
+base=src.substring(0,src.lastIndexOf("MochiKit.js"));
+_415=_414[i];
+}
+}
+if(base==null){
+return;
+}
+var _417=MochiKit.MochiKit.SUBMODULES;
+_417.unshift("Compat");
+for(var i=0;i<_417.length;i++){
+if(MochiKit[_417[i]]){
+continue;
+}
+var uri=base+_417[i]+".js";
+if(uri in _416){
+continue;
+}
+if(false){
+var s=document.createElement("script");
+s.setAttribute("src",uri);
+s.setAttribute("type","text/javascript");
+_415.parentNode.appendChild(s);
+}else{
+var tag="<"+"script src=\""+uri+"\" type=\"text/javascript\""+">"+"<"+"/script"+">";
+document.write(tag);
+}
+}
+})();
+}
+
 
