@@ -43,6 +43,9 @@ MochiKit.DOM.EXPORT = [
     "createDOM",
     "createDOMFunc",
     "swapDOM",
+    "UL",
+    "OL",
+    "LI",
     "TD",
     "TR",
     "TBODY",
@@ -744,6 +747,9 @@ MochiKit.DOM.__new__ = function () {
 
     // shorthand for createDOM syntax
     var createDOMFunc = this.createDOMFunc;
+    this.UL = createDOMFunc("ul");
+    this.OL = createDOMFunc("ol");
+    this.LI = createDOMFunc("li");
     this.TD = createDOMFunc("td");
     this.TR = createDOMFunc("tr");
     this.TBODY = createDOMFunc("tbody");
