@@ -284,16 +284,16 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
             }
         } else {
             // IE is insane in the membrane
+            var IE_IS_REALLY_AWFUL_AND_SHOULD_DIE = {
+                "class": "className",
+                "checked": "defaultChecked",
+                "onclick": "onclick"
+            };
             for (var k in attrs) {
                 var v = attrs[k];
-                if (k == "class") {
-                    elem.className = v;
-                } else if (k == "checked") {
-                    if (v == "false" || v == "0") {
-                        v = false;
-                    }
-                    elem.defaultChecked = !!v;
-                } else {
+                if (k in IE_IS_REALLY_AWFUL_AND_SHOULD_DIE) {
+                    elem[IE_IS_REALLY_AWFUL_AND_SHOULD_DIE[k]] = v;
+                 } else {
                     elem.setAttribute(k, v);
                 }
             }
