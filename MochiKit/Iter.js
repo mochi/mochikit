@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Iter 0.60
+MochiKit.Iter 0.70
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -29,7 +29,7 @@ if (typeof(MochiKit.Iter) == 'undefined') {
 }           
         
 MochiKit.Iter.NAME = "MochiKit.Iter";
-MochiKit.Iter.VERSION = "0.60";
+MochiKit.Iter.VERSION = "0.70";
 MochiKit.Iter.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 }

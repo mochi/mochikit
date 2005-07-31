@@ -1,6 +1,6 @@
 /***
 
-MochiKit.DOM 0.60
+MochiKit.DOM 0.70
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -29,7 +29,7 @@ if (typeof(MochiKit.DOM) == 'undefined') {
 }
 
 MochiKit.DOM.NAME = "MochiKit.DOM";
-MochiKit.DOM.VERSION = "0.60";
+MochiKit.DOM.VERSION = "0.70";
 MochiKit.DOM.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 }
