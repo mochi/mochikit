@@ -1,3 +1,8 @@
+XXXX-XX-XX      v0.70
+
+- Packing is now done by Dojo's custom Rhino interpreter, so it's much smaller
+  now!
+
 2005-07-29      v0.60
 
 - Beefed up the MochiKit.DOM test suite
