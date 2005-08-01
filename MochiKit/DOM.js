@@ -286,15 +286,16 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
             // IE is insane in the membrane
             var IE_IS_REALLY_AWFUL_AND_SHOULD_DIE = {
                 "class": "className",
-                "checked": "defaultChecked",
-                "onclick": "onclick"
+                "checked": "defaultChecked"
             };
             for (var k in attrs) {
                 var v = attrs[k];
                 var renamed = IE_IS_REALLY_AWFUL_AND_SHOULD_DIE[k];
                 if (typeof(renamed) == 'string') {
                     elem[renamed] = v;
-                 } else {
+                } else if (k.substring(0, 2) == 'on') {
+                    elem[k] = v;
+                } else {
                     elem.setAttribute(k, v);
                 }
             }

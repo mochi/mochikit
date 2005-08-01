@@ -1,7 +1,8 @@
 XXXX-XX-XX      v0.70
 
-- More workarounds for Internet "worst browser ever" Explorer's setAttribute,
-  checked -> defaultChecked, and onclick -> onclick.
+- More workarounds for Internet "worst browser ever" Explorer's setAttribute
+  usage in MochiKit.DOM.createDOM.  checked -> defaultChecked, and any
+  attribute that starts with "on" is now set with elem[name] = value.
 - Added UL, OL, LI convenience createDOM aliases to MochiKit.DOM
 - Packing is now done by Dojo's custom Rhino interpreter, so it's much smaller
   now!
