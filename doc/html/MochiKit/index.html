@@ -38,9 +38,11 @@
 <h1><a name="version-history">Version History</a></h1>
 <p>XXXX-XX-XX      v0.70</p>
 <ul class="simple">
-<li>More workarounds for Internet &quot;worst browser ever&quot; Explorer's setAttribute
-usage in MochiKit.DOM.createDOM.  checked -&gt; defaultChecked, and any
-attribute that starts with &quot;on&quot; is now set with elem[name] = value.</li>
+<li>MochiKit.DOM.createDOM will now use attr[k] = v for all browsers if the name
+starts with &quot;on&quot; (e.g. &quot;onclick&quot;).  If v is a string, it will set it to
+new Function(v).</li>
+<li>Another workaround for Internet &quot;worst browser ever&quot; Explorer's setAttribute
+usage in MochiKit.DOM.createDOM (checked -&gt; defaultChecked).</li>
 <li>Added UL, OL, LI convenience createDOM aliases to MochiKit.DOM</li>
 <li>Packing is now done by Dojo's custom Rhino interpreter, so it's much smaller
 now!</li>
