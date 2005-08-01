@@ -280,7 +280,15 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
         if (MochiKit.DOM.attributeArray.compliant) {
             // not IE, good.
             for (var k in attrs) {
-                elem.setAttribute(k, attrs[k]);
+                var v = attrs[k];
+                if (k.substring(0, 2) == "on") {
+                    if (typeof(v) == "string") {
+                        v = new Function(v);
+                    }
+                    elem[k] = v;
+                } else {
+                    elem.setAttribute(k, attrs[k]);
+                }
             }
         } else {
             // IE is insane in the membrane
@@ -291,9 +299,12 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
             for (var k in attrs) {
                 var v = attrs[k];
                 var renamed = IE_IS_REALLY_AWFUL_AND_SHOULD_DIE[k];
-                if (typeof(renamed) == 'string') {
+                if (typeof(renamed) == "string") {
                     elem[renamed] = v;
-                } else if (k.substring(0, 2) == 'on') {
+                } else if (k.substring(0, 2) == "on") {
+                    if (typeof(v) == "string") {
+                        v = new Function(v);
+                    }
                     elem[k] = v;
                 } else {
                     elem.setAttribute(k, v);
