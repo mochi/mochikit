@@ -1947,17 +1947,28 @@ var elem=document.createElement(name);
 if(_221){
 if(MochiKit.DOM.attributeArray.compliant){
 for(var k in _221){
+var v=_221[k];
+if(k.substring(0,2)=="on"){
+if(typeof (v)=="string"){
+v=new Function(v);
+}
+elem[k]=v;
+}else{
 elem.setAttribute(k,_221[k]);
 }
+}
 }else{
-var _222={"class":"className","checked":"defaultChecked"};
+var _223={"class":"className","checked":"defaultChecked"};
 for(var k in _221){
 var v=_221[k];
-var _224=_222[k];
+var _224=_223[k];
 if(typeof (_224)=="string"){
 elem[_224]=v;
 }else{
 if(k.substring(0,2)=="on"){
+if(typeof (v)=="string"){
+v=new Function(v);
+}
 elem[k]=v;
 }else{
 elem.setAttribute(k,v);
