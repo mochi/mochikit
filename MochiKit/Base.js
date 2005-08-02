@@ -974,7 +974,61 @@ MochiKit.Base.nameFunctions = function (namespace) {
             }
         }
     }
-}
+};
+
+
+MochiKit.Base.urlEncode = function (unencoded) {
+    var rval = escape(unencoded).replace(/\+/g, '%2B').replace(/\"/g,'%22');
+    return rval.replace(/\'/g, '%27');
+};
+
+
+MochiKit.Base.queryString = function (names, values) {
+    if (arguments.length == 1) {
+        var o = names;
+        names = [];
+        values = [];
+        for (var k in o) {
+            var v = o[k];
+            if (typeof(v) != "function") {
+                names.push(k);
+                values.push(v);
+            }
+        }
+    }
+    var rval = [];
+    var len = Math.min(names.length, values.length);
+    var urlEncode = MochiKit.Base.urlEncode;
+    for (var i = 0; i < len; i++) {
+        rval.push(urlEncode(names[i]) + "=" + urlEncode(values[i]));
+    }
+    return rval.join("&");
+};
+
+
+MochiKit.Base.parseQueryString = function (encodedString, useArrays) {
+    var pairs = encodedString.replace(/\+/g, "%20").split("&");
+    var o = {};
+    if (useArrays) {
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i].split("=");
+            var name = unescape(pair[0]);
+            var arr = o[name];
+            if (!(arr instanceof Array)) {
+                arr = [];
+                o[name] = arr;
+            }
+            arr.push(unescape(pair[1]));
+        }
+    } else {
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i].split("=");
+            o[unescape(pair[0])] = unescape(pair[1]);
+        }
+    }
+    return o;
+};
+    
 
 MochiKit.Base.EXPORT = [
     "clone",
@@ -1020,7 +1074,10 @@ MochiKit.Base.EXPORT = [
     "objMax",
     "objMin",
     "nodeWalk",
-    "zip"
+    "zip",
+    "urlEncode",
+    "queryString",
+    "parseQueryString"
 ];
 
 MochiKit.Base.EXPORT_OK = [

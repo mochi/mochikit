@@ -803,6 +803,52 @@ nameFunctions(namespace);
 assert( namespace.Dude.NAME == 'Awesome.Dude' );
 </pre>
 </blockquote>
+<p><tt class="docutils literal"><span class="pre">urlEncode(unencoded)</span></tt>:</p>
+<blockquote>
+<p>Converts a string into a URL-encoded string. Note that, in this
+implementation, spaces are converted to %20 instead of &quot;+&quot;. e.g.:</p>
+<pre class="literal-block">
+assert( URLencode(&quot;1+2=2&quot;) == &quot;1%2B2%3D2&quot;);
+</pre>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">queryString(names,</span> <span class="pre">values)</span></tt>:</p>
+<blockquote>
+<p>Creates a URL query string from a pair of array-like objects representing
+<tt class="docutils literal"><span class="pre">names</span></tt> and <tt class="docutils literal"><span class="pre">values</span></tt>.  Each name=value pair will be URL encoded by
+<tt class="docutils literal"><span class="pre">urlEncode</span></tt>.  e.g.:</p>
+<pre class="literal-block">
+var keys = [&quot;foo&quot;, &quot;bar&quot;];
+var values = [&quot;value one&quot;, &quot;two&quot;];
+assert( queryString(keys, values) == &quot;foo=value%20one&amp;bar=two&quot; );
+</pre>
+<dl class="docutils">
+<dt>Alternate form:</dt>
+<dd><tt class="docutils literal"><span class="pre">queryString({name:</span> <span class="pre">value,</span> <span class="pre">...})</span></tt></dd>
+</dl>
+<p>Note that when using the alternate form, the order of the name=value
+pairs in the resultant query string is dependent on how the particular
+JavaScript implementation handles <tt class="docutils literal"><span class="pre">for</span> <span class="pre">(..in..)</span></tt> property enumeration.</p>
+<p>When using the alternate form, name=value pairs with
+<tt class="docutils literal"><span class="pre">typeof(value)</span> <span class="pre">==</span> <span class="pre">&quot;function&quot;</span></tt> are ignored.  This is a workaround for the
+case where a poorly designed library has modified <tt class="docutils literal"><span class="pre">Object.prototype</span></tt>
+and inserted &quot;convenience functions&quot;.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">parseQueryString(encodedString[,</span> <span class="pre">useArrays=false])</span></tt>:</p>
+<blockquote>
+<p>Parse a name=value pair URL query string into an object with a property
+for each pair.  e.g.:</p>
+<pre class="literal-block">
+var args = parseQueryString(&quot;foo=value%20one&amp;bar=two&quot;);
+assert( args.foo == &quot;value one&quot; &amp;&amp; args.bar == &quot;two&quot; );
+</pre>
+<p>If you expect that the query string will reuse the
+same name, then give <tt class="docutils literal"><span class="pre">true</span></tt> as a second argument, which will
+use arrays to store the values.  e.g.:</p>
+<pre class="literal-block">
+var args = parseQueryString(&quot;foo=one&amp;foo=two&quot;);
+assert( args.foo[0] == &quot;one&quot; &amp;&amp; args.foo[1] == &quot;two&quot; );
+</pre>
+</blockquote>
 </div>
 </div>
 <div class="section" id="authors">

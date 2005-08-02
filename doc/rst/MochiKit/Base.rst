@@ -780,6 +780,53 @@ Functions
         assert( namespace.Dude.NAME == 'Awesome.Dude' );
 
 
+``urlEncode(unencoded)``:
+
+    Converts a string into a URL-encoded string. Note that, in this
+    implementation, spaces are converted to %20 instead of "+". e.g.::
+ 
+        assert( URLencode("1+2=2") == "1%2B2%3D2");
+
+
+``queryString(names, values)``:
+
+    Creates a URL query string from a pair of array-like objects representing
+    ``names`` and ``values``.  Each name=value pair will be URL encoded by
+    ``urlEncode``.  e.g.::
+
+        var keys = ["foo", "bar"];
+        var values = ["value one", "two"];
+        assert( queryString(keys, values) == "foo=value%20one&bar=two" );
+
+    Alternate form:
+        ``queryString({name: value, ...})``
+
+    Note that when using the alternate form, the order of the name=value
+    pairs in the resultant query string is dependent on how the particular
+    JavaScript implementation handles ``for (..in..)`` property enumeration.
+    
+    When using the alternate form, name=value pairs with
+    ``typeof(value) == "function"`` are ignored.  This is a workaround for the
+    case where a poorly designed library has modified ``Object.prototype``
+    and inserted "convenience functions".
+
+
+``parseQueryString(encodedString[, useArrays=false])``:
+
+    Parse a name=value pair URL query string into an object with a property
+    for each pair.  e.g.::
+
+        var args = parseQueryString("foo=value%20one&bar=two");
+        assert( args.foo == "value one" && args.bar == "two" );
+    
+    If you expect that the query string will reuse the
+    same name, then give ``true`` as a second argument, which will
+    use arrays to store the values.  e.g.::
+
+        var args = parseQueryString("foo=one&foo=two");
+        assert( args.foo[0] == "one" && args.foo[1] == "two" );
+
+
 Authors
 =======
 
