@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 99});
+    plan({'tests': 106});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -327,6 +327,19 @@ try {
     is( repr(MochiKit.Base.nameFunctions), "MochiKit.Base.nameFunctions", "test nameFunctions" );
     // Done!
 
+    is( urlEncode("1+2=2"), "1%2B2%3D2", "urlEncode" );
+    is( queryString(["a", "b"], [1, "two"]), "a=1&b=two", "queryString");
+    is( queryString({"a": 1}), "a=1", "one item alternate form queryString" );
+    var o = {"a": 1, "b": 2, "c": function() {}};
+    var res = queryString(o).split("&");
+    res.sort();
+    is( res.join("&"), "a=1&b=2", "two item alternate form queryString, function skip" );
+    var res = parseQueryString("1+1=2&b=3%3D2");
+    is( res["1 1"], "2", "parseQueryString pathological name" );
+    is( res.b, "3=2", "parseQueryString second name:value pair" );
+    var res = parseQueryString("foo=one&foo=two", true);
+    is( res["foo"].join(" "), "one two", "parseQueryString useArrays" );
+    
     ok( true, "test suite finished!");
     
 } catch (err) {

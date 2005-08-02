@@ -1,5 +1,7 @@
 XXXX-XX-XX      v0.70
 
+- Added three new functions to MochiKit.Base for dealing with URL query
+  strings: urlEncode, queryString, parseQueryString
 - MochiKit.DOM.createDOM will now use attr[k] = v for all browsers if the name
   starts with "on" (e.g. "onclick").  If v is a string, it will set it to
   new Function(v).
