@@ -243,7 +243,8 @@ Functions
         a DOM element (or string id of one) to be replaced
 
     ``src``:
-        the DOM element (or string id of one) to replace it with
+        the DOM element (or string id of one) to replace it with, or
+        ``null`` if ``dest`` is to be removed (replaced with nothing).
 
     *returns*:
         a DOM element (``src``)
@@ -378,11 +379,14 @@ Functions
         partial(setDisplayForElement("none"))
 
 
-``scrapeText(node)``:
+``scrapeText(node[, asArray=false])``:
 
-    Walk a DOM tree and scrape all of the text out of it as an ``Array``.
-    Typically you will want to do get the string with:
-    ``scrapeText(node).join('')``
+    Walk a DOM tree and scrape all of the text out of it as a ``string``.
+
+    If ``asArray`` is ``true``, then an ``Array`` will be returned with
+    each individual text node.  These two are equivalent::
+
+        assert( scrapeText(node) == scrapeText(node, true).join("") );
 
 
 ``addToCallStack(target, path, func[, once])``:

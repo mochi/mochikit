@@ -1,5 +1,14 @@
 XXXX-XX-XX      v0.70
 
+- sendXMLHttpRequest and functions that use it (loadJSONDoc, etc.) no longer
+  ignore requests with status == 0, which seems to happen for cached or local
+  requests
+- Added sendXMLHttpRequest to MochiKit.Async.EXPORT, d'oh.
+- Changed scrapeText API to return a string by default.  This is API-breaking!
+  It was dumb to have the default return value be the form you almost never
+  want.  Sorry.
+- Added special form to swapDOM(dest, src).  If src is null, dest is removed
+  (where previously you'd likely get a DOM exception).
 - Added three new functions to MochiKit.Base for dealing with URL query
   strings: urlEncode, queryString, parseQueryString
 - MochiKit.DOM.createDOM will now use attr[k] = v for all browsers if the name
