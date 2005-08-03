@@ -1,30 +1,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
 
-Technically we should be using this:
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" [<!ATTLIST th mochi:format CDATA #IMPLIED>]>
-
-However, that will only work if the document is served with a 
-Content-Type of "application/xhtml+xml".  Browsers don't parse the tag right
-otherwise.
+Using a made-up xmlns..
 
 -->
-<html>
+<html xmlns:mochi="http://mochikit.com/examples/ajax_tables">
     <head>
         <title>Sortable Tables from Scratch with MochiKit</title>
-        <link href="sortable_tables.css" rel="stylesheet" type="text/css" />
+        <link href="ajax_tables.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="../../MochiKit/MochiKit.js"></script>
-        <script type="text/javascript" src="sortable_tables.js"></script>
+        <script type="text/javascript" src="ajax_tables.js"></script>
     </head>
     <body>
         <h1>
-            Sortable Tables from Scratch with MochiKit
+            Sortable Ajax Tables in JSON and XML with MochiKit
         </h1>
         <div>
             <div>
-                This is an example of how one might do sortable tables in an
-                inobtrusive manner.  The data is supplied by the server and is
-                already in the table.
+                <p>
+                    This is an example of how one might use MochiKit to do
+                    sortable tables from data given by the server in either JSON
+                    or XML format.
+                </p>
+                <p>
+                    Includes a micro implementation of something
+                    <a href="http://www.zope.org/Wikis/DevSite/Projects/ZPT/FrontPage">TAL</a>-esque.
+                </p>
             </div>
             <div>
                 On page load, the SortableManager:
@@ -74,10 +75,10 @@ otherwise.
         <table id="sortable_table" class="datagrid">
             <thead>
                 <tr>
-                    <th mochi:format="str">Domain Name</th>
-                    <th mochi:format="isodate">Creation Date</th>
-                    <th mochi:format="isodate">Expiry Date</th>
-                    <th mochi:format="istr">Organization Name</th>
+                    <th>Domain Name</th>
+                    <th>Creation Date</th>
+                    <th>Expiry Date</th>
+                    <th>Organization Name</th>
                 </tr>
             </thead>
             <tfoot class="invisible">
@@ -86,25 +87,25 @@ otherwise.
                 </tr>
             </tfoot>
             <tbody>
-                <tr>
-                    <td>mochibot.com</td>
-                    <td>2005-02-10</td>
-                    <td>2007-02-10</td>
-                    <td>Jameson Hsu</td>
+                <tr class="mochi-template" mochi:repeat="item domains">
+                    <td mochi:content="item/domain_name">mochibot.com</td>
+                    <td mochi:content="item/create_date">2005-02-10</td>
+                    <td mochi:content="item/expiry_date">2007-02-10</td>
+                    <td mochi:content="item/organization_name">Jameson Hsu</td>
                 </tr>
-                <tr>
+                <tr class="mochi-example">
                     <td>pythonmac.org</td>
                     <td>2003-09-24</td>
                     <td>2006-09-24</td>
                     <td>Bob Ippolito</td>
                 </tr>
-                <tr>
+                <tr class="mochi-example">
                     <td>undefined.org</td>
                     <td>2000-01-10</td>
                     <td>2006-01-10</td>
                     <td>Robert J Ippolito</td>
                 </tr>
-                <tr>
+                <tr class="mochi-example">
                     <td>python.org</td>
                     <td>1995-03-27</td>
                     <td>2007-03-28</td>
