@@ -27,7 +27,7 @@ ignoreEvent = function (ev) {
 
 update(SortableManager.prototype, {
 
-    "initWithTable": function (table) {
+    "initWithData": function (data) {
         /***
 
             Initialize the SortableManager with a table object
