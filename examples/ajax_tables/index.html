@@ -24,34 +24,46 @@ Using a made-up xmlns..
                 </p>
                 <p>
                     Includes a micro implementation of something
-                    <a href="http://www.zope.org/Wikis/DevSite/Projects/ZPT/FrontPage">TAL</a>-esque.
+                    <a href="http://www.zope.org/Wikis/DevSite/Projects/ZPT/FrontPage">TAL</a>-esque
+                    (called "MochiTAL" in the source, using a mochi: namespace).
                 </p>
             </div>
             <div>
                 On page load, the SortableManager:
                 <ul>
                     <li>
-                        Finds the table by its id (sortable_table).
+                        Rips out all of the elements with the mochi-example class
                     </li>
                     <li>
-                        Parses its thead for columns with a "mochi:format"
-                        attribute.
+                        Finds the elements with the mochi-template class and saves them
+                        for later parsing with "MochiTAL"
                     </li>
                     <li>
-                        Parses the data out of the tbody based upon
-                        information given in the "mochi:format" attribute,
-                        and clones the tr elements for later re-use.
+                        Finds the anchor tags with the mochi:dataformat attribute and
+                        gives them onclick behvaiors to load new data, using their
+                        href as the data source.  This makes your XML or JSON look like
+                        a normal link to a search engine (or javascript-disabled browser).
                     </li>
                     <li>
-                        Clones the column header th elements for use as a
-                        template when drawing sort arrow columns.
+                        Clones the thead element from the table because it will be
+                        replaced on each sort
                     </li>
                     <li>
-                        Stores away a reference to the tbody, as it will be
-                        replaced on each sort.
+                        Sets up a default sort key of "domain_name" and queues a load of
+                        the json document.
+                    </li>
+                </ul>
+            </div>
+            <div>
+                On data load, the SortableManager:
+                <ul>
+                    <li>
+                        Parses the table data from the document (columns list, rows list-of-lists)
+                        and turns them into a list of [{column:value, ...}] objects for easy sorting
+                        and column order stability.
                     </li>
                     <li>
-                        Performs the first sort.
+                        Chooses the default (or previous) sort state and triggers a sort request
                     </li>
                 </ul>
             </div>
@@ -59,15 +71,23 @@ Using a made-up xmlns..
                 On sort request:
                 <ul>
                     <li>
-                        Sorts the data based on the given key and direction
+                        Replaces the cloned thead element with a copy of it that has the sort
+                        indicator (&uarr; or &darr;) for the most recently sorted column
+                        (matched up to the first field in the th's mochi:sortcolumn attribute), and
+                        attaches onclick, onmousedown, onmouseover, onmouseout behaviors to them.
+                        The second field of mochi:sortcolumn attribute is used to perform a non-string
+                        sort.
                     </li>
                     <li>
-                        Creates a new tbody from the rows in the new ordering
+                        Performs the sort on the domains list.  If the second field of mochi:sortcolumn
+                        was not "str", then a custom function is used and the results are stored away
+                        in a __sort__ key, which is then used to perform the sort
+                        (read: shwartzian transform).
                     </li>
                     <li>
-                        Replaces the column header th elements with clickable
-                        versions, adding an indicator (&uarr;&darr;) to the
-                        most recently sorted column.
+                        Calls processMochiTAL on the page, which finds the mochi-template sections and
+                        then looks for mochi:repeat and mochi:content attributes on them, using the data
+                        object.
                     </li>
                 </ul>
             </div>
@@ -76,6 +96,8 @@ Using a made-up xmlns..
             Load data: 
             <a href="domains.json" mochi:dataformat="json">domains.json</a>
             | <a href="domains.xml" mochi:dataformat="xml">domains.xml</a>
+            (current format: <span class="mochi-template" mochi:content="format">loading</span>)
+        </div>
         <table id="sortable_table" class="datagrid">
             <thead>
                 <tr>
@@ -91,11 +113,11 @@ Using a made-up xmlns..
                 </tr>
             </tfoot>
             <tbody class="mochi-template">
-                <tr mochi:repeat="item rows">
-                    <td mochi:content="item.0">mochibot.com</td>
-                    <td mochi:content="item.1">2005-02-10</td>
-                    <td mochi:content="item.2">2007-02-10</td>
-                    <td mochi:content="item.3">Jameson Hsu</td>
+                <tr mochi:repeat="item domains">
+                    <td mochi:content="item.domain_name">mochibot.com</td>
+                    <td mochi:content="item.create_date">2005-02-10</td>
+                    <td mochi:content="item.expiry_date">2007-02-10</td>
+                    <td mochi:content="item.organization_name">Jameson Hsu</td>
                 </tr>
                 <tr class="mochi-example">
                     <td>pythonmac.org</td>

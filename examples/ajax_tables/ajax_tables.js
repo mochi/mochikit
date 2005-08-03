@@ -1,5 +1,6 @@
 SortableManager = function () {
     this.thead = null;
+    this.thead_proto = null;
     this.tbody = null;
     this.deferred = null;
     this.columns = [];
@@ -24,6 +25,10 @@ ignoreEvent = function (ev) {
         event.cancelBubble = false;
         event.returnValue = false;
     }
+};
+
+lower = function (s) {
+    return s.toLowerCase();
 };
 
 getAttribute = function (dom, key) {
@@ -100,6 +105,7 @@ update(SortableManager.prototype, {
 
         // to find sort columns
         this.thead = getElementsByTagAndClassName("thead", null, $("sortable_table"))[0];
+        this.thead_proto = this.thead.cloneNode(true);
 
         this.sortkey = "domain_name";
         this.loadFromURL("json", "domains.json");
@@ -129,6 +135,10 @@ update(SortableManager.prototype, {
             log('loadFromURL success');
             return res;
         }, this));
+        d.addCallback(function (res) {
+            res.format = format;
+            return res;
+        });
         d.addCallback(bind(this.initWithData, this));
         d.addErrback(function (err) {
             if (err instanceof CancelledError) {
@@ -147,8 +157,23 @@ update(SortableManager.prototype, {
             Initialize the SortableManager with a table object
         
         ***/
+        var domains = [];
+        var rows = data.rows;
+        var cols = data.columns;
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var domain = {};
+            for (var j = 0; j < cols.length; j++) {
+                domain[cols[j]] = row[j];
+            }
+            domains.push(domain);
+        }
+        data.domains = domains;
         this.data = data;
-        var order = !!this.sortState[this.sortkey];
+        var order = this.sortState[this.sortkey];
+        if (typeof(order) == 'undefined') {
+            order = true;
+        }
         this.drawSortedRows(this.sortkey, order, false);
 
     },
@@ -162,7 +187,7 @@ update(SortableManager.prototype, {
         return bind(function () {
             log('onSortClick', name);
             var order = this.sortState[name];
-            order = !((order == null) ? false : order);
+            order = !((typeof(order) == 'undefined') ? false : order);
             this.drawSortedRows(name, order, true);
         }, this);
     },
@@ -175,13 +200,61 @@ update(SortableManager.prototype, {
 
         ***/
         log('drawSortedRows', key, forward);
-        // sort based on the state given (forward or reverse)
-        var cmp = (forward ? keyComparator : reverseKeyComparator);
-        this.rows.sort(cmp(key));
+
         // save it so we can flip next time
         this.sortState[key] = forward;
-        log('sort state');
+        this.sortkey = key;
+        var sortstyle = "str";
 
+        // setup the sort columns   
+        var thead = this.thead_proto.cloneNode(true);
+        var cols = thead.getElementsByTagName("th");
+        for (var i = 0; i < cols.length; i++) {
+            var col = cols[i];
+            var sortinfo = getAttribute(col, "mochi:sortcolumn").split(" ");
+            var sortkey = sortinfo[0];
+            col.onclick = this.onSortClick(sortkey);
+            col.onmousedown = ignoreEvent;
+            col.onmouseover = mouseOverFunc;
+            col.onmouseout = mouseOutFunc;
+            // if this is the sorted column
+            if (sortkey == key) {
+                sortstyle = sortinfo[1];
+                // \u2193 is down arrow, \u2191 is up arrow
+                // forward sorts mean the rows get bigger going down
+                var arrow = (forward ? "\u2193" : "\u2191");
+                // add the character to the column header
+                col.appendChild(SPAN(null, arrow));
+                if (clicked) {
+                    col.onmouseover();
+                }
+            }
+        }
+        this.thead = swapDOM(this.thead, thead);
+
+        var domains = this.data.domains;
+        if (sortstyle && sortstyle != "str") {
+            var func = null;
+            switch (sortstyle) {
+                case "istr":
+                    func = lower;
+                    break;
+                case "isoDate":
+                    func = isoDate;
+                    break;
+                default:
+                    throw new TypeError("unsupported sort style " + repr(sortstyle));
+            }
+            for (var i = 0; i < domains.length; i++) {
+                var domain = domains[i];
+                domain.__sort__ = func(domain[key]);
+            }
+            key = "__sort__";
+        }
+        
+        // sort based on the state given (forward or reverse)
+        var cmp = (forward ? keyComparator : reverseKeyComparator);
+        domains.sort(cmp(key));
         for (var i = 0; i < this.templates.length; i++) {
             log('template', i, template);
             var template = this.templates[i];
@@ -189,42 +262,8 @@ update(SortableManager.prototype, {
             this.processMochiTAL(dom, this.data);
             template.node = swapDOM(template.node, dom);
         }
-            
-        
-        /*
-        // get every "row" element from this.rows and make a new tbody
-        var newBody = TBODY(null, map(itemgetter("row"), this.rows));
-        // swap in the new tbody
-        this.tbody = swapDOM(this.tbody, newBody);
-        for (var i = 0; i < this.columns.length; i++) {
-            var col = this.columns[i];
-            var node = col.proto.cloneNode(true);
-            // remove the existing events to minimize IE leaks
-            col.element.onclick = null;
-            col.element.onmousedown = null;
-            col.element.onmouseover = null;
-            col.element.onmouseout = null;
-            // set new events for the new node
-            node.onclick = this.onSortClick(i);
-            node.onmousedown = ignoreEvent;
-            node.onmouseover = mouseOverFunc;
-            node.onmouseout = mouseOutFunc;
-            // if this is the sorted column
-            if (key == i) {
-                // \u2193 is down arrow, \u2191 is up arrow
-                // forward sorts mean the rows get bigger going down
-                var arrow = (forward ? "\u2193" : "\u2191");
-                // add the character to the column header
-                node.appendChild(SPAN(null, arrow));
-                if (clicked) {
-                    node.onmouseover();
-                }
-            }
  
-            // swap in the new th
-            col.element = swapDOM(col.element, node);
-        }
-        */
+
     },
 
     "processMochiTAL": function (dom, data) {

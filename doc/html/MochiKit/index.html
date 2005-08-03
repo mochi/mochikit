@@ -38,6 +38,17 @@
 <h1><a name="version-history">Version History</a></h1>
 <p>XXXX-XX-XX      v0.70</p>
 <ul class="simple">
+<li>New ajax_tables example, which shows off XMLHttpRequest, ajax, json, and
+a little TAL-ish DOM templating attribute language.</li>
+<li>sendXMLHttpRequest and functions that use it (loadJSONDoc, etc.) no longer
+ignore requests with status == 0, which seems to happen for cached or local
+requests</li>
+<li>Added sendXMLHttpRequest to MochiKit.Async.EXPORT, d'oh.</li>
+<li>Changed scrapeText API to return a string by default.  This is API-breaking!
+It was dumb to have the default return value be the form you almost never
+want.  Sorry.</li>
+<li>Added special form to swapDOM(dest, src).  If src is null, dest is removed
+(where previously you'd likely get a DOM exception).</li>
 <li>Added three new functions to MochiKit.Base for dealing with URL query
 strings: urlEncode, queryString, parseQueryString</li>
 <li>MochiKit.DOM.createDOM will now use attr[k] = v for all browsers if the name
