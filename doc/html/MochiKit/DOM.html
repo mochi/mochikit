@@ -241,7 +241,8 @@ a lot of tags with a bunch of the same attributes or contents.</p>
 <dt><tt class="docutils literal"><span class="pre">dest</span></tt>:</dt>
 <dd>a DOM element (or string id of one) to be replaced</dd>
 <dt><tt class="docutils literal"><span class="pre">src</span></tt>:</dt>
-<dd>the DOM element (or string id of one) to replace it with</dd>
+<dd>the DOM element (or string id of one) to replace it with, or
+<tt class="docutils literal"><span class="pre">null</span></tt> if <tt class="docutils literal"><span class="pre">dest</span></tt> is to be removed (replaced with nothing).</dd>
 <dt><em>returns</em>:</dt>
 <dd>a DOM element (<tt class="docutils literal"><span class="pre">src</span></tt>)</dd>
 </dl>
@@ -345,11 +346,15 @@ partial(setDisplayForElement(&quot;block&quot;))
 partial(setDisplayForElement(&quot;none&quot;))
 </pre>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">scrapeText(node)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">scrapeText(node[,</span> <span class="pre">asArray=false])</span></tt>:</p>
 <blockquote>
-Walk a DOM tree and scrape all of the text out of it as an <tt class="docutils literal"><span class="pre">Array</span></tt>.
-Typically you will want to do get the string with:
-<tt class="docutils literal"><span class="pre">scrapeText(node).join('')</span></tt></blockquote>
+<p>Walk a DOM tree and scrape all of the text out of it as a <tt class="docutils literal"><span class="pre">string</span></tt>.</p>
+<p>If <tt class="docutils literal"><span class="pre">asArray</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then an <tt class="docutils literal"><span class="pre">Array</span></tt> will be returned with
+each individual text node.  These two are equivalent:</p>
+<pre class="literal-block">
+assert( scrapeText(node) == scrapeText(node, true).join(&quot;&quot;) );
+</pre>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">addToCallStack(target,</span> <span class="pre">path,</span> <span class="pre">func[,</span> <span class="pre">once])</span></tt>:</p>
 <blockquote>
 <p>Set the property <tt class="docutils literal"><span class="pre">path</span></tt> of <tt class="docutils literal"><span class="pre">target</span></tt> to a function that calls the

@@ -1,5 +1,7 @@
 XXXX-XX-XX      v0.70
 
+- New ajax_tables example, which shows off XMLHttpRequest, ajax, json, and
+  a little TAL-ish DOM templating attribute language.
 - sendXMLHttpRequest and functions that use it (loadJSONDoc, etc.) no longer
   ignore requests with status == 0, which seems to happen for cached or local
   requests
