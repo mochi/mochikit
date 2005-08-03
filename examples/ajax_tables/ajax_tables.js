@@ -4,6 +4,7 @@ SortableManager = function () {
     this.deferred = null;
     this.columns = [];
     this.rows = [];
+    this.templates = [];
     this.sortState = {};
 };
 
@@ -24,6 +25,14 @@ ignoreEvent = function (ev) {
         event.returnValue = false;
     }
 };
+
+getAttribute = function (dom, key) {
+    try {
+        return dom.getAttribute(key);
+    } catch (e) {
+        return null;
+    }
+}
 
 datatableFromXMLRequest = function (req) {
     /***
@@ -51,7 +60,15 @@ loadFromDataAnchor = function (ev) {
     var href = this.href;
     sortableManager.loadFromURL(format, href);
 };
-    
+
+valueForKeyPath = function (data, keyPath) {
+    var chunks = keyPath.split(".");
+    while (chunks.length && data) {
+        data = data[chunks.shift()];
+    }
+    return data;
+};
+
 update(SortableManager.prototype, {
 
     "initialize": function () {
@@ -62,27 +79,34 @@ update(SortableManager.prototype, {
         }
         // make a template list
         var templates = getElementsByTagAndClassName(null, "mochi-template");
-        this.templates = [];
         for (var i = 0; i < templates.length; i++) {
             var template = templates[i];
-            this.templates.push({"template": template, "nodes": [template]});
+            var proto = template.cloneNode(true);
+            removeElementClass(proto, "mochi-template");
+            this.templates.push({
+                "template": proto,
+                "node": template
+            });
         }
         // set up the data anchors to do loads
         var anchors = getElementsByTagAndClassName("a", null);
         for (var i = 0; i < anchors.length; i++) {
             var node = anchors[i];
-            try {
-                var format = node.getAttribute("mochi:dataformat");
-                if (format) {
-                    node.onclick = loadFromDataAnchor;
-                }
-            } catch (e) {
-                // pass
+            var format = getAttribute(node, "mochi:dataformat");
+            if (format) {
+                node.onclick = loadFromDataAnchor;
             }
         }
+
+        // to find sort columns
+        this.thead = getElementsByTagAndClassName("thead", null, $("sortable_table"))[0];
+
+        this.sortkey = "domain_name";
+        this.loadFromURL("json", "domains.json");
     },
 
     "loadFromURL": function (format, url) {
+        log('loadFromURL', format, url);
         var d;
         if (this.deferred) {
             this.deferred.cancel();
@@ -102,6 +126,7 @@ update(SortableManager.prototype, {
         this.deferred = d;
         d.addBoth(bind(function (res) {
             this.deferred = null; 
+            log('loadFromURL success');
             return res;
         }, this));
         d.addCallback(bind(this.initWithData, this));
@@ -109,9 +134,10 @@ update(SortableManager.prototype, {
             if (err instanceof CancelledError) {
                 return;
             }
-            logErr(err);
+            logError(err);
             logger.debuggingBookmarklet();
         });
+        return d;
     },
 
     
@@ -121,71 +147,9 @@ update(SortableManager.prototype, {
             Initialize the SortableManager with a table object
         
         ***/
-        log("columns", repr(data.columns));
-        log("rows", repr(data.rows));
-        /*
-            XXX: work in progress
-        */
-        for (var i = 0; i < templates.length; i++) {
-            var template = templates[i];
-        }
-/*
-        // Find the thead
-        this.thead = table.getElementsByTagName('thead')[0];
-        // get the mochi:format key and contents for each column header
-        var cols = this.thead.getElementsByTagName('th');
-        for (var i = 0; i < cols.length; i++) {
-            var node = cols[i];
-            var attr = null;
-            try {
-                attr = node.getAttribute("mochi:format");
-            } catch (err) {
-                // pass
-            }
-            var o = node.childNodes;
-            this.columns.push({
-                "format": attr,
-                "element": node,
-                "proto": node.cloneNode(true)
-            });
-        }
-        // scrape the tbody for data
-        this.tbody = table.getElementsByTagName('tbody')[0];
-        // every row
-        var rows = this.tbody.getElementsByTagName('tr');
-        for (var i = 0; i < rows.length; i++) {
-            // every cell
-            var row = rows[i];
-            var cols = row.getElementsByTagName('td');
-            var rowData = [];
-            for (var j = 0; j < cols.length; j++) {
-                // scrape the text and build the appropriate object out of it
-                var cell = cols[j];
-                var obj = scrapeText(cell).join("");
-                switch (this.columns[j][0]) {
-                    case 'isodate':
-                        obj = isoDate(txt);
-                        break;
-                    case 'str':
-                        break;
-                    case 'istr':
-                        obj = txt.toLowerCase();
-                        break;
-                    // cases for numbers, etc. could be here
-                    default:
-                        break;
-                }
-                rowData.push(obj);
-            }
-            // stow away a reference to the TR and save it
-            rowData.row = row.cloneNode(true);
-            this.rows.push(rowData);
-
-        }
-
-        // do initial sort on first column
-        this.drawSortedRows(0, true, false);
-*/
+        this.data = data;
+        var order = !!this.sortState[this.sortkey];
+        this.drawSortedRows(this.sortkey, order, false);
 
     },
 
@@ -216,6 +180,18 @@ update(SortableManager.prototype, {
         this.rows.sort(cmp(key));
         // save it so we can flip next time
         this.sortState[key] = forward;
+        log('sort state');
+
+        for (var i = 0; i < this.templates.length; i++) {
+            log('template', i, template);
+            var template = this.templates[i];
+            var dom = template.template.cloneNode(true);
+            this.processMochiTAL(dom, this.data);
+            template.node = swapDOM(template.node, dom);
+        }
+            
+        
+        /*
         // get every "row" element from this.rows and make a new tbody
         var newBody = TBODY(null, map(itemgetter("row"), this.rows));
         // swap in the new tbody
@@ -248,7 +224,51 @@ update(SortableManager.prototype, {
             // swap in the new th
             col.element = swapDOM(col.element, node);
         }
+        */
+    },
+
+    "processMochiTAL": function (dom, data) {
+        if (dom.nodeType != 1) {
+            return;
+        }
+        var attr;
+        attr = getAttribute(dom, "mochi:repeat");
+        if (attr) {
+            dom.removeAttribute("mochi:repeat");
+            var parent = dom.parentNode;
+            attr = attr.split(" ");
+            var name = attr[0];
+            var lst = valueForKeyPath(data, attr[1]);
+            if (!lst) {
+                return;
+            }
+            for (var i = 0; i < lst.length; i++) {
+                data[name] = lst[i];
+                var newDOM = dom.cloneNode(true);
+                this.processMochiTAL(newDOM, data);
+                parent.insertBefore(newDOM, dom);
+            }
+            parent.removeChild(dom);
+            return;
+        }
+        attr = getAttribute(dom, "mochi:content");
+        if (attr) {
+            dom.removeAttribute("mochi:content");
+            while (dom.firstChild) {
+                dom.removeChild(dom.firstChild);
+            }
+            var content = valueForKeyPath(data, attr);
+            if (content) {
+                dom.appendChild(document.createTextNode(content));
+            }
+            return;
+        }
+        var nodes = list(dom.childNodes);
+        for (var i = 0; i < nodes.length; i++) {
+            this.processMochiTAL(nodes[i], data);
+        }
     }
+
 });
 
 sortableManager = new SortableManager();
