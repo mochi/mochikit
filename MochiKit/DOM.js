@@ -361,14 +361,17 @@ MochiKit.DOM.swapDOM = function (dest, src) {
         @param dest: a DOM element to be replaced
 
         @param src: the DOM element to replace it with
+                    or null if the DOM element should be removed
 
         @rtype: a DOM element (src)
 
     ***/
     dest = MochiKit.DOM.getElement(dest);
-    src = MochiKit.DOM.getElement(src);
     var parent = dest.parentNode;
-    parent.insertBefore(src, dest);
+    if (src) {
+        src = MochiKit.DOM.getElement(src);
+        parent.insertBefore(src, dest);
+    }
     parent.removeChild(dest);
     return src;
 };
@@ -714,10 +717,11 @@ MochiKit.DOM.setDisplayForElement = function (display, element/*, ...*/) {
     );
 };
 
-MochiKit.DOM.scrapeText = function (node) {
+MochiKit.DOM.scrapeText = function (node, /* optional */asArray) {
     /***
     
-        Walk a DOM tree and scrape all of the text out of it as an Array.
+        Walk a DOM tree and scrape all of the text out of it as a string
+        or an Array
 
     ***/
     var rval = [];
@@ -728,7 +732,11 @@ MochiKit.DOM.scrapeText = function (node) {
         }
         return node.childNodes;
     });
-    return rval;
+    if (asArray) {
+        return rval;
+    } else {
+        return rval.join("");
+    }
 };
 
 

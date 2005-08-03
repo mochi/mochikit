@@ -1,6 +1,7 @@
 SortableManager = function () {
     this.thead = null;
     this.tbody = null;
+    this.deferred = null;
     this.columns = [];
     this.rows = [];
     this.sortState = {};
@@ -24,15 +25,111 @@ ignoreEvent = function (ev) {
     }
 };
 
+datatableFromXMLRequest = function (req) {
+    /***
 
+        This effectively converts domains.xml to the
+        same form as domains.json
+
+    ***/
+    var xml = req.responseXML;
+    var nodes = xml.getElementsByTagName("column");
+    var rval = {"columns": map(scrapeText, nodes)};
+    var rows = [];
+    nodes = xml.getElementsByTagName("row") 
+    for (var i = 0; i < nodes.length; i++) {
+        var cells = nodes[i].getElementsByTagName("cell");
+        rows.push(map(scrapeText, cells));
+    }
+    rval.rows = rows;
+    return rval;
+};
+
+loadFromDataAnchor = function (ev) {
+    ignoreEvent(ev);
+    var format = this.getAttribute("mochi:dataformat");
+    var href = this.href;
+    sortableManager.loadFromURL(format, href);
+};
+    
 update(SortableManager.prototype, {
 
+    "initialize": function () {
+        // just rip all mochi-examples out of the DOM
+        var examples = getElementsByTagAndClassName(null, "mochi-example");
+        while (examples.length) {
+            swapDOM(examples.pop(), null);
+        }
+        // make a template list
+        var templates = getElementsByTagAndClassName(null, "mochi-template");
+        this.templates = [];
+        for (var i = 0; i < templates.length; i++) {
+            var template = templates[i];
+            this.templates.push({"template": template, "nodes": [template]});
+        }
+        // set up the data anchors to do loads
+        var anchors = getElementsByTagAndClassName("a", null);
+        for (var i = 0; i < anchors.length; i++) {
+            var node = anchors[i];
+            try {
+                var format = node.getAttribute("mochi:dataformat");
+                if (format) {
+                    node.onclick = loadFromDataAnchor;
+                }
+            } catch (e) {
+                // pass
+            }
+        }
+    },
+
+    "loadFromURL": function (format, url) {
+        var d;
+        if (this.deferred) {
+            this.deferred.cancel();
+        }
+        if (format == "xml") {
+            var req = getXMLHttpRequest();
+            if (req.overrideMimeType) {
+                req.overrideMimeType("text/xml");
+            }
+            req.open("GET", url, true);
+            d = sendXMLHttpRequest(req).addCallback(datatableFromXMLRequest);
+        } else if (format == "json") {
+            d = loadJSONDoc(url);
+        } else {
+            throw new TypeError("format " + repr(format) + " not supported");
+        }
+        this.deferred = d;
+        d.addBoth(bind(function (res) {
+            this.deferred = null; 
+            return res;
+        }, this));
+        d.addCallback(bind(this.initWithData, this));
+        d.addErrback(function (err) {
+            if (err instanceof CancelledError) {
+                return;
+            }
+            logErr(err);
+            logger.debuggingBookmarklet();
+        });
+    },
+
+    
     "initWithData": function (data) {
         /***
 
             Initialize the SortableManager with a table object
         
         ***/
+        log("columns", repr(data.columns));
+        log("rows", repr(data.rows));
+        /*
+            XXX: work in progress
+        */
+        for (var i = 0; i < templates.length; i++) {
+            var template = templates[i];
+        }
+/*
         // Find the thead
         this.thead = table.getElementsByTagName('thead')[0];
         // get the mochi:format key and contents for each column header
@@ -88,6 +185,7 @@ update(SortableManager.prototype, {
 
         // do initial sort on first column
         this.drawSortedRows(0, true, false);
+*/
 
     },
 
@@ -156,5 +254,5 @@ update(SortableManager.prototype, {
 sortableManager = new SortableManager();
 
 addLoadEvent(function () {
-    sortableManager.initWithTable($('sortable_table'));
+    sortableManager.initialize();
 });

@@ -518,9 +518,8 @@ MochiKit.Async.sendXMLHttpRequest = function (req, /* optional */ sendContent) {
             var status = null;
             try {
                 status = req.status;
-                if (typeof(status) == 'undefined' && MochiKit.Base.isNotEmpty(req.responseText)) {
-                    // XXX: Safari heisenbug workaround
-                    // MochiKit.Logging.logDebug('Fixing up status due to Safari heisenbug');
+                if (!status && MochiKit.Base.isNotEmpty(req.responseText)) {
+                    // 0 or undefined seems to mean cached or local
                     status = 200;
                 }
             } catch (e) {
@@ -612,7 +611,8 @@ MochiKit.Async.EXPORT = [
     "doSimpleXMLHttpRequest",
     "loadJSONDoc",
     "wait",
-    "callLater"
+    "callLater",
+    "sendXMLHttpRequest"
 ];
     
 MochiKit.Async.EXPORT_OK = [
