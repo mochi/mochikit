@@ -66,7 +66,7 @@ update(SortableManager.prototype, {
                 // scrape the text and build the appropriate object out of it
                 var cell = cols[j];
                 var obj = scrapeText(cell);
-                switch (this.columns[j][0]) {
+                switch (this.columns[j].format) {
                     case 'isodate':
                         obj = isoDate(txt);
                         break;
