@@ -68,12 +68,12 @@ update(SortableManager.prototype, {
                 var obj = scrapeText(cell);
                 switch (this.columns[j].format) {
                     case 'isodate':
-                        obj = isoDate(txt);
+                        obj = isoDate(obj);
                         break;
                     case 'str':
                         break;
                     case 'istr':
-                        obj = txt.toLowerCase();
+                        obj = obj.toLowerCase();
                         break;
                     // cases for numbers, etc. could be here
                     default:
