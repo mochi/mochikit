@@ -4,6 +4,7 @@ SortableManager = function () {
     this.columns = [];
     this.rows = [];
     this.sortState = {};
+    this.sortkey = 0;
 };
 
 mouseOverFunc = function () {
@@ -87,7 +88,7 @@ update(SortableManager.prototype, {
         }
 
         // do initial sort on first column
-        this.drawSortedRows(0, true, false);
+        this.drawSortedRows(this.sortkey, true, false);
 
     },
 
@@ -100,7 +101,11 @@ update(SortableManager.prototype, {
         return bind(function () {
             log('onSortClick', name);
             var order = this.sortState[name];
-            order = !((order == null) ? false : order);
+            if (order == null) {
+                order = true;
+            } else if (name == this.sortkey) {
+                order = !order;
+            }
             this.drawSortedRows(name, order, true);
         }, this);
     },
@@ -113,6 +118,7 @@ update(SortableManager.prototype, {
 
         ***/
         log('drawSortedRows', key, forward);
+        this.sortkey = key;
         // sort based on the state given (forward or reverse)
         var cmp = (forward ? keyComparator : reverseKeyComparator);
         this.rows.sort(cmp(key));
