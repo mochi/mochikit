@@ -1,4 +1,4 @@
-XXXX-XX-XX      v0.70
+2005-08-04      v0.70
 
 - New ajax_tables example, which shows off XMLHttpRequest, ajax, json, and
   a little TAL-ish DOM templating attribute language.
