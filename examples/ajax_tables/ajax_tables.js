@@ -1,12 +1,59 @@
-SortableManager = function () {
-    this.thead = null;
-    this.thead_proto = null;
-    this.tbody = null;
-    this.deferred = null;
-    this.columns = [];
-    this.rows = [];
-    this.templates = [];
-    this.sortState = {};
+processMochiTAL = function (dom, data) {
+    /***
+
+        A TAL-esque template attribute language processor,
+        including content replacement and repeat
+
+    ***/
+
+    // nodeType == 1 is an element, we're leaving
+    // text nodes alone.
+    if (dom.nodeType != 1) {
+        return;
+    }
+    var attr;
+    // duplicate this element for each item in the
+    // given list, and then process the duplicated
+    // element again (sans mochi:repeat tag)
+    attr = getAttribute(dom, "mochi:repeat");
+    if (attr) {
+        dom.removeAttribute("mochi:repeat");
+        var parent = dom.parentNode;
+        attr = attr.split(" ");
+        var name = attr[0];
+        var lst = valueForKeyPath(data, attr[1]);
+        if (!lst) {
+            return;
+        }
+        for (var i = 0; i < lst.length; i++) {
+            data[name] = lst[i];
+            var newDOM = dom.cloneNode(true);
+            processMochiTAL(newDOM, data);
+            parent.insertBefore(newDOM, dom);
+        }
+        parent.removeChild(dom);
+        return;
+    }
+    // do content replacement if there's a mochi:content attribute
+    // on the element
+    attr = getAttribute(dom, "mochi:content");
+    if (attr) {
+        dom.removeAttribute("mochi:content");
+        while (dom.firstChild) {
+            dom.removeChild(dom.firstChild);
+        }
+        var content = valueForKeyPath(data, attr);
+        if (content) {
+            dom.appendChild(document.createTextNode(content));
+        }
+        return;
+    }
+    // we make a shallow copy of the current list of child nodes
+    // because it *will* change if there's a mochi:repeat in there!
+    var nodes = list(dom.childNodes);
+    for (var i = 0; i < nodes.length; i++) {
+        processMochiTAL(nodes[i], data);
+    }
 };
 
 mouseOverFunc = function () {
@@ -27,8 +74,10 @@ ignoreEvent = function (ev) {
     }
 };
 
-lower = function (s) {
-    return s.toLowerCase();
+SortTransforms = {
+    "str": operator.identity,
+    "istr": function (s) { return s.toLowerCase(); },
+    "isoDate": isoDate
 };
 
 getAttribute = function (dom, key) {
@@ -37,7 +86,7 @@ getAttribute = function (dom, key) {
     } catch (e) {
         return null;
     }
-}
+};
 
 datatableFromXMLRequest = function (req) {
     /***
@@ -74,7 +123,19 @@ valueForKeyPath = function (data, keyPath) {
     return data;
 };
 
-update(SortableManager.prototype, {
+
+SortableManager = function () {
+    this.thead = null;
+    this.thead_proto = null;
+    this.tbody = null;
+    this.deferred = null;
+    this.columns = [];
+    this.rows = [];
+    this.templates = [];
+    this.sortState = {};
+};
+
+SortableManager.prototype = {
 
     "initialize": function () {
         // just rip all mochi-examples out of the DOM
@@ -104,7 +165,7 @@ update(SortableManager.prototype, {
         }
 
         // to find sort columns
-        this.thead = getElementsByTagAndClassName("thead", null, $("sortable_table"))[0];
+        this.thead = getElementsByTagAndClassName("thead", null)[0];
         this.thead_proto = this.thead.cloneNode(true);
 
         this.sortkey = "domain_name";
@@ -129,17 +190,26 @@ update(SortableManager.prototype, {
         } else {
             throw new TypeError("format " + repr(format) + " not supported");
         }
+        // keep track of the current deferred, so that we can cancel it
         this.deferred = d;
-        d.addBoth(bind(function (res) {
-            this.deferred = null; 
+        var self = this;
+        // on success or error, remove the current deferred because it has
+        // completed, and pass through the result or error
+        d.addBoth(function (res) {
+            self.deferred = null; 
             log('loadFromURL success');
             return res;
-        }, this));
+        });
+        // on success, tag the result with the format used so we can display
+        // it
         d.addCallback(function (res) {
             res.format = format;
             return res;
         });
+        // call this.initWithData(data) once it's ready
         d.addCallback(bind(this.initWithData, this));
+        // if anything goes wrong, except for a simple cancellation,
+        // then log the error and show the logger
         d.addErrback(function (err) {
             if (err instanceof CancelledError) {
                 return;
@@ -150,13 +220,14 @@ update(SortableManager.prototype, {
         return d;
     },
 
-    
     "initWithData": function (data) {
         /***
 
             Initialize the SortableManager with a table object
         
         ***/
+
+        // reformat to [{column:value, ...}, ...] style as the domains key
         var domains = [];
         var rows = data.rows;
         var cols = data.columns;
@@ -170,6 +241,8 @@ update(SortableManager.prototype, {
         }
         data.domains = domains;
         this.data = data;
+        // perform a sort and display based upon the previous sort state,
+        // defaulting to an ascending sort if this is the first sort
         var order = this.sortState[this.sortkey];
         if (typeof(order) == 'undefined') {
             order = true;
@@ -184,12 +257,21 @@ update(SortableManager.prototype, {
             Return a sort function for click events
 
         ***/
-        return bind(function () {
+        // save ourselves from doing a bind
+        var self = this;
+        // on click, flip the last sort order of that column and sort
+        return function () {
             log('onSortClick', name);
-            var order = this.sortState[name];
-            order = !((typeof(order) == 'undefined') ? false : order);
-            this.drawSortedRows(name, order, true);
-        }, this);
+            var order = self.sortState[name];
+            if (typeof(order) == 'undefined') {
+                // if it's never been sorted by this column, sort ascending
+                order = true;
+            } else if (self.sortkey == name) {
+                // if this column was sorted most recently, flip the sort order
+                order = !((typeof(order) == 'undefined') ? false : order);
+            }
+            self.drawSortedRows(name, order, true);
+        };
     },
 
     "drawSortedRows": function (key, forward, clicked) {
@@ -204,7 +286,7 @@ update(SortableManager.prototype, {
         // save it so we can flip next time
         this.sortState[key] = forward;
         this.sortkey = key;
-        var sortstyle = "str";
+        var sortstyle;
 
         // setup the sort columns   
         var thead = this.thead_proto.cloneNode(true);
@@ -232,86 +314,42 @@ update(SortableManager.prototype, {
         }
         this.thead = swapDOM(this.thead, thead);
 
-        var domains = this.data.domains;
-        if (sortstyle && sortstyle != "str") {
-            var func = null;
-            switch (sortstyle) {
-                case "istr":
-                    func = lower;
-                    break;
-                case "isoDate":
-                    func = isoDate;
-                    break;
-                default:
-                    throw new TypeError("unsupported sort style " + repr(sortstyle));
-            }
-            for (var i = 0; i < domains.length; i++) {
-                var domain = domains[i];
-                domain.__sort__ = func(domain[key]);
-            }
-            key = "__sort__";
+        // apply a sort transform to a temporary column named __sort__,
+        // and do the sort based on that column
+        if (!sortstyle) {
+            sortstyle = "str";
         }
-        
-        // sort based on the state given (forward or reverse)
+        var sortfunc = SortTransforms[sortstyle];
+        if (!sortfunc) {
+            throw new TypeError("unsupported sort style " + repr(sortstyle));
+        }
+        var domains = this.data.domains;
+        for (var i = 0; i < domains.length; i++) {
+            var domain = domains[i];
+            domain.__sort__ = sortfunc(domain[key]);
+        }
+
+        // perform the sort based on the state given (forward or reverse)
         var cmp = (forward ? keyComparator : reverseKeyComparator);
-        domains.sort(cmp(key));
+        domains.sort(cmp("__sort__"));
+
+        // process every template with the given data
+        // and put the processed templates in the DOM
         for (var i = 0; i < this.templates.length; i++) {
             log('template', i, template);
             var template = this.templates[i];
             var dom = template.template.cloneNode(true);
-            this.processMochiTAL(dom, this.data);
+            processMochiTAL(dom, this.data);
             template.node = swapDOM(template.node, dom);
         }
  
 
-    },
-
-    "processMochiTAL": function (dom, data) {
-        if (dom.nodeType != 1) {
-            return;
-        }
-        var attr;
-        attr = getAttribute(dom, "mochi:repeat");
-        if (attr) {
-            dom.removeAttribute("mochi:repeat");
-            var parent = dom.parentNode;
-            attr = attr.split(" ");
-            var name = attr[0];
-            var lst = valueForKeyPath(data, attr[1]);
-            if (!lst) {
-                return;
-            }
-            for (var i = 0; i < lst.length; i++) {
-                data[name] = lst[i];
-                var newDOM = dom.cloneNode(true);
-                this.processMochiTAL(newDOM, data);
-                parent.insertBefore(newDOM, dom);
-            }
-            parent.removeChild(dom);
-            return;
-        }
-        attr = getAttribute(dom, "mochi:content");
-        if (attr) {
-            dom.removeAttribute("mochi:content");
-            while (dom.firstChild) {
-                dom.removeChild(dom.firstChild);
-            }
-            var content = valueForKeyPath(data, attr);
-            if (content) {
-                dom.appendChild(document.createTextNode(content));
-            }
-            return;
-        }
-        var nodes = list(dom.childNodes);
-        for (var i = 0; i < nodes.length; i++) {
-            this.processMochiTAL(nodes[i], data);
-        }
     }
 
-});
+};
 
+// create the global SortableManager and initialize it on page load
 sortableManager = new SortableManager();
-
 addLoadEvent(function () {
     sortableManager.initialize();
 });
