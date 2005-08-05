@@ -18,7 +18,7 @@ Synopsis
     row_display = function (row) {
         return TR(null, map(partial(TD, null), row));
     }
-    var newTable = TABLE({'class': 'prettytable'}
+    var newTable = TABLE({'class': 'prettytable'},
         THEAD(null,
             row_display(["head1", "head2", "head3"])),
         TFOOT(null,
@@ -104,7 +104,7 @@ it is to take a look at an example::
     row_display = function (row) {
         return TR(null, map(partial(TD, null), row));
     }
-    var newTable = TABLE({'class': 'prettytable'}
+    var newTable = TABLE({'class': 'prettytable'},
         THEAD(null,
             row_display(["head1", "head2", "head3"])),
         TFOOT(null,

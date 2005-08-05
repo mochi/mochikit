@@ -23,7 +23,7 @@ var rows = [
 row_display = function (row) {
     return TR(null, map(partial(TD, null), row));
 }
-var newTable = TABLE({'class': 'prettytable'}
+var newTable = TABLE({'class': 'prettytable'},
     THEAD(null,
         row_display([&quot;head1&quot;, &quot;head2&quot;, &quot;head3&quot;])),
     TFOOT(null,
@@ -97,7 +97,7 @@ var rows = [
 row_display = function (row) {
     return TR(null, map(partial(TD, null), row));
 }
-var newTable = TABLE({'class': 'prettytable'}
+var newTable = TABLE({'class': 'prettytable'},
     THEAD(null,
         row_display([&quot;head1&quot;, &quot;head2&quot;, &quot;head3&quot;])),
     TFOOT(null,
