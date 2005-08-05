@@ -944,6 +944,7 @@ return rval;
 MochiKit.Iter.imap=function(fun,p,q){
 var map=MochiKit.Base.map;
 var _129=map(MochiKit.Iter.iter,MochiKit.Base.extend(null,arguments,1));
+var next=MochiKit.Iter.next;
 return {"repr":function(){
 return "imap(...)";
 },"toString":MochiKit.Base.forward("repr"),"next":function(){
