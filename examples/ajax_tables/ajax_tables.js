@@ -39,13 +39,7 @@ processMochiTAL = function (dom, data) {
     attr = getAttribute(dom, "mochi:content");
     if (attr) {
         dom.removeAttribute("mochi:content");
-        while (dom.firstChild) {
-            dom.removeChild(dom.firstChild);
-        }
-        var content = valueForKeyPath(data, attr);
-        if (content) {
-            dom.appendChild(document.createTextNode(content));
-        }
+        replaceChildNodes(dom, valueForKeyPath(data, attr));
         return;
     }
     // we make a shallow copy of the current list of child nodes

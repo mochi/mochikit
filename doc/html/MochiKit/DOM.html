@@ -175,7 +175,57 @@ were inserted into the document DOM):</p>
 Register an adapter to convert objects that match <tt class="docutils literal"><span class="pre">check(obj,</span> <span class="pre">ctx)</span></tt>
 to a DOM element, or something that can be converted to a DOM
 element (i.e. number, bool, string, function, iterable).</blockquote>
-<p><tt class="docutils literal"><span class="pre">createDOM(name,</span> <span class="pre">[,</span> <span class="pre">attrs[,</span> <span class="pre">node[,</span> <span class="pre">...]]])</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">updateNodeAttributes(node,</span> <span class="pre">attrs)</span></tt>:</p>
+<blockquote>
+<p>Update the attributes of a DOM element from a given object.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element to update (if a string is given,
+<tt class="docutils literal"><span class="pre">getElement</span></tt> will be used to locate the node)</dd>
+<dt><tt class="docutils literal"><span class="pre">attrs</span></tt>:</dt>
+<dd><p class="first">An object whose properties will be used to set the attributes
+(e.g. <tt class="docutils literal"><span class="pre">{'style':</span> <span class="pre">'display:block'}</span></tt>), or <tt class="docutils literal"><span class="pre">null</span></tt> if no
+attributes need to be set.</p>
+<p class="last">Note that it will do the right thing for IE, so don't do
+the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself, and it deals with
+setting &quot;on...&quot; event handlers correctly.</p>
+</dd>
+<dt><em>returns</em>:</dt>
+<dd>The given DOM element</dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">appendChildNodes(node[,</span> <span class="pre">childNode[,</span> <span class="pre">...]])</span></tt>:</p>
+<blockquote>
+<p>Append children to a DOM element using the <a class="reference" href="#dom-coercion-rules">DOM Coercion Rules</a>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element to add children to
+(if a string is given, <tt class="docutils literal"><span class="pre">getElement</span></tt> will be used to locate the node)</dd>
+<dt><tt class="docutils literal"><span class="pre">childNode</span></tt>...:</dt>
+<dd>All additional arguments, if any, will be coerced into DOM
+nodes that are appended as children using the
+<a class="reference" href="#dom-coercion-rules">DOM Coercion Rules</a>.</dd>
+<dt><em>returns</em>:</dt>
+<dd>The given DOM element</dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">replaceChildNodes(node[,</span> <span class="pre">childNode[,</span> <span class="pre">...]])</span></tt>:</p>
+<blockquote>
+<p>Remove all children from the given DOM element, then append any given
+childNodes to it (by calling <tt class="docutils literal"><span class="pre">appendChildNodes</span></tt>).</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element to add children to
+(if a string is given, <tt class="docutils literal"><span class="pre">getElement</span></tt> will be used to locate the node)</dd>
+<dt><tt class="docutils literal"><span class="pre">childNode</span></tt>...:</dt>
+<dd>All additional arguments, if any, will be coerced into DOM
+nodes that are appended as children using the
+<a class="reference" href="#dom-coercion-rules">DOM Coercion Rules</a>.</dd>
+<dt><em>returns</em>:</dt>
+<dd>The given DOM element</dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">createDOM(name[,</span> <span class="pre">attrs[,</span> <span class="pre">node[,</span> <span class="pre">...]]])</span></tt>:</p>
 <blockquote>
 <p>Create a DOM fragment in a really convenient manner, much like
 Nevow`s <a class="footnote-reference" href="#id6" id="id4" name="id4">[1]</a> stan <a class="footnote-reference" href="#id7" id="id5" name="id5">[2]</a>.</p>
@@ -200,13 +250,13 @@ available as aliases:</p>
 <p>See <a class="reference" href="#creating-dom-element-trees">Creating DOM Element Trees</a> for a comprehensive example.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">name</span></tt>:</dt>
-<dd>The kind of fragment to create (e.g. 'span').</dd>
+<dd>The kind of fragment to create (e.g. 'span'), such as you would
+pass to <tt class="docutils literal"><span class="pre">document.createElement</span></tt>.</dd>
 <dt><tt class="docutils literal"><span class="pre">attrs</span></tt>:</dt>
 <dd><p class="first">An object whose properties will be used as the attributes
 (e.g. <tt class="docutils literal"><span class="pre">{'style':</span> <span class="pre">'display:block'}</span></tt>), or <tt class="docutils literal"><span class="pre">null</span></tt> if no
 attributes need to be set.</p>
-<p class="last">Note that it will do the right thing for IE, so don't do
-the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself.</p>
+<p class="last">See <tt class="docutils literal"><span class="pre">updateNodeAttributes</span></tt> for more information.</p>
 </dd>
 <dt><tt class="docutils literal"><span class="pre">node</span></tt>...:</dt>
 <dd>All additional arguments, if any, will be coerced into DOM

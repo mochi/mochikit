@@ -742,14 +742,21 @@ MochiKit.Iter.iextend = function (lst, iterable) {
     
     ***/
     
-    iterable = MochiKit.Iter.iter(iterable);
-    try {
-        while (true) {
-            lst.push(iterable.next());
+    if (MochiKit.Base.isArrayLike(iterable)) {
+        // fast-path for array-like
+        for (var i = 0; i < iterable.length; i++) {
+            lst.push(iterable[i]);
         }
-    } catch (e) {
-        if (e != MochiKit.Iter.StopIteration) {
-            throw e;
+    } else {
+        iterable = MochiKit.Iter.iter(iterable);
+        try {
+            while (true) {
+                lst.push(iterable.next());
+            }
+        } catch (e) {
+            if (e != MochiKit.Iter.StopIteration) {
+                throw e;
+            }
         }
     }
     return lst;

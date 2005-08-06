@@ -14,7 +14,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 42});
+    plan({'tests': 45});
 
     lst = [];
     o = {"blah": function () { lst.push("original"); }};
@@ -42,7 +42,18 @@ try {
         is( escapeHTML(toHTML(value)), escapeHTML(expected), message );
     }
 
-    var d = createDOM("span");
+    var d = document.createElement('span');
+    updateNodeAttributes(d, {"foo": "bar", "baz": "wibble"});
+    isDOM( d, '<span baz="wibble" foo="bar"/>', "updateNodeAttributes" );
+
+    var d = document.createElement('span');
+    appendChildNodes(d, 'word up', [document.createElement('br')]);
+    isDOM( d, '<span>word up<br/></span>', 'appendChildNodes' );
+
+    replaceChildNodes(d, 'Think Different');
+    isDOM( d, '<span>Think Different</span>', 'replaceChildNodes' );
+    
+    d = createDOM("span");
     isDOM( d, "<span/>", "createDOM empty" );
 
 

@@ -42,6 +42,9 @@ MochiKit.DOM.EXPORT = [
     "coerceToDOM",
     "createDOM",
     "createDOMFunc",
+    "updateNodeAttributes",
+    "appendChildNodes",
+    "replaceChildNodes",
     "swapDOM",
     "UL",
     "OL",
@@ -159,123 +162,11 @@ MochiKit.DOM.coerceToDOM = function (node, ctx) {
     }
 };
     
-MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
-    /***
-
-        Create a DOM fragment in a really convenient manner, much like
-        Nevow's <http://nevow.com> stan.
-
-        Partially applied versions of this function for common tags are
-        available as aliases:
-
-            TABLE
-            TR
-            TD
-            TH
-            TBODY
-            TFOOT
-            THEAD
-            SPAN
-            INPUT
-            A
-            DIV
-
-        Usage:
-
-            var rows = [
-                ["dataA1", "dataA2", "dataA3"],
-                ["dataB1", "dataB2", "dataB3"]
-            ];
-            row_display = function (row) {
-                return TR(null, map(partial(TD, null), row));
-            }
-            var newTable = TABLE({'class': 'prettytable'}
-                THEAD(null,
-                    row_display(["head1", "head2", "head3"])),
-                TFOOT(null,
-                    row_display(["foot1", "foot2", "foot3"])),
-                TBODY(null,
-                    map(row_display, rows)));
-                
-
-        This will create a table with the following visual layout (if it
-        were inserted into the document DOM):
-
-            +--------+--------+--------+
-            | head1  | head2  | head3  |
-            +========+========+========+
-            | dataA1 | dataA2 | dataA3 |
-            +--------+--------+--------+
-            | dataB1 | dataB2 | dataB3 |
-            +--------+--------+--------+
-            | foot1  | foot2  | foot3  |
-            +--------+--------+--------+
-
-        Corresponding to the following HTML:
-
-            <table>
-                <thead>
-                    <tr>
-                        <td>head1</td>
-                        <td>head2</td>
-                        <td>head3</td>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <td>foot1</td>
-                        <td>foot2</td>
-                        <td>foot3</td>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <tr>
-                        <td>dataA1</td>
-                        <td>dataA2</td>
-                        <td>dataA3</td>
-                    </tr>
-                    <tr>
-                        <td>dataB1</td>
-                        <td>dataB2</td>
-                        <td>dataB3</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        @param name: The kind of fragment to create (e.g. 'span').
-
-        @param attrs: A mapping of attributes or null, 
-                      (e.g. {'style': 'display:block'}).
-
-                      Note that it will do the right thing for IE, so don't do
-                      the class -> className hack yourself.
-
-        @param *nodes: All additional parameters will be coerced into DOM
-                       nodes that are appended as children using the
-                       following rules:
-                    
-                       1. Functions are called with a "this" of the parent
-                          node and their return value is subject to the
-                          following rules (even this one)
-                       2. undefined and null are ignored.
-                       3. Iterables are flattened (as if they were passed
-                          in-line as nodes) and each return value is
-                          subject to all of these rules.
-                       4. Values that look like DOM nodes (objects with a
-                          nodeType > 0) are appendChild'ed to the created
-                          DOM fragment.
-                       5. Strings are converted to textNodes.
-                       6. Objects that are not strings are converted to
-                          objects known to these rules using a
-                          "registerDOMConverter" adapter if one exists.
-                       7. If no adapter is available, toString() is used to
-                          create a textNode.
-        
-        @rtype: A DOM fragment
-
-    ***/
-
-    var elem = document.createElement(name);
+MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
+    var elem = node;
+    if (typeof(node) == 'string') {
+        elem = MochiKit.DOM.getElement(node);
+    }
     if (attrs) {
         if (MochiKit.DOM.attributeArray.compliant) {
             // not IE, good.
@@ -312,10 +203,17 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
             }
         }
     }
+    return elem;
+};
 
-    nodeStack = [
+MochiKit.DOM.appendChildNodes = function (node/*, nodes...*/) {
+    var elem = node;
+    if (typeof(node) == 'string') {
+        elem = MochiKit.DOM.getElement(node);
+    }
+    var nodeStack = [
         MochiKit.DOM.coerceToDOM(
-            MochiKit.Base.extend(null, arguments, 2),
+            MochiKit.Base.extend(null, arguments, 1),
             elem
         )
     ];
@@ -331,6 +229,48 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
         }
     }
     return elem;
+};
+
+MochiKit.DOM.replaceChildNodes = function (node/*, nodes...*/) {
+    var elem = node;
+    if (typeof(node) == 'string') {
+        elem = MochiKit.DOM.getElement(node);
+        arguments[0] = elem;
+    }
+    var child;
+    while ((child = elem.firstChild)) {
+        elem.removeChild(child);
+    }
+    if (arguments.length < 2) {
+        return elem;
+    } else {
+        return MochiKit.DOM.appendChildNodes.apply(this, arguments);
+    }
+};
+
+MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
+    /*
+
+        Create a DOM fragment in a really convenient manner, much like
+        Nevow's <http://nevow.com> stan.
+
+    */
+
+    var elem;
+    if (typeof(name) == 'string') {
+        elem = document.createElement(name);
+    } else {
+        elem = name;
+    }
+    if (attrs) {
+        MochiKit.DOM.updateNodeAttributes(elem, attrs);
+    }
+    if (arguments.length <= 2) {
+        return elem;
+    } else {
+        var args = MochiKit.Base.extend([elem], arguments, 2);
+        return MochiKit.DOM.appendChildNodes.apply(this, args);
+    }
 };
 
 MochiKit.DOM.createDOMFunc = function (/* tag, attrs, *nodes */) {
