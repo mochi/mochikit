@@ -107,7 +107,19 @@ Constructors
     If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
 
     Alternate form:
-        ``Color.fromHSL({h: hue, s: saturation, b: lightness, a: alpha})``
+        ``Color.fromHSL({h: hue, s: saturation, l: lightness, a: alpha})``
+
+
+``Color.fromHSV(hue, saturation, value, alpha=1.0)``:
+
+    Return a ``Color`` object from the given ``hue``, ``saturation``,
+    ``value`` values.  Values should be numbers between ``0.0`` and
+    ``1.0``.
+
+    If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
+
+    Alternate form:
+        ``Color.fromHSV({h: hue, s: saturation, v: value, a: alpha})``
 
 
 ``Color.fromHexString(hexString)``:
@@ -178,7 +190,7 @@ Constructors
 ``Color.prototype.colorWithSaturation(saturation)``:
 
     Return a new ``Color`` based on this color, but with the provided
-    ``saturation`` value.
+    ``saturation`` value (using the HSL color model).
 
 
 ``Color.prototype.colorWithLightness(lightness)``:
@@ -274,6 +286,13 @@ Constructors
 
     Return the HSL (hue, saturation, lightness, alpha) components of this
     color as an object with ``h``, ``s``, ``l`` and ``a`` properties
+    that have values between ``0.0`` and ``1.0``.
+
+
+``Color.prototype.asHSV()``:
+
+    Return the HSV (hue, saturation, value, alpha) components of this
+    color as an object with ``h``, ``s``, ``v`` and ``a`` properties
     that have values between ``0.0`` and ``1.0``.
 
 
@@ -429,7 +448,7 @@ Functions
     mapping with ``"r"``, ``"g"``, ``"b"`` and ``"a"`` keys.
     
     Alternate form:
-        ``hslToRGB({h: hue,  s: saturation, l: lightness, a: alpha})``.
+        ``hslToRGB({h: hue, s: saturation, l: lightness, a: alpha})``.
 
     ``hslToRGB`` is not exported by default when using JSAN.
 
@@ -443,6 +462,28 @@ Functions
         ``rgbToHSL({r: red, g: green, b: blue, a: alpha})``.
 
     ``rgbToHSL`` is not exported by default when using JSAN.
+
+
+``hsvToRGB(hue, saturation, value, alpha)``:
+
+    Computes RGB values from the provided HSV values. The return value is a
+    mapping with ``"r"``, ``"g"``, ``"b"`` and ``"a"`` keys.
+    
+    Alternate form:
+        ``hsvToRGB({h: hue, s: saturation, v: value, a: alpha})``.
+
+    ``hsvToRGB`` is not exported by default when using JSAN.
+
+
+``rgbToHSV(red, green, blue, alpha)``:
+
+    Computes HSV values based on the provided RGB values. The return value is
+    a mapping with ``"h"``, ``"s"``, ``"v"`` and ``"a"`` keys.
+    
+    Alternate form:
+        ``rgbToHSV({r: red, g: green, b: blue, a: alpha})``.
+
+    ``rgbToHSV`` is not exported by default when using JSAN.
 
 
 ``toColorPart(num)``:
