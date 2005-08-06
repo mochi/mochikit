@@ -16,7 +16,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 54});
+    plan({'tests': 75});
 
     var approx = function (a, b, msg) {
         return is(a.toPrecision(4), b.toPrecision(4), msg);
@@ -105,6 +105,43 @@ try {
     is( Color.fromRGBString("rgb( 0, 255, 255)").toHexString(), "#00ffff", "fromRGBString with spaces" );
     is( Color.fromRGBString("rgb( 0, 100%, 255)").toHexString(), "#00ffff", "fromRGBString with percents" );
     
+
+    var hsv = Color.redColor().asHSV();
+    approx( hsv.h, 0.0, "red hsv.h" );
+    approx( hsv.s, 1.0, "red hsv.s" );
+    approx( hsv.v, 1.0, "red hsv.v" );
+    is( Color.fromHSV(hsv).toHexString(), Color.redColor().toHexString(), "red hexstring" );
+    hsv = Color.fromRGB(0, 0, 0.5).asHSV();
+    approx( hsv.h, 2/3, "darkblue hsv.h" );
+    approx( hsv.s, 1.0, "darkblue hsv.s" );
+    approx( hsv.v, 0.5, "darkblue hsv.v" );
+    is( Color.fromHSV(hsv).toHexString(), Color.fromRGB(0, 0, 0.5).toHexString(), "darkblue hexstring" );
+    hsv = Color.fromString("#4169E1").asHSV();
+    approx( hsv.h, 5/8, "4169e1 h");
+    approx( hsv.s, 32/45, "4169e1 s");
+    approx( hsv.v, 15/17, "4169e1 l");
+    is( Color.fromHSV(hsv).toHexString(), "#4169e1", "4169e1 hexstring" );
+    hsv = Color.fromString("#555544").asHSV();
+    approx( hsv.h, 1/6, "555544 h" );
+    approx( hsv.s, 1/5, "555544 s" );
+    approx( hsv.v, 1/3, "555544 l" );
+    is( Color.fromHSV(hsv).toHexString(), "#555544", "555544 hexstring" );
+    hsv = Color.fromRGB(0.5, 1, 0.5).asHSV();
+    approx( hsv.h, 1/3, "aqua hsv.h" );
+    approx( hsv.s, 0.5, "aqua hsv.s" );
+    approx( hsv.v, 1, "aqua hsv.v" );
+    is(
+        Color.fromHSV(hsv.h, hsv.s, hsv.v).toHexString(),
+        Color.fromRGB(0.5, 1, 0.5).toHexString(),
+        "fromHSV works with components"
+    );
+    is(
+        Color.fromHSV(hsv).toHexString(),
+        Color.fromRGB(0.5, 1, 0.5).toHexString(),
+        "fromHSV alt form"
+    );
+
+
     // Done!
 
     ok( true, "test suite finished!");

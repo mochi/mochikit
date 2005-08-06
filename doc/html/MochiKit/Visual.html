@@ -94,7 +94,18 @@ and <tt class="docutils literal"><span class="pre">alpha</span></tt> values.  Va
 <p>If <tt class="docutils literal"><span class="pre">alpha</span></tt> is not given, then <tt class="docutils literal"><span class="pre">1.0</span></tt> (completely opaque) will be used.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">Color.fromHSL({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">b:</span> <span class="pre">lightness,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt></dd>
+<dd><tt class="docutils literal"><span class="pre">Color.fromHSL({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">l:</span> <span class="pre">lightness,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt></dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.fromHSV(hue,</span> <span class="pre">saturation,</span> <span class="pre">value,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
+<blockquote>
+<p>Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given <tt class="docutils literal"><span class="pre">hue</span></tt>, <tt class="docutils literal"><span class="pre">saturation</span></tt>,
+<tt class="docutils literal"><span class="pre">value</span></tt> values.  Values should be numbers between <tt class="docutils literal"><span class="pre">0.0</span></tt> and
+<tt class="docutils literal"><span class="pre">1.0</span></tt>.</p>
+<p>If <tt class="docutils literal"><span class="pre">alpha</span></tt> is not given, then <tt class="docutils literal"><span class="pre">1.0</span></tt> (completely opaque) will be used.</p>
+<dl class="docutils">
+<dt>Alternate form:</dt>
+<dd><tt class="docutils literal"><span class="pre">Color.fromHSV({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">v:</span> <span class="pre">value,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt></dd>
 </dl>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.fromHexString(hexString)</span></tt>:</p>
@@ -147,7 +158,7 @@ Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> ba
 <p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithSaturation(saturation)</span></tt>:</p>
 <blockquote>
 Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
-<tt class="docutils literal"><span class="pre">saturation</span></tt> value.</blockquote>
+<tt class="docutils literal"><span class="pre">saturation</span></tt> value (using the HSL color model).</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithLightness(lightness)</span></tt>:</p>
 <blockquote>
 Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
@@ -222,6 +233,11 @@ values between <tt class="docutils literal"><span class="pre">0.0</span></tt> an
 <blockquote>
 Return the HSL (hue, saturation, lightness, alpha) components of this
 color as an object with <tt class="docutils literal"><span class="pre">h</span></tt>, <tt class="docutils literal"><span class="pre">s</span></tt>, <tt class="docutils literal"><span class="pre">l</span></tt> and <tt class="docutils literal"><span class="pre">a</span></tt> properties
+that have values between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</blockquote>
+<p><tt class="docutils literal"><span class="pre">Color.prototype.asHSV()</span></tt>:</p>
+<blockquote>
+Return the HSV (hue, saturation, value, alpha) components of this
+color as an object with <tt class="docutils literal"><span class="pre">h</span></tt>, <tt class="docutils literal"><span class="pre">s</span></tt>, <tt class="docutils literal"><span class="pre">v</span></tt> and <tt class="docutils literal"><span class="pre">a</span></tt> properties
 that have values between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</blockquote>
 <p><tt class="docutils literal"><span class="pre">Color.blackColor()</span></tt>:</p>
 <blockquote>
@@ -359,7 +375,7 @@ object itself.</blockquote>
 mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;g&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">hslToRGB({h:</span> <span class="pre">hue,</span>&nbsp; <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">l:</span> <span class="pre">lightness,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt>.</dd>
+<dd><tt class="docutils literal"><span class="pre">hslToRGB({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">l:</span> <span class="pre">lightness,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt>.</dd>
 </dl>
 <p><tt class="docutils literal"><span class="pre">hslToRGB</span></tt> is not exported by default when using JSAN.</p>
 </blockquote>
@@ -372,6 +388,26 @@ a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</spa
 <dd><tt class="docutils literal"><span class="pre">rgbToHSL({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt>.</dd>
 </dl>
 <p><tt class="docutils literal"><span class="pre">rgbToHSL</span></tt> is not exported by default when using JSAN.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">hsvToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">value,</span> <span class="pre">alpha)</span></tt>:</p>
+<blockquote>
+<p>Computes RGB values from the provided HSV values. The return value is a
+mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;g&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
+<dl class="docutils">
+<dt>Alternate form:</dt>
+<dd><tt class="docutils literal"><span class="pre">hsvToRGB({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">v:</span> <span class="pre">value,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt>.</dd>
+</dl>
+<p><tt class="docutils literal"><span class="pre">hsvToRGB</span></tt> is not exported by default when using JSAN.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">rgbToHSV(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha)</span></tt>:</p>
+<blockquote>
+<p>Computes HSV values based on the provided RGB values. The return value is
+a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;v&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
+<dl class="docutils">
+<dt>Alternate form:</dt>
+<dd><tt class="docutils literal"><span class="pre">rgbToHSV({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt>.</dd>
+</dl>
+<p><tt class="docutils literal"><span class="pre">rgbToHSV</span></tt> is not exported by default when using JSAN.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">toColorPart(num)</span></tt>:</p>
 <blockquote>

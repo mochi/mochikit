@@ -1,3 +1,11 @@
+XXXX-XX-XX      v0.80
+
+- Added HSV color space support to MochiKit.Visual
+- Fixed a bug in the sortable_tables example, it now converts types
+  correctly
+- Fixed a bug where MochiKit.DOM referenced MochiKit.Iter.next from global
+  scope
+
 2005-08-04      v0.70
 
 - New ajax_tables example, which shows off XMLHttpRequest, ajax, json, and

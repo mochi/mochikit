@@ -217,6 +217,16 @@ MochiKit.Visual.Color.prototype = {
         return rval;
     },
 
+    "asHSV": function () {
+        var hsv = this.hsv;
+        var c = this.rgb;
+        if (typeof(hsv) == 'undefined' || hsv == null) {
+            hsv = MochiKit.Visual.rgbToHSV(this.rgb);
+            this.hsv = hsv;
+        }
+        return MochiKit.Base.clone(hsv);
+    },
+
     "asHSL": function () {
         var hsl = this.hsl;
         var c = this.rgb;
@@ -255,6 +265,11 @@ MochiKit.Visual.Color.fromRGB = function (red, green, blue, alpha) {
 MochiKit.Visual.Color.fromHSL = function (hue, saturation, lightness, alpha) {
     var m = MochiKit.Visual;
     return m.Color.fromRGB(m.hslToRGB.apply(m, arguments));
+};
+
+MochiKit.Visual.Color.fromHSV = function (hue, saturation, value, alpha) {
+    var m = MochiKit.Visual;
+    return m.Color.fromRGB(m.hsvToRGB.apply(m, arguments));
 };
 
 MochiKit.Visual.Color.fromName = function (name) {
@@ -371,6 +386,45 @@ MochiKit.Visual._hslValue = function (n1, n2, hue) {
     return val;
 };
     
+MochiKit.Visual.hsvToRGB = function (hue, saturation, value, alpha) {
+    if (arguments.length == 1) {
+        var hsv = hue;
+        hue = hsv.h;
+        saturation = hsv.s;
+        value = hsv.v;
+        alpha = hsv.a;
+    }
+    var red;
+    var green;
+    var blue;
+    if (saturation == 0.0) {
+        red = 0;
+        green = 0;
+        blue = 0;
+    } else {
+        var i = Math.floor(hue * 6);
+        var f = (hue * 6) - i;
+        var p = value * (1 - saturation);
+        var q = value * (1 - (saturation * f));
+        var t = value * (1 - (saturation * (1 - f)));
+        switch (i) {
+            case 1: red = q; green = value; blue = p; break;
+            case 2: red = p; green = value; blue = t; break;
+            case 3: red = p; green = q; blue = value; break;
+            case 4: red = t; green = p; blue = value; break;
+            case 5: red = value; green = p; blue = q; break;
+            case 6: // fall through
+            case 0: red = value; green = t; blue = p; break;
+        }
+    }
+    return {
+        "r": red,
+        "g": green,
+        "b": blue,
+        "a": alpha
+    };
+}
+
 MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
     if (arguments.length == 1) {
         var hsl = hue;
@@ -405,10 +459,53 @@ MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
         "g": green,
         "b": blue,
         "a": alpha
-
     };
 };
 
+MochiKit.Visual.rgbToHSV = function (red, green, blue, alpha) {
+    if (arguments.length == 1) {
+        var rgb = red;
+        red = rgb.r;
+        green = rgb.g;
+        blue = rgb.b;
+        alpha = rgb.a;
+    }
+    var max = Math.max(Math.max(red, green), blue);
+    var min = Math.min(Math.min(red, green), blue);
+    var hue;
+    var saturation;
+    var value = max;
+    if (min == max) {
+        hue = 0;
+        saturation = 0;
+    } else {
+        var delta = (max - min);
+        saturation = delta / max;
+
+        if (red == max) {
+            hue = (green - blue) / delta;
+        } else if (green == max) {
+            hue = 2 + ((blue - red) / delta);
+        } else {
+            hue = 4 + ((red - green) / delta);
+        }
+        hue /= 6;
+        if (hue < 0) {
+            hue += 1;
+        }
+        if (hue > 1) {
+            hue -= 1;
+        }
+    }
+    return {
+        "h": hue,
+        "s": saturation,
+        "v": value,
+        "a": alpha
+    };
+};
+        
+    
 MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
     if (arguments.length == 1) {
         var rgb = red;
@@ -431,9 +528,6 @@ MochiKit.Visual.rgbToHSL = function (red, green, blue, alpha) {
             saturation = delta / (max + min);
         } else {
             saturation = delta / (2 - max - min);
-        }
-        if (delta == 0.0) {
-            delta = 1.0;
         }
         if (red == max) {
             hue = (green - blue) / delta;
@@ -860,6 +954,8 @@ MochiKit.Visual.EXPORT_OK = [
     "clampColorComponent",
     "rgbToHSL",
     "hslToRGB",
+    "rgbToHSV",
+    "hsvToRGB",
     "toColorPart"
 ];
 
