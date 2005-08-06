@@ -1,6 +1,6 @@
 /***
 
-MochiKit.DateTime 0.70
+MochiKit.DateTime 0.80
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -21,7 +21,7 @@ if (typeof(MochiKit.DateTime) == 'undefined') {
 }
 
 MochiKit.DateTime.NAME = "MochiKit.DateTime";
-MochiKit.DateTime.VERSION = "0.70";
+MochiKit.DateTime.VERSION = "0.80";
 MochiKit.DateTime.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 }
