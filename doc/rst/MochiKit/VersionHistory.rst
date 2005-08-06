@@ -1,5 +1,8 @@
 XXXX-XX-XX      v0.80
 
+- Added updateNodeAttributes, appendChildNodes, replaceChildNodes to
+  MochiKit.DOM
+- MochiKit.Iter.iextend now has a fast-path for array-like objects
 - Added HSV color space support to MochiKit.Visual
 - Fixed a bug in the sortable_tables example, it now converts types
   correctly

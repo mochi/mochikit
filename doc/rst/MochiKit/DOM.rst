@@ -168,7 +168,63 @@ Functions
     element (i.e. number, bool, string, function, iterable).
 
 
-``createDOM(name, [, attrs[, node[, ...]]])``:
+``updateNodeAttributes(node, attrs)``:
+
+    Update the attributes of a DOM element from a given object.
+    
+    ``node``:
+        A reference to the DOM element to update (if a string is given,
+        ``getElement`` will be used to locate the node)
+
+    ``attrs``:
+        An object whose properties will be used to set the attributes
+        (e.g. ``{'style': 'display:block'}``), or ``null`` if no
+        attributes need to be set.
+
+        Note that it will do the right thing for IE, so don't do
+        the ``class`` -> ``className`` hack yourself, and it deals with
+        setting "on..." event handlers correctly.
+
+    *returns*:
+        The given DOM element
+
+
+``appendChildNodes(node[, childNode[, ...]])``:
+
+    Append children to a DOM element using the `DOM Coercion Rules`_.
+
+    ``node``:
+        A reference to the DOM element to add children to
+        (if a string is given, ``getElement`` will be used to locate the node)
+
+    ``childNode``...:
+        All additional arguments, if any, will be coerced into DOM
+        nodes that are appended as children using the
+        `DOM Coercion Rules`_.
+
+    *returns*:
+        The given DOM element
+
+
+``replaceChildNodes(node[, childNode[, ...]])``:
+
+    Remove all children from the given DOM element, then append any given
+    childNodes to it (by calling ``appendChildNodes``).
+
+    ``node``:
+        A reference to the DOM element to add children to
+        (if a string is given, ``getElement`` will be used to locate the node)
+
+    ``childNode``...:
+        All additional arguments, if any, will be coerced into DOM
+        nodes that are appended as children using the
+        `DOM Coercion Rules`_.
+
+    *returns*:
+        The given DOM element
+
+
+``createDOM(name[, attrs[, node[, ...]]])``:
 
     Create a DOM fragment in a really convenient manner, much like
     Nevow`s [1]_ stan [2]_.
@@ -194,15 +250,15 @@ Functions
     See `Creating DOM Element Trees`_ for a comprehensive example.
 
     ``name``:
-        The kind of fragment to create (e.g. 'span').
+        The kind of fragment to create (e.g. 'span'), such as you would
+        pass to ``document.createElement``.
 
     ``attrs``:
         An object whose properties will be used as the attributes
         (e.g. ``{'style': 'display:block'}``), or ``null`` if no
         attributes need to be set.
 
-        Note that it will do the right thing for IE, so don't do
-        the ``class`` -> ``className`` hack yourself.
+        See ``updateNodeAttributes`` for more information.
 
     ``node``...:
         All additional arguments, if any, will be coerced into DOM
