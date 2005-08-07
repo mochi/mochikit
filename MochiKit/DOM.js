@@ -51,6 +51,7 @@ MochiKit.DOM.EXPORT = [
     "LI",
     "TD",
     "TR",
+    "THEAD",
     "TBODY",
     "TFOOT",
     "TABLE",
@@ -724,6 +725,7 @@ MochiKit.DOM.__new__ = function () {
     this.TD = createDOMFunc("td");
     this.TR = createDOMFunc("tr");
     this.TBODY = createDOMFunc("tbody");
+    this.THEAD = createDOMFunc("thead");
     this.TFOOT = createDOMFunc("tfoot");
     this.TABLE = createDOMFunc("table");
     this.TH = createDOMFunc("th");

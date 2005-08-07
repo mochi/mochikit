@@ -1,5 +1,6 @@
 XXXX-XX-XX      v0.80
 
+- Added missing THEAD convenience function to MochiKit.DOM
 - Added lstrip, rstrip, strip to MochiKit.Format
 - Added updateNodeAttributes, appendChildNodes, replaceChildNodes to
   MochiKit.DOM
