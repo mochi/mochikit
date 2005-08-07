@@ -1,5 +1,6 @@
 XXXX-XX-XX      v0.80
 
+- Added lstrip, rstrip, strip to MochiKit.Format
 - Added updateNodeAttributes, appendChildNodes, replaceChildNodes to
   MochiKit.DOM
 - MochiKit.Iter.iextend now has a fast-path for array-like objects

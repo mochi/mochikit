@@ -776,8 +776,12 @@ MochiKit.Base.reprArrayLike = function (o) {
 };
 
 MochiKit.Base.reprString = function (o) { 
+    /* XXX: this is not perfect */
     o = '"' + o.replace(/(["\\])/g, '\\$1') + '"';
-    return o.replace(/(\n)/g, "\\n");
+    o = o.replace(/(\n)/g, "\\n");
+    o = o.replace(/(\t)/g, "\\t");
+    o = o.replace(/(\r)/g, "\\r");
+    return o;
 };
 
 MochiKit.Base.reprNumber = function (o) {
