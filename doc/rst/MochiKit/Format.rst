@@ -55,6 +55,34 @@ Functions
 
     Roughly equivalent to: ``sprintf("%.2f%%", someFloat * 100)``
 
+
+``lstrip(str, chars="\s")``:
+
+    Returns a string based on ``str`` with leading whitespace stripped.
+
+    If ``chars`` is given, then that expression will be used instead of
+    whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
+    ``[character set]``.
+
+``rstrip(str, chars="\s")``:
+
+    Returns a string based on ``str`` with trailing whitespace stripped.
+
+    If ``chars`` is given, then that expression will be used instead of
+    whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
+    ``[character set]``.
+
+
+``strip(str, chars="\s")``:
+
+    Returns a string based on ``str`` with leading and trailing whitespace
+    stripped (equivalent to ``lstrip(rstrip(str, chars), chars)``).
+
+    If ``chars`` is given, then that expression will be used instead of
+    whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
+    ``[character set]``.
+
+
 Authors
 =======
 

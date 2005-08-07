@@ -75,6 +75,27 @@ MochiKit.Format.twoDigitFloat = function (someFloat) {
     }
 };
 
+MochiKit.Format.lstrip = function (str, /* optional */chars) {
+    if (!chars) {
+        return str.replace(/^\s+/, "");
+    } else {
+        return str.replace(new RegExp("^[" + chars + "]+"), "");
+    }
+};
+
+MochiKit.Format.rstrip = function (str, /* optional */chars) {
+    if (!chars) {
+        return str.replace(/\s+$/, "");
+    } else {
+        return str.replace(new RegExp("[" + chars + "]+$"), "");
+    }
+};
+
+MochiKit.Format.strip = function (str, /* optional */chars) {
+    var self = MochiKit.Format;
+    return self.rstrip(self.lstrip(str, chars), chars);
+};
+
 MochiKit.Format.percentFormat = function (someFloat) {
     /***
 
@@ -87,7 +108,10 @@ MochiKit.Format.percentFormat = function (someFloat) {
 MochiKit.Format.EXPORT = [
     "twoDigitAverage",
     "twoDigitFloat",
-    "percentFormat"
+    "percentFormat",
+    "lstrip",
+    "rstrip",
+    "strip"
 ];
 
 MochiKit.Format.EXPORT_OK = [];

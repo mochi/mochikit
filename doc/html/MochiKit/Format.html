@@ -49,6 +49,28 @@ Roughly equivalent to: <tt class="docutils literal"><span class="pre">sprintf(&q
 <p><tt class="docutils literal"><span class="pre">percentFormat(someFloat)</span></tt>:</p>
 <blockquote>
 Roughly equivalent to: <tt class="docutils literal"><span class="pre">sprintf(&quot;%.2f%%&quot;,</span> <span class="pre">someFloat</span> <span class="pre">*</span> <span class="pre">100)</span></tt></blockquote>
+<p><tt class="docutils literal"><span class="pre">lstrip(str,</span> <span class="pre">chars=&quot;\s&quot;)</span></tt>:</p>
+<blockquote>
+<p>Returns a string based on <tt class="docutils literal"><span class="pre">str</span></tt> with leading whitespace stripped.</p>
+<p>If <tt class="docutils literal"><span class="pre">chars</span></tt> is given, then that expression will be used instead of
+whitespace.  <tt class="docutils literal"><span class="pre">chars</span></tt> should be a string suitable for use in a <tt class="docutils literal"><span class="pre">RegExp</span></tt>
+<tt class="docutils literal"><span class="pre">[character</span> <span class="pre">set]</span></tt>.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">rstrip(str,</span> <span class="pre">chars=&quot;\s&quot;)</span></tt>:</p>
+<blockquote>
+<p>Returns a string based on <tt class="docutils literal"><span class="pre">str</span></tt> with trailing whitespace stripped.</p>
+<p>If <tt class="docutils literal"><span class="pre">chars</span></tt> is given, then that expression will be used instead of
+whitespace.  <tt class="docutils literal"><span class="pre">chars</span></tt> should be a string suitable for use in a <tt class="docutils literal"><span class="pre">RegExp</span></tt>
+<tt class="docutils literal"><span class="pre">[character</span> <span class="pre">set]</span></tt>.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">strip(str,</span> <span class="pre">chars=&quot;\s&quot;)</span></tt>:</p>
+<blockquote>
+<p>Returns a string based on <tt class="docutils literal"><span class="pre">str</span></tt> with leading and trailing whitespace
+stripped (equivalent to <tt class="docutils literal"><span class="pre">lstrip(rstrip(str,</span> <span class="pre">chars),</span> <span class="pre">chars)</span></tt>).</p>
+<p>If <tt class="docutils literal"><span class="pre">chars</span></tt> is given, then that expression will be used instead of
+whitespace.  <tt class="docutils literal"><span class="pre">chars</span></tt> should be a string suitable for use in a <tt class="docutils literal"><span class="pre">RegExp</span></tt>
+<tt class="docutils literal"><span class="pre">[character</span> <span class="pre">set]</span></tt>.</p>
+</blockquote>
 </div>
 </div>
 <div class="section" id="authors">

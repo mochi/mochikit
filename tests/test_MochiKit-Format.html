@@ -13,7 +13,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 14});
+    plan({'tests': 20});
    
     is( twoDigitFloat(-0.1234), "-0.12", "twoDigitFloat -0.1234 correct");
     is( twoDigitFloat(-0.1), "-0.1", "twoDigitFloat -0.1 correct");
@@ -28,6 +28,17 @@ try {
     is( twoDigitAverage(1, 0), "0", "twoDigitAverage dbz correct");
     is( twoDigitAverage(1, 1), "1", "twoDigitAverage 1 correct");
     is( twoDigitAverage(1, 10), "0.1", "twoDigitAverage .1 correct");
+    function reprIs(a, b) {
+        arguments[0] = repr(a);
+        arguments[1] = repr(b);
+        is.apply(this, arguments);
+    }
+    reprIs( lstrip("\r\t\n foo \n\t\r"), "foo \n\t\r", "lstrip whitespace chars" );
+    reprIs( rstrip("\r\t\n foo \n\t\r"), "\r\t\n foo", "rstrip whitespace chars" );
+    reprIs( strip("\r\t\n foo \n\t\r"), "foo", "strip whitespace chars" );
+    reprIs( lstrip("\r\n\t \r", "\r"), "\n\t \r", "lstrip custom chars" );
+    reprIs( rstrip("\r\n\t \r", "\r"), "\r\n\t ", "rstrip custom chars" );
+    reprIs( strip("\r\n\t \r", "\r"), "\n\t ", "strip custom chars" );
     
     // Done!
 
