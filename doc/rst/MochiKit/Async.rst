@@ -189,7 +189,7 @@ Constructors
         ===== ================================
     
     A ``Deferred`` will be in the error state if one of the following
-    three conditions are met:
+    conditions are met:
     
     1. The result given to callback or errback is "``instanceof Error``"
     2. The callback or errback thew an ``Error`` while executing
