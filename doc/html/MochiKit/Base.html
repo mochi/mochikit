@@ -815,7 +815,8 @@ assert( URLencode(&quot;1+2=2&quot;) == &quot;1%2B2%3D2&quot;);
 <blockquote>
 <p>Creates a URL query string from a pair of array-like objects representing
 <tt class="docutils literal"><span class="pre">names</span></tt> and <tt class="docutils literal"><span class="pre">values</span></tt>.  Each name=value pair will be URL encoded by
-<tt class="docutils literal"><span class="pre">urlEncode</span></tt>.  e.g.:</p>
+<tt class="docutils literal"><span class="pre">urlEncode</span></tt>.  name=value pairs with a value of <tt class="docutils literal"><span class="pre">undefined</span></tt> or <tt class="docutils literal"><span class="pre">null</span></tt>
+will be skipped.  e.g.:</p>
 <pre class="literal-block">
 var keys = [&quot;foo&quot;, &quot;bar&quot;];
 var values = [&quot;value one&quot;, &quot;two&quot;];
