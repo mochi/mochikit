@@ -309,15 +309,11 @@ MochiKit.DOM.swapDOM = function (dest, src) {
     ***/
     dest = MochiKit.DOM.getElement(dest);
     var parent = dest.parentNode;
-    var nextSibling = dest.nextSibling;
-    parent.removeChild(dest);
     if (src) {
         src = MochiKit.DOM.getElement(src);
-        if (nextSibling) {
-            parent.insertBefore(dest, nextSibling);
-        } else {
-            parent.appendChild(dest);
-        }
+        parent.replaceChild(src, dest);
+    } else {
+        parent.removeChild(dest);
     }
     return src;
 };
