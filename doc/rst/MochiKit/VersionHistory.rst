@@ -1,7 +1,5 @@
 XXXX-XX-XX      v0.80
 
-- Added Array.prototype.push.apply fast-paths to MochiKit.Base.extend and
-  MochiKit.Iter.list
 - Possible workaround for Safari issue with swapDOM, where it would get
   confused because two elements were in the DOM at the same time with the
   same id

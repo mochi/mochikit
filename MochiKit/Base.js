@@ -67,12 +67,8 @@ MochiKit.Base.extend = function (self, obj, /* optional */skip) {
         if (!self) {
             self = [];
         }
-        if (!skip) {
-            self.push.apply(self, obj);
-        } else {
-            for (var i = skip; i < l; i++) {
-                self.push(obj[i]);
-            }
+        for (var i = skip; i < l; i++) {
+            self.push(obj[i]);
         }
     }
     // This mutates, but it's convenient to return because
@@ -1008,7 +1004,10 @@ MochiKit.Base.queryString = function (names, values) {
     var len = Math.min(names.length, values.length);
     var urlEncode = MochiKit.Base.urlEncode;
     for (var i = 0; i < len; i++) {
-        rval.push(urlEncode(names[i]) + "=" + urlEncode(values[i]));
+        var v = values[i];
+        if (typeof(v) != 'undefined' && v != null) {
+            rval.push(urlEncode(names[i]) + "=" + urlEncode(v));
+        }
     }
     return rval.join("&");
 };

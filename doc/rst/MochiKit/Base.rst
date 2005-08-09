@@ -792,7 +792,8 @@ Functions
 
     Creates a URL query string from a pair of array-like objects representing
     ``names`` and ``values``.  Each name=value pair will be URL encoded by
-    ``urlEncode``.  e.g.::
+    ``urlEncode``.  name=value pairs with a value of ``undefined`` or ``null``
+    will be skipped.  e.g.::
 
         var keys = ["foo", "bar"];
         var values = ["value one", "two"];
