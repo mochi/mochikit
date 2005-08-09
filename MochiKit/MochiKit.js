@@ -99,12 +99,8 @@ throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
 if(!_9){
 _9=[];
 }
-if(!_11){
-_9.push.apply(_9,obj);
-}else{
 for(var i=_11;i<l;i++){
 _9.push(obj[i]);
-}
 }
 }
 return _9;
@@ -702,7 +698,10 @@ var _98=[];
 var len=Math.min(_95.length,_96.length);
 var _100=MochiKit.Base.urlEncode;
 for(var i=0;i<len;i++){
-_98.push(_100(_95[i])+"="+_100(_96[i]));
+var v=_96[i];
+if(typeof (v)!="undefined"&&v!=null){
+_98.push(_100(_95[i])+"="+_100(v));
+}
 }
 return _98.join("&");
 };
@@ -1223,7 +1222,9 @@ return false;
 };
 MochiKit.Iter.iextend=function(lst,_153){
 if(MochiKit.Base.isArrayLike(_153)){
-lst.push.apply(lst,_153);
+for(var i=0;i<_153.length;i++){
+lst.push(_153[i]);
+}
 }else{
 _153=MochiKit.Iter.iter(_153);
 try{
