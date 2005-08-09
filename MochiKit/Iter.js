@@ -744,9 +744,7 @@ MochiKit.Iter.iextend = function (lst, iterable) {
     
     if (MochiKit.Base.isArrayLike(iterable)) {
         // fast-path for array-like
-        for (var i = 0; i < iterable.length; i++) {
-            lst.push(iterable[i]);
-        }
+        lst.push.apply(lst, iterable);
     } else {
         iterable = MochiKit.Iter.iter(iterable);
         try {
