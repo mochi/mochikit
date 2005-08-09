@@ -2118,9 +2118,10 @@ dest=MochiKit.DOM.getElement(dest);
 var _243=dest.parentNode;
 if(src){
 src=MochiKit.DOM.getElement(src);
-_243.insertBefore(src,dest);
-}
+_243.replaceChild(dest,src);
+}else{
 _243.removeChild(dest);
+}
 return src;
 };
 MochiKit.DOM.getElement=function(id){
