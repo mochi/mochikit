@@ -67,8 +67,12 @@ MochiKit.Base.extend = function (self, obj, /* optional */skip) {
         if (!self) {
             self = [];
         }
-        for (var i = skip; i < l; i++) {
-            self.push(obj[i]);
+        if (!skip) {
+            self.push.apply(self, obj);
+        } else {
+            for (var i = skip; i < l; i++) {
+                self.push(obj[i]);
+            }
         }
     }
     // This mutates, but it's convenient to return because

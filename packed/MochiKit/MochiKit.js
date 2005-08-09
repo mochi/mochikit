@@ -99,8 +99,12 @@ throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
 if(!_9){
 _9=[];
 }
+if(!_11){
+_9.push.apply(_9,obj);
+}else{
 for(var i=_11;i<l;i++){
 _9.push(obj[i]);
+}
 }
 }
 return _9;
@@ -1219,9 +1223,7 @@ return false;
 };
 MochiKit.Iter.iextend=function(lst,_153){
 if(MochiKit.Base.isArrayLike(_153)){
-for(var i=0;i<_153.length;i++){
-lst.push(_153[i]);
-}
+lst.push.apply(lst,_153);
 }else{
 _153=MochiKit.Iter.iter(_153);
 try{
@@ -2118,7 +2120,7 @@ dest=MochiKit.DOM.getElement(dest);
 var _243=dest.parentNode;
 if(src){
 src=MochiKit.DOM.getElement(src);
-_243.replaceChild(dest,src);
+_243.replaceChild(src,dest);
 }else{
 _243.removeChild(dest);
 }
