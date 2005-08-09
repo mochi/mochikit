@@ -1,5 +1,8 @@
 XXXX-XX-XX      v0.80
 
+- Possible workaround for Safari issue with swapDOM, where it would get
+  confused because two elements were in the DOM at the same time with the
+  same id
 - Added missing THEAD convenience function to MochiKit.DOM
 - Added lstrip, rstrip, strip to MochiKit.Format
 - Added updateNodeAttributes, appendChildNodes, replaceChildNodes to
