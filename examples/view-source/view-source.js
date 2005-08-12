@@ -16,7 +16,9 @@ var viewSource = function () {
     ext = filename.split(".").pop();
     var classes = {
         "html": "xml",
-        "js": "javascript"
+        "js": "javascript",
+        "json": "javascript",
+        "xml": "xml"
     };
     updateNodeAttributes("code", {"class": classes[ext]});
     syntaxHighlight();
