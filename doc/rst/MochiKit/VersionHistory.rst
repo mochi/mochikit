@@ -1,5 +1,7 @@
 XXXX-XX-XX      v0.80
 
+- Consider a 304 (NOT_MODIFIED) response from XMLHttpRequest to be success
+- Disabled Mozilla map(...) fast-path due to Deer Park compatibility issues
 - Possible workaround for Safari issue with swapDOM, where it would get
   confused because two elements were in the DOM at the same time with the
   same id
