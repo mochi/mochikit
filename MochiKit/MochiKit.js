@@ -317,7 +317,7 @@ throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
 if(fn==null){
 return MochiKit.Base.extend(null,lst);
 }
-if(typeof (Array.prototype.map)=="function"){
+if(false&&typeof (Array.prototype.map)=="function"){
 return Array.prototype.map.call(lst,fn);
 }
 var _33=[];
@@ -1867,12 +1867,12 @@ var _216=null;
 try{
 _216=req.status;
 if(!_216&&MochiKit.Base.isNotEmpty(req.responseText)){
-_216=200;
+_216=304;
 }
 }
 catch(e){
 }
-if(_216==200){
+if(_216==200||_216==304){
 d.callback(req);
 }else{
 var err=new MochiKit.Async.XMLHttpRequestError(req,"Request failed");
