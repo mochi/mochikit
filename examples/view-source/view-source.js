@@ -36,7 +36,7 @@ var syntaxHighlight = function (filename) {
 
     var finishSyntaxHighlight = function () {
         dp.sh.HighlightAll("code", true, true, false);
-        replaceChildNodes("filename", filename);
+        replaceChildNodes("filename", A({"href": "../" + filename}, filename));
         removeElementClass("codeview", "invisible");
     };
 
