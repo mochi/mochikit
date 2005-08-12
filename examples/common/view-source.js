@@ -5,6 +5,22 @@ Do syntax highlighting on every textarea inside of a "codeview" element
 The content of textareas are URLs, not code!
 
 */
+var viewSource = function () {
+    var filename = location.hash;
+    if (!filename) {
+        filename = location.hash = "view-source/view-source.js";
+    }
+    replaceChildNodes("filename", filename);
+    replaceChildNodes("code", "../" + filename);
+    ext = args.filename.split(".").pop();
+    var classes = {
+        "html": "xml",
+        "js": "javascript"
+    };
+    updateNodeAttributes("code", {"class": classes[ext]});
+    syntaxHighlight();
+};
+
 var syntaxHighlight = function () {
     var swapContents = function (dest, req) {
         replaceChildNodes(dest, req.responseText);
