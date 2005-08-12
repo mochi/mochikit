@@ -10,9 +10,10 @@ var viewSource = function () {
     if (!filename) {
         filename = location.hash = "view-source/view-source.js";
     }
+    filename = lstrip(filename, "#");
     replaceChildNodes("filename", filename);
     replaceChildNodes("code", "../" + filename);
-    ext = args.filename.split(".").pop();
+    ext = filename.split(".").pop();
     var classes = {
         "html": "xml",
         "js": "javascript"
@@ -27,7 +28,7 @@ var syntaxHighlight = function () {
     };
 
     var finishSyntaxHighlight = function () {
-        dp.sh.HighlightAll("code", true, true, true);
+        dp.sh.HighlightAll("code", true, true, false);
         removeElementClass("codeview", "invisible");
     };
 
