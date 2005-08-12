@@ -309,7 +309,8 @@ JavaScript frameworks.</p>
 <p><tt class="docutils literal"><span class="pre">getElementsByTagAndClassName(tagName,</span> <span class="pre">className,</span> <span class="pre">parent=document)</span></tt>:</p>
 <blockquote>
 <p>Returns an array of elements in <tt class="docutils literal"><span class="pre">parent</span></tt> that match the tag name
-and class name provided.</p>
+and class name provided.  If <tt class="docutils literal"><span class="pre">parent</span></tt> is a string, it will be looked
+up with <tt class="docutils literal"><span class="pre">getElement</span></tt>.</p>
 <p>If <tt class="docutils literal"><span class="pre">tagName</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt> or <tt class="docutils literal"><span class="pre">&quot;*&quot;</span></tt>, all elements will be searched 
 for the matching class.</p>
 <p>If <tt class="docutils literal"><span class="pre">className</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, all elements matching the provided tag are

@@ -1,5 +1,14 @@
 XXXX-XX-XX      v0.80
 
+- Added some experimental syntax highlighting for the Rounded Corners example,
+  via the LGPL dp.SyntaxHighlighter 1.2.0 now included in examples/common/lib
+- Use an indirect binding for the logger conveniences, so that the global
+  logger could be replaced by setting MochiKit.Logger.logger to something else
+  (though an observer is probably a better choice).
+- Allow MochiKit.DOM.getElementsByTagAndClassName to take a string for parent,
+  which will be looked up with getElement
+- Fixed bug in MochiKit.Color.fromBackground (was using node.parent instead of
+  node.parentNode)
 - Consider a 304 (NOT_MODIFIED) response from XMLHttpRequest to be success
 - Disabled Mozilla map(...) fast-path due to Deer Park compatibility issues
 - Possible workaround for Safari issue with swapDOM, where it would get

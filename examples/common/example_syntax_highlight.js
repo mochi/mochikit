@@ -1,20 +1,20 @@
-var roundedCornersOnLoad = function () {
-    swapDOM("visual_version", SPAN(null, MochiKit.Visual.VERSION));
-    roundClass("h1", null);
-    roundClass("h2", null, {corners: "bottom"});
-    syntaxHighlight();
-};
+/*
 
-var swapContents = function (dest, req) {
-    replaceChildNodes(dest, req.responseText);
-};
+Do syntax highlighting on every textarea inside of a "codeview" element
 
-var finishSyntaxHighlight = function () {
-    dp.sh.HighlightAll("code");
-    removeElementClass("codeview", "invisible");
-};
+The content of textareas are URLs, not code!
 
+*/
 var syntaxHighlight = function () {
+    var swapContents = function (dest, req) {
+        replaceChildNodes(dest, req.responseText);
+    };
+
+    var finishSyntaxHighlight = function () {
+        dp.sh.HighlightAll("code", true, true, true);
+        removeElementClass("codeview", "invisible");
+    };
+
     var elems = getElementsByTagAndClassName("textarea", null, "codeview");
     var dl = new Deferred();
     var deferredCount = 0;

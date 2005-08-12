@@ -344,6 +344,7 @@ MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className, /* opt
     if (typeof(parent) == 'undefined' || parent == null) {
         parent = document;
     }
+    parent = MochiKit.DOM.getElement(parent);
     var children = parent.getElementsByTagName(tagName) || document.all;
     if (typeof(className) == 'undefined' || className == null) {
         return children;

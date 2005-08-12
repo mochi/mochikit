@@ -346,14 +346,14 @@ MochiKit.Visual.Color._fromColorString = function (pre, method, scales, colorCod
     
 MochiKit.Visual.Color.fromBackground = function (elem) {
     var m = MochiKit.Visual;
-    while (elem) {
+    for (elem = MochiKit.DOM.getElement(elem); elem; elem = elem.parentNode) {
         var actualColor = m.getElementsComputedStyle(
-            MochiKit.DOM.getElement(elem),
+            elem,
             "backgroundColor",
             "background-color"
         );
         if (!actualColor) {
-            break;
+            continue;
         }
         var color = m.Color.fromString(actualColor);
         if (!color) {
@@ -362,7 +362,6 @@ MochiKit.Visual.Color.fromBackground = function (elem) {
         if (color.asRGB().a > 0) {
             return color;
         }
-        elem = elem.parent;
     }
     return m.Color.whiteColor();
 };
@@ -579,6 +578,9 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
         return el.currentStyle[cssProperty];
     } else {
         var style = document.defaultView.getComputedStyle(el, null);
+        if (!style) {
+            return undefined;
+        }
         return style.getPropertyValue(mozillaEquivalentCSS);
     }
 };
