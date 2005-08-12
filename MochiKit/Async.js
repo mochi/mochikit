@@ -520,13 +520,14 @@ MochiKit.Async.sendXMLHttpRequest = function (req, /* optional */ sendContent) {
                 status = req.status;
                 if (!status && MochiKit.Base.isNotEmpty(req.responseText)) {
                     // 0 or undefined seems to mean cached or local
-                    status = 200;
+                    status = 304;
                 }
             } catch (e) {
                 // pass
                 // MochiKit.Logging.logDebug('error getting status?', repr(items(e)));
             }
-            if (status == 200) { // OK
+            //  200 is OK, 304 is NOT_MODIFIED
+            if (status == 200 || status == 304) { // OK
                 d.callback(req);
             } else {
                 var err = new MochiKit.Async.XMLHttpRequestError(req, "Request failed");

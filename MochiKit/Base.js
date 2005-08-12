@@ -411,8 +411,8 @@ MochiKit.Base.map = function (fn, lst/*, lst... */) {
         if (fn == null) {
             return MochiKit.Base.extend(null, lst);
         }
-        // fast path for map(fn, lst)
-        if (typeof(Array.prototype.map) == 'function') {
+        // disabled fast path for map(fn, lst)
+        if (false && typeof(Array.prototype.map) == 'function') {
             // Mozilla fast-path
             return Array.prototype.map.call(lst, fn);
         }
