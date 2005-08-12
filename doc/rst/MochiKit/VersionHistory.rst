@@ -1,4 +1,4 @@
-XXXX-XX-XX      v0.80
+2005-08-12      v0.80
 
 - Source highlighting in all examples, moved to a view-source example
 - Added some experimental syntax highlighting for the Rounded Corners example,
