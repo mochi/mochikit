@@ -11,7 +11,7 @@ var viewSource = function () {
         filename = location.hash = "view-source/view-source.js";
     }
     filename = lstrip(filename, "#");
-    replaceChildNodes("filename", filename);
+    replaceChildNodes("filename", "loading " + filename);
     replaceChildNodes("code", "../" + filename);
     ext = filename.split(".").pop();
     var classes = {
@@ -21,16 +21,22 @@ var viewSource = function () {
         "xml": "xml"
     };
     updateNodeAttributes("code", {"class": classes[ext]});
-    syntaxHighlight();
+    syntaxHighlight(filename);
 };
 
-var syntaxHighlight = function () {
+var syntaxHighlight = function (filename) {
     var swapContents = function (dest, req) {
         replaceChildNodes(dest, req.responseText);
     };
 
+    var showParsing = function () {
+        replaceChildNodes("filename", "parsing " + filename);
+        return wait(0);
+    };
+
     var finishSyntaxHighlight = function () {
         dp.sh.HighlightAll("code", true, true, false);
+        replaceChildNodes("filename", filename);
         removeElementClass("codeview", "invisible");
     };
 
@@ -55,5 +61,6 @@ var syntaxHighlight = function () {
         deferredCount += 1;
         d.addCallback(checkDeferredList);
     }
+    dl.addCallback(showParsing);
     dl.addCallback(finishSyntaxHighlight);
 };
