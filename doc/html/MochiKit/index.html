@@ -38,6 +38,15 @@
 <h1><a name="version-history">Version History</a></h1>
 <p>XXXX-XX-XX      v0.80</p>
 <ul class="simple">
+<li>Added some experimental syntax highlighting for the Rounded Corners example,
+via the LGPL dp.SyntaxHighlighter 1.2.0 now included in examples/common/lib</li>
+<li>Use an indirect binding for the logger conveniences, so that the global
+logger could be replaced by setting MochiKit.Logger.logger to something else
+(though an observer is probably a better choice).</li>
+<li>Allow MochiKit.DOM.getElementsByTagAndClassName to take a string for parent,
+which will be looked up with getElement</li>
+<li>Fixed bug in MochiKit.Color.fromBackground (was using node.parent instead of
+node.parentNode)</li>
 <li>Consider a 304 (NOT_MODIFIED) response from XMLHttpRequest to be success</li>
 <li>Disabled Mozilla map(...) fast-path due to Deer Park compatibility issues</li>
 <li>Possible workaround for Safari issue with swapDOM, where it would get

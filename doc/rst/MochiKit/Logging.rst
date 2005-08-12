@@ -49,12 +49,12 @@ somehow.  The problem here is that you don't want to clutter the page with
 debugging tools.  The solution to that problem is what we call BBD, or 
 Bookmarklet Based Debugging [3]_.
 
-Simply create a bookmarklet for `javascript:logger.debuggingBookmarklet()`__,
+Simply create a bookmarklet for `javascript:MochiKit.Logging.logger.debuggingBookmarklet()`__,
 and whack it whenever you want to see what's in the logger.  Of course, this
 means you must drink the MochiKit.Logging kool-aid.  It's tangy and sweet,
 don't worry.
 
-.. __: javascript:logger.debuggingBookmarklet()
+.. __: javascript:MochiKit.Logging.logger.debuggingBookmarklet()
 
 Currently this is an ugly ``alert``, but we'll have something spiffy
 Real Soon Now, and when we do, you only have to upgrade MochiKit.Logging,

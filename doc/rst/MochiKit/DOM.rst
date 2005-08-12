@@ -318,16 +318,19 @@ Functions
 
     If multiple arguments are given, an ``Array`` will be returned.
 
+
 ``getElementsByTagAndClassName(tagName, className, parent=document)``:
 
     Returns an array of elements in ``parent`` that match the tag name
-    and class name provided.
+    and class name provided.  If ``parent`` is a string, it will be looked
+    up with ``getElement``.
     
     If ``tagName`` is ``null`` or ``"*"``, all elements will be searched 
     for the matching class.
     
     If ``className`` is ``null``, all elements matching the provided tag are
     returned.
+
 
 ``$(id[, ...])``:
 
