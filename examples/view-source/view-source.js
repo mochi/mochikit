@@ -11,8 +11,9 @@ var viewSource = function () {
         filename = location.hash = "view-source/view-source.js";
     }
     filename = lstrip(filename, "#");
-    replaceChildNodes("filename", "loading " + filename);
-    replaceChildNodes("code", "../" + filename);
+    var href = "../" + filename;
+    replaceChildNodes("filename", "loading ", A({"href": href}, filename));
+    replaceChildNodes("code", href);
     ext = filename.split(".").pop();
     var classes = {
         "html": "xml",
@@ -30,7 +31,10 @@ var syntaxHighlight = function (filename) {
     };
 
     var showParsing = function () {
-        replaceChildNodes("filename", "parsing " + filename);
+        replaceChildNodes("filename",
+            "parsing ", 
+            A({"href": "../" + filename}, filename)
+        );
         return wait(0);
     };
 
