@@ -1,5 +1,6 @@
 XXXX-XX-XX      v0.80
 
+- Source highlighting in all examples, moved to a view-source example
 - Added some experimental syntax highlighting for the Rounded Corners example,
   via the LGPL dp.SyntaxHighlighter 1.2.0 now included in examples/common/lib
 - Use an indirect binding for the logger conveniences, so that the global
