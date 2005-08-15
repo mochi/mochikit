@@ -574,19 +574,13 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
         mozillaEquivalentCSS = cssProperty;
     }
     var el = MochiKit.DOM.getElement(htmlElement);
-    log('el', el);
-    if (!el) {
+    if (!el || el == document) {
         return undefined;
     }
     if (el.currentStyle) {
         return el.currentStyle[cssProperty];
     } else {
-        var style;
-        try {
-            style = document.defaultView.getComputedStyle(el, null);
-        } catch (e) {
-            // pass
-        }
+        var style = document.defaultView.getComputedStyle(el, null);
         if (!style) {
             return undefined;
         }
