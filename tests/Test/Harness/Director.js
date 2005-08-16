@@ -1,7 +1,7 @@
 // # $Id: Kinetic.pm 1493 2005-04-07 19:20:18Z theory $
 
 Test.Harness.Director = function () {};
-Test.Harness.Director.VERSION = '0.11';
+Test.Harness.Director.VERSION = '0.12';
 
 Test.Harness.Director.runTests = function () {
     var harness = new Test.Harness.Director();
@@ -12,26 +12,30 @@ Test.Harness.Director.prototype = new Test.Harness();
 Test.Harness.Director.prototype.verbose = true;
 Test.Harness.Director.prototype.args = {};
 
-Test.Harness.Director.prototype.runTests = function (x_aFunctionNames) {
+Test.Harness.Director.prototype.runTests = function () {
     // Allow for an array or a simple list in arguments.
     // XXX args.file isn't quite right since it's more function names, but
     // that is still to be ironed out.
+
     var functionNames = this.args.file
       ? typeof this.args.file == 'string' ? [this.args.file] : this.args.file
       : arguments;
-    if (!x_aFunctionNames.length) return;
-    var outfunctions = this.outFileNames(x_aFunctionNames);
+    if (!functionNames.length) return;
+    var outfunctions = this.outFileNames(functionNames);
     var harness = this;
     var start = new Date();
     var newLineRx = /(?:\r?\n|\r)+$/;
-    var output = function (msg) { trace(msg.replace(newLineRx, '')) };
+    var output = {
+        pass: function (msg) { trace(msg.replace(newLineRx, '')) }
+    }
+    output.fail = output.pass;
 
-    for (var x = 0; x < x_aFunctionNames.length; x++){
+    for (var x = 0; x < functionNames.length; x++){
         output(outfunctions[x]);
-        eval(x_aFunctionNames[x] + "()");
+        eval(functionNames[x] + "()");
         harness.outputResults(
             Test.Builder.Test,
-            x_aFunctionNames[x],
+            functionNames[x],
             output,
             harness.args
         );

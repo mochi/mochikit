@@ -1,173 +1,311 @@
 // # $Id: Kinetic.pm 1493 2005-04-07 19:20:18Z theory $
 
-if (typeof JSAN != 'undefined') new JSAN().use('Test.Harness');
+if (window.parent != window &&
+    location.href.replace(/[?#].+/, "") == parent.location.href.replace(/[?#].+/, ""))
+{
+    // We're in a test iframe. Set up the necessary parts and load the
+    // test script with XMLHttpRequest (to support Safari and Opera).
+    var __MY = {};
+    __MY.pre = document.createElement("pre");
+    __MY.pre.id = "test";
+    if (window.parent.Test.Harness.Browser._encoding) {
+        // Set all scripts to use the appropriate encoding.
+        __MY.encoding = window.parent.Test.Harness.Browser._encoding;
+        __MY.scripts = document.getElementsByTagName('script');
+        for (var j = 0; j < __MY.scripts.length; j++) {
+            __MY.scripts[j].charset = __MY.encoding;
+        }
+    }
 
-Test.Harness.Browser = function () {};
-Test.Harness.Browser.VERSION = '0.11';
+    // XXX replace with a script element at some point? Safari is due to
+    // have this working soon:
+    // http://bugzilla.opendarwin.org/show_bug.cgi?id=3748
+    __MY.runit = function (scripts) {
+        var req = typeof XMLHttpRequest != 'undefined'
+          ? new XMLHttpRequest()
+          : new ActiveXObject("Microsoft.XMLHTTP");
 
-Test.Harness.Browser.runTests = function () {
-    var harness = new Test.Harness.Browser();
-    harness.runTests.apply(harness, arguments);
-};
-
-Test.Harness.Browser.prototype = new Test.Harness();
-Test.Harness.Browser.prototype.interval = 100;
-
-Test.Harness.Browser.prototype._setupFrame = function () {
-    // Setup the iFrame to run the tests.
-    var node = document.getElementById('buffer');
-    if (node) return node.contentWindow;
-    node = document.createElement("iframe");
-    node.setAttribute("id", "buffer");
-    node.setAttribute("name", "buffer");
-    // Safari makes it impossible to do anything with the iframe if it's set
-    // to display:none. See:
-    // http://www.quirksmode.org/bugreports/archives/2005/02/hidden_iframes.html
-    if (/Safari/.test(navigator.userAgent)) {
-        node.style.visibility = "hidden";
-        node.style.height = "0"; 
-        node.style.width = "0";
-    } else
-        node.style.display = "none";
-    document.body.appendChild(node);
-    return node.contentWindow;
-};
-
-Test.Harness.Browser.prototype._setupOutput = function () {
-    // Setup the pre element for test output.
-    var node = document.createElement("pre");
-    node.setAttribute("id", "output");
-    document.body.appendChild(node);
-    return function (msg) {
-        node.appendChild(document.createTextNode(msg));
-        window.scrollTo(0, document.body.offsetHeight
-                        || document.body.scrollHeight);
-    };
-};
-
-Test.Harness.Browser.prototype._setupSummary = function () {
-    // Setup the div for the summary.
-    var node = document.createElement("div");
-    node.setAttribute("id", "summary");
-    node.setAttribute("style", "white-space:pre; font-family: Verdana,Arial,serif;");
-    document.body.appendChild(node);
-    return function (msg) {
-        node.appendChild(document.createTextNode(msg));
-        window.scrollTo(0, document.body.offsetHeight
-                        || document.body.scrollHeight);
-    };
-};
-
-Test.Harness.Browser.prototype.runTests = function () {
-    var files = this.args.file
-      ? typeof this.args.file == 'string' ? [this.args.file] : this.args.file
-      : arguments;
-    if (!files.length) return;
-    var outfiles = this.outFileNames(files);
-    var buffer = this._setupFrame();
-    var harness = this;
-    var ti = 0;
-    var start;
-    var node = document.getElementById('output');
-    var output = this._setupOutput();
-    var summaryOutput = this._setupSummary();
-    // These depend on how we're watching for a test to finish.
-    var finish = function () {}, runNext = function () {};
-
-    // This function handles most of the work of outputting results and
-    // running the next test, if there is one.
-    var runner = function () {
-        harness.outputResults(
-            buffer.Test.Builder.Test,
-            files[ti],
-            output,
-            harness.args
-        );
-
-        if (files[++ti]) {
-            output(outfiles[ti] + (harness.args.verbose ? Test.Harness.LF : ''));
-            buffer.location.href = files[ti];
-            runNext();
-        } else {
-            harness.outputSummary(
-                summaryOutput,
-                new Date() - start
-             );
-            finish();
+        for (var i = 0; i < scripts.length; i++) {
+            req.open("GET", scripts[i], false);
+            req.send(null);
+            var stat = req.status;
+            //           OK   Not Modified    IE Cached   Safari cached
+            if (stat == 200 || stat == 304 || stat == 0 || stat == null) {
+                eval(req.responseText);
+            } else {
+                throw new Error("Unable to load " + url + ': Status ' + req.status);
+            }
         }
     };
 
-    if (Object.watch) {
-        // We can use the cool watch method, and avoid setting timeouts!
-        // We just need to unwatch() when all tests are finished.
-        finish = function () { Test.Harness.unwatch('Done') };
-        Test.Harness.watch('Done', function (attr, prev, next) {
-            if (next < buffer.Test.Builder.Instances.length) return next;
-            runner();
-            return 0;
-        });
-    } else {
-        // Damn. We have to set timeouts. :-(
-        var wait = function () {
-            // Check Test.Harness.Done. If it's non-zero, then we know that
-            // the buffer is fully loaded, because it has incremented
-            // Test.Harness.Done.
-            if (Test.Harness.Done > 0
-                && Test.Harness.Done >= buffer.Test.Builder.Instances.length)
-            {
-                Test.Harness.Done = 0;
-                runner();
-            } else {
-                window.setTimeout(wait, harness.interval);
+    __MY.runit(window.parent.Test.Harness.Browser.includes);
+    document.getElementsByTagName("body")[0].appendChild(__MY.pre);
+
+    // Build fake T.H.B so original script from this file doesn't throw
+    // exception. This is a bit of a hack...
+    if (typeof(Test) == 'undefined') Test = {};
+    if (!Test.Harness) Test.Harness = {};
+    Test.Harness.Browser = function() {
+        this.runTests = function() {},
+        this.encoding = function () { return this }
+    };
+
+} else {
+    if (typeof JSAN != 'undefined') JSAN.use('Test.Harness');
+    else {
+        if (typeof Test == 'undefined') Test = {};
+        if (!Test.Harness) Test.Harness = {};
+    }
+    Test.Harness.Browser = function () {
+        this.includes = Test.Harness.Browser.includes = [];
+        Array.prototype.push.apply(Test.Harness.Browser.includes, arguments);
+        this.includes.push('');
+    };
+
+    Test.Harness.Browser.VERSION = '0.12';
+
+    Test.Harness.Browser.runTests = function () {
+        var harness = new Test.Harness.Browser();
+        harness.runTests.apply(harness, arguments);
+    };
+
+    Test.Harness.Browser.prototype = new Test.Harness();
+    Test.Harness.Browser.prototype.interval = 100;
+
+    Test.Harness.Browser.prototype._setupFrame = function () {
+        // Setup the iFrame to run the tests.
+        var node = document.getElementById('buffer');
+        if (node) return node.contentWindow || frames.buffer;
+        node = document.createElement("iframe");
+        node.setAttribute("id", "buffer");
+        node.setAttribute("name", "buffer");
+        // Safari makes it impossible to do anything with the iframe if it's
+        // set to display:none. See:
+        // http://www.quirksmode.org/bugreports/archives/2005/02/hidden_iframes.html
+        if (/Safari/.test(navigator.userAgent)) {
+            node.style.visibility = "hidden";
+            node.style.height = "0"; 
+            node.style.width = "0";
+        } else
+            node.style.display = "none";
+        document.body.appendChild(node);
+        return node.contentWindow || frames.buffer;
+    };
+
+    Test.Harness.Browser.prototype._setupOutput = function () {
+        // Setup the pre element for test output.
+        var node = document.createElement("pre");
+        node.setAttribute("id", "output");
+        document.body.appendChild(node);
+        return {
+            pass: function (msg) {
+                node.appendChild(document.createTextNode(msg));
+                window.scrollTo(0, document.body.offsetHeight
+                                || document.body.scrollHeight);
+            },
+            fail: function (msg) {
+                var red = document.createElement("span");
+                red.setAttribute("style", "color: red; font-weight: bold");
+                node.appendChild(red);
+                red.appendChild(document.createTextNode(msg));
+                window.scrollTo(0, document.body.offsetHeight
+                                || document.body.scrollHeight);
             }
         };
-        // We'll just have to set a timeout for the next test.
-        runNext = function () { window.setTimeout(wait, harness.interval); };
-        window.setTimeout(wait, this.interval);
-    }
-
-    // Now start the first test.
-    output(outfiles[ti] + (this.args.verbose ? Test.Harness.LF : ''));
-    start = new Date();
-    buffer.location.href = files[ti]; // replace() doesn't seem to work.
-};
-
-// From "JavaScript: The Difinitive Guide 4ed", p 214.
-Test.Harness.Browser.prototype.args = {};
-var pairs = location.search.substring(1).split(",");
-for (var i = 0; i < pairs.length; i++) {
-    var pos = pairs[i].indexOf('=');
-    if (pos == -1) continue;
-    var key = pairs[i].substring(0, pos);
-    var val = pairs[i].substring(pos + 1); 
-    if (Test.Harness.Browser.prototype.args[key]) {
-        if (typeof Test.Harness.Browser.prototype.args[key] == 'string') {
-            Test.Harness.Browser.prototype.args[key] =
-                [Test.Harness.Browser.prototype.args[key]];
-        }
-        Test.Harness.Browser.prototype.args[key].push(unescape(val));
-    } else {
-        Test.Harness.Browser.prototype.args[key] = unescape(val);
-    }
-}
-delete pairs;
-
-Test.Harness.Browser.prototype.formatFailures = function (fn) {
-    // XXX append new element for table and then populate it.
-    var failedStr = "Failed Test";
-    var middleStr = " Total Fail  Failed  ";
-    var listStr = "List of Failed";
-    var table = '<table style=""><tr><th>Failed Test</th><th>Total</th>'
-      + '<th>Fail</th><th>Failed</th></tr>';
-    for (var i = 0; i < this.failures.length; i++) {
-        var track = this.failures[i];
-        table += '<tr><td>' + track.fn + '</td>'
-          + '<td>' + track.total + '</td>'
-          + '<td>' + track.total - track.ok + '</td>'
-          + '<td>' + this._failList(track.failList) + '</td></tr>'
     };
-    table += '</table>' + Test.Harness.LF;
-    var node = document.getElementById('summary');
-    node.innerHTML += table;
-    window.scrollTo(0, document.body.offsetHeight || document.body.scrollHeight);
+
+    Test.Harness.Browser.prototype._setupSummary = function () {
+        // Setup the div for the summary.
+        var node = document.createElement("div");
+        node.setAttribute("id", "summary");
+        node.setAttribute(
+            "style", "white-space:pre; font-family: Verdana,Arial,serif;"
+        );
+        document.body.appendChild(node);
+        return function (msg) {
+            node.appendChild(document.createTextNode(msg));
+            window.scrollTo(0, document.body.offsetHeight
+                            || document.body.scrollHeight);
+        };
 };
+
+    Test.Harness.Browser.prototype.runTests = function () {
+        Test.Harness.Browser._encoding = this.encoding();
+        var files = this.args.file
+        ? typeof this.args.file == 'string' ? [this.args.file] : this.args.file
+        : arguments;
+        if (!files.length) return;
+        var outfiles = this.outFileNames(files);
+        var buffer = this._setupFrame();
+        var harness = this;
+        var ti = 0;
+        var start;
+        var output = this._setupOutput();
+        var summaryOutput = this._setupSummary();
+        // These depend on how we're watching for a test to finish.
+        var finish = function () {}, runNext = function () {};
+
+        // This function handles most of the work of outputting results and
+        // running the next test, if there is one.
+        var runner = function () {
+            harness.outputResults(
+                buffer.Test.Builder.Test,
+                files[ti],
+                output,
+                harness.args
+            );
+
+            if (files[++ti]) {
+                output.pass(
+                    outfiles[ti]
+                    + (harness.args.verbose ? Test.Harness.LF : '')
+                );
+                harness.runTest(files[ti], buffer);
+                runNext();
+            } else {
+                harness.outputSummary(summaryOutput, new Date() - start);
+                finish();
+            }
+        };
+
+        if (Object.watch) {
+            // We can use the cool watch method, and avoid setting timeouts!
+            // We just need to unwatch() when all tests are finished.
+            finish = function () { Test.Harness.unwatch('Done') };
+            Test.Harness.watch('Done', function (attr, prev, next) {
+                if (next < buffer.Test.Builder.Instances.length) return next;
+                runner();
+                return 0;
+            });
+        } else {
+            // Damn. We have to set timeouts. :-(
+            var wait = function () {
+                // Check Test.Harness.Done. If it's non-zero, then we know
+                // that the buffer is fully loaded, because it has incremented
+                // Test.Harness.Done.
+                if (Test.Harness.Done > 0
+                    && Test.Harness.Done >= buffer.Test.Builder.Instances.length)
+                {
+                    Test.Harness.Done = 0;
+                    runner();
+                } else {
+                    window.setTimeout(wait, harness.interval);
+                }
+            };
+            // We'll just have to set a timeout for the next test.
+            runNext = function () {
+                window.setTimeout(wait, harness.interval);
+            };
+            window.setTimeout(wait, this.interval);
+        }
+
+        // Now start the first test.
+        output.pass(outfiles[ti] + (this.args.verbose ? Test.Harness.LF : ''));
+        start = new Date();
+        this.runTest(files[ti], buffer);
+    };
+
+    Test.Harness.Browser.prototype.runTest = function (file, buffer) {
+        if (/\.html$/.test(file)) {
+            buffer.location.replace(file);
+        } else { // if (/\.js$/.test(file)) {
+            if (/MSIE/.test(navigator.userAgent) // Covers Opera, too.
+                || /Safari/.test(navigator.userAgent))
+            {
+                // These browsers have problems with the DOM solution.  It
+                // simply doesn't work in Safari, and Opera considers its
+                // handling of buffer.document to be a security violation. So
+                // have them use the XML hack, instead.
+                this.includes[this.includes.length-1] = file;
+                buffer.location.replace(location.href + "?xml-hack");
+                return;
+            }
+            // document.write() simply doesn't work here. Thanks to
+            // Pawel Chmielowski for figuring that out!
+            var doc = buffer.document;
+            doc.open("text/html");
+            doc.close();
+            var el;
+            var body = doc.body || doc.getElementsByTagName("body")[0];
+            var head = doc.getElementsByTagName("head")[0];
+            if (!head) {
+                head = doc.createElement('head');
+                doc.appendChild(head);
+            }
+            for (var i = 0; i < this.includes.length - 1; i++) {
+                el = doc.createElement("script");
+                el.setAttribute("src", this.includes[i]);
+                head.appendChild(el);
+            }
+            var pre = doc.createElement("pre");
+            pre.id = "test";
+            el = doc.createElement("script");
+            el.type = "text/javascript";
+            if (this.encoding()) el.charset = this.encoding();
+            // XXX This doesn't work in Safari right now. See
+            // http://bugzilla.opendarwin.org/show_bug.cgi?id=3748
+            // Put in XMLhttpRequest => eval, instead?
+            el.src = file;
+            pre.appendChild(el);
+            el = doc.createElement("script");
+            el.type = "text/javascript";
+            // XXX IE chokes on this line.
+            el.appendChild(doc.createTextNode("window.onload(null, Test)"))
+            pre.appendChild(el);
+            body.appendChild(pre);
+        /* Let's just assume that if it's not .html, it's JavaScript.
+        } else {
+            // Who are you, man??
+            alert("I don't know what kind of file '" + file + "' is");
+        */
+        }
+    };
+
+    Test.Harness.Browser.prototype.args = {};
+    var pairs = location.search.substring(1).split(/[;&]/);
+    for (var i = 0; i < pairs.length; i++) {
+        var parts = pairs[i].split('=');
+        if (parts[0] == null) continue;
+        var key = unescape(parts[0]), val = unescape(parts[1]);
+        if (Test.Harness.Browser.prototype.args[key] == null) {
+            Test.Harness.Browser.prototype.args[key] = unescape(val);
+        } else {
+            if (typeof Test.Harness.Browser.prototype.args[key] == 'string') {
+                Test.Harness.Browser.prototype.args[key] =
+                    [Test.Harness.Browser.prototype.args[key], unescape(val)];
+            } else {
+                Test.Harness.Browser.prototype.args[key].push(unescape(val));
+            }
+        }
+    }
+    delete pairs;
+
+    Test.Harness.Browser.prototype.formatFailures = function (fn) {
+        // XXX Switch to DOM?
+        var failedStr = "Failed Test";
+        var middleStr = " Total Fail  Failed  ";
+        var listStr = "List of Failed";
+        var table =
+            '<style>table {padding: 0; border-collapse: collapse; }'
+          + 'tr { height: 2em; }'
+          + 'th { background: lightgrey; }'
+          + 'td, th { padding: 2px 5px; text-align: left; border: solid #000000 1px;}'
+          + '.odd { background: #e8e8cd }'
+          + '</style>'
+          + '<table style="padding: 0"><tr><th>Failed Test</th><th>Total</th>'
+          + '<th>Fail</th><th>Failed</th></tr>';
+        for (var i = 0; i < this.failures.length; i++) {
+            var track = this.failures[i];
+            var style = i % 2 ? 'even' : 'odd';
+            table += '<tr class="' + style + '"><td>' + track.fn + '</td>'
+              + '<td>' + track.total + '</td>'
+              + '<td>' + (track.total - track.ok) + '</td>'
+              + '<td>' + this._failList(track.failList) + '</td></tr>';
+        };
+        table += '</table>' + Test.Harness.LF;
+        var node = document.getElementById('summary');
+        node.innerHTML += table;
+        window.scrollTo(0, document.body.offsetHeight
+                        || document.body.scrollHeight);
+    };
+}

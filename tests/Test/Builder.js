@@ -23,7 +23,15 @@ Test.Builder = function () {
 };
 
 // Static variables.
-Test.Builder.VERSION = '0.11';
+Test.Builder.globalScope = typeof JSAN != 'undefined'
+  ? JSAN.globalScope
+  :  typeof window != 'undefined'
+    ? window
+    : typeof _global != 'undefined'
+      ? _global
+      : null;
+
+Test.Builder.VERSION = '0.12';
 Test.Builder.Instances = [];
 Test.Builder.lineEndingRx = /\r?\n|\r/g;
 Test.Builder.StringOps = {
@@ -36,8 +44,9 @@ Test.Builder.StringOps = {
 };
 
 // Stoopid IE.
-Test.Builder.LF = typeof document != "undefined"
-                  && typeof document.all != "undefined"
+Test.Builder.LF = typeof navigator != "undefined"
+    && navigator.userAgent.toLowerCase().indexOf('msie') + 1
+    && typeof Test.Builder.globalScope.opera != "undefined"
   ? "\r"
   : "\n";
 
@@ -86,7 +95,7 @@ Test.Builder.prototype.reset = function () {
     this.NoEnding      = false;
     this.TestResults   = [];
     this.ToDo          = [];
-    this.Buffer       = [];
+    this.Buffer        = [];
     this.asyncs        = [0];
     this.asyncID       = 0;
     return this._setupOutput();
@@ -127,8 +136,10 @@ Test.Builder.prototype.plan = function (arg) {
         } else if (cmd == 'noPlan' && arg[cmd]) {
             this.noPlan();
         } else {
-            Test.Builder.die("plan() doesn't understand "
-                             + cmd + (arg[cmd] ? (" " + arg[cmd]) : ''));
+            // Do nothing, since Object.prototype might have been changed.
+            // Too bad JS doesn't have real hashes!
+            // Test.Builder.die("plan() doesn't understand "
+            // + cmd + (arg[cmd] ? (" " + arg[cmd]) : ''));
         }
     }
 };
@@ -164,9 +175,9 @@ Test.Builder.prototype.skipAll = function (reason) {
     if (reason) out += " # Skip " + reason;
     out += Test.Builder.LF;
     this.SkipAll = 1;
-    if (!this.noHeader()) this._print(out);
+    if (!this.noHeader()) this.output()(out);
     // Just throw and catch an exception.
-    window.onerror = function () { return true; }
+    Test.Builder.globalScope.onerror = function () { return true; }
     throw new Error("__SKIP_ALL__");
 };
 
@@ -175,8 +186,18 @@ Test.Builder.prototype.ok = function (test, desc) {
     // store, so we turn it into a boolean.
     test = !!test;
 
-    if (!this.HavePlan)
-        Test.Builder.die("You tried to run a test without a plan! Gotta have a plan.");
+    if (!this.HavePlan) {
+        Test.Builder.die(
+            "You tried to run a test without a plan! Gotta have a plan."
+        );
+    }
+
+    // Append any output to the previous test's results.
+    if (this.Buffer.length && this.TestResults.length) {
+        this.TestResults[this.TestResults.length - 1].output +=
+            this.Buffer.splice(0, this.Buffer.length).join('');
+    
+    }
 
     // I don't think we need to worry about threading in JavaScript.
     this.CurrTest++;
@@ -236,11 +257,9 @@ Test.Builder.prototype.ok = function (test, desc) {
 
     if (!test) {
         var msg = todo ? "Failed (TODO)" : "Failed";
-        // XXX Hrm, do I need this?
-        //$self_print_diag(Test.Builder.LF) if $ENV{HARNESS_ACTIVE};
         this.diag("    " + msg + " test");
     }
-    result.output = this.Buffer.splice(0).join('');
+    result.output = this.Buffer.splice(0, this.Buffer.length).join('');
     return test;
 };
 
@@ -372,7 +391,7 @@ Test.Builder.prototype._isDiag = function (got, op, expect) {
 Test.Builder.prototype.BAILOUT = function (reason) {
     this._print("Bail out! " + reason);
     // Just throw and catch an exception.
-    window.onerror = function () {
+    Test.Builder.globalScope.onerror = function () {
         // XXX Do something to tell TestHarness it was a bailout?
         return true;
     }
@@ -401,7 +420,7 @@ Test.Builder.prototype.skip = function (why) {
     out    += " # skip " + why + Test.Builder.LF;
     this._print(out);
     this.TestResults[this.CurrTest - 1].output =
-      this.Buffer.splice(0).join('');
+    this.Buffer.splice(0, this.Buffer.length).join('');
     return true;
 };
 
@@ -428,7 +447,7 @@ Test.Builder.prototype.todoSkip = function (why) {
     out    += " # TODO & SKIP " + why + Test.Builder.LF;
     this._print(out);
     this.TestResults[this.CurrTest - 1].output =
-      this.Buffer.splice(0).join('');
+    this.Buffer.splice(0, this.Buffer.length).join('');
     return true;
 };
 
@@ -443,7 +462,7 @@ Test.Builder.prototype.skipRest = function (reason) {
         }
     }
     // Just throw and catch an exception.
-    window.onerror = function () { return true; }
+    Test.Builder.globalScope.onerror = function () { return true; }
     throw new Error("__SKIP_REST__");
 };
 
@@ -467,7 +486,7 @@ Test.Builder.prototype.diag = function () {
 
     var msg = '# ';
     // Join each agument and escape each line with a #.
-    for (i = 0; i < arguments.length; i++) {
+    for (var i = 0; i < arguments.length; i++) {
         // Replace any newlines.
         msg += arguments[i].toString().replace(Test.Builder.lineEndingRx,
                                                Test.Builder.LF + "# ");
@@ -528,13 +547,16 @@ Test.Builder.prototype.warnOutput = function (fn) {
 
 Test.Builder.prototype._setupOutput = function () {
     if (Test.PLATFORM == 'browser') {
+        var top = Test.Builder.globalScope;
+        var doc = top.document;
         var writer = function (msg) {
             // I'm sure that there must be a more efficient way to do this,
             // but if I store the node in a variable outside of this function
             // and refer to it via the closure, then things don't work right
             // --the order of output can become all screwed up (see
             // buffer.html).  I have no idea why this is.
-            var node = document.getElementById("test");
+            var node = doc.getElementById("test");
+            var body = doc.body || doc.getElementsByTagName("body")[0];
             if (node) {
                 // This approach is neater, but causes buffering problems when
                 // mixed with document.write. See tests/buffer.html.
@@ -544,33 +566,36 @@ Test.Builder.prototype._setupOutput = function () {
                     if (node.childNodes[i].nodeType == 3 /* Text Node */) {
                         // Append to the node and scroll down.
                         node.childNodes[i].appendData(msg);
-                        window.scrollTo(0, document.body.offsetHeight
-                                        || document.body.scrollHeight);
+                        top.scrollTo(
+                            0, body.offsetHeight || body.scrollHeight
+                        );
                         return;
                     }
                 }
 
                 // If there was no text node, add one.
-                node.appendChild(document.createTextNode(msg));
-                window.scrollTo(0, document.body.offsetHeight
-                                || document.body.scrollHeight);
+                node.appendChild(doc.createTextNode(msg));
+                top.scrollTo(0, body.offsetHeight || body.scrollHeight);
                 return;
             }
 
             // Default to the normal write and scroll down...
-            document.write(msg);
-            window.scrollTo(0, document.body.offsetHeight
-                            || document.body.scrollHeight);
+            doc.write(msg);
+            top.scrollTo(0, body.offsetHeight || body.scrollHeight);
         };
 
         this.output(writer);
-        this.failureOutput(writer);
+        this.failureOutput(function (msg) {
+            writer('<span style="color: red; font-weight: boldvv">'
+                   + msg + '</span>')
+        });
         this.todoOutput(writer);
         this.endOutput(writer);
 
-        if (window) {
-            if (window.alert.apply) this.warnOutput(window.alert, window);
-            else this.warnOutput(function (msg) { window.alert(msg) });
+        if (top.alert.apply) {
+            this.warnOutput(top.alert, top);
+        } else {
+            this.warnOutput(function (msg) { top.alert(msg); });
         }
 
     } else if (Test.PLATFORM == 'director') {
@@ -594,7 +619,7 @@ Test.Builder.prototype.currentTest = function (num) {
     this.CurrTest = num;
     if (num > this.TestResults.length ) {
         var reason = 'incrementing test number';
-        for (i = this.TestResults.length; i < num; i++) {
+        for (var i = this.TestResults.length; i < num; i++) {
             this.TestResults[i] = {
                 ok:        true, 
                 actual_ok: null,
@@ -654,10 +679,10 @@ Test.Builder.prototype._sanity_check = function () {
 };
 
 Test.Builder.prototype._notifyHarness = function () {
+    var top = Test.Builder.globalScope;
     // Special treatment for the browser harness.
-    if (typeof window != 'undefined' && window.parent
-        && window.parent.Test && window.parent.Test.Harness) {
-        window.parent.Test.Harness.Done++;
+    if (top.parent && top.parent.Test && top.parent.Test.Harness) {
+        top.parent.Test.Harness.Done++;
     }
 };
 
@@ -738,18 +763,22 @@ Test.Builder.prototype.isUndef = function (got, op, expect, desc) {
     return test;
 };
 
-if (window) {
+if (Test.Builder.globalScope) {
     // Set up an onload function to end all tests.
-    window.onload = function () {
-        for (var i = 0; i < Test.Builder.Instances.length; i++) {
+    Test.Builder.globalScope.onload = function (event, pkg) {
+        // The package may be passed in if onload() is called explicitly.
+        // This is to get around a very weird scoping bug in my version of
+        // Firefox. See Test.Harness.Browser.runTest() for this usage.
+        if (!pkg) pkg = this.Test;
+        for (var i = 0; i < pkg.Builder.Instances.length; i++) {
             // The main process is always async ID 0.
-            Test.Builder.Instances[i].endAsync(0);
+            pkg.Builder.Instances[i].endAsync(0);
         }
     };
 
     // Set up an exception handler. This is so that we can capture deaths but
     // still output information for TestHarness to pick up.
-    window.onerror = function (msg, url, line) {
+    Test.Builder.globalScope.onerror = function (msg, url, line) {
         // Output the exception.
         Test.Builder.Test.TestDied = true;
         Test.Builder.Test.diag("Error in " + url + " at line " + line + ": " + msg);
@@ -759,10 +788,11 @@ if (window) {
 
 Test.Builder.prototype.beginAsync = function (timeout) {
 	var id = ++this.asyncID;
-    if (timeout && window && window.setTimeout) {
+    var top = Test.Builder.globalScope;
+    if (timeout && top && top.setTimeout) {
         // Are there other ways of setting timeout in non-browser settings?
         var aTest = this;
-        this.asyncs[id] = window.setTimeout(
+        this.asyncs[id] = top.setTimeout(
             function () { aTest.endAsync(id) }, timeout
         );
     } else {
@@ -776,16 +806,15 @@ Test.Builder.prototype.endAsync = function (id) {
     if (this.asyncs[id] == undefined) return;
     if (this.asyncs[id]) {
 		// Remove the timeout
-		window.clearTimeout(this.asyncs[id]);
+		Test.Builder.globalScope.clearTimeout(this.asyncs[id]);
 	}
     if (--this.asyncID < 0) this._ending();
 };
 
 Test.Builder.exporter = function (pkg, root) {
     if (typeof root == 'undefined') {
-        if      (Test.PLATFORM == 'browser')  root = window;
-        else if (Test.PLATFORM == 'director') root = _global;
-        else throw new Error("Platform unknown");
+        root = Test.Builder.globalScope;
+        if (!root) throw new Error("Platform unknown");
     }
     for (var i = 0; i < pkg.EXPORT.length; i++) {
         if (typeof root[pkg.EXPORT[i]] == 'undefined')

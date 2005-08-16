@@ -14,12 +14,14 @@ if (typeof self != 'undefined') {
 }
 
 Test.Harness = function () {};
-Test.Harness.VERSION = '0.11';
+Test.Harness.VERSION = '0.12';
 Test.Harness.Done = 0;
 
 // Stoopid IE.
-Test.Harness.LF = typeof document != "undefined"
-                  && typeof document.all != "undefined"
+Test.Harness.LF = typeof navigator != "undefined"
+    && navigator.userAgent.toLowerCase().indexOf('msie') + 1
+    && ( ( typeof JSAN != "undefined" && JSAN.globalScope.opera != "undefined" )
+         || typeof Test.Builder.globalScope.opera != "undefined" )
   ? "\r"
   : "\n";
 
@@ -52,6 +54,13 @@ Test.Harness.prototype.bad        = 0;
 Test.Harness.prototype.tests      = 0;
 Test.Harness.prototype.skipped    = 0;
 Test.Harness.prototype.failures   = [];
+Test.Harness.prototype._encoding  = null;
+
+Test.Harness.prototype.encoding = function (enc) {
+    if (!enc) return this._encoding;
+    this._encoding = enc;
+    return this;
+};
 
 Test.Harness.runTests = function () {
     // XXX Can't handle inheritance, right? Or can we?
@@ -78,23 +87,24 @@ Test.Harness.prototype.outFileNames = function (files) {
     return ret;
 };
 
-Test.Harness.prototype.outputResults = function (test, file, fn, attrs) {
+Test.Harness.prototype.outputResults = function (test, file, out, attrs) {
     this.tests++;
     this.ran += test.TestResults.length;
     var fails = [];
     var track = {
-      fn:       file,
-      total:    test.expectedTests,
-      ok:       0,
-      failList: []
+        fn:       file,
+        total:    test.expectedTests(),
+        ok:       0,
+        failList: []
     };
 
     if (test.TestResults.length) {
         this.files++;
         var pass = true;
         for (var i = 0; i < test.TestResults.length; i++) {
-            var ok = "ok";
+            // Start out assuming passage.
             if (test.TestResults[i].ok) {
+                if (attrs.verbose) out.pass(test.TestResults[i].output);
                 this.ok++;
                 track.ok++
                 if (test.TestResults[i].type == 'todo') {
@@ -106,19 +116,19 @@ Test.Harness.prototype.outputResults = function (test, file, fn, attrs) {
                 if (test.TestResults[i].type == 'todo') {
                     // Expected failure.
                     this.todo++;
+                    if (attrs.verbose) out.pass(test.TestResults[i].output);
                 } else {
                     pass = false;
                     track.failList.push(i + 1);
+                    out.fail(test.TestResults[i].output);
                 }
-                ok = "not ok"; // XXX Need to handle TODO and TODO Skipped.
             }
             
-            if (!pass || attrs.verbose) fn(test.TestResults[i].output);
         }
         
         if (pass) {
             this.good++;
-            fn("ok" + Test.Harness.LF);
+            out.pass("ok" + Test.Harness.LF);
         } else {
             this.bad++;
             var err = "NOK # Failed ";
@@ -127,18 +137,18 @@ Test.Harness.prototype.outputResults = function (test, file, fn, attrs) {
             } else {
                 err += "tests " + this._failList(track.failList);
             }
-            fn(err + " in " + file + Test.Harness.LF);
+            out.fail(err + " in " + file + Test.Harness.LF);
         }
     } else if (test.SkipAll){
         // All tests skipped.
         this.skipped++;
         this.good++;
-        fn("1..0 # Skip 1" + Test.Harness.LF);
+        out.pass(test.Buffer.join('').replace(/[^#]+#\s+Skip /, 'all skipped: '));
     } else {
         // Wha happened? Tests ran, but no results!
         this.files++;
         this.bad++;
-        fn("FAILED before any test output arrived" + Test.Harness.LF);
+        out.fail("FAILED before any test output arrived" + Test.Harness.LF);
     }
     if (track.failList.length) this.failures.push(track);
 };

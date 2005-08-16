@@ -2,7 +2,7 @@
 // Create a namespace for ourselves.
 
 // Set up package.
-if (typeof JSAN != 'undefined') new JSAN().use('Test.Builder');
+if (typeof JSAN != 'undefined') JSAN.use('Test.Builder');
 else {
     if (typeof Test == 'undefined' || typeof Test.Builder == 'undefined')
         throw new Error(
@@ -22,7 +22,7 @@ Test.More.EXPORT = [
     'isDeeply', 'isSet', 'isa'
 ];
 Test.More.EXPORT_TAGS = { ':all': Test.More.EXPORT };
-Test.More.VERSION     = '0.11';
+Test.More.VERSION     = '0.12';
 
 Test.More.ShowDiag = true;
 Test.Builder.DNE = { dne: 'Does not exist' };
@@ -34,7 +34,7 @@ Test.More.plan = function (cmds) {
         Test.More.ShowDiag = false;
         delete cmds.noDiag;
     }
-    return Test.More.Test.plan.apply(Test.More.Test, [cmds]);
+    return Test.More.Test.plan(cmds);
 };
 
 Test.More.ok = function (test, desc) {
@@ -159,7 +159,7 @@ Test.More.skip = function (why, howMany) {
             Test.More.Test.warn("skip() needs to know howMany tests are in the block");
         howMany = 1;
     }
-    for (i = 0; i < howMany; i++) {
+    for (var i = 0; i < howMany; i++) {
         Test.More.Test.skip(why);
     }
 };
@@ -180,7 +180,7 @@ Test.More.todoSkip = function (why, howMany) {
         howMany = 1;
     }
 
-    for (i = 0; i < howMany; i++) {
+    for (var i = 0; i < howMany; i++) {
         Test.More.Test.todoSkip(why);
     }
 };
