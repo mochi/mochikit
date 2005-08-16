@@ -2901,6 +2901,9 @@ if(arguments.length==2){
 _378=_377;
 }
 var el=MochiKit.DOM.getElement(_376);
+if(!el||el==document){
+return undefined;
+}
 if(el.currentStyle){
 return el.currentStyle[_377];
 }else{
