@@ -1,3 +1,8 @@
+2005-XX-XX      v0.90
+
+- Use encodeURIComponent / decodeURIComponent for MochiKit.Base urlEncode
+  and parseQueryString, when available.
+
 2005-08-12      v0.80
 
 - Source highlighting in all examples, moved to a view-source example

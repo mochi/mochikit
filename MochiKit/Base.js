@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Base 0.80
+MochiKit.Base 0.90
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -19,7 +19,7 @@ if (typeof(MochiKit.Base) == 'undefined') {
     MochiKit.Base = {};
 }
 
-MochiKit.Base.VERSION = "0.80";
+MochiKit.Base.VERSION = "0.90";
 MochiKit.Base.NAME = "MochiKit.Base"
 MochiKit.Base.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
@@ -981,10 +981,17 @@ MochiKit.Base.nameFunctions = function (namespace) {
 };
 
 
-MochiKit.Base.urlEncode = function (unencoded) {
-    var rval = escape(unencoded).replace(/\+/g, '%2B').replace(/\"/g,'%22');
-    return rval.replace(/\'/g, '%27');
-};
+if (typeof(encodeURIComponent) != "undefined") {
+    MochiKit.Base.urlEncode = function (unencoded) {
+        var rval = encodeURIComponent(unencoded);
+        return rval.replace(/\'/g, '%27');
+    };
+} else {
+    MochiKit.Base.urlEncode = function (unencoded) {
+        var rval = escape(unencoded).replace(/\+/g, '%2B').replace(/\"/g,'%22');
+        return rval.replace(/\'/g, '%27');
+    };
+}
 
 
 MochiKit.Base.queryString = function (names, values) {
@@ -1016,21 +1023,27 @@ MochiKit.Base.queryString = function (names, values) {
 MochiKit.Base.parseQueryString = function (encodedString, useArrays) {
     var pairs = encodedString.replace(/\+/g, "%20").split("&");
     var o = {};
+    var decode;
+    if (typeof(decodeURIComponent) != "undefined") {
+        decode = decodeURIComponent;
+    } else {
+        decode = unescape;
+    }
     if (useArrays) {
         for (var i = 0; i < pairs.length; i++) {
             var pair = pairs[i].split("=");
-            var name = unescape(pair[0]);
+            var name = decode(pair[0]);
             var arr = o[name];
             if (!(arr instanceof Array)) {
                 arr = [];
                 o[name] = arr;
             }
-            arr.push(unescape(pair[1]));
+            arr.push(decode(pair[1]));
         }
     } else {
         for (var i = 0; i < pairs.length; i++) {
             var pair = pairs[i].split("=");
-            o[unescape(pair[0])] = unescape(pair[1]);
+            o[decode(pair[0])] = decode(pair[1]);
         }
     }
     return o;
