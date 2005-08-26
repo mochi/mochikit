@@ -532,26 +532,26 @@ MochiKit.DOM.swapElementClass = function (element, fromClass, toClass) {
 };
 
 MochiKit.DOM.hasElementClass = function (element, className/*...*/) {
-  /***
+    /***
       
       Return true if className is found in the element
 
-  ***/
-  var obj = MochiKit.DOM.getElement(element);
-  var classes = obj.className.split(" ");
-  for (var i = 1; i < arguments.length; i++) {
-    good = false;
-    for (var j = 0; j < classes.length; j++) {
-      if (classes[j] == arguments[i]) {
-	good = true;
-	break;
-      }
+    ***/
+    var obj = MochiKit.DOM.getElement(element);
+    var classes = obj.className.split(" ");
+    for (var i = 1; i < arguments.length; i++) {
+        var good = false;
+        for (var j = 0; j < classes.length; j++) {
+            if (classes[j] == arguments[i]) {
+                good = true;
+                break;
+            }
+        }
+        if (!good) {
+            return false;
+        }
     }
-    if (! good) {
-      return false;
-    }
-  }
-  return true;
+    return true;
 };
 
 MochiKit.DOM.escapeHTML = function (s) {
