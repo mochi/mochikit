@@ -246,6 +246,13 @@ Functions
     - ``UL``
     - ``OL``
     - ``LI``
+    - ``H1``
+    - ``H2``
+    - ``H3``
+    - ``BR``
+    - ``HR``
+    - ``TEXTAREA``
+    - ``P``
 
     See `Creating DOM Element Trees`_ for a comprehensive example.
 

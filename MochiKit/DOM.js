@@ -46,6 +46,13 @@ MochiKit.DOM.EXPORT = [
     "appendChildNodes",
     "replaceChildNodes",
     "swapDOM",
+    "H1",
+    "H2",
+    "H3",
+    "BR",
+    "HR",
+    "TEXTAREA",
+    "P",
     "UL",
     "OL",
     "LI",
@@ -736,6 +743,13 @@ MochiKit.DOM.__new__ = function () {
     this.A = createDOMFunc("a");
     this.DIV = createDOMFunc("div");
     this.IMG = createDOMFunc("img");
+    this.H1 = createDOMFunc("h1");
+    this.H2 = createDOMFunc("h2");
+    this.H3 = createDOMFunc("h3");
+    this.BR = createDOMFunc("br");
+    this.HR = createDOMFunc("hr");
+    this.TEXTAREA = createDOMFunc("textarea");
+    this.P = createDOMFunc("p");
 
     this._TRANSTABLE = {
         "<": "&lt;",

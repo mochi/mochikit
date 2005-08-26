@@ -1,5 +1,6 @@
 2005-XX-XX      v0.90
 
+- Added new MochiKit.DOM createDOMFunc aliases: H1, H2, H3, BR, HR, TEXTAREA, P
 - Use encodeURIComponent / decodeURIComponent for MochiKit.Base urlEncode
   and parseQueryString, when available.
 
