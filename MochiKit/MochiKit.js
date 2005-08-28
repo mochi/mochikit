@@ -87,11 +87,12 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
     }
     (function () {
         var scripts = document.getElementsByTagName("script");
+        var kXULNSURI = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
         var base = null;
         var baseElem = null;
         var allScripts = {};
         for (var i = 0; i < scripts.length; i++) {
-            src = scripts[i].src;
+            src = scripts[i].getAttribute("src");
             allScripts[src] = true;
             if (src.match(/MochiKit.js$/)) {
                 base = src.substring(0, src.lastIndexOf('MochiKit.js'));
@@ -111,11 +112,13 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
             if (uri in allScripts) {
                 continue;
             }
-            if (false) {
+            if (document.documentElement &&
+                document.documentElement.namespaceURI == kXULNSURI) {
                 // doesn't work in Safari
                 var s = document.createElement('script');
+                s.setAttribute("id", "MochiKit_" + base + modules[i]);
                 s.setAttribute("src", uri);
-                s.setAttribute("type", "text/javascript");
+                s.setAttribute("type", "application/x-javascript");
                 baseElem.parentNode.appendChild(s);
             } else {
                 var tag = '<' + 'script src="' + uri + '" type="text/javascript"' + '>' + '<' + '/script' + '>';
