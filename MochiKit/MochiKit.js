@@ -115,7 +115,7 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
             if (document.documentElement &&
                 document.documentElement.namespaceURI == kXULNSURI) {
                 // doesn't work in Safari
-                var s = document.createElement('script');
+                var s = document.createElementNS(kXULNSURI, 'script');
                 s.setAttribute("id", "MochiKit_" + base + modules[i]);
                 s.setAttribute("src", uri);
                 s.setAttribute("type", "application/x-javascript");
