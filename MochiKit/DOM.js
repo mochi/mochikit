@@ -102,7 +102,7 @@ MochiKit.DOM.registerDOMConverter = function (name, check, wrap, /* optional */o
         element (i.e. number, bool, string, function, iterable).
 
     ***/
-    domConverters.register(name, check, wrap, override);
+    MochiKit.DOM.domConverters.register(name, check, wrap, override);
 };
 
 MochiKit.DOM.coerceToDOM = function (node, ctx) {
@@ -117,6 +117,8 @@ MochiKit.DOM.coerceToDOM = function (node, ctx) {
     var repeat = MochiKit.Iter.repeat;
     var imap = MochiKit.Iter.imap;
     var domConverters = MochiKit.DOM.domConverters;
+    var coerceToDOM = MochiKit.DOM.coerceToDOM;
+    var NotFound = MochiKit.Base.NotFound;
     while (true) {
         if (typeof(node) == 'undefined' || node == null) {
             return null;
