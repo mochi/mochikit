@@ -124,7 +124,9 @@ are wrapped by this <tt class="docutils literal"><span class="pre">Error</span><
 <p><tt class="docutils literal"><span class="pre">XMLHttpRequestError</span></tt>:</p>
 <blockquote>
 Thrown when an <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> does not complete successfully
-for any reason.</blockquote>
+for any reason.  The <tt class="docutils literal"><span class="pre">req</span></tt> property of the error is the failed
+<tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> object, and for convenience the <tt class="docutils literal"><span class="pre">number</span></tt>
+property corresponds to <tt class="docutils literal"><span class="pre">req.status</span></tt>.</blockquote>
 </div>
 <div class="section" id="constructors">
 <h2><a name="constructors">Constructors</a></h2>

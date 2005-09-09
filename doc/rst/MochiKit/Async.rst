@@ -138,7 +138,9 @@ Errors
 ``XMLHttpRequestError``:
 
     Thrown when an ``XMLHttpRequest`` does not complete successfully
-    for any reason.
+    for any reason.  The ``req`` property of the error is the failed
+    ``XMLHttpRequest`` object, and for convenience the ``number``
+    property corresponds to ``req.status``.
 
 
 Constructors
