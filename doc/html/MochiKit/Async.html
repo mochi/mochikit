@@ -314,6 +314,9 @@ but you don't actually need to do anything asynchronous.  Just return
 <p>Set an <tt class="docutils literal"><span class="pre">onreadystatechange</span></tt> handler on an <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> object
 and send it off.  Will return a cancellable <tt class="docutils literal"><span class="pre">Deferred</span></tt> that will
 callback on success.</p>
+<p>Note that currently, only <tt class="docutils literal"><span class="pre">200</span></tt> (OK) and <tt class="docutils literal"><span class="pre">304</span></tt>
+(NOT_MODIFIED) are considered success codes at this time, other
+status codes will result in an errback with an <tt class="docutils literal"><span class="pre">XMLHttpRequestError</span></tt>.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">req</span></tt>:</dt>
 <dd>An preconfigured <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> object (open has been called).</dd>
@@ -328,6 +331,9 @@ on success.</dd>
 <blockquote>
 <p>Perform a simple <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> and wrap it with a
 <tt class="docutils literal"><span class="pre">Deferred</span></tt> that may be cancelled.</p>
+<p>Note that currently, only <tt class="docutils literal"><span class="pre">200</span></tt> (OK) and <tt class="docutils literal"><span class="pre">304</span></tt>
+(NOT_MODIFIED) are considered success codes at this time, other
+status codes will result in an errback with an <tt class="docutils literal"><span class="pre">XMLHttpRequestError</span></tt>.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">url</span></tt>:</dt>
 <dd>The URL to GET</dd>

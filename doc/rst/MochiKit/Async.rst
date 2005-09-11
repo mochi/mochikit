@@ -341,6 +341,10 @@ Functions
     and send it off.  Will return a cancellable ``Deferred`` that will
     callback on success.
     
+    Note that currently, only ``200`` (OK) and ``304``
+    (NOT_MODIFIED) are considered success codes at this time, other
+    status codes will result in an errback with an ``XMLHttpRequestError``.
+
     ``req``:
         An preconfigured ``XMLHttpRequest`` object (open has been called).
 
@@ -355,7 +359,11 @@ Functions
 ``doSimpleXMLHttpRequest(url)``:
 
     Perform a simple ``XMLHttpRequest`` and wrap it with a
-    ``Deferred`` that may be cancelled.
+    ``Deferred`` that may be cancelled.  
+
+    Note that currently, only ``200`` (OK) and ``304``
+    (NOT_MODIFIED) are considered success codes at this time, other
+    status codes will result in an errback with an ``XMLHttpRequestError``.
 
     ``url``:
         The URL to GET
