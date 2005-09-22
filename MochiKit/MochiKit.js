@@ -93,6 +93,9 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         var allScripts = {};
         for (var i = 0; i < scripts.length; i++) {
             src = scripts[i].getAttribute("src");
+            if (!src) {
+                continue;
+            }
             allScripts[src] = true;
             if (src.match(/MochiKit.js$/)) {
                 base = src.substring(0, src.lastIndexOf('MochiKit.js'));
