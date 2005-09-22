@@ -1,5 +1,10 @@
 2005-XX-XX      v0.90
 
+- Added JSON serialization and unserialization support to MochiKit.Base:
+  serializeJSON, evalJSON, registerJSON.  This is very similar to the repr
+  API.
+- Fixed a bug in the script loader that failed in some scenarios when a script
+  tag did not have a "src" attribute (thanks Ian!)
 - Added new MochiKit.DOM createDOMFunc aliases: H1, H2, H3, BR, HR, TEXTAREA, P
 - Use encodeURIComponent / decodeURIComponent for MochiKit.Base urlEncode
   and parseQueryString, when available.

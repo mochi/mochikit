@@ -49,6 +49,10 @@ assert( repr(myObjectArray) == expectedRepr );
 // get just the &quot;a&quot; values out into an array
 sortedAValues = map(itemgetter(&quot;a&quot;), myObjectArray);
 assert( compare(sortedAValues, [1, 3]) == 0 );
+
+// serialize an array as JSON, unserialize it, expect something equivalent
+myArray = [1, 2, &quot;3&quot;, null, undefined];
+assert( objEqual(evalJSON(serializeJSON(myArray)), myArray) );
 </pre>
 </div>
 <div class="section" id="description">
@@ -56,7 +60,9 @@ assert( compare(sortedAValues, [1, 3]) == 0 );
 <p>MochiKit.Base is the foundation for the MochiKit suite.  It provides:</p>
 <ul class="simple">
 <li>An extensible comparison facility (<tt class="docutils literal"><span class="pre">compare</span></tt>, <tt class="docutils literal"><span class="pre">registerComparator</span></tt>)</li>
-<li>An extensible programmer representation facility (<tt class="docutils literal"><span class="pre">repr</span></tt>)</li>
+<li>An extensible programmer representation facility (<tt class="docutils literal"><span class="pre">repr</span></tt>, <tt class="docutils literal"><span class="pre">registerRepr</span></tt>)</li>
+<li>An extensible JSON <a class="footnote-reference" href="#id6" id="id1" name="id1">[1]</a> serialization and evaluation facility (<tt class="docutils literal"><span class="pre">serializeJSON</span></tt>,
+<tt class="docutils literal"><span class="pre">evalJSON</span></tt>, <tt class="docutils literal"><span class="pre">registerJSON</span></tt>)</li>
 <li>A simple adaptation facility (<tt class="docutils literal"><span class="pre">AdapterRegistry</span></tt>)</li>
 <li>Convenience functions for manipulating objects (<tt class="docutils literal"><span class="pre">update</span></tt>, <tt class="docutils literal"><span class="pre">extend</span></tt>, etc.)</li>
 <li>Array-based functional programming (<tt class="docutils literal"><span class="pre">map</span></tt>, <tt class="docutils literal"><span class="pre">filter</span></tt>, <tt class="docutils literal"><span class="pre">setdefault</span></tt>, etc.)</li>
@@ -109,6 +115,40 @@ a <tt class="docutils literal"><span class="pre">.repr()</span></tt> or <tt clas
 objects that you didn't create (e.g., from a script you didn't write, or a 
 built-in object), it is instead recommended that you create an adapter
 with <tt class="docutils literal"><span class="pre">registerRepr</span></tt>.</p>
+</div>
+<div class="section" id="json-serialization">
+<h2><a name="json-serialization">JSON Serialization</a></h2>
+<p>JSON <a class="footnote-reference" href="#id6" id="id2" name="id2">[1]</a>, JavaScript Object Notation, is a widely used serialization format
+in the context of web development.  It's extremely simple, lightweight, and
+fast.  In its essence, JSON is a restricted subset of JavaScript syntax
+suitable for sending over the wire that can be unserialized with a simple
+eval.  It's often used as an alternative to XML in &quot;AJAX&quot; contexts because it
+is compact, fast, and much simpler to use for most purposes.</p>
+<p>To create a JSON serialization of any object, simply call <tt class="docutils literal"><span class="pre">serializeJSON()</span></tt>
+with that object.  To use unserialize a JSON string, simply call <tt class="docutils literal"><span class="pre">evalJSON()</span></tt>
+with the serialization.</p>
+<p>In order of precedence, <tt class="docutils literal"><span class="pre">serializeJSON</span></tt> coerces the given argument into a
+JSON serialization:</p>
+<ol class="arabic simple">
+<li>Primitive types are returned as their JSON representation: 
+<tt class="docutils literal"><span class="pre">undefined</span></tt>, <tt class="docutils literal"><span class="pre">string</span></tt>, <tt class="docutils literal"><span class="pre">number</span></tt>, <tt class="docutils literal"><span class="pre">boolean</span></tt>, <tt class="docutils literal"><span class="pre">null</span></tt>.</li>
+<li>If the object has a <tt class="docutils literal"><span class="pre">__json__</span></tt> or <tt class="docutils literal"><span class="pre">json</span></tt> method, then it is called
+with no arguments.  If the result of this method is not the object itself,
+then the new object goes through rule processing again (e.g. it may return
+a string, which is then serialized in JSON format).</li>
+<li>If the object is array-like (has a length property that is a number, and
+is not a function), then it is serialized as a JSON array.  Each element
+will be processed according to these rules in order.  Elements that can
+not be serialized (e.g. functions) will be replaced with <tt class="docutils literal"><span class="pre">undefined</span></tt>.</li>
+<li>The <tt class="docutils literal"><span class="pre">jsonRegistry</span></tt> <tt class="docutils literal"><span class="pre">AdapterRegistry</span></tt> is consulted for an adapter for
+this object.  <tt class="docutils literal"><span class="pre">JSON</span></tt> adapters take one argument (the object), and are
+expected to behave like a <tt class="docutils literal"><span class="pre">__json__</span></tt> or <tt class="docutils literal"><span class="pre">json</span></tt> method (return another
+object to be serialized, or itself).</li>
+<li>If no adapter is available, the object is enumerated and serialized as a
+JSON object (name:value pairs).  All names are expected to be strings.
+Each value is serialized according to these rules, and if it can not be 
+serialized (e.g. methods), then that name:value pair will be skipped.</li>
+</ol>
 </div>
 <div class="section" id="adapter-registries">
 <h2><a name="adapter-registries">Adapter Registries</a></h2>
@@ -850,7 +890,35 @@ var args = parseQueryString(&quot;foo=one&amp;foo=two&quot;);
 assert( args.foo[0] == &quot;one&quot; &amp;&amp; args.foo[1] == &quot;two&quot; );
 </pre>
 </blockquote>
+<p><tt class="docutils literal"><span class="pre">serializeJSON(anObject)</span></tt>:</p>
+<blockquote>
+<p>Serialize any object in the JSON <a class="footnote-reference" href="#id6" id="id3" name="id3">[1]</a> format, see <a class="reference" href="#json-serialization">JSON Serialization</a>
+for the coercion rules.  For unserializable objects (functions that do
+not have an adapter, <tt class="docutils literal"><span class="pre">__json__</span></tt> method, or <tt class="docutils literal"><span class="pre">json</span></tt> method), this will
+return <tt class="docutils literal"><span class="pre">undefined</span></tt>.</p>
+<p>For those familiar with Python, JSON is similar in scope to pickle, but
+it can not handle recursive object graphs.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">evalJSON(aJSONString)</span></tt>:</p>
+<blockquote>
+<p>Unserialize a JSON <a class="footnote-reference" href="#id6" id="id4" name="id4">[1]</a> represenation of an object.</p>
+<p>Note that this uses the <tt class="docutils literal"><span class="pre">eval</span></tt> function of the interpreter, and
+therefore trusts the contents of <tt class="docutils literal"><span class="pre">aJSONString</span></tt> to be safe.
+This is acceptable when the JSON and JavaScript application
+originate from the same server, but in other scenarios it may not be the
+appropriate security model.  Currently, a validating JSON parser is beyond
+the scope of MochiKit, but there is one available from json.org <a class="footnote-reference" href="#id6" id="id5" name="id5">[1]</a>.</p>
+</blockquote>
 </div>
+</div>
+<div class="section" id="see-also">
+<h1><a name="see-also">See Also</a></h1>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a name="id6">[1]</a></td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id3">3</a>, <a class="fn-backref" href="#id4">4</a>, <a class="fn-backref" href="#id5">5</a>)</em> JSON, JavaScript Object Notation: <a class="reference" href="http://json.org/">http://json.org/</a></td></tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="authors">
 <h1><a name="authors">Authors</a></h1>

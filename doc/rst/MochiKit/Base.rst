@@ -45,13 +45,19 @@ Synopsis
     sortedAValues = map(itemgetter("a"), myObjectArray);
     assert( compare(sortedAValues, [1, 3]) == 0 );
 
+    // serialize an array as JSON, unserialize it, expect something equivalent
+    myArray = [1, 2, "3", null, undefined];
+    assert( objEqual(evalJSON(serializeJSON(myArray)), myArray) );
+
 Description
 ===========
 
 MochiKit.Base is the foundation for the MochiKit suite.  It provides:
 
 - An extensible comparison facility (``compare``, ``registerComparator``)
-- An extensible programmer representation facility (``repr``)
+- An extensible programmer representation facility (``repr``, ``registerRepr``)
+- An extensible JSON [1]_ serialization and evaluation facility (``serializeJSON``,
+  ``evalJSON``, ``registerJSON``)
 - A simple adaptation facility (``AdapterRegistry``)
 - Convenience functions for manipulating objects (``update``, ``extend``, etc.)
 - Array-based functional programming (``map``, ``filter``, ``setdefault``, etc.)
@@ -117,6 +123,43 @@ a ``.repr()`` or ``.__repr__()`` method that returns a string.  For
 objects that you didn't create (e.g., from a script you didn't write, or a 
 built-in object), it is instead recommended that you create an adapter
 with ``registerRepr``.
+
+
+JSON Serialization
+------------------
+
+JSON [1]_, JavaScript Object Notation, is a widely used serialization format
+in the context of web development.  It's extremely simple, lightweight, and
+fast.  In its essence, JSON is a restricted subset of JavaScript syntax
+suitable for sending over the wire that can be unserialized with a simple
+eval.  It's often used as an alternative to XML in "AJAX" contexts because it
+is compact, fast, and much simpler to use for most purposes.
+
+To create a JSON serialization of any object, simply call ``serializeJSON()``
+with that object.  To use unserialize a JSON string, simply call ``evalJSON()``
+with the serialization.
+
+In order of precedence, ``serializeJSON`` coerces the given argument into a
+JSON serialization:
+
+1. Primitive types are returned as their JSON representation: 
+   ``undefined``, ``string``, ``number``, ``boolean``, ``null``.
+2. If the object has a ``__json__`` or ``json`` method, then it is called
+   with no arguments.  If the result of this method is not the object itself,
+   then the new object goes through rule processing again (e.g. it may return
+   a string, which is then serialized in JSON format).
+3. If the object is array-like (has a length property that is a number, and
+   is not a function), then it is serialized as a JSON array.  Each element
+   will be processed according to these rules in order.  Elements that can
+   not be serialized (e.g. functions) will be replaced with ``undefined``.
+4. The ``jsonRegistry`` ``AdapterRegistry`` is consulted for an adapter for
+   this object.  ``JSON`` adapters take one argument (the object), and are
+   expected to behave like a ``__json__`` or ``json`` method (return another
+   object to be serialized, or itself).
+5. If no adapter is available, the object is enumerated and serialized as a
+   JSON object (name:value pairs).  All names are expected to be strings.
+   Each value is serialized according to these rules, and if it can not be 
+   serialized (e.g. methods), then that name:value pair will be skipped.
 
 
 Adapter Registries
@@ -826,6 +869,35 @@ Functions
 
         var args = parseQueryString("foo=one&foo=two");
         assert( args.foo[0] == "one" && args.foo[1] == "two" );
+
+
+``serializeJSON(anObject)``:
+
+    Serialize any object in the JSON [1]_ format, see `JSON Serialization`_
+    for the coercion rules.  For unserializable objects (functions that do
+    not have an adapter, ``__json__`` method, or ``json`` method), this will
+    return ``undefined``.
+
+    For those familiar with Python, JSON is similar in scope to pickle, but
+    it can not handle recursive object graphs.
+
+
+``evalJSON(aJSONString)``:
+
+    Unserialize a JSON [1]_ represenation of an object.
+    
+    Note that this uses the ``eval`` function of the interpreter, and
+    therefore trusts the contents of ``aJSONString`` to be safe.
+    This is acceptable when the JSON and JavaScript application
+    originate from the same server, but in other scenarios it may not be the
+    appropriate security model.  Currently, a validating JSON parser is beyond
+    the scope of MochiKit, but there is one available from json.org [1]_.
+
+
+See Also
+========
+
+.. [1] JSON, JavaScript Object Notation: http://json.org/
 
 
 Authors
