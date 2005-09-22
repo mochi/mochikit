@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 106});
+    plan({'tests': 120});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -339,7 +339,33 @@ try {
     is( res.b, "3=2", "parseQueryString second name:value pair" );
     var res = parseQueryString("foo=one&foo=two", true);
     is( res["foo"].join(" "), "one two", "parseQueryString useArrays" );
-    
+
+    is( serializeJSON("foo\n\r\b\f\t"), "\"foo\\n\\r\\b\\f\\t\"", "string JSON" );
+    is( serializeJSON(null), "null", "null JSON");
+    is( serializeJSON(undefined), "undefined", "undefined JSON");
+    is( serializeJSON(1), "1", "1 JSON");
+    is( serializeJSON(1.23), "1.23", "1.23 JSON");
+    is( serializeJSON(serializeJSON), null, "function JSON (null, not string)" );
+    is( serializeJSON([1, "2", 3.3]), "[1,\"2\",3.3]", "array JSON" );
+    var res = evalJSON(serializeJSON({"a":1, "b":2}));
+    is( res.a, 1, "evalJSON on an object (1)" );
+    is( res.b, 2, "evalJSON on an object (2)" );
+    var res = {"a": 1, "b": 2, "json": function () { return this; }};
+    var res = evalJSON(serializeJSON(res));
+    is( res.a, 1, "evalJSON on an object that jsons self (1)" );
+    is( res.b, 2, "evalJSON on an object that jsons self (2)" );
+    var strJSON = {"a": 1, "b": 2, "json": function () { return "json"; }};
+    is( serializeJSON(strJSON), "\"json\"", "json serialization calling" );
+    is( serializeJSON([strJSON]), "[\"json\"]", "json serialization calling in a structure" );
+    registerJSON("isDateLike",
+        isDateLike,
+        function (d) {
+            return "this was a date";
+        }
+    );
+    is( serializeJSON(new Date()), "\"this was a date\"", "json registry" );
+    MochiKit.Base.jsonRegistry.unregister("isDateLike");
+
     ok( true, "test suite finished!");
     
 } catch (err) {

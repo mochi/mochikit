@@ -776,11 +776,12 @@ MochiKit.Base.reprArrayLike = function (o) {
 };
 
 MochiKit.Base.reprString = function (o) { 
-    /* XXX: this is not perfect */
     o = '"' + o.replace(/(["\\])/g, '\\$1') + '"';
-    o = o.replace(/(\n)/g, "\\n");
-    o = o.replace(/(\t)/g, "\\t");
-    o = o.replace(/(\r)/g, "\\r");
+    o = o.replace(/[\f]/g, "\\f");
+    o = o.replace(/[\b]/g, "\\b");
+    o = o.replace(/[\n]/g, "\\n");
+    o = o.replace(/[\t]/g, "\\t");
+    o = o.replace(/[\r]/g, "\\r");
     return o;
 };
 
@@ -795,6 +796,119 @@ MochiKit.Base.reprUndefined = function (o) {
 MochiKit.Base.reprNull = function (o) {
     return "null";
 };
+
+MochiKit.Base.registerJSON = function (name, check, wrap, /* optional */override) {
+    /***
+
+        Register a JSON serialization function.  JSON serialization 
+        functions should take one argument and return an object
+        suitable for JSON serialization:
+
+        - string
+        - number
+        - boolean
+        - undefined
+        - object
+            - null
+            - Array-like (length property that is a number)
+            - Objects with a "json" method will have this method called
+            - Any other object will be used as {key:value, ...} pairs
+        
+        If override is given, it is used as the highest priority
+        JSON serialization, otherwise it will be used as the lowest.
+
+    ***/
+    MochiKit.Base.jsonRegistry.register(name, check, wrap, override);
+};
+
+
+MochiKit.Base.evalJSON = function (o) {
+    return eval("(" + o + ")");
+};
+
+MochiKit.Base.serializeJSON = function (o) {
+    /***
+
+        Create a JSON serialization of an object, note that this doesn't
+        check for infinite recursion, so don't do that!
+
+    ***/
+    var objtype = typeof(o);
+    if (objtype == "undefined") {
+        return "undefined";
+    } else if (objtype == "number" || objtype == "boolean") {
+        return o.toString();
+    } else if (o === null) {
+        return "null";
+    }
+    var reprString = MochiKit.Base.reprString;
+    if (objtype == "string") {
+        return reprString(o);
+    }
+    // recurse
+    var me = arguments.callee;
+    // short-circuit for objects that support "json" serialization
+    // if they return "self" then just pass-through...
+    if (typeof(o.__json__) == "function") {
+        var newObj = o.__json__();
+        if (o !== newObj) {
+            return me(newObj);
+        }
+    }
+    if (typeof(o.json) == "function") {
+        var newObj = o.json();
+        if (o !== newObj) {
+            return me(newObj);
+        }
+    }
+    // array
+    if (objtype != "function" && typeof(o.length) == "number") {
+        var res = [];
+        for (var i = 0; i < o.length; i++) {
+            var val = me(o[i]);
+            if (typeof(val) != "string") {
+                val = "undefined";
+            }
+            res.push(val);
+        }
+        return "[" + res.join(",") + "]";
+    }
+    // look in the registry
+    try {
+        var newObj = MochiKit.Base.jsonRegistry.match(o);
+        return me(newObj);
+    } catch (e) {
+        if (e != MochiKit.Base.NotFound) {
+            // something really bad happened
+            throw e;
+        }
+    }
+    // it's a function with no adapter, bad
+    if (objtype == "function") {
+        return null;
+    }
+    // generic object code path
+    var res = [];
+    for (var k in o) {
+        var useKey;
+        if (typeof(k) == "number") {
+            useKey = '"' + k.toString() + '"';
+        } else if (typeof(k) == "string") {
+            useKey = reprString(k);
+        } else {
+            // skip non-string or number keys
+            continue;
+        }
+        var val = me(o[k]);
+        if (typeof(val) != "string") {
+            // skip non-serializable values
+            continue;
+        }
+        res.push(useKey + ":" + val);
+    }
+    return "{" + res.join(",") + "}";
+};
+        
 
 MochiKit.Base.objEqual = function (a, b) {
     /***
@@ -1097,6 +1211,9 @@ MochiKit.Base.EXPORT = [
     "zip",
     "urlEncode",
     "queryString",
+    "serializeJSON",
+    "registerJSON",
+    "evalJSON",
     "parseQueryString"
 ];
 
@@ -1104,6 +1221,7 @@ MochiKit.Base.EXPORT_OK = [
     "nameFunctions",
     "comparatorRegistry",
     "reprRegistry",
+    "jsonRegistry",
     "compareDateLike",
     "compareArrayLike",
     "reprArrayLike",
@@ -1135,6 +1253,8 @@ MochiKit.Base.__new__ = function () {
     this.registerRepr("numbers", this.typeMatcher("number", "boolean"), this.reprNumber);
     this.registerRepr("undefined", this.isUndefined, this.reprUndefined);
     this.registerRepr("null", this.isNull, this.reprNull);
+
+    this.jsonRegistry = new this.AdapterRegistry();
 
     var all = this.concat(this.EXPORT, this.EXPORT_OK);
     this.EXPORT_TAGS = {
