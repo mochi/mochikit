@@ -123,7 +123,7 @@ MochiKit.DOM.coerceToDOM = function (node, ctx) {
         if (typeof(node) == 'undefined' || node == null) {
             return null;
         }
-        if (node.nodeType > 0) {
+        if (typeof(node.nodeType) != 'undefined' && node.nodeType > 0) {
             return node;
         }
         if (typeof(node) == 'number' || typeof(node) == 'bool') {
@@ -170,6 +170,8 @@ MochiKit.DOM.coerceToDOM = function (node, ctx) {
         // fallback
         return document.createTextNode(node.toString());
     }
+    // mozilla warnings aren't too bright
+    return undefined;
 };
     
 MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
@@ -229,13 +231,13 @@ MochiKit.DOM.appendChildNodes = function (node/*, nodes...*/) {
     ];
     var iextend = MochiKit.Iter.iextend;
     while (nodeStack.length) {
-        var node = nodeStack.shift();
-        if (typeof(node) == 'undefined' || node == null) {
+        var n = nodeStack.shift();
+        if (typeof(n) == 'undefined' || n == null) {
             // pass
-        } else if (typeof(node.nodeType) == 'number') {
-            elem.appendChild(node);
+        } else if (typeof(n.nodeType) == 'number') {
+            elem.appendChild(n);
         } else {
-            iextend(nodeStack, node);
+            iextend(nodeStack, n);
         }
     }
     return elem;
@@ -448,7 +450,7 @@ MochiKit.DOM.toggleElementClass = function (className/*, element... */) {
     var getElement = MochiKit.DOM.getElement;
     var addElementClass = MochiKit.DOM.addElementClass;
     var removeElementClass = MochiKit.DOM.removeElementClass;
-    for (i = 1; i < arguments.length; i++) {
+    for (var i = 1; i < arguments.length; i++) {
         var obj = getElement(arguments[i]);
         if (!addElementClass(obj, className)) {
             removeElementClass(obj, className);

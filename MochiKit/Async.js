@@ -593,9 +593,9 @@ MochiKit.Async.wait = function (seconds, /* optional */value) {
 
 MochiKit.Async.callLater = function (seconds, func) {
     var m = MochiKit.Base;
-    var func = m.partial.apply(null, m.extend(null, arguments, 1));
+    var pfunc = m.partial.apply(null, m.extend(null, arguments, 1));
     return MochiKit.Async.wait(seconds).addCallback(
-        function (res) { return func(); }
+        function (res) { return pfunc(); }
     );
 };
 

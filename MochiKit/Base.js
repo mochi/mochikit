@@ -719,9 +719,9 @@ MochiKit.Base.compareArrayLike = function (a, b) {
     var rval = 0;
     if (count > b.length) {
         rval = 1;
+        count = b.length;
     } else if (count < b.length) {
         rval = -1;
-        count = b.length;
     }
     for (var i = 0; i < count; i++) {
         var cmp = compare(a[i], b[i]);

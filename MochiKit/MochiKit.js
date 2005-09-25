@@ -92,7 +92,7 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         var baseElem = null;
         var allScripts = {};
         for (var i = 0; i < scripts.length; i++) {
-            src = scripts[i].getAttribute("src");
+            var src = scripts[i].getAttribute("src");
             if (!src) {
                 continue;
             }
