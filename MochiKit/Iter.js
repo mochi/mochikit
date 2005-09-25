@@ -240,6 +240,8 @@ MochiKit.Iter.ifilter = function (pred, seq) {
                     return rval;
                 }
             }
+            // mozilla warnings aren't too bright
+            return undefined;
         }
     }
 };
@@ -265,6 +267,8 @@ MochiKit.Iter.ifilterfalse = function (pred, seq) {
                     return rval;
                 }
             }
+            // mozilla warnings aren't too bright
+            return undefined;
         }
     }
 };
@@ -512,6 +516,8 @@ MochiKit.Iter.list = function (iterable) {
         }
         return rval;
     }
+    // mozilla warnings aren't too bright
+    return undefined;
 };
 
     
@@ -565,8 +571,8 @@ MochiKit.Iter.reduce = function (fn, iterable, /* optional */initial) {
         if (e != MochiKit.Iter.StopIteration) {
             throw e;
         }
-        return x;
     }
+    return x;
 };
 
 MochiKit.Iter.range = function (/* [start,] stop[, step] */) {
@@ -633,8 +639,8 @@ MochiKit.Iter.sum = function (iterable, start/* = 0 */) {
         if (e != MochiKit.Iter.StopIteration) {
             throw e;
         }
-        return x;
     }
+    return x;
 };
         
 MochiKit.Iter.exhaust = function (iterable) {

@@ -257,7 +257,11 @@ MochiKit.Visual.Color.fromRGB = function (red, green, blue, alpha) {
         red = rgb.r;
         green = rgb.g;
         blue = rgb.b;
-        alpha = rgb.a;
+        if (typeof(rgb.a) == 'undefined') {
+            alpha = undefined;
+        } else {
+            alpha = rgb.a;
+        }
     }
     return new Color(red, green, blue, alpha);
 };
@@ -589,7 +593,7 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
 };
 
 MochiKit.Visual._RoundCorners = function (e, options) {
-    var e = MochiKit.DOM.getElement(e);
+    e = MochiKit.DOM.getElement(e);
     this._setOptions(options);
 
     var color = this.options.color;
@@ -938,14 +942,14 @@ MochiKit.Visual.__new__  = function () {
         return a.compareRGB(b);
     }
 
+    MochiKit.Base.nameFunctions(this);
+
     MochiKit.Base.registerComparator(this.Color.NAME, isColor, compareColor);
         
     this.EXPORT_TAGS = {
         ":common": this.EXPORT,
         ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
     };
-
-    MochiKit.Base.nameFunctions(this);
 
 };
 

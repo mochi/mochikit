@@ -1,5 +1,6 @@
 2005-XX-XX      v0.90
 
+- Placated Mozilla's strict warnings a bit
 - Added JSON serialization and unserialization support to MochiKit.Base:
   serializeJSON, evalJSON, registerJSON.  This is very similar to the repr
   API.
