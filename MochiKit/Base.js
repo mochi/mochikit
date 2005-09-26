@@ -195,6 +195,7 @@ MochiKit.Base.operator = {
 
     // binary operators
     "add": function (a, b) { return a + b; },
+    "sub": function (a, b) { return a - b; },
     "div": function (a, b) { return a / b; },
     "mod": function (a, b) { return a % b; },
 
