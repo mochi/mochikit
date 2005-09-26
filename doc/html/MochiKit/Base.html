@@ -410,6 +410,10 @@ given <tt class="docutils literal"><span class="pre">obj</span></tt> (in the ord
 <td>a + b</td>
 <td>Addition</td>
 </tr>
+<tr><td>sub(a, b)</td>
+<td>a - b</td>
+<td>Subtraction</td>
+</tr>
 <tr><td>div(a, b)</td>
 <td>a / b</td>
 <td>Division</td>
@@ -484,7 +488,7 @@ given <tt class="docutils literal"><span class="pre">obj</span></tt> (in the ord
 </tr>
 </tbody>
 </table>
-<p>Extended Comparators (uses compare):</p>
+<p>Extended Comparators (uses <tt class="docutils literal"><span class="pre">compare</span></tt>):</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="23%" />
@@ -633,11 +637,11 @@ to the global object, you should pass it explicitly.</p>
 the function.  These three expressions are equivalent and
 return equally efficient functions (<tt class="docutils literal"><span class="pre">bind</span></tt> and <tt class="docutils literal"><span class="pre">partial</span></tt>
 share the same code path):</p>
-<pre class="literal-block">
-- ``bind(oldfunc, self, arg1, arg2)``
-- ``bind(partial(oldfunc, arg1, arg2), self)``
-- ``partial(bind(oldfunc, self), arg1, arg2)``
-</pre>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">bind(oldfunc,</span> <span class="pre">self,</span> <span class="pre">arg1,</span> <span class="pre">arg2)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">bind(partial(oldfunc,</span> <span class="pre">arg1,</span> <span class="pre">arg2),</span> <span class="pre">self)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">partial(bind(oldfunc,</span> <span class="pre">self),</span> <span class="pre">arg1,</span> <span class="pre">arg2)</span></tt></li>
+</ul>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">bindMethods(self)</span></tt>:</p>
 <blockquote>

@@ -409,6 +409,7 @@ Functions
 
     A table of JavaScript's operators for usage with ``map``, ``filter``, etc.
 
+
     Unary Logic Operators:
 
     +----------------+----------------------+-------------------------------+
@@ -421,6 +422,7 @@ Functions
     | identity(a)    | a                    | Logical identity              |
     +----------------+----------------------+-------------------------------+
 
+
     Unary Math Operators: 
 
     +----------------+----------------------+-------------------------------+
@@ -431,12 +433,15 @@ Functions
     | neg(a)         | -a                   | Negation                      |
     +----------------+----------------------+-------------------------------+
 
+
     Binary Operators:
 
     +----------------+----------------------+-------------------------------+
     | Operator       | Implementation       | Description                   |
     +================+======================+===============================+
     | add(a, b)      | a + b                | Addition                      |
+    +----------------+----------------------+-------------------------------+
+    | sub(a, b)      | a - b                | Subtraction                   |
     +----------------+----------------------+-------------------------------+
     | div(a, b)      | a / b                | Division                      |
     +----------------+----------------------+-------------------------------+
@@ -454,6 +459,7 @@ Functions
     +----------------+----------------------+-------------------------------+
     | zrshfit(a, b)  | a >>> b              | Bitwise unsigned right shift  |
     +----------------+----------------------+-------------------------------+
+
 
     Built-in Comparators:
 
@@ -473,7 +479,8 @@ Functions
     | le(a, b)       | a <= b               | Less than or equal to         |
     +----------------+----------------------+-------------------------------+
 
-    Extended Comparators (uses compare):
+
+    Extended Comparators (uses ``compare``):
 
     +----------------+----------------------+-------------------------------+
     | Operator       | Implementation       | Description                   |
@@ -490,6 +497,7 @@ Functions
     +----------------+----------------------+-------------------------------+
     | cle(a, b)      | compare(a, b) != 1   | Less than or equal to         |
     +----------------+----------------------+-------------------------------+
+
 
     Binary Logical Operators:
 
@@ -607,7 +615,7 @@ Functions
     Additional arguments, if given, will be partially applied to
     the function.  These three expressions are equivalent and
     return equally efficient functions (``bind`` and ``partial``
-    share the same code path)::
+    share the same code path):
 
     - ``bind(oldfunc, self, arg1, arg2)``
     - ``bind(partial(oldfunc, arg1, arg2), self)``
