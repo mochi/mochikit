@@ -252,6 +252,7 @@ Functions
     - ``BR``
     - ``HR``
     - ``TEXTAREA``
+    - ``FORM``
     - ``P``
 
     See `Creating DOM Element Trees`_ for a comprehensive example.
