@@ -7,7 +7,8 @@
   API.
 - Fixed a bug in the script loader that failed in some scenarios when a script
   tag did not have a "src" attribute (thanks Ian!)
-- Added new MochiKit.DOM createDOMFunc aliases: H1, H2, H3, BR, HR, TEXTAREA, P
+- Added new MochiKit.DOM createDOMFunc aliases: H1, H2, H3, BR, HR, TEXTAREA,
+  P, FORM
 - Use encodeURIComponent / decodeURIComponent for MochiKit.Base urlEncode
   and parseQueryString, when available.
 
