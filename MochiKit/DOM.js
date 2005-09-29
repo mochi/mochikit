@@ -51,6 +51,7 @@ MochiKit.DOM.EXPORT = [
     "H3",
     "BR",
     "HR",
+    "LABEL",
     "TEXTAREA",
     "FORM",
     "P",
@@ -753,6 +754,7 @@ MochiKit.DOM.__new__ = function () {
     this.H3 = createDOMFunc("h3");
     this.BR = createDOMFunc("br");
     this.HR = createDOMFunc("hr");
+    this.LABEL = createDOMFunc("label");
     this.TEXTAREA = createDOMFunc("textarea");
     this.FORM = createDOMFunc("form");
     this.P = createDOMFunc("p");
