@@ -251,6 +251,7 @@ Functions
     - ``H3``
     - ``BR``
     - ``HR``
+    - ``LABEL``
     - ``TEXTAREA``
     - ``FORM``
     - ``P``
