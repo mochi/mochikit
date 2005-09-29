@@ -583,13 +583,18 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
     }
     if (el.currentStyle) {
         return el.currentStyle[cssProperty];
-    } else {
-        var style = document.defaultView.getComputedStyle(el, null);
-        if (!style) {
-            return undefined;
-        }
-        return style.getPropertyValue(mozillaEquivalentCSS);
     }
+    if (typeof(document.defaultView) == 'undefined') {
+        return undefined;
+    }
+    if (document.defaultView == null) {
+        return undefined;
+    }
+    var style = document.defaultView.getComputedStyle(el, null);
+    if (!style) {
+        return undefined;
+    }
+    return style.getPropertyValue(mozillaEquivalentCSS);
 };
 
 MochiKit.Visual._RoundCorners = function (e, options) {
