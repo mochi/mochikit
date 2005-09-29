@@ -3022,13 +3022,18 @@ return undefined;
 }
 if(el.currentStyle){
 return el.currentStyle[_387];
-}else{
+}
+if(typeof (document.defaultView)=="undefined"){
+return undefined;
+}
+if(document.defaultView==null){
+return undefined;
+}
 var _390=document.defaultView.getComputedStyle(el,null);
 if(!_390){
 return undefined;
 }
 return _390.getPropertyValue(_388);
-}
 };
 MochiKit.Visual._RoundCorners=function(e,_391){
 e=MochiKit.DOM.getElement(e);
