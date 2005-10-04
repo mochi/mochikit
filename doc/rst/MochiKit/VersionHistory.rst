@@ -1,5 +1,6 @@
 2005-XX-XX      v0.90
 
+- Fixed ISO compliance with toISODate
 - Added missing operator.sub
 - Placated Mozilla's strict warnings a bit
 - Added JSON serialization and unserialization support to MochiKit.Base:

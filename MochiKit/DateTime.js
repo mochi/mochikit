@@ -67,6 +67,7 @@ MochiKit.DateTime.toISOTime = function (date) {
         Get the hh:mm:ss from the given Date object.
 
     ***/
+    var _padTwo = MochiKit.DateTime._padTwo;
     var hh = date.getHours();
     var mm = date.getMinutes();
     var ss = date.getSeconds();
@@ -100,7 +101,12 @@ MochiKit.DateTime.toISODate = function (date) {
         Convert a Date object to an ISO 8601 date string (YYYY-MM-DD)
 
     ***/
-    return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join("-");
+    var _padTwo = MochiKit.DateTime._padTwo;
+    return [
+        date.getFullYear(),
+        _padTwo(date.getMonth() + 1),
+        _padTwo(date.getDate())
+    ].join("-");
 };
 
 MochiKit.DateTime.americanDate = function (d) {
@@ -113,7 +119,7 @@ MochiKit.DateTime.americanDate = function (d) {
     return new Date(a[2], a[0] - 1, a[1]);
 };
 
-var _padTwo = function (n) {
+MochiKit.DateTime._padTwo = function (n) {
     return (n > 9) ? n : "0" + n;
 };
 
@@ -123,6 +129,7 @@ MochiKit.DateTime.toPaddedAmericanDate = function (d) {
         Converts a Date object to an MM/DD/YYYY date, e.g. 01/01/2001
 
     ***/
+    var _padTwo = MochiKit.DateTime._padTwo;
     return [
         _padTwo(d.getMonth() + 1),
         _padTwo(d.getDate()),
