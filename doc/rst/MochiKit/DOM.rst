@@ -255,6 +255,7 @@ Functions
     - ``TEXTAREA``
     - ``FORM``
     - ``P``
+    - ``IMG``
 
     See `Creating DOM Element Trees`_ for a comprehensive example.
 
