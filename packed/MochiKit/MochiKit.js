@@ -3342,7 +3342,7 @@ return this.__repr__();
 MochiKit.MochiKit.SUBMODULES=["Base","Iter","Logging","DateTime","Format","Async","DOM","Visual"];
 if(typeof (JSAN)!="undefined"||typeof (dojo)!="undefined"){
 if(typeof (dojo)!="undefined"){
-dojo.provides("MochiKit.MochiKit");
+dojo.provide("MochiKit.MochiKit");
 dojo.require("MochiKit.*");
 }
 if(typeof (JSAN)!="undefined"){
