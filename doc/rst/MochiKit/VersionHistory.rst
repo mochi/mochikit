@@ -1,4 +1,4 @@
-2005-XX-XX      v0.90
+2005-10-08      v0.90
 
 - Fixed ISO compliance with toISODate
 - Added missing operator.sub
