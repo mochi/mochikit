@@ -13,8 +13,18 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 20});
+    plan({'tests': 28});
    
+    is( truncToFixed(0.1234, 3), "0.123", "truncToFixed truncate" );
+    is( truncToFixed(0.12, 3), "0.120", "truncToFixed trailing zeros" );
+    is( truncToFixed(0.15, 1), "0.1", "truncToFixed no round" );
+    is( truncToFixed(0.15, 0), "0", "truncToFixed zero (edge case)" );
+
+    is( roundToFixed(0.1234, 3), "0.123", "roundToFixed truncate" );
+    is( roundToFixed(0.12, 3), "0.120", "roundToFixed trailing zeros" );
+    is( roundToFixed(0.15, 1), "0.2", "roundToFixed round" );
+    is( roundToFixed(0.15, 0), "0", "roundToFixed zero (edge case)" );
+
     is( twoDigitFloat(-0.1234), "-0.12", "twoDigitFloat -0.1234 correct");
     is( twoDigitFloat(-0.1), "-0.1", "twoDigitFloat -0.1 correct");
     is( twoDigitFloat(-0), "0", "twoDigitFloat -0 correct");
