@@ -16,6 +16,8 @@
 <div class="section" id="synopsis">
 <h1><a name="synopsis">Synopsis</a></h1>
 <pre class="literal-block">
+assert( truncToFixed(0.12345, 4) == &quot;0.1234&quot; );
+assert( roundToFixed(0.12345, 4) == &quot;0.1235&quot; );
 assert( twoDigitAverage(1, 0) == &quot;0&quot; );
 assert( twoDigitFloat(1.2345) == &quot;1.23&quot; );
 assert( twoDigitFloat(1) == &quot;1&quot; );
@@ -37,6 +39,27 @@ functions in that domain live here.  So far, there's not much to see here.</p>
 <h1><a name="api-reference">API Reference</a></h1>
 <div class="section" id="functions">
 <h2><a name="functions">Functions</a></h2>
+<p><tt class="docutils literal"><span class="pre">truncToFixed(aNumber,</span> <span class="pre">precision)</span></tt>:</p>
+<blockquote>
+<p>Return a string representation of <tt class="docutils literal"><span class="pre">aNumber</span></tt>, truncated to <tt class="docutils literal"><span class="pre">precision</span></tt>
+digits with trailing zeros.  This is similar to
+<tt class="docutils literal"><span class="pre">aNumber.toFixed(precision)</span></tt>, but this truncates rather than rounds and
+has implementation consistent behavior for numbers less than 1.
+Specifically, <tt class="docutils literal"><span class="pre">truncToFixed(aNumber,</span> <span class="pre">precision)</span></tt> will always have a
+preceding <tt class="docutils literal"><span class="pre">0</span></tt> for numbers less than <tt class="docutils literal"><span class="pre">1</span></tt>.</p>
+<p>For example, <tt class="docutils literal"><span class="pre">toFixed(0.1357,</span> <span class="pre">2)</span></tt> returns <tt class="docutils literal"><span class="pre">0.13</span></tt>.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">roundToFixed(aNumber,</span> <span class="pre">precision)</span></tt>:</p>
+<blockquote>
+<p>Return a string representation of <tt class="docutils literal"><span class="pre">aNumber</span></tt>, rounded to <tt class="docutils literal"><span class="pre">precision</span></tt>
+digits with trailing zeros.  This is similar to
+<tt class="docutils literal"><span class="pre">Number.toFixed(aNumber,</span> <span class="pre">precision)</span></tt>, but this has implementation
+consistent rounding behavior (some versions of Safari round 0.5 down!)
+and also includes preceding <tt class="docutils literal"><span class="pre">0</span></tt> for numbers less than <tt class="docutils literal"><span class="pre">1</span></tt> (Safari,
+again).</p>
+<p>For example, <tt class="docutils literal"><span class="pre">roundToFixed(0.1357,</span> <span class="pre">2)</span></tt> returns <tt class="docutils literal"><span class="pre">0.14</span></tt> on every
+supported platform, where some return <tt class="docutils literal"><span class="pre">.13</span></tt> for <tt class="docutils literal"><span class="pre">(0.1357).toFixed(2)</span></tt>.</p>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">twoDigitAverage(numerator,</span> <span class="pre">denominator)</span></tt>:</p>
 <blockquote>
 <p>Calculate an average from a numerator and a denominator and return

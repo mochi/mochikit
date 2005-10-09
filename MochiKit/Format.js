@@ -96,6 +96,22 @@ MochiKit.Format.strip = function (str, /* optional */chars) {
     return self.rstrip(self.lstrip(str, chars), chars);
 };
 
+MochiKit.Format.truncToFixed = function (aNumber, precision) {
+    aNumber = Math.floor(aNumber * Math.pow(10, precision));
+    var res = (aNumber * Math.pow(10, -precision)).toFixed(precision);
+    if (res.charAt(0) == ".") {
+        res = "0" + res;
+    }
+    return res;
+};
+
+MochiKit.Format.roundToFixed = function (aNumber, precision) {
+    return MochiKit.Format.truncToFixed(
+        aNumber + 0.5 * Math.pow(10, -precision),
+        precision
+    );
+};
+
 MochiKit.Format.percentFormat = function (someFloat) {
     /***
 
@@ -106,6 +122,8 @@ MochiKit.Format.percentFormat = function (someFloat) {
 };
 
 MochiKit.Format.EXPORT = [
+    "truncToFixed",
+    "roundToFixed",
     "twoDigitAverage",
     "twoDigitFloat",
     "percentFormat",

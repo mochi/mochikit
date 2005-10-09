@@ -11,6 +11,8 @@ Synopsis
 
 ::
 
+   assert( truncToFixed(0.12345, 4) == "0.1234" );
+   assert( roundToFixed(0.12345, 4) == "0.1235" );
    assert( twoDigitAverage(1, 0) == "0" );
    assert( twoDigitFloat(1.2345) == "1.23" );
    assert( twoDigitFloat(1) == "1" );
@@ -38,6 +40,31 @@ API Reference
 Functions
 ---------
 
+``truncToFixed(aNumber, precision)``:
+
+    Return a string representation of ``aNumber``, truncated to ``precision``
+    digits with trailing zeros.  This is similar to
+    ``aNumber.toFixed(precision)``, but this truncates rather than rounds and
+    has implementation consistent behavior for numbers less than 1.
+    Specifically, ``truncToFixed(aNumber, precision)`` will always have a
+    preceding ``0`` for numbers less than ``1``.
+
+    For example, ``toFixed(0.1357, 2)`` returns ``0.13``.
+
+
+``roundToFixed(aNumber, precision)``:
+
+    Return a string representation of ``aNumber``, rounded to ``precision``
+    digits with trailing zeros.  This is similar to
+    ``Number.toFixed(aNumber, precision)``, but this has implementation
+    consistent rounding behavior (some versions of Safari round 0.5 down!)
+    and also includes preceding ``0`` for numbers less than ``1`` (Safari,
+    again).
+
+    For example, ``roundToFixed(0.1357, 2)`` returns ``0.14`` on every
+    supported platform, where some return ``.13`` for ``(0.1357).toFixed(2)``.
+
+
 ``twoDigitAverage(numerator, denominator)``:
 
     Calculate an average from a numerator and a denominator and return
@@ -63,6 +90,7 @@ Functions
     If ``chars`` is given, then that expression will be used instead of
     whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
     ``[character set]``.
+
 
 ``rstrip(str, chars="\s")``:
 

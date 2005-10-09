@@ -1,3 +1,8 @@
+2005-XX-XX      v1.00
+
+- Added truncToFixed(aNumber, precision) and roundToFixed(aNumber, precision)
+  to MochiKit.Format
+
 2005-10-08      v0.90
 
 - Fixed ISO compliance with toISODate
