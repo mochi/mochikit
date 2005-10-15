@@ -12,7 +12,7 @@ Synopsis
 ::
 
    stringDate = toISOTimestamp(new Date());
-   daeObject = isoTimestamp(stringDate);
+   dateObject = isoTimestamp(stringDate);
 
 
 Description

@@ -73,7 +73,7 @@ nodes using the following rules:
 
 1.  Functions are called with a ``this`` of the parent
     node and their return value is subject to the
-    following rules (even this one)
+    following rules (even this one).
 2.  ``undefined`` and ``null`` are ignored.
 3.  Iterables (see `MochiKit.Iter`_) are flattened
     (as if they were passed in-line as nodes) and each

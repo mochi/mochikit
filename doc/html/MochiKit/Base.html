@@ -82,7 +82,7 @@ library.</p>
 <h2><a name="comparison">Comparison</a></h2>
 <p>The comparators (operators for comparison) in JavaScript are deeply broken,
 and it is not possible to teach them new tricks.</p>
-<p>The extensible comparison facility exposed by MochiKit as a simple
+<p>MochiKit exposes an extensible comparison facility as a simple
 <tt class="docutils literal"><span class="pre">compare(a,</span> <span class="pre">b)</span></tt> function, which should be used in lieu of JavaScript's
 operators whenever comparing objects other than numbers or strings (though you
 can certainly use <tt class="docutils literal"><span class="pre">compare</span></tt> for those, too!).</p>
@@ -125,7 +125,7 @@ suitable for sending over the wire that can be unserialized with a simple
 eval.  It's often used as an alternative to XML in &quot;AJAX&quot; contexts because it
 is compact, fast, and much simpler to use for most purposes.</p>
 <p>To create a JSON serialization of any object, simply call <tt class="docutils literal"><span class="pre">serializeJSON()</span></tt>
-with that object.  To use unserialize a JSON string, simply call <tt class="docutils literal"><span class="pre">evalJSON()</span></tt>
+with that object.  To unserialize a JSON string, simply call <tt class="docutils literal"><span class="pre">evalJSON()</span></tt>
 with the serialization.</p>
 <p>In order of precedence, <tt class="docutils literal"><span class="pre">serializeJSON</span></tt> coerces the given argument into a
 JSON serialization:</p>
