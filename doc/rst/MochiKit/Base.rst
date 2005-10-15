@@ -83,7 +83,7 @@ Comparison
 The comparators (operators for comparison) in JavaScript are deeply broken,
 and it is not possible to teach them new tricks.
 
-The extensible comparison facility exposed by MochiKit as a simple
+MochiKit exposes an extensible comparison facility as a simple
 ``compare(a, b)`` function, which should be used in lieu of JavaScript's
 operators whenever comparing objects other than numbers or strings (though you
 can certainly use ``compare`` for those, too!).
@@ -136,7 +136,7 @@ eval.  It's often used as an alternative to XML in "AJAX" contexts because it
 is compact, fast, and much simpler to use for most purposes.
 
 To create a JSON serialization of any object, simply call ``serializeJSON()``
-with that object.  To use unserialize a JSON string, simply call ``evalJSON()``
+with that object.  To unserialize a JSON string, simply call ``evalJSON()``
 with the serialization.
 
 In order of precedence, ``serializeJSON`` coerces the given argument into a
