@@ -10,18 +10,19 @@ var makeColorDiv = function (name) {
     var c = Color.fromName(name);
     var hsl = c.asHSL();
     var r = hsl.s * radius;
-    var e = DIV(null, name);
+    var e = DIV({"style": {
+            "color": Color.fromHSL(hsl).toString(),
+            "width": "100px",
+            "height": "30px",
+            "position": "absolute",
+            "verticalAlign": "middle",
+            "textAlign": "center",
+            "left": Math.floor((Math.cos(hsl.h * twoPI) * r) - 50) + "px",
+            "top": Math.floor((Math.sin(hsl.h * twoPI) * r)) + "px"
+        }},
+        name 
+    );
     // hsl.a = 0;
-    update(e.style, {
-        "color": Color.fromHSL(hsl).toString(),
-        "width": "100px",
-        "height": "30px",
-        "position": "absolute",
-        "verticalAlign": "middle",
-        "textAlign": "center",
-        "left": Math.floor((Math.cos(hsl.h * twoPI) * r) - 50) + "px",
-        "top": Math.floor((Math.sin(hsl.h * twoPI) * r)) + "px"
-    });
     return [c, e];
 };
 
@@ -40,8 +41,7 @@ var colorWheelOnLoad = function () {
         "color_wheel",
         DIV(null, map(itemgetter(1), colorDivs))
     );
-    var colorCanary = DIV(null, "");
-    colorCanary.style.color = "blue";
+    var colorCanary = DIV({"style":{"color": "blue"}}, "");
     try {
         colorCanary.style.color = "rgba(100,100,100,0.5)";
     } catch (e) {

@@ -393,6 +393,18 @@ Functions
     This mutates *and returns* the given ``self``, be warned.
 
 
+``updatetree(self, obj[, ...])``:
+
+    Mutate an object by replacing its key:value pairs with those
+    from other object(s).  If a given key has an object value in
+    both ``self`` and ``obj``, then this function will be called
+    recursively, updating instead of replacing that object.
+
+    If null is given as the initial object, a new one will be created.
+
+    This mutates *and returns* the given object, be warned.
+    
+
 ``keys(obj)``:
 
     Return an ``Array`` of the property names of an object

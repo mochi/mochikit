@@ -329,6 +329,15 @@ that it does not already have set.</p>
 and returned.</p>
 <p>This mutates <em>and returns</em> the given <tt class="docutils literal"><span class="pre">self</span></tt>, be warned.</p>
 </blockquote>
+<p><tt class="docutils literal"><span class="pre">updatetree(self,</span> <span class="pre">obj[,</span> <span class="pre">...])</span></tt>:</p>
+<blockquote>
+<p>Mutate an object by replacing its key:value pairs with those
+from other object(s).  If a given key has an object value in
+both <tt class="docutils literal"><span class="pre">self</span></tt> and <tt class="docutils literal"><span class="pre">obj</span></tt>, then this function will be called
+recursively, updating instead of replacing that object.</p>
+<p>If null is given as the initial object, a new one will be created.</p>
+<p>This mutates <em>and returns</em> the given object, be warned.</p>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">keys(obj)</span></tt>:</p>
 <blockquote>
 Return an <tt class="docutils literal"><span class="pre">Array</span></tt> of the property names of an object

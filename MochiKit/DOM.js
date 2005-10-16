@@ -46,6 +46,7 @@ MochiKit.DOM.EXPORT = [
     "appendChildNodes",
     "replaceChildNodes",
     "swapDOM",
+    "BUTTON",
     "H1",
     "H2",
     "H3",
@@ -182,17 +183,20 @@ MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
         elem = MochiKit.DOM.getElement(node);
     }
     if (attrs) {
+        var updatetree = MochiKit.Base.updatetree;
         if (MochiKit.DOM.attributeArray.compliant) {
             // not IE, good.
             for (var k in attrs) {
                 var v = attrs[k];
-                if (k.substring(0, 2) == "on") {
+                if (typeof(v) == 'object' && typeof(elem[k]) == 'object') {
+                    updatetree(elem[k], v);
+                } else if (k.substring(0, 2) == "on") {
                     if (typeof(v) == "string") {
                         v = new Function(v);
                     }
                     elem[k] = v;
                 } else {
-                    elem.setAttribute(k, attrs[k]);
+                    elem.setAttribute(k, v);
                 }
             }
         } else {
@@ -206,6 +210,8 @@ MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
                 var renamed = IE_IS_REALLY_AWFUL_AND_SHOULD_DIE[k];
                 if (typeof(renamed) == "string") {
                     elem[renamed] = v;
+                } else if (typeof(elem[k]) == 'object' && typeof(v) == 'object') {
+                    updatetree(elem[k], v);
                 } else if (k.substring(0, 2) == "on") {
                     if (typeof(v) == "string") {
                         v = new Function(v);
@@ -749,6 +755,7 @@ MochiKit.DOM.__new__ = function () {
     this.A = createDOMFunc("a");
     this.DIV = createDOMFunc("div");
     this.IMG = createDOMFunc("img");
+    this.BUTTON = createDOMFunc("button");
     this.H1 = createDOMFunc("h1");
     this.H2 = createDOMFunc("h2");
     this.H3 = createDOMFunc("h3");
