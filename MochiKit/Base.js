@@ -448,7 +448,7 @@ MochiKit.Base.map = function (fn, lst/*, lst... */) {
             fn = Array;
         }
         var length = null;
-        for (var i = 1; i < arguments.length; i++) {
+        for (i = 1; i < arguments.length; i++) {
             // allow iterables to be passed
             if (!isArrayLike(arguments[i])) {
                 if (MochiKit.Iter) {
@@ -463,8 +463,8 @@ MochiKit.Base.map = function (fn, lst/*, lst... */) {
                 length = l;
             }
         }
-        var rval = [];
-        for (var i = 0; i < length; i++) {
+        rval = [];
+        for (i = 0; i < length; i++) {
             var args = [];
             for (var j = 1; j < arguments.length; j++) {
                 args.push(arguments[j][i]);
@@ -514,8 +514,8 @@ MochiKit.Base.filter = function (fn, lst, self) {
             }
         }
     } else {
-        for (var i = 0; i < lst.length; i++) {
-            var o = lst[i];
+        for (i = 0; i < lst.length; i++) {
+            o = lst[i];
             if (fn.call(self, o)) {
                 rval.push(o);
             }
@@ -870,14 +870,15 @@ MochiKit.Base.serializeJSON = function (o) {
     var me = arguments.callee;
     // short-circuit for objects that support "json" serialization
     // if they return "self" then just pass-through...
+    var newObj;
     if (typeof(o.__json__) == "function") {
-        var newObj = o.__json__();
+        newObj = o.__json__();
         if (o !== newObj) {
             return me(newObj);
         }
     }
     if (typeof(o.json) == "function") {
-        var newObj = o.json();
+        newObj = o.json();
         if (o !== newObj) {
             return me(newObj);
         }
@@ -896,7 +897,7 @@ MochiKit.Base.serializeJSON = function (o) {
     }
     // look in the registry
     try {
-        var newObj = MochiKit.Base.jsonRegistry.match(o);
+        newObj = MochiKit.Base.jsonRegistry.match(o);
         return me(newObj);
     } catch (e) {
         if (e != MochiKit.Base.NotFound) {
@@ -909,7 +910,7 @@ MochiKit.Base.serializeJSON = function (o) {
         return null;
     }
     // generic object code path
-    var res = [];
+    res = [];
     for (var k in o) {
         var useKey;
         if (typeof(k) == "number") {
@@ -920,7 +921,7 @@ MochiKit.Base.serializeJSON = function (o) {
             // skip non-string or number keys
             continue;
         }
-        var val = me(o[k]);
+        val = me(o[k]);
         if (typeof(val) != "string") {
             // skip non-serializable values
             continue;
@@ -1146,7 +1147,7 @@ MochiKit.Base.queryString = function (names, values) {
     var len = Math.min(names.length, values.length);
     var urlEncode = MochiKit.Base.urlEncode;
     for (var i = 0; i < len; i++) {
-        var v = values[i];
+        v = values[i];
         if (typeof(v) != 'undefined' && v != null) {
             rval.push(urlEncode(names[i]) + "=" + urlEncode(v));
         }
@@ -1176,8 +1177,8 @@ MochiKit.Base.parseQueryString = function (encodedString, useArrays) {
             arr.push(decode(pair[1]));
         }
     } else {
-        for (var i = 0; i < pairs.length; i++) {
-            var pair = pairs[i].split("=");
+        for (i = 0; i < pairs.length; i++) {
+            pair = pairs[i].split("=");
             o[decode(pair[0])] = decode(pair[1]);
         }
     }

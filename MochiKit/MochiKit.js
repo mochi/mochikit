@@ -60,19 +60,20 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         var EXPORT = [];
         var EXPORT_OK = [];
         var EXPORT_TAGS = {};
-        for (var i = 0; i < modules.length; i++) {
-            var m = MochiKit[modules[i]];
+        var i, k, m, all;
+        for (i = 0; i < modules.length; i++) {
+            m = MochiKit[modules[i]];
             extend(EXPORT, m.EXPORT);
             extend(EXPORT_OK, m.EXPORT_OK);
-            for (var k in m.EXPORT_TAGS) {
+            for (k in m.EXPORT_TAGS) {
                 EXPORT_TAGS[k] = extend(EXPORT_TAGS[k], m.EXPORT_TAGS[k]);
             }
-            var all = m.EXPORT_TAGS[":all"];
+            all = m.EXPORT_TAGS[":all"];
             if (!all) {
                 all = extend(null, m.EXPORT, m.EXPORT_OK);
             }
-            for (var i = 0; i < all.length; i++) {
-                var k = all[i];
+            for (i = 0; i < all.length; i++) {
+                k = all[i];
                 self[k] = m[k];
             }
         }
@@ -91,7 +92,8 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         var base = null;
         var baseElem = null;
         var allScripts = {};
-        for (var i = 0; i < scripts.length; i++) {
+        var i;
+        for (i = 0; i < scripts.length; i++) {
             var src = scripts[i].getAttribute("src");
             if (!src) {
                 continue;
@@ -107,7 +109,7 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         }
         var modules = MochiKit.MochiKit.SUBMODULES;
         modules.unshift("Compat");
-        for (var i = 0; i < modules.length; i++) {
+        for (i = 0; i < modules.length; i++) {
             if (MochiKit[modules[i]]) {
                 continue;
             }
