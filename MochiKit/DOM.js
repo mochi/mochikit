@@ -206,7 +206,7 @@ MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
                 "checked": "defaultChecked"
             };
             for (k in attrs) {
-                var v = attrs[k];
+                v = attrs[k];
                 var renamed = IE_IS_REALLY_AWFUL_AND_SHOULD_DIE[k];
                 if (typeof(renamed) == "string") {
                     elem[renamed] = v;
@@ -647,7 +647,7 @@ MochiKit.DOM.emitHTML = function (dom, /* optional */lst) {
                 // on first
                 queue.push("</" + dom.nodeName.toLowerCase() + ">");
                 var cnodes = dom.childNodes;
-                for (var i = cnodes.length - 1; i >= 0; i--) {
+                for (i = cnodes.length - 1; i >= 0; i--) {
                     queue.push(cnodes[i]);
                 }
             } else {
