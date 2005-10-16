@@ -205,7 +205,7 @@ MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
                 "class": "className",
                 "checked": "defaultChecked"
             };
-            for (var k in attrs) {
+            for (k in attrs) {
                 var v = attrs[k];
                 var renamed = IE_IS_REALLY_AWFUL_AND_SHOULD_DIE[k];
                 if (typeof(renamed) == "string") {
@@ -388,7 +388,7 @@ MochiKit.DOM.addToCallStack = function (target, path, func, once) {
     var existing = target[path];
     var regfunc = existing;
     if (!(typeof(existing) == 'function' && existing.callStack)) {
-        var regfunc = function () {
+        regfunc = function () {
             var callStack = regfunc.callStack;
             for (var i = 0; i < callStack.length; i++) {
                 if (callStack[i].apply(this, arguments) === false) {
@@ -635,7 +635,7 @@ MochiKit.DOM.emitHTML = function (dom, /* optional */lst) {
                 ]);
             }
             attributes.sort();
-            for (var i = 0; i < attributes.length; i++) {
+            for (i = 0; i < attributes.length; i++) {
                 var attrs = attributes[i];
                 for (var j = 0; j < attrs.length; j++) {
                     lst.push(attrs[j]);
