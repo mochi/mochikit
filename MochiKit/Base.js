@@ -78,6 +78,26 @@ MochiKit.Base.extend = function (self, obj, /* optional */skip) {
 };
 
 
+MochiKit.Base.updatetree = function (self, obj/*, ...*/) {
+    if (self == null) {
+        self = {};
+    }
+    for (var i = 1; i < arguments.length; i++) {
+        var o = arguments[i];
+        if (typeof(o) != 'undefined' && o != null) {
+            for (var k in o) {
+                var v = o[k];
+                if (typeof(self[k]) == 'object' && typeof(v) == 'object') {
+                    arguments.callee(self[k], v);
+                } else {
+                    self[k] = v;
+                }
+            }
+        }
+    }
+    return self;
+};
+
 MochiKit.Base.update = function (self, obj/*, ... */) {
     /***
 
@@ -1169,6 +1189,7 @@ MochiKit.Base.EXPORT = [
     "clone",
     "extend",
     "update",
+    "updatetree",
     "setdefault",
     "keys",
     "items",

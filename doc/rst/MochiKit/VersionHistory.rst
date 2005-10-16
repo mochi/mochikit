@@ -1,5 +1,8 @@
 2005-XX-XX      v1.00
 
+- Added updatetree(self, obj[, ...]) to MochiKit.Base, and changed
+  MochiKit.DOM's updateNodeAttributes(node, attrs) to use it when appropiate.
+- Added new MochiKit.DOM createDOMFunc alias: BUTTON
 - Added truncToFixed(aNumber, precision) and roundToFixed(aNumber, precision)
   to MochiKit.Format
 

@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 120});
+    plan({'tests': 122});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -366,6 +366,15 @@ try {
     is( serializeJSON(new Date()), "\"this was a date\"", "json registry" );
     MochiKit.Base.jsonRegistry.unregister("isDateLike");
 
+    var a = {"foo": {"bar": 12, "wibble": 13}};
+    var b = {"foo": {"baz": 4, "bar": 16}, "bar": 4};
+    updatetree(a, b);
+    var expect = [["bar", 16], ["baz", 4], ["wibble", 13]];
+    var got = items(a.foo);
+    got.sort(compare);
+    is( repr(got), repr(expect), "updatetree merge" );
+    is( a.bar, 4, "updatetree insert" );
+    
     ok( true, "test suite finished!");
     
 } catch (err) {

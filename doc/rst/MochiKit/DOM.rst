@@ -158,6 +158,9 @@ Corresponding to the following HTML::
     </table>
 
 
+API Reference
+=============
+
 Functions
 ---------
 
@@ -251,6 +254,7 @@ Functions
     - ``H3``
     - ``BR``
     - ``HR``
+    - ``BUTTON``
     - ``LABEL``
     - ``TEXTAREA``
     - ``FORM``
