@@ -366,7 +366,7 @@ MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className, /* opt
     parent = MochiKit.DOM.getElement(parent);
     var children = parent.getElementsByTagName(tagName) || document.all;
     if (typeof(className) == 'undefined' || className == null) {
-        return children;
+        return MochiKit.Base.extend(null, children);
     }
 
     var elements = [];
