@@ -307,14 +307,15 @@ MochiKit.Visual.Color.fromHexString = function (hexCode) {
         hexCode = hexCode.substring(1);
     }
     var components = [];
+    var i, hex;
     if (hexCode.length == 3) {
-        for (var i = 0; i < 3; i++) {
-            var hex = hexCode.substr(i, 1);
+        for (i = 0; i < 3; i++) {
+            hex = hexCode.substr(i, 1);
             components.push(parseInt(hex + hex, 16) / 255.0);
         }
     } else {
-        for (var i = 0; i < 6; i += 2) {
-            var hex = hexCode.substr(i, 2);
+        for (i = 0; i < 6; i += 2) {
+            hex = hexCode.substr(i, 2);
             components.push(parseInt(hex, 16) / 255.0);
         }
     }
@@ -591,7 +592,7 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
         return undefined;
     }
     var style = document.defaultView.getComputedStyle(el, null);
-    if (!style) {
+    if (typeof(style) == "undefined" || style == null) {
         return undefined;
     }
     return style.getPropertyValue(mozillaEquivalentCSS);
@@ -600,6 +601,9 @@ MochiKit.Visual.getElementsComputedStyle = function (htmlElement, cssProperty, m
 MochiKit.Visual._RoundCorners = function (e, options) {
     e = MochiKit.DOM.getElement(e);
     this._setOptions(options);
+    if (this.options.__unstable__wrapElement) {
+        e = this._doWrap(e);
+    }
 
     var color = this.options.color;
     var m = MochiKit.Visual;
@@ -621,6 +625,36 @@ MochiKit.Visual._RoundCorners = function (e, options) {
 };
 
 MochiKit.Visual._RoundCorners.prototype = {
+    "_doWrap": function (e) {
+        var parent = e.parentNode;
+        if (typeof(document.defaultView) == "undefined"
+            || document.defaultView == null) {
+            return e;
+        }
+        var style = document.defaultView.getComputedStyle(e, null);
+        if (typeof(style) == "undefined" || style == null) {
+            return e;
+        }
+        var wrapper = MochiKit.DOM.DIV({"style": {
+            "display": "block",
+            // convert padding to margin
+            "marginTop": style.getPropertyValue("padding-top"),
+            "marginRight": style.getPropertyValue("padding-right"),
+            "marginBottom": style.getPropertyValue("padding-bottom"),
+            "marginLeft": style.getPropertyValue("padding-left"),
+            // remove padding so the rounding looks right
+            "padding": "0px"
+            /*
+            "paddingRight": "0px",
+            "paddingLeft": "0px"
+            */
+        }});
+        wrapper.innerHTML = e.innerHTML;
+        e.innerHTML = "";
+        e.appendChild(wrapper);
+        return e;
+    },
+
     "_roundCornersImpl": function (e, color, bgColor) {
         if (this.options.border) {
             this._renderBorder(e, bgColor);
@@ -707,12 +741,13 @@ MochiKit.Visual._RoundCorners.prototype = {
 
     "_setOptions": function (options) {
         this.options = {
-            corners : "all",
-            color   : "fromElement",
-            bgColor : "fromParent",
-            blend   : true,
-            border  : false,
-            compact : false
+            "corners": "all",
+            "color": "fromElement",
+            "bgColor": "fromParent",
+            "blend": true,
+            "border": false,
+            "compact": false,
+            "__unstable__wrapElement": false
         };
         MochiKit.Base.update(this.options, options);
 
