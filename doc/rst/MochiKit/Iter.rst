@@ -116,9 +116,9 @@ Functions
     with iterators whenever possible.
 
 
-``count(n)``:
+``count(n=0)``:
 
-    ``count([n])`` --> n, n + 1, n + 2, ...
+    ``count(n=0)`` --> n, n + 1, n + 2, ...
 
 
 ``cycle(p)``:
