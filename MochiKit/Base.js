@@ -23,10 +23,10 @@ MochiKit.Base.VERSION = "0.90";
 MochiKit.Base.NAME = "MochiKit.Base"
 MochiKit.Base.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
-}
+};
 MochiKit.Base.toString = function () {
     return this.__repr__();
-}
+};
 
 MochiKit.Base.clone = function (obj) {
     var me = arguments.callee;
@@ -192,10 +192,10 @@ MochiKit.Base.NamedError.prototype.repr = function () {
     } else {
         return this.name + "()";
     }
-}
+};
 MochiKit.Base.NamedError.prototype.toString = function () {
     return this.repr();
-}
+};
 
 MochiKit.Base.operator = {
     /***
@@ -307,7 +307,7 @@ MochiKit.Base.isNull = function (/* ... */) {
         }
     }
     return true;
-}
+};
 
 MochiKit.Base.isUndefinedOrNull = function (/* ... */) {
     /***

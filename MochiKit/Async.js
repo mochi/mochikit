@@ -32,10 +32,10 @@ MochiKit.Async.NAME = "MochiKit.Async";
 MochiKit.Async.VERSION = "0.90";
 MochiKit.Async.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
-}
+};
 MochiKit.Async.toString = function () {
     return this.__repr__();
-}
+};
 
 MochiKit.Async.AlreadyCalledError = function (deferred) {
     /***
@@ -554,7 +554,7 @@ MochiKit.Async.sendXMLHttpRequest = function (req, /* optional */ sendContent) {
 
     return d;
 
-}
+};
 
 MochiKit.Async.doSimpleXMLHttpRequest = function (url) {
     var req = MochiKit.Async.getXMLHttpRequest();

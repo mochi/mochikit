@@ -24,10 +24,10 @@ MochiKit.Format.NAME = "MochiKit.Format";
 MochiKit.Format.VERSION = "0.90";
 MochiKit.Format.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
-}
+};
 MochiKit.Format.toString = function () {
     return this.__repr__();
-}
+};
 
 MochiKit.Format.twoDigitAverage = function (numerator, denominator) {
     /***
@@ -151,7 +151,7 @@ MochiKit.Format.__new__ = function () {
             }
         }
     }
-}
+};
 
 MochiKit.Format.__new__();
 

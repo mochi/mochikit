@@ -32,10 +32,10 @@ MochiKit.Iter.NAME = "MochiKit.Iter";
 MochiKit.Iter.VERSION = "0.90";
 MochiKit.Iter.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
-}
+};
 MochiKit.Iter.toString = function () {
     return this.__repr__();
-}
+};
 
 MochiKit.Iter.registerIteratorFactory = function (name, check, iterfactory, /* optional */ override) {
     /***
