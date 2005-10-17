@@ -128,7 +128,7 @@ were inserted into the document DOM):
 
 Corresponding to the following HTML::
 
-    <table>
+    <table class="prettytable">
         <thead>
             <tr>
                 <td>head1</td>
