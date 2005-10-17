@@ -427,7 +427,7 @@ MochiKit.Visual.hsvToRGB = function (hue, saturation, value, alpha) {
         "b": blue,
         "a": alpha
     };
-}
+};
 
 MochiKit.Visual.hslToRGB = function (hue, saturation, lightness, alpha) {
     if (arguments.length == 1) {
@@ -1023,7 +1023,7 @@ if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
 // Full table of css3 X11 colors <http://www.w3.org/TR/css3-color/#X11COLORS>
 MochiKit.Visual.Color.namedColors = function () {
     return MochiKit.Base.clone(MochiKit.Visual.Color._namedColors);
-}
+};
 
 MochiKit.Visual.Color._namedColors = {
     aliceblue: "#f0f8ff",

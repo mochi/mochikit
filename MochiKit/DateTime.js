@@ -24,10 +24,10 @@ MochiKit.DateTime.NAME = "MochiKit.DateTime";
 MochiKit.DateTime.VERSION = "0.90";
 MochiKit.DateTime.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
-}
+};
 MochiKit.DateTime.toString = function () {
     return this.__repr__();
-}
+};
 
 MochiKit.DateTime.isoDate = function (str) {
     /***
@@ -161,7 +161,7 @@ MochiKit.DateTime.EXPORT_OK = [];
 MochiKit.DateTime.EXPORT_TAGS = {
     ":common": MochiKit.DateTime.EXPORT,
     ":all": MochiKit.DateTime.EXPORT
-}
+};
 
 MochiKit.DateTime.__new__ = function () {
     // MochiKit.Base.nameFunctions(this);
@@ -176,7 +176,7 @@ MochiKit.DateTime.__new__ = function () {
             }
         }   
     }
-}
+};
 
 MochiKit.DateTime.__new__();
 

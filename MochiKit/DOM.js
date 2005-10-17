@@ -32,10 +32,10 @@ MochiKit.DOM.NAME = "MochiKit.DOM";
 MochiKit.DOM.VERSION = "0.90";
 MochiKit.DOM.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
-}
+};
 MochiKit.DOM.toString = function () {
     return this.__repr__();
-}
+};
 
 MochiKit.DOM.EXPORT = [
     "registerDOMConverter",
@@ -382,7 +382,7 @@ MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className, /* opt
     }
 
     return elements;
-}
+};
 
 MochiKit.DOM.addToCallStack = function (target, path, func, once) {
     var existing = target[path];
@@ -410,7 +410,7 @@ MochiKit.DOM.addToCallStack = function (target, path, func, once) {
         target[path] = regfunc;
     }
     regfunc.callStack.push(func);
-}
+};
 
 MochiKit.DOM.addLoadEvent = function (func) {
     /***
