@@ -1686,6 +1686,7 @@ var _210=_206.length-_206.replace(/0+/,"").length;
 var _211=frac.length-frac.replace(/0+/,"").length;
 var _212=frac.length;
 return function(num){
+num=parseFloat(num);
 if(typeof (num)=="undefined"||num==null||isNaN(num)){
 return _201;
 }
@@ -2104,6 +2105,7 @@ var err=new MochiKit.Async.XMLHttpRequestError(req,"Request failed");
 if(err.number){
 d.errback(err);
 }else{
+d.errback(err);
 }
 }
 }
