@@ -13,7 +13,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 42});
+    plan({'tests': 43});
    
     is( truncToFixed(0.1234, 3), "0.123", "truncToFixed truncate" );
     is( truncToFixed(0.12, 3), "0.120", "truncToFixed trailing zeros" );
@@ -70,6 +70,14 @@ try {
     nf = numberFormatter("#%");
     is( nf(1), "100%", "trivial percent" );
     is( nf(0.55), "55%", "percent" );
+
+    var customLocale = {
+        separator: " apples and ",
+        decimal: " bagels at ",
+        percent: "am for breakfast"};
+    var customFormatter = numberFormatter("###,###.0%", "No breakfast", customLocale);
+    is( customFormatter(23.458), "2 apples and 345 bagels at 8am for breakfast", "custom locale" );
+
     
     // Done!
 
