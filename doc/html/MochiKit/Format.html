@@ -22,18 +22,73 @@ assert( twoDigitAverage(1, 0) == &quot;0&quot; );
 assert( twoDigitFloat(1.2345) == &quot;1.23&quot; );
 assert( twoDigitFloat(1) == &quot;1&quot; );
 assert( percentFormat(1.234567) == &quot;123.45%&quot; );
-
-assert( thisModuleNeedsMoreStuff );
+assert( numberFormatter(&quot;###,###%&quot;)(125) == &quot;12,500%&quot; );
+assert( numberFormatter(&quot;##.000&quot;)(1.25) == &quot;1.250&quot; );
 </pre>
 </div>
 <div class="section" id="description">
 <h1><a name="description">Description</a></h1>
 <p>Formatting strings and stringifying numbers is boring, so a couple useful
-functions in that domain live here.  So far, there's not much to see here.</p>
+functions in that domain live here.</p>
 </div>
 <div class="section" id="dependencies">
 <h1><a name="dependencies">Dependencies</a></h1>
 <p>None.</p>
+</div>
+<div class="section" id="overview">
+<h1><a name="overview">Overview</a></h1>
+<div class="section" id="formatting-numbers">
+<h2><a name="formatting-numbers">Formatting Numbers</a></h2>
+<p>MochiKit provides an extensible number formatting facility, modeled loosely
+after the Number Format Pattern Syntax <a class="footnote-reference" href="#id2" id="id1" name="id1">[1]</a> from Java.
+<tt class="docutils literal"><span class="pre">numberFormatter(pattern[,</span> <span class="pre">placeholder=&quot;&quot;[,</span> <span class="pre">locale=&quot;default&quot;])</span></tt> returns a
+function that converts Number to string using the given information.  <tt class="docutils literal"><span class="pre">pattern</span></tt>
+is a string consisting of the following symbols:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Symbol</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">-</span></tt></td>
+<td>If given, used as the position of the minus sign
+for negative numbers.  If not given, the position
+to the left of the first number placeholder is used.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">#</span></tt></td>
+<td>The placeholder for a number that does not imply zero
+padding.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">0</span></tt></td>
+<td>The placeholder for a number that implies zero padding.
+If it is used to the right of a decimal separator, it
+implies trailing zeros, otherwise leading zeros.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">,</span></tt></td>
+<td>The placeholder for a &quot;thousands separator&quot;.  May be used
+at most once, and it must be to the left of a decimal
+separator.  Will be replaced by <tt class="docutils literal"><span class="pre">locale.separator</span></tt> in the
+result (the default is also <tt class="docutils literal"><span class="pre">,</span></tt>).</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">.</span></tt></td>
+<td>The decimal separator.  The quantity of <tt class="docutils literal"><span class="pre">#</span></tt> or <tt class="docutils literal"><span class="pre">0</span></tt>
+after the decimal separator will determine the precision of
+the result.  If no decimal separator is present, the
+fractional precision is <tt class="docutils literal"><span class="pre">0</span></tt> -- meaning that it will be
+rounded to the nearest integer.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">%</span></tt></td>
+<td>If present, the number will be multiplied by <tt class="docutils literal"><span class="pre">100</span></tt> and
+the <tt class="docutils literal"><span class="pre">%</span></tt> will be replaced by <tt class="docutils literal"><span class="pre">locale.percent</span></tt>.</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section" id="api-reference">
 <h1><a name="api-reference">API Reference</a></h1>
@@ -68,10 +123,48 @@ it as a string with two digits of precision (e.g. &quot;1.23&quot;).</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">twoDigitFloat(someFloat)</span></tt>:</p>
 <blockquote>
-Roughly equivalent to: <tt class="docutils literal"><span class="pre">sprintf(&quot;%.2f&quot;,</span> <span class="pre">someFloat)</span></tt></blockquote>
+<p>Roughly equivalent to: <tt class="docutils literal"><span class="pre">sprintf(&quot;%.2f&quot;,</span> <span class="pre">someFloat)</span></tt></p>
+<p>In new code, you probably want to use
+<tt class="docutils literal"><span class="pre">numberFormatter(&quot;#.##&quot;)(someFloat)</span></tt> instead.</p>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">percentFormat(someFloat)</span></tt>:</p>
 <blockquote>
-Roughly equivalent to: <tt class="docutils literal"><span class="pre">sprintf(&quot;%.2f%%&quot;,</span> <span class="pre">someFloat</span> <span class="pre">*</span> <span class="pre">100)</span></tt></blockquote>
+<p>Roughly equivalent to: <tt class="docutils literal"><span class="pre">sprintf(&quot;%.2f%%&quot;,</span> <span class="pre">someFloat</span> <span class="pre">*</span> <span class="pre">100)</span></tt></p>
+<p>In new code, you probably want to use:
+<tt class="docutils literal"><span class="pre">numberFormatter(&quot;#.##%&quot;)(someFloat)</span></tt> instead.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">numberFormatter(pattern[,</span> <span class="pre">placeholder=&quot;&quot;[,</span> <span class="pre">locale=&quot;default&quot;]])</span></tt>:</p>
+<blockquote>
+<p>Return a function <tt class="docutils literal"><span class="pre">formatNumber(aNumber)</span></tt> that formats numbers
+as a string according to the given pattern, placeholder and locale.</p>
+<p><tt class="docutils literal"><span class="pre">pattern</span></tt> is a string that describes how the numbers should be formatted,
+for more information see <a class="reference" href="#formatting-numbers">Formatting Numbers</a>.</p>
+<p><tt class="docutils literal"><span class="pre">locale</span></tt> is a string of a known locale (en_US, de_DE, fr_FR, default) or
+an object with the following fields:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>separator</td>
+<td>The &quot;thousands&quot; separator for this locale (en_US is &quot;,&quot;)</td>
+</tr>
+<tr><td>decimal</td>
+<td>The decimal separator for this locale (en_US is &quot;.&quot;)</td>
+</tr>
+<tr><td>percent</td>
+<td>The percent symbol for this locale (en_US is &quot;%&quot;)</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">formatLocale(locale=&quot;default&quot;)</span></tt>:</p>
+<blockquote>
+Return a locale object for the given locale.  <tt class="docutils literal"><span class="pre">locale</span></tt> may be either a
+string, which is looked up in the <tt class="docutils literal"><span class="pre">MochiKit.Format.LOCALE</span></tt> object, or
+a locale object.  If no locale is given, <tt class="docutils literal"><span class="pre">LOCALE.default</span></tt> is used
+(equivalent to <tt class="docutils literal"><span class="pre">LOCALE.en_US</span></tt>).</blockquote>
 <p><tt class="docutils literal"><span class="pre">lstrip(str,</span> <span class="pre">chars=&quot;\s&quot;)</span></tt>:</p>
 <blockquote>
 <p>Returns a string based on <tt class="docutils literal"><span class="pre">str</span></tt> with leading whitespace stripped.</p>
@@ -95,6 +188,16 @@ whitespace.  <tt class="docutils literal"><span class="pre">chars</span></tt> sh
 <tt class="docutils literal"><span class="pre">[character</span> <span class="pre">set]</span></tt>.</p>
 </blockquote>
 </div>
+</div>
+<div class="section" id="see-also">
+<h1><a name="see-also">See Also</a></h1>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1" name="id2">[1]</a></td><td>Java Number Format Pattern Syntax:
+<a class="reference" href="http://java.sun.com/docs/books/tutorial/i18n/format/numberpattern.html">http://java.sun.com/docs/books/tutorial/i18n/format/numberpattern.html</a></td></tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="authors">
 <h1><a name="authors">Authors</a></h1>

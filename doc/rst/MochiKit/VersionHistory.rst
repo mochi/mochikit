@@ -1,10 +1,14 @@
 2005-XX-XX      v1.00
 
+- Added advanced number formatting capabilities to MochiKit.Format:
+  numberFormatter(pattern[, placeholder=""[, locale="default"]]) and
+  formatLocale([locale="default"]).
 - Added updatetree(self, obj[, ...]) to MochiKit.Base, and changed
   MochiKit.DOM's updateNodeAttributes(node, attrs) to use it when appropiate.
 - Added new MochiKit.DOM createDOMFunc alias: BUTTON
 - Added truncToFixed(aNumber, precision) and roundToFixed(aNumber, precision)
   to MochiKit.Format
+- Fixed infinite recusion bug when using roundClass("DIV", ...)
 
 2005-10-08      v0.90
 

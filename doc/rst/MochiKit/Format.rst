@@ -17,21 +17,63 @@ Synopsis
    assert( twoDigitFloat(1.2345) == "1.23" );
    assert( twoDigitFloat(1) == "1" );
    assert( percentFormat(1.234567) == "123.45%" );
-
-   assert( thisModuleNeedsMoreStuff );
+   assert( numberFormatter("###,###%")(125) == "12,500%" );
+   assert( numberFormatter("##.000")(1.25) == "1.250" );
 
 
 Description
 ===========
 
 Formatting strings and stringifying numbers is boring, so a couple useful
-functions in that domain live here.  So far, there's not much to see here.
+functions in that domain live here.
 
 
 Dependencies
 ============
 
 None.
+
+
+Overview
+========
+
+Formatting Numbers
+------------------
+
+MochiKit provides an extensible number formatting facility, modeled loosely
+after the Number Format Pattern Syntax [1]_ from Java.
+``numberFormatter(pattern[, placeholder=""[, locale="default"])`` returns a
+function that converts Number to string using the given information.  ``pattern``
+is a string consisting of the following symbols:
+
++-----------+---------------------------------------------------------------+
+| Symbol    |   Meaning                                                     |
++===========+===============================================================+
+| ``-``     |   If given, used as the position of the minus sign            |
+|           |   for negative numbers.  If not given, the position           |
+|           |   to the left of the first number placeholder is used.        |
++-----------+---------------------------------------------------------------+
+| ``#``     |   The placeholder for a number that does not imply zero       |
+|           |   padding.                                                    |
++-----------+---------------------------------------------------------------+
+| ``0``     |   The placeholder for a number that implies zero padding.     |
+|           |   If it is used to the right of a decimal separator, it       |
+|           |   implies trailing zeros, otherwise leading zeros.            |
++-----------+---------------------------------------------------------------+
+| ``,``     |   The placeholder for a "thousands separator".  May be used   |
+|           |   at most once, and it must be to the left of a decimal       |
+|           |   separator.  Will be replaced by ``locale.separator`` in the |
+|           |   result (the default is also ``,``).                         |
++-----------+---------------------------------------------------------------+
+| ``.``     |   The decimal separator.  The quantity of ``#`` or ``0``      |
+|           |   after the decimal separator will determine the precision of |
+|           |   the result.  If no decimal separator is present, the        |
+|           |   fractional precision is ``0`` -- meaning that it will be    |
+|           |   rounded to the nearest integer.                             |
++-----------+---------------------------------------------------------------+
+| ``%``     |   If present, the number will be multiplied by ``100`` and    |
+|           |   the ``%`` will be replaced by ``locale.percent``.           |
++-----------+---------------------------------------------------------------+
 
 
 API Reference
@@ -77,10 +119,44 @@ Functions
 
     Roughly equivalent to: ``sprintf("%.2f", someFloat)``
 
+    In new code, you probably want to use
+    ``numberFormatter("#.##")(someFloat)`` instead.
+
 
 ``percentFormat(someFloat)``:
 
     Roughly equivalent to: ``sprintf("%.2f%%", someFloat * 100)``
+
+    In new code, you probably want to use:
+    ``numberFormatter("#.##%")(someFloat)`` instead.
+
+
+``numberFormatter(pattern[, placeholder=""[, locale="default"]])``:
+
+    Return a function ``formatNumber(aNumber)`` that formats numbers
+    as a string according to the given pattern, placeholder and locale.
+
+    ``pattern`` is a string that describes how the numbers should be formatted,
+    for more information see `Formatting Numbers`_.
+
+    ``locale`` is a string of a known locale (en_US, de_DE, fr_FR, default) or
+    an object with the following fields:
+
+    +-----------+-----------------------------------------------------------+
+    | separator | The "thousands" separator for this locale (en_US is ",")  |
+    +-----------+-----------------------------------------------------------+
+    | decimal   | The decimal separator for this locale (en_US is ".")      |
+    +-----------+-----------------------------------------------------------+
+    | percent   | The percent symbol for this locale (en_US is "%")         |
+    +-----------+-----------------------------------------------------------+
+
+
+``formatLocale(locale="default")``:
+
+    Return a locale object for the given locale.  ``locale`` may be either a
+    string, which is looked up in the ``MochiKit.Format.LOCALE`` object, or
+    a locale object.  If no locale is given, ``LOCALE.default`` is used
+    (equivalent to ``LOCALE.en_US``).
 
 
 ``lstrip(str, chars="\s")``:
@@ -109,6 +185,13 @@ Functions
     If ``chars`` is given, then that expression will be used instead of
     whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
     ``[character set]``.
+
+
+See Also
+========
+
+.. [1] Java Number Format Pattern Syntax:
+       http://java.sun.com/docs/books/tutorial/i18n/format/numberpattern.html
 
 
 Authors
