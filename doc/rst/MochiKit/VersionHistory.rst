@@ -2,12 +2,17 @@
 
 - Added advanced number formatting capabilities to MochiKit.Format:
   numberFormatter(pattern[, placeholder=""[, locale="default"]]) and
-  formatLocale([locale="default"]).
+  formatLocale([locale="default"])
 - Added updatetree(self, obj[, ...]) to MochiKit.Base, and changed
   MochiKit.DOM's updateNodeAttributes(node, attrs) to use it when appropiate.
 - Added new MochiKit.DOM createDOMFunc alias: BUTTON
 - Added truncToFixed(aNumber, precision) and roundToFixed(aNumber, precision)
   to MochiKit.Format
+- MochiKit.DateTime can now handle full ISO 8601 timestamps, specifically
+  isoTimestamp(isoString) will convert them to Date objects, and
+  toISOTimestamp(date, true) will return an ISO 8601 timestamp in UTC
+- Fixed missing errback for sendXMLHttpRequest when the server does not
+  respond
 - Fixed infinite recusion bug when using roundClass("DIV", ...)
 
 2005-10-08      v0.90

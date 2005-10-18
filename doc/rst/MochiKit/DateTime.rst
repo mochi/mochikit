@@ -42,19 +42,22 @@ Functions
 
 ``isoTimestamp(str)``:
 
-    Convert a subset of ISO 8601 [1]_ timestamps (or something close to it)
+    Convert any ISO 8601 [1]_ timestamp (or something reasonably close to it)
     to a ``Date`` object.  Will accept the "de facto" form:
 
         YYYY-MM-DD hh:mm:ss
 
     or (the proper form):
 
-        YYYY-MM-DDThh:mm:ss
+        YYYY-MM-DDThh:mm:ssZ
+
+    If a time zone designator ("Z" or "[+-]HH:MM") is not present, then the
+    local timezone is used.
 
 
 ``toISOTime(date)``:
 
-    Get the hh:mm:ss from the given ``Date`` object as a string.
+    Convert a ``Date`` object to a string in the form of hh:mm:ss
 
 
 ``toISOTimestamp(date, realISO)``:
@@ -62,7 +65,7 @@ Functions
     Convert a ``Date`` object to something that's ALMOST but not quite an
     ISO 8601 [1]_timestamp.  If it was a proper ISO timestamp it would be:
 
-        YYYY-MM-DDThh:mm:ss
+        YYYY-MM-DDThh:mm:ssZ
 
     However, we see junk in SQL and other places that looks like this:
 

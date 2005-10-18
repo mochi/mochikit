@@ -39,6 +39,8 @@ MochiKit.DateTime.isoDate = function (str) {
     return new Date(iso[0], iso[1] - 1, iso[2]);
 };
 
+MochiKit.DateTime._isoRegexp = /(\d{4,})(?:-(\d{1,2})(?:-(\d{1,2})(?:[T ](\d{1,2}):(\d{1,2})(?::(\d{1,2})(?:\.(\d+))?)?(?:(Z)|([+-])(\d{1,2})(?::(\d{1,2}))?)?)?)?)?/;
+
 MochiKit.DateTime.isoTimestamp = function (str) {
     /***
 
@@ -52,13 +54,44 @@ MochiKit.DateTime.isoTimestamp = function (str) {
             YYYY-MM-DDThh:mm:ss
 
     ***/
-    var tmp = str.split(' ');
-    if (tmp.length == 1) {
-        tmp = str.split('T');
+    var res = str.match(MochiKit.DateTime._isoRegexp);
+    if (typeof(res) == "undefined" || res == null) {
+        return null;
     }
-    var iso = tmp[0].split('-');
-    var t = tmp[1].split(':');
-    return new Date(iso[0], iso[1] - 1, iso[2], t[0], t[1], t[2]);
+    var year, month, day, hour, min, sec, msec;
+    year = parseInt(res[1], 10);
+    if (typeof(res[2]) == "undefined") {
+        return new Date(year);
+    }
+    month = parseInt(res[2], 10) - 1;
+    day = parseInt(res[3], 10);
+    if (typeof(res[4]) == "undefined") {
+        return new Date(year, month, day);
+    }
+    hour = parseInt(res[4], 10);
+    min = parseInt(res[5], 10);
+    sec = (typeof(res[6]) != "undefined") ? parseInt(res[6], 10) : 0;
+    if (typeof(res[7]) != "undefined") {
+        msec = Math.round(1000.0 * parseFloat("0." + res[7]));
+    } else {
+        msec = 0;
+    }
+    if (typeof(res[8]) == "undefined" && typeof(res[9]) == "undefined") {
+        return new Date(year, month, day, hour, min, sec, msec);
+    }
+    var ofs;
+    if (typeof(res[9]) != "undefined") {
+        ofs = parseInt(res[10], 10) * 3600;
+        if (typeof(res[11]) != "undefined") {
+            ofs += parseInt(res[11], 10) * 60;
+        }
+        if (res[9] == "-") {
+            ofs = -ofs;
+        }
+    } else {
+        ofs = 0;
+    }
+    return new Date(Date.UTC(year, month, day, hour, min, sec, msec) + ofs);
 };
 
 MochiKit.DateTime.toISOTime = function (date) {
@@ -81,7 +114,7 @@ MochiKit.DateTime.toISOTimestamp = function (date, realISO) {
         Convert a Date object to something that's ALMOST but not quite an
         ISO 8601 timestamp.  If it was a proper ISO timestamp it would be:
 
-            YYYY-MM-DDThh:mm:ss
+            YYYY-MM-DDThh:mm:ssZ
 
         However, we see junk in SQL and other places that looks like this:
 
@@ -92,7 +125,11 @@ MochiKit.DateTime.toISOTimestamp = function (date, realISO) {
 
     ***/
     var sep = realISO ? "T" : " ";
-    return MochiKit.DateTime.toISODate(date) + sep + MochiKit.DateTime.toISOTime(date);
+    var foot = realISO ? "Z" : "";
+    if (realISO) {
+        date = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
+    }
+    return MochiKit.DateTime.toISODate(date) + sep + MochiKit.DateTime.toISOTime(date) + foot;
 };
 
 MochiKit.DateTime.toISODate = function (date) {

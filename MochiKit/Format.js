@@ -61,8 +61,8 @@ MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, loca
     } else {
         separatorAt = tmp[1].length;
     }
-    var leadingZeros = whole.length - whole.replace(/0+/, "").length;
-    var trailingZeros = frac.length - frac.replace(/0+/, "").length;
+    var leadingZeros = whole.length - whole.replace(/0/g, "").length;
+    var trailingZeros = frac.length - frac.replace(/0/g, "").length;
     var precision = frac.length;
     return function (num) {
         num = parseFloat(num);
