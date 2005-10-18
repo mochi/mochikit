@@ -13,7 +13,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 28});
+    plan({'tests': 42});
    
     is( truncToFixed(0.1234, 3), "0.123", "truncToFixed truncate" );
     is( truncToFixed(0.12, 3), "0.120", "truncToFixed trailing zeros" );
@@ -49,6 +49,27 @@ try {
     reprIs( lstrip("\r\n\t \r", "\r"), "\n\t \r", "lstrip custom chars" );
     reprIs( rstrip("\r\n\t \r", "\r"), "\r\n\t ", "rstrip custom chars" );
     reprIs( strip("\r\n\t \r", "\r"), "\n\t ", "strip custom chars" );
+
+    var nf = numberFormatter("$###,###.00 footer");
+    is( nf(1000.1), "$1,000.10 footer", "trailing zeros" );
+    is( nf(1000000.1), "$1,000,000.10 footer", "two seps" );
+    is( nf(100), "$100.00 footer", "shorter than sep" );
+    is( nf(100.555), "$100.56 footer", "rounding" );
+    is( nf(-100.555), "$-100.56 footer", "default neg" );
+    nf = numberFormatter("-$###,###.00");
+    is( nf(-100.555), "-$100.56", "custom neg" );
+    nf = numberFormatter("0000.0000");
+    is( nf(0), "0000.0000", "leading and trailing" );
+    is( nf(1.1), "0001.1000", "leading and trailing" );
+    is( nf(12345.12345), "12345.1235", "no need for leading/trailing" );
+    nf = numberFormatter("0000.0000");
+    is( nf("taco"), "", "default placeholder" );
+    nf = numberFormatter("###,###.00", "foo", "de_DE");
+    is( nf("taco"), "foo", "custom placeholder" );
+    is( nf(12345.12345), "12.345,12", "de_DE locale" );
+    nf = numberFormatter("#%");
+    is( nf(1), "100%", "trivial percent" );
+    is( nf(0.55), "55%", "percent" );
     
     // Done!
 

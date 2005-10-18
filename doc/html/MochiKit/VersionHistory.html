@@ -11,11 +11,15 @@
 <div class="document">
 <p>2005-XX-XX      v1.00</p>
 <ul class="simple">
+<li>Added advanced number formatting capabilities to MochiKit.Format:
+numberFormatter(pattern[, placeholder=&quot;&quot;[, locale=&quot;default&quot;]]) and
+formatLocale([locale=&quot;default&quot;]).</li>
 <li>Added updatetree(self, obj[, ...]) to MochiKit.Base, and changed
 MochiKit.DOM's updateNodeAttributes(node, attrs) to use it when appropiate.</li>
 <li>Added new MochiKit.DOM createDOMFunc alias: BUTTON</li>
 <li>Added truncToFixed(aNumber, precision) and roundToFixed(aNumber, precision)
 to MochiKit.Format</li>
+<li>Fixed infinite recusion bug when using roundClass(&quot;DIV&quot;, ...)</li>
 </ul>
 <p>2005-10-08      v0.90</p>
 <ul class="simple">
