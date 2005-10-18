@@ -535,7 +535,8 @@ MochiKit.Async.sendXMLHttpRequest = function (req, /* optional */ sendContent) {
                     // XXX: This seems to happen on page change
                     d.errback(err);
                 } else {
-                    // MochiKit.Logging.logDebug("Ignoring XMLHttpRequest, undefined status");
+                    // XXX: this seems to happen when the server is unreachable
+                    d.errback(err);
                 }
             }
         }
