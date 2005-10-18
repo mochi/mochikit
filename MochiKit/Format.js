@@ -65,7 +65,7 @@ MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, loca
     var trailingZeros = frac.length - frac.replace(/0+/, "").length;
     var precision = frac.length;
     return function (num) {
-        num = 0.0 + num;
+        num = parseFloat(num);
         if (typeof(num) == "undefined" || num == null || isNaN(num)) {
             return placeholder;
         }
