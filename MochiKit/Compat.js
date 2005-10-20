@@ -9,7 +9,7 @@ if (typeof(MochiKit.Compat) == 'undefined') {
 }
 
 MochiKit.Compat.NAME = 'MochiKit.Compat';
-MochiKit.Compat.VERSION = '0.90';
+MochiKit.Compat.VERSION = '1.0';
 MochiKit.Compat.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
