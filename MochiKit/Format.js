@@ -112,7 +112,7 @@ MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, loca
     return MochiKit.Format._numberFormatter(
         placeholder, header, footer, locale, isPercent, precision,
         leadingZeros, separatorAt, trailingZeros
-    )
+    );
 };
 
 MochiKit.Format.formatLocale = function (locale) {
