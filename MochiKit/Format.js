@@ -30,7 +30,30 @@ MochiKit.Format.toString = function () {
 };
 
 MochiKit.Format._numberFormatter = function (placeholder, header, footer, locale, isPercent, precision, leadingZeros, separatorAt, trailingZeros) {
+    if (typeof(diag) == "undefined") { diag = function () {}; }
+    diag("==== BEGIN ====");
+    diag("placeholder: " + repr(placeholder));
+    diag("header: " + repr(header));
+    diag("footer: " + repr(footer));
+    diag("locale: " + serializeJSON(locale));
+    diag("isPercent: " + repr(isPercent));
+    diag("precision: " + repr(precision));
+    diag("leadingZeros: " + repr(leadingZeros));
+    diag("separatorAt: " + repr(separatorAt));
+    diag("trailingZeros: " + repr(trailingZeros));
+    diag("---- END ----");
     return function (num) {
+    diag("==== BEGIN CALL ====");
+    diag("placeholder: " + repr(placeholder));
+    diag("header: " + repr(header));
+    diag("footer: " + repr(footer));
+    diag("locale: " + serializeJSON(locale));
+    diag("isPercent: " + repr(isPercent));
+    diag("precision: " + repr(precision));
+    diag("leadingZeros: " + repr(leadingZeros));
+    diag("separatorAt: " + repr(separatorAt));
+    diag("trailingZeros: " + repr(trailingZeros));
+    diag("---- END CALL ----");
         num = parseFloat(num);
         if (typeof(num) == "undefined" || num == null || isNaN(num)) {
             return placeholder;

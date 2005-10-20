@@ -774,6 +774,11 @@ MochiKit.Base.repr = function (o) {
 
     ***/
 
+    if (typeof(o) == "undefined") {
+        return "undefined";
+    } else if (o === null) {
+        return "null";
+    }
     try {
         if (typeof(o.__repr__) == 'function') {
             return o.__repr__();
@@ -808,14 +813,6 @@ MochiKit.Base.reprString = function (o) {
 
 MochiKit.Base.reprNumber = function (o) {
     return o.toString();
-};
-
-MochiKit.Base.reprUndefined = function (o) {
-    return "undefined";
-};
-
-MochiKit.Base.reprNull = function (o) {
-    return "null";
 };
 
 MochiKit.Base.registerJSON = function (name, check, wrap, /* optional */override) {
@@ -1249,9 +1246,7 @@ MochiKit.Base.EXPORT_OK = [
     "compareArrayLike",
     "reprArrayLike",
     "reprString",
-    "reprNumber",
-    "reprUndefined",
-    "reprNull"
+    "reprNumber"
 ];
 
 
@@ -1274,8 +1269,6 @@ MochiKit.Base.__new__ = function () {
     this.registerRepr("arrayLike", this.isArrayLike, this.reprArrayLike);
     this.registerRepr("string", this.typeMatcher("string"), this.reprString);
     this.registerRepr("numbers", this.typeMatcher("number", "boolean"), this.reprNumber);
-    this.registerRepr("undefined", this.isUndefined, this.reprUndefined);
-    this.registerRepr("null", this.isNull, this.reprNull);
 
     this.jsonRegistry = new this.AdapterRegistry();
 
