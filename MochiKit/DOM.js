@@ -715,6 +715,9 @@ MochiKit.DOM.__new__ = function () {
             return filter(attributeArray.ignoreAttrFilter, node.attributes);
         }
         attributeArray.ignoreAttr = {};
+        MochiKit.Iter.forEach(document.createElement("br").attributes, function (a) {
+            attributeArray.ignoreAttr[a.name] = a.value;
+        });
         MochiKit.Iter.forEach(__tmpElement.attributes, function (a) {
             attributeArray.ignoreAttr[a.name] = a.value;
         });
