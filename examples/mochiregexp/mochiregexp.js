@@ -3,11 +3,11 @@ RegExpManager = function () {
 };
 
 RegExpManager.prototype.initialize = function () {
-    updateNodeAttributes("input_text", {
+    updateNodeAttributes("inp_text", {
         "value": "matched with your pattern",
         "onchange": this.changeText
     });
-    updateNodeAttributes("input_regexp", {
+    updateNodeAttributes("inp_regexp", {
         "value": "/(pattern)/",
         "onchange": this.changeRegExp
     });
@@ -25,7 +25,7 @@ RegExpManager.prototype.update = function () {
         log("error: " + e);
         return;
     }
-    var result = getElement("input_text").value.match(re);
+    var result = getElement("inp_text").value.match(re);
     if (result) {
         replaceChildNodes("result_body",
             map(function (kv) {
