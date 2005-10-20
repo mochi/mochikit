@@ -1,8 +1,22 @@
 // # $Id: Kinetic.pm 1493 2005-04-07 19:20:18Z theory $
 
+if (typeof JSAN != 'undefined') JSAN.use('Test.Harness');
+else {
+    if (typeof Test == 'undefined') Test = {};
+    if (!Test.Harness) Test.Harness = {};
+}
+
 if (window.parent != window &&
     location.href.replace(/[?#].+/, "") == parent.location.href.replace(/[?#].+/, ""))
 {
+
+    // Build fake T.H.B so original script from this file doesn't throw
+    // exception. This is a bit of a hack...
+    Test.Harness.Browser = function() {
+        this.runTests = function() {},
+        this.encoding = function () { return this }
+    };
+
     // We're in a test iframe. Set up the necessary parts and load the
     // test script with XMLHttpRequest (to support Safari and Opera).
     var __MY = {};
@@ -10,59 +24,55 @@ if (window.parent != window &&
     __MY.pre.id = "test";
     if (window.parent.Test.Harness.Browser._encoding) {
         // Set all scripts to use the appropriate encoding.
-        __MY.encoding = window.parent.Test.Harness.Browser._encoding;
         __MY.scripts = document.getElementsByTagName('script');
         for (var j = 0; j < __MY.scripts.length; j++) {
-            __MY.scripts[j].charset = __MY.encoding;
+            __MY.scripts[j].charset =
+                window.parent.Test.Harness.Browser._encoding;
         }
     }
 
     // XXX replace with a script element at some point? Safari is due to
-    // have this working soon:
+    // have this working soon (not sure about IE or Opera):
     // http://bugzilla.opendarwin.org/show_bug.cgi?id=3748
-    __MY.runit = function (scripts) {
-        var req = typeof XMLHttpRequest != 'undefined'
-          ? new XMLHttpRequest()
-          : new ActiveXObject("Microsoft.XMLHTTP");
+    __MY.inc = window.parent.Test.Harness.Browser.includes;
+    __MY.req = typeof XMLHttpRequest != 'undefined'
+      ? new XMLHttpRequest()
+      : new ActiveXObject("Microsoft.XMLHTTP");
 
-        for (var i = 0; i < scripts.length; i++) {
-            req.open("GET", scripts[i], false);
-            req.send(null);
-            var stat = req.status;
-            //           OK   Not Modified    IE Cached   Safari cached
-            if (stat == 200 || stat == 304 || stat == 0 || stat == null) {
-                eval(req.responseText);
-            } else {
-                throw new Error("Unable to load " + url + ': Status ' + req.status);
-            }
+    for (var k = 0; k < __MY.inc.length; k++) {
+        __MY.req.open("GET", __MY.inc[k], false);
+        __MY.req.send(null);
+        var stat = __MY.req.status;
+        //           OK   Not Modified    IE Cached   Safari cached
+        if (stat == 200 || stat == 304 || stat == 0 || stat == null) {
+            eval(__MY.req.responseText);
+        } else {
+            throw new Error(
+                "Unable to load " + __MY.inc[k]
+                + ': Status ' + __MY.req.status
+            );
         }
-    };
+    }
 
-    __MY.runit(window.parent.Test.Harness.Browser.includes);
-    document.getElementsByTagName("body")[0].appendChild(__MY.pre);
+    // IE 6 SP 2 doesn't seem to run the onload() event, so we force the
+    // issue.
+    Test.Builder._finish(Test);
 
-    // Build fake T.H.B so original script from this file doesn't throw
-    // exception. This is a bit of a hack...
-    if (typeof(Test) == 'undefined') Test = {};
-    if (!Test.Harness) Test.Harness = {};
-    Test.Harness.Browser = function() {
-        this.runTests = function() {},
-        this.encoding = function () { return this }
-    };
+    // XXX Opera throws a DOM exception here, but I don't know what to do
+    // about that.
+    __MY.body = document.body
+        || document.getElementsByTagName("body")[0].appendChild(__MY.pre);
+    if (__MY.body) __MY.body.appendChild(__MY.pre);
+    else if (document.appendChild) document.appendChild(__MY.pre);
 
 } else {
-    if (typeof JSAN != 'undefined') JSAN.use('Test.Harness');
-    else {
-        if (typeof Test == 'undefined') Test = {};
-        if (!Test.Harness) Test.Harness = {};
-    }
     Test.Harness.Browser = function () {
         this.includes = Test.Harness.Browser.includes = [];
         Array.prototype.push.apply(Test.Harness.Browser.includes, arguments);
         this.includes.push('');
     };
 
-    Test.Harness.Browser.VERSION = '0.12';
+    Test.Harness.Browser.VERSION = '0.21';
 
     Test.Harness.Browser.runTests = function () {
         var harness = new Test.Harness.Browser();
@@ -179,14 +189,24 @@ if (window.parent != window &&
             });
         } else {
             // Damn. We have to set timeouts. :-(
+            var pkg;
             var wait = function () {
                 // Check Test.Harness.Done. If it's non-zero, then we know
                 // that the buffer is fully loaded, because it has incremented
-                // Test.Harness.Done.
+                // Test.Harness.Done. Grrr.. IE 6 SP 2 seems to delete
+                // buffer.Test after all the tests have finished running, but
+                // before this code executes for the correct number of
+                // completed tests. So we cache it in a variable outside of
+                // the function on previous calls to the function.
+                if (!pkg) pkg = buffer.Test;
                 if (Test.Harness.Done > 0
-                    && Test.Harness.Done >= buffer.Test.Builder.Instances.length)
+                    && Test.Harness.Done >= pkg.Builder.Instances.length)
                 {
                     Test.Harness.Done = 0;
+                    // Avoid race condition by resetting the instances, too. I
+                    // have no idea why this might remain set from a previous
+                    // test, but such can be the case in IE 6 SP 2.
+                    pkg.Builder.Instances = [];
                     runner();
                 } else {
                     window.setTimeout(wait, harness.interval);
@@ -209,15 +229,16 @@ if (window.parent != window &&
         if (/\.html$/.test(file)) {
             buffer.location.replace(file);
         } else { // if (/\.js$/.test(file)) {
-            if (/MSIE/.test(navigator.userAgent) // Covers Opera, too.
+            if (/MSIE/.test(navigator.userAgent)
+                || /Opera/.test(navigator.userAgent)
                 || /Safari/.test(navigator.userAgent))
             {
-                // These browsers have problems with the DOM solution.  It
+                // These browsers have problems with the DOM solution. It
                 // simply doesn't work in Safari, and Opera considers its
                 // handling of buffer.document to be a security violation. So
                 // have them use the XML hack, instead.
                 this.includes[this.includes.length-1] = file;
-                buffer.location.replace(location.href + "?xml-hack");
+                buffer.location.replace(location.pathname + "?xml-hack=1");
                 return;
             }
             // document.write() simply doesn't work here. Thanks to
@@ -226,32 +247,53 @@ if (window.parent != window &&
             doc.open("text/html");
             doc.close();
             var el;
+
+            // XXX Opera chokes on this line. It thinks that using the doc
+            // element like this is a security violation, never mind that we
+            // were the ones who actually created it. Whatever!
             var body = doc.body || doc.getElementsByTagName("body")[0];
             var head = doc.getElementsByTagName("head")[0];
+
+            // Safari seems to be headless at this point.
             if (!head) {
                 head = doc.createElement('head');
                 doc.appendChild(head);
             }
+
+            // Add script elements for all includes.
             for (var i = 0; i < this.includes.length - 1; i++) {
                 el = doc.createElement("script");
                 el.setAttribute("src", this.includes[i]);
                 head.appendChild(el);
             }
+
+
+            // Create the pre and script element for the test file.
             var pre = doc.createElement("pre");
             pre.id = "test";
             el = doc.createElement("script");
             el.type = "text/javascript";
             if (this.encoding()) el.charset = this.encoding();
+
             // XXX This doesn't work in Safari right now. See
             // http://bugzilla.opendarwin.org/show_bug.cgi?id=3748
-            // Put in XMLhttpRequest => eval, instead?
             el.src = file;
             pre.appendChild(el);
+
+            // Create a script element to finish the tests.
             el = doc.createElement("script");
             el.type = "text/javascript";
-            // XXX IE chokes on this line.
-            el.appendChild(doc.createTextNode("window.onload(null, Test)"))
+            var text = "window.onload(null, Test)";
+
+            // IE doesn't let script elements have children.
+            if (null != el.canHaveChildren) el.text = text;
+            // But most other browsers do.
+            else el.appendChild(document.createTextNode(text));
+
             pre.appendChild(el);
+
+            // IE 6 SP 2 Requires getting the body element again.
+            body = doc.body || doc.getElementsByTagName("body")[0];
             body.appendChild(pre);
         /* Let's just assume that if it's not .html, it's JavaScript.
         } else {

@@ -15,11 +15,8 @@ if (typeof self != 'undefined') {
 
 // Constructor.
 Test.Builder = function () {
-    if (!Test.Builder.Test) {
-        Test.Builder.Test = this.reset();
-        Test.Builder.Instances.push(this);
-    }
-    return Test.Builder.Test;
+    Test.Builder.Instances.push(this.reset());
+    if (!Test.Builder.Test) Test.Builder.Test = this;
 };
 
 // Static variables.
@@ -31,7 +28,7 @@ Test.Builder.globalScope = typeof JSAN != 'undefined'
       ? _global
       : null;
 
-Test.Builder.VERSION = '0.12';
+Test.Builder.VERSION = '0.21';
 Test.Builder.Instances = [];
 Test.Builder.lineEndingRx = /\r?\n|\r/g;
 Test.Builder.StringOps = {
@@ -46,7 +43,7 @@ Test.Builder.StringOps = {
 // Stoopid IE.
 Test.Builder.LF = typeof navigator != "undefined"
     && navigator.userAgent.toLowerCase().indexOf('msie') + 1
-    && typeof Test.Builder.globalScope.opera != "undefined"
+    && Test.Builder.globalScope.opera == undefined
   ? "\r"
   : "\n";
 
@@ -75,14 +72,21 @@ Test.Builder.typeOf = function (object) {
     return name;
 };
 
-// Instance methods.
-Test.Builder.create = function () {
-    var test = Test.Builder.Test;
-    Test.Builder.Test = null;
-    var ret = new Test.Builder();
-    Test.Builder.Test = test;
-    return ret.reset();
+Test.Builder.instance = function () {
+    if (!Test.Builder.Test) return new Test.Builder();
+    return Test.Builder.Test;
 };
+
+Test.Builder.create = function () {
+    var ret = new Test.Builder();
+    ret.diag(
+        "Test.Builder.create() has been deprecated. "
+        + "Use new Test.Builder() instead"
+    );
+    return ret;
+};
+
+// Instance methods.
 
 Test.Builder.prototype.reset = function () {
     this.TestDied      = false;
@@ -154,7 +158,7 @@ Test.Builder.prototype.expectedTests = function (max) {
         }
 
         this.ExpectedTests = max.valueOf();
-        this.HavePlan       = 1;
+        this.HavePlan       = true;
         if (!this.noHeader()) this._print("1.." + max + Test.Builder.LF);
     }
     return this.ExpectedTests;
@@ -581,7 +585,10 @@ Test.Builder.prototype._setupOutput = function () {
 
             // Default to the normal write and scroll down...
             doc.write(msg);
-            top.scrollTo(0, body.offsetHeight || body.scrollHeight);
+            // IE 6 Service Pack 2 requires that we re-cache the object. Bill
+            // Gates only knows why!
+            body = doc.body || doc.getElementsByTagName("body")[0];
+            if (body) top.scrollTo(0, body.offsetHeight || body.scrollHeight);
         };
 
         this.output(writer);
@@ -763,17 +770,22 @@ Test.Builder.prototype.isUndef = function (got, op, expect, desc) {
     return test;
 };
 
+Test.Builder._finish = function (pkg) {
+    if (!pkg) pkg = Test;
+    for (var i = 0; i < pkg.Builder.Instances.length; i++) {
+        // The main process is always async ID 0.
+        if (!pkg.Builder.Instances[i].Ended)
+            pkg.Builder.Instances[i].endAsync(0);
+    }
+};
+
 if (Test.Builder.globalScope) {
     // Set up an onload function to end all tests.
     Test.Builder.globalScope.onload = function (event, pkg) {
         // The package may be passed in if onload() is called explicitly.
         // This is to get around a very weird scoping bug in my version of
         // Firefox. See Test.Harness.Browser.runTest() for this usage.
-        if (!pkg) pkg = this.Test;
-        for (var i = 0; i < pkg.Builder.Instances.length; i++) {
-            // The main process is always async ID 0.
-            pkg.Builder.Instances[i].endAsync(0);
-        }
+        Test.Builder._finish(pkg)
     };
 
     // Set up an exception handler. This is so that we can capture deaths but
