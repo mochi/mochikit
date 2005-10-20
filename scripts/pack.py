@@ -10,7 +10,10 @@ import shutil
 import tempfile
 import subprocess
 mk = file('MochiKit/MochiKit.js').read()
-outf = file('packed/MochiKit/MochiKit.js', 'w')
+if len(sys.argv) > 1:
+    outf = sys.stdout
+else:
+    outf = file('packed/MochiKit/MochiKit.js', 'w')
 VERSION = re.search(
     r"""(?mxs)MochiKit.MochiKit.VERSION\s*=\s*['"]([^'"]+)""",
     mk
