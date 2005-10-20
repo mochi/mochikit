@@ -216,11 +216,7 @@ MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
                     if (typeof(v) == "string") {
                         v = new Function(v);
                     }
-                    try {
-                        elem[k] = v;
-                    } catch (e) {
-                        // pass
-                    }
+                    elem[k] = v;
                 } else {
                     elem.setAttribute(k, v);
                 }
