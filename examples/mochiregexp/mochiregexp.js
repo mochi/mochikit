@@ -5,7 +5,7 @@ RegExpManager = function () {
 RegExpManager.prototype.initialize = function () {
     updateNodeAttributes("inp_text", {
         "value": "matched with your pattern",
-        "onchange": this.changeText
+        "onchange": this.changeInput
     });
     updateNodeAttributes("inp_regexp", {
         "value": "/(pattern)/",
