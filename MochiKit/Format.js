@@ -117,8 +117,8 @@ MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, loca
         header = header + "-";
     }
     var whole = match[1];
-    var frac = (typeof(match[2]) == "string") ? match[2] : "";
-    var isPercent = (typeof(match[3]) == "string");
+    var frac = (typeof(match[2]) == "string" && match[2] != "") ? match[2] : "";
+    var isPercent = (typeof(match[3]) == "string" && match[3] != "");
     var tmp = whole.split(/,/);
     var separatorAt;
     if (typeof(locale) == "undefined") {
