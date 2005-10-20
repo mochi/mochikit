@@ -19,14 +19,15 @@ Test.More.EXPORT = [
     'cmpOK', 'canOK', 'isaOK',
     'pass', 'fail', 'diag', 'loadOK',
     'skip', 'todo', 'todoSkip', 'skipRest',
-    'isDeeply', 'isSet', 'isa'
+    'isDeeply', 'isSet', 'isa',
+    'beginAsync', 'endAsync'
 ];
 Test.More.EXPORT_TAGS = { ':all': Test.More.EXPORT };
-Test.More.VERSION     = '0.12';
+Test.More.VERSION     = '0.21';
 
 Test.More.ShowDiag = true;
 Test.Builder.DNE = { dne: 'Does not exist' };
-Test.More.Test = new Test.Builder();
+Test.More.Test = Test.Builder.instance();
 Test.More.builder = function () { return Test.More.Test; };
 
 Test.More.plan = function (cmds) {
@@ -424,6 +425,14 @@ Test.More.isSet = function (a1, a2, desc) {
 Test.More.isa = function (object, clas) {
     return Test.Builder.typeOf(object) == clas;
 };
+
+Test.More.beginAsync = function (timeout) {
+    return Test.More.Test.beginAsync(timeout);
+}
+
+Test.More.endAsync = function (id) {
+    return Test.More.Test.endAsync(id);
+}
 
 // Handle exporting.
 if (typeof JSAN == 'undefined') Test.Builder.exporter(Test.More);

@@ -14,14 +14,14 @@ if (typeof self != 'undefined') {
 }
 
 Test.Harness = function () {};
-Test.Harness.VERSION = '0.12';
+Test.Harness.VERSION = '0.21';
 Test.Harness.Done = 0;
 
 // Stoopid IE.
 Test.Harness.LF = typeof navigator != "undefined"
     && navigator.userAgent.toLowerCase().indexOf('msie') + 1
-    && ( ( typeof JSAN != "undefined" && JSAN.globalScope.opera != "undefined" )
-         || typeof Test.Builder.globalScope.opera != "undefined" )
+    && ( ( typeof JSAN != "undefined" && JSAN.globalScope.opera == undefined )
+         || ( Test.PLATFORM == 'browser' && window.opera == undefined ) )
   ? "\r"
   : "\n";
 

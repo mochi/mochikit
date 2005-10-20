@@ -273,8 +273,13 @@ JSAN.Request.prototype = {
         this._req.open("GET", url, false);
         try {
             this._req.send(null);
-            if (this._req.status == 200 || this._req.status == 0)
-                return this._req.responseText;
+            var stat = this._req.status;
+            //           OK   Not Modified    IE Cached   Safari cached
+            if (stat == 200 || stat == 304 || stat == 0 || stat == null) {
+                var r = this._req.responseText;
+                this._req = null;
+                return r;
+            }
         } catch (e) {
             JSAN._handleError("File not found: " + url);
             return null;
