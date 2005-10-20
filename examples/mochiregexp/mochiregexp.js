@@ -20,7 +20,7 @@ RegExpManager.prototype.initialize = function () {
 RegExpManager.prototype.update = function () {
     var re;
     try {
-        re = eval("(" + getElement("input_regexp").value + ")");
+        re = eval("(" + getElement("inp_regexp").value + ")");
     } catch (e) {
         log("error: " + e);
         return;
