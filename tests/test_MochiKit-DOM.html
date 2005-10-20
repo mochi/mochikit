@@ -47,8 +47,8 @@ try {
     isDOM( d, '<span baz="wibble" foo="bar"/>', "updateNodeAttributes" );
 
     var d = document.createElement('span');
-    appendChildNodes(d, 'word up', [document.createElement('br')]);
-    isDOM( d, '<span>word up<br/></span>', 'appendChildNodes' );
+    appendChildNodes(d, 'word up', [document.createElement('span')]);
+    isDOM( d, '<span>word up<span/></span>', 'appendChildNodes' );
 
     replaceChildNodes(d, 'Think Different');
     isDOM( d, '<span>Think Different</span>', 'replaceChildNodes' );
