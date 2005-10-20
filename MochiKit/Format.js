@@ -29,41 +29,7 @@ MochiKit.Format.toString = function () {
     return this.__repr__();
 };
 
-MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, locale/* = "default" */) {
-    // http://java.sun.com/docs/books/tutorial/i18n/format/numberpattern.html
-    // | 0 | leading or trailing zeros
-    // | # | just the number
-    // | , | separator
-    // | . | decimal separator
-    // | % | Multiply by 100 and format as percent
-    if (typeof(placeholder) == "undefined") {
-        placeholder = "";
-    }
-    var match = pattern.match(/((?:[0#]+,)?[0#]+)(?:\.([0#]+))?(%)?/);
-    if (!match) {
-        throw TypeError("Invalid pattern");
-    }
-    var header = pattern.substr(0, match.index);
-    var footer = pattern.substr(match.index + match[0].length);
-    if (header.search(/-/) == -1) {
-        header = header + "-";
-    }
-    var whole = match[1];
-    var frac = (typeof(match[2]) == "string") ? match[2] : "";
-    var isPercent = (typeof(match[3]) == "string");
-    var tmp = whole.split(/,/);
-    var separatorAt;
-    if (typeof(locale) == "undefined") {
-        locale = "default";
-    }
-    if (tmp.length == 1) {
-        separatorAt = null;
-    } else {
-        separatorAt = tmp[1].length;
-    }
-    var leadingZeros = whole.length - whole.replace(/0/g, "").length;
-    var trailingZeros = frac.length - frac.replace(/0/g, "").length;
-    var precision = frac.length;
+MochiKit.Format._numberFormatter = function (placeholder, header, footer, locale, isPercent, precision, leadingZeros, separatorAt, trailingZeros) {
     return function (num) {
         num = parseFloat(num);
         if (typeof(num) == "undefined" || num == null || isNaN(num)) {
@@ -106,6 +72,47 @@ MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, loca
         }
         return curheader + res + curfooter;
     };
+};
+
+MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, locale/* = "default" */) {
+    // http://java.sun.com/docs/books/tutorial/i18n/format/numberpattern.html
+    // | 0 | leading or trailing zeros
+    // | # | just the number
+    // | , | separator
+    // | . | decimal separator
+    // | % | Multiply by 100 and format as percent
+    if (typeof(placeholder) == "undefined") {
+        placeholder = "";
+    }
+    var match = pattern.match(/((?:[0#]+,)?[0#]+)(?:\.([0#]+))?(%)?/);
+    if (!match) {
+        throw TypeError("Invalid pattern");
+    }
+    var header = pattern.substr(0, match.index);
+    var footer = pattern.substr(match.index + match[0].length);
+    if (header.search(/-/) == -1) {
+        header = header + "-";
+    }
+    var whole = match[1];
+    var frac = (typeof(match[2]) == "string") ? match[2] : "";
+    var isPercent = (typeof(match[3]) == "string");
+    var tmp = whole.split(/,/);
+    var separatorAt;
+    if (typeof(locale) == "undefined") {
+        locale = "default";
+    }
+    if (tmp.length == 1) {
+        separatorAt = null;
+    } else {
+        separatorAt = tmp[1].length;
+    }
+    var leadingZeros = whole.length - whole.replace(/0/g, "").length;
+    var trailingZeros = frac.length - frac.replace(/0/g, "").length;
+    var precision = frac.length;
+    return MochiKit.Format._numberFormatter(
+        placeholder, header, footer, locale, isPercent, precision,
+        leadingZeros, separatorAt, trailingZeros
+    )
 };
 
 MochiKit.Format.formatLocale = function (locale) {
