@@ -15,10 +15,13 @@ VERSION = re.search(
     r"""(?mxs)MochiKit.MochiKit.VERSION\s*=\s*['"]([^'"]+)""",
     mk
 ).group(1)
-SUBMODULES = (["Compat"] + map(str.strip, re.search(
-    r"""(?mxs)MochiKit.MochiKit.SUBMODULES\s*=\s*\[([^\]]+)""",
-    mk
-).group(1).replace(' ', '').replace('"', '').split(',')))
+if len(sys.argv) > 1:
+    SUBMODULES = sys.argv[1:]
+else:
+    SUBMODULES = (["Compat"] + map(str.strip, re.search(
+        r"""(?mxs)MochiKit.MochiKit.SUBMODULES\s*=\s*\[([^\]]+)""",
+        mk
+    ).group(1).replace(' ', '').replace('"', '').split(',')))
 alltext = '\n'.join(
     [file('MochiKit/%s.js' % m).read() for m in SUBMODULES]
     + [mk])
