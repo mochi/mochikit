@@ -1,14 +1,17 @@
 RegExpManager = function () {
+    this.timer = null;
     bindMethods(this);
 };
 
 RegExpManager.prototype.initialize = function () {
     updateNodeAttributes("inp_text", {
         "value": "matched with your pattern",
+        "onkeyup": partial(this.doSoon, this.changeInput),
         "onchange": this.changeInput
     });
     updateNodeAttributes("inp_regexp", {
         "value": "/(pattern)/",
+        "onkeyup": partial(this.doSoon, this.changeRegExp),
         "onchange": this.changeRegExp
     });
     updateNodeAttributes("regexp_form", {
@@ -17,14 +20,28 @@ RegExpManager.prototype.initialize = function () {
     this.update();
 };
 
+RegExpManager.prototype.doSoon = function (doWhat) {
+    this.cancelTimer();
+    this.timer = callLater(0.5, doWhat);
+};
+
+RegExpManager.prototype.cancelTimer = function () {
+    if (this.timer) {
+        this.timer.cancel();
+    }
+    this.timer = null;
+};
+
 RegExpManager.prototype.update = function () {
     var re;
+    this.cancelTimer();
     try {
         re = eval("(" + getElement("inp_regexp").value + ")");
     } catch (e) {
-        log("error: " + e);
+        addElementClass("lab_regexp", "error");
         return;
     }
+    removeElementClass("lab_regexp", "error");
     var result = getElement("inp_text").value.match(re);
     if (result) {
         replaceChildNodes("result_body",
@@ -57,18 +74,15 @@ RegExpManager.prototype.update = function () {
 };
 
 RegExpManager.prototype.submit = function () {
-    log("submit");
     this.update();
     return false;
 };
 
 RegExpManager.prototype.changeInput = function () {
-    log("text changed");
     this.update();
 };
 
 RegExpManager.prototype.changeRegExp = function () {
-    log("regexp changed");
     this.update();
 };
 

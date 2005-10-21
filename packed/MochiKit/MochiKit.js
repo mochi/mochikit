@@ -2182,7 +2182,13 @@ return _265;
 });
 }
 var _267=setTimeout(bind(d.callback,d),Math.floor(_264*1000));
-d.canceller=_266(clearTimeout,_267);
+d.canceller=function(){
+try{
+clearTimeout(_267);
+}
+catch(e){
+}
+};
 return d;
 };
 MochiKit.Async.callLater=function(_268,func){

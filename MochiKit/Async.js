@@ -588,7 +588,13 @@ MochiKit.Async.wait = function (seconds, /* optional */value) {
         d.addCallback(function () { return value; });
     }
     var timeout = setTimeout(bind(d.callback, d), Math.floor(seconds * 1000));
-    d.canceller = partial(clearTimeout, timeout);
+    d.canceller = function () {
+        try {
+            clearTimeout(timeout);
+        } catch (e) {
+            // pass
+        }
+    };
     return d;
 };
 

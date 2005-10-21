@@ -39,23 +39,25 @@ of dates and timestamps.  MochiKit.Date does that.</p>
 Convert an ISO 8601 date (YYYY-MM-DD) to a <tt class="docutils literal"><span class="pre">Date</span></tt> object.</blockquote>
 <p><tt class="docutils literal"><span class="pre">isoTimestamp(str)</span></tt>:</p>
 <blockquote>
-<p>Convert a subset of ISO 8601 <a class="footnote-reference" href="#id3" id="id1" name="id1">[1]</a> timestamps (or something close to it)
+<p>Convert any ISO 8601 <a class="footnote-reference" href="#id3" id="id1" name="id1">[1]</a> timestamp (or something reasonably close to it)
 to a <tt class="docutils literal"><span class="pre">Date</span></tt> object.  Will accept the &quot;de facto&quot; form:</p>
 <blockquote>
 YYYY-MM-DD hh:mm:ss</blockquote>
 <p>or (the proper form):</p>
 <blockquote>
-YYYY-MM-DDThh:mm:ss</blockquote>
+YYYY-MM-DDThh:mm:ssZ</blockquote>
+<p>If a time zone designator (&quot;Z&quot; or &quot;[+-]HH:MM&quot;) is not present, then the
+local timezone is used.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">toISOTime(date)</span></tt>:</p>
 <blockquote>
-Get the hh:mm:ss from the given <tt class="docutils literal"><span class="pre">Date</span></tt> object as a string.</blockquote>
+Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to a string in the form of hh:mm:ss</blockquote>
 <p><tt class="docutils literal"><span class="pre">toISOTimestamp(date,</span> <span class="pre">realISO)</span></tt>:</p>
 <blockquote>
 <p>Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to something that's ALMOST but not quite an
 ISO 8601 [1]_timestamp.  If it was a proper ISO timestamp it would be:</p>
 <blockquote>
-YYYY-MM-DDThh:mm:ss</blockquote>
+YYYY-MM-DDThh:mm:ssZ</blockquote>
 <p>However, we see junk in SQL and other places that looks like this:</p>
 <blockquote>
 YYYY-MM-DD hh:mm:ss</blockquote>
