@@ -1,5 +1,7 @@
 2005-XX-XX      v1.00
 
+- New mochiregexp example that demonstrates MochiKit.DOM and MochiKit.Async
+  in order to provide a live regular expression matching tool
 - Added advanced number formatting capabilities to MochiKit.Format:
   numberFormatter(pattern[, placeholder=""[, locale="default"]]) and
   formatLocale([locale="default"])
@@ -14,6 +16,8 @@
 - Fixed missing errback for sendXMLHttpRequest when the server does not
   respond
 - Fixed infinite recusion bug when using roundClass("DIV", ...)
+- Fixed a bug in MochiKit.Async wait (and callLater) that prevented them
+  from being cancelled properly
 
 2005-10-08      v0.90
 

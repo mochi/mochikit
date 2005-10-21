@@ -68,10 +68,11 @@ table.datagrid tfoot td {  }
 input.textbox, textarea { border: 1px solid #CCCCCC; font-size: .95em; padding: 2px 4px; margin-top: .3em; }
 input.textbox:focus, textarea:focus { background-color: #FFFEE3; }
 
-.highlight { font-weight: bold };
+.highlight { font-weight: bold; };
 form { margin: 0; padding: 0; }
 
 fieldset { border: none; margin: 0; padding: 0; }
-fieldset label { font-weight: bold; color: #4B4545 }
+fieldset label { font-weight: bold; color: #4B4545; }
 fieldset .field { margin-bottom: 1em; }
 
+label.error { color: red; }
