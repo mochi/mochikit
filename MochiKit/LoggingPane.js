@@ -62,13 +62,14 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     }
     var update = MochiKit.Base.update;
     var updatetree = MochiKit.Base.updatetree;
+    var win;
     if (!inline) {
-        this.win = window.open("", "", "dependent,resizable,height=200");
-        if (!this.win) {
+        win = window.open("", "", "dependent,resizable,height=200");
+        if (!win) {
             alert("Not able to open debugging window due to pop-up blocking.");
             return;
         }
-        doc = this.win.document;
+        doc = win.document;
     }
     this.doc = doc;
     var debugPane = doc.createElement("div");
@@ -271,6 +272,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
 
     buildAndApplyFilter();
 
+    this.win = win;
     this.inline = inline;
     this.closePane = MochiKit.Base.bind(closePane, this);
 };
