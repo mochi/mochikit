@@ -34,6 +34,7 @@ MochiKit.MochiKit.SUBMODULES = [
     "Format",
     "Async",
     "DOM",
+    "LoggingPane",
     "Visual"
 ];
 
@@ -52,6 +53,7 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         JSAN.use("MochiKit.Async", []);
         JSAN.use("MochiKit.DOM", []);
         JSAN.use("MochiKit.Visual", []);
+        JSAN.use("MochiKit.LoggingPane", []);
     }
     (function () {
         var extend = MochiKit.Base.extend;

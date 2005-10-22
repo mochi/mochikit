@@ -295,8 +295,12 @@ MochiKit.Logging.Logger.prototype.getMessageText = function (howMany) {
     return '';
 };
 
-MochiKit.Logging.Logger.prototype.debuggingBookmarklet = function () {
-    alert(this.getMessageText());
+MochiKit.Logging.Logger.prototype.debuggingBookmarklet = function (inline) {
+    if (typeof(MochiKit.LoggingPane) == "undefined") {
+        alert(this.getMessageText());
+    } else {
+        MochiKit.LoggingPane.createLoggingPane(inline || false);
+    }
 };
 
 MochiKit.Logging.alertListener = function (msg) {
