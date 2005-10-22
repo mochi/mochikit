@@ -1,5 +1,7 @@
 2005-XX-XX      v1.00
 
+- New MochiKit.LoggingPane for use with the MochiKit.Logging
+  debuggingBookmarklet
 - New mochiregexp example that demonstrates MochiKit.DOM and MochiKit.Async
   in order to provide a live regular expression matching tool
 - Added advanced number formatting capabilities to MochiKit.Format:

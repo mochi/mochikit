@@ -192,10 +192,11 @@ yourself.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">Logger.prototype.debuggingBookmarklet()</span></tt>:</p>
 <blockquote>
-Pop up the contents of the logger in a useful way for browsers,
-currently just an alert with <tt class="docutils literal"><span class="pre">this.getMessageText()</span></tt>.  The idea is to
-make it smarter at some point, and this method allows us to do that
-without changing any bookmarklets.</blockquote>
+<p>Display the contents of the logger in a useful way for browsers.</p>
+<p>Currently, if <a class="reference" href="LoggingPane.html">MochiKit.LoggingPane</a> is loaded, then a pop-up
+LoggingPane will be used.  Otherwise, it will be an alert with
+<tt class="docutils literal"><span class="pre">this.getMessageText()</span></tt>.</p>
+</blockquote>
 </div>
 <div class="section" id="functions">
 <h2><a name="functions">Functions</a></h2>

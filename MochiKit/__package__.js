@@ -9,7 +9,8 @@ dojo.hostenv.conditionalLoadModule({
         "MochiKit.Visual"
     ],
     "browser": [
-        "MochiKit.DOM"
+        "MochiKit.DOM",
+        "MochiKit.LoggingPane"
     ]
 });
 dojo.hostenv.moduleLoaded("MochiKit.*");

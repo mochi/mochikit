@@ -202,10 +202,13 @@ Constructors
 
 ``Logger.prototype.debuggingBookmarklet()``:
 
-    Pop up the contents of the logger in a useful way for browsers,
-    currently just an alert with ``this.getMessageText()``.  The idea is to
-    make it smarter at some point, and this method allows us to do that
-    without changing any bookmarklets.
+    Display the contents of the logger in a useful way for browsers.
+
+    Currently, if `MochiKit.LoggingPane`_ is loaded, then a pop-up
+    LoggingPane will be used.  Otherwise, it will be an alert with
+    ``this.getMessageText()``.
+
+.. _`MochiKit.LoggingPane`: LoggingPane.html
 
 
 Functions
