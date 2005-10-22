@@ -68,7 +68,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
             alert("Not able to open debugging window due to pop-up blocking.");
             return;
         }
-        doc = win.document;
+        doc = this.win.document;
     }
     this.doc = doc;
     var debugPane = doc.createElement("div");
@@ -165,7 +165,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         if (inline) {
             debugPane.parentNode.removeChild(debugPane);
         } else {
-            win.close();
+            this.win.close();
         }
     };
 
