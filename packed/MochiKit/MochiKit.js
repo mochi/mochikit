@@ -2770,7 +2770,7 @@ if(!this.win){
 alert("Not able to open debugging window due to pop-up blocking.");
 return;
 }
-doc=win.document;
+doc=this.win.document;
 }
 this.doc=doc;
 var _356=doc.createElement("div");
@@ -2845,7 +2845,7 @@ _352.removeListener(_364);
 if(_351){
 _356.parentNode.removeChild(_356);
 }else{
-win.close();
+this.win.close();
 }
 };
 var _380=function(){
