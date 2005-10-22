@@ -2793,20 +2793,16 @@ _369=MochiKit.Logging.LogLevel[_369];
 return _369;
 };
 var _370=function(msg){
-var text="";
-for(var i=0;i<msg.info.length;i++){
-text+=msg.info[i];
-}
-return text;
+return msg.info.join(" ");
 };
-var _372=function(msg){
-var _373=_368(msg);
+var _371=function(msg){
+var _372=_368(msg);
 var text=_370(msg);
-var c=_365[_373];
+var c=_365[_372];
 var p=doc.createElement("p");
 p.style.color=c;
 p.style.margin="0";
-p.appendChild(doc.createTextNode(_373+": "+text));
+p.appendChild(doc.createTextNode(_372+": "+text));
 _363.appendChild(p);
 if(typeof (p.scrollIntoView)=="function"){
 p.scrollIntoView();
@@ -2814,7 +2810,7 @@ p.scrollIntoView();
 };
 var _374=function(msg){
 _366[_366.length]=msg;
-_372(msg);
+_371(msg);
 };
 var _375=function(){
 var _376,infore;
@@ -2855,7 +2851,7 @@ _377();
 for(var i=0;i<_366.length;i++){
 var msg=_366[i];
 if(_367==null||_367(msg)){
-_372(msg);
+_371(msg);
 }
 }
 };
