@@ -101,11 +101,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     };
 
     var messageText = function (msg) {
-        var text = "";
-        for (var i = 0; i < msg.info.length; i++) {
-            text += msg.info[i];
-        }
-        return text;
+        return msg.info.join(" ");
     };
 
     var addMessageText = function (msg) {
