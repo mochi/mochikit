@@ -2808,7 +2808,9 @@ p.style.color=c;
 p.style.margin="0";
 p.appendChild(doc.createTextNode(_373+": "+text));
 _363.appendChild(p);
+if(typeof (p.scrollIntoView)=="function"){
 p.scrollIntoView();
+}
 };
 var _374=function(msg){
 _366[_366.length]=msg;

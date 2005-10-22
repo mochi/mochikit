@@ -117,7 +117,9 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         p.style.margin = "0";
         p.appendChild(doc.createTextNode(level + ": " + text));
         logPane.appendChild(p);
-        p.scrollIntoView();
+        if (typeof(p.scrollIntoView) == "function") {
+            p.scrollIntoView();
+        }
     };
 
     var addMessage = function (msg) {
