@@ -113,7 +113,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         if (typeof(p.scrollIntoView) == "function") {
             p.scrollIntoView();
         } else {
-            this.win.scrollTo(0, 9999999);
+            // safari workaround is what?
         }
     }, this);
 
