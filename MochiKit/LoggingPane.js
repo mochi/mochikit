@@ -112,6 +112,8 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         logPane.appendChild(p);
         if (typeof(p.scrollIntoView) == "function") {
             p.scrollIntoView();
+        } else {
+            this.win.scrollTo(0, 9999999);
         }
     }, this);
 
