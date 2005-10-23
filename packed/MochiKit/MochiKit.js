@@ -2809,6 +2809,8 @@ p.appendChild(doc.createTextNode(_373+": "+text));
 _365.appendChild(p);
 if(typeof (p.scrollIntoView)=="function"){
 p.scrollIntoView();
+}else{
+this.win.scrollTo(0,9999999);
 }
 },this);
 var _375=function(msg){
