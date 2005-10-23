@@ -64,8 +64,21 @@ Constructors
         ``inline``:
             ``true`` if the ``LoggingPane`` is inline
 
+        ``colorTable``:
+            An object with property->value mappings for each log level
+            and its color.  May also be mutated on ``LoggingPane.prototype``
+            to affect all instances.  For example::
 
-``Logger.prototype.closePane()``:
+                MochiKit.LoggingPane.LoggingPane.prototype.colorTable = {
+                    DEBUG: "green",
+                    INFO: "black",
+                    WARNING: "blue",
+                    ERROR: "red",
+                    FATAL: "darkred"
+                };
+
+
+``LoggingPane.prototype.closePane()``:
 
     Close the ``LoggingPane``
 

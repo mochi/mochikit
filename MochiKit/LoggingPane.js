@@ -47,7 +47,7 @@ MochiKit.LoggingPane.createLoggingPane = function (inline/* = false */) {
         m._loggingPane.closePane();
         m._loggingPane = null;
     }
-    if (!m._loggingPane) {
+    if (!m._loggingPane || m._loggingPane.closed) {
         m._loggingPane = new LoggingPane(inline, MochiKit.Logging.logger);
     }
     return m._loggingPane;
@@ -62,6 +62,8 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     }
     var update = MochiKit.Base.update;
     var updatetree = MochiKit.Base.updatetree;
+    var bind = MochiKit.Base.bind;
+    var clone = MochiKit.Base.clone;
     var win;
     if (!inline) {
         win = window.open("", "", "dependent,resizable,height=200");
@@ -83,13 +85,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
 
     /* Set up the functions */
     var listenerId = "_debugPaneListener";
-    var colorTable = {
-        "ERROR": "orange",
-        "FATAL": "red",
-        "WARNING": "blue",
-        "INFO": "green",
-        "DEBUG": "silver"
-    };
+    this.colorTable = clone(this.colorTable);
     var messages = [];
     var messageFilter = null;
 
@@ -105,10 +101,10 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         return msg.info.join(" ");
     };
 
-    var addMessageText = function (msg) {
+    var addMessageText = bind(function (msg) {
         var level = messageLevel(msg);
         var text = messageText(msg);
-        var c = colorTable[level];
+        var c = this.colorTable[level];
         var p = doc.createElement("p");
         p.style.color = c;
         p.style.margin = "0";
@@ -117,7 +113,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         if (typeof(p.scrollIntoView) == "function") {
             p.scrollIntoView();
         }
-    };
+    }, this);
 
     var addMessage = function (msg) {
         messages[messages.length] = msg;
@@ -155,9 +151,13 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         clearMessagePane();
     }
 
-    var closePane = function () {
-        if (MochiKit.Logging._loggingPane === this) {
-            MochiKit.Logging._loggingPane = null;
+    var closePane = bind(function () {
+        if (this.closed) {
+            return;
+        }
+        this.closed = true;
+        if (MochiKit.LoggingPane._loggingPane == this) {
+            MochiKit.LoggingPane._loggingPane = null;
         }
         logger.removeListener(listenerId);
 
@@ -166,7 +166,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         } else {
             this.win.close();
         }
-    };
+    }, this);
 
     var filterMessages = function () {
         clearMessagePane();
@@ -197,18 +197,18 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     var filterOnEnter = function (event) {
         event = event || window.event;
         key = event.which || event.keyCode;
-        if(key == 13)
+        if (key == 13) {
             buildAndApplyFilter();
+        }
     };
 
-    var logFont = "8pt Verdana,sans-serif";
     /* Create the debug pane */
     var style = {
         "display": "block",
         "position": "fixed",
         "left": "0px",
         "bottom": "0px",
-        "font": logFont,
+        "font": this.logFont,
         "width": "100%",
         "height": "100%",
         "backgroundColor": "white"
@@ -222,7 +222,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     doc.body.appendChild(debugPane);
 
     /* Create the filter fields */
-    style = {"width": "33%", "display": "inline", "font": logFont};
+    style = {"width": "33%", "display": "inline", "font": this.logFont};
 
     updatetree(levelFilterField, {
         "value": "FATAL|ERROR|WARNING|INFO|DEBUG",
@@ -239,7 +239,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     debugPane.appendChild(infoFilterField);
 
     /* Create the buttons */
-    style = {"width": "8%", "display": "inline", "font": logFont};
+    style = {"width": "8%", "display": "inline", "font": this.logFont};
 
     filterButton.appendChild(doc.createTextNode("Filter"));
     filterButton.onclick = buildAndApplyFilter;
@@ -271,12 +271,24 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     debugPane.appendChild(logPane);
 
     buildAndApplyFilter();
+    loadMessages();
 
     this.win = win;
     this.inline = inline;
-    this.closePane = MochiKit.Base.bind(closePane, this);
+    this.closePane = closePane;
+    this.closed = false;
 };
 
+MochiKit.LoggingPane.LoggingPane.prototype = {
+    "logFont": "8pt Verdana,sans-serif",
+    "colorTable": {
+        "ERROR": "red",
+        "FATAL": "darkred",
+        "WARNING": "blue",
+        "INFO": "black",
+        "DEBUG": "green"
+    }
+};
 
 
 MochiKit.LoggingPane.EXPORT_OK = [
