@@ -57,10 +57,24 @@ to.  If not specified, the global default logger is used.</p>
 <dd>Reference to the pop-up window (<tt class="docutils literal"><span class="pre">undefined</span></tt> if <tt class="docutils literal"><span class="pre">inline</span></tt>)</dd>
 <dt><tt class="docutils literal"><span class="pre">inline</span></tt>:</dt>
 <dd><tt class="docutils literal"><span class="pre">true</span></tt> if the <tt class="docutils literal"><span class="pre">LoggingPane</span></tt> is inline</dd>
+<dt><tt class="docutils literal"><span class="pre">colorTable</span></tt>:</dt>
+<dd><p class="first">An object with property-&gt;value mappings for each log level
+and its color.  May also be mutated on <tt class="docutils literal"><span class="pre">LoggingPane.prototype</span></tt>
+to affect all instances.  For example:</p>
+<pre class="last literal-block">
+MochiKit.LoggingPane.LoggingPane.prototype.colorTable = {
+    DEBUG: &quot;green&quot;,
+    INFO: &quot;black&quot;,
+    WARNING: &quot;blue&quot;,
+    ERROR: &quot;red&quot;,
+    FATAL: &quot;darkred&quot;
+};
+</pre>
+</dd>
 </dl>
 </blockquote>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">Logger.prototype.closePane()</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">LoggingPane.prototype.closePane()</span></tt>:</p>
 <blockquote>
 Close the <tt class="docutils literal"><span class="pre">LoggingPane</span></tt></blockquote>
 </div>
