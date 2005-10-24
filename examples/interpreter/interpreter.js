@@ -42,6 +42,9 @@ InterpreterManager.prototype.submit = function () {
 
 InterpreterManager.prototype.doScroll = function () {
     var p = getElement("interpreter_output").lastChild;
+    if (typeof(p) == "undefined" || p == null) {
+        return;
+    }
     if (typeof(p.scrollIntoView) == "function") {
         p.scrollIntoView();
         return;
@@ -157,6 +160,10 @@ window.writeln = function () {
         BR()
     );
     interpreterManager.doScroll();
+};
+
+window.clear = function () {
+    replaceChildNodes("interpreter_output");
 };
     
 interpreterManager = new InterpreterManager();
