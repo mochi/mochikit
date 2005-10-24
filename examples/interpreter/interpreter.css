@@ -26,8 +26,14 @@ input.textbox {
     display: inline;
     font-family: Monaco, "lucida console", Courier;
     font-size: .60em;
-    max-width: 99%;
-    whitespace: preserve;
+}
+
+#interpreter_output span {
+    white-space: -moz-pre-wrap; /* Mozilla */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    white-space: pre-wrap; /* CSS 2.1 */
+    white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+    word-wrap: break-word; /* IE */
 }
 
 input.textbox:focus { background-color: #FFFEE3; }
