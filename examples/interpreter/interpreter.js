@@ -19,6 +19,7 @@ InterpreterManager.prototype.initialize = function () {
     this.history = [];
     this.currentHistory = "";
     this.historyPos = -1;
+    this.blockingOn = null;
 };
 
 InterpreterManager.prototype.banner = function () {
@@ -35,6 +36,14 @@ InterpreterManager.prototype.banner = function () {
 };
 
 InterpreterManager.prototype.submit = function () {
+    if (this.blockingOn) {
+        try {
+            this.blockingOn.cancel();
+        } catch (e) {
+            this.showError(e);
+        }
+        this.blockingOn = null;
+    }
     this.doSubmit();
     this.doScroll();
     return false;
@@ -92,6 +101,43 @@ InterpreterManager.prototype.keyUp = function (e) {
     return false;
 };
 
+InterpreterManager.prototype.blockOn = function (d) {
+    var node = SPAN({"class": "banner"}, "blocking on " + repr(d) + "...");
+    this.blockingOn = d;
+    appendChildNodes("interpreter_output", node);
+    this.doScroll();
+    d.addBoth(function (res) {
+        swapDOM(node);
+        this.blockingOn = null;
+        if (res instanceof CancelledError) {
+            window.writeln(SPAN({"class": "error"}, repr(d) + " cancelled!"));
+            return undefined;
+        }
+        return res;
+    });
+    d.addCallbacks(this.showResult, this.showError);
+};
+
+InterpreterManager.prototype.showError = function (e) {
+    var seen = {};
+    appendChildNodes("interpreter_output",
+        SPAN({"class": "error"}, "Error:"),
+        TABLE({"class": "error"},
+            map(function (kv) {
+                if (seen[kv[0]]) {
+                    return null;
+                }
+                seen[kv[0]] = true;
+                return TR(null,
+                    TD({"class": "error"}, kv[0]),
+                    TD({"class": "data"}, kv[1])
+                );
+            }, sorted(items(e)))
+        )
+    );
+    this.doScroll();
+};
+
 InterpreterManager.prototype.doSubmit = function () {
     var elem = getElement("interpreter_text");
     var code = elem.value;
@@ -124,24 +170,14 @@ InterpreterManager.prototype.doSubmit = function () {
         }
     } catch (e) {
         // mozilla shows some keys more than once!
-        var seen = {};
-        appendChildNodes("interpreter_output",
-            SPAN({"class": "error"}, "Error:"),
-            TABLE({"class": "error"},
-                map(function (kv) {
-                    if (seen[kv[0]]) {
-                        return null;
-                    }
-                    seen[kv[0]] = true;
-                    return TR(null,
-                        TD({"class": "error"}, kv[0]),
-                        TD({"class": "data"}, kv[1])
-                    );
-                }, sorted(items(e)))
-            )
-        );
+        this.showError(e);
         return;
     }
+    this.showResult(res);
+    return;
+};
+
+InterpreterManager.prototype.showResult = function (res) {
     if (typeof(res) != "undefined") {
         window._ = res;
     }
@@ -150,8 +186,8 @@ InterpreterManager.prototype.doSubmit = function () {
             SPAN({"class": "data"}, repr(res)),
             BR()
         );
+        this.doScroll();
     }
-    return;
 };
 
 window.writeln = function () {
@@ -164,6 +200,13 @@ window.writeln = function () {
 
 window.clear = function () {
     replaceChildNodes("interpreter_output");
+};
+
+window.blockOn = function (d) {
+    if (!(d instanceof Deferred)) {
+        throw new TypeError(repr(d) + " is not a Deferred!");
+    }
+    interpreterManager.blockOn(d);
 };
     
 interpreterManager = new InterpreterManager();
