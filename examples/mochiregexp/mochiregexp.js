@@ -114,3 +114,15 @@ RegExpManager.prototype.submit = function () {
 
 regExpManager = new RegExpManager();
 addLoadEvent(regExpManager.initialize);
+
+// rewrite the view-source links
+addLoadEvent(function () {
+    var elems = getElementsByTagAndClassName("A", "view-source");
+    var page = "mochiregexp/";
+    for (var i = 0; i < elems.length; i++) {
+        var elem = elems[i];
+        var href = elem.href.split(/\//).pop();
+        elem.target = "_blank";
+        elem.href = "../view-source/view-source.html#" + page + href;
+    }
+});
