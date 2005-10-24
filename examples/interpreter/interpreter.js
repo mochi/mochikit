@@ -23,10 +23,12 @@ InterpreterManager.prototype.initialize = function () {
 };
 
 InterpreterManager.prototype.banner = function () {
-    var ua = window.navigator.userAgent + "";
-    // MSIE
-    ua = ua.replace(/^Mozilla\/4\.0 \(compatible; MS(IE .*?);.*$/, "$1");
-    ua = ua.replace(/^Mozilla\/.*?\(.*?\)\s*/, "");
+    var _ua = window.navigator.userAgent;
+    var ua = _ua.replace(/^Mozilla\/.*?\(.*?\)\s*/, "");
+    if (ua == "") {
+        // MSIE
+        ua = _ua.replace(/^Mozilla\/4\.0 \(compatible; MS(IE .*?);.*$/, "$1");
+    }
     appendChildNodes("interpreter_output",
         SPAN({"class": "banner"},
             "MochiKit v" + MochiKit.Base.VERSION + " [" + ua + "]",
