@@ -1,4 +1,4 @@
-var radius = 250;
+var radius = 225;
 var twoPI = Math.PI * 2;
 var amplification = 10;
 
@@ -48,6 +48,7 @@ var colorWheelOnLoad = function () {
         // IE passtastic
     }
     var colorFunc;
+    // Check for CSS3 HSL support
     if (colorCanary.style.color == "blue") { 
         var bgColor = Color.fromBackground();
         colorFunc  = function (color, alpha) {
@@ -58,6 +59,7 @@ var colorWheelOnLoad = function () {
             return color.colorWithAlpha(alpha).toRGBString();
         }
     }
+    // Per-frame animation
     var intervalFunc = function (cycle, timeout) {
         var target = 0.5 + (0.5 * Math.sin(Math.PI * (cycle / 180)));
         for (var i = 0; i < colorDivs.length; i++) {
@@ -74,7 +76,7 @@ var colorWheelOnLoad = function () {
         }
         callLater(timeout, arguments.callee, cycle + 2, timeout);
     };
-    // 5 fps
+    // < 5 fps
     intervalFunc(0, 1/5);
 };
 
