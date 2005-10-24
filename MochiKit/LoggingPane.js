@@ -81,6 +81,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     var loadButton = doc.createElement("button");
     var clearButton = doc.createElement("button");
     var closeButton = doc.createElement("button");
+    var logPaneArea = doc.createElement("div");
     var logPane = doc.createElement("div");
 
     /* Set up the functions */
@@ -105,15 +106,17 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         var level = messageLevel(msg);
         var text = messageText(msg);
         var c = this.colorTable[level];
-        var p = doc.createElement("p");
+        var p = doc.createElement("span");
         p.style.color = c;
         p.style.margin = "0";
         p.appendChild(doc.createTextNode(level + ": " + text));
         logPane.appendChild(p);
+        logPane.appendChild(doc.createElement("br"));
         if (typeof(p.scrollIntoView) == "function") {
             p.scrollIntoView();
         } else {
-            // safari workaround is what?
+            // safari workaround 
+            logPaneArea.scrollTop = logPaneArea.scrollHeight;
         }
     }, this);
 
@@ -265,12 +268,14 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
 
     /* Create the logging pane */
     debugPane.style.display = "block";
+    logPaneArea.style.overflow = "auto";
+    logPaneArea.style.width = "100%";
     logPane.style.whitespace = "preserve";
-    logPane.style.overflow = "auto";
     logPane.style.width = "100%";
     logPane.style.height = "8em";
 
-    debugPane.appendChild(logPane);
+    logPaneArea.appendChild(logPane);
+    debugPane.appendChild(logPaneArea);
 
     buildAndApplyFilter();
     loadMessages();

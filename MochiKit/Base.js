@@ -816,8 +816,17 @@ MochiKit.Base.repr = function (o) {
             )) {
             return o.NAME;
         }
-        return o;
     }
+    if (typeof(o) == "function") {
+        o = (o + "");
+        o = o.replace(/^\s+/, "");
+        o = o.replace(/\s+$/, "");
+        var idx = o.indexOf("{");
+        if (idx != -1) {
+            o = o.substr(0, idx) + "{...}";
+        }
+    }
+    return o + "";
 };
 
 MochiKit.Base.reprArrayLike = function (o) {
