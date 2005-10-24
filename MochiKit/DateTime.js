@@ -35,7 +35,14 @@ MochiKit.DateTime.isoDate = function (str) {
         Convert an ISO 8601 date (YYYY-MM-DD) to a Date object.
 
     ***/
+    str = str + "";
+    if (typeof(str) != "string" || str.length == 0) {
+        return null;
+    }
     var iso = str.split('-');
+    if (iso.length == 0) {
+        return null;
+    }
     return new Date(iso[0], iso[1] - 1, iso[2]);
 };
 
@@ -54,6 +61,10 @@ MochiKit.DateTime.isoTimestamp = function (str) {
             YYYY-MM-DDThh:mm:ss
 
     ***/
+    str = str + "";
+    if (typeof(str) != "string" || str.length == 0) {
+        return null;
+    }
     var res = str.match(MochiKit.DateTime._isoRegexp);
     if (typeof(res) == "undefined" || res == null) {
         return null;
@@ -100,6 +111,9 @@ MochiKit.DateTime.toISOTime = function (date) {
         Get the hh:mm:ss from the given Date object.
 
     ***/
+    if (typeof(date) == "undefined" || date == null) {
+        return null;
+    }
     var _padTwo = MochiKit.DateTime._padTwo;
     var hh = date.getHours();
     var mm = date.getMinutes();
@@ -124,6 +138,9 @@ MochiKit.DateTime.toISOTimestamp = function (date, realISO) {
         you pass true for realISO.
 
     ***/
+    if (typeof(date) == "undefined" || date == null) {
+        return null;
+    }
     var sep = realISO ? "T" : " ";
     var foot = realISO ? "Z" : "";
     if (realISO) {
@@ -138,6 +155,9 @@ MochiKit.DateTime.toISODate = function (date) {
         Convert a Date object to an ISO 8601 date string (YYYY-MM-DD)
 
     ***/
+    if (typeof(date) == "undefined" || date == null) {
+        return null;
+    }
     var _padTwo = MochiKit.DateTime._padTwo;
     return [
         date.getFullYear(),
@@ -152,6 +172,10 @@ MochiKit.DateTime.americanDate = function (d) {
         Converts a MM/DD/YYYY date to a Date object
 
     ***/
+    d = d + "";
+    if (typeof(d) != "string" || d.length == 0) {
+        return null;
+    }
     var a = d.split('/');
     return new Date(a[2], a[0] - 1, a[1]);
 };
@@ -166,6 +190,9 @@ MochiKit.DateTime.toPaddedAmericanDate = function (d) {
         Converts a Date object to an MM/DD/YYYY date, e.g. 01/01/2001
 
     ***/
+    if (typeof(d) == "undefined" || d == null) {
+        return null;
+    }
     var _padTwo = MochiKit.DateTime._padTwo;
     return [
         _padTwo(d.getMonth() + 1),
@@ -180,6 +207,9 @@ MochiKit.DateTime.toAmericanDate = function (d) {
         Converts a Date object to an M/D/YYYY date, e.g. 1/1/2001
 
     ***/
+    if (typeof(d) == "undefined" || d == null) {
+        return null;
+    }
     return [d.getMonth() + 1, d.getDate(), d.getFullYear()].join('/');
 };
 

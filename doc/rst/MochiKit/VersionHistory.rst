@@ -21,7 +21,10 @@
 - Fixed a bug in MochiKit.Async wait (and callLater) that prevented them
   from being cancelled properly
 - Workaround in MochiKit.Base bind (and partial) for functions that don't
-  have an apply method, such as alert.
+  have an apply method, such as alert
+- Reliably return null from the string parsing/manipulation functions if
+  the input can't be coerced to a string (s + "") or the input makes no sense;
+  e.g. isoTimestamp(null) and isoTimestamp("") return null
 
 2005-10-08      v0.90
 

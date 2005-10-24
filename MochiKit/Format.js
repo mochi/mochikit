@@ -178,6 +178,10 @@ MochiKit.Format.twoDigitFloat = function (someFloat) {
 };
 
 MochiKit.Format.lstrip = function (str, /* optional */chars) {
+    str = str + "";
+    if (typeof(str) != "string") {
+        return null;
+    }
     if (!chars) {
         return str.replace(/^\s+/, "");
     } else {
@@ -186,6 +190,10 @@ MochiKit.Format.lstrip = function (str, /* optional */chars) {
 };
 
 MochiKit.Format.rstrip = function (str, /* optional */chars) {
+    str = str + "";
+    if (typeof(str) != "string") {
+        return null;
+    }
     if (!chars) {
         return str.replace(/\s+$/, "");
     } else {
