@@ -32,11 +32,6 @@ table.datagrid thead th a {
     padding-right: 15px;
 }
 
-table.datagrid thead th.over {
-    background-color: #746B6B;
-    cursor: pointer;
-}
-
 table.datagrid tbody th {
     font-weight: bold;
 }
@@ -75,4 +70,4 @@ fieldset { border: none; margin: 0; padding: 0; }
 fieldset label { font-weight: bold; color: #4B4545; }
 fieldset .field { margin-bottom: 1em; }
 
-label.error { color: red; }
+.error { color: red; }

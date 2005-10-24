@@ -1,18 +1,28 @@
+/*
+
+    MochiRegExp: JavaScript Regular Expression Explorer
+
+*/
 RegExpManager = function () {
     this.timer = null;
     bindMethods(this);
 };
 
 RegExpManager.prototype.initialize = function () {
+    /*
+       Fill in the event handlers and sample text, and do the initial update
+       The reason we do the sample text here is so that "clear" really does
+       clear the fields.
+    */
     updateNodeAttributes("inp_text", {
         "value": "matched with your pattern",
-        "onkeyup": partial(this.doSoon, this.changeInput),
-        "onchange": this.changeInput
+        "onkeyup": this.updateSoon,
+        "onchange": this.update
     });
     updateNodeAttributes("inp_regexp", {
         "value": "/(pattern)/",
-        "onkeyup": partial(this.doSoon, this.changeRegExp),
-        "onchange": this.changeRegExp
+        "onkeyup": this.updateSoon,
+        "onchange": this.update
     });
     updateNodeAttributes("regexp_form", {
         "onsubmit": this.submit
@@ -20,12 +30,18 @@ RegExpManager.prototype.initialize = function () {
     this.update();
 };
 
-RegExpManager.prototype.doSoon = function (doWhat) {
+RegExpManager.prototype.updateSoon = function () {
+    /*
+        If the user stops typing for half a second, do one update.
+    */
     this.cancelTimer();
-    this.timer = callLater(0.5, doWhat);
+    this.timer = callLater(0.5, this.update);
 };
 
 RegExpManager.prototype.cancelTimer = function () {
+    /*
+        Cancel the timer that waits for the user to idle for half a second.
+    */
     if (this.timer) {
         this.timer.cancel();
     }
@@ -33,44 +49,62 @@ RegExpManager.prototype.cancelTimer = function () {
 };
 
 RegExpManager.prototype.update = function () {
-    var re;
+    /*
+        Cancel the update timer and actually do an update of the
+        RegExp
+    */
     this.cancelTimer();
+    var re;
     try {
+        // Evaluate the regexp
         re = eval("(" + getElement("inp_regexp").value + ")");
     } catch (e) {
+        // If invalid, color it red and stop
         addElementClass("lab_regexp", "error");
         return;
     }
+    // Make sure that it's not red
     removeElementClass("lab_regexp", "error");
-    var result = getElement("inp_text").value.match(re);
-    if (result) {
-        replaceChildNodes("result_body",
-            map(function (kv) {
-                if (kv[0] == "input") {
-                    var v = kv[1];
-                    var end = result.index + result[0].length;
-                    return TR(null,
-                        TD(null, kv[0]),
-                        TD(null,
-                            SPAN(null, v.substr(0, result.index)),
-                            SPAN({"class": "highlight"},
-                                v.substring(result.index, end)
-                            ),
-                            SPAN(null, v.substr(end))
-                        ),
-                        TD(null, repr(v))
-                    );
-                }
-                return TR(null,
-                    TD(null, kv[0]),
-                    TD(null, kv[1]),
-                    TD(null, repr(kv[1]))
-                );
-            }, items(result)));
-    // /(\d{4,})(?:-(\d{1,2})(?:-(\d{1,2})(?:[T ](\d{1,2}):(\d{1,2})(?::(\d{1,2})(?:\.(\d+))?)?(?:(Z)|([+-])(\d{1,2})(?::(\d{1,2}))?)?)?)?)?/
-    } else {
-        replaceChildNodes("result_body", TR(null, TD({"colspan": "0"})));
+
+    // replace the contents of the tbody
+    var match = getElement("inp_text").value.match(re);
+    replaceChildNodes("result_body", this.getRows(match));
+};
+
+RegExpManager.prototype.getRows = function (match) {
+    /*
+        Return rows for the tbody given a match object
+    */
+    if (!match) {
+        // No match, bail with a no match row
+        return TR(null, TD({"colspan": "3"}, "No match!"));
     }
+    var isAlternate = true;
+    var res = [];
+    for (var k in match) {
+        isAlternate = !isAlternate;
+        var trAttribs = isAlternate ? {"class": "alternate"} : null;
+        var v = match[k];
+        var result = v;
+        // Highlight the result for the input property as three spans:
+        //    [beforeMatch, duringMatch, afterMatch]
+        if (k == "input") {
+            var end = match.index + match[0].length;
+            result = [
+                SPAN(null, v.substr(0, match.index)),
+                SPAN({"class": "highlight"}, v.substring(match.index, end)),
+                SPAN(null, v.substr(end))
+            ];
+        }
+        res.push(
+            TR((isAlternate ? {"class": "alternate"} : null),
+                TD(null, k),
+                TD(null, result),
+                TD(null, repr(v))
+            )
+        );
+    }
+    return res;
 };
 
 RegExpManager.prototype.submit = function () {
@@ -78,16 +112,5 @@ RegExpManager.prototype.submit = function () {
     return false;
 };
 
-RegExpManager.prototype.changeInput = function () {
-    this.update();
-};
-
-RegExpManager.prototype.changeRegExp = function () {
-    this.update();
-};
-
-
 regExpManager = new RegExpManager();
-addLoadEvent(function () {
-    regExpManager.initialize();
-});
+addLoadEvent(regExpManager.initialize);
