@@ -23,7 +23,9 @@ InterpreterManager.prototype.initialize = function () {
 
 InterpreterManager.prototype.banner = function () {
     appendChildNodes("interpreter_output",
-        SPAN(null, "Interpreter: MochiKit v" + MochiKit.Base.VERSION),
+        SPAN(null,
+            "Interpreter: MochiKit v" + MochiKit.Base.VERSION +
+            " -- " + window.navigator.userAgent),
         BR()
     );
 };

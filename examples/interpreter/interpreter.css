@@ -17,7 +17,7 @@ input.textbox {
     border: 1px solid #CCCCCC;
     padding: 2px 4px;
     margin-top: .3em;
-    width: 100%;
+    width: 99%;
     height: 300px;
     overflow: auto;
 }
@@ -26,7 +26,7 @@ input.textbox {
     display: inline;
     font-family: Monaco, "lucida console", Courier;
     font-size: .60em;
-    max-width: 100%;
+    max-width: 99%;
     whitespace: preserve;
 }
     
