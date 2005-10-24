@@ -152,6 +152,7 @@ window.writeln = function () {
         SPAN({"class": "data"}, arguments),
         BR()
     );
+    this.doScroll();
 };
     
 interpreterManager = new InterpreterManager();
