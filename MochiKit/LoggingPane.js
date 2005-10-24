@@ -112,10 +112,9 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         p.appendChild(doc.createTextNode(level + ": " + text));
         logPane.appendChild(p);
         logPane.appendChild(doc.createElement("br"));
-        if (typeof(p.scrollIntoView) == "function") {
-            p.scrollIntoView();
+        if (logPaneArea.offsetHeight > logPaneArea.scrollHeight) {
+            logPaneArea.scrollTop = 0;
         } else {
-            // safari workaround 
             logPaneArea.scrollTop = logPaneArea.scrollHeight;
         }
     }, this);

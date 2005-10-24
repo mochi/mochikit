@@ -2880,8 +2880,8 @@ p.style.margin="0";
 p.appendChild(doc.createTextNode(_376+": "+text));
 _368.appendChild(p);
 _368.appendChild(doc.createElement("br"));
-if(typeof (p.scrollIntoView)=="function"){
-p.scrollIntoView();
+if(_367.offsetHeight>_367.scrollHeight){
+_367.scrollTop=0;
 }else{
 _367.scrollTop=_367.scrollHeight;
 }

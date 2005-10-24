@@ -58,13 +58,12 @@ InterpreterManager.prototype.doScroll = function () {
     if (typeof(p) == "undefined" || p == null) {
         return;
     }
-    if (typeof(p.scrollIntoView) == "function") {
-        p.scrollIntoView();
-        return;
-    }
-    // Safari workaround
     var area = getElement("interpreter_area");
-    area.scrollTop = area.scrollHeight;
+    if (area.offsetHeight > area.scrollHeight) {
+        area.scrollTop = 0;
+    } else {
+        area.scrollTop = area.scrollHeight;
+    }
 };
 
 InterpreterManager.prototype.moveHistory = function (dir) {
@@ -209,6 +208,7 @@ window.writeln = function () {
 
 window.clear = function () {
     replaceChildNodes("interpreter_output");
+    getElement("interpreter_area").scrollTop = 0;
 };
 
 window.blockOn = function (d) {
