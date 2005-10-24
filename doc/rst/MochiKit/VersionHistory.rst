@@ -1,5 +1,7 @@
 2005-10-XX      v1.00
 
+- New interpreter example that shows usage of MochiKit.DOM  to make
+  an interactive JavaScript interpreter
 - New MochiKit.LoggingPane for use with the MochiKit.Logging
   debuggingBookmarklet, with logging_pane example to show its usage
 - New mochiregexp example that demonstrates MochiKit.DOM and MochiKit.Async
