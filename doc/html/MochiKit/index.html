@@ -60,7 +60,10 @@ respond</li>
 <li>Fixed a bug in MochiKit.Async wait (and callLater) that prevented them
 from being cancelled properly</li>
 <li>Workaround in MochiKit.Base bind (and partial) for functions that don't
-have an apply method, such as alert.</li>
+have an apply method, such as alert</li>
+<li>Reliably return null from the string parsing/manipulation functions if
+the input can't be coerced to a string (s + &quot;&quot;) or the input makes no sense;
+e.g. isoTimestamp(null) and isoTimestamp(&quot;&quot;) return null</li>
 </ul>
 <p>2005-10-08      v0.90</p>
 <ul class="simple">
