@@ -47,6 +47,8 @@ MochiKit.DOM.EXPORT = [
     "replaceChildNodes",
     "swapDOM",
     "BUTTON",
+    "TT",
+    "PRE",
     "H1",
     "H2",
     "H3",
@@ -756,6 +758,8 @@ MochiKit.DOM.__new__ = function () {
     this.DIV = createDOMFunc("div");
     this.IMG = createDOMFunc("img");
     this.BUTTON = createDOMFunc("button");
+    this.TT = createDOMFunc("tt");
+    this.PRE = createDOMFunc("pre");
     this.H1 = createDOMFunc("h1");
     this.H2 = createDOMFunc("h2");
     this.H3 = createDOMFunc("h3");

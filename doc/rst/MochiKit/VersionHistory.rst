@@ -11,7 +11,7 @@
   formatLocale(locale="default")
 - Added updatetree(self, obj[, ...]) to MochiKit.Base, and changed
   MochiKit.DOM's updateNodeAttributes(node, attrs) to use it when appropiate.
-- Added new MochiKit.DOM createDOMFunc alias: BUTTON
+- Added new MochiKit.DOM createDOMFunc aliases: BUTTON, TT, PRE
 - Added truncToFixed(aNumber, precision) and roundToFixed(aNumber, precision)
   to MochiKit.Format
 - MochiKit.DateTime can now handle full ISO 8601 timestamps, specifically
