@@ -11,6 +11,25 @@
             MochiRegExp - JavaScript Regular Expression (RegExp) Explorer
         </h1>
         <div>
+            <p>
+                This demo does "live" Regular Expression matching to help you
+                toy with JavaScript Regular Expressions.
+                It takes advantage of
+                <a href="http://mochikit.org">MochiKit</a>'s
+                <a href="http://mochikit.org/doc/html/MochiKit/DOM.html">MochiKit.DOM</a>
+                to manipulate the display and 
+                <a href="http://mochikit.org/doc/html/MochiKit/Async.html">MochiKit.Async</a>
+                to facilitate the "half a second" live updating.
+            </p>
+            <p>
+                The table will update while you're typing if you're idle for
+                half a second or when you tab away from the field, whichever
+                comes first.  If you enter an invalid RegExp, the RegExp label
+                will turn <span class="error">red</span> (the "error" class).
+                For a good JavaScript's RegExp reference, see
+                <a href="http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Guide:Regular_Expressions">Regular Expressions</a>
+                over at <a href="http://developer.mozilla.org">DevMo</a>.
+            </p>
         </div>
 
         <form id="regexp_form">
@@ -33,8 +52,6 @@
                 </tbody>
             </table>
         </form>
-                    
-                    
         
         <div>
             View Source: [
@@ -50,16 +67,8 @@
                     <th>Repr</th>
                 </tr>
             </thead>
-            <tfoot id="result_footer" class="invisible">
-                <tr>
-                    <td colspan="0"></td>
-                </tr>
-            </tfoot>
-            <tbody id="result_body">
-                <tr>
-                    <td colspan="0"></td>
-                </tr>
-            </tbody>
+            <tfoot class="invisible"><tr><td colspan="3"></td></tr></tfoot>
+            <tbody id="result_body"><tr><td colspan="3"></td></tr></tbody>
         </table>
     </body>
 </html>
