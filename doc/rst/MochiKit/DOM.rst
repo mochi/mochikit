@@ -254,6 +254,8 @@ Functions
     - ``H3``
     - ``BR``
     - ``HR``
+    - ``TT``
+    - ``PRE``
     - ``BUTTON``
     - ``LABEL``
     - ``TEXTAREA``

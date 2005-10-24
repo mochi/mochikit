@@ -48,7 +48,7 @@ MochiKit.LoggingPane.createLoggingPane = function (inline/* = false */) {
         m._loggingPane = null;
     }
     if (!m._loggingPane || m._loggingPane.closed) {
-        m._loggingPane = new LoggingPane(inline, MochiKit.Logging.logger);
+        m._loggingPane = new m.LoggingPane(inline, MochiKit.Logging.logger);
     }
     return m._loggingPane;
 };

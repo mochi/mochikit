@@ -16,37 +16,10 @@
                 the text input and press enter to see the results.  It uses
                 <a href="http://mochikit.com">MochiKit</a>'s
                 <a href="../../doc/html/MochiKit/DOM.html">MochiKit.DOM</a>
-                to manipulate the display.
+                to manipulate the display.  It also supports waiting for
+                <a href="../../doc/html/MochiKit/Async.html">MochiKit.Async</a>
+                 Deferreds via <tt>blockOn(aDeferred)</tt>.
             </p>
-            <div>
-                Notes:
-                <ul>
-                    <li>
-                        To continue code on the next line, end it with
-                        <tt>//</tt>
-                    </li>
-                    <li>
-                        <tt>function name() {}</tt> syntax might not end up in
-                        window scope, so use <tt>name = function () {}</tt>
-                        syntax instead
-                    </li>
-                    <li>
-                        If you want to stuff something into the output window
-                        other than the <tt>repr(...)</tt> of the expression
-                        result, use the <tt>writeln(...)</tt> function.
-                        It accepts anything that MochiKit.DOM does, so you can
-                        even put styled stuff in there!
-                    </li>
-                    <li>
-                        Use <tt>clear()</tt> to clear the interpreter window.
-                    </li>
-                    <li>
-                        Up and down should work as a rudimentary history, and
-                        <tt>_</tt> should be the value of the last expression
-                        that was not <tt>undefined</tt>.
-                    </li>
-                </ul>
-            </div>
         </div>
 
         <div>
@@ -61,5 +34,44 @@
             </div>
             <input id="interpreter_text" name="input_text" type="text" class="textbox" size="100" />
         </form>
+        <div>
+            Notes:
+            <ul>
+                <li>
+                    To continue code on the next line, end it with
+                    <tt>//</tt>
+                </li>
+                <li>
+                    <tt>function name() {}</tt> syntax might not end up in
+                    window scope, so use <tt>name = function () {}</tt>
+                    syntax instead
+                </li>
+                <li>
+                    If you want to stuff something into the output window
+                    other than the <tt>repr(...)</tt> of the expression
+                    result, use the <tt>writeln(...)</tt> function.
+                    It accepts anything that MochiKit.DOM does, so you can
+                    even put styled stuff in there!
+                </li>
+                <li>
+                    Use <tt>clear()</tt> to clear the interpreter window.
+                </li>
+                <li>
+                    You can use <tt>blockOn(aDeferred)</tt> to wait on a
+                    Deferred.  This expression must be used by itself, so
+                    the value must be obtained from <tt>_</tt> or
+                    <tt>last_exc</tt>.  Typing any expression will
+                    cancel the Deferred.
+                </li>
+                <li>
+                    Up and down arrow keys work as a rudimentary history
+                </li>
+                <li>
+                    <tt>_</tt> is the value of the last expression
+                    that was not <tt>undefined</tt>, <tt>last_exc</tt> is
+                    the value of the last unhandled exception.
+                </li>
+            </ul>
+        </div>
     </body>
 </html>

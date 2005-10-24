@@ -29,7 +29,7 @@ InterpreterManager.prototype.banner = function () {
         SPAN({"class": "banner"},
             "MochiKit v" + MochiKit.Base.VERSION + " [" + ua + "]",
             BR(),
-            "Type your expression in the input box below and press return, or see the text above for more information."
+            "Type your expression in the input box below and press return, or see the notes below for more information."
         ),
         BR()
     );
@@ -135,14 +135,15 @@ InterpreterManager.prototype.showError = function (e) {
             }, sorted(items(e)))
         )
     );
+    window.last_exc = e;
     this.doScroll();
 };
 
 __doEval = function (s) {
     if (typeof(eval.call) != "undefined") {
-        return eval.call(window, allCode);
+        return eval.call(window, s);
     } else {
-        with (window) { __ = eval(allCode); }
+        with (window) { __ = eval(s); }
         return __;
     }
 };
