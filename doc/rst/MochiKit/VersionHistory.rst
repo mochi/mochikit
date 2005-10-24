@@ -1,12 +1,12 @@
-2005-XX-XX      v1.00
+2005-10-XX      v1.00
 
 - New MochiKit.LoggingPane for use with the MochiKit.Logging
   debuggingBookmarklet, with logging_pane example to show its usage
 - New mochiregexp example that demonstrates MochiKit.DOM and MochiKit.Async
   in order to provide a live regular expression matching tool
 - Added advanced number formatting capabilities to MochiKit.Format:
-  numberFormatter(pattern[, placeholder=""[, locale="default"]]) and
-  formatLocale([locale="default"])
+  numberFormatter(pattern, placeholder="", locale="default") and
+  formatLocale(locale="default")
 - Added updatetree(self, obj[, ...]) to MochiKit.Base, and changed
   MochiKit.DOM's updateNodeAttributes(node, attrs) to use it when appropiate.
 - Added new MochiKit.DOM createDOMFunc alias: BUTTON
@@ -20,6 +20,8 @@
 - Fixed infinite recusion bug when using roundClass("DIV", ...)
 - Fixed a bug in MochiKit.Async wait (and callLater) that prevented them
   from being cancelled properly
+- Workaround in MochiKit.Base bind (and partial) for functions that don't
+  have an apply method, such as alert.
 
 2005-10-08      v0.90
 

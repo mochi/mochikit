@@ -20,6 +20,7 @@
 <li><a class="reference" href="Format.html">Format</a> - string formatting goes here</li>
 <li><a class="reference" href="Iter.html">Iter</a> - itertools for JavaScript; iteration made HARD, and then easy</li>
 <li><a class="reference" href="Logging.html">Logging</a> - we're all tired of alert()</li>
+<li><a class="reference" href="LoggingPane.html">LoggingPane</a> - interactive MochiKit.Logging pane</li>
 <li><a class="reference" href="Visual.html">Visual</a> - visual effects and colors</li>
 </ul>
 </div>
@@ -36,15 +37,15 @@
 </div>
 <div class="section" id="version-history">
 <h1><a name="version-history">Version History</a></h1>
-<p>2005-XX-XX      v1.00</p>
+<p>2005-10-XX      v1.00</p>
 <ul class="simple">
 <li>New MochiKit.LoggingPane for use with the MochiKit.Logging
 debuggingBookmarklet, with logging_pane example to show its usage</li>
 <li>New mochiregexp example that demonstrates MochiKit.DOM and MochiKit.Async
 in order to provide a live regular expression matching tool</li>
 <li>Added advanced number formatting capabilities to MochiKit.Format:
-numberFormatter(pattern[, placeholder=&quot;&quot;[, locale=&quot;default&quot;]]) and
-formatLocale([locale=&quot;default&quot;])</li>
+numberFormatter(pattern, placeholder=&quot;&quot;, locale=&quot;default&quot;) and
+formatLocale(locale=&quot;default&quot;)</li>
 <li>Added updatetree(self, obj[, ...]) to MochiKit.Base, and changed
 MochiKit.DOM's updateNodeAttributes(node, attrs) to use it when appropiate.</li>
 <li>Added new MochiKit.DOM createDOMFunc alias: BUTTON</li>
@@ -58,6 +59,8 @@ respond</li>
 <li>Fixed infinite recusion bug when using roundClass(&quot;DIV&quot;, ...)</li>
 <li>Fixed a bug in MochiKit.Async wait (and callLater) that prevented them
 from being cancelled properly</li>
+<li>Workaround in MochiKit.Base bind (and partial) for functions that don't
+have an apply method, such as alert.</li>
 </ul>
 <p>2005-10-08      v0.90</p>
 <ul class="simple">

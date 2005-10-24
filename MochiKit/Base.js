@@ -525,10 +525,33 @@ MochiKit.Base.filter = function (fn, lst, self) {
 };
 
 
+MochiKit.Base._wrapDumpFunction = function (func) {
+    return function () {
+        // fast path!
+        switch (arguments.length) {
+            case 0: return func();
+            case 1: return func(arguments[0]);
+            case 2: return func(arguments[0], arguments[1]);
+            case 3: return func(arguments[0], arguments[1], arguments[2]);
+        }
+        var args = [];
+        for (var i = 0; i < arguments.length; i++) {
+            args.push("arguments[" + i + "]");
+        }
+        return eval("(func(" + args.join(",") + "))");
+    };
+};
+        
 MochiKit.Base.bind = function (func, self/* args... */) {
     var im_func = func.im_func;
     var im_preargs = func.im_preargs;
     var im_self = func.im_self;
+    if (typeof(func) == "function" && typeof(func.apply) == "undefined") {
+        // this is for cases where JavaScript sucks ass and gives you a
+        // really dumb built-in function like alert() that doesn't have
+        // an apply
+        func = MochiKit.Base._wrapDumbFunction(func);
+    }
     if (typeof(im_func) != 'function') {
         im_func = func;
     }

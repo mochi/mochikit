@@ -16,7 +16,7 @@ Synopsis
    assert( twoDigitAverage(1, 0) == "0" );
    assert( twoDigitFloat(1.2345) == "1.23" );
    assert( twoDigitFloat(1) == "1" );
-   assert( percentFormat(1.234567) == "123.45%" );
+   assert( percentFormat(1.234567) == "123.46%" );
    assert( numberFormatter("###,###%")(125) == "12,500%" );
    assert( numberFormatter("##.000")(1.25) == "1.250" );
 
@@ -131,7 +131,7 @@ Functions
     ``numberFormatter("#.##%")(someFloat)`` instead.
 
 
-``numberFormatter(pattern[, placeholder=""[, locale="default"]])``:
+``numberFormatter(pattern, placeholder="", locale="default")``:
 
     Return a function ``formatNumber(aNumber)`` that formats numbers
     as a string according to the given pattern, placeholder and locale.

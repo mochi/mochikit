@@ -21,7 +21,7 @@ assert( roundToFixed(0.12345, 4) == &quot;0.1235&quot; );
 assert( twoDigitAverage(1, 0) == &quot;0&quot; );
 assert( twoDigitFloat(1.2345) == &quot;1.23&quot; );
 assert( twoDigitFloat(1) == &quot;1&quot; );
-assert( percentFormat(1.234567) == &quot;123.45%&quot; );
+assert( percentFormat(1.234567) == &quot;123.46%&quot; );
 assert( numberFormatter(&quot;###,###%&quot;)(125) == &quot;12,500%&quot; );
 assert( numberFormatter(&quot;##.000&quot;)(1.25) == &quot;1.250&quot; );
 </pre>
@@ -133,7 +133,7 @@ it as a string with two digits of precision (e.g. &quot;1.23&quot;).</p>
 <p>In new code, you probably want to use:
 <tt class="docutils literal"><span class="pre">numberFormatter(&quot;#.##%&quot;)(someFloat)</span></tt> instead.</p>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">numberFormatter(pattern[,</span> <span class="pre">placeholder=&quot;&quot;[,</span> <span class="pre">locale=&quot;default&quot;]])</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">numberFormatter(pattern,</span> <span class="pre">placeholder=&quot;&quot;,</span> <span class="pre">locale=&quot;default&quot;)</span></tt>:</p>
 <blockquote>
 <p>Return a function <tt class="docutils literal"><span class="pre">formatNumber(aNumber)</span></tt> that formats numbers
 as a string according to the given pattern, placeholder and locale.</p>
