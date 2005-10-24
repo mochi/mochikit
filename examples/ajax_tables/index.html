@@ -18,86 +18,30 @@ Using a made-up xmlns..
         <div>
             <div>
                 <p>
-                    This is an example of how one might use MochiKit to do
+                    This is an example of how one might use <a href="http://mochikit.org/">MochiKit</a> to do
                     sortable tables from data given by the server in either JSON
-                    or XML format.
+                    or XML format.  It uses
+                    <a href="http://mochikit.org/doc/html/MochiKit/Async.html">MochiKit.Async</a>
+                    to fetch the data, and 
+                    <a href="http://mochikit.org/doc/html/MochiKit/DOM.html">MochiKit.DOM</a>
+                    to display it.
                 </p>
                 <p>
                     Includes a micro implementation of something
                     <a href="http://www.zope.org/Wikis/DevSite/Projects/ZPT/FrontPage">TAL</a>-esque
                     (called "MochiTAL" in the source, using a mochi: namespace).
+                    For a more detailed description of what happens under the
+                    covers, view the <a href="ajax_tables.js" class="view-source">ajax_tables.js</a>
+                    source and look at the comments.
                 </p>
-            </div>
-            <div>
-                On page load, the SortableManager:
-                <ul>
-                    <li>
-                        Rips out all of the elements with the mochi-example class
-                    </li>
-                    <li>
-                        Finds the elements with the mochi-template class and saves them
-                        for later parsing with "MochiTAL"
-                    </li>
-                    <li>
-                        Finds the anchor tags with the mochi:dataformat attribute and
-                        gives them onclick behvaiors to load new data, using their
-                        href as the data source.  This makes your XML or JSON look like
-                        a normal link to a search engine (or javascript-disabled browser).
-                    </li>
-                    <li>
-                        Clones the thead element from the table because it will be
-                        replaced on each sort
-                    </li>
-                    <li>
-                        Sets up a default sort key of "domain_name" and queues a load of
-                        the json document.
-                    </li>
-                </ul>
-            </div>
-            <div>
-                On data load, the SortableManager:
-                <ul>
-                    <li>
-                        Parses the table data from the document (columns list, rows list-of-lists)
-                        and turns them into a list of [{column:value, ...}] objects for easy sorting
-                        and column order stability.
-                    </li>
-                    <li>
-                        Chooses the default (or previous) sort state and triggers a sort request
-                    </li>
-                </ul>
-            </div>
-            <div>
-                On sort request:
-                <ul>
-                    <li>
-                        Replaces the cloned thead element with a copy of it that has the sort
-                        indicator (&uarr; or &darr;) for the most recently sorted column
-                        (matched up to the first field in the th's mochi:sortcolumn attribute), and
-                        attaches onclick, onmousedown, onmouseover, onmouseout behaviors to them.
-                        The second field of mochi:sortcolumn attribute is used to perform a non-string
-                        sort.
-                    </li>
-                    <li>
-                        Performs the sort on the domains list.  If the second field of mochi:sortcolumn
-                        was not "str", then a custom function is used and the results are stored away
-                        in a __sort__ key, which is then used to perform the sort
-                        (read: shwartzian transform).
-                    </li>
-                    <li>
-                        Calls processMochiTAL on the page, which finds the mochi-template sections and
-                        then looks for mochi:repeat and mochi:content attributes on them, using the data
-                        object.
-                    </li>
-                </ul>
             </div>
         </div>
         <div>
             View Source: [
-            <a href="../view-source/view-source.html#ajax_tables/index.html" target="_blank">index.html</a> |
-            <a href="../view-source/view-source.html#ajax_tables/ajax_tables.js" target="_blank">ajax_tables.js</a> |
-            <a href="../view-source/view-source.html#ajax_tables/domains.json" target="_blank">domains.json</a> |
-            <a href="../view-source/view-source.html#ajax_tables/domains.xml" target="_blank">domains.xml</a> 
+            <a href="index.html" class="view-source">index.html</a> |
+            <a href="ajax_tables.js" class="view-source">ajax_tables.js</a> |
+            <a href="domains.json" class="view-source">domains.json</a> |
+            <a href="domains.xml" class="view-source">domains.xml</a> 
             ]
         </div>
         <div>
