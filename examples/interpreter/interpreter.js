@@ -22,10 +22,14 @@ InterpreterManager.prototype.initialize = function () {
 };
 
 InterpreterManager.prototype.banner = function () {
+    var ua = window.navigator.userAgent + "";
+    ua = ua.replace(/^Mozilla\/.*?\(.*?\)\s*/, "");
     appendChildNodes("interpreter_output",
-        SPAN(null,
-            "Interpreter: MochiKit v" + MochiKit.Base.VERSION +
-            " -- " + window.navigator.userAgent),
+        SPAN({"class": "banner"},
+            "MochiKit v" + MochiKit.Base.VERSION + " [" + ua + "]",
+            BR(),
+            "Type your expression in the input box below and press return, or see the text above for more information."
+        ),
         BR()
     );
 };
@@ -116,25 +120,21 @@ InterpreterManager.prototype.doSubmit = function () {
             res = __;
         }
     } catch (e) {
+        // mozilla shows some keys more than once!
         var seen = {};
         appendChildNodes("interpreter_output",
+            SPAN({"class": "error"}, "Error:"),
             TABLE({"class": "error"},
-                THEAD(null,
-                    TR({"colspan": 2}, TH({"class": "error"}, "Error:"))
-                ),
-                TFOOT(null, TR({"colspan": 2}, TD())),
-                TBODY(null,
-                    map(function (kv) {
-                        if (seen[kv[0]]) {
-                            return null;
-                        }
-                        seen[kv[0]] = true;
-                        return TR(null,
-                            TD({"class": "error"}, kv[0]),
-                            TD({"class": "data"}, kv[1])
-                        );
-                    }, sorted(items(e)))
-                )
+                map(function (kv) {
+                    if (seen[kv[0]]) {
+                        return null;
+                    }
+                    seen[kv[0]] = true;
+                    return TR(null,
+                        TD({"class": "error"}, kv[0]),
+                        TD({"class": "data"}, kv[1])
+                    );
+                }, sorted(items(e)))
             )
         );
         return;
@@ -142,10 +142,12 @@ InterpreterManager.prototype.doSubmit = function () {
     if (typeof(res) != "undefined") {
         window._ = res;
     }
-    appendChildNodes("interpreter_output",
-        SPAN({"class": "data"}, repr(res)),
-        BR()
-    );
+    if (typeof(res) != "undefined") {
+        appendChildNodes("interpreter_output",
+            SPAN({"class": "data"}, repr(res)),
+            BR()
+        );
+    }
     return;
 };
 
