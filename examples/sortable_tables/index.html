@@ -20,61 +20,20 @@ otherwise.
         <h1>
             Sortable Tables from Scratch with MochiKit
         </h1>
-        <div>
-            <div>
-                This is an example of how one might do sortable tables in an
-                inobtrusive manner.  The data is supplied by the server and is
-                already in the table.
-            </div>
-            <div>
-                On page load, the SortableManager:
-                <ul>
-                    <li>
-                        Finds the table by its id (sortable_table).
-                    </li>
-                    <li>
-                        Parses its thead for columns with a "mochi:format"
-                        attribute.
-                    </li>
-                    <li>
-                        Parses the data out of the tbody based upon
-                        information given in the "mochi:format" attribute,
-                        and clones the tr elements for later re-use.
-                    </li>
-                    <li>
-                        Clones the column header th elements for use as a
-                        template when drawing sort arrow columns.
-                    </li>
-                    <li>
-                        Stores away a reference to the tbody, as it will be
-                        replaced on each sort.
-                    </li>
-                    <li>
-                        Performs the first sort.
-                    </li>
-                </ul>
-            </div>
-            <div>
-                On sort request:
-                <ul>
-                    <li>
-                        Sorts the data based on the given key and direction
-                    </li>
-                    <li>
-                        Creates a new tbody from the rows in the new ordering
-                    </li>
-                    <li>
-                        Replaces the column header th elements with clickable
-                        versions, adding an indicator (&uarr;&darr;) to the
-                        most recently sorted column.
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <p>
+            This is an example of how one might do sortable tables in
+            an inobtrusive manner.  The data is supplied by the server
+            and is already in the table.
+        </p>
+        <p>
+            For a detailed description of what happens under the hood,
+            check out
+            <a href="sortable_tables.js" class="view-source">sortable_tables.js</a>.
+        </p>
         <p>
             View Source: [
-                <a href="../view-source/view-source.html#sortable_tables/index.html" target="_blank">index.html</a> | 
-                <a href="../view-source/view-source.html#sortable_tables/sortable_tables.js" target="_blank">sortable_tables.js</a>
+                <a href="index.html" class="view-source">index.html</a> | 
+                <a href="sortable_tables.js" class="view-source">sortable_tables.js</a>
             ]
         </p>
         <table id="sortable_table" class="datagrid">

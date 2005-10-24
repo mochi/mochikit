@@ -1,3 +1,26 @@
+/*
+
+On page load, the SortableManager:
+
+- Finds the table by its id (sortable_table).
+- Parses its thead for columns with a "mochi:format" attribute.
+- Parses the data out of the tbody based upon information given in the
+  "mochi:format" attribute, and clones the tr elements for later re-use.
+- Clones the column header th elements for use as a template when drawing 
+  sort arrow columns.
+- Stores away a reference to the tbody, as it will be replaced on each sort.
+- Performs the first sort.
+
+
+On sort request:
+
+- Sorts the data based on the given key and direction
+- Creates a new tbody from the rows in the new ordering
+- Replaces the column header th elements with clickable versions, adding an
+   indicator (&uarr; or &darr;) to the most recently sorted column.
+
+*/
+
 SortableManager = function () {
     this.thead = null;
     this.tbody = null;
@@ -163,4 +186,16 @@ sortableManager = new SortableManager();
 
 addLoadEvent(function () {
     sortableManager.initWithTable($('sortable_table'));
+});
+
+// rewrite the view-source links
+addLoadEvent(function () {
+    var elems = getElementsByTagAndClassName("A", "view-source");
+    var page = "sortable_tables/";
+    for (var i = 0; i < elems.length; i++) {
+        var elem = elems[i];
+        var href = elem.href.split(/\//).pop();
+        elem.target = "_blank";
+        elem.href = "../view-source/view-source.html#" + page + href;
+    }
 });
