@@ -12,6 +12,7 @@ MochiKit - makes JavaScript suck a bit less
 - `Format`_ - string formatting goes here
 - `Iter`_ - itertools for JavaScript; iteration made HARD, and then easy
 - `Logging`_ - we're all tired of alert()
+- `LoggingPane`_ - interactive MochiKit.Logging pane
 - `Visual`_ - visual effects and colors
     
 .. _`Async`: Async.html
@@ -21,6 +22,7 @@ MochiKit - makes JavaScript suck a bit less
 .. _`Format`: Format.html
 .. _`Iter`: Iter.html
 .. _`Logging`: Logging.html
+.. _`LoggingPane`: LoggingPane.html
 .. _`Visual`: Visual.html
 
 See Also
