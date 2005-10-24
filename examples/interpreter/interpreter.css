@@ -17,7 +17,7 @@ input.textbox {
     border: 1px solid #CCCCCC;
     padding: 2px 4px;
     margin-top: .3em;
-    width: 99%;
+    width: 600px;
     height: 300px;
     overflow: auto;
 }
@@ -29,9 +29,10 @@ input.textbox {
     max-width: 99%;
     whitespace: preserve;
 }
-    
+
 input.textbox:focus { background-color: #FFFEE3; }
 
 .code { color: blue; }
 .data { color: black; }
 .error { color: red; }
+.banner { color: green; }
