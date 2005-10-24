@@ -77,3 +77,17 @@ var colorWheelOnLoad = function () {
     // 5 fps
     intervalFunc(0, 1/5);
 };
+
+addLoadEvent(colorWheelOnLoad);
+
+// rewrite the view-source links
+addLoadEvent(function () {
+    var elems = getElementsByTagAndClassName("A", "view-source");
+    var page = "color_wheel/";
+    for (var i = 0; i < elems.length; i++) {
+        var elem = elems[i];
+        var href = elem.href.split(/\//).pop();
+        elem.target = "_blank";
+        elem.href = "../view-source/view-source.html#" + page + href;
+    }
+});
