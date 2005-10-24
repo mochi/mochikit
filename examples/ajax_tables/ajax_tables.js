@@ -1,3 +1,45 @@
+/*
+
+On page load, the SortableManager:
+
+- Rips out all of the elements with the mochi-example class.
+- Finds the elements with the mochi-template class and saves them for
+  later parsing with "MochiTAL".
+- Finds the anchor tags with the mochi:dataformat attribute and gives them
+  onclick behvaiors to load new data, using their href as the data source.
+  This makes your XML or JSON look like a normal link to a search engine
+  (or javascript-disabled browser).
+- Clones the thead element from the table because it will be replaced on each
+  sort.
+- Sets up a default sort key of "domain_name" and queues a load of the json
+  document.
+
+
+On data load, the SortableManager:
+
+- Parses the table data from the document (columns list, rows list-of-lists)
+  and turns them into a list of [{column:value, ...}] objects for easy sorting
+  and column order stability.
+- Chooses the default (or previous) sort state and triggers a sort request
+
+
+On sort request:
+
+- Replaces the cloned thead element with a copy of it that has the sort
+  indicator (&uarr; or &darr;) for the most recently sorted column (matched up
+  to the first field in the th's mochi:sortcolumn attribute), and attaches
+  onclick, onmousedown, onmouseover, onmouseout behaviors to them. The second
+  field of mochi:sortcolumn attribute is used to perform a non-string sort.
+- Performs the sort on the domains list.  If the second field of
+  mochi:sortcolumn was not "str", then a custom function is used and the
+  results are stored away in a __sort__ key, which is then used to perform the
+  sort (read: shwartzian transform).
+- Calls processMochiTAL on the page, which finds the mochi-template sections 
+  and then looks for mochi:repeat and mochi:content attributes on them, using
+  the data object.
+
+*/
+
 processMochiTAL = function (dom, data) {
     /***
 
@@ -127,6 +169,7 @@ SortableManager = function () {
     this.rows = [];
     this.templates = [];
     this.sortState = {};
+    bindMethods(this);
 };
 
 SortableManager.prototype = {
@@ -201,7 +244,7 @@ SortableManager.prototype = {
             return res;
         });
         // call this.initWithData(data) once it's ready
-        d.addCallback(bind(this.initWithData, this));
+        d.addCallback(this.initWithData);
         // if anything goes wrong, except for a simple cancellation,
         // then log the error and show the logger
         d.addErrback(function (err) {
@@ -344,6 +387,16 @@ SortableManager.prototype = {
 
 // create the global SortableManager and initialize it on page load
 sortableManager = new SortableManager();
+addLoadEvent(sortableManager.initialize);
+
+// rewrite the view-source links
 addLoadEvent(function () {
-    sortableManager.initialize();
+    var elems = getElementsByTagAndClassName("A", "view-source");
+    var page = "ajax_tables/";
+    for (var i = 0; i < elems.length; i++) {
+        var elem = elems[i];
+        var href = elem.href.split(/\//).pop();
+        elem.target = "_blank";
+        elem.href = "../view-source/view-source.html#" + page + href;
+    }
 });
