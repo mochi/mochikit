@@ -42,3 +42,4 @@ input.textbox:focus { background-color: #FFFEE3; }
 .data { color: black; }
 .error { color: red; }
 .banner { color: green; }
+.invisible { display: none; }
