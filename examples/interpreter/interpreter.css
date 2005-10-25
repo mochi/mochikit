@@ -34,6 +34,7 @@ input.textbox {
     white-space: pre-wrap; /* CSS 2.1 */
     white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
     word-wrap: break-word; /* IE */
+    wrap-option: emergency; /* CSS 3 */
 }
 
 input.textbox:focus { background-color: #FFFEE3; }
