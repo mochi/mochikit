@@ -126,16 +126,20 @@ InterpreterManager.prototype.showError = function (e) {
     appendChildNodes("interpreter_output",
         SPAN({"class": "error"}, "Error:"),
         TABLE({"class": "error"},
-            map(function (kv) {
-                if (seen[kv[0]]) {
-                    return null;
-                }
-                seen[kv[0]] = true;
-                return TR(null,
-                    TD({"class": "error"}, kv[0]),
-                    TD({"class": "data"}, kv[1])
-                );
-            }, sorted(items(e)))
+            THEAD({"class": "invisible"}, TD({"colspan": 2})),
+            TFOOT({"class": "invisible"}, TD({"colspan": 2})),
+            TBODY(null,
+                map(function (kv) {
+                    if (seen[kv[0]]) {
+                        return null;
+                    }
+                    seen[kv[0]] = true;
+                    return TR(null,
+                        TD({"class": "error"}, kv[0]),
+                        TD({"class": "data"}, kv[1])
+                    );
+                }, sorted(items(e)))
+            )
         )
     );
     window.last_exc = e;
