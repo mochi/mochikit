@@ -1,4 +1,4 @@
-2005-10-XX      v1.00
+2005-10-24      v1.00
 
 - New interpreter example that shows usage of MochiKit.DOM  to make
   an interactive JavaScript interpreter
