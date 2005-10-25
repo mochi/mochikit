@@ -146,11 +146,11 @@ InterpreterManager.prototype.showError = function (e) {
     this.doScroll();
 };
 
-__doEval = function (s) {
+__doEval = function () {
     if (typeof(eval.call) != "undefined") {
-        return eval.call(window, s);
+        return eval.call(window, arguments[0]);
     } else {
-        with (window) { __ = eval(s); }
+        with (window) { __ = eval(arguments[0]); }
         return __;
     }
 };
