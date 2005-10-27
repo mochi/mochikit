@@ -444,14 +444,14 @@ Functions
 
     Partial form of ``setDisplayForElement``, specifically::
 
-        partial(setDisplayForElement("block"))
+        partial(setDisplayForElement, "block")
 
 
 ``hideElement(element, ...);``
 
     Partial form of ``setDisplayForElement``, specifically::
 
-        partial(setDisplayForElement("none"))
+        partial(setDisplayForElement, "none")
 
 
 ``scrapeText(node[, asArray=false])``:
