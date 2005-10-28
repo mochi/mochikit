@@ -814,7 +814,7 @@ MochiKit.DOM.__new__ = function () {
     var partial = MochiKit.Base.partial;
     this.hideElement = partial(this.setDisplayForElement, "none");
     this.showElement = partial(this.setDisplayForElement, "block");
-    this.removeElement = swapDOM;
+    this.removeElement = this.swapDOM;
 
     this.$ = this.getElement;
 

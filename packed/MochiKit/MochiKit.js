@@ -2803,7 +2803,7 @@ this._TRANSTABLE={"<":"&lt;",">":"&gt;","&":"&amp;","'":"&apos;","\"":"&quot;"};
 var _354=MochiKit.Base.partial;
 this.hideElement=_354(this.setDisplayForElement,"none");
 this.showElement=_354(this.setDisplayForElement,"block");
-this.removeElement=swapDOM;
+this.removeElement=this.swapDOM;
 this.$=this.getElement;
 this.EXPORT_TAGS={":common":this.EXPORT,":all":MochiKit.Base.concat(this.EXPORT,this.EXPORT_OK)};
 MochiKit.Base.nameFunctions(this);
