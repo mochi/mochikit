@@ -187,14 +187,54 @@ element (i.e. number, bool, string, function, iterable).</blockquote>
 <tt class="docutils literal"><span class="pre">getElement</span></tt> will be used to locate the node)</dd>
 <dt><tt class="docutils literal"><span class="pre">attrs</span></tt>:</dt>
 <dd><p class="first">An object whose properties will be used to set the attributes
-(e.g. <tt class="docutils literal"><span class="pre">{'style':</span> <span class="pre">'display:block'}</span></tt>), or <tt class="docutils literal"><span class="pre">null</span></tt> if no
-attributes need to be set.</p>
+(e.g. <tt class="docutils literal"><span class="pre">{'class':</span> <span class="pre">'invisible'}</span></tt>), or <tt class="docutils literal"><span class="pre">null</span></tt> if no
+attributes need to be set.  If an object is given for the
+attribute value (e.g. <tt class="docutils literal"><span class="pre">{'style':</span> <span class="pre">{'display':</span> <span class="pre">'block'}}</span></tt>)
+then <tt class="docutils literal"><span class="pre">updatetree</span></tt> will be used to set that attribute.</p>
 <p class="last">Note that it will do the right thing for IE, so don't do
 the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself, and it deals with
 setting &quot;on...&quot; event handlers correctly.</p>
 </dd>
 <dt><em>returns</em>:</dt>
 <dd>The given DOM element</dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">setNodeAttribute(node,</span> <span class="pre">attr,</span> <span class="pre">value)</span></tt>:</p>
+<blockquote>
+<p>Set the value of the given attribute for a DOM element without
+ever raising an exception (will return null on exception).  If
+setting more than one attribute, you should use <tt class="docutils literal"><span class="pre">updateNodeAttributes</span></tt>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element to update (if a string is given,
+<tt class="docutils literal"><span class="pre">getElement</span></tt> will be used to locate the node)</dd>
+<dt><tt class="docutils literal"><span class="pre">attr</span></tt>:</dt>
+<dd><p class="first">The name of the attribute</p>
+<p class="last">Note that it will do the right thing for IE, so don't do
+the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">value</span></tt>:</dt>
+<dd>The value of the attribute, may be an object to be merged
+(e.g. for setting style).</dd>
+<dt><em>returns</em>:</dt>
+<dd>The given DOM element or null on failure</dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">getNodeAttribute(node,</span> <span class="pre">attr)</span></tt>:</p>
+<blockquote>
+<p>Get the value of the given attribute for a DOM element without
+ever raising an exception (will return null on exception).</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element to update (if a string is given,
+<tt class="docutils literal"><span class="pre">getElement</span></tt> will be used to locate the node)</dd>
+<dt><tt class="docutils literal"><span class="pre">attr</span></tt>:</dt>
+<dd><p class="first">The name of the attribute</p>
+<p class="last">Note that it will do the right thing for IE, so don't do
+the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself.</p>
+</dd>
+<dt><em>returns</em>:</dt>
+<dd>The attribute's value, or null</dd>
 </dl>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">appendChildNodes(node[,</span> <span class="pre">childNode[,</span> <span class="pre">...]])</span></tt>:</p>
@@ -311,6 +351,17 @@ a lot of tags with a bunch of the same attributes or contents.</p>
 <tt class="docutils literal"><span class="pre">null</span></tt> if <tt class="docutils literal"><span class="pre">dest</span></tt> is to be removed (replaced with nothing).</dd>
 <dt><em>returns</em>:</dt>
 <dd>a DOM element (<tt class="docutils literal"><span class="pre">src</span></tt>)</dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">removeElement(node)</span></tt>:</p>
+<blockquote>
+<p>Remove and return <tt class="docutils literal"><span class="pre">node</span></tt> from a DOM tree.  This is technically
+just a convenience for <tt class="docutils literal"><span class="pre">swapDOM(node,</span> <span class="pre">null)</span></tt>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>the DOM element (or string id of one) to be removed</dd>
+<dt><em>returns</em></dt>
+<dd>The removed element</dd>
 </dl>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">getElement(id[,</span> <span class="pre">...])</span></tt>:</p>

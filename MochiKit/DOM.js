@@ -42,9 +42,12 @@ MochiKit.DOM.EXPORT = [
     "coerceToDOM",
     "createDOM",
     "createDOMFunc",
+    "getNodeAttribute",
+    "setNodeAttribute",
     "updateNodeAttributes",
     "appendChildNodes",
     "replaceChildNodes",
+    "removeElement",
     "swapDOM",
     "BUTTON",
     "TT",
@@ -179,6 +182,29 @@ MochiKit.DOM.coerceToDOM = function (node, ctx) {
     return undefined;
 };
     
+MochiKit.DOM.setNodeAttribute = function (node, attr, value) {
+    var o = {};
+    o.attr = value;
+    try {
+        return MochiKit.DOM.updateNodeAttributes(node, o);
+    } catch (e) {
+    }
+    return null;
+};
+
+MochiKit.DOM.getNodeAttribute = function (node, attr) {
+    var rename = MochiKit.DOM.attributeArray.renames[attr];
+    node = MochiKit.DOM.getElement(node);
+    try {
+        if (rename) {
+            return node[rename];
+        }
+        return node.getAttribute(attr);
+    } catch (e) {
+    }
+    return null;
+};
+
 MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
     var elem = node;
     if (typeof(node) == 'string') {
@@ -203,13 +229,10 @@ MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
             }
         } else {
             // IE is insane in the membrane
-            var IE_IS_REALLY_AWFUL_AND_SHOULD_DIE = {
-                "class": "className",
-                "checked": "defaultChecked"
-            };
+            var renames = MochiKit.DOM.attributeArray.renames;
             for (k in attrs) {
                 v = attrs[k];
-                var renamed = IE_IS_REALLY_AWFUL_AND_SHOULD_DIE[k];
+                var renamed = renames[k];
                 if (typeof(renamed) == "string") {
                     elem[renamed] = v;
                 } else if (typeof(elem[k]) == 'object' && typeof(v) == 'object') {
@@ -386,26 +409,31 @@ MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className, /* opt
     return elements;
 };
 
+MochiKit.DOM._newCallStack = function (once) {
+    var rval = function () {
+        var callStack = arguments.callee.callStack;
+        for (var i = 0; i < callStack.length; i++) {
+            if (callStack[i].apply(this, arguments) === false) {
+                break;
+            }
+        }
+        if (once) {
+            try {
+                this[path] = null;
+            } catch (e) {
+                // pass
+            }
+        }
+    };
+    rval.callStack = [];
+    return rval;
+};
+
 MochiKit.DOM.addToCallStack = function (target, path, func, once) {
     var existing = target[path];
     var regfunc = existing;
-    if (!(typeof(existing) == 'function' && existing.callStack)) {
-        regfunc = function () {
-            var callStack = regfunc.callStack;
-            for (var i = 0; i < callStack.length; i++) {
-                if (callStack[i].apply(this, arguments) === false) {
-                    break;
-                }
-            }
-            if (once) {
-                try {
-                    target[path] = null;
-                } catch (e) {
-                    // pass
-                }
-            }
-        }
-        regfunc.callStack = [];
+    if (!(typeof(existing) == 'function' && typeof(existing.callStack) == "object" && existing.callStack != null)) {
+        regfunc = MochiKit.DOM._newCallStack(once);
         if (typeof(existing) == 'function') {
             regfunc.callStack.push(existing);
         }
@@ -724,6 +752,10 @@ MochiKit.DOM.__new__ = function () {
             return (attributeArray.ignoreAttr[a.name] != a.value);
         }
         attributeArray.compliant = false;
+        attributeArray.renames = {
+            "class": "className",
+            "checked": "defaultChecked"
+        };
     } else {
         attributeArray = function (node) {
             /***
@@ -736,6 +768,7 @@ MochiKit.DOM.__new__ = function () {
             return node.attributes;
         }
         attributeArray.compliant = true;
+        attributeArray.renames = {};
     }
     this.attributeArray = attributeArray;
 
@@ -781,6 +814,7 @@ MochiKit.DOM.__new__ = function () {
     var partial = MochiKit.Base.partial;
     this.hideElement = partial(this.setDisplayForElement, "none");
     this.showElement = partial(this.setDisplayForElement, "block");
+    this.removeElement = swapDOM;
 
     this.$ = this.getElement;
 

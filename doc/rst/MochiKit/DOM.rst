@@ -181,8 +181,10 @@ Functions
 
     ``attrs``:
         An object whose properties will be used to set the attributes
-        (e.g. ``{'style': 'display:block'}``), or ``null`` if no
-        attributes need to be set.
+        (e.g. ``{'class': 'invisible'}``), or ``null`` if no
+        attributes need to be set.  If an object is given for the
+        attribute value (e.g. ``{'style': {'display': 'block'}}``)
+        then ``updatetree`` will be used to set that attribute.
 
         Note that it will do the right thing for IE, so don't do
         the ``class`` -> ``className`` hack yourself, and it deals with
@@ -190,6 +192,49 @@ Functions
 
     *returns*:
         The given DOM element
+
+
+``setNodeAttribute(node, attr, value)``:
+
+    Set the value of the given attribute for a DOM element without
+    ever raising an exception (will return null on exception).  If
+    setting more than one attribute, you should use ``updateNodeAttributes``.
+    
+    ``node``:
+        A reference to the DOM element to update (if a string is given,
+        ``getElement`` will be used to locate the node)
+
+    ``attr``:
+        The name of the attribute
+
+        Note that it will do the right thing for IE, so don't do
+        the ``class`` -> ``className`` hack yourself.
+
+    ``value``:
+        The value of the attribute, may be an object to be merged
+        (e.g. for setting style).
+
+    *returns*:
+        The given DOM element or null on failure
+
+
+``getNodeAttribute(node, attr)``:
+
+    Get the value of the given attribute for a DOM element without
+    ever raising an exception (will return null on exception).
+    
+    ``node``:
+        A reference to the DOM element to update (if a string is given,
+        ``getElement`` will be used to locate the node)
+
+    ``attr``:
+        The name of the attribute
+
+        Note that it will do the right thing for IE, so don't do
+        the ``class`` -> ``className`` hack yourself.
+
+    *returns*:
+        The attribute's value, or null
 
 
 ``appendChildNodes(node[, childNode[, ...]])``:
@@ -320,6 +365,18 @@ Functions
 
     *returns*:
         a DOM element (``src``)
+
+
+``removeElement(node)``:
+
+    Remove and return ``node`` from a DOM tree.  This is technically
+    just a convenience for ``swapDOM(node, null)``.
+
+    ``node``:
+        the DOM element (or string id of one) to be removed
+
+    *returns*
+        The removed element
 
 
 ``getElement(id[, ...])``:

@@ -1,4 +1,15 @@
-2005-10-24      v1.00
+2005-XX-XX      v1.1
+
+- New alias to MochiKit.swapDOM called removeElement
+- New MochiKit.DOM.setNodeAttribute(node, attr, value) which sets
+  an attribute on a node without raising, roughly equivalent to:
+  updateNodeAttributes(node, {attr: value})
+- New MochiKit.DOM.getNodeAttribute(node, attr) which gets the value of
+  a node's attribute or returns null without raising
+- Fixed a potential IE memory leak if using MochiKit.DOM.addToCallStack
+  directly (addLoadEvent did not leak, since it clears the handler)
+
+2005-10-24      v1.0
 
 - New interpreter example that shows usage of MochiKit.DOM  to make
   an interactive JavaScript interpreter
