@@ -121,7 +121,7 @@ MochiKit.Iter.count = function (n) {
     return {
         "repr": function () { return "count(" + n + ")"; },
         "toString": MochiKit.Base.forward("repr"),
-        "next": function () { return n++; }
+        "next": MochiKit.Base.counter(n)
     };
 };
 

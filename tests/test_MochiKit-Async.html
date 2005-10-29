@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 24});
+    plan({'tests': 32});
 
     var increment = function (res) {
         return res + 1;
@@ -176,6 +176,35 @@ try {
     } catch (e) {
         ok(false, "no love from getXMLHttpRequest");
     }
+    
+    var lock = new DeferredLock();
+    var lst = [];
+    var pushNumber = function (x) {
+        return function (res) { lst.push(x); }
+    };
+    lock.acquire().addCallback(pushNumber(1));
+    is( compare(lst, [1]), 0, "lock acquired" );
+    lock.acquire().addCallback(pushNumber(2));
+    is( compare(lst, [1]), 0, "lock waiting for release" );
+    lock.acquire().addCallback(pushNumber(3));
+    is( compare(lst, [1]), 0, "lock waiting for release" );
+    lock.release();
+    is( compare(lst, [1, 2]), 0, "lock passed on" );
+    lock.release();
+    is( compare(lst, [1, 2, 3]), 0, "lock passed on" );
+    lock.release();
+    try {
+        lock.release();
+        ok( false, "over-release didn't raise" );
+    } catch (e) {
+        ok( true, "over-release raised" );
+    }
+    lock.acquire().addCallback(pushNumber(1));
+    is( compare(lst, [1, 2, 3, 1]), 0, "lock acquired" );
+    lock.release();
+    is( compare(lst, [1, 2, 3, 1]), 0, "lock released" );
+
+
     
     ok( true, "synchronous test suite finished!");
 

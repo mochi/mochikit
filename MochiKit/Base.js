@@ -28,6 +28,15 @@ MochiKit.Base.toString = function () {
     return this.__repr__();
 };
 
+MochiKit.Base.counter = function (n/* = 1 */) {
+    if (arguments.length == 0) {
+        n = 1;
+    }
+    return function () {
+        return n++;
+    };
+};
+    
 MochiKit.Base.clone = function (obj) {
     var me = arguments.callee;
     if (arguments.length == 1) {
@@ -196,6 +205,12 @@ MochiKit.Base.NamedError.prototype.repr = function () {
 MochiKit.Base.NamedError.prototype.toString = function () {
     return this.repr();
 };
+
+MochiKit.Base._newNamedError = function (module, name, func) {
+    func.prototype = new MochiKit.Base.NamedError(module.NAME + "." + name);
+    module[name] = func;
+};
+
 
 MochiKit.Base.operator = {
     /***
@@ -1215,6 +1230,7 @@ MochiKit.Base.parseQueryString = function (encodedString, useArrays) {
     
 
 MochiKit.Base.EXPORT = [
+    "counter",
     "clone",
     "extend",
     "update",

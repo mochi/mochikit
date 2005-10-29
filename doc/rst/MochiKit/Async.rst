@@ -289,6 +289,27 @@ Constructors
     but not both.
 
 
+``DeferredLock()``:
+
+    A lock for asynchronous systems.
+
+    The ``locked`` property of a ``DeferredLock`` will be ``true`` if it
+    locked, ``false`` otherwise.  Do not change this property.
+
+
+``DeferredLock.prototype.acquire()``:
+
+    Attempt to acquire the lock.  Returns a ``Deferred`` that fires on lock
+    acquisition with the ``DeferredLock`` as the value.  If the lock is
+    locked, then the ``Deferred`` goes into a waiting list.
+
+
+``DeferredLock.prototype.release()``:
+    
+    Release the lock.  If there is a waiting list, then the first ``Deferred``
+    in that waiting list will be called back.
+
+
 Functions
 ---------
 

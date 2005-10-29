@@ -631,6 +631,18 @@ then the <tt class="docutils literal"><span class="pre">Array</span></tt> functi
 <tt class="docutils literal"><span class="pre">fn(lst[i])</span></tt> returns a true value.</p>
 <p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, <tt class="docutils literal"><span class="pre">operator.truth</span></tt> will be used.</p>
 </blockquote>
+<p><tt class="docutils literal"><span class="pre">counter(n=1)</span></tt>:</p>
+<blockquote>
+<p>Returns a function that will return a number one greater than
+the previous returned value, starting at <tt class="docutils literal"><span class="pre">n</span></tt>.  For example:</p>
+<pre class="literal-block">
+nextId = counter()
+assert( nextId() == 1 )
+assert( nextId() == 2 )
+</pre>
+<p>For an iterator with this behavior, see <a class="reference" href="Iter.html">MochiKit.Iter</a>'s
+<tt class="docutils literal"><span class="pre">count</span></tt>.</p>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">bind(func,</span> <span class="pre">self[,</span> <span class="pre">arg,</span> <span class="pre">...])</span></tt>:</p>
 <blockquote>
 <p>Return a copy of <tt class="docutils literal"><span class="pre">func</span></tt> bound to <tt class="docutils literal"><span class="pre">self</span></tt>.  This means whenever

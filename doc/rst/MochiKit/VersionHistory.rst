@@ -1,5 +1,6 @@
 2005-XX-XX      v1.1
 
+- Added DeferredLock to Async
 - Renamed getElementsComputedStyle to getComputedStyle and moved
   it from MochiKit.Visual to MochiKit.DOM
 - Moved all color support out of MochiKit.Visual and into MochiKit.Color

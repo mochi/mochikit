@@ -269,6 +269,21 @@ Add a single errback to the end of the callback sequence.</blockquote>
 Add separate callback and errback to the end of the callback
 sequence.  Either callback or errback may be <tt class="docutils literal"><span class="pre">null</span></tt>,
 but not both.</blockquote>
+<p><tt class="docutils literal"><span class="pre">DeferredLock()</span></tt>:</p>
+<blockquote>
+<p>A lock for asynchronous systems.</p>
+<p>The <tt class="docutils literal"><span class="pre">locked</span></tt> property of a <tt class="docutils literal"><span class="pre">DeferredLock</span></tt> will be <tt class="docutils literal"><span class="pre">true</span></tt> if it
+locked, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise.  Do not change this property.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">DeferredLock.prototype.acquire()</span></tt>:</p>
+<blockquote>
+Attempt to acquire the lock.  Returns a <tt class="docutils literal"><span class="pre">Deferred</span></tt> that fires on lock
+acquisition with the <tt class="docutils literal"><span class="pre">DeferredLock</span></tt> as the value.  If the lock is
+locked, then the <tt class="docutils literal"><span class="pre">Deferred</span></tt> goes into a waiting list.</blockquote>
+<p><tt class="docutils literal"><span class="pre">DeferredLock.prototype.release()</span></tt>:</p>
+<blockquote>
+Release the lock.  If there is a waiting list, then the first <tt class="docutils literal"><span class="pre">Deferred</span></tt>
+in that waiting list will be called back.</blockquote>
 </div>
 <div class="section" id="functions">
 <h2><a name="functions">Functions</a></h2>
