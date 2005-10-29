@@ -1010,15 +1010,7 @@ MochiKit.Visual.EXPORT_OK = [
 
 MochiKit.Visual.__new__();
 
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-    (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.Visual);
-}
+MochiKit.Base._exportSymbols(this, MochiKit.Visual);
 
 // Full table of css3 X11 colors <http://www.w3.org/TR/css3-color/#X11COLORS>
 MochiKit.Visual.Color.namedColors = function () {
