@@ -1,5 +1,6 @@
 2005-XX-XX      v1.1
 
+- Changed escapeHTML to escape "'" as &#39; for IE compatibility
 - New alias to MochiKit.swapDOM called removeElement
 - New MochiKit.DOM.setNodeAttribute(node, attr, value) which sets
   an attribute on a node without raising, roughly equivalent to:
