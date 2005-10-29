@@ -1281,6 +1281,15 @@ MochiKit.Base.EXPORT_OK = [
     "reprNumber"
 ];
 
+MochiKit.Base._exportSymbols = function (globals, module) {
+    if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
+        || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
+        var all = module.EXPORT_TAGS[":all"];
+        for (var i = 0; i < all.length; i++) {
+            globals[all[i]] = module[all[i]];
+        }
+    }
+};
 
 MochiKit.Base.__new__ = function () {
 
@@ -1321,13 +1330,4 @@ MochiKit.Base.__new__();
 //
 compare = MochiKit.Base.compare;
 
-
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-        (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.Base);
-}
+MochiKit.Base._exportSymbols(this, MochiKit.Base);

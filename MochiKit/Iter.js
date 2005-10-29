@@ -849,12 +849,4 @@ MochiKit.Iter.__new__();
 //
 reduce = MochiKit.Iter.reduce;
 
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-    (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.Iter);
-}
+MochiKit.Base._exportSymbols(this, MochiKit.Iter);

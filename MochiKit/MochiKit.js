@@ -110,7 +110,6 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
             return;
         }
         var modules = MochiKit.MochiKit.SUBMODULES;
-        modules.unshift("Compat");
         for (i = 0; i < modules.length; i++) {
             if (MochiKit[modules[i]]) {
                 continue;

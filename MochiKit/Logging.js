@@ -365,12 +365,4 @@ MochiKit.Logging.__new__ = function () {
 
 MochiKit.Logging.__new__();
 
-if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-    (function (self) {
-            var all = self.EXPORT_TAGS[":all"];
-            for (var i = 0; i < all.length; i++) {
-                this[all[i]] = self[all[i]];
-            }
-        })(MochiKit.Logging);
-}
+MochiKit.Base._exportSymbols(this, MochiKit.Logging);
