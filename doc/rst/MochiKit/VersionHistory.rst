@@ -1,5 +1,6 @@
 2005-XX-XX      v1.1
 
+- Fixed range() to accept a negative step
 - Changed escapeHTML to escape "'" as &#39; for IE compatibility
 - New alias to MochiKit.swapDOM called removeElement
 - New MochiKit.DOM.setNodeAttribute(node, attr, value) which sets

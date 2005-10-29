@@ -13,10 +13,11 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 41});
+    plan({'tests': 42});
 
     is( sum([1, 2, 3, 4, 5]), 15, "sum works on Arrays" );
     is( compare(list([1, 2, 3]), [1, 2, 3]), 0, "list([x]) == [x]" );
+    is( compare(list(range(6, 0, -1)), [6, 5, 4, 3, 2, 1]), 0, "list(range(6, 0, -1)");
     is( compare(list(range(6)), [0, 1, 2, 3, 4, 5]), 0, "list(range(6))" );
     var moreThanTwo = partial(operator.lt, 2);
     is( sum(ifilter(moreThanTwo, range(6))), 12, "sum(ifilter(, range()))" ); 
