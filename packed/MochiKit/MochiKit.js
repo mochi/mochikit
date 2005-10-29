@@ -1282,8 +1282,11 @@ throw TypeError("range() takes 1, 2, or 3 arguments!");
 }
 }
 }
+if(step==0){
+throw TypeError("range() step must not be 0");
+}
 return {"next":function(){
-if(_155>=stop){
+if((step>0&&_155>=stop)||(step<0&&_155<=stop)){
 throw MochiKit.Iter.StopIteration;
 }
 var rval=_155;

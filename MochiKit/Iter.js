@@ -601,9 +601,12 @@ MochiKit.Iter.range = function (/* [start,] stop[, step] */) {
     } else {
         throw TypeError("range() takes 1, 2, or 3 arguments!");
     }
+    if (step == 0) {
+        throw TypeError("range() step must not be 0");
+    }
     return {
         "next": function () {
-            if (start >= stop) {
+            if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
                 throw MochiKit.Iter.StopIteration;
             }
             var rval = start;
