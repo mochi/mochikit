@@ -611,6 +611,19 @@ Functions
     If ``fn`` is ``null``, ``operator.truth`` will be used.
 
 
+``counter(n=1)``:
+
+    Returns a function that will return a number one greater than
+    the previous returned value, starting at ``n``.  For example::
+
+        nextId = counter()
+        assert( nextId() == 1 )
+        assert( nextId() == 2 )
+
+    For an iterator with this behavior, see `MochiKit.Iter`_'s
+    ``count``.
+
+
 ``bind(func, self[, arg, ...])``:
 
     Return a copy of ``func`` bound to ``self``.  This means whenever

@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 122});
+    plan({'tests': 126});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -373,6 +373,13 @@ try {
     got.sort(compare);
     is( repr(got), repr(expect), "updatetree merge" );
     is( a.bar, 4, "updatetree insert" );
+    
+    var c = counter();
+    is( c(), 1, "counter starts at 1" );
+    is( c(), 2, "counter increases" );
+    c = counter(2);
+    is( c(), 2, "counter starts at 2" );
+    is( c(), 3, "counter increases" );
     
     ok( true, "test suite finished!");
     
