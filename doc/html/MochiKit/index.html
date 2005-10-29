@@ -16,12 +16,13 @@
 <li><a class="reference" href="Async.html">Async</a> - manage asynchronous tasks</li>
 <li><a class="reference" href="Base.html">Base</a> - functional programming and useful comparisons</li>
 <li><a class="reference" href="DOM.html">DOM</a> - painless DOM manipulation API</li>
+<li><a class="reference" href="Color.html">Color</a> - color abstraction with CSS3 support</li>
 <li><a class="reference" href="DateTime.html">DateTime</a> - &quot;what time is it anyway?&quot;</li>
 <li><a class="reference" href="Format.html">Format</a> - string formatting goes here</li>
 <li><a class="reference" href="Iter.html">Iter</a> - itertools for JavaScript; iteration made HARD, and then easy</li>
 <li><a class="reference" href="Logging.html">Logging</a> - we're all tired of alert()</li>
 <li><a class="reference" href="LoggingPane.html">LoggingPane</a> - interactive MochiKit.Logging pane</li>
-<li><a class="reference" href="Visual.html">Visual</a> - visual effects and colors</li>
+<li><a class="reference" href="Visual.html">Visual</a> - visual effects</li>
 </ul>
 </div>
 <div class="section" id="see-also">
@@ -39,6 +40,9 @@
 <h1><a name="version-history">Version History</a></h1>
 <p>2005-XX-XX      v1.1</p>
 <ul class="simple">
+<li>Renamed getElementsComputedStyle to getComputedStyle and moved
+it from MochiKit.Visual to MochiKit.DOM</li>
+<li>Moved all color support out of MochiKit.Visual and into MochiKit.Color</li>
 <li>Fixed range() to accept a negative step</li>
 <li>Changed escapeHTML to escape &quot;'&quot; as &amp;#39; for IE compatibility</li>
 <li>New alias to MochiKit.swapDOM called removeElement</li>

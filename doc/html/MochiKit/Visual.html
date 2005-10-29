@@ -4,14 +4,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 <meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
-<title>MochiKit.Visual - visual effects and colors</title>
+<title>MochiKit.Visual - visual effects</title>
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
 </head>
 <body>
 <div class="document">
 <div class="section" id="name">
 <h1><a name="name">Name</a></h1>
-<p>MochiKit.Visual - visual effects and colors</p>
+<p>MochiKit.Visual - visual effects</p>
 </div>
 <div class="section" id="synopsis">
 <h1><a name="synopsis">Synopsis</a></h1>
@@ -21,21 +21,6 @@ roundClass(&quot;h1&quot;, null);
 
 // round the top left corner of the element with the id &quot;title&quot;
 roundElement(&quot;title&quot;, {corners: &quot;tl&quot;});
-
-// RGB color expressions are supported
-assert(
-    objEqual(Color.whiteColor(), Color.fromString(&quot;rgb(255,100%, 255)&quot;))
-);
-
-// So is instantiating directly from HSL or RGB values.
-// Note that fromRGB and fromHSL take numbers between 0.0 and 1.0!
-assert( objEqual(Color.fromRGB(1.0, 1.0, 1.0), Color.fromHSL(0.0, 0.0, 1.0) );
-
-// Or even SVG color keyword names, as per CSS3!
-assert( Color.fromString(&quot;aquamarine&quot;), &quot;#7fffd4&quot; );
-    
-// NSColor-like colors built in
-assert( Color.whiteColor().toHexString() == &quot;#ffffff&quot; );
 </pre>
 </div>
 <div class="section" id="description">
@@ -48,6 +33,7 @@ assert( Color.whiteColor().toHexString() == &quot;#ffffff&quot; );
 <li><a class="reference" href="Base.html">MochiKit.Base</a></li>
 <li><a class="reference" href="Iter.html">MochiKit.Iter</a></li>
 <li><a class="reference" href="DOM.html">MochiKit.DOM</a></li>
+<li><a class="reference" href="Color.html">MochiKit.Color</a></li>
 </ul>
 </div>
 <div class="section" id="overview">
@@ -56,250 +42,9 @@ assert( Color.whiteColor().toHexString() == &quot;#ffffff&quot; );
 for your HTML elements. These rounded corners are created completely
 through CSS manipulations and require no external images or style sheets.
 This implementation was adapted from <a class="reference" href="http://www.openrico.org">Rico</a>.</p>
-<p>The Visual package also includes some functions for computing colors and a
-<tt class="docutils literal"><span class="pre">Color</span></tt> object that provides some useful methods for working with colors.</p>
 </div>
 <div class="section" id="api-reference">
 <h1><a name="api-reference">API Reference</a></h1>
-<div class="section" id="constructors">
-<h2><a name="constructors">Constructors</a></h2>
-<p><tt class="docutils literal"><span class="pre">Color()</span></tt>:</p>
-<blockquote>
-<p>Represents a color.  Component values should be integers between <tt class="docutils literal"><span class="pre">0.0</span></tt>
-and <tt class="docutils literal"><span class="pre">1.0</span></tt>.  You should use one of the <tt class="docutils literal"><span class="pre">Color</span></tt> factory
-functions such as <tt class="docutils literal"><span class="pre">Color.fromRGB</span></tt>, <tt class="docutils literal"><span class="pre">Color.fromHSL</span></tt>, etc. instead
-of constructing <tt class="docutils literal"><span class="pre">Color</span></tt> objects directly.</p>
-<p><tt class="docutils literal"><span class="pre">Color</span></tt> instances can be compared with <tt class="docutils literal"><span class="pre">MochiKit.Base.compare</span></tt>
-(though ordering is on RGB, so is not particularly meaningful),
-and the default <tt class="docutils literal"><span class="pre">toString</span></tt> implementation returns
-<tt class="docutils literal"><span class="pre">this.toHexString()</span></tt>.</p>
-<p>Colors are immutable, and much of the architecture is inspired by
-AppKit's NSColor <a class="footnote-reference" href="#id6" id="id1" name="id1">[1]</a></p>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.fromRGB(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
-<blockquote>
-<p>Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given <tt class="docutils literal"><span class="pre">red</span></tt>, <tt class="docutils literal"><span class="pre">green</span></tt>, <tt class="docutils literal"><span class="pre">blue</span></tt>,
-and <tt class="docutils literal"><span class="pre">alpha</span></tt> values.  Values should be numbers between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</p>
-<p>If <tt class="docutils literal"><span class="pre">alpha</span></tt> is not given, then <tt class="docutils literal"><span class="pre">1.0</span></tt> (completely opaque) will be used.</p>
-<dl class="docutils">
-<dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">Color.fromRGB({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt></dd>
-</dl>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.fromHSL(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
-<blockquote>
-<p>Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given <tt class="docutils literal"><span class="pre">hue</span></tt>, <tt class="docutils literal"><span class="pre">saturation</span></tt>,
-<tt class="docutils literal"><span class="pre">lightness</span></tt> values.  Values should be numbers between <tt class="docutils literal"><span class="pre">0.0</span></tt> and
-<tt class="docutils literal"><span class="pre">1.0</span></tt>.</p>
-<p>If <tt class="docutils literal"><span class="pre">alpha</span></tt> is not given, then <tt class="docutils literal"><span class="pre">1.0</span></tt> (completely opaque) will be used.</p>
-<dl class="docutils">
-<dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">Color.fromHSL({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">l:</span> <span class="pre">lightness,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt></dd>
-</dl>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.fromHSV(hue,</span> <span class="pre">saturation,</span> <span class="pre">value,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
-<blockquote>
-<p>Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given <tt class="docutils literal"><span class="pre">hue</span></tt>, <tt class="docutils literal"><span class="pre">saturation</span></tt>,
-<tt class="docutils literal"><span class="pre">value</span></tt> values.  Values should be numbers between <tt class="docutils literal"><span class="pre">0.0</span></tt> and
-<tt class="docutils literal"><span class="pre">1.0</span></tt>.</p>
-<p>If <tt class="docutils literal"><span class="pre">alpha</span></tt> is not given, then <tt class="docutils literal"><span class="pre">1.0</span></tt> (completely opaque) will be used.</p>
-<dl class="docutils">
-<dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">Color.fromHSV({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">v:</span> <span class="pre">value,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt></dd>
-</dl>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.fromHexString(hexString)</span></tt>:</p>
-<blockquote>
-Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given hexadecimal color string.
-For example, <tt class="docutils literal"><span class="pre">&quot;#FFFFFF&quot;</span></tt> would return a <tt class="docutils literal"><span class="pre">Color</span></tt> with
-RGB values <tt class="docutils literal"><span class="pre">[255/255,</span> <span class="pre">255/255,</span> <span class="pre">255/255]</span></tt> (white).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.fromRGBString(rgbString)</span></tt>:</p>
-<blockquote>
-Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given decimal rgb color string.
-For example, <tt class="docutils literal"><span class="pre">&quot;rgb(255,255,255)&quot;</span></tt> would return a <tt class="docutils literal"><span class="pre">Color</span></tt> with
-RGB values <tt class="docutils literal"><span class="pre">[255/255,</span> <span class="pre">255/255,</span> <span class="pre">255/255]</span></tt> (white).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.fromHSLString(hslString)</span></tt>:</p>
-<blockquote>
-Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given decimal hsl color string.
-For example, <tt class="docutils literal"><span class="pre">&quot;hsl(0,0%,100%)&quot;</span></tt> would return a <tt class="docutils literal"><span class="pre">Color</span></tt> with
-HSL values <tt class="docutils literal"><span class="pre">[0/360,</span> <span class="pre">0/360,</span> <span class="pre">360/360]</span></tt> (white).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.fromName(colorName)</span></tt>:</p>
-<blockquote>
-Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object corresponding to the given
-SVG 1.0 color keyword name <a class="footnote-reference" href="#id7" id="id2" name="id2">[2]</a> as per the W3C CSS3
-Color Module <a class="footnote-reference" href="#id8" id="id3" name="id3">[3]</a>.  <tt class="docutils literal"><span class="pre">&quot;transparent&quot;</span></tt> is also accepted
-as a color name, and will return <tt class="docutils literal"><span class="pre">Color.transparentColor()</span></tt>.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.fromString(rgbOrHexString)</span></tt>:</p>
-<blockquote>
-<p>Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object from the given RGB, HSL, hex, or name.
-Will return <tt class="docutils literal"><span class="pre">null</span></tt> if the string can not be parsed by any of these 
-methods.</p>
-<p>See <tt class="docutils literal"><span class="pre">Color.fromHexString</span></tt>, <tt class="docutils literal"><span class="pre">Color.fromRGBString</span></tt>, 
-<tt class="docutils literal"><span class="pre">Color.fromHSLString</span></tt> and <tt class="docutils literal"><span class="pre">Color.fromName</span></tt> more information.</p>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.fromBackground(elem)</span></tt>:</p>
-<blockquote>
-Returns a <tt class="docutils literal"><span class="pre">Color</span></tt> object based on the background of the provided
-element.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.namedColors()</span></tt>:</p>
-<blockquote>
-Returns an object with properties for each SVG 1.0 color keyword
-name <a class="footnote-reference" href="#id7" id="id4" name="id4">[2]</a> supported by CSS3 <a class="footnote-reference" href="#id8" id="id5" name="id5">[3]</a>.  Property names are the color keyword
-name in lowercase, and the value is a string suitable for
-<tt class="docutils literal"><span class="pre">Color.fromString()</span></tt>.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithAlpha(alpha)</span></tt>:</p>
-<blockquote>
-Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
-<tt class="docutils literal"><span class="pre">alpha</span></tt> value.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithHue(hue)</span></tt>:</p>
-<blockquote>
-Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
-<tt class="docutils literal"><span class="pre">hue</span></tt> value.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithSaturation(saturation)</span></tt>:</p>
-<blockquote>
-Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
-<tt class="docutils literal"><span class="pre">saturation</span></tt> value (using the HSL color model).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.colorWithLightness(lightness)</span></tt>:</p>
-<blockquote>
-Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but with the provided
-<tt class="docutils literal"><span class="pre">lightness</span></tt> value.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.darkerColorWithLevel(level)</span></tt>:</p>
-<blockquote>
-Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but darker by the given
-<tt class="docutils literal"><span class="pre">level</span></tt> (between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.lighterColorWithLevel(level)</span></tt>:</p>
-<blockquote>
-Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> based on this color, but lighter by the given
-<tt class="docutils literal"><span class="pre">level</span></tt> (between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.blendedColor(other,</span> <span class="pre">fraction=0.5)</span></tt>:</p>
-<blockquote>
-Return a new <tt class="docutils literal"><span class="pre">Color</span></tt> whose RGBA component values are a weighted sum
-of this color and <tt class="docutils literal"><span class="pre">other</span></tt>.  Each component of the returned color
-is the <tt class="docutils literal"><span class="pre">fraction</span></tt> of other's value plus <tt class="docutils literal"><span class="pre">1</span> <span class="pre">-</span> <span class="pre">fraction</span></tt> of this
-color's.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.isLight()</span></tt>:</p>
-<blockquote>
-<p>Return <tt class="docutils literal"><span class="pre">true</span></tt> if the lightness value of this color is greater than
-<tt class="docutils literal"><span class="pre">0.5</span></tt>.</p>
-<p>Note that <tt class="docutils literal"><span class="pre">alpha</span></tt> is ignored for this calculation (color components
-are not premultiplied).</p>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.isDark()</span></tt>:</p>
-<blockquote>
-<p>Return <tt class="docutils literal"><span class="pre">true</span></tt> if the lightness value of this color is less than or
-equal to <tt class="docutils literal"><span class="pre">0.5</span></tt>.</p>
-<p>Note that <tt class="docutils literal"><span class="pre">alpha</span></tt> is ignored for this calculation (color components
-are not premultiplied).</p>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.toRGBString()</span></tt>:</p>
-<blockquote>
-<p>Return the decimal <tt class="docutils literal"><span class="pre">&quot;rgb(red,</span> <span class="pre">green,</span> <span class="pre">blue)&quot;</span></tt> string representation of this
-color.</p>
-<p>If the alpha component is not <tt class="docutils literal"><span class="pre">1.0</span></tt> (fully opaque), the
-<tt class="docutils literal"><span class="pre">&quot;rgba(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha)&quot;</span></tt> string representation will be used.</p>
-<p>For example:</p>
-<pre class="literal-block">
-assert( Color.whiteColor().toRGBString() == &quot;rgb(255,255,255)&quot; );
-</pre>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.toHSLString()</span></tt>:</p>
-<blockquote>
-<p>Return the decimal <tt class="docutils literal"><span class="pre">&quot;hsl(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness)&quot;</span></tt>
-string representation of this color.</p>
-<p>If the alpha component is not <tt class="docutils literal"><span class="pre">1.0</span></tt> (fully opaque), the
-<tt class="docutils literal"><span class="pre">&quot;hsla(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness,</span> <span class="pre">alpha)&quot;</span></tt> string representation
-will be used.</p>
-<p>For example:</p>
-<pre class="literal-block">
-assert( Color.whiteColor().toHSLString() == &quot;hsl(0,0,360)&quot; );
-</pre>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.toHexString()</span></tt>:</p>
-<blockquote>
-<p>Return the hexadecimal <tt class="docutils literal"><span class="pre">&quot;#RRGGBB&quot;</span></tt> string representation of this color.</p>
-<p>Note that the alpha component is completely ignored for hexadecimal
-string representations!</p>
-<p>For example:</p>
-<pre class="literal-block">
-assert( Color.whiteColor().toHexString() == &quot;#FFFFFF&quot; );
-</pre>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.asRGB()</span></tt>:</p>
-<blockquote>
-Return the RGB (red, green, blue, alph) components of this color as an
-object with <tt class="docutils literal"><span class="pre">r</span></tt>, <tt class="docutils literal"><span class="pre">g</span></tt>, <tt class="docutils literal"><span class="pre">b</span></tt>, and <tt class="docutils literal"><span class="pre">a</span></tt> properties that have
-values between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.asHSL()</span></tt>:</p>
-<blockquote>
-Return the HSL (hue, saturation, lightness, alpha) components of this
-color as an object with <tt class="docutils literal"><span class="pre">h</span></tt>, <tt class="docutils literal"><span class="pre">s</span></tt>, <tt class="docutils literal"><span class="pre">l</span></tt> and <tt class="docutils literal"><span class="pre">a</span></tt> properties
-that have values between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.prototype.asHSV()</span></tt>:</p>
-<blockquote>
-Return the HSV (hue, saturation, value, alpha) components of this
-color as an object with <tt class="docutils literal"><span class="pre">h</span></tt>, <tt class="docutils literal"><span class="pre">s</span></tt>, <tt class="docutils literal"><span class="pre">v</span></tt> and <tt class="docutils literal"><span class="pre">a</span></tt> properties
-that have values between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.blackColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0, 0, 0
-(#000000).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.blueColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0, 0, 1
-(#0000ff).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.brownColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0.6, 0.4, 0.2
-(#996633).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.cyanColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0, 1, 1
-(#00ffff).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.darkGrayColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 1/3, 1/3, 1/3
-(#555555).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.grayColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0.5, 0.5, 0.5
-(#808080).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.greenColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0, 1, 0.
-(#00ff00).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.lightGrayColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 2/3, 2/3, 2/3
-(#aaaaaa).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.magentaColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 1, 0, 1
-(#ff00ff).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.orangeColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 1, 0.5, 0
-(#ff8000).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.purpleColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 0.5, 0, 0.5
-(#800080).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.redColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 1, 0, 0
-(#ff0000).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.whiteColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 1, 1, 1
-(#ffffff).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.yellowColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object whose RGB values are 1, 1, 0
-(#ffff00).</blockquote>
-<p><tt class="docutils literal"><span class="pre">Color.transparentColor()</span></tt>:</p>
-<blockquote>
-Return a <tt class="docutils literal"><span class="pre">Color</span></tt> object that is completely transparent
-(has alpha component of 0).</blockquote>
-</div>
 <div class="section" id="functions">
 <h2><a name="functions">Functions</a></h2>
 <p><tt class="docutils literal"><span class="pre">roundElement(element[,</span> <span class="pre">options])</span></tt>:</p>
@@ -364,82 +109,26 @@ Rounds all of the elements that match the <tt class="docutils literal"><span cla
 specifiers, using the options provided.  <tt class="docutils literal"><span class="pre">tagName</span></tt> or <tt class="docutils literal"><span class="pre">className</span></tt> can
 be <tt class="docutils literal"><span class="pre">null</span></tt> to match all tags or classes.  For more information about
 the options, see the <tt class="docutils literal"><span class="pre">roundElement</span></tt> function above.</blockquote>
-<p><tt class="docutils literal"><span class="pre">getElementsComputedStyle(htmlElement,</span> <span class="pre">cssProperty,</span> <span class="pre">mozillaEquivalentCSS)</span></tt>:</p>
-<blockquote>
-Looks up a CSS property for the given element. The element can be
-specified as either a string with the element's ID or the element
-object itself.</blockquote>
-<p><tt class="docutils literal"><span class="pre">hslToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness,</span> <span class="pre">alpha)</span></tt>:</p>
-<blockquote>
-<p>Computes RGB values from the provided HSL values. The return value is a
-mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;g&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
-<dl class="docutils">
-<dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">hslToRGB({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">l:</span> <span class="pre">lightness,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt>.</dd>
-</dl>
-<p><tt class="docutils literal"><span class="pre">hslToRGB</span></tt> is not exported by default when using JSAN.</p>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">rgbToHSL(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha)</span></tt>:</p>
-<blockquote>
-<p>Computes HSL values based on the provided RGB values. The return value is
-a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;l&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
-<dl class="docutils">
-<dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">rgbToHSL({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt>.</dd>
-</dl>
-<p><tt class="docutils literal"><span class="pre">rgbToHSL</span></tt> is not exported by default when using JSAN.</p>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">hsvToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">value,</span> <span class="pre">alpha)</span></tt>:</p>
-<blockquote>
-<p>Computes RGB values from the provided HSV values. The return value is a
-mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;g&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
-<dl class="docutils">
-<dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">hsvToRGB({h:</span> <span class="pre">hue,</span> <span class="pre">s:</span> <span class="pre">saturation,</span> <span class="pre">v:</span> <span class="pre">value,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt>.</dd>
-</dl>
-<p><tt class="docutils literal"><span class="pre">hsvToRGB</span></tt> is not exported by default when using JSAN.</p>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">rgbToHSV(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha)</span></tt>:</p>
-<blockquote>
-<p>Computes HSV values based on the provided RGB values. The return value is
-a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;v&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
-<dl class="docutils">
-<dt>Alternate form:</dt>
-<dd><tt class="docutils literal"><span class="pre">rgbToHSV({r:</span> <span class="pre">red,</span> <span class="pre">g:</span> <span class="pre">green,</span> <span class="pre">b:</span> <span class="pre">blue,</span> <span class="pre">a:</span> <span class="pre">alpha})</span></tt>.</dd>
-</dl>
-<p><tt class="docutils literal"><span class="pre">rgbToHSV</span></tt> is not exported by default when using JSAN.</p>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">toColorPart(num)</span></tt>:</p>
-<blockquote>
-<p>Convert num to a zero padded hexadecimal digit for use in a hexadecimal
-color string.  Num should be an integer between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
-<p><tt class="docutils literal"><span class="pre">toColorPart</span></tt> is not exported by default when using JSAN.</p>
-</blockquote>
-<p><tt class="docutils literal"><span class="pre">clampColorComponent(num,</span> <span class="pre">scale)</span></tt>:</p>
-<blockquote>
-<p>Returns <tt class="docutils literal"><span class="pre">num</span> <span class="pre">*</span> <span class="pre">scale</span></tt> clamped between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">scale</span></tt>.</p>
-<p><tt class="docutils literal"><span class="pre">clampColorComponent</span></tt> is not exported by default when using JSAN.</p>
-</blockquote>
 </div>
 </div>
 <div class="section" id="see-also">
 <h1><a name="see-also">See Also</a></h1>
-<table class="docutils footnote" frame="void" id="id6" rules="none">
+<table class="docutils footnote" frame="void" id="id1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1" name="id6">[1]</a></td><td>Application Kit Reference - NSColor: <a class="reference" href="http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Classes/NSColor.html">http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Classes/NSColor.html</a></td></tr>
+<tr><td class="label"><a name="id1">[1]</a></td><td>Application Kit Reference - NSColor: <a class="reference" href="http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Classes/NSColor.html">http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Classes/NSColor.html</a></td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
+<table class="docutils footnote" frame="void" id="id2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a name="id7">[2]</a></td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> SVG 1.0 color keywords: <a class="reference" href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">http://www.w3.org/TR/SVG/types.html#ColorKeywords</a></td></tr>
+<tr><td class="label"><a name="id2">[2]</a></td><td>SVG 1.0 color keywords: <a class="reference" href="http://www.w3.org/TR/SVG/types.html#ColorKeywords">http://www.w3.org/TR/SVG/types.html#ColorKeywords</a></td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
+<table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a name="id8">[3]</a></td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id5">2</a>)</em> W3C CSS3 Color Module: <a class="reference" href="http://www.w3.org/TR/css3-color/#svg-color">http://www.w3.org/TR/css3-color/#svg-color</a></td></tr>
+<tr><td class="label"><a name="id3">[3]</a></td><td>W3C CSS3 Color Module: <a class="reference" href="http://www.w3.org/TR/css3-color/#svg-color">http://www.w3.org/TR/css3-color/#svg-color</a></td></tr>
 </tbody>
 </table>
 </div>

@@ -1,5 +1,8 @@
 2005-XX-XX      v1.1
 
+- Renamed getElementsComputedStyle to getComputedStyle and moved
+  it from MochiKit.Visual to MochiKit.DOM
+- Moved all color support out of MochiKit.Visual and into MochiKit.Color
 - Fixed range() to accept a negative step
 - Changed escapeHTML to escape "'" as &#39; for IE compatibility
 - New alias to MochiKit.swapDOM called removeElement

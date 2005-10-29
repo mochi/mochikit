@@ -6,11 +6,12 @@ dojo.hostenv.conditionalLoadModule({
         "MochiKit.DateTime",
         "MochiKit.Format",
         "MochiKit.Async",
-        "MochiKit.Visual"
+        "MochiKit.Color"
     ],
     "browser": [
         "MochiKit.DOM",
-        "MochiKit.LoggingPane"
+        "MochiKit.LoggingPane",
+        "MochiKit.Visual"
     ]
 });
 dojo.hostenv.moduleLoaded("MochiKit.*");
