@@ -8,12 +8,13 @@ MochiKit - makes JavaScript suck a bit less
 - `Async`_ - manage asynchronous tasks
 - `Base`_ - functional programming and useful comparisons
 - `DOM`_ - painless DOM manipulation API
+- `Color`_ - color abstraction with CSS3 support
 - `DateTime`_ - "what time is it anyway?"
 - `Format`_ - string formatting goes here
 - `Iter`_ - itertools for JavaScript; iteration made HARD, and then easy
 - `Logging`_ - we're all tired of alert()
 - `LoggingPane`_ - interactive MochiKit.Logging pane
-- `Visual`_ - visual effects and colors
+- `Visual`_ - visual effects
     
 .. _`Async`: Async.html
 .. _`Base`: Base.html
@@ -24,6 +25,7 @@ MochiKit - makes JavaScript suck a bit less
 .. _`Logging`: Logging.html
 .. _`LoggingPane`: LoggingPane.html
 .. _`Visual`: Visual.html
+.. _`Color`: Color.html
 
 See Also
 ========

@@ -78,6 +78,7 @@ MochiKit.DOM.EXPORT = [
     "IMG",
     "getElement",
     "$",
+    "getComputedStyle",
     "getElementsByTagAndClassName",
     "addToCallStack",
     "addLoadEvent",
@@ -379,6 +380,30 @@ MochiKit.DOM.getElement = function (id) {
     } else {
         return MochiKit.Base.map(getElement, arguments);
     }
+};
+
+MochiKit.DOM.getComputedStyle = function (htmlElement, cssProperty, mozillaEquivalentCSS) {
+    if (arguments.length == 2) {
+        mozillaEquivalentCSS = cssProperty;
+    }   
+    var el = MochiKit.DOM.getElement(htmlElement);
+    if (!el || el == document) {
+        return undefined;
+    }
+    if (el.currentStyle) {
+        return el.currentStyle[cssProperty];
+    }
+    if (typeof(document.defaultView) == 'undefined') {
+        return undefined;
+    }
+    if (document.defaultView == null) {
+        return undefined;
+    }
+    var style = document.defaultView.getComputedStyle(el, null);
+    if (typeof(style) == "undefined" || style == null) {
+        return undefined;
+    }
+    return style.getPropertyValue(mozillaEquivalentCSS);
 };
 
 MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className, /* optional */parent) {

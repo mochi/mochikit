@@ -525,7 +525,7 @@ MochiKit.Base.filter = function (fn, lst, self) {
 };
 
 
-MochiKit.Base._wrapDumpFunction = function (func) {
+MochiKit.Base._wrapDumbFunction = function (func) {
     return function () {
         // fast path!
         switch (arguments.length) {
@@ -834,13 +834,12 @@ MochiKit.Base.reprArrayLike = function (o) {
 };
 
 MochiKit.Base.reprString = function (o) { 
-    o = '"' + o.replace(/(["\\])/g, '\\$1') + '"';
-    o = o.replace(/[\f]/g, "\\f");
-    o = o.replace(/[\b]/g, "\\b");
-    o = o.replace(/[\n]/g, "\\n");
-    o = o.replace(/[\t]/g, "\\t");
-    o = o.replace(/[\r]/g, "\\r");
-    return o;
+    return ('"' + o.replace(/(["\\])/g, '\\$1') + '"'
+        ).replace(/[\f]/g, "\\f"
+        ).replace(/[\b]/g, "\\b"
+        ).replace(/[\n]/g, "\\n"
+        ).replace(/[\t]/g, "\\t"
+        ).replace(/[\r]/g, "\\r");
 };
 
 MochiKit.Base.reprNumber = function (o) {
