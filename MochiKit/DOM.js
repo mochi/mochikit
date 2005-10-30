@@ -78,7 +78,7 @@ MochiKit.DOM.EXPORT = [
     "IMG",
     "getElement",
     "$",
-    "getComputedStyle",
+    "computedStyle",
     "getElementsByTagAndClassName",
     "addToCallStack",
     "addLoadEvent",
@@ -382,7 +382,7 @@ MochiKit.DOM.getElement = function (id) {
     }
 };
 
-MochiKit.DOM.getComputedStyle = function (htmlElement, cssProperty, mozillaEquivalentCSS) {
+MochiKit.DOM.computedStyle = function (htmlElement, cssProperty, mozillaEquivalentCSS) {
     if (arguments.length == 2) {
         mozillaEquivalentCSS = cssProperty;
     }   

@@ -342,7 +342,7 @@ MochiKit.Base.update(MochiKit.Color.Color, {
         var m = MochiKit.Color;
         var d = MochiKit.DOM;
         for (elem = d.getElement(elem); elem; elem = elem.parentNode) {
-            var actualColor = d.getComputedStyle(
+            var actualColor = d.computedStyle(
                 elem,
                 "backgroundColor",
                 "background-color"

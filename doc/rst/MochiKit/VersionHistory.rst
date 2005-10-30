@@ -12,7 +12,7 @@
 - escapeHTML to longer escapes ' (apos) and now uses
   String.replace instead of iterating over every char.
 - Added DeferredLock to Async
-- Renamed getElementsComputedStyle to getComputedStyle and moved
+- Renamed getElementsComputedStyle to computedStyle and moved
   it from MochiKit.Visual to MochiKit.DOM
 - Moved all color support out of MochiKit.Visual and into MochiKit.Color
 - Fixed range() to accept a negative step
