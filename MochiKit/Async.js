@@ -550,6 +550,7 @@ MochiKit.Async.callLater = function (seconds, func) {
 MochiKit.Async.DeferredLock = function () {
     this.waiting = [];
     this.locked = false;
+    this.id = this._nextId();
 };
 
 MochiKit.Async.DeferredLock.prototype = {
@@ -573,7 +574,19 @@ MochiKit.Async.DeferredLock.prototype = {
             this.locked = true;
             this.waiting.shift().callback(this);
         }
-    }
+    },
+    _nextId: MochiKit.Base.counter(),
+    repr: function () {
+        var state;
+        if (this.locked) {
+            state = 'locked, ' + this.waiting.length + ' waiting'
+        } else {
+            state = 'unlocked';
+        }
+        return 'DeferredLock(' + this.id + ', ' + state + ')';
+    },
+    toString: MochiKit.Base.forward("repr")
+
 };
 
 
