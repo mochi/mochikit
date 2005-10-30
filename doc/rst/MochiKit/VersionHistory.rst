@@ -1,11 +1,12 @@
 2005-XX-XX      v1.1
 
+- escapeHTML to longer escapes ' (apos) and now uses
+  String.replace instead of iterating over every char.
 - Added DeferredLock to Async
 - Renamed getElementsComputedStyle to getComputedStyle and moved
   it from MochiKit.Visual to MochiKit.DOM
 - Moved all color support out of MochiKit.Visual and into MochiKit.Color
 - Fixed range() to accept a negative step
-- Changed escapeHTML to escape "'" as &#39; for IE compatibility
 - New alias to MochiKit.swapDOM called removeElement
 - New MochiKit.DOM.setNodeAttribute(node, attr, value) which sets
   an attribute on a node without raising, roughly equivalent to:

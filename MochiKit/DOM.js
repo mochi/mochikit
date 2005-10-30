@@ -625,20 +625,13 @@ MochiKit.DOM.escapeHTML = function (s) {
     /***
 
         Make a string safe for HTML, converting the usual suspects (lt,
-        gt, quot, apos, amp)
+        gt, quot, amp)
 
     ***/
-    var buf = [];
-    var _TRANSTABLE = MochiKit.DOM._TRANSTABLE;
-    for (var i = 0; i < s.length; i++) {
-        var c = s.charAt(i);
-        var o = _TRANSTABLE[c];
-        if (o) {
-            c = o;
-        }
-        buf.push(c);
-    }
-    return buf.join("");
+    return s.replace(/&/g, "&amp;"
+        ).replace(/"/g, "&quot;"
+        ).replace(/</g, "&lt;"
+        ).replace(/>/g, "&gt;");
 };
 
 MochiKit.DOM.toHTML = function (dom) {
@@ -827,14 +820,6 @@ MochiKit.DOM.__new__ = function () {
     this.TEXTAREA = createDOMFunc("textarea");
     this.FORM = createDOMFunc("form");
     this.P = createDOMFunc("p");
-
-    this._TRANSTABLE = {
-        "<": "&lt;",
-        ">": "&gt;",
-        "&": "&amp;",
-        "'": "&#39;",
-        '"': "&quot;"
-    };
 
     var partial = MochiKit.Base.partial;
     this.hideElement = partial(this.setDisplayForElement, "none");
