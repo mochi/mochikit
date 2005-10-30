@@ -434,7 +434,7 @@ MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className, /* opt
     return elements;
 };
 
-MochiKit.DOM._newCallStack = function (once) {
+MochiKit.DOM._newCallStack = function (path, once) {
     var rval = function () {
         var callStack = arguments.callee.callStack;
         for (var i = 0; i < callStack.length; i++) {
@@ -458,7 +458,7 @@ MochiKit.DOM.addToCallStack = function (target, path, func, once) {
     var existing = target[path];
     var regfunc = existing;
     if (!(typeof(existing) == 'function' && typeof(existing.callStack) == "object" && existing.callStack != null)) {
-        regfunc = MochiKit.DOM._newCallStack(once);
+        regfunc = MochiKit.DOM._newCallStack(path, once);
         if (typeof(existing) == 'function') {
             regfunc.callStack.push(existing);
         }
