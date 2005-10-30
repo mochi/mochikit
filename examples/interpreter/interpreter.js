@@ -122,7 +122,6 @@ InterpreterManager.prototype.blockOn = function (d) {
 };
 
 InterpreterManager.prototype.showError = function (e) {
-    var seen = {};
     appendChildNodes("interpreter_output",
         SPAN({"class": "error"}, "Error:"),
         TABLE({"class": "error"},
@@ -130,13 +129,16 @@ InterpreterManager.prototype.showError = function (e) {
             TFOOT({"class": "invisible"}, TD({"colspan": 2})),
             TBODY(null,
                 map(function (kv) {
-                    if (seen[kv[0]]) {
-                        return null;
+                    var v = kv[1];
+                    if (typeof(v) == "function") {
+                        return;
                     }
-                    seen[kv[0]] = true;
+                    if (typeof(v) == "object") {
+                        v = repr(v);
+                    }
                     return TR(null,
                         TD({"class": "error"}, kv[0]),
-                        TD({"class": "data"}, kv[1])
+                        TD({"class": "data"}, v)
                     );
                 }, sorted(items(e)))
             )
@@ -220,6 +222,42 @@ window.blockOn = function (d) {
         throw new TypeError(repr(d) + " is not a Deferred!");
     }
     interpreterManager.blockOn(d);
+};
+
+window.inspect = function (o) {
+    window._ = o;
+    if ((typeof(o) != "function" && typeof(o) != "object") || o == null) {
+        window.writeln(repr(o));
+        return;
+    }
+    var pairs = items(o);
+    if (pairs.length == 0) {
+        window.writeln(repr(o));
+        return;
+    }
+    window.writeln(TABLE({"border": "1"},
+        THEAD({"class": "invisible"}, TR(null, TD(), TD())),
+        TFOOT({"class": "invisible"}, TR(null, TD(), TD())),
+        TBODY(null,
+            map(
+                function (kv) {
+                    var click = function () {
+                        try {
+                            window.inspect(kv[1]);
+                        } catch (e) {
+                            interpreterManager.showError(e);
+                        }
+                        return false;
+                    }
+                    return TR(null,
+                        TD(null, A({href: "#", onclick: click}, kv[0])),
+                        TD(null, repr(kv[1]))
+                    );
+                },
+                pairs
+            )
+        )
+    ));
 };
     
 interpreterManager = new InterpreterManager();

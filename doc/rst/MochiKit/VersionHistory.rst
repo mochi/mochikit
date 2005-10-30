@@ -1,5 +1,7 @@
 2005-XX-XX      v1.1
 
+- MochiKit.Base.items will now catch and ignore exceptions for properties
+  that are enumerable but not accessible (e.g. permission denied)
 - MochiKit.Async.Deferred's addCallback/addErrback/addBoth
   now accept additional arguments that are used to create a partially
   applied function.  This differs from Twisted in that the callback/errback

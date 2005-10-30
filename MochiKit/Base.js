@@ -186,8 +186,15 @@ MochiKit.Base.update(MochiKit.Base, {
 
         ***/
         var rval = [];
+        var e;
         for (var prop in obj) {
-            rval.push([prop, obj[prop]]);
+            var v;
+            try {
+                v = obj[prop];
+            } catch (e) {
+                continue;
+            }
+            rval.push([prop, v]);
         }
         return rval;
     },
