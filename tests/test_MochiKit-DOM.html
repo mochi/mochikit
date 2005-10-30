@@ -35,7 +35,7 @@ try {
     is( lst.join(" "), "original new original new", "callStack in correct order (again)" );
     
     
-    is( escapeHTML("<>'\"&bar"), "&lt;&gt;&apos;&quot;&amp;bar", "escapeHTML" ); // for emacs highlighting: "
+    is( escapeHTML("<>\"&bar"), "&lt;&gt;&apos;&quot;&amp;bar", "escapeHTML" ); // for emacs highlighting: "
 
     var isDOM = function (value, expected, message) {
         is( escapeHTML(toHTML(value)), escapeHTML(expected), message );
