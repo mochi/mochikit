@@ -15,10 +15,14 @@ def main():
             basefn, ext = os.path.splitext(fn)
             if ext == '.rst':
                 srcfn = os.path.join(root, fn)
+                dest = os.path.join(destroot, basefn + '.html')
+                if basefn != "index" and os.path.getmtime(dest) >= os.path.getmtime(srcfn):
+                    print srcfn, "not changed"
+                    continue
                 print srcfn
                 res = publish_file(
                     source_path=srcfn,
-                    destination_path=os.path.join(destroot, basefn + '.html'),
+                    destination_path=dest,
                     writer_name='html',
                     settings_overrides=dict(
                         input_encoding='utf8',
