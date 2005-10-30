@@ -11,12 +11,13 @@
 <div class="document">
 <p>2005-XX-XX      v1.1</p>
 <ul class="simple">
+<li>escapeHTML to longer escapes ' (apos) and now uses
+String.replace instead of iterating over every char.</li>
 <li>Added DeferredLock to Async</li>
 <li>Renamed getElementsComputedStyle to getComputedStyle and moved
 it from MochiKit.Visual to MochiKit.DOM</li>
 <li>Moved all color support out of MochiKit.Visual and into MochiKit.Color</li>
 <li>Fixed range() to accept a negative step</li>
-<li>Changed escapeHTML to escape &quot;'&quot; as &amp;#39; for IE compatibility</li>
 <li>New alias to MochiKit.swapDOM called removeElement</li>
 <li>New MochiKit.DOM.setNodeAttribute(node, attr, value) which sets
 an attribute on a node without raising, roughly equivalent to:
