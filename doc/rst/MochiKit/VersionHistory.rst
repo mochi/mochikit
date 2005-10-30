@@ -1,5 +1,14 @@
 2005-XX-XX      v1.1
 
+- MochiKit.Async.Deferred's addCallback/addErrback/addBoth
+  now accept additional arguments that are used to create a partially
+  applied function.  This differs from Twisted in that the callback/errback
+  result becomes the *last* argument, not the first when this feature
+  is used.
+- MochiKit.Async's doSimpleXMLHttpRequest will now accept additional
+  arguments which are used to create a GET query string
+- Did some refactoring to reduce the footprint of MochiKit by a few
+  kilobytes
 - escapeHTML to longer escapes ' (apos) and now uses
   String.replace instead of iterating over every char.
 - Added DeferredLock to Async
