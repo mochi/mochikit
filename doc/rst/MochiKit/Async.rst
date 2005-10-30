@@ -271,15 +271,30 @@ Constructors
     next element on the callback sequence.  This is useful for code
     that you want to guarantee to run, e.g. a finalizer.
 
+    If additional arguments are given, then ``func`` will be replaced
+    with ``MochiKit.Base.partial.apply(null, arguments)``.  This
+    differs from `Twisted`_, because the result of the callback or
+    errback will be the *last* argument passed to ``func``.
 
-``Deferred.prototype.addCallback(func)``:
+
+``Deferred.prototype.addCallback(func[, ...])``:
 
     Add a single callback to the end of the callback sequence.
+
+    If additional arguments are given, then ``func`` will be replaced
+    with ``MochiKit.Base.partial.apply(null, arguments)``.  This
+    differs from `Twisted`_, because the result of the callback will
+    be the *last* argument passed to ``func``.
 
 
 ``Deferred.prototype.addErrback(func)``:
 
     Add a single errback to the end of the callback sequence.
+
+    If additional arguments are given, then ``func`` will be replaced
+    with ``MochiKit.Base.partial.apply(null, arguments)``.  This
+    differs from `Twisted`_, because the result of the errback will
+    be the *last* argument passed to ``func``.
 
 
 ``Deferred.prototype.addCallbacks(callback, errback)``:
@@ -377,7 +392,7 @@ Functions
         on success.
 
 
-``doSimpleXMLHttpRequest(url)``:
+``doSimpleXMLHttpRequest(url[, queryArguments...])``:
 
     Perform a simple ``XMLHttpRequest`` and wrap it with a
     ``Deferred`` that may be cancelled.  
@@ -388,6 +403,16 @@ Functions
 
     ``url``:
         The URL to GET
+
+    ``queryArguments``:
+        If this function is called with more than one argument, a ``"?"``
+        and the result of ``MochiKit.Base``'s ``queryString`` with
+        the rest of the arguments are appended to the URL.
+
+        For example, this will do a GET request to the URL
+        ``http://example.com?bar=baz``::
+        
+            doSimpleXMLHttpRequest("http://example.com", {bar: "baz"});
 
     *returns*:
         ``Deferred`` that will callback with the ``XMLHttpRequest``

@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 32});
+    plan({'tests': 35});
 
     var increment = function (res) {
         return res + 1;
@@ -204,6 +204,20 @@ try {
     lock.release();
     is( compare(lst, [1, 2, 3, 1]), 0, "lock released" );
 
+    var d = new Deferred();
+    lst = [];
+    d.addCallback(operator.add, 2);
+    d.addBoth(operator.add, 4);
+    d.addCallback(bind(lst.push, lst));
+    d.callback(1);
+    is( lst[0], 7, "auto-partial addCallback addBoth" );
+    d.addCallback(function () { throw new Error(); });
+    ebTest = function(a, b) {
+        map(bind(lst.push, lst), arguments);
+    };
+    d.addErrback(ebTest, "foo");
+    is( lst[1], "foo", "auto-partial errback" );
+    is( lst.length, 3, "auto-partial errback" );
 
     
     ok( true, "synchronous test suite finished!");

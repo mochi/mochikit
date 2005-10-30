@@ -162,6 +162,7 @@ MochiKit.Async.Deferred.prototype = {
         with CancelledError.
 
         ***/
+        var self = MochiKit.Async;
         if (this.fired == -1) {
             if (this.canceller) {
                 this.canceller(this);
@@ -169,9 +170,9 @@ MochiKit.Async.Deferred.prototype = {
                 this.silentlyCancelled = true;
             }
             if (this.fired == -1) {
-                this.errback(new MochiKit.Async.CancelledError(this));
+                this.errback(new self.CancelledError(this));
             }
-        } else if ((this.fired == 0) && (this.results[0] instanceof MochiKit.Async.Deferred)) {
+        } else if ((this.fired == 0) && (this.results[0] instanceof self.Deferred)) {
             this.results[0].cancel();
         }
     },
@@ -267,6 +268,9 @@ MochiKit.Async.Deferred.prototype = {
         that you want to guarantee to run, e.g. a finalizer.
 
         ***/
+        if (arguments.length > 1) {
+            fn = MochiKit.Base.partial.apply(null, arguments);
+        }
         return this.addCallbacks(fn, fn);
     },
 
@@ -276,6 +280,9 @@ MochiKit.Async.Deferred.prototype = {
         Add a single callback to the end of the callback sequence.
 
         ***/
+        if (arguments.length > 1) {
+            fn = MochiKit.Base.partial.apply(null, arguments);
+        }
         return this.addCallbacks(fn, null);
     },
 
@@ -285,6 +292,9 @@ MochiKit.Async.Deferred.prototype = {
         Add a single errback to the end of the callback sequence.
 
         ***/
+        if (arguments.length > 1) {
+            fn = MochiKit.Base.partial.apply(null, arguments);
+        }
         return this.addCallbacks(null, fn);
     },
 
@@ -345,107 +355,91 @@ MochiKit.Async.Deferred.prototype = {
     }
 };
 
-MochiKit.Async.evalJSONRequest = function (req) {
-    /***
+MochiKit.Base.update(MochiKit.Async, {
+    evalJSONRequest: function (/* req */) {
+        /***
 
-    Evaluate a JSON (JavaScript Object Notation) XMLHttpRequest
+        Evaluate a JSON (JavaScript Object Notation) XMLHttpRequest
 
-    @param req: The request whose responseText is to be evaluated
+        @param req: The request whose responseText is to be evaluated
 
-    @rtype: L{Object}
+        @rtype: L{Object}
 
-    ***/
-    return eval('(' + req.responseText + ')');
-};
+        ***/
+        return eval('(' + arguments[0].responseText + ')');
+    },
 
-MochiKit.Async.succeed = function (/* optional */result) {
-    /***
+    succeed: function (/* optional */result) {
+        /***
 
-    Return a Deferred that has already had '.callback(result)' called.
+        Return a Deferred that has already had '.callback(result)' called.
 
-    This is useful when you're writing synchronous code to an asynchronous
-    interface: i.e., some code is calling you expecting a Deferred result,
-    but you don't actually need to do anything asynchronous.  Just return
-    succeed(theResult).
+        This is useful when you're writing synchronous code to an asynchronous
+        interface: i.e., some code is calling you expecting a Deferred result,
+        but you don't actually need to do anything asynchronous.  Just return
+        succeed(theResult).
 
-    See L{fail} for a version of this function that uses a failing Deferred
-    rather than a successful one.
+        See L{fail} for a version of this function that uses a failing Deferred
+        rather than a successful one.
 
-    @param result: The result to give to the Deferred's 'callback' method.
+        @param result: The result to give to the Deferred's 'callback' method.
 
-    @rtype: L{Deferred}
+        @rtype: L{Deferred}
 
-    ***/
-    var d = new MochiKit.Async.Deferred();
-    d.callback.apply(d, arguments);
-    return d;
-};
+        ***/
+        var d = new MochiKit.Async.Deferred();
+        d.callback.apply(d, arguments);
+        return d;
+    },
 
-MochiKit.Async.fail = function (/* optional */result) {
-    /***
+    fail: function (/* optional */result) {
+        /***
 
-    Return a Deferred that has already had '.errback(result)' called.
+        Return a Deferred that has already had '.errback(result)' called.
 
-    See L{succeed}'s docstring for rationale.
+        See L{succeed}'s docstring for rationale.
 
-    @param result: The same argument that L{Deferred.errback} takes.
+        @param result: The same argument that L{Deferred.errback} takes.
 
-    @rtype: L{Deferred}
+        @rtype: L{Deferred}
 
-    ***/
-    var d = new MochiKit.Async.Deferred();
-    d.errback.apply(d, arguments);
-    return d;
-};
+        ***/
+        var d = new MochiKit.Async.Deferred();
+        d.errback.apply(d, arguments);
+        return d;
+    },
 
-MochiKit.Async.getXMLHttpRequest = function () {
-    var self = arguments.callee;
-    if (!self.XMLHttpRequest) {
-        var tryThese = [
-            function () { return new XMLHttpRequest(); },
-            function () { return new ActiveXObject('Msxml2.XMLHTTP'); },
-            function () { return new ActiveXObject('Microsoft.XMLHTTP'); },
-            function () { return new ActiveXObject('Msxml2.XMLHTTP.4.0'); },
-            function () {
-                throw new MochiKit.Async.BrowserComplianceError("Browser does not support XMLHttpRequest");
-            }
-        ];
-        for (var i = 0; i < tryThese.length; i++) {
-            var func = tryThese[i];
-            try {
-                self.XMLHttpRequest = func;
-                return func();
-            } catch (e) {
-                // pass
-            }
-        }
-    }
-    return self.XMLHttpRequest();
-};
-
-MochiKit.Async.sendXMLHttpRequest = function (req, /* optional */ sendContent) {
-    if (typeof(sendContent) == 'undefined') {
-        send = null;
-    }
-
-    var canceller = function () {
-        // IE SUCKS
-        try {
-            req.onreadystatechange = null;
-        } catch (e) {
-            try {
-                req.onreadystatechange = function () {};
-            } catch (e) {
+    getXMLHttpRequest: function () {
+        var self = arguments.callee;
+        if (!self.XMLHttpRequest) {
+            var tryThese = [
+                function () { return new XMLHttpRequest(); },
+                function () { return new ActiveXObject('Msxml2.XMLHTTP'); },
+                function () { return new ActiveXObject('Microsoft.XMLHTTP'); },
+                function () { return new ActiveXObject('Msxml2.XMLHTTP.4.0'); },
+                function () {
+                    throw new MochiKit.Async.BrowserComplianceError("Browser does not support XMLHttpRequest");
+                }
+            ];
+            for (var i = 0; i < tryThese.length; i++) {
+                var func = tryThese[i];
+                try {
+                    self.XMLHttpRequest = func;
+                    return func();
+                } catch (e) {
+                    // pass
+                }
             }
         }
-        req.abort();
-    }
+        return self.XMLHttpRequest();
+    },
 
-    var d = new MochiKit.Async.Deferred(canceller);
-    
-    var onreadystatechange = function () {
-        // MochiKit.Logging.logDebug('req.readyState', req.readyState);
-        if (req.readyState == 4) {
+    sendXMLHttpRequest: function (req, /* optional */ sendContent) {
+        if (typeof(sendContent) == 'undefined') {
+            send = null;
+        }
+
+        var canceller = function () {
             // IE SUCKS
             try {
                 req.onreadystatechange = null;
@@ -455,96 +449,120 @@ MochiKit.Async.sendXMLHttpRequest = function (req, /* optional */ sendContent) {
                 } catch (e) {
                 }
             }
-            var status = null;
-            try {
-                status = req.status;
-                if (!status && MochiKit.Base.isNotEmpty(req.responseText)) {
-                    // 0 or undefined seems to mean cached or local
-                    status = 304;
+            req.abort();
+        };
+
+        var self = MochiKit.Async;
+        var d = new self.Deferred(canceller);
+        
+        var onreadystatechange = function () {
+            // MochiKit.Logging.logDebug('req.readyState', req.readyState);
+            if (req.readyState == 4) {
+                // IE SUCKS
+                try {
+                    req.onreadystatechange = null;
+                } catch (e) {
+                    try {
+                        req.onreadystatechange = function () {};
+                    } catch (e) {
+                    }
                 }
+                var status = null;
+                try {
+                    status = req.status;
+                    if (!status && MochiKit.Base.isNotEmpty(req.responseText)) {
+                        // 0 or undefined seems to mean cached or local
+                        status = 304;
+                    }
+                } catch (e) {
+                    // pass
+                    // MochiKit.Logging.logDebug('error getting status?', repr(items(e)));
+                }
+                //  200 is OK, 304 is NOT_MODIFIED
+                if (status == 200 || status == 304) { // OK
+                    d.callback(req);
+                } else {
+                    var err = new self.XMLHttpRequestError(req, "Request failed");
+                    if (err.number) {
+                        // XXX: This seems to happen on page change
+                        d.errback(err);
+                    } else {
+                        // XXX: this seems to happen when the server is unreachable
+                        d.errback(err);
+                    }
+                }
+            }
+        }
+        try {
+            req.onreadystatechange = onreadystatechange;
+            req.send(sendContent);
+        } catch (e) {
+            try {
+                req.onreadystatechange = null;
+            } catch (ignore) {
+                // pass
+            }
+            d.errback(e);
+        }
+
+        return d;
+
+    },
+
+    doSimpleXMLHttpRequest: function (url/*, ...*/) {
+        var self = MochiKit.Async;
+        var req = self.getXMLHttpRequest();
+        if (arguments.length > 1) {
+            var m = MochiKit.Base;
+            url += "?" + m.queryString.apply(m.extend(null, arguments, 1));
+        }
+        req.open("GET", url, true);
+        return self.sendXMLHttpRequest(req);
+    },
+
+    loadJSONDoc: function (url) {
+        /***
+
+        Do a simple XMLHttpRequest to a URL and get the response
+        as a JSON document.
+
+        @param url: The URL to GET
+
+        @rtype: L{Deferred} returning the evaluated JSON response
+
+        ***/
+
+        var self = MochiKit.Async;
+        var d = self.doSimpleXMLHttpRequest.apply(self, arguments);
+        d = d.addCallback(self.evalJSONRequest);
+        return d;
+    },
+
+    wait: function (seconds, /* optional */value) {
+        var d = new MochiKit.Async.Deferred();
+        var m = MochiKit.Base;
+        if (typeof(value) != 'undefined') {
+            d.addCallback(function () { return value; });
+        }
+        var timeout = setTimeout(m.bind(d.callback, d), Math.floor(seconds * 1000));
+        d.canceller = function () {
+            try {
+                clearTimeout(timeout);
             } catch (e) {
                 // pass
-                // MochiKit.Logging.logDebug('error getting status?', repr(items(e)));
             }
-            //  200 is OK, 304 is NOT_MODIFIED
-            if (status == 200 || status == 304) { // OK
-                d.callback(req);
-            } else {
-                var err = new MochiKit.Async.XMLHttpRequestError(req, "Request failed");
-                if (err.number) {
-                    // XXX: This seems to happen on page change
-                    d.errback(err);
-                } else {
-                    // XXX: this seems to happen when the server is unreachable
-                    d.errback(err);
-                }
-            }
-        }
+        };
+        return d;
+    },
+
+    callLater: function (seconds, func) {
+        var m = MochiKit.Base;
+        var pfunc = m.partial.apply(null, m.extend(null, arguments, 1));
+        return MochiKit.Async.wait(seconds).addCallback(
+            function (res) { return pfunc(); }
+        );
     }
-    try {
-        req.onreadystatechange = onreadystatechange;
-        req.send(sendContent);
-    } catch (e) {
-        try {
-            req.onreadystatechange = null;
-        } catch (ignore) {
-            // pass
-        }
-        d.errback(e);
-    }
-
-    return d;
-
-};
-
-MochiKit.Async.doSimpleXMLHttpRequest = function (url) {
-    var req = MochiKit.Async.getXMLHttpRequest();
-    req.open("GET", url, true);
-    return MochiKit.Async.sendXMLHttpRequest(req);
-};
-
-MochiKit.Async.loadJSONDoc = function (url) {
-    /***
-
-    Do a simple XMLHttpRequest to a URL and get the response
-    as a JSON document.
-
-    @param url: The URL to GET
-
-    @rtype: L{Deferred} returning the evaluated JSON response
-
-    ***/
-
-    var d = MochiKit.Async.doSimpleXMLHttpRequest(url);
-    d = d.addCallback(MochiKit.Async.evalJSONRequest);
-    return d;
-};
-
-MochiKit.Async.wait = function (seconds, /* optional */value) {
-    var d = new MochiKit.Async.Deferred();
-    var bind = MochiKit.Base.bind;
-    var partial = MochiKit.Base.partial;
-    if (typeof(value) != 'undefined') {
-        d.addCallback(function () { return value; });
-    }
-    var timeout = setTimeout(bind(d.callback, d), Math.floor(seconds * 1000));
-    d.canceller = function () {
-        try {
-            clearTimeout(timeout);
-        } catch (e) {
-            // pass
-        }
-    };
-    return d;
-};
-
-MochiKit.Async.callLater = function (seconds, func) {
-    var m = MochiKit.Base;
-    var pfunc = m.partial.apply(null, m.extend(null, arguments, 1));
-    return MochiKit.Async.wait(seconds).addCallback(
-        function (res) { return pfunc(); }
-    );
-};
+});
 
 
 MochiKit.Async.DeferredLock = function () {
