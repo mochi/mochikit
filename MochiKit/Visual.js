@@ -374,7 +374,7 @@ MochiKit.Visual.roundClass = function (tagName, className, options) {
 
 // Compatibility with MochiKit 1.0
 MochiKit.Visual.Color = MochiKit.Color.Color;
-MochiKit.Visual.getElementsComputedStyle = MochiKit.DOM.getComputedStyle;
+MochiKit.Visual.getElementsComputedStyle = MochiKit.DOM.computedStyle;
 
 /* end of Rico adaptation */
 

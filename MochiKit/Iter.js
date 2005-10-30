@@ -706,7 +706,7 @@ MochiKit.Base.update(MochiKit.Iter, {
                 func(iterable[i]);
             }
         } else {
-            var self = MochiKit.Iter;
+            self = MochiKit.Iter;
             self.exhaust(self.imap(func, iterable));
         }
     },

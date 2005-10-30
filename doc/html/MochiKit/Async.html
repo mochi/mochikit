@@ -255,15 +255,30 @@ be called exactly once on a <tt class="docutils literal"><span class="pre">Defer
 </div>
 <p><tt class="docutils literal"><span class="pre">Deferred.prototype.addBoth(func)</span></tt>:</p>
 <blockquote>
-Add the same function as both a callback and an errback as the
+<p>Add the same function as both a callback and an errback as the
 next element on the callback sequence.  This is useful for code
-that you want to guarantee to run, e.g. a finalizer.</blockquote>
-<p><tt class="docutils literal"><span class="pre">Deferred.prototype.addCallback(func)</span></tt>:</p>
+that you want to guarantee to run, e.g. a finalizer.</p>
+<p>If additional arguments are given, then <tt class="docutils literal"><span class="pre">func</span></tt> will be replaced
+with <tt class="docutils literal"><span class="pre">MochiKit.Base.partial.apply(null,</span> <span class="pre">arguments)</span></tt>.  This
+differs from <a class="reference" href="http://twistedmatrix.com/">Twisted</a>, because the result of the callback or
+errback will be the <em>last</em> argument passed to <tt class="docutils literal"><span class="pre">func</span></tt>.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">Deferred.prototype.addCallback(func[,</span> <span class="pre">...])</span></tt>:</p>
 <blockquote>
-Add a single callback to the end of the callback sequence.</blockquote>
+<p>Add a single callback to the end of the callback sequence.</p>
+<p>If additional arguments are given, then <tt class="docutils literal"><span class="pre">func</span></tt> will be replaced
+with <tt class="docutils literal"><span class="pre">MochiKit.Base.partial.apply(null,</span> <span class="pre">arguments)</span></tt>.  This
+differs from <a class="reference" href="http://twistedmatrix.com/">Twisted</a>, because the result of the callback will
+be the <em>last</em> argument passed to <tt class="docutils literal"><span class="pre">func</span></tt>.</p>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">Deferred.prototype.addErrback(func)</span></tt>:</p>
 <blockquote>
-Add a single errback to the end of the callback sequence.</blockquote>
+<p>Add a single errback to the end of the callback sequence.</p>
+<p>If additional arguments are given, then <tt class="docutils literal"><span class="pre">func</span></tt> will be replaced
+with <tt class="docutils literal"><span class="pre">MochiKit.Base.partial.apply(null,</span> <span class="pre">arguments)</span></tt>.  This
+differs from <a class="reference" href="http://twistedmatrix.com/">Twisted</a>, because the result of the errback will
+be the <em>last</em> argument passed to <tt class="docutils literal"><span class="pre">func</span></tt>.</p>
+</blockquote>
 <p><tt class="docutils literal"><span class="pre">Deferred.prototype.addCallbacks(callback,</span> <span class="pre">errback)</span></tt>:</p>
 <blockquote>
 Add separate callback and errback to the end of the callback
@@ -342,7 +357,7 @@ status codes will result in an errback with an <tt class="docutils literal"><spa
 on success.</dd>
 </dl>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">doSimpleXMLHttpRequest(url)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">doSimpleXMLHttpRequest(url[,</span> <span class="pre">queryArguments...])</span></tt>:</p>
 <blockquote>
 <p>Perform a simple <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> and wrap it with a
 <tt class="docutils literal"><span class="pre">Deferred</span></tt> that may be cancelled.</p>
@@ -352,6 +367,16 @@ status codes will result in an errback with an <tt class="docutils literal"><spa
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">url</span></tt>:</dt>
 <dd>The URL to GET</dd>
+<dt><tt class="docutils literal"><span class="pre">queryArguments</span></tt>:</dt>
+<dd><p class="first">If this function is called with more than one argument, a <tt class="docutils literal"><span class="pre">&quot;?&quot;</span></tt>
+and the result of <tt class="docutils literal"><span class="pre">MochiKit.Base</span></tt>'s <tt class="docutils literal"><span class="pre">queryString</span></tt> with
+the rest of the arguments are appended to the URL.</p>
+<p>For example, this will do a GET request to the URL
+<tt class="docutils literal"><span class="pre">http://example.com?bar=baz</span></tt>:</p>
+<pre class="last literal-block">
+doSimpleXMLHttpRequest(&quot;http://example.com&quot;, {bar: &quot;baz&quot;});
+</pre>
+</dd>
 <dt><em>returns</em>:</dt>
 <dd><tt class="docutils literal"><span class="pre">Deferred</span></tt> that will callback with the <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>
 instance on success</dd>

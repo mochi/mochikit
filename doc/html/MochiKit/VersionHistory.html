@@ -11,10 +11,19 @@
 <div class="document">
 <p>2005-XX-XX      v1.1</p>
 <ul class="simple">
+<li>MochiKit.Async.Deferred's addCallback/addErrback/addBoth
+now accept additional arguments that are used to create a partially
+applied function.  This differs from Twisted in that the callback/errback
+result becomes the <em>last</em> argument, not the first when this feature
+is used.</li>
+<li>MochiKit.Async's doSimpleXMLHttpRequest will now accept additional
+arguments which are used to create a GET query string</li>
+<li>Did some refactoring to reduce the footprint of MochiKit by a few
+kilobytes</li>
 <li>escapeHTML to longer escapes ' (apos) and now uses
 String.replace instead of iterating over every char.</li>
 <li>Added DeferredLock to Async</li>
-<li>Renamed getElementsComputedStyle to getComputedStyle and moved
+<li>Renamed getElementsComputedStyle to computedStyle and moved
 it from MochiKit.Visual to MochiKit.DOM</li>
 <li>Moved all color support out of MochiKit.Visual and into MochiKit.Color</li>
 <li>Fixed range() to accept a negative step</li>
