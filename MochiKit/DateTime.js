@@ -250,4 +250,13 @@ MochiKit.DateTime.__new__ = function () {
 
 MochiKit.DateTime.__new__();
 
-MochiKit.Base._exportSymbols(this, MochiKit.DateTime);
+//MochiKit.Base._exportSymbols(this, MochiKit.DateTime);
+(function (globals, module) {
+    if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
+        || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
+        var all = module.EXPORT_TAGS[":all"];
+        for (var i = 0; i < all.length; i++) {
+            globals[all[i]] = module[all[i]]; 
+        }
+    }   
+})(this, MochiKit.DateTime);  
