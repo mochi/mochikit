@@ -628,56 +628,58 @@ MochiKit.Base.AdapterRegistry = function () {
     this.pairs = [];
 };
 
-MochiKit.Base.AdapterRegistry.prototype.register = function (name, check, wrap, /* optional */ override) {
-    /***
-        
-        The check function should return true if the given arguments are
-        appropriate for the wrap function.
+MochiKit.Base.AdapterRegistry.prototype = {
+    register: function (name, check, wrap, /* optional */ override) {
+        /***
+            
+            The check function should return true if the given arguments are
+            appropriate for the wrap function.
 
-        If override is given and true, the check function will be given
-        highest priority.  Otherwise, it will be the lowest priority
-        adapter.
+            If override is given and true, the check function will be given
+            highest priority.  Otherwise, it will be the lowest priority
+            adapter.
 
-    ***/
+        ***/
 
-    if (override) {
-        this.pairs.unshift([name, check, wrap]);
-    } else {
-        this.pairs.push([name, check, wrap]);
-    }
-};
-
-MochiKit.Base.AdapterRegistry.prototype.match = function (/* ... */) {
-    /***
-
-        Find an adapter for the given arguments.
-        
-        If no suitable adapter is found, throws NotFound.
-
-    ***/
-    for (var i = 0; i < this.pairs.length; i++) {
-        var pair = this.pairs[i];
-        if (pair[1].apply(this, arguments)) {
-            return pair[2].apply(this, arguments);
+        if (override) {
+            this.pairs.unshift([name, check, wrap]);
+        } else {
+            this.pairs.push([name, check, wrap]);
         }
-    }
-    throw MochiKit.Base.NotFound;
-};
+    },
 
-MochiKit.Base.AdapterRegistry.prototype.unregister = function (name) {
-    /***
+    match: function (/* ... */) {
+        /***
 
-        Remove a named adapter from the registry
+            Find an adapter for the given arguments.
+            
+            If no suitable adapter is found, throws NotFound.
 
-    ***/
-    for (var i = 0; i < this.pairs.length; i++) {
-        var pair = this.pairs[i];
-        if (pair[0] == name) {
-            this.pairs.splice(i, 1);
-            return true;
+        ***/
+        for (var i = 0; i < this.pairs.length; i++) {
+            var pair = this.pairs[i];
+            if (pair[1].apply(this, arguments)) {
+                return pair[2].apply(this, arguments);
+            }
         }
+        throw MochiKit.Base.NotFound;
+    },
+
+    unregister: function (name) {
+        /***
+
+            Remove a named adapter from the registry
+
+        ***/
+        for (var i = 0; i < this.pairs.length; i++) {
+            var pair = this.pairs[i];
+            if (pair[0] == name) {
+                this.pairs.splice(i, 1);
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
 };
 
 MochiKit.Base.registerComparator = function (name, check, comparator, /* optional */ override) {
@@ -741,10 +743,11 @@ MochiKit.Base.compare = function (a, b) {
     } else if (bIsNull) {
         return 1;
     }
+    var m = MochiKit.Base;
     try {
-        return MochiKit.Base.comparatorRegistry.match(a, b);
+        return m.comparatorRegistry.match(a, b);
     } catch (e) {
-        if (e != MochiKit.Base.NotFound) {
+        if (e != m.NotFound) {
             throw e;
         }
         if (a < b) {
@@ -753,7 +756,7 @@ MochiKit.Base.compare = function (a, b) {
             return 1;
         }
         // These types can't be compared
-        var repr = MochiKit.Base.repr;
+        var repr = m.repr;
         throw new TypeError(repr(a) + " and " + repr(b) + " can not be compared");
     }
 };
@@ -833,9 +836,7 @@ MochiKit.Base.repr = function (o) {
         }
     }
     if (typeof(o) == "function") {
-        o = (o + "");
-        o = o.replace(/^\s+/, "");
-        o = o.replace(/\s+$/, "");
+        o = (o + "").replace(/^\s+/, "");
         var idx = o.indexOf("{");
         if (idx != -1) {
             o = o.substr(0, idx) + "{...}";
@@ -845,7 +846,8 @@ MochiKit.Base.repr = function (o) {
 };
 
 MochiKit.Base.reprArrayLike = function (o) {
-    return "[" + MochiKit.Base.map(MochiKit.Base.repr, o).join(", ") + "]";
+    var m = MochiKit.Base;
+    return "[" + m.map(m.repr, o).join(", ") + "]";
 };
 
 MochiKit.Base.reprString = function (o) { 
@@ -858,7 +860,7 @@ MochiKit.Base.reprString = function (o) {
 };
 
 MochiKit.Base.reprNumber = function (o) {
-    return o.toString();
+    return o + "";
 };
 
 MochiKit.Base.registerJSON = function (name, check, wrap, /* optional */override) {
@@ -886,8 +888,8 @@ MochiKit.Base.registerJSON = function (name, check, wrap, /* optional */override
 };
 
 
-MochiKit.Base.evalJSON = function (o) {
-    return eval("(" + o + ")");
+MochiKit.Base.evalJSON = function () {
+    return eval("(" + arguments[0] + ")");
 };
 
 MochiKit.Base.serializeJSON = function (o) {
@@ -901,11 +903,12 @@ MochiKit.Base.serializeJSON = function (o) {
     if (objtype == "undefined") {
         return "undefined";
     } else if (objtype == "number" || objtype == "boolean") {
-        return o.toString();
+        return o + "";
     } else if (o === null) {
         return "null";
     }
-    var reprString = MochiKit.Base.reprString;
+    var m = MochiKit.Base;
+    var reprString = m.reprString;
     if (objtype == "string") {
         return reprString(o);
     }
@@ -940,10 +943,10 @@ MochiKit.Base.serializeJSON = function (o) {
     }
     // look in the registry
     try {
-        newObj = MochiKit.Base.jsonRegistry.match(o);
+        newObj = m.jsonRegistry.match(o);
         return me(newObj);
     } catch (e) {
-        if (e != MochiKit.Base.NotFound) {
+        if (e != m.NotFound) {
             // something really bad happened
             throw e;
         }
@@ -957,7 +960,7 @@ MochiKit.Base.serializeJSON = function (o) {
     for (var k in o) {
         var useKey;
         if (typeof(k) == "number") {
-            useKey = '"' + k.toString() + '"';
+            useKey = '"' + k + '"';
         } else if (typeof(k) == "string") {
             useKey = reprString(k);
         } else {
@@ -1027,13 +1030,14 @@ MochiKit.Base.keyComparator = function (key/* ... */) {
 
     ***/
     // fast-path for single key comparisons
-    var compare = MochiKit.Base.compare;
+    var m = MochiKit.Base;
+    var compare = m.compare;
     if (arguments.length == 1) {
         return function (a, b) {
             return compare(a[key], b[key]);
         }
     }
-    var compareKeys = MochiKit.Base.extend(null, arguments);
+    var compareKeys = m.extend(null, arguments);
     return function (a, b) {
         var rval = 0;
         // keep comparing until something is inequal or we run out of
@@ -1064,7 +1068,8 @@ MochiKit.Base.reverseKeyComparator = function (key) {
 };
 
 MochiKit.Base.partial = function (func) {
-    return MochiKit.Base.bind.apply(this, MochiKit.Base.extend([func, undefined], arguments, 1));
+    var m = MochiKit.Base;
+    return m.bind.apply(this, m.extend([func, undefined], arguments, 1));
 };
  
 MochiKit.Base.listMinMax = function (which, lst) {
@@ -1162,13 +1167,14 @@ MochiKit.Base.nameFunctions = function (namespace) {
 
 if (typeof(encodeURIComponent) != "undefined") {
     MochiKit.Base.urlEncode = function (unencoded) {
-        var rval = encodeURIComponent(unencoded);
-        return rval.replace(/\'/g, '%27');
+        return encodeURIComponent(unencoded).replace(/\'/g, '%27');
     };
 } else {
     MochiKit.Base.urlEncode = function (unencoded) {
-        var rval = escape(unencoded).replace(/\+/g, '%2B').replace(/\"/g,'%22');
-        return rval.replace(/\'/g, '%27');
+        return escape(unencoded
+            ).replace(/\+/g, '%2B'
+            ).replace(/\"/g,'%22'
+            ).rval.replace(/\'/g, '%27');
     };
 }
 
