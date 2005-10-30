@@ -118,7 +118,7 @@ MochiKit.DateTime.toISOTime = function (date, realISO/* = false */) {
     var mm = date.getMinutes();
     var ss = date.getSeconds();
     var lst = [
-        ((padHours && (hh < 10)) ? "0" + hh : hh),
+        ((realISO && (hh < 10)) ? "0" + hh : hh),
         ((mm < 10) ? "0" + mm : mm),
         ((ss < 10) ? "0" + ss : ss)
     ];
