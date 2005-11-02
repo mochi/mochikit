@@ -76,11 +76,12 @@ MochiKit.Visual._RoundCorners = function (e, options) {
 MochiKit.Visual._RoundCorners.prototype = {
     _doWrap: function (e) {
         var parent = e.parentNode;
-        if (typeof(document.defaultView) == "undefined"
-            || document.defaultView == null) {
+        var doc = MochiKit.DOM.currentDocument();
+        if (typeof(doc.defaultView) == "undefined"
+            || doc.defaultView == null) {
             return e;
         }
-        var style = document.defaultView.getComputedStyle(e, null);
+        var style = doc.defaultView.getComputedStyle(e, null);
         if (typeof(style) == "undefined" || style == null) {
             return e;
         }
@@ -147,13 +148,12 @@ MochiKit.Visual._RoundCorners.prototype = {
     },
 
     _createCorner: function (bgColor) {
-        var corner = document.createElement("div");
-        corner.style.backgroundColor = bgColor.toString();
-        return corner;
+        var dom = MochiKit.DOM;
+        return dom.DIV({style: {backgroundColor: bgColor.toString()}});
     },
 
     _createCornerSlice: function (color, bgColor, n, position) {
-        var slice = document.createElement("span");
+        var slice = MochiKit.DOM.SPAN();
 
         var inStyle = slice.style;
         inStyle.backgroundColor = color.toString();

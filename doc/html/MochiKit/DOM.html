@@ -168,6 +168,24 @@ were inserted into the document DOM):</p>
 &lt;/table&gt;
 </pre>
 </div>
+<div class="section" id="dom-context">
+<h2><a name="dom-context">DOM Context</a></h2>
+<p>In order to prevent having to pass a <tt class="docutils literal"><span class="pre">window</span></tt> and/or <tt class="docutils literal"><span class="pre">document</span></tt>
+variable to every MochiKit.DOM function (e.g. when working with a
+child window), MochiKit.DOM maintains a context variable for each
+of them.  They are managed with the <tt class="docutils literal"><span class="pre">withWindow</span></tt> and <tt class="docutils literal"><span class="pre">withDocument</span></tt>
+functions, and can be acquired with <tt class="docutils literal"><span class="pre">currentWindow</span></tt> and <tt class="docutils literal"><span class="pre">currentDocument</span></tt></p>
+<p>For example, if you are creating DOM nodes in a child window, you
+could do something like this:</p>
+<pre class="literal-block">
+withWindow(child, function () {
+    var doc = currentDocument();
+    appendChildNodes(doc.body, H1(null, &quot;This is in the child!&quot;));
+});
+</pre>
+<p>Note that <tt class="docutils literal"><span class="pre">withWindow(win,</span> <span class="pre">...)</span></tt> also implies
+<tt class="docutils literal"><span class="pre">withDocument(win.document,</span> <span class="pre">...)</span></tt>.</p>
+</div>
 </div>
 <div class="section" id="api-reference">
 <h1><a name="api-reference">API Reference</a></h1>
@@ -489,6 +507,31 @@ a stack of functions (instead of just a pair).</p>
 Looks up a CSS property for the given element. The element can be
 specified as either a string with the element's ID or the element
 object itself.</blockquote>
+<p><tt class="docutils literal"><span class="pre">currentWindow()</span></tt>:</p>
+<blockquote>
+Return the current <tt class="docutils literal"><span class="pre">window</span></tt> <a class="reference" href="#dom-context">DOM Context</a>.  This will always
+be the same as the global <tt class="docutils literal"><span class="pre">window</span></tt> unless <tt class="docutils literal"><span class="pre">withWindow</span></tt> is 
+currently executing.</blockquote>
+<p><tt class="docutils literal"><span class="pre">currentDocument()</span></tt>:</p>
+<blockquote>
+Return the current <tt class="docutils literal"><span class="pre">document</span></tt> <a class="reference" href="#dom-context">DOM Context</a>.  This will always
+be the same as the global <tt class="docutils literal"><span class="pre">document</span></tt> unless <tt class="docutils literal"><span class="pre">withDocument</span></tt> or
+<tt class="docutils literal"><span class="pre">withWindow</span></tt> is currently executing.</blockquote>
+<p><tt class="docutils literal"><span class="pre">withWindow(win,</span> <span class="pre">func)</span></tt>:</p>
+<blockquote>
+<p>Call <tt class="docutils literal"><span class="pre">func</span></tt> with the <tt class="docutils literal"><span class="pre">window</span></tt> <a class="reference" href="#dom-context">DOM Context</a> set to <tt class="docutils literal"><span class="pre">win</span></tt> and
+the <tt class="docutils literal"><span class="pre">document</span></tt> <a class="reference" href="#dom-context">DOM Context</a> set to <tt class="docutils literal"><span class="pre">win.document</span></tt>.  When
+<tt class="docutils literal"><span class="pre">func()</span></tt> returns or throws an error, the <a class="reference" href="#dom-context">DOM Context</a>  will be
+restored to its previous state.</p>
+<p>The return value of <tt class="docutils literal"><span class="pre">func()</span></tt> is returned by this function.</p>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">withDocument(doc,</span> <span class="pre">func)</span></tt>:</p>
+<blockquote>
+<p>Call <tt class="docutils literal"><span class="pre">func</span></tt> with the <tt class="docutils literal"><span class="pre">doc</span></tt> <a class="reference" href="#dom-context">DOM Context</a> set to <tt class="docutils literal"><span class="pre">doc</span></tt>.
+When <tt class="docutils literal"><span class="pre">func()</span></tt> returns or throws an error, the <a class="reference" href="#dom-context">DOM Context</a>
+will be restored to its previous state.</p>
+<p>The return value of <tt class="docutils literal"><span class="pre">func()</span></tt> is returned by this function.</p>
+</blockquote>
 </div>
 </div>
 <div class="section" id="see-also">
