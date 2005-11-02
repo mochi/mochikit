@@ -21,7 +21,7 @@ if (typeof(MochiKit.Format) == 'undefined') {
 }
 
 MochiKit.Format.NAME = "MochiKit.Format";
-MochiKit.Format.VERSION = "1.0";
+MochiKit.Format.VERSION = "1.1";
 MochiKit.Format.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

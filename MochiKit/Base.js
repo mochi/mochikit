@@ -19,7 +19,7 @@ if (typeof(MochiKit.Base) == 'undefined') {
     MochiKit.Base = {};
 }
 
-MochiKit.Base.VERSION = "1.0";
+MochiKit.Base.VERSION = "1.1";
 MochiKit.Base.NAME = "MochiKit.Base"
 MochiKit.Base.update = function (self, obj/*, ... */) {
     /***

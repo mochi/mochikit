@@ -30,7 +30,7 @@ if (typeof(MochiKit.Color) == "undefined") {
 }
 
 MochiKit.Color.NAME = "MochiKit.Color";
-MochiKit.Color.VERSION = "1.0";
+MochiKit.Color.VERSION = "1.1";
 
 MochiKit.Color.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";

@@ -17,7 +17,7 @@ if (typeof(MochiKit.MochiKit) == 'undefined') {
 }
 
 MochiKit.MochiKit.NAME = "MochiKit.MochiKit";
-MochiKit.MochiKit.VERSION = "1.0";
+MochiKit.MochiKit.VERSION = "1.1";
 MochiKit.MochiKit.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

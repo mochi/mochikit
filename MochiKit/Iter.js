@@ -29,7 +29,7 @@ if (typeof(MochiKit.Iter) == 'undefined') {
 }           
         
 MochiKit.Iter.NAME = "MochiKit.Iter";
-MochiKit.Iter.VERSION = "1.0";
+MochiKit.Iter.VERSION = "1.1";
 MochiKit.Base.update(MochiKit.Iter, {
     __repr__: function () {
         return "[" + this.NAME + " " + this.VERSION + "]";
