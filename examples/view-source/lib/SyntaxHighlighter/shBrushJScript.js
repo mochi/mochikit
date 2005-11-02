@@ -9,8 +9,8 @@ dp.sh.Brushes.JScript = function()
 	this.regexList = [
 		{ regex: new RegExp('//.*$', 'gm'),							css: 'comment' },			// one line comments
 		{ regex: new RegExp('/\\*[\\s\\S]*?\\*/', 'g'),				css: 'comment' },			// multiline comments
-		{ regex: new RegExp('"(?:[^"\n]|[\"])*"', 'g'),				css: 'string' },			// double quoted strings
-		{ regex: new RegExp("'(?:[^'\n]|[\'])*'", 'g'),				css: 'string' },			// single quoted strings
+		{ regex: new RegExp('"(?:[^"\n]|[\"])*?"', 'g'),			css: 'string' },			// double quoted strings
+		{ regex: new RegExp("'(?:[^'\n]|[\'])*?'", 'g'),			css: 'string' },			// single quoted strings
 		{ regex: new RegExp('^\\s*#.*', 'gm'),						css: 'preprocessor' },		// preprocessor tags like #region and #endregion
 		{ regex: new RegExp(this.GetKeywords(keywords), 'gm'),		css: 'keyword' }			// keywords
 		];
