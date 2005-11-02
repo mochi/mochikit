@@ -224,6 +224,11 @@ window.blockOn = function (d) {
     interpreterManager.blockOn(d);
 };
 
+window.dir = function (o) {
+    // Python muscle memory!
+    return sorted(keys(o));
+};
+
 window.inspect = function (o) {
     window._ = o;
     if ((typeof(o) != "function" && typeof(o) != "object") || o == null) {
