@@ -31,7 +31,7 @@ if (typeof(MochiKit.LoggingPane) == 'undefined') {
 }
 
 MochiKit.LoggingPane.NAME = "MochiKit.LoggingPane";
-MochiKit.LoggingPane.VERSION = "1.0";
+MochiKit.LoggingPane.VERSION = "1.1";
 MochiKit.LoggingPane.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

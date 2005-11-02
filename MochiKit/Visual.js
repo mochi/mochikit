@@ -36,7 +36,7 @@ if (typeof(MochiKit.Visual) == "undefined") {
 }
 
 MochiKit.Visual.NAME = "MochiKit.Visual";
-MochiKit.Visual.VERSION = "1.0";
+MochiKit.Visual.VERSION = "1.1";
 
 MochiKit.Visual.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";

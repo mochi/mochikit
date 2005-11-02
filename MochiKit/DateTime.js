@@ -21,7 +21,7 @@ if (typeof(MochiKit.DateTime) == 'undefined') {
 }
 
 MochiKit.DateTime.NAME = "MochiKit.DateTime";
-MochiKit.DateTime.VERSION = "1.0";
+MochiKit.DateTime.VERSION = "1.1";
 MochiKit.DateTime.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

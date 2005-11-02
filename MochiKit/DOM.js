@@ -29,7 +29,7 @@ if (typeof(MochiKit.DOM) == 'undefined') {
 }
 
 MochiKit.DOM.NAME = "MochiKit.DOM";
-MochiKit.DOM.VERSION = "1.0";
+MochiKit.DOM.VERSION = "1.1";
 MochiKit.DOM.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

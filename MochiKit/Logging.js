@@ -29,7 +29,7 @@ if (typeof(MochiKit.Logging) == 'undefined') {
 }
 
 MochiKit.Logging.NAME = "MochiKit.Logging";
-MochiKit.Logging.VERSION = "1.0";
+MochiKit.Logging.VERSION = "1.1";
 MochiKit.Logging.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
