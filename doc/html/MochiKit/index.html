@@ -40,6 +40,10 @@
 <h1><a name="version-history">Version History</a></h1>
 <p>2005-XX-XX      v1.1</p>
 <ul class="simple">
+<li>MochiKit.DOM now has currentWindow() and currentDocument() context
+variables that are set with withWindow() and withDocument().  These
+context variables affect all MochiKit.DOM functionality (getElement,
+createDOM, etc.)</li>
 <li>MochiKit.Base.items will now catch and ignore exceptions for properties
 that are enumerable but not accessible (e.g. permission denied)</li>
 <li>MochiKit.Async.Deferred's addCallback/addErrback/addBoth

@@ -1,5 +1,9 @@
 2005-XX-XX      v1.1
 
+- MochiKit.DOM now has currentWindow() and currentDocument() context
+  variables that are set with withWindow() and withDocument().  These
+  context variables affect all MochiKit.DOM functionality (getElement,
+  createDOM, etc.)
 - MochiKit.Base.items will now catch and ignore exceptions for properties
   that are enumerable but not accessible (e.g. permission denied)
 - MochiKit.Async.Deferred's addCallback/addErrback/addBoth

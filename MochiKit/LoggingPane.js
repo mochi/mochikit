@@ -56,7 +56,6 @@ MochiKit.LoggingPane.createLoggingPane = function (inline/* = false */) {
 MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = MochiKit.Logging.logger */) {
     /* Use a div if inline, pop up a window if not */
     /* Create the elements */
-    var doc = document;
     if (typeof(logger) == "undefined" || logger == null) {
         MochiKit.Logging.logger;
     }
@@ -64,15 +63,18 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     var updatetree = MochiKit.Base.updatetree;
     var bind = MochiKit.Base.bind;
     var clone = MochiKit.Base.clone;
-    var win;
+    var win = window;
+    if (typeof(MochiKit.DOM) != "undefined") {
+        win = MochiKit.DOM.currentWindow();
+    }
     if (!inline) {
-        win = window.open("", "", "dependent,resizable,height=200");
+        win = win.open("", "", "dependent,resizable,height=200");
         if (!win) {
             alert("Not able to open debugging window due to pop-up blocking.");
             return;
         }
-        doc = win.document;
     }
+    var doc = win.document;
     this.doc = doc;
     var debugPane = doc.createElement("div");
     var levelFilterField = doc.createElement("input");

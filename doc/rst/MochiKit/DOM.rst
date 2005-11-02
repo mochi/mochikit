@@ -158,6 +158,27 @@ Corresponding to the following HTML::
     </table>
 
 
+DOM Context
+-----------
+
+In order to prevent having to pass a ``window`` and/or ``document``
+variable to every MochiKit.DOM function (e.g. when working with a
+child window), MochiKit.DOM maintains a context variable for each
+of them.  They are managed with the ``withWindow`` and ``withDocument``
+functions, and can be acquired with ``currentWindow`` and ``currentDocument``
+
+For example, if you are creating DOM nodes in a child window, you
+could do something like this::
+
+    withWindow(child, function () {
+        var doc = currentDocument();
+        appendChildNodes(doc.body, H1(null, "This is in the child!"));
+    });
+
+Note that ``withWindow(win, ...)`` also implies
+``withDocument(win.document, ...)``.
+
+
 API Reference
 =============
 
@@ -541,6 +562,39 @@ Functions
     Looks up a CSS property for the given element. The element can be
     specified as either a string with the element's ID or the element
     object itself.
+
+
+``currentWindow()``:
+
+    Return the current ``window`` `DOM Context`_.  This will always
+    be the same as the global ``window`` unless ``withWindow`` is 
+    currently executing.
+
+
+``currentDocument()``:
+
+    Return the current ``document`` `DOM Context`_.  This will always
+    be the same as the global ``document`` unless ``withDocument`` or
+    ``withWindow`` is currently executing.
+
+
+``withWindow(win, func)``:
+
+    Call ``func`` with the ``window`` `DOM Context`_ set to ``win`` and
+    the ``document`` `DOM Context`_ set to ``win.document``.  When
+    ``func()`` returns or throws an error, the `DOM Context`_  will be
+    restored to its previous state.
+    
+    The return value of ``func()`` is returned by this function.
+
+
+``withDocument(doc, func)``:
+
+    Call ``func`` with the ``doc`` `DOM Context`_ set to ``doc``.
+    When ``func()`` returns or throws an error, the `DOM Context`_
+    will be restored to its previous state.
+    
+    The return value of ``func()`` is returned by this function.
 
 
 See Also

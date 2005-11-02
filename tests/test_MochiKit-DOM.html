@@ -13,7 +13,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 45});
+    plan({'tests': 54});
 
     lst = [];
     o = {"blah": function () { lst.push("original"); }};
@@ -156,6 +156,55 @@ try {
         "getElementsByTagAndClassName found all tr tags"
     );
         
+    var MockElement = function (name, data) {
+        this.nodeName = name.toUpperCase();
+        if (typeof(data) == "string") {
+            this.nodeValue = data;
+            this.nodeType = 3;
+        } else {
+            this.nodeType = 1;
+            this.children = [];
+        }
+    }
+    MockElement.prototype = {
+        createElement: function (nodeName) { return new MockElement(nodeName); },
+        createTextNode: function (text) { return new MockElement("text", text); },
+        appendChild: function (child) { this.children.push(child); },
+        toString: function () { return "MockElement(" + this.nodeName + ")"; }
+    };
+
+    var oldDoc = document;
+    var doc = new MockElement("DOCUMENT");
+    doc.body = new MockElement("BODY");
+    doc.appendChild(doc.body);
+    is( currentDocument(), document, "currentDocument() correct" );
+    withDocument(doc, function () {
+        ok( document != doc, "global doc unchanged" );
+        is( currentDocument(), doc, "currentDocument() correct" );
+        var h1 = H1();
+        var span = SPAN(null, "foo", h1);
+        appendChildNodes(currentDocument().body, span);
+    });
+    is( document, oldDoc, "doc restored" );
+    is( doc.children.length, 1, "doc has one child" );
+    is( doc.body.children.length, 1, "body has one child" );
+    var sp = doc.body.children[0];
+    is( sp.nodeName, "SPAN", "only child is SPAN" );
+    is( sp.children.length, 2, "SPAN has two children" );
+    is( sp.children[0].nodeValue, "foo", "first node is text" );
+    is( sp.children[1].nodeName, "H1", "second child is H1" );
+
+    is( currentDocument(), document, "currentDocument() correct" );
+    try {
+        withDocument(doc, function () {
+            ok( document != doc, "global doc unchanged" );
+            is( currentDocument(), doc, "currentDocument() correct" );
+            throw "foo";
+        });
+        ok( false, "didn't throw" );
+    } catch (e) {
+        ok( true, "threw" );
+    }
     
     ok( true, "test suite finished!");
     
