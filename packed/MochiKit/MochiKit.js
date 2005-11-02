@@ -2822,7 +2822,9 @@ if(typeof (MochiKit.DOM)!="undefined"){
 win=MochiKit.DOM.currentWindow();
 }
 if(!_369){
-win=win.open("","","dependent,resizable,height=200");
+var url=win.location.href.split("?")[0];
+var name="MochiKit.LoggingPane."+url;
+win=win.open("",name,"dependent,resizable,height=200");
 if(!win){
 alert("Not able to open debugging window due to pop-up blocking.");
 return;
@@ -2976,7 +2978,11 @@ _381.appendChild(_382);
 _374.appendChild(_381);
 _400();
 _401();
+if(_369){
+this.win=undefined;
+}else{
 this.win=win;
+}
 this.inline=_369;
 this.closePane=_398;
 this.closed=false;

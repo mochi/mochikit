@@ -51,7 +51,7 @@ Constructors
 
     If ``inline`` is ``true``, then the ``LoggingPane`` will be a ``DIV``
     at the bottom of the document.  Otherwise, it will be in a pop-up
-    window.
+    window with a name based on the calling page's URL.
 
     ``logger`` is the reference to the ``MochiKit.Logging.Logger`` to listen
     to.  If not specified, the global default logger is used.

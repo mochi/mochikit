@@ -1,5 +1,8 @@
 2005-XX-XX      v1.1
 
+- MochiKit.LoggingPane now uses named windows based on the URL so that
+  a given URL will get the same LoggingPane window after a reload
+  (at the same position, etc.)
 - MochiKit.DOM now has currentWindow() and currentDocument() context
   variables that are set with withWindow() and withDocument().  These
   context variables affect all MochiKit.DOM functionality (getElement,

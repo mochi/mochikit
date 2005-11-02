@@ -68,7 +68,10 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         win = MochiKit.DOM.currentWindow();
     }
     if (!inline) {
-        win = win.open("", "", "dependent,resizable,height=200");
+        // name the popup with the base URL for uniqueness
+        var url = win.location.href.split("?")[0];
+        var name = "MochiKit.LoggingPane." + url;
+        win = win.open("", name, "dependent,resizable,height=200");
         if (!win) {
             alert("Not able to open debugging window due to pop-up blocking.");
             return;
@@ -281,7 +284,11 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     buildAndApplyFilter();
     loadMessages();
 
-    this.win = win;
+    if (inline) {
+        this.win = undefined;
+    } else {
+        this.win = win;
+    }
     this.inline = inline;
     this.closePane = closePane;
     this.closed = false;
