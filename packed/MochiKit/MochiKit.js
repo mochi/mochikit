@@ -2218,9 +2218,6 @@ return this.__repr__();
 MochiKit.DOM.EXPORT=["formContents","currentWindow","currentDocument","withWindow","withDocument","registerDOMConverter","coerceToDOM","createDOM","createDOMFunc","getNodeAttribute","setNodeAttribute","updateNodeAttributes","appendChildNodes","replaceChildNodes","removeElement","swapDOM","BUTTON","TT","PRE","H1","H2","H3","BR","HR","LABEL","TEXTAREA","FORM","P","UL","OL","LI","TD","TR","THEAD","TBODY","TFOOT","TABLE","TH","INPUT","SPAN","A","DIV","IMG","getElement","$","computedStyle","getElementsByTagAndClassName","addToCallStack","addLoadEvent","focusOnLoad","setElementClass","toggleElementClass","addElementClass","removeElementClass","swapElementClass","hasElementClass","escapeHTML","toHTML","emitHTML","setDisplayForElement","hideElement","showElement","scrapeText"];
 MochiKit.DOM.EXPORT_OK=["domConverters"];
 MochiKit.DOM.currentWindow=function(){
-if(!MochiKit.DOM._window){
-alert("no window?!");
-}
 return MochiKit.DOM._window;
 };
 MochiKit.DOM.currentDocument=function(){
@@ -2734,9 +2731,9 @@ return rval;
 return rval.join("");
 }
 };
-MochiKit.DOM.__new__=function(){
+MochiKit.DOM.__new__=function(win){
 this._document=document;
-this._window=window;
+this._window=win;
 this.domConverters=new MochiKit.Base.AdapterRegistry();
 var _367=this._document.createElement("span");
 var _368;
@@ -2798,7 +2795,7 @@ this.$=this.getElement;
 this.EXPORT_TAGS={":common":this.EXPORT,":all":MochiKit.Base.concat(this.EXPORT,this.EXPORT_OK)};
 MochiKit.Base.nameFunctions(this);
 };
-MochiKit.DOM.__new__();
+MochiKit.DOM.__new__(this);
 MochiKit.Base._exportSymbols(this,MochiKit.DOM);
 if(typeof (dojo)!="undefined"){
 dojo.provide("MochiKit.LoggingPane");
