@@ -1,5 +1,6 @@
 2005-XX-XX      v1.1
 
+- New MochiKit.DOM formContents and enhancement to queryString to support it
 - Updated view_source example to use dp.SyntaxHighlighter 1.3.0
 - MochiKit.LoggingPane now uses named windows based on the URL so that
   a given URL will get the same LoggingPane window after a reload

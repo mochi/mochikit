@@ -888,13 +888,21 @@ var values = [&quot;value one&quot;, &quot;two&quot;];
 assert( queryString(keys, values) == &quot;foo=value%20one&amp;bar=two&quot; );
 </pre>
 <dl class="docutils">
-<dt>Alternate form:</dt>
+<dt>Alternate form 1:</dt>
+<dd><tt class="docutils literal"><span class="pre">queryString(domElement)</span></tt></dd>
+</dl>
+<p>If <a class="reference" href="DOM.html">MochiKit.DOM</a> is loaded, one argument is given, and that argument
+is either a string or has a <tt class="docutils literal"><span class="pre">nodeType</span></tt> property greater than zero,
+then <tt class="docutils literal"><span class="pre">names</span></tt> and <tt class="docutils literal"><span class="pre">values</span></tt> will be the result of
+<tt class="docutils literal"><span class="pre">formContents(domElement)</span></tt>.</p>
+<dl class="docutils">
+<dt>Alternate form 2:</dt>
 <dd><tt class="docutils literal"><span class="pre">queryString({name:</span> <span class="pre">value,</span> <span class="pre">...})</span></tt></dd>
 </dl>
 <p>Note that when using the alternate form, the order of the name=value
 pairs in the resultant query string is dependent on how the particular
 JavaScript implementation handles <tt class="docutils literal"><span class="pre">for</span> <span class="pre">(..in..)</span></tt> property enumeration.</p>
-<p>When using the alternate form, name=value pairs with
+<p>When using the second alternate form, name=value pairs with
 <tt class="docutils literal"><span class="pre">typeof(value)</span> <span class="pre">==</span> <span class="pre">&quot;function&quot;</span></tt> are ignored.  This is a workaround for the
 case where a poorly designed library has modified <tt class="docutils literal"><span class="pre">Object.prototype</span></tt>
 and inserted &quot;convenience functions&quot;.</p>

@@ -875,14 +875,22 @@ Functions
         var values = ["value one", "two"];
         assert( queryString(keys, values) == "foo=value%20one&bar=two" );
 
-    Alternate form:
+    Alternate form 1:
+        ``queryString(domElement)``
+
+    If `MochiKit.DOM`_ is loaded, one argument is given, and that argument
+    is either a string or has a ``nodeType`` property greater than zero,
+    then ``names`` and ``values`` will be the result of
+    ``formContents(domElement)``.
+    
+    Alternate form 2:
         ``queryString({name: value, ...})``
 
     Note that when using the alternate form, the order of the name=value
     pairs in the resultant query string is dependent on how the particular
     JavaScript implementation handles ``for (..in..)`` property enumeration.
     
-    When using the alternate form, name=value pairs with
+    When using the second alternate form, name=value pairs with
     ``typeof(value) == "function"`` are ignored.  This is a workaround for the
     case where a poorly designed library has modified ``Object.prototype``
     and inserted "convenience functions".
