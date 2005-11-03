@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Async 1.0
+MochiKit.Async 1.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 

@@ -1,6 +1,6 @@
 /***
 
-MochiKit.DOM 1.0
+MochiKit.DOM 1.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -108,7 +108,6 @@ MochiKit.DOM.EXPORT_OK = [
 ];
 
 MochiKit.DOM.currentWindow = function () {
-    if (!MochiKit.DOM._window) { alert("no window?!"); }
     return MochiKit.DOM._window;
 };
 
@@ -827,10 +826,10 @@ MochiKit.DOM.scrapeText = function (node, /* optional */asArray) {
 };
 
 
-MochiKit.DOM.__new__ = function () {
+MochiKit.DOM.__new__ = function (win) {
 
     this._document = document;
-    this._window = window;
+    this._window = win;
 
     this.domConverters = new MochiKit.Base.AdapterRegistry(); 
     
@@ -917,6 +916,6 @@ MochiKit.DOM.__new__ = function () {
 
 };
 
-MochiKit.DOM.__new__();
+MochiKit.DOM.__new__(this);
 
 MochiKit.Base._exportSymbols(this, MochiKit.DOM);

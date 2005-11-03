@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Logging 1.0
+MochiKit.Logging 1.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
