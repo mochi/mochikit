@@ -13,7 +13,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 54});
+    plan({'tests': 62});
 
     lst = [];
     o = {"blah": function () { lst.push("original"); }};
@@ -163,13 +163,15 @@ try {
             this.nodeType = 3;
         } else {
             this.nodeType = 1;
-            this.children = [];
+            this.childNodes = [];
         }
     }
     MockElement.prototype = {
         createElement: function (nodeName) { return new MockElement(nodeName); },
         createTextNode: function (text) { return new MockElement("text", text); },
-        appendChild: function (child) { this.children.push(child); },
+        setAttribute: function (name, value) { this[name] = value; },
+        getAttribute: function (name) { return this[name]; },
+        appendChild: function (child) { this.childNodes.push(child); },
         toString: function () { return "MockElement(" + this.nodeName + ")"; }
     };
 
@@ -186,13 +188,13 @@ try {
         appendChildNodes(currentDocument().body, span);
     });
     is( document, oldDoc, "doc restored" );
-    is( doc.children.length, 1, "doc has one child" );
-    is( doc.body.children.length, 1, "body has one child" );
-    var sp = doc.body.children[0];
+    is( doc.childNodes.length, 1, "doc has one child" );
+    is( doc.body.childNodes.length, 1, "body has one child" );
+    var sp = doc.body.childNodes[0];
     is( sp.nodeName, "SPAN", "only child is SPAN" );
-    is( sp.children.length, 2, "SPAN has two children" );
-    is( sp.children[0].nodeValue, "foo", "first node is text" );
-    is( sp.children[1].nodeName, "H1", "second child is H1" );
+    is( sp.childNodes.length, 2, "SPAN has two childNodes" );
+    is( sp.childNodes[0].nodeValue, "foo", "first node is text" );
+    is( sp.childNodes[1].nodeName, "H1", "second child is H1" );
 
     is( currentDocument(), document, "currentDocument() correct" );
     try {
@@ -205,6 +207,22 @@ try {
     } catch (e) {
         ok( true, "threw" );
     }
+
+    doc = new MockElement("DOCUMENT");
+    doc.body = new MockElement("BODY");
+    doc.appendChild(doc.body);
+    var frm;
+    withDocument(doc, function () {
+        frm = FORM(null,
+            INPUT({name:"foo", value:"bar"}),
+            INPUT({name:"foo", value:"bar"}),
+            INPUT({name:"baz", value:"bar"})
+        );
+    });
+    var kv = formContents(frm);
+    is( kv[0].join(","), "foo,foo,baz", "formContents names" );
+    is( kv[1].join(","), "bar,bar,bar", "formContents values" );
+    is( queryString(frm), "foo=bar&foo=bar&baz=bar", "queryString hook" );
     
     ok( true, "test suite finished!");
     

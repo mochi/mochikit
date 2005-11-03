@@ -38,6 +38,7 @@ MochiKit.DOM.toString = function () {
 };
 
 MochiKit.DOM.EXPORT = [
+    "formContents",
     "currentWindow",
     "currentDocument",
     "withWindow",
@@ -107,6 +108,7 @@ MochiKit.DOM.EXPORT_OK = [
 ];
 
 MochiKit.DOM.currentWindow = function () {
+    if (!MochiKit.DOM._window) { alert("no window?!"); }
     return MochiKit.DOM._window;
 };
 
@@ -131,6 +133,29 @@ MochiKit.DOM.withWindow = function (win, func) {
     self._window = oldWin;
     self._document = oldDoc;
     return rval;
+};
+
+MochiKit.DOM.formContents = function (elem/* = document */) {
+    var names = [];
+    var values = [];
+    var m = MochiKit.Base;
+    var self = MochiKit.DOM;
+    if (typeof(elem) == "undefined" || elem == null) {
+        elem = self._document;
+    } else {
+        elem = self.getElement(elem);
+    }
+    m.nodeWalk(elem, function (elem) {
+        var name = elem.name;
+        var value = elem.value;
+        if (m.isNotEmpty(name, value)) {
+            names.push(name);
+            values.push(value);
+            return null;
+        }
+        return elem.childNodes;
+    });
+    return [names, values];
 };
 
 MochiKit.DOM.withDocument = function (doc, func) {

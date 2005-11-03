@@ -1096,7 +1096,18 @@ MochiKit.Base.update(MochiKit.Base, {
 
 
     queryString: function (names, values) {
-        if (arguments.length == 1) {
+        // check to see if names is a string or a DOM element, and if
+        // MochiKit.DOM is available.  If so, drop it like it's a form
+        // Ugliest conditional in MochiKit?  Probably!
+        if (typeof(MochiKit.DOM) != "undefined" && arguments.length == 1
+            && (typeof(names) == "string" || (
+                typeof(names.nodeType) != "undefined" && names.nodeType > 0
+            ))
+        ) {
+            var kv = MochiKit.DOM.formContents(names);
+            names = kv[0];
+            values = kv[1];
+        } else if (arguments.length == 1) {
             var o = names;
             names = [];
             values = [];

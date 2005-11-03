@@ -597,6 +597,14 @@ Functions
     The return value of ``func()`` is returned by this function.
 
 
+``formContents(elem)``:
+
+    Search the DOM tree, starting at ``elem``, for any elements with a
+    ``name`` and ``value`` attribute.  Return a 2-element ``Array`` of 
+    ``names`` and ``values`` suitable for use with ``queryString`` from
+    `MochiKit.Base`_.
+
+
 See Also
 ========
 
