@@ -2839,7 +2839,7 @@ return m._loggingPane;
 };
 MochiKit.LoggingPane.LoggingPane=function(_373,_374){
 if(typeof (_374)=="undefined"||_374==null){
-MochiKit.Logging.logger;
+_374=MochiKit.Logging.logger;
 }
 this.logger=_374;
 var _375=MochiKit.Base.update;
