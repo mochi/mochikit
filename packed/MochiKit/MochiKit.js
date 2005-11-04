@@ -2023,7 +2023,7 @@ catch(e){
 return self.XMLHttpRequest();
 },sendXMLHttpRequest:function(req,_263){
 if(typeof (_263)=="undefined"){
-send=null;
+_263=null;
 }
 var _264=function(){
 try{
@@ -2093,7 +2093,7 @@ var self=MochiKit.Async;
 var req=self.getXMLHttpRequest();
 if(arguments.length>1){
 var m=MochiKit.Base;
-url+="?"+m.queryString.apply(m.extend(null,arguments,1));
+url+="?"+m.queryString.apply(null,m.extend(null,arguments,1));
 }
 req.open("GET",url,true);
 return self.sendXMLHttpRequest(req);
@@ -2121,7 +2121,7 @@ catch(e){
 return d;
 },callLater:function(_272,func){
 var m=MochiKit.Base;
-var _273=m.partial.apply(null,m.extend(null,arguments,1));
+var _273=m.partial.apply(m,m.extend(null,arguments,1));
 return MochiKit.Async.wait(_272).addCallback(function(res){
 return _273();
 });
