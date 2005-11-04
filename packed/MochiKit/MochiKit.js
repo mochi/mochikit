@@ -2215,7 +2215,7 @@ return "["+this.NAME+" "+this.VERSION+"]";
 MochiKit.DOM.toString=function(){
 return this.__repr__();
 };
-MochiKit.DOM.EXPORT=["formContents","currentWindow","currentDocument","withWindow","withDocument","registerDOMConverter","coerceToDOM","createDOM","createDOMFunc","getNodeAttribute","setNodeAttribute","updateNodeAttributes","appendChildNodes","replaceChildNodes","removeElement","swapDOM","BUTTON","TT","PRE","H1","H2","H3","BR","HR","LABEL","TEXTAREA","FORM","P","UL","OL","LI","TD","TR","THEAD","TBODY","TFOOT","TABLE","TH","INPUT","SPAN","A","DIV","IMG","getElement","$","computedStyle","getElementsByTagAndClassName","addToCallStack","addLoadEvent","focusOnLoad","setElementClass","toggleElementClass","addElementClass","removeElementClass","swapElementClass","hasElementClass","escapeHTML","toHTML","emitHTML","setDisplayForElement","hideElement","showElement","scrapeText"];
+MochiKit.DOM.EXPORT=["formContents","currentWindow","currentDocument","withWindow","withDocument","registerDOMConverter","coerceToDOM","createDOM","createDOMFunc","getNodeAttribute","setNodeAttribute","updateNodeAttributes","appendChildNodes","replaceChildNodes","removeElement","swapDOM","BUTTON","TT","PRE","H1","H2","H3","BR","HR","LABEL","TEXTAREA","FORM","SELECT","P","UL","OL","LI","TD","TR","THEAD","TBODY","TFOOT","TABLE","TH","INPUT","SPAN","A","DIV","IMG","getElement","$","computedStyle","getElementsByTagAndClassName","addToCallStack","addLoadEvent","focusOnLoad","setElementClass","toggleElementClass","addElementClass","removeElementClass","swapElementClass","hasElementClass","escapeHTML","toHTML","emitHTML","setDisplayForElement","hideElement","showElement","scrapeText"];
 MochiKit.DOM.EXPORT_OK=["domConverters"];
 MochiKit.DOM.currentWindow=function(){
 return MochiKit.DOM._window;
@@ -2787,6 +2787,7 @@ this.LABEL=_370("label");
 this.TEXTAREA=_370("textarea");
 this.FORM=_370("form");
 this.P=_370("p");
+this.SELECT=_370("select");
 var _371=MochiKit.Base.partial;
 this.hideElement=_371(this.setDisplayForElement,"none");
 this.showElement=_371(this.setDisplayForElement,"block");

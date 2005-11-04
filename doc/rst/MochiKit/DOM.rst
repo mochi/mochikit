@@ -557,7 +557,7 @@ Functions
     a stack of functions (instead of just a pair).
 
 
-``getComputedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)``:
+``computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)``:
 
     Looks up a CSS property for the given element. The element can be
     specified as either a string with the element's ID or the element
