@@ -57,7 +57,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     /* Use a div if inline, pop up a window if not */
     /* Create the elements */
     if (typeof(logger) == "undefined" || logger == null) {
-        MochiKit.Logging.logger;
+        logger = MochiKit.Logging.logger;
     }
     this.logger = logger;
     var update = MochiKit.Base.update;
