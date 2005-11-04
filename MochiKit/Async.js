@@ -436,7 +436,7 @@ MochiKit.Base.update(MochiKit.Async, {
 
     sendXMLHttpRequest: function (req, /* optional */ sendContent) {
         if (typeof(sendContent) == 'undefined') {
-            send = null;
+            sendContent = null;
         }
 
         var canceller = function () {
@@ -514,7 +514,7 @@ MochiKit.Base.update(MochiKit.Async, {
         var req = self.getXMLHttpRequest();
         if (arguments.length > 1) {
             var m = MochiKit.Base;
-            url += "?" + m.queryString.apply(m.extend(null, arguments, 1));
+            url += "?" + m.queryString.apply(null, m.extend(null, arguments, 1));
         }
         req.open("GET", url, true);
         return self.sendXMLHttpRequest(req);
@@ -557,7 +557,7 @@ MochiKit.Base.update(MochiKit.Async, {
 
     callLater: function (seconds, func) {
         var m = MochiKit.Base;
-        var pfunc = m.partial.apply(null, m.extend(null, arguments, 1));
+        var pfunc = m.partial.apply(m, m.extend(null, arguments, 1));
         return MochiKit.Async.wait(seconds).addCallback(
             function (res) { return pfunc(); }
         );
