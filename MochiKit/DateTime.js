@@ -92,9 +92,9 @@ MochiKit.DateTime.isoTimestamp = function (str) {
     }
     var ofs;
     if (typeof(res[9]) != "undefined" && res[9] != "") {
-        ofs = parseInt(res[10], 10) * 3600;
+        ofs = parseInt(res[10], 10) * 3600000;
         if (typeof(res[11]) != "undefined" && res[11] != "") {
-            ofs += parseInt(res[11], 10) * 60;
+            ofs += parseInt(res[11], 10) * 60000;
         }
         if (res[9] == "-") {
             ofs = -ofs;

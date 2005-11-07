@@ -1,5 +1,6 @@
 2005-XX-XX      v1.1
 
+- Fixed isoTimestamp to handle timestamps with time zone correctly
 - Added new MochiKit.DOM createDOMFunc alias: SELECT
 - New MochiKit.DOM formContents and enhancement to queryString to support it
 - Updated view_source example to use dp.SyntaxHighlighter 1.3.0
