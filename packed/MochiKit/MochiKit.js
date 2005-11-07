@@ -2475,10 +2475,11 @@ _312.removeChild(dest);
 return src;
 };
 MochiKit.DOM.getElement=function(id){
+var self=MochiKit.DOM;
 if(arguments.length==1){
-return ((typeof (id)=="string")?MochiKit.DOM._document.getElementById(id):id);
+return ((typeof (id)=="string")?self._document.getElementById(id):id);
 }else{
-return MochiKit.Base.map(getElement,arguments);
+return MochiKit.Base.map(self.getElement,arguments);
 }
 };
 MochiKit.DOM.computedStyle=function(_314,_315,_316){
