@@ -66,6 +66,7 @@ MochiKit.DOM.EXPORT = [
     "TEXTAREA",
     "FORM",
     "SELECT",
+    "OPTION",
     "P",
     "UL",
     "OL",
@@ -902,6 +903,7 @@ MochiKit.DOM.__new__ = function (win) {
     this.FORM = createDOMFunc("form");
     this.P = createDOMFunc("p");
     this.SELECT = createDOMFunc("select");
+    this.OPTION = createDOMFunc("option");
 
     var partial = MochiKit.Base.partial;
     this.hideElement = partial(this.setDisplayForElement, "none");

@@ -325,6 +325,8 @@ Functions
     - ``BUTTON``
     - ``LABEL``
     - ``TEXTAREA``
+    - ``SELECT``
+    - ``OPTION``
     - ``FORM``
     - ``P``
     - ``IMG``
