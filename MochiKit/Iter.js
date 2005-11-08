@@ -813,13 +813,33 @@ MochiKit.Base.update(MochiKit.Iter, {
                 return iterable[i++];
             }
         };
+    },
+
+    hasIterateNext: function (iterable) {
+        return (iterable && typeof(iterable.iterateNext) == "function");
+    },
+
+    iterateNextIter: function (iterable) {
+        return {
+            repr: function () { return "iterateNextIter(...)"; },
+            toString: MochiKit.Base.forward("repr"),
+            next: function () {
+                var rval = iterable.iterateNext();
+                if (rval === null || rval === undefined) {
+                    throw MochiKit.Iter.StopIteration;
+                }
+                return rval;
+            }
+        };
     }
 });
 
 
 MochiKit.Iter.EXPORT_OK = [
     "iteratorRegistry",
-    "arrayLikeIter"
+    "arrayLikeIter",
+    "hasIterateNext",
+    "iterateNextIter",
 ];
 
 MochiKit.Iter.EXPORT = [
@@ -862,6 +882,12 @@ MochiKit.Iter.__new__ = function () {
         "arrayLike",
         m.isArrayLike,
         this.arrayLikeIter
+    );
+
+    this.registerIteratorFactory(
+        "iterateNext",
+        this.hasIterateNext,
+        this.iterateNextIter
     );
 
     this.EXPORT_TAGS = {

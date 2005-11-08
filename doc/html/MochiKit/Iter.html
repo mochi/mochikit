@@ -89,6 +89,9 @@ the result of <tt class="docutils literal"><span class="pre">iterable.iter()</sp
 match.</li>
 <li>If no factory is found, it will throw <tt class="docutils literal"><span class="pre">TypeError</span></tt></li>
 </ol>
+<p>Built-in iterator factories are present for Array-like objects, and
+objects that implement the <tt class="docutils literal"><span class="pre">iterateNext</span></tt> protocol (e.g. the result of
+Mozilla's <tt class="docutils literal"><span class="pre">document.evaluate</span></tt>).</p>
 <p>When used directly, using an iterator should look like this:</p>
 <pre class="literal-block">
 var it = iter(iterable);
@@ -103,8 +106,7 @@ try {
     // pass
 }
 </pre>
-<p>typo fix
-This is ugly, so you should use the higher order functions to work
+<p>This is ugly, so you should use the higher order functions to work
 with iterators whenever possible.</p>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">count(n=0)</span></tt>:</p>

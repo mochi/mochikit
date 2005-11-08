@@ -97,6 +97,10 @@ Functions
        match.
     4. If no factory is found, it will throw ``TypeError``
 
+    Built-in iterator factories are present for Array-like objects, and
+    objects that implement the ``iterateNext`` protocol (e.g. the result of
+    Mozilla's ``document.evaluate``).
+
     When used directly, using an iterator should look like this::
 
         var it = iter(iterable);
@@ -111,7 +115,6 @@ Functions
             // pass
         }
 
-    typo fix
     This is ugly, so you should use the higher order functions to work
     with iterators whenever possible.
 

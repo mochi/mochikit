@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 42});
+    plan({'tests': 43});
 
     is( sum([1, 2, 3, 4, 5]), 15, "sum works on Arrays" );
     is( compare(list([1, 2, 3]), [1, 2, 3]), 0, "list([x]) == [x]" );
@@ -114,6 +114,9 @@ try {
 
     is( compare(reversed(range(4)), [3, 2, 1, 0]), 0, "reversed iterator" );
     is( compare(reversed([5, 6, 7]), [7, 6, 5]), 0, "reversed list" );
+
+    var o = {lst: [1, 2, 3], iterateNext: function () { return this.lst.shift(); }};
+    is( compare(list(o), [1, 2, 3]), 0, "iterateNext" );
 
     ok( true, "test suite finished!");
     

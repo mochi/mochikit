@@ -1,5 +1,6 @@
 2005-XX-XX      v1.1
 
+- Added iterator factory adapter for objects that implement iterateNext()
 - Fixed isoTimestamp to handle timestamps with time zone correctly
 - Added new MochiKit.DOM createDOMFunc aliases: SELECT, OPTION, OPTGROUP, 
   LEGEND, FIELDSET
