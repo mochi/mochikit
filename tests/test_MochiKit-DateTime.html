@@ -44,7 +44,7 @@ try {
     is(toISOTimestamp(testTimestamp, true), '2005-02-03T22:01:03Z', "toISOTimestamp (real ISO) eq");
 
     var localTZ = Math.round((new Date()).getTimezoneOffset()/60)
-    var direction = (localTZ < 0) ? "-" : "+";
+    var direction = (localTZ < 0) ? "+" : "-";
     localTZ = Math.abs(localTZ);
     localTZ = direction + ((localTZ < 10) ? "0" : "") + localTZ;
     testTimestamp = isoTimestamp("2005-2-3T22:01:03" + localTZ);
