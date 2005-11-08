@@ -8,12 +8,29 @@
 </head>
 <body>
 
+<div style="display: none;">
+    <form id="form_test">
+        <select name="select">
+            <option value="foo">foo</option>
+            <option value="bar">bar</option>
+            <option value="baz">baz</option>
+        </select>
+        <input type="hidden" name="hidden" value="test" />
+        <input type="radio" name="radio_off" value="1" />
+        <input type="radio" name="radio_off" value="2" />
+        <input type="radio" name="radio_off" value="3" />
+        <input type="radio" name="radio_on" value="1" />
+        <input type="radio" name="radio_on" value="2" checked="checked" />
+        <input type="radio" name="radio_on" value="3" />
+    </form>
+</div>
+
 <pre id="test">
 <script type="text/javascript">
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 62});
+    plan({'tests': 65});
 
     lst = [];
     o = {"blah": function () { lst.push("original"); }};
@@ -220,9 +237,14 @@ try {
         );
     });
     var kv = formContents(frm);
-    is( kv[0].join(","), "foo,foo,baz", "formContents names" );
-    is( kv[1].join(","), "bar,bar,bar", "formContents values" );
-    is( queryString(frm), "foo=bar&foo=bar&baz=bar", "queryString hook" );
+    is( kv[0].join(","), "foo,foo,baz", "mock formContents names" );
+    is( kv[1].join(","), "bar,bar,bar", "mock formContents values" );
+    is( queryString(frm), "foo=bar&foo=bar&baz=bar", "mock queryString hook" );
+
+    var kv = formContents("form_test");
+    is( kv[0].join(","), "select,hidden,radio_on", "formContents names" );
+    is( kv[1].join(","), "foo,test,2", "formContents values" );
+    is( queryString("form_test"), "select=foo&hidden=test&radio_on=2", "queryString hook" );
     
     ok( true, "test suite finished!");
     
