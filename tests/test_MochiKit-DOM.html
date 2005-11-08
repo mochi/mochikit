@@ -218,7 +218,7 @@ try {
         withDocument(doc, function () {
             ok( document != doc, "global doc unchanged" );
             is( currentDocument(), doc, "currentDocument() correct" );
-            throw "foo";
+            throw new Error("foo");
         });
         ok( false, "didn't throw" );
     } catch (e) {
