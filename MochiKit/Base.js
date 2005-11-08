@@ -765,14 +765,19 @@ MochiKit.Base.update(MochiKit.Base, {
                 return o.NAME;
             }
         }
+        try {
+            var ostring = (o + "");
+        } catch (e) {
+            return "[" + typeof(o) + "]";
+        }
         if (typeof(o) == "function") {
-            o = (o + "").replace(/^\s+/, "");
+            o = ostring.replace(/^\s+/, "");
             var idx = o.indexOf("{");
             if (idx != -1) {
                 o = o.substr(0, idx) + "{...}";
             }
         }
-        return o + "";
+        return ostring;
     },
 
     reprArrayLike: function (o) {
