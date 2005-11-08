@@ -102,7 +102,7 @@ MochiKit.DateTime.isoTimestamp = function (str) {
     } else {
         ofs = 0;
     }
-    return new Date(Date.UTC(year, month, day, hour, min, sec, msec) + ofs);
+    return new Date(Date.UTC(year, month, day, hour, min, sec, msec) - ofs);
 };
 
 MochiKit.DateTime.toISOTime = function (date, realISO/* = false */) {
