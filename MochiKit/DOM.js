@@ -67,6 +67,9 @@ MochiKit.DOM.EXPORT = [
     "FORM",
     "SELECT",
     "OPTION",
+    "OPTGROUP",
+    "LEGEND",
+    "FIELDSET",
     "P",
     "UL",
     "OL",
@@ -904,6 +907,9 @@ MochiKit.DOM.__new__ = function (win) {
     this.P = createDOMFunc("p");
     this.SELECT = createDOMFunc("select");
     this.OPTION = createDOMFunc("option");
+    this.OPTGROUP = createDOMFunc("optgroup");
+    this.LEGEND = createDOMFunc("legend");
+    this.FIELDSET = createDOMFunc("fieldset");
 
     var partial = MochiKit.Base.partial;
     this.hideElement = partial(this.setDisplayForElement, "none");
