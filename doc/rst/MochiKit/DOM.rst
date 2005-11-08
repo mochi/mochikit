@@ -327,6 +327,9 @@ Functions
     - ``TEXTAREA``
     - ``SELECT``
     - ``OPTION``
+    - ``OPTGROUP``
+    - ``LEGEND``
+    - ``FIELDSET``
     - ``FORM``
     - ``P``
     - ``IMG``
