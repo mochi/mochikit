@@ -514,7 +514,10 @@ MochiKit.Base.update(MochiKit.Async, {
         var req = self.getXMLHttpRequest();
         if (arguments.length > 1) {
             var m = MochiKit.Base;
-            url += "?" + m.queryString.apply(null, m.extend(null, arguments, 1));
+            var qs = m.queryString.apply(null, m.extend(null, arguments, 1));
+            if (qs) {
+                url += "?" + qs;
+            }
         }
         req.open("GET", url, true);
         return self.sendXMLHttpRequest(req);
