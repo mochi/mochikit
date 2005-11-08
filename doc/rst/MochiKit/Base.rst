@@ -935,6 +935,32 @@ Functions
     the scope of MochiKit, but there is one available from json.org [1]_.
 
 
+``registerJSON(name, check, simplifier[, override])``:
+
+    Register a simplifier function for use with ``serializeJSON``.
+
+    ``name`` should be a unique identifier describing the serialization.
+
+    ``check`` is a ``function(obj)`` that returns ``true`` if ``obj`` can
+    can be simplified for serialization by ``simplifier``.
+
+    ``simplifier`` is a ``function(obj)`` that returns a simpler object that
+    can be further serialized by ``serializeJSON``.  For example, you could
+    simplify Date-like objects to ISO 8601 timestamp strings with the
+    following simplifier::
+
+        var simplifyDateAsISO = function (obj) {
+            return toISOTimestamp(obj, true);
+        };
+        registerJSON("DateLike", isDateLike, simplifyDateAsISO);
+        
+    ``simplifier`` is guaranteed to only be called if ``check(obj)``
+    returns a ``true`` value.
+
+    If ``override`` is ``true``, then it will be made the
+    highest precedence comparator.  Otherwise, the lowest.
+
+
 See Also
 ========
 

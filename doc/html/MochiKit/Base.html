@@ -942,6 +942,27 @@ originate from the same server, but in other scenarios it may not be the
 appropriate security model.  Currently, a validating JSON parser is beyond
 the scope of MochiKit, but there is one available from json.org <a class="footnote-reference" href="#id6" id="id5" name="id5">[1]</a>.</p>
 </blockquote>
+<p><tt class="docutils literal"><span class="pre">registerJSON(name,</span> <span class="pre">check,</span> <span class="pre">simplifier[,</span> <span class="pre">override])</span></tt>:</p>
+<blockquote>
+<p>Register a simplifier function for use with <tt class="docutils literal"><span class="pre">serializeJSON</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">name</span></tt> should be a unique identifier describing the serialization.</p>
+<p><tt class="docutils literal"><span class="pre">check</span></tt> is a <tt class="docutils literal"><span class="pre">function(obj)</span></tt> that returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">obj</span></tt> can
+can be simplified for serialization by <tt class="docutils literal"><span class="pre">simplifier</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">simplifier</span></tt> is a <tt class="docutils literal"><span class="pre">function(obj)</span></tt> that returns a simpler object that
+can be further serialized by <tt class="docutils literal"><span class="pre">serializeJSON</span></tt>.  For example, you could
+simplify Date-like objects to ISO 8601 timestamp strings with the
+following simplifier:</p>
+<pre class="literal-block">
+var simplifyDateAsISO = function (obj) {
+    return toISOTimestamp(obj, true);
+};
+registerJSON(&quot;DateLike&quot;, isDateLike, simplifyDateAsISO);
+</pre>
+<p><tt class="docutils literal"><span class="pre">simplifier</span></tt> is guaranteed to only be called if <tt class="docutils literal"><span class="pre">check(obj)</span></tt>
+returns a <tt class="docutils literal"><span class="pre">true</span></tt> value.</p>
+<p>If <tt class="docutils literal"><span class="pre">override</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then it will be made the
+highest precedence comparator.  Otherwise, the lowest.</p>
+</blockquote>
 </div>
 </div>
 <div class="section" id="see-also">
