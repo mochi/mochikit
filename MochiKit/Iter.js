@@ -800,6 +800,102 @@ MochiKit.Base.update(MochiKit.Iter, {
         return lst;
     },
 
+    groupby: function(iterable, /* optional */ keyfunc) {
+        /***
+
+            Like Python's itertools.groupby
+
+        ***/
+        var m = MochiKit.Base;
+        var self = MochiKit.Iter;
+        if (arguments.length < 2) {
+            keyfunc = m.operator.identity;
+        }
+        iterable = self.iter(iterable);
+
+        // shared
+        var pk = undefined;
+        var k = undefined;
+        var v;
+
+        function fetch() {
+            v = iterable.next();
+            k = keyfunc(v);
+        };
+
+        function eat() {
+            var ret = v;
+            v = undefined;
+            return ret;
+        };
+
+        var first = true;
+        return {
+            repr: function () { return "groupby(...)"; },
+            next: function() {
+                // iterator-next
+
+                // iterate until meet next group
+                while (k == pk) {
+                    fetch();
+                    if (first) {
+                        first = false;
+                        break;
+                    }
+                }
+                pk = k;
+                return [k, {
+                    next: function() {
+                        // subiterator-next
+                        if (v == undefined) { // Is there something to eat?
+                            fetch();
+                        }
+                        if (k != pk) {
+                            throw self.StopIteration;
+                        }
+                        return eat();
+                    }
+                }];
+            }
+        };
+    },
+
+    groupby_as_array: function (iterable, /* optional */ keyfunc) {
+        /***
+
+            Like groupby, but return array of [key, subarray of values]
+
+        ***/
+        var m = MochiKit.Base;
+        var self = MochiKit.Iter;
+        if (arguments.length < 2) {
+            keyfunc = m.operator.identity;
+        }
+
+        iterable = self.iter(iterable);
+        var result = [];
+        var first = true;
+        var prev_key;
+        while (true) {
+            try {
+                var value = iterable.next();
+                var key = keyfunc(value);
+            } catch (e) {
+                if (e == self.StopIteration) {
+                    break;
+                }
+                throw e;
+            }
+            if (first || key != prev_key) {
+                var values = [];
+                result.push([key, values]);
+            }
+            values.push(value);
+            first = false;
+            prev_key = key;
+        }
+        return result;
+    },
 
     arrayLikeIter: function (iterable) {
         var i = 0;
@@ -870,7 +966,9 @@ MochiKit.Iter.EXPORT = [
     "sorted",
     "reversed",
     "some",
-    "iextend"
+    "iextend",
+    "groupby",
+    "groupby_as_array"
 ];
 
 MochiKit.Iter.__new__ = function () {

@@ -139,6 +139,36 @@ Functions
     Return ``iterator.next()``
 
 
+``groupby(iterable[, keyfunc])``:
+
+    Make an iterator that returns consecutive keys and groups from the
+    iterable. The key is a function computing a key value for each element.
+    If not specified or is None, key defaults to an identity function and
+    returns the element unchanged. Generally, the iterable needs to already be
+    sorted on the same key function.
+
+    The returned group is itself an iterator that shares the underlying 
+    iterable with ``groupby()``. Because the source is shared, when the
+    groupby object is advanced, the previous group is no longer visible.
+    So, if that data is needed later, it should be stored as an array::
+
+        var groups = [];
+        var uniquekeys = [];
+        forEach(groupby(data, keyfunc), function (key_group) {
+            groups.push(list(key_group[1]));
+            uniquekeys.push(key_group[0]);
+        });
+
+    As a convenience, ``groupby_as_array()`` is provided to suit the above
+    use case.
+
+
+``groupby_as_array(iterable[, keyfunc])``:
+
+    Perform the same task as ``groupby()``, except return an array of
+    arrays instead of an iterator of iterators.
+
+
 ``izip(p, q[, ...])``:
 
     ``izip(p, q, ...)`` --> [p0, q0, ...], [p1, q1, ...], ...
