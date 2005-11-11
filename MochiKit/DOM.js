@@ -276,8 +276,9 @@ MochiKit.DOM.setNodeAttribute = function (node, attr, value) {
 };
 
 MochiKit.DOM.getNodeAttribute = function (node, attr) {
-    var rename = MochiKit.DOM.attributeArray.renames[attr];
-    node = MochiKit.DOM.getElement(node);
+    var self = MochiKit.DOM;
+    var rename = self.attributeArray.renames[attr];
+    node = self.getElement(node);
     try {
         if (rename) {
             return node[rename];
@@ -290,12 +291,13 @@ MochiKit.DOM.getNodeAttribute = function (node, attr) {
 
 MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
     var elem = node;
+    var self = MochiKit.DOM;
     if (typeof(node) == 'string') {
-        elem = MochiKit.DOM.getElement(node);
+        elem = self.getElement(node);
     }
     if (attrs) {
         var updatetree = MochiKit.Base.updatetree;
-        if (MochiKit.DOM.attributeArray.compliant) {
+        if (self.attributeArray.compliant) {
             // not IE, good.
             for (var k in attrs) {
                 var v = attrs[k];
@@ -312,7 +314,7 @@ MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
             }
         } else {
             // IE is insane in the membrane
-            var renames = MochiKit.DOM.attributeArray.renames;
+            var renames = self.attributeArray.renames;
             for (k in attrs) {
                 v = attrs[k];
                 var renamed = renames[k];
@@ -336,11 +338,12 @@ MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
 
 MochiKit.DOM.appendChildNodes = function (node/*, nodes...*/) {
     var elem = node;
+    var self = MochiKit.DOM;
     if (typeof(node) == 'string') {
-        elem = MochiKit.DOM.getElement(node);
+        elem = self.getElement(node);
     }
     var nodeStack = [
-        MochiKit.DOM.coerceToDOM(
+        self.coerceToDOM(
             MochiKit.Base.extend(null, arguments, 1),
             elem
         )
@@ -361,8 +364,9 @@ MochiKit.DOM.appendChildNodes = function (node/*, nodes...*/) {
 
 MochiKit.DOM.replaceChildNodes = function (node/*, nodes...*/) {
     var elem = node;
+    var self = MochiKit.DOM;
     if (typeof(node) == 'string') {
-        elem = MochiKit.DOM.getElement(node);
+        elem = self.getElement(node);
         arguments[0] = elem;
     }
     var child;
@@ -372,7 +376,7 @@ MochiKit.DOM.replaceChildNodes = function (node/*, nodes...*/) {
     if (arguments.length < 2) {
         return elem;
     } else {
-        return MochiKit.DOM.appendChildNodes.apply(this, arguments);
+        return self.appendChildNodes.apply(this, arguments);
     }
 };
 
@@ -416,9 +420,10 @@ MochiKit.DOM.createDOMFunc = function (/* tag, attrs, *nodes */) {
         @rtype: function
 
     ***/
-    return MochiKit.Base.partial.apply(
+    var m = MochiKit.Base;
+    return m.partial.apply(
         this,
-        MochiKit.Base.extend([MochiKit.DOM.createDOM], arguments)
+        m.extend([MochiKit.DOM.createDOM], arguments)
     );
 };
 
@@ -435,10 +440,11 @@ MochiKit.DOM.swapDOM = function (dest, src) {
         @rtype: a DOM element (src)
 
     ***/
-    dest = MochiKit.DOM.getElement(dest);
+    var self = MochiKit.DOM;
+    dest = self.getElement(dest);
     var parent = dest.parentNode;
     if (src) {
-        src = MochiKit.DOM.getElement(src);
+        src = self.getElement(src);
         parent.replaceChild(src, dest);
     } else {
         parent.removeChild(dest);
@@ -500,7 +506,7 @@ MochiKit.DOM.getElementsByTagAndClassName = function (tagName, className, /* opt
     if (typeof(parent) == 'undefined' || parent == null) {
         parent = self._document;
     }
-    parent = MochiKit.DOM.getElement(parent);
+    parent = self.getElement(parent);
     var children = parent.getElementsByTagName(tagName) || self._document.all;
     if (typeof(className) == 'undefined' || className == null) {
         return MochiKit.Base.extend(null, children);
@@ -542,10 +548,11 @@ MochiKit.DOM._newCallStack = function (path, once) {
 };
 
 MochiKit.DOM.addToCallStack = function (target, path, func, once) {
+    var self = MochiKit.DOM;
     var existing = target[path];
     var regfunc = existing;
     if (!(typeof(existing) == 'function' && typeof(existing.callStack) == "object" && existing.callStack != null)) {
-        regfunc = MochiKit.DOM._newCallStack(path, once);
+        regfunc = self._newCallStack(path, once);
         if (typeof(existing) == 'function') {
             regfunc.callStack.push(existing);
         }
@@ -568,8 +575,9 @@ MochiKit.DOM.addLoadEvent = function (func) {
 };
 
 MochiKit.DOM.focusOnLoad = function (element) {
-    MochiKit.DOM.addLoadEvent(function () {
-        element = MochiKit.DOM.getElement(element);
+    var self = MochiKit.DOM;
+    self.addLoadEvent(function () {
+        element = self.getElement(element);
         if (element) {
             element.focus();
         }
@@ -583,8 +591,9 @@ MochiKit.DOM.setElementClass = function (element, className) {
         Set the entire class attribute of an element to className.
     
     ***/
-    var obj = MochiKit.DOM.getElement(element);
-    if (MochiKit.DOM.attributeArray.compliant) {
+    var self = MochiKit.DOM;
+    var obj = self.getElement(element);
+    if (self.attributeArray.compliant) {
         obj.setAttribute("class", className);
     } else {
         obj.setAttribute("className", className);
@@ -598,13 +607,11 @@ MochiKit.DOM.toggleElementClass = function (className/*, element... */) {
         of all given elements.
 
     ***/
-    var getElement = MochiKit.DOM.getElement;
-    var addElementClass = MochiKit.DOM.addElementClass;
-    var removeElementClass = MochiKit.DOM.removeElementClass;
+    var self = MochiKit.DOM;
     for (var i = 1; i < arguments.length; i++) {
-        var obj = getElement(arguments[i]);
-        if (!addElementClass(obj, className)) {
-            removeElementClass(obj, className);
+        var obj = self.getElement(arguments[i]);
+        if (!self.addElementClass(obj, className)) {
+            self.removeElementClass(obj, className);
         }
     }
 };
@@ -616,11 +623,12 @@ MochiKit.DOM.addElementClass = function (element, className) {
         class attribute.  This will not disturb other class names.
 
     ***/
-    var obj = MochiKit.DOM.getElement(element);
+    var self = MochiKit.DOM;
+    var obj = self.getElement(element);
     var cls = obj.className;
     // trivial case, no className yet
     if (cls.length == 0) {
-        MochiKit.DOM.setElementClass(obj, className);
+        self.setElementClass(obj, className);
         return true;
     }
     // the other trivial case, already set as the only class
@@ -635,7 +643,7 @@ MochiKit.DOM.addElementClass = function (element, className) {
         }
     }
     // append class
-    MochiKit.DOM.setElementClass(obj, cls + " " + className);
+    self.setElementClass(obj, cls + " " + className);
     return true;
 };
 
@@ -646,7 +654,8 @@ MochiKit.DOM.removeElementClass = function (element, className) {
         of its class attribute.  This will not disturb other class names.
 
     ***/
-    var obj = MochiKit.DOM.getElement(element);
+    var self = MochiKit.DOM;
+    var obj = self.getElement(element);
     var cls = obj.className;
     // trivial case, no className yet
     if (cls.length == 0) {
@@ -654,7 +663,7 @@ MochiKit.DOM.removeElementClass = function (element, className) {
     }
     // other trivial case, set only to className
     if (cls == className) {
-        MochiKit.DOM.setElementClass(obj, "");
+        self.setElementClass(obj, "");
         return true;
     }
     var classes = obj.className.split(" ");
@@ -663,7 +672,7 @@ MochiKit.DOM.removeElementClass = function (element, className) {
         if (classes[i] == className) {
             // only check sane case where the class is used once
             classes.splice(i, 1);
-            MochiKit.DOM.setElementClass(obj, classes.join(" "));
+            self.setElementClass(obj, classes.join(" "));
             return true;
         }
     }
@@ -745,8 +754,9 @@ MochiKit.DOM.emitHTML = function (dom, /* optional */lst) {
     }
     // queue is the call stack, we're doing this non-recursively
     var queue = [dom];
-    var escapeHTML = MochiKit.DOM.escapeHTML;
-    var attributeArray = MochiKit.DOM.attributeArray;
+    var self = MochiKit.DOM;
+    var escapeHTML = self.escapeHTML;
+    var attributeArray = self.attributeArray;
     while (queue.length) {
         dom = queue.pop();
         if (typeof(dom) == 'string') {
@@ -806,9 +816,10 @@ MochiKit.DOM.setDisplayForElement = function (display, element/*, ...*/) {
             hideElement(element, ...);
 
     ***/
-    var elements = MochiKit.Base.extend(null, arguments, 1);
+    var m = MochiKit.Base;
+    var elements = m.extend(null, arguments, 1);
     MochiKit.Iter.forEach(
-        MochiKit.Base.filter(null, MochiKit.Base.map(getElement, elements)),
+        m.filter(null, m.map(MochiKit.DOM.getElement, elements)),
         function (element) {
             element.style.display = display;
         }
@@ -840,16 +851,17 @@ MochiKit.DOM.scrapeText = function (node, /* optional */asArray) {
 
 MochiKit.DOM.__new__ = function (win) {
 
+    var m = MochiKit.Base;
     this._document = document;
     this._window = win;
 
-    this.domConverters = new MochiKit.Base.AdapterRegistry(); 
+    this.domConverters = new m.AdapterRegistry(); 
     
     var __tmpElement = this._document.createElement("span");
     var attributeArray;
     if (__tmpElement.attributes.length > 0) {
         // for braindead browsers (IE) that insert extra junk
-        var filter = MochiKit.Base.filter;
+        var filter = m.filter;
         attributeArray = function (node) {
             return filter(attributeArray.ignoreAttrFilter, node.attributes);
         }
@@ -917,19 +929,18 @@ MochiKit.DOM.__new__ = function (win) {
     this.LEGEND = createDOMFunc("legend");
     this.FIELDSET = createDOMFunc("fieldset");
 
-    var partial = MochiKit.Base.partial;
-    this.hideElement = partial(this.setDisplayForElement, "none");
-    this.showElement = partial(this.setDisplayForElement, "block");
+    this.hideElement = m.partial(this.setDisplayForElement, "none");
+    this.showElement = m.partial(this.setDisplayForElement, "block");
     this.removeElement = this.swapDOM;
 
     this.$ = this.getElement;
 
     this.EXPORT_TAGS = {
         ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
+        ":all": m.concat(this.EXPORT, this.EXPORT_OK)
     };
 
-    MochiKit.Base.nameFunctions(this);
+    m.nameFunctions(this);
 
 };
 
