@@ -419,7 +419,7 @@ _52[k]=_53(_54,_52);
 }
 },registerComparator:function(_55,_56,_57,_58){
 MochiKit.Base.comparatorRegistry.register(_55,_56,_57,_58);
-},compare:function(a,b){
+},_primitives:{"bool":true,"string":true,"number":true},compare:function(a,b){
 if(a==b){
 return 0;
 }
@@ -437,6 +437,8 @@ return 1;
 }
 }
 var m=MochiKit.Base;
+var _61=m._primitives;
+if(!(typeof (a) in _61&&typeof (b) in _61)){
 try{
 return m.comparatorRegistry.match(a,b);
 }
@@ -444,6 +446,8 @@ catch(e){
 if(e!=m.NotFound){
 throw e;
 }
+}
+}
 if(a<b){
 return -1;
 }else{
@@ -451,25 +455,10 @@ if(a>b){
 return 1;
 }
 }
-var _61=m.repr;
-throw new TypeError(_61(a)+" and "+_61(b)+" can not be compared");
-}
-},compareDateLike:function(a,b){
-a=a.getTime();
-b=b.getTime();
-if(a==b){
-return 0;
-}else{
-if(a<b){
-return -1;
-}else{
-if(a>b){
-return 1;
-}
-}
-}
-var _62=MochiKit.Base.repr;
+var _62=m.repr;
 throw new TypeError(_62(a)+" and "+_62(b)+" can not be compared");
+},compareDateLike:function(a,b){
+return MochiKit.Base.compare(a.getTime(),b.getTime());
 },compareArrayLike:function(a,b){
 var _63=MochiKit.Base.compare;
 var _64=a.length;

@@ -1,5 +1,6 @@
 2005-XX-XX      v1.1
 
+- Fast-path for primitives in MochiKit.Base.compare
 - New groupby and groupby_as_array in MochiKit.Iter
 - Added iterator factory adapter for objects that implement iterateNext()
 - Fixed isoTimestamp to handle timestamps with time zone correctly
