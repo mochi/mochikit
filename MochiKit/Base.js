@@ -638,6 +638,8 @@ MochiKit.Base.update(MochiKit.Base, {
         MochiKit.Base.comparatorRegistry.register(name, check, comparator, override);
     },
 
+    _primitives: {'bool': true, 'string': true, 'number': true},
+
     compare: function (a, b) {
         /***
 
@@ -674,35 +676,29 @@ MochiKit.Base.update(MochiKit.Base, {
             return 1;
         }
         var m = MochiKit.Base;
-        try {
-            return m.comparatorRegistry.match(a, b);
-        } catch (e) {
-            if (e != m.NotFound) {
-                throw e;
+        // bool, number, string have meaningful comparisons
+        var prim = m._primitives;
+        if (!(typeof(a) in prim && typeof(b) in prim)) {
+            try {
+                return m.comparatorRegistry.match(a, b);
+            } catch (e) {
+                if (e != m.NotFound) {
+                    throw e;
+                }
             }
-            if (a < b) {
-                return -1;
-            } else if (a > b) {
-                return 1;
-            }
-            // These types can't be compared
-            var repr = m.repr;
-            throw new TypeError(repr(a) + " and " + repr(b) + " can not be compared");
         }
-    },
-
-    compareDateLike: function (a, b) {
-        a = a.getTime();
-        b = b.getTime();
-        if (a == b) {
-            return 0;
-        } else if (a < b) {
+        if (a < b) {
             return -1;
         } else if (a > b) {
             return 1;
         }
-        var repr = MochiKit.Base.repr;
+        // These types can't be compared
+        var repr = m.repr;
         throw new TypeError(repr(a) + " and " + repr(b) + " can not be compared");
+    },
+
+    compareDateLike: function (a, b) {
+        return MochiKit.Base.compare(a.getTime(), b.getTime());
     },
 
     compareArrayLike: function (a, b) {
