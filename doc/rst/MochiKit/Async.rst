@@ -309,7 +309,7 @@ Constructors
 
     A lock for asynchronous systems.
 
-    The ``locked`` property of a :mochiref:`Deferred`Lock will be ``true`` if
+    The ``locked`` property of a :mochiref:`DeferredLock` will be ``true`` if
     it locked, ``false`` otherwise.  Do not change this property.
 
 
