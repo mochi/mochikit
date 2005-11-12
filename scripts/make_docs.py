@@ -10,8 +10,10 @@ def mochi_name(text):
     base = ''
     if name.startswith('MochiKit.'):
         # cross-reference
-        parts = name.split('.', 2)
+        parts = name.split('.')
         base = parts[1] + '.html'
+        if parts[-1] in ("call", "apply"):
+            parts.pop()
         name = '.'.join(parts[2:])
     return base, name
 
