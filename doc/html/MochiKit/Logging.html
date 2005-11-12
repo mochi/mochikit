@@ -61,7 +61,7 @@ not your bookmarklet!</p>
 <h2><a name="constructors">Constructors</a></h2>
 <p>
 <a name="fn-logmessage"></a>
-<tt class="mochidef docutils literal"><span class="pre">LogMessage(num,</span> <span class="pre">level,</span> <span class="pre">info)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-logmessage">LogMessage(num, level, info)</a>:</p>
 <blockquote>
 <p>Properties:</p>
 <blockquote>
@@ -80,7 +80,7 @@ etc.)</dd>
 </blockquote>
 <p>
 <a name="fn-logger"></a>
-<tt class="mochidef docutils literal"><span class="pre">Logger([maxSize])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-logger">Logger([maxSize])</a>:</p>
 <blockquote>
 <p>A basic logger object that has a buffer of recent messages
 plus a listener dispatch mechanism for &quot;real-time&quot; logging
@@ -100,7 +100,7 @@ of its methods are also global functions:</p>
 </blockquote>
 <p>
 <a name="fn-logger.prototype.addlistener"></a>
-<tt class="mochidef docutils literal"><span class="pre">Logger.prototype.addListener(ident,</span> <span class="pre">filter,</span> <span class="pre">listener)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-logger.prototype.addlistener">Logger.prototype.addListener(ident, filter, listener)</a>:</p>
 <blockquote>
 <p>Add a listener for log messages.</p>
 <p><tt class="docutils literal"><span class="pre">ident</span></tt> is a unique identifier that may be used to remove the listener
@@ -138,7 +138,7 @@ function.</dd>
 </blockquote>
 <p>
 <a name="fn-logger.prototype.baselog"></a>
-<tt class="mochidef docutils literal"><span class="pre">Logger.prototype.baseLog(level,</span> <span class="pre">message[,</span> <span class="pre">...])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-logger.prototype.baselog">Logger.prototype.baseLog(level, message[, ...])</a>:</p>
 <blockquote>
 <p>The base functionality behind all of the log functions.
 The first argument is the log level as a string or number,
@@ -174,12 +174,12 @@ see the <a class="mochiref reference" href="#fn-logger">Logger</a> constructor d
 </blockquote>
 <p>
 <a name="fn-logger.prototype.clear"></a>
-<tt class="mochidef docutils literal"><span class="pre">Logger.prototype.clear()</span></tt>:</p>
+<a class="mochidef reference" href="#fn-logger.prototype.clear">Logger.prototype.clear()</a>:</p>
 <blockquote>
 Clear all messages from the message buffer.</blockquote>
 <p>
 <a name="fn-logger.prototype.debuggingbookmarklet"></a>
-<tt class="mochidef docutils literal"><span class="pre">Logger.prototype.debuggingBookmarklet()</span></tt>:</p>
+<a class="mochidef reference" href="#fn-logger.prototype.debuggingbookmarklet">Logger.prototype.debuggingBookmarklet()</a>:</p>
 <blockquote>
 <p>Display the contents of the logger in a useful way for browsers.</p>
 <p>Currently, if <a class="mochiref reference" href="LoggingPane.html">MochiKit.LoggingPane</a> is loaded, then a pop-up
@@ -188,17 +188,17 @@ it will be an alert with <a class="mochiref reference" href="#fn-logger.prototyp
 </blockquote>
 <p>
 <a name="fn-logger.prototype.dispatchlisteners"></a>
-<tt class="mochidef docutils literal"><span class="pre">Logger.prototype.dispatchListeners(msg)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-logger.prototype.dispatchlisteners">Logger.prototype.dispatchListeners(msg)</a>:</p>
 <blockquote>
 Dispatch a log message to all listeners.</blockquote>
 <p>
 <a name="fn-logger.prototype.getmessages"></a>
-<tt class="mochidef docutils literal"><span class="pre">Logger.prototype.getMessages(howMany)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-logger.prototype.getmessages">Logger.prototype.getMessages(howMany)</a>:</p>
 <blockquote>
 Return a list of up to <tt class="docutils literal"><span class="pre">howMany</span></tt> messages from the message buffer.</blockquote>
 <p>
 <a name="fn-logger.prototype.getmessagetext"></a>
-<tt class="mochidef docutils literal"><span class="pre">Logger.prototype.getMessageText(howMany)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-logger.prototype.getmessagetext">Logger.prototype.getMessageText(howMany)</a>:</p>
 <blockquote>
 <p>Get a string representing up to the last <tt class="docutils literal"><span class="pre">howMany</span></tt> messages in the
 message buffer.  The default is <tt class="docutils literal"><span class="pre">30</span></tt>.</p>
@@ -214,7 +214,7 @@ LAST {messages.length} MESSAGES:
 </blockquote>
 <p>
 <a name="fn-logger.prototype.removelistener"></a>
-<tt class="mochidef docutils literal"><span class="pre">Logger.prototype.removeListener(ident)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-logger.prototype.removelistener">Logger.prototype.removeListener(ident)</a>:</p>
 <blockquote>
 Remove a listener using the ident given to <a class="mochiref reference" href="#fn-logger.prototype.addlistener">Logger.prototype.addListener</a></blockquote>
 </div>
@@ -222,33 +222,33 @@ Remove a listener using the ident given to <a class="mochiref reference" href="#
 <h2><a name="functions">Functions</a></h2>
 <p>
 <a name="fn-alertlistener"></a>
-<tt class="mochidef docutils literal"><span class="pre">alertListener(msg)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-alertlistener">alertListener(msg)</a>:</p>
 <blockquote>
 Ultra-obnoxious <tt class="docutils literal"><span class="pre">alert(...)</span></tt> listener</blockquote>
 <p>
 <a name="fn-debug"></a>
-<tt class="mochidef docutils literal"><span class="pre">debug(message[,</span> <span class="pre">info[,</span> <span class="pre">...]])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-debug">debug(message[, info[, ...]])</a>:</p>
 <blockquote>
 Log a DEBUG message to the default logger</blockquote>
 <p>
 <a name="fn-error"></a>
-<tt class="mochidef docutils literal"><span class="pre">error(message[,</span> <span class="pre">info[,</span> <span class="pre">...]])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-error">error(message[, info[, ...]])</a>:</p>
 <blockquote>
 Log an ERROR message to the default logger</blockquote>
 <p>
 <a name="fn-fatal"></a>
-<tt class="mochidef docutils literal"><span class="pre">fatal(message[,</span> <span class="pre">info[,</span> <span class="pre">...]])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-fatal">fatal(message[, info[, ...]])</a>:</p>
 <blockquote>
 Log a FATAL message to the default logger</blockquote>
 <p>
 <a name="fn-loglevelatleast"></a>
-<tt class="mochidef docutils literal"><span class="pre">logLevelAtLeast(minLevel)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-loglevelatleast">logLevelAtLeast(minLevel)</a>:</p>
 <blockquote>
 Return a function that will match log messages whose level
 is at least minLevel</blockquote>
 <p>
 <a name="fn-warning"></a>
-<tt class="mochidef docutils literal"><span class="pre">warning(message[,</span> <span class="pre">info[,</span> <span class="pre">...]])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-warning">warning(message[, info[, ...]])</a>:</p>
 <blockquote>
 Log a WARNING message to the default logger</blockquote>
 </div>

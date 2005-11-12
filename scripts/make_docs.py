@@ -37,12 +37,12 @@ def role_mochidef(role, rawtext, text, lineno, inliner, options=None, content=[]
         options = {}
     base, name = mochi_name(text)
     assert base == ''
-    anchor = nodes.raw('',
-        '\n<a name="fn-%s"></a>\n' % (utils.unescape(name.lower()),),
-        format='html')
+    ref = 'fn-' + utils.unescape(name.lower())
+    anchor = nodes.raw('', '\n<a name="%s"></a>\n' % (ref,), format='html')
     roles.set_classes(options)
     options.setdefault('classes', []).append('mochidef')
-    node = nodes.literal(text, text, **options)
+    node = nodes.reference(
+        text, utils.unescape(text), refuri='#' + ref, **options)
     return [anchor, node], []
 
 roles.register_canonical_role('mochidef', role_mochidef)
