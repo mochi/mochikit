@@ -35,12 +35,12 @@ API Reference
 Functions
 ---------
 
-``isoDate(str)``:
+:mochidef:`isoDate(str)`:
 
     Convert an ISO 8601 date (YYYY-MM-DD) to a ``Date`` object.
 
 
-``isoTimestamp(str)``:
+:mochidef:`isoTimestamp(str)`:
 
     Convert any ISO 8601 [1]_ timestamp (or something reasonably close to it)
     to a ``Date`` object.  Will accept the "de facto" form:
@@ -55,12 +55,12 @@ Functions
     local timezone is used.
 
 
-``toISOTime(date)``:
+:mochidef:`toISOTime(date)`:
 
     Convert a ``Date`` object to a string in the form of hh:mm:ss
 
 
-``toISOTimestamp(date, realISO)``:
+:mochidef:`toISOTimestamp(date, realISO)`:
 
     Convert a ``Date`` object to something that's ALMOST but not quite an
     ISO 8601 [1]_timestamp.  If it was a proper ISO timestamp it would be:
@@ -75,22 +75,22 @@ Functions
     you pass ``true`` for ``realISO``.
 
 
-``toISODate(date)``:
+:mochidef:`toISODate(date)`:
 
     Convert a ``Date`` object to an ISO 8601 [1]_ date string (YYYY-MM-DD)
 
 
-``americanDate(d)``:
+:mochidef:`americanDate(d)`:
 
     Converts a MM/DD/YYYY date to a ``Date`` object
 
 
-``toPaddedAmericanDate(d)``:
+:mochidef:`toPaddedAmericanDate(d)`:
 
     Converts a ``Date`` object to an MM/DD/YYYY date, e.g. 01/01/2001
 
 
-``toAmericanDate(d)``:
+:mochidef:`toAmericanDate(d)`:
 
     Converts a ``Date`` object to an M/D/YYYY date, e.g. 1/1/2001
 

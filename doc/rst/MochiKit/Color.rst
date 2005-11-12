@@ -37,9 +37,7 @@ represent colors.
 Dependencies
 ============
 
-- `MochiKit.Base`_
-
-.. _`MochiKit.Base`: Base.html
+- :mochiref:`MochiKit.Base`
 
 
 Overview
@@ -60,155 +58,157 @@ API Reference
 Constructors
 ------------
 
-``Color()``:
+:mochidef:`Color()`:
 
     Represents a color.  Component values should be integers between ``0.0``
-    and ``1.0``.  You should use one of the ``Color`` factory
-    functions such as ``Color.fromRGB``, ``Color.fromHSL``, etc. instead
-    of constructing ``Color`` objects directly.
+    and ``1.0``.  You should use one of the :mochiref:`Color` factory
+    functions such as :mochiref:`Color.fromRGB`, :mochiref:`Color.fromHSL`,
+    etc. instead of constructing :mochiref:`Color` objects directly.
 
-    ``Color`` instances can be compared with ``MochiKit.Base.compare``
-    (though ordering is on RGB, so is not particularly meaningful),
-    and the default ``toString`` implementation returns
-    ``this.toHexString()``.
+    :mochiref:`Color` instances can be compared with
+    :mochiref:`MochiKit.Base.compare` (though ordering is on RGB, so is not
+    particularly meaningful except for equality), and the default ``toString``
+    implementation returns :mochiref:`Color.prototype.toHexString()`.
 
-    Colors are immutable, and much of the architecture is inspired by
-    AppKit's NSColor [1]_ 
-
-
-``Color.fromRGB(red, green, blue, alpha=1.0)``:
-
-    Return a ``Color`` object from the given ``red``, ``green``, ``blue``,
-    and ``alpha`` values.  Values should be numbers between ``0`` and ``1.0``.
-
-    If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
-
-    Alternate form:
-        ``Color.fromRGB({r: red, g: green, b: blue, a: alpha})``
+    :mochiref:`Color` instances are immutable, and much of the architecture is
+    inspired by AppKit's NSColor [1]_ 
 
 
-``Color.fromHSL(hue, saturation, lightness, alpha=1.0)``:
+:mochidef:`Color.fromBackground(elem)`:
 
-    Return a ``Color`` object from the given ``hue``, ``saturation``,
+    Returns a :mochiref:`Color` object based on the background of the provided
+    element.
+    
+
+:mochidef:`Color.fromHexString(hexString)`:
+
+    Returns a :mochiref:`Color` object from the given hexadecimal color string.
+    For example, ``"#FFFFFF"`` would return a :mochiref:`Color` with
+    RGB values ``[255/255, 255/255, 255/255]`` (white).
+
+
+:mochidef:`Color.fromHSL(hue, saturation, lightness, alpha=1.0)`:
+
+    Return a :mochiref:`Color` object from the given ``hue``, ``saturation``,
     ``lightness`` values.  Values should be numbers between ``0.0`` and
     ``1.0``.
 
     If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
 
     Alternate form:
-        ``Color.fromHSL({h: hue, s: saturation, l: lightness, a: alpha})``
+        :mochiref:`Color.fromHSL({h: hue, s: saturation, l: lightness, a: alpha})`
 
 
-``Color.fromHSV(hue, saturation, value, alpha=1.0)``:
+:mochidef:`Color.fromHSLString(hslString)`:
 
-    Return a ``Color`` object from the given ``hue``, ``saturation``,
+    Returns a :mochiref:`Color` object from the given decimal hsl color string.
+    For example, ``"hsl(0,0%,100%)"`` would return a :mochiref:`Color` with
+    HSL values ``[0/360, 0/360, 360/360]`` (white).
+
+
+:mochidef:`Color.fromHSV(hue, saturation, value, alpha=1.0)`:
+
+    Return a :mochiref:`Color` object from the given ``hue``, ``saturation``,
     ``value`` values.  Values should be numbers between ``0.0`` and
     ``1.0``.
 
     If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
 
     Alternate form:
-        ``Color.fromHSV({h: hue, s: saturation, v: value, a: alpha})``
+        :mochiref:`Color.fromHSV({h: hue, s: saturation, v: value, a: alpha})`
 
 
-``Color.fromHexString(hexString)``:
+:mochidef:`Color.fromRGB(red, green, blue, alpha=1.0)`:
 
-    Returns a ``Color`` object from the given hexadecimal color string.
-    For example, ``"#FFFFFF"`` would return a ``Color`` with
+    Return a :mochiref:`Color` object from the given ``red``, ``green``,
+    ``blue``, and ``alpha`` values.  Values should be numbers between ``0``
+    and ``1.0``.
+
+    If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
+
+    Alternate form:
+        :mochiref:`Color.fromRGB({r: red, g: green, b: blue, a: alpha})`
+
+
+:mochidef:`Color.fromRGBString(rgbString)`:
+
+    Returns a :mochiref:`Color` object from the given decimal rgb color string.
+    For example, ``"rgb(255,255,255)"`` would return a :mochiref:`Color` with
     RGB values ``[255/255, 255/255, 255/255]`` (white).
 
 
-``Color.fromRGBString(rgbString)``:
+:mochidef:`Color.fromName(colorName)`:
 
-    Returns a ``Color`` object from the given decimal rgb color string.
-    For example, ``"rgb(255,255,255)"`` would return a ``Color`` with
-    RGB values ``[255/255, 255/255, 255/255]`` (white).
-
-
-``Color.fromHSLString(hslString)``:
-
-    Returns a ``Color`` object from the given decimal hsl color string.
-    For example, ``"hsl(0,0%,100%)"`` would return a ``Color`` with
-    HSL values ``[0/360, 0/360, 360/360]`` (white).
-
-
-``Color.fromName(colorName)``:
-
-    Returns a ``Color`` object corresponding to the given
+    Returns a :mochiref:`Color` object corresponding to the given
     SVG 1.0 color keyword name [2]_ as per the W3C CSS3
     Color Module [3]_.  ``"transparent"`` is also accepted
-    as a color name, and will return ``Color.transparentColor()``.
+    as a color name, and will return :mochiref:`Color.transparentColor()`.
 
 
-``Color.fromString(rgbOrHexString)``:
+:mochidef:`Color.fromString(rgbOrHexString)`:
 
-    Returns a ``Color`` object from the given RGB, HSL, hex, or name.
+    Returns a :mochiref:`Color` object from the given RGB, HSL, hex, or name.
     Will return ``null`` if the string can not be parsed by any of these 
     methods.
 
-    See ``Color.fromHexString``, ``Color.fromRGBString``, 
-    ``Color.fromHSLString`` and ``Color.fromName`` more information.
+    See :mochiref:`Color.fromHexString`, :mochiref:`Color.fromRGBString`, 
+    :mochiref:`Color.fromHSLString` and :mochiref:`Color.fromName` more
+    information.
     
 
-``Color.fromBackground(elem)``:
-
-    Returns a ``Color`` object based on the background of the provided
-    element.
-    
-
-``Color.namedColors()``:
+:mochidef:`Color.namedColors()`:
 
     Returns an object with properties for each SVG 1.0 color keyword
     name [2]_ supported by CSS3 [3]_.  Property names are the color keyword
     name in lowercase, and the value is a string suitable for
-    ``Color.fromString()``.
+    :mochiref:`Color.fromString()`.
 
 
-``Color.prototype.colorWithAlpha(alpha)``:
+:mochidef:`Color.prototype.colorWithAlpha(alpha)`:
 
-    Return a new ``Color`` based on this color, but with the provided
+    Return a new :mochiref:`Color` based on this color, but with the provided
     ``alpha`` value.
 
 
-``Color.prototype.colorWithHue(hue)``:
+:mochidef:`Color.prototype.colorWithHue(hue)`:
 
-    Return a new ``Color`` based on this color, but with the provided
+    Return a new :mochiref:`Color` based on this color, but with the provided
     ``hue`` value.
 
 
-``Color.prototype.colorWithSaturation(saturation)``:
+:mochidef:`Color.prototype.colorWithSaturation(saturation)`:
 
-    Return a new ``Color`` based on this color, but with the provided
+    Return a new :mochiref:`Color` based on this color, but with the provided
     ``saturation`` value (using the HSL color model).
 
 
-``Color.prototype.colorWithLightness(lightness)``:
+:mochidef:`Color.prototype.colorWithLightness(lightness)`:
 
-    Return a new ``Color`` based on this color, but with the provided
+    Return a new :mochiref:`Color` based on this color, but with the provided
     ``lightness`` value.
 
 
-``Color.prototype.darkerColorWithLevel(level)``:
+:mochidef:`Color.prototype.darkerColorWithLevel(level)`:
 
-    Return a new ``Color`` based on this color, but darker by the given
+    Return a new :mochiref:`Color` based on this color, but darker by the given
     ``level`` (between ``0`` and ``1.0``).
 
 
-``Color.prototype.lighterColorWithLevel(level)``:
+:mochidef:`Color.prototype.lighterColorWithLevel(level)`:
 
-    Return a new ``Color`` based on this color, but lighter by the given
+    Return a new :mochiref:`Color` based on this color, but lighter by the given
     ``level`` (between ``0`` and ``1.0``).
 
 
-``Color.prototype.blendedColor(other, fraction=0.5)``:
+:mochidef:`Color.prototype.blendedColor(other, fraction=0.5)`:
 
-    Return a new ``Color`` whose RGBA component values are a weighted sum
+    Return a new :mochiref:`Color` whose RGBA component values are a weighted sum
     of this color and ``other``.  Each component of the returned color
     is the ``fraction`` of other's value plus ``1 - fraction`` of this
     color's.
 
 
-``Color.prototype.isLight()``:
+:mochidef:`Color.prototype.isLight()`:
 
     Return ``true`` if the lightness value of this color is greater than
     ``0.5``.
@@ -216,7 +216,8 @@ Constructors
     Note that ``alpha`` is ignored for this calculation (color components
     are not premultiplied).
 
-``Color.prototype.isDark()``:
+
+:mochidef:`Color.prototype.isDark()`:
 
     Return ``true`` if the lightness value of this color is less than or
     equal to ``0.5``.
@@ -225,7 +226,7 @@ Constructors
     are not premultiplied).
 
 
-``Color.prototype.toRGBString()``:
+:mochidef:`Color.prototype.toRGBString()`:
 
     Return the decimal ``"rgb(red, green, blue)"`` string representation of this
     color.
@@ -238,7 +239,7 @@ Constructors
         assert( Color.whiteColor().toRGBString() == "rgb(255,255,255)" );
 
 
-``Color.prototype.toHSLString()``:
+:mochidef:`Color.prototype.toHSLString()`:
 
     Return the decimal ``"hsl(hue, saturation, lightness)"``
     string representation of this color.
@@ -252,7 +253,7 @@ Constructors
         assert( Color.whiteColor().toHSLString() == "hsl(0,0,360)" );
 
 
-``Color.prototype.toHexString()``:
+:mochidef:`Color.prototype.toHexString()`:
 
     Return the hexadecimal ``"#RRGGBB"`` string representation of this color.
 
@@ -264,177 +265,177 @@ Constructors
         assert( Color.whiteColor().toHexString() == "#FFFFFF" );
 
 
-``Color.prototype.asRGB()``:
+:mochidef:`Color.prototype.asRGB()`:
 
     Return the RGB (red, green, blue, alph) components of this color as an
     object with ``r``, ``g``, ``b``, and ``a`` properties that have
     values between ``0.0`` and ``1.0``.
 
 
-``Color.prototype.asHSL()``:
+:mochidef:`Color.prototype.asHSL()`:
 
     Return the HSL (hue, saturation, lightness, alpha) components of this
     color as an object with ``h``, ``s``, ``l`` and ``a`` properties
     that have values between ``0.0`` and ``1.0``.
 
 
-``Color.prototype.asHSV()``:
+:mochidef:`Color.prototype.asHSV()`:
 
     Return the HSV (hue, saturation, value, alpha) components of this
     color as an object with ``h``, ``s``, ``v`` and ``a`` properties
     that have values between ``0.0`` and ``1.0``.
 
 
-``Color.blackColor()``:
+:mochidef:`Color.blackColor()`:
 
-    Return a ``Color`` object whose RGB values are 0, 0, 0
+    Return a :mochiref:`Color` object whose RGB values are 0, 0, 0
     (#000000).
 
 
-``Color.blueColor()``:
+:mochidef:`Color.blueColor()`:
     
-    Return a ``Color`` object whose RGB values are 0, 0, 1
+    Return a :mochiref:`Color` object whose RGB values are 0, 0, 1
     (#0000ff).
 
 
-``Color.brownColor()``:
+:mochidef:`Color.brownColor()`:
 
-    Return a ``Color`` object whose RGB values are 0.6, 0.4, 0.2
+    Return a :mochiref:`Color` object whose RGB values are 0.6, 0.4, 0.2
     (#996633).
 
 
-``Color.cyanColor()``:
+:mochidef:`Color.cyanColor()`:
 
-    Return a ``Color`` object whose RGB values are 0, 1, 1
+    Return a :mochiref:`Color` object whose RGB values are 0, 1, 1
     (#00ffff).
 
 
-``Color.darkGrayColor()``:
+:mochidef:`Color.darkGrayColor()`:
 
-    Return a ``Color`` object whose RGB values are 1/3, 1/3, 1/3
+    Return a :mochiref:`Color` object whose RGB values are 1/3, 1/3, 1/3
     (#555555).
 
 
-``Color.grayColor()``:
+:mochidef:`Color.grayColor()`:
 
-    Return a ``Color`` object whose RGB values are 0.5, 0.5, 0.5
+    Return a :mochiref:`Color` object whose RGB values are 0.5, 0.5, 0.5
     (#808080).
 
 
-``Color.greenColor()``:
+:mochidef:`Color.greenColor()`:
 
-    Return a ``Color`` object whose RGB values are 0, 1, 0.
+    Return a :mochiref:`Color` object whose RGB values are 0, 1, 0.
     (#00ff00).
 
 
-``Color.lightGrayColor()``:
+:mochidef:`Color.lightGrayColor()`:
 
-    Return a ``Color`` object whose RGB values are 2/3, 2/3, 2/3
+    Return a :mochiref:`Color` object whose RGB values are 2/3, 2/3, 2/3
     (#aaaaaa).
 
 
-``Color.magentaColor()``:
+:mochidef:`Color.magentaColor()`:
 
-    Return a ``Color`` object whose RGB values are 1, 0, 1
+    Return a :mochiref:`Color` object whose RGB values are 1, 0, 1
     (#ff00ff).
 
 
-``Color.orangeColor()``:
+:mochidef:`Color.orangeColor()`:
 
-    Return a ``Color`` object whose RGB values are 1, 0.5, 0
+    Return a :mochiref:`Color` object whose RGB values are 1, 0.5, 0
     (#ff8000).
 
 
-``Color.purpleColor()``:
+:mochidef:`Color.purpleColor()`:
 
-    Return a ``Color`` object whose RGB values are 0.5, 0, 0.5
+    Return a :mochiref:`Color` object whose RGB values are 0.5, 0, 0.5
     (#800080).
 
 
-``Color.redColor()``:
+:mochidef:`Color.redColor()`:
 
-    Return a ``Color`` object whose RGB values are 1, 0, 0
+    Return a :mochiref:`Color` object whose RGB values are 1, 0, 0
     (#ff0000).
 
 
-``Color.whiteColor()``:
+:mochidef:`Color.whiteColor()`:
 
-    Return a ``Color`` object whose RGB values are 1, 1, 1
+    Return a :mochiref:`Color` object whose RGB values are 1, 1, 1
     (#ffffff).
 
 
-``Color.yellowColor()``:
+:mochidef:`Color.yellowColor()`:
 
-    Return a ``Color`` object whose RGB values are 1, 1, 0
+    Return a :mochiref:`Color` object whose RGB values are 1, 1, 0
     (#ffff00).
 
 
-``Color.transparentColor()``:
+:mochidef:`Color.transparentColor()`:
 
-    Return a ``Color`` object that is completely transparent
+    Return a :mochiref:`Color` object that is completely transparent
     (has alpha component of 0).
 
 
 Functions
 ---------
 
-``hslToRGB(hue, saturation, lightness, alpha)``:
+:mochidef:`clampColorComponent(num, scale)`:
+
+    Returns ``num * scale`` clamped between ``0`` and ``scale``.
+
+    :mochiref:`clampColorComponent` is not exported by default when using JSAN.
+
+
+:mochidef:`hslToRGB(hue, saturation, lightness, alpha)`:
 
     Computes RGB values from the provided HSL values. The return value is a
     mapping with ``"r"``, ``"g"``, ``"b"`` and ``"a"`` keys.
     
     Alternate form:
-        ``hslToRGB({h: hue, s: saturation, l: lightness, a: alpha})``.
+        :mochiref:`hslToRGB({h: hue, s: saturation, l: lightness, a: alpha})`.
 
-    ``hslToRGB`` is not exported by default when using JSAN.
-
-
-``rgbToHSL(red, green, blue, alpha)``:
-
-    Computes HSL values based on the provided RGB values. The return value is
-    a mapping with ``"h"``, ``"s"``, ``"l"`` and ``"a"`` keys.
-    
-    Alternate form:
-        ``rgbToHSL({r: red, g: green, b: blue, a: alpha})``.
-
-    ``rgbToHSL`` is not exported by default when using JSAN.
+    :mochiref:`hslToRGB` is not exported by default when using JSAN.
 
 
-``hsvToRGB(hue, saturation, value, alpha)``:
+:mochidef:`hsvToRGB(hue, saturation, value, alpha)`:
 
     Computes RGB values from the provided HSV values. The return value is a
     mapping with ``"r"``, ``"g"``, ``"b"`` and ``"a"`` keys.
     
     Alternate form:
-        ``hsvToRGB({h: hue, s: saturation, v: value, a: alpha})``.
+        :mochiref:`hsvToRGB({h: hue, s: saturation, v: value, a: alpha})`.
 
-    ``hsvToRGB`` is not exported by default when using JSAN.
+    :mochiref:`hsvToRGB` is not exported by default when using JSAN.
 
 
-``rgbToHSV(red, green, blue, alpha)``:
+:mochidef:`toColorPart(num)`:
+
+    Convert num to a zero padded hexadecimal digit for use in a hexadecimal
+    color string.  Num should be an integer between ``0`` and ``255``.
+
+    :mochiref:`toColorPart` is not exported by default when using JSAN.
+
+
+:mochidef:`rgbToHSL(red, green, blue, alpha)`:
+
+    Computes HSL values based on the provided RGB values. The return value is
+    a mapping with ``"h"``, ``"s"``, ``"l"`` and ``"a"`` keys.
+    
+    Alternate form:
+        :mochiref:`rgbToHSL({r: red, g: green, b: blue, a: alpha})`.
+
+    :mochiref:`rgbToHSL` is not exported by default when using JSAN.
+
+
+:mochidef:`rgbToHSV(red, green, blue, alpha)`:
 
     Computes HSV values based on the provided RGB values. The return value is
     a mapping with ``"h"``, ``"s"``, ``"v"`` and ``"a"`` keys.
     
     Alternate form:
-        ``rgbToHSV({r: red, g: green, b: blue, a: alpha})``.
+        :mochiref:`rgbToHSV({r: red, g: green, b: blue, a: alpha})`.
 
-    ``rgbToHSV`` is not exported by default when using JSAN.
-
-
-``toColorPart(num)``:
-
-    Convert num to a zero padded hexadecimal digit for use in a hexadecimal
-    color string.  Num should be an integer between ``0`` and ``255``.
-
-    ``toColorPart`` is not exported by default when using JSAN.
-
-
-``clampColorComponent(num, scale)``:
-
-    Returns ``num * scale`` clamped between ``0`` and ``scale``.
-
-    ``clampColorComponent`` is not exported by default when using JSAN.
+    :mochiref:`rgbToHSV` is not exported by default when using JSAN.
 
 
 See Also

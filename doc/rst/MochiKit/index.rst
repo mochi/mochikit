@@ -5,28 +5,20 @@ Distribution
 
 MochiKit - makes JavaScript suck a bit less
 
-- `Async`_ - manage asynchronous tasks
-- `Base`_ - functional programming and useful comparisons
-- `DOM`_ - painless DOM manipulation API
-- `Color`_ - color abstraction with CSS3 support
-- `DateTime`_ - "what time is it anyway?"
-- `Format`_ - string formatting goes here
-- `Iter`_ - itertools for JavaScript; iteration made HARD, and then easy
-- `Logging`_ - we're all tired of alert()
-- `LoggingPane`_ - interactive MochiKit.Logging pane
-- `Visual`_ - visual effects
-    
-.. _`Async`: Async.html
-.. _`Base`: Base.html
-.. _`DOM`: DOM.html
-.. _`DateTime`: DateTime.html
-.. _`Format`: Format.html
-.. _`Iter`: Iter.html
-.. _`Logging`: Logging.html
-.. _`LoggingPane`: LoggingPane.html
-.. _`Visual`: Visual.html
-.. _`Color`: Color.html
+- :mochiref:`MochiKit.Async` - manage asynchronous tasks
+- :mochiref:`MochiKit.Base` - functional programming and useful comparisons
+- :mochiref:`MochiKit.DOM` - painless DOM manipulation API
+- :mochiref:`MochiKit.Color` - color abstraction with CSS3 support
+- :mochiref:`MochiKit.DateTime` - "what time is it anyway?"
+- :mochiref:`MochiKit.Format` - string formatting goes here
+- :mochiref:`MochiKit.Iter` - itertools for JavaScript; iteration made HARD,
+  and then easy
+- :mochiref:`MochiKit.Logging` - we're all tired of ``alert()``
+- :mochiref:`MochiKit.LoggingPane` - interactive :mochiref:`MochiKit.Logging`
+  pane
+- :mochiref:`MochiKit.Visual` - visual effects
 
+    
 See Also
 ========
 
@@ -37,7 +29,8 @@ See Also
 .. _`MochiKit tag on Technorati`: http://technorati.com/tag/mochikit
 .. _`Google Groups: MochiKit`: http://groups-beta.google.com/group/mochikit
 
-- `Google Groups: MochiKit`_: The official mailing list for discussions related to development of and with MochiKit
+- `Google Groups: MochiKit`_: The official mailing list for discussions
+  related to development of and with MochiKit
 - `mochikit.com`_: MochiKit's home on the web
 - `from __future__ import *`_: Bob Ippolito's blog
 - `MochiKit on JSAN`_: the JSAN distribution page for MochiKit

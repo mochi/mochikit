@@ -28,9 +28,7 @@ listeners, but without all the cruft.
 Dependencies
 ============
 
-- `MochiKit.Base`_
-
-.. _`MochiKit.Base`: Base.html
+- :mochiref:`MochiKit.Base`
 
 
 Overview
@@ -67,7 +65,7 @@ API Reference
 Constructors
 ------------
 
-``LogMessage(num, level, info)``:
+:mochidef:`LogMessage(num, level, info)`:
 
     Properties:
 
@@ -85,7 +83,7 @@ Constructors
             ``Date`` object timestamping the log message
 
 
-``Logger([maxSize])``:
+:mochidef:`Logger([maxSize])`:
 
     A basic logger object that has a buffer of recent messages
     plus a listener dispatch mechanism for "real-time" logging
@@ -106,17 +104,7 @@ Constructors
         ``logger.fatal``    -> ``logFatal``
 
 
-``Logger.prototype.clear()``:
-
-    Clear all messages from the message buffer.
-
-
-``Logger.prototype.dispatchListeners(msg)``:
-
-    Dispatch a log message to all listeners.
-
-
-``Logger.prototype.addListener(ident, filter, listener)``:
+:mochidef:`Logger.prototype.addListener(ident, filter, listener)`:
 
     Add a listener for log messages.
     
@@ -130,7 +118,7 @@ Constructors
             received.
 
         ``string``:
-            ``logLevelAtLeast(filter)`` will be used as the function
+            :mochiref:`logLevelAtLeast(filter)` will be used as the function
             (see below).
 
         ``function``:
@@ -138,7 +126,7 @@ Constructors
             true then ``listener(msg)`` will be called.
 
     ``listener`` is a function that takes one argument, a log message.  A log
-    message is an object (``LogMessage`` instance) that has at least these 
+    message is an object (:mochiref:`LogMessage` instance) that has at least these 
     properties:
 
         ``num``:
@@ -154,12 +142,7 @@ Constructors
             function.
 
 
-``Logger.prototype.removeListener(ident)``:
-
-    Remove a listener using the ident given to ``addListener``
-
-
-``Logger.prototype.baseLog(level, message[, ...])``:
+:mochidef:`Logger.prototype.baseLog(level, message[, ...])`:
 
     The base functionality behind all of the log functions.
     The first argument is the log level as a string or number,
@@ -176,15 +159,34 @@ Constructors
         ==============  =========
 
     For the default logger, these are also available as global functions,
-    see the ``Logger`` constructor documentation for more info.
+    see the :mochiref:`Logger` constructor documentation for more info.
 
 
-``Logger.prototype.getMessages(howMany)``:
+:mochidef:`Logger.prototype.clear()`:
+
+    Clear all messages from the message buffer.
+
+
+:mochidef:`Logger.prototype.debuggingBookmarklet()`:
+
+    Display the contents of the logger in a useful way for browsers.
+
+    Currently, if :mochiref:`MochiKit.LoggingPane` is loaded, then a pop-up
+    :mochiref:`MochiKit.LoggingPane.LoggingPane` will be used.  Otherwise,
+    it will be an alert with :mochiref:`Logger.prototype.getMessageText()`.
+
+
+:mochidef:`Logger.prototype.dispatchListeners(msg)`:
+
+    Dispatch a log message to all listeners.
+
+
+:mochidef:`Logger.prototype.getMessages(howMany)`:
 
     Return a list of up to ``howMany`` messages from the message buffer.
 
 
-``Logger.prototype.getMessageText(howMany)``:
+:mochidef:`Logger.prototype.getMessageText(howMany)`:
 
     Get a string representing up to the last ``howMany`` messages in the
     message buffer.  The default is ``30``.
@@ -196,54 +198,47 @@ Constructors
           [{msg.num}] {msg.level}: {m.info.join(' ')}
           ...
 
-    If you want some other format, use ``Logger.getMessages`` and do it
-    yourself.
+    If you want some other format, use
+    :mochiref:`Logger.prototype.getMessages` and do it yourself.
 
 
-``Logger.prototype.debuggingBookmarklet()``:
+:mochidef:`Logger.prototype.removeListener(ident)`:
 
-    Display the contents of the logger in a useful way for browsers.
-
-    Currently, if `MochiKit.LoggingPane`_ is loaded, then a pop-up
-    LoggingPane will be used.  Otherwise, it will be an alert with
-    ``this.getMessageText()``.
-
-.. _`MochiKit.LoggingPane`: LoggingPane.html
+    Remove a listener using the ident given to :mochiref:`Logger.prototype.addListener`
 
 
 Functions
 ---------
 
+:mochidef:`alertListener(msg)`:
 
-``logLevelAtLeast(minLevel)``:
+    Ultra-obnoxious ``alert(...)`` listener
+
+
+:mochidef:`debug(message[, info[, ...]])`:
+
+    Log a DEBUG message to the default logger
+
+
+:mochidef:`error(message[, info[, ...]])`:
+
+    Log an ERROR message to the default logger
+
+
+:mochidef:`fatal(message[, info[, ...]])`:
+
+    Log a FATAL message to the default logger
+
+
+:mochidef:`logLevelAtLeast(minLevel)`:
 
     Return a function that will match log messages whose level
     is at least minLevel
 
 
-``alertListener(msg)``:
-
-    Ultra-obnoxious ``alert(...)`` listener
-
-
-``debug(message[, info[, ...]])``:
-
-    Log a DEBUG message to the default logger
-
-
-``warning(message[, info[, ...]])``:
+:mochidef:`warning(message[, info[, ...]])`:
 
     Log a WARNING message to the default logger
-
-
-``error(message[, info[, ...]])``:
-
-    Log an ERROR message to the default logger
-
-
-``fatal(message[, info[, ...]])``:
-
-    Log a FATAL message to the default logger
 
 
 See Also

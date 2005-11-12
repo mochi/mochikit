@@ -42,9 +42,9 @@ Formatting Numbers
 
 MochiKit provides an extensible number formatting facility, modeled loosely
 after the Number Format Pattern Syntax [1]_ from Java.
-``numberFormatter(pattern[, placeholder=""[, locale="default"])`` returns a
-function that converts Number to string using the given information.  ``pattern``
-is a string consisting of the following symbols:
+:mochiref:`numberFormatter(pattern[, placeholder=""[, locale="default"])`
+returns a function that converts Number to string using the given information.
+``pattern`` is a string consisting of the following symbols:
 
 +-----------+---------------------------------------------------------------+
 | Symbol    |   Meaning                                                     |
@@ -82,56 +82,24 @@ API Reference
 Functions
 ---------
 
-``truncToFixed(aNumber, precision)``:
+:mochidef:`formatLocale(locale="default")`:
 
-    Return a string representation of ``aNumber``, truncated to ``precision``
-    digits with trailing zeros.  This is similar to
-    ``aNumber.toFixed(precision)``, but this truncates rather than rounds and
-    has implementation consistent behavior for numbers less than 1.
-    Specifically, ``truncToFixed(aNumber, precision)`` will always have a
-    preceding ``0`` for numbers less than ``1``.
-
-    For example, ``toFixed(0.1357, 2)`` returns ``0.13``.
+    Return a locale object for the given locale.  ``locale`` may be either a
+    string, which is looked up in the ``MochiKit.Format.LOCALE`` object, or
+    a locale object.  If no locale is given, ``LOCALE.default`` is used
+    (equivalent to ``LOCALE.en_US``).
 
 
-``roundToFixed(aNumber, precision)``:
+:mochidef:`lstrip(str, chars="\s")`:
 
-    Return a string representation of ``aNumber``, rounded to ``precision``
-    digits with trailing zeros.  This is similar to
-    ``Number.toFixed(aNumber, precision)``, but this has implementation
-    consistent rounding behavior (some versions of Safari round 0.5 down!)
-    and also includes preceding ``0`` for numbers less than ``1`` (Safari,
-    again).
+    Returns a string based on ``str`` with leading whitespace stripped.
 
-    For example, ``roundToFixed(0.1357, 2)`` returns ``0.14`` on every
-    supported platform, where some return ``.13`` for ``(0.1357).toFixed(2)``.
+    If ``chars`` is given, then that expression will be used instead of
+    whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
+    ``[character set]``.
 
 
-``twoDigitAverage(numerator, denominator)``:
-
-    Calculate an average from a numerator and a denominator and return
-    it as a string with two digits of precision (e.g. "1.23").
-
-    If the denominator is 0, "0" will be returned instead of NaN.
-
-
-``twoDigitFloat(someFloat)``:
-
-    Roughly equivalent to: ``sprintf("%.2f", someFloat)``
-
-    In new code, you probably want to use
-    ``numberFormatter("#.##")(someFloat)`` instead.
-
-
-``percentFormat(someFloat)``:
-
-    Roughly equivalent to: ``sprintf("%.2f%%", someFloat * 100)``
-
-    In new code, you probably want to use:
-    ``numberFormatter("#.##%")(someFloat)`` instead.
-
-
-``numberFormatter(pattern, placeholder="", locale="default")``:
+:mochidef:`numberFormatter(pattern, placeholder="", locale="default")`:
 
     Return a function ``formatNumber(aNumber)`` that formats numbers
     as a string according to the given pattern, placeholder and locale.
@@ -151,24 +119,28 @@ Functions
     +-----------+-----------------------------------------------------------+
 
 
-``formatLocale(locale="default")``:
+:mochidef:`percentFormat(someFloat)`:
 
-    Return a locale object for the given locale.  ``locale`` may be either a
-    string, which is looked up in the ``MochiKit.Format.LOCALE`` object, or
-    a locale object.  If no locale is given, ``LOCALE.default`` is used
-    (equivalent to ``LOCALE.en_US``).
+    Roughly equivalent to: ``sprintf("%.2f%%", someFloat * 100)``
 
-
-``lstrip(str, chars="\s")``:
-
-    Returns a string based on ``str`` with leading whitespace stripped.
-
-    If ``chars`` is given, then that expression will be used instead of
-    whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
-    ``[character set]``.
+    In new code, you probably want to use:
+    :mochiref:`numberFormatter("#.##%")(someFloat)` instead.
 
 
-``rstrip(str, chars="\s")``:
+:mochidef:`roundToFixed(aNumber, precision)`:
+
+    Return a string representation of ``aNumber``, rounded to ``precision``
+    digits with trailing zeros.  This is similar to
+    ``Number.toFixed(aNumber, precision)``, but this has implementation
+    consistent rounding behavior (some versions of Safari round 0.5 down!)
+    and also includes preceding ``0`` for numbers less than ``1`` (Safari,
+    again).
+
+    For example, :mochiref:`roundToFixed(0.1357, 2)` returns ``0.14`` on every
+    supported platform, where some return ``.13`` for ``(0.1357).toFixed(2)``.
+
+
+:mochidef:`rstrip(str, chars="\s")`:
 
     Returns a string based on ``str`` with trailing whitespace stripped.
 
@@ -177,14 +149,42 @@ Functions
     ``[character set]``.
 
 
-``strip(str, chars="\s")``:
+:mochidef:`strip(str, chars="\s")`:
 
     Returns a string based on ``str`` with leading and trailing whitespace
-    stripped (equivalent to ``lstrip(rstrip(str, chars), chars)``).
+    stripped (equivalent to :mochiref:`lstrip(rstrip(str, chars), chars)`).
 
     If ``chars`` is given, then that expression will be used instead of
     whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
     ``[character set]``.
+
+
+:mochidef:`truncToFixed(aNumber, precision)`:
+
+    Return a string representation of ``aNumber``, truncated to ``precision``
+    digits with trailing zeros.  This is similar to
+    ``aNumber.toFixed(precision)``, but this truncates rather than rounds and
+    has implementation consistent behavior for numbers less than 1.
+    Specifically, :mochiref:`truncToFixed(aNumber, precision)` will always have a
+    preceding ``0`` for numbers less than ``1``.
+
+    For example, :mochiref:`toFixed(0.1357, 2)` returns ``0.13``.
+
+
+:mochidef:`twoDigitAverage(numerator, denominator)`:
+
+    Calculate an average from a numerator and a denominator and return
+    it as a string with two digits of precision (e.g. "1.23").
+
+    If the denominator is 0, "0" will be returned instead of ``NaN``.
+
+
+:mochidef:`twoDigitFloat(someFloat)`:
+
+    Roughly equivalent to: ``sprintf("%.2f", someFloat)``
+
+    In new code, you probably want to use
+    :mochiref:`numberFormatter("#.##")(someFloat)` instead.
 
 
 See Also
