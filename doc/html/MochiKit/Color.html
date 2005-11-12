@@ -56,137 +56,179 @@ module level.</p>
 <h1><a name="api-reference">API Reference</a></h1>
 <div class="section" id="constructors">
 <h2><a name="constructors">Constructors</a></h2>
-<p><a name="fn-Color"></a><tt class="mochidef docutils literal"><span class="pre">Color()</span></tt>:</p>
+<p>
+<a name="fn-color"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color()</span></tt>:</p>
 <blockquote>
 <p>Represents a color.  Component values should be integers between <tt class="docutils literal"><span class="pre">0.0</span></tt>
-and <tt class="docutils literal"><span class="pre">1.0</span></tt>.  You should use one of the <a class="mochiref reference" href="#fn-Color">Color</a> factory
-functions such as <a class="mochiref reference" href="#fn-Color.fromRGB">Color.fromRGB</a>, <a class="mochiref reference" href="#fn-Color.fromHSL">Color.fromHSL</a>,
-etc. instead of constructing <a class="mochiref reference" href="#fn-Color">Color</a> objects directly.</p>
-<p><a class="mochiref reference" href="#fn-Color">Color</a> instances can be compared with
+and <tt class="docutils literal"><span class="pre">1.0</span></tt>.  You should use one of the <a class="mochiref reference" href="#fn-color">Color</a> factory
+functions such as <a class="mochiref reference" href="#fn-color.fromrgb">Color.fromRGB</a>, <a class="mochiref reference" href="#fn-color.fromhsl">Color.fromHSL</a>,
+etc. instead of constructing <a class="mochiref reference" href="#fn-color">Color</a> objects directly.</p>
+<p><a class="mochiref reference" href="#fn-color">Color</a> instances can be compared with
 <a class="mochiref reference" href="Base.html#fn-compare">MochiKit.Base.compare</a> (though ordering is on RGB, so is not
 particularly meaningful except for equality), and the default <tt class="docutils literal"><span class="pre">toString</span></tt>
-implementation returns <a class="mochiref reference" href="#fn-Color.prototype.toHexString">Color.prototype.toHexString()</a>.</p>
-<p><a class="mochiref reference" href="#fn-Color">Color</a> instances are immutable, and much of the architecture is
+implementation returns <a class="mochiref reference" href="#fn-color.prototype.tohexstring">Color.prototype.toHexString()</a>.</p>
+<p><a class="mochiref reference" href="#fn-color">Color</a> instances are immutable, and much of the architecture is
 inspired by AppKit's NSColor <a class="footnote-reference" href="#id6" id="id1" name="id1">[1]</a></p>
 </blockquote>
-<p><a name="fn-Color.fromBackground"></a><tt class="mochidef docutils literal"><span class="pre">Color.fromBackground(elem)</span></tt>:</p>
+<p>
+<a name="fn-color.frombackground"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.fromBackground(elem)</span></tt>:</p>
 <blockquote>
-Returns a <a class="mochiref reference" href="#fn-Color">Color</a> object based on the background of the provided
+Returns a <a class="mochiref reference" href="#fn-color">Color</a> object based on the background of the provided
 element.</blockquote>
-<p><a name="fn-Color.fromHexString"></a><tt class="mochidef docutils literal"><span class="pre">Color.fromHexString(hexString)</span></tt>:</p>
+<p>
+<a name="fn-color.fromhexstring"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.fromHexString(hexString)</span></tt>:</p>
 <blockquote>
-Returns a <a class="mochiref reference" href="#fn-Color">Color</a> object from the given hexadecimal color string.
-For example, <tt class="docutils literal"><span class="pre">&quot;#FFFFFF&quot;</span></tt> would return a <a class="mochiref reference" href="#fn-Color">Color</a> with
+Returns a <a class="mochiref reference" href="#fn-color">Color</a> object from the given hexadecimal color string.
+For example, <tt class="docutils literal"><span class="pre">&quot;#FFFFFF&quot;</span></tt> would return a <a class="mochiref reference" href="#fn-color">Color</a> with
 RGB values <tt class="docutils literal"><span class="pre">[255/255,</span> <span class="pre">255/255,</span> <span class="pre">255/255]</span></tt> (white).</blockquote>
-<p><a name="fn-Color.fromHSL"></a><tt class="mochidef docutils literal"><span class="pre">Color.fromHSL(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
+<p>
+<a name="fn-color.fromhsl"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.fromHSL(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
 <blockquote>
-<p>Return a <a class="mochiref reference" href="#fn-Color">Color</a> object from the given <tt class="docutils literal"><span class="pre">hue</span></tt>, <tt class="docutils literal"><span class="pre">saturation</span></tt>,
+<p>Return a <a class="mochiref reference" href="#fn-color">Color</a> object from the given <tt class="docutils literal"><span class="pre">hue</span></tt>, <tt class="docutils literal"><span class="pre">saturation</span></tt>,
 <tt class="docutils literal"><span class="pre">lightness</span></tt> values.  Values should be numbers between <tt class="docutils literal"><span class="pre">0.0</span></tt> and
 <tt class="docutils literal"><span class="pre">1.0</span></tt>.</p>
 <p>If <tt class="docutils literal"><span class="pre">alpha</span></tt> is not given, then <tt class="docutils literal"><span class="pre">1.0</span></tt> (completely opaque) will be used.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><a class="mochiref reference" href="#fn-Color.fromHSL">Color.fromHSL({h: hue, s: saturation, l: lightness, a: alpha})</a></dd>
+<dd><a class="mochiref reference" href="#fn-color.fromhsl">Color.fromHSL({h: hue, s: saturation, l: lightness, a: alpha})</a></dd>
 </dl>
 </blockquote>
-<p><a name="fn-Color.fromHSLString"></a><tt class="mochidef docutils literal"><span class="pre">Color.fromHSLString(hslString)</span></tt>:</p>
+<p>
+<a name="fn-color.fromhslstring"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.fromHSLString(hslString)</span></tt>:</p>
 <blockquote>
-Returns a <a class="mochiref reference" href="#fn-Color">Color</a> object from the given decimal hsl color string.
-For example, <tt class="docutils literal"><span class="pre">&quot;hsl(0,0%,100%)&quot;</span></tt> would return a <a class="mochiref reference" href="#fn-Color">Color</a> with
+Returns a <a class="mochiref reference" href="#fn-color">Color</a> object from the given decimal hsl color string.
+For example, <tt class="docutils literal"><span class="pre">&quot;hsl(0,0%,100%)&quot;</span></tt> would return a <a class="mochiref reference" href="#fn-color">Color</a> with
 HSL values <tt class="docutils literal"><span class="pre">[0/360,</span> <span class="pre">0/360,</span> <span class="pre">360/360]</span></tt> (white).</blockquote>
-<p><a name="fn-Color.fromHSV"></a><tt class="mochidef docutils literal"><span class="pre">Color.fromHSV(hue,</span> <span class="pre">saturation,</span> <span class="pre">value,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
+<p>
+<a name="fn-color.fromhsv"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.fromHSV(hue,</span> <span class="pre">saturation,</span> <span class="pre">value,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
 <blockquote>
-<p>Return a <a class="mochiref reference" href="#fn-Color">Color</a> object from the given <tt class="docutils literal"><span class="pre">hue</span></tt>, <tt class="docutils literal"><span class="pre">saturation</span></tt>,
+<p>Return a <a class="mochiref reference" href="#fn-color">Color</a> object from the given <tt class="docutils literal"><span class="pre">hue</span></tt>, <tt class="docutils literal"><span class="pre">saturation</span></tt>,
 <tt class="docutils literal"><span class="pre">value</span></tt> values.  Values should be numbers between <tt class="docutils literal"><span class="pre">0.0</span></tt> and
 <tt class="docutils literal"><span class="pre">1.0</span></tt>.</p>
 <p>If <tt class="docutils literal"><span class="pre">alpha</span></tt> is not given, then <tt class="docutils literal"><span class="pre">1.0</span></tt> (completely opaque) will be used.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><a class="mochiref reference" href="#fn-Color.fromHSV">Color.fromHSV({h: hue, s: saturation, v: value, a: alpha})</a></dd>
+<dd><a class="mochiref reference" href="#fn-color.fromhsv">Color.fromHSV({h: hue, s: saturation, v: value, a: alpha})</a></dd>
 </dl>
 </blockquote>
-<p><a name="fn-Color.fromRGB"></a><tt class="mochidef docutils literal"><span class="pre">Color.fromRGB(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
+<p>
+<a name="fn-color.fromrgb"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.fromRGB(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha=1.0)</span></tt>:</p>
 <blockquote>
-<p>Return a <a class="mochiref reference" href="#fn-Color">Color</a> object from the given <tt class="docutils literal"><span class="pre">red</span></tt>, <tt class="docutils literal"><span class="pre">green</span></tt>,
+<p>Return a <a class="mochiref reference" href="#fn-color">Color</a> object from the given <tt class="docutils literal"><span class="pre">red</span></tt>, <tt class="docutils literal"><span class="pre">green</span></tt>,
 <tt class="docutils literal"><span class="pre">blue</span></tt>, and <tt class="docutils literal"><span class="pre">alpha</span></tt> values.  Values should be numbers between <tt class="docutils literal"><span class="pre">0</span></tt>
 and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</p>
 <p>If <tt class="docutils literal"><span class="pre">alpha</span></tt> is not given, then <tt class="docutils literal"><span class="pre">1.0</span></tt> (completely opaque) will be used.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><a class="mochiref reference" href="#fn-Color.fromRGB">Color.fromRGB({r: red, g: green, b: blue, a: alpha})</a></dd>
+<dd><a class="mochiref reference" href="#fn-color.fromrgb">Color.fromRGB({r: red, g: green, b: blue, a: alpha})</a></dd>
 </dl>
 </blockquote>
-<p><a name="fn-Color.fromRGBString"></a><tt class="mochidef docutils literal"><span class="pre">Color.fromRGBString(rgbString)</span></tt>:</p>
+<p>
+<a name="fn-color.fromrgbstring"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.fromRGBString(rgbString)</span></tt>:</p>
 <blockquote>
-Returns a <a class="mochiref reference" href="#fn-Color">Color</a> object from the given decimal rgb color string.
-For example, <tt class="docutils literal"><span class="pre">&quot;rgb(255,255,255)&quot;</span></tt> would return a <a class="mochiref reference" href="#fn-Color">Color</a> with
+Returns a <a class="mochiref reference" href="#fn-color">Color</a> object from the given decimal rgb color string.
+For example, <tt class="docutils literal"><span class="pre">&quot;rgb(255,255,255)&quot;</span></tt> would return a <a class="mochiref reference" href="#fn-color">Color</a> with
 RGB values <tt class="docutils literal"><span class="pre">[255/255,</span> <span class="pre">255/255,</span> <span class="pre">255/255]</span></tt> (white).</blockquote>
-<p><a name="fn-Color.fromName"></a><tt class="mochidef docutils literal"><span class="pre">Color.fromName(colorName)</span></tt>:</p>
+<p>
+<a name="fn-color.fromname"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.fromName(colorName)</span></tt>:</p>
 <blockquote>
-Returns a <a class="mochiref reference" href="#fn-Color">Color</a> object corresponding to the given
+Returns a <a class="mochiref reference" href="#fn-color">Color</a> object corresponding to the given
 SVG 1.0 color keyword name <a class="footnote-reference" href="#id7" id="id2" name="id2">[2]</a> as per the W3C CSS3
 Color Module <a class="footnote-reference" href="#id8" id="id3" name="id3">[3]</a>.  <tt class="docutils literal"><span class="pre">&quot;transparent&quot;</span></tt> is also accepted
-as a color name, and will return <a class="mochiref reference" href="#fn-Color.transparentColor">Color.transparentColor()</a>.</blockquote>
-<p><a name="fn-Color.fromString"></a><tt class="mochidef docutils literal"><span class="pre">Color.fromString(rgbOrHexString)</span></tt>:</p>
+as a color name, and will return <a class="mochiref reference" href="#fn-color.transparentcolor">Color.transparentColor()</a>.</blockquote>
+<p>
+<a name="fn-color.fromstring"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.fromString(rgbOrHexString)</span></tt>:</p>
 <blockquote>
-<p>Returns a <a class="mochiref reference" href="#fn-Color">Color</a> object from the given RGB, HSL, hex, or name.
+<p>Returns a <a class="mochiref reference" href="#fn-color">Color</a> object from the given RGB, HSL, hex, or name.
 Will return <tt class="docutils literal"><span class="pre">null</span></tt> if the string can not be parsed by any of these 
 methods.</p>
-<p>See <a class="mochiref reference" href="#fn-Color.fromHexString">Color.fromHexString</a>, <a class="mochiref reference" href="#fn-Color.fromRGBString">Color.fromRGBString</a>, 
-<a class="mochiref reference" href="#fn-Color.fromHSLString">Color.fromHSLString</a> and <a class="mochiref reference" href="#fn-Color.fromName">Color.fromName</a> more
+<p>See <a class="mochiref reference" href="#fn-color.fromhexstring">Color.fromHexString</a>, <a class="mochiref reference" href="#fn-color.fromrgbstring">Color.fromRGBString</a>, 
+<a class="mochiref reference" href="#fn-color.fromhslstring">Color.fromHSLString</a> and <a class="mochiref reference" href="#fn-color.fromname">Color.fromName</a> more
 information.</p>
 </blockquote>
-<p><a name="fn-Color.namedColors"></a><tt class="mochidef docutils literal"><span class="pre">Color.namedColors()</span></tt>:</p>
+<p>
+<a name="fn-color.namedcolors"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.namedColors()</span></tt>:</p>
 <blockquote>
 Returns an object with properties for each SVG 1.0 color keyword
 name <a class="footnote-reference" href="#id7" id="id4" name="id4">[2]</a> supported by CSS3 <a class="footnote-reference" href="#id8" id="id5" name="id5">[3]</a>.  Property names are the color keyword
 name in lowercase, and the value is a string suitable for
-<a class="mochiref reference" href="#fn-Color.fromString">Color.fromString()</a>.</blockquote>
-<p><a name="fn-Color.prototype.colorWithAlpha"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.colorWithAlpha(alpha)</span></tt>:</p>
+<a class="mochiref reference" href="#fn-color.fromstring">Color.fromString()</a>.</blockquote>
+<p>
+<a name="fn-color.prototype.colorwithalpha"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.colorWithAlpha(alpha)</span></tt>:</p>
 <blockquote>
-Return a new <a class="mochiref reference" href="#fn-Color">Color</a> based on this color, but with the provided
+Return a new <a class="mochiref reference" href="#fn-color">Color</a> based on this color, but with the provided
 <tt class="docutils literal"><span class="pre">alpha</span></tt> value.</blockquote>
-<p><a name="fn-Color.prototype.colorWithHue"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.colorWithHue(hue)</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.colorwithhue"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.colorWithHue(hue)</span></tt>:</p>
 <blockquote>
-Return a new <a class="mochiref reference" href="#fn-Color">Color</a> based on this color, but with the provided
+Return a new <a class="mochiref reference" href="#fn-color">Color</a> based on this color, but with the provided
 <tt class="docutils literal"><span class="pre">hue</span></tt> value.</blockquote>
-<p><a name="fn-Color.prototype.colorWithSaturation"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.colorWithSaturation(saturation)</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.colorwithsaturation"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.colorWithSaturation(saturation)</span></tt>:</p>
 <blockquote>
-Return a new <a class="mochiref reference" href="#fn-Color">Color</a> based on this color, but with the provided
+Return a new <a class="mochiref reference" href="#fn-color">Color</a> based on this color, but with the provided
 <tt class="docutils literal"><span class="pre">saturation</span></tt> value (using the HSL color model).</blockquote>
-<p><a name="fn-Color.prototype.colorWithLightness"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.colorWithLightness(lightness)</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.colorwithlightness"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.colorWithLightness(lightness)</span></tt>:</p>
 <blockquote>
-Return a new <a class="mochiref reference" href="#fn-Color">Color</a> based on this color, but with the provided
+Return a new <a class="mochiref reference" href="#fn-color">Color</a> based on this color, but with the provided
 <tt class="docutils literal"><span class="pre">lightness</span></tt> value.</blockquote>
-<p><a name="fn-Color.prototype.darkerColorWithLevel"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.darkerColorWithLevel(level)</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.darkercolorwithlevel"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.darkerColorWithLevel(level)</span></tt>:</p>
 <blockquote>
-Return a new <a class="mochiref reference" href="#fn-Color">Color</a> based on this color, but darker by the given
+Return a new <a class="mochiref reference" href="#fn-color">Color</a> based on this color, but darker by the given
 <tt class="docutils literal"><span class="pre">level</span></tt> (between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>).</blockquote>
-<p><a name="fn-Color.prototype.lighterColorWithLevel"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.lighterColorWithLevel(level)</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.lightercolorwithlevel"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.lighterColorWithLevel(level)</span></tt>:</p>
 <blockquote>
-Return a new <a class="mochiref reference" href="#fn-Color">Color</a> based on this color, but lighter by the given
+Return a new <a class="mochiref reference" href="#fn-color">Color</a> based on this color, but lighter by the given
 <tt class="docutils literal"><span class="pre">level</span></tt> (between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>).</blockquote>
-<p><a name="fn-Color.prototype.blendedColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.blendedColor(other,</span> <span class="pre">fraction=0.5)</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.blendedcolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.blendedColor(other,</span> <span class="pre">fraction=0.5)</span></tt>:</p>
 <blockquote>
-Return a new <a class="mochiref reference" href="#fn-Color">Color</a> whose RGBA component values are a weighted sum
+Return a new <a class="mochiref reference" href="#fn-color">Color</a> whose RGBA component values are a weighted sum
 of this color and <tt class="docutils literal"><span class="pre">other</span></tt>.  Each component of the returned color
 is the <tt class="docutils literal"><span class="pre">fraction</span></tt> of other's value plus <tt class="docutils literal"><span class="pre">1</span> <span class="pre">-</span> <span class="pre">fraction</span></tt> of this
 color's.</blockquote>
-<p><a name="fn-Color.prototype.isLight"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.isLight()</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.islight"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.isLight()</span></tt>:</p>
 <blockquote>
 <p>Return <tt class="docutils literal"><span class="pre">true</span></tt> if the lightness value of this color is greater than
 <tt class="docutils literal"><span class="pre">0.5</span></tt>.</p>
 <p>Note that <tt class="docutils literal"><span class="pre">alpha</span></tt> is ignored for this calculation (color components
 are not premultiplied).</p>
 </blockquote>
-<p><a name="fn-Color.prototype.isDark"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.isDark()</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.isdark"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.isDark()</span></tt>:</p>
 <blockquote>
 <p>Return <tt class="docutils literal"><span class="pre">true</span></tt> if the lightness value of this color is less than or
 equal to <tt class="docutils literal"><span class="pre">0.5</span></tt>.</p>
 <p>Note that <tt class="docutils literal"><span class="pre">alpha</span></tt> is ignored for this calculation (color components
 are not premultiplied).</p>
 </blockquote>
-<p><a name="fn-Color.prototype.toRGBString"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.toRGBString()</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.torgbstring"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.toRGBString()</span></tt>:</p>
 <blockquote>
 <p>Return the decimal <tt class="docutils literal"><span class="pre">&quot;rgb(red,</span> <span class="pre">green,</span> <span class="pre">blue)&quot;</span></tt> string representation of this
 color.</p>
@@ -197,7 +239,9 @@ color.</p>
 assert( Color.whiteColor().toRGBString() == &quot;rgb(255,255,255)&quot; );
 </pre>
 </blockquote>
-<p><a name="fn-Color.prototype.toHSLString"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.toHSLString()</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.tohslstring"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.toHSLString()</span></tt>:</p>
 <blockquote>
 <p>Return the decimal <tt class="docutils literal"><span class="pre">&quot;hsl(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness)&quot;</span></tt>
 string representation of this color.</p>
@@ -209,7 +253,9 @@ will be used.</p>
 assert( Color.whiteColor().toHSLString() == &quot;hsl(0,0,360)&quot; );
 </pre>
 </blockquote>
-<p><a name="fn-Color.prototype.toHexString"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.toHexString()</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.tohexstring"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.toHexString()</span></tt>:</p>
 <blockquote>
 <p>Return the hexadecimal <tt class="docutils literal"><span class="pre">&quot;#RRGGBB&quot;</span></tt> string representation of this color.</p>
 <p>Note that the alpha component is completely ignored for hexadecimal
@@ -219,134 +265,182 @@ string representations!</p>
 assert( Color.whiteColor().toHexString() == &quot;#FFFFFF&quot; );
 </pre>
 </blockquote>
-<p><a name="fn-Color.prototype.asRGB"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.asRGB()</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.asrgb"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.asRGB()</span></tt>:</p>
 <blockquote>
 Return the RGB (red, green, blue, alph) components of this color as an
 object with <tt class="docutils literal"><span class="pre">r</span></tt>, <tt class="docutils literal"><span class="pre">g</span></tt>, <tt class="docutils literal"><span class="pre">b</span></tt>, and <tt class="docutils literal"><span class="pre">a</span></tt> properties that have
 values between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</blockquote>
-<p><a name="fn-Color.prototype.asHSL"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.asHSL()</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.ashsl"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.asHSL()</span></tt>:</p>
 <blockquote>
 Return the HSL (hue, saturation, lightness, alpha) components of this
 color as an object with <tt class="docutils literal"><span class="pre">h</span></tt>, <tt class="docutils literal"><span class="pre">s</span></tt>, <tt class="docutils literal"><span class="pre">l</span></tt> and <tt class="docutils literal"><span class="pre">a</span></tt> properties
 that have values between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</blockquote>
-<p><a name="fn-Color.prototype.asHSV"></a><tt class="mochidef docutils literal"><span class="pre">Color.prototype.asHSV()</span></tt>:</p>
+<p>
+<a name="fn-color.prototype.ashsv"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.prototype.asHSV()</span></tt>:</p>
 <blockquote>
 Return the HSV (hue, saturation, value, alpha) components of this
 color as an object with <tt class="docutils literal"><span class="pre">h</span></tt>, <tt class="docutils literal"><span class="pre">s</span></tt>, <tt class="docutils literal"><span class="pre">v</span></tt> and <tt class="docutils literal"><span class="pre">a</span></tt> properties
 that have values between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt>.</blockquote>
-<p><a name="fn-Color.blackColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.blackColor()</span></tt>:</p>
+<p>
+<a name="fn-color.blackcolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.blackColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 0, 0, 0
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 0, 0, 0
 (#000000).</blockquote>
-<p><a name="fn-Color.blueColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.blueColor()</span></tt>:</p>
+<p>
+<a name="fn-color.bluecolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.blueColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 0, 0, 1
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 0, 0, 1
 (#0000ff).</blockquote>
-<p><a name="fn-Color.brownColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.brownColor()</span></tt>:</p>
+<p>
+<a name="fn-color.browncolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.brownColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 0.6, 0.4, 0.2
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 0.6, 0.4, 0.2
 (#996633).</blockquote>
-<p><a name="fn-Color.cyanColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.cyanColor()</span></tt>:</p>
+<p>
+<a name="fn-color.cyancolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.cyanColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 0, 1, 1
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 0, 1, 1
 (#00ffff).</blockquote>
-<p><a name="fn-Color.darkGrayColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.darkGrayColor()</span></tt>:</p>
+<p>
+<a name="fn-color.darkgraycolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.darkGrayColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 1/3, 1/3, 1/3
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 1/3, 1/3, 1/3
 (#555555).</blockquote>
-<p><a name="fn-Color.grayColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.grayColor()</span></tt>:</p>
+<p>
+<a name="fn-color.graycolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.grayColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 0.5, 0.5, 0.5
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 0.5, 0.5, 0.5
 (#808080).</blockquote>
-<p><a name="fn-Color.greenColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.greenColor()</span></tt>:</p>
+<p>
+<a name="fn-color.greencolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.greenColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 0, 1, 0.
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 0, 1, 0.
 (#00ff00).</blockquote>
-<p><a name="fn-Color.lightGrayColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.lightGrayColor()</span></tt>:</p>
+<p>
+<a name="fn-color.lightgraycolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.lightGrayColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 2/3, 2/3, 2/3
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 2/3, 2/3, 2/3
 (#aaaaaa).</blockquote>
-<p><a name="fn-Color.magentaColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.magentaColor()</span></tt>:</p>
+<p>
+<a name="fn-color.magentacolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.magentaColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 1, 0, 1
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 1, 0, 1
 (#ff00ff).</blockquote>
-<p><a name="fn-Color.orangeColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.orangeColor()</span></tt>:</p>
+<p>
+<a name="fn-color.orangecolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.orangeColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 1, 0.5, 0
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 1, 0.5, 0
 (#ff8000).</blockquote>
-<p><a name="fn-Color.purpleColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.purpleColor()</span></tt>:</p>
+<p>
+<a name="fn-color.purplecolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.purpleColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 0.5, 0, 0.5
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 0.5, 0, 0.5
 (#800080).</blockquote>
-<p><a name="fn-Color.redColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.redColor()</span></tt>:</p>
+<p>
+<a name="fn-color.redcolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.redColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 1, 0, 0
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 1, 0, 0
 (#ff0000).</blockquote>
-<p><a name="fn-Color.whiteColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.whiteColor()</span></tt>:</p>
+<p>
+<a name="fn-color.whitecolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.whiteColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 1, 1, 1
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 1, 1, 1
 (#ffffff).</blockquote>
-<p><a name="fn-Color.yellowColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.yellowColor()</span></tt>:</p>
+<p>
+<a name="fn-color.yellowcolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.yellowColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object whose RGB values are 1, 1, 0
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object whose RGB values are 1, 1, 0
 (#ffff00).</blockquote>
-<p><a name="fn-Color.transparentColor"></a><tt class="mochidef docutils literal"><span class="pre">Color.transparentColor()</span></tt>:</p>
+<p>
+<a name="fn-color.transparentcolor"></a>
+<tt class="mochidef docutils literal"><span class="pre">Color.transparentColor()</span></tt>:</p>
 <blockquote>
-Return a <a class="mochiref reference" href="#fn-Color">Color</a> object that is completely transparent
+Return a <a class="mochiref reference" href="#fn-color">Color</a> object that is completely transparent
 (has alpha component of 0).</blockquote>
 </div>
 <div class="section" id="functions">
 <h2><a name="functions">Functions</a></h2>
-<p><a name="fn-clampColorComponent"></a><tt class="mochidef docutils literal"><span class="pre">clampColorComponent(num,</span> <span class="pre">scale)</span></tt>:</p>
+<p>
+<a name="fn-clampcolorcomponent"></a>
+<tt class="mochidef docutils literal"><span class="pre">clampColorComponent(num,</span> <span class="pre">scale)</span></tt>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">num</span> <span class="pre">*</span> <span class="pre">scale</span></tt> clamped between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">scale</span></tt>.</p>
-<p><a class="mochiref reference" href="#fn-clampColorComponent">clampColorComponent</a> is not exported by default when using JSAN.</p>
+<p><a class="mochiref reference" href="#fn-clampcolorcomponent">clampColorComponent</a> is not exported by default when using JSAN.</p>
 </blockquote>
-<p><a name="fn-hslToRGB"></a><tt class="mochidef docutils literal"><span class="pre">hslToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness,</span> <span class="pre">alpha)</span></tt>:</p>
+<p>
+<a name="fn-hsltorgb"></a>
+<tt class="mochidef docutils literal"><span class="pre">hslToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">lightness,</span> <span class="pre">alpha)</span></tt>:</p>
 <blockquote>
 <p>Computes RGB values from the provided HSL values. The return value is a
 mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;g&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><a class="mochiref reference" href="#fn-hslToRGB">hslToRGB({h: hue, s: saturation, l: lightness, a: alpha})</a>.</dd>
+<dd><a class="mochiref reference" href="#fn-hsltorgb">hslToRGB({h: hue, s: saturation, l: lightness, a: alpha})</a>.</dd>
 </dl>
-<p><a class="mochiref reference" href="#fn-hslToRGB">hslToRGB</a> is not exported by default when using JSAN.</p>
+<p><a class="mochiref reference" href="#fn-hsltorgb">hslToRGB</a> is not exported by default when using JSAN.</p>
 </blockquote>
-<p><a name="fn-hsvToRGB"></a><tt class="mochidef docutils literal"><span class="pre">hsvToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">value,</span> <span class="pre">alpha)</span></tt>:</p>
+<p>
+<a name="fn-hsvtorgb"></a>
+<tt class="mochidef docutils literal"><span class="pre">hsvToRGB(hue,</span> <span class="pre">saturation,</span> <span class="pre">value,</span> <span class="pre">alpha)</span></tt>:</p>
 <blockquote>
 <p>Computes RGB values from the provided HSV values. The return value is a
 mapping with <tt class="docutils literal"><span class="pre">&quot;r&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;g&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;b&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><a class="mochiref reference" href="#fn-hsvToRGB">hsvToRGB({h: hue, s: saturation, v: value, a: alpha})</a>.</dd>
+<dd><a class="mochiref reference" href="#fn-hsvtorgb">hsvToRGB({h: hue, s: saturation, v: value, a: alpha})</a>.</dd>
 </dl>
-<p><a class="mochiref reference" href="#fn-hsvToRGB">hsvToRGB</a> is not exported by default when using JSAN.</p>
+<p><a class="mochiref reference" href="#fn-hsvtorgb">hsvToRGB</a> is not exported by default when using JSAN.</p>
 </blockquote>
-<p><a name="fn-toColorPart"></a><tt class="mochidef docutils literal"><span class="pre">toColorPart(num)</span></tt>:</p>
+<p>
+<a name="fn-tocolorpart"></a>
+<tt class="mochidef docutils literal"><span class="pre">toColorPart(num)</span></tt>:</p>
 <blockquote>
 <p>Convert num to a zero padded hexadecimal digit for use in a hexadecimal
 color string.  Num should be an integer between <tt class="docutils literal"><span class="pre">0</span></tt> and <tt class="docutils literal"><span class="pre">255</span></tt>.</p>
-<p><a class="mochiref reference" href="#fn-toColorPart">toColorPart</a> is not exported by default when using JSAN.</p>
+<p><a class="mochiref reference" href="#fn-tocolorpart">toColorPart</a> is not exported by default when using JSAN.</p>
 </blockquote>
-<p><a name="fn-rgbToHSL"></a><tt class="mochidef docutils literal"><span class="pre">rgbToHSL(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha)</span></tt>:</p>
+<p>
+<a name="fn-rgbtohsl"></a>
+<tt class="mochidef docutils literal"><span class="pre">rgbToHSL(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha)</span></tt>:</p>
 <blockquote>
 <p>Computes HSL values based on the provided RGB values. The return value is
 a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;l&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><a class="mochiref reference" href="#fn-rgbToHSL">rgbToHSL({r: red, g: green, b: blue, a: alpha})</a>.</dd>
+<dd><a class="mochiref reference" href="#fn-rgbtohsl">rgbToHSL({r: red, g: green, b: blue, a: alpha})</a>.</dd>
 </dl>
-<p><a class="mochiref reference" href="#fn-rgbToHSL">rgbToHSL</a> is not exported by default when using JSAN.</p>
+<p><a class="mochiref reference" href="#fn-rgbtohsl">rgbToHSL</a> is not exported by default when using JSAN.</p>
 </blockquote>
-<p><a name="fn-rgbToHSV"></a><tt class="mochidef docutils literal"><span class="pre">rgbToHSV(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha)</span></tt>:</p>
+<p>
+<a name="fn-rgbtohsv"></a>
+<tt class="mochidef docutils literal"><span class="pre">rgbToHSV(red,</span> <span class="pre">green,</span> <span class="pre">blue,</span> <span class="pre">alpha)</span></tt>:</p>
 <blockquote>
 <p>Computes HSV values based on the provided RGB values. The return value is
 a mapping with <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;v&quot;</span></tt> and <tt class="docutils literal"><span class="pre">&quot;a&quot;</span></tt> keys.</p>
 <dl class="docutils">
 <dt>Alternate form:</dt>
-<dd><a class="mochiref reference" href="#fn-rgbToHSV">rgbToHSV({r: red, g: green, b: blue, a: alpha})</a>.</dd>
+<dd><a class="mochiref reference" href="#fn-rgbtohsv">rgbToHSV({r: red, g: green, b: blue, a: alpha})</a>.</dd>
 </dl>
-<p><a class="mochiref reference" href="#fn-rgbToHSV">rgbToHSV</a> is not exported by default when using JSAN.</p>
+<p><a class="mochiref reference" href="#fn-rgbtohsv">rgbToHSV</a> is not exported by default when using JSAN.</p>
 </blockquote>
 </div>
 </div>

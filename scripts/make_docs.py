@@ -21,7 +21,7 @@ def role_mochiref(role, rawtext, text, lineno, inliner, options=None, content=[]
     base, name = mochi_name(text)
     ref = base
     if name:
-        ref += '#fn-' + name
+        ref += '#fn-' + name.lower()
     roles.set_classes(options)
     options.setdefault('classes', []).append('mochiref')
     node = nodes.reference(
@@ -35,7 +35,8 @@ def role_mochidef(role, rawtext, text, lineno, inliner, options=None, content=[]
         options = {}
     base, name = mochi_name(text)
     assert base == ''
-    anchor = nodes.raw('', '<a name="fn-%s"></a>' % (utils.unescape(name),),
+    anchor = nodes.raw('',
+        '\n<a name="fn-%s"></a>\n' % (utils.unescape(name.lower()),),
         format='html')
     roles.set_classes(options)
     options.setdefault('classes', []).append('mochidef')
