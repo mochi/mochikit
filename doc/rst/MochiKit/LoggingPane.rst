@@ -22,20 +22,19 @@ Description
 
 MochiKit.Logging does not have any browser dependencies and is completely
 unobtrusive.  MochiKit.LoggingPane is a browser-based colored viewing pane
-for your MochiKit.Logging output that can be used as a pop-up or inline.
+for your :mochiref:`MochiKit.Logging` output that can be used as a pop-up or
+inline.
 
 It also allows for regex and level filtering!  MochiKit.LoggingPane is used
-as the default MochiKit.Logging.debuggingBookmarklet() if it is loaded.
+as the default :mochiref:`MochiKit.Logging.debuggingBookmarklet()` if it is
+loaded.
 
 
 Dependencies
 ============
 
-- `MochiKit.Base`_
-- `MochiKit.Logging`_
-
-.. _`MochiKit.Base`: Base.html
-.. _`MochiKit.Logging`: Logging.html
+- :mochiref:`MochiKit.Base`
+- :mochiref:`MochiKit.Logging`
 
 
 API Reference
@@ -44,17 +43,17 @@ API Reference
 Constructors
 ------------
 
-``LoggingPane(inline=false, logger=MochiKit.Logging.logger)``:
+:mochidef:`LoggingPane(inline=false, logger=MochiKit.Logging.logger)`:
 
-    A listener for a MochiKit.Logging logger with an interactive DOM
-    representation.
+    A listener for a :mochiref:`MochiKit.Logging` logger with an interactive
+    DOM representation.
 
     If ``inline`` is ``true``, then the ``LoggingPane`` will be a ``DIV``
     at the bottom of the document.  Otherwise, it will be in a pop-up
     window with a name based on the calling page's URL.
 
-    ``logger`` is the reference to the ``MochiKit.Logging.Logger`` to listen
-    to.  If not specified, the global default logger is used.
+    ``logger`` is the reference to the :mochiref:`MochiKit.Logging.Logger` to
+    listen to.  If not specified, the global default logger is used.
     
     Properties:
 
@@ -78,21 +77,21 @@ Constructors
                 };
 
 
-``LoggingPane.prototype.closePane()``:
+:mochidef:`LoggingPane.prototype.closePane()`:
 
-    Close the ``LoggingPane``
+    Close the :mochiref:`LoggingPane`
 
 
 Functions
 ---------
 
 
-``createLoggingPane(inline=false)``:
+:mochidef:`createLoggingPane(inline=false)`:
 
-    Create or return an existing ``LoggingPane`` for this document
+    Create or return an existing :mochiref:`LoggingPane` for this document
     with the given inline setting.  This is preferred over using
-    ``LoggingPane`` directly, as only one ``LoggingPane`` should be
-    present in a given document.
+    :mochiref:`LoggingPane` directly, as only one :mochiref:`LoggingPane`
+    should be present in a given document.
 
 
 Authors

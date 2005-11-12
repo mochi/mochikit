@@ -34,10 +34,10 @@ of dates and timestamps.  MochiKit.Date does that.</p>
 <h1><a name="api-reference">API Reference</a></h1>
 <div class="section" id="functions">
 <h2><a name="functions">Functions</a></h2>
-<p><tt class="docutils literal"><span class="pre">isoDate(str)</span></tt>:</p>
+<p><a name="fn-isoDate"></a><tt class="mochidef docutils literal"><span class="pre">isoDate(str)</span></tt>:</p>
 <blockquote>
 Convert an ISO 8601 date (YYYY-MM-DD) to a <tt class="docutils literal"><span class="pre">Date</span></tt> object.</blockquote>
-<p><tt class="docutils literal"><span class="pre">isoTimestamp(str)</span></tt>:</p>
+<p><a name="fn-isoTimestamp"></a><tt class="mochidef docutils literal"><span class="pre">isoTimestamp(str)</span></tt>:</p>
 <blockquote>
 <p>Convert any ISO 8601 <a class="footnote-reference" href="#id3" id="id1" name="id1">[1]</a> timestamp (or something reasonably close to it)
 to a <tt class="docutils literal"><span class="pre">Date</span></tt> object.  Will accept the &quot;de facto&quot; form:</p>
@@ -49,10 +49,10 @@ YYYY-MM-DDThh:mm:ssZ</blockquote>
 <p>If a time zone designator (&quot;Z&quot; or &quot;[+-]HH:MM&quot;) is not present, then the
 local timezone is used.</p>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">toISOTime(date)</span></tt>:</p>
+<p><a name="fn-toISOTime"></a><tt class="mochidef docutils literal"><span class="pre">toISOTime(date)</span></tt>:</p>
 <blockquote>
 Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to a string in the form of hh:mm:ss</blockquote>
-<p><tt class="docutils literal"><span class="pre">toISOTimestamp(date,</span> <span class="pre">realISO)</span></tt>:</p>
+<p><a name="fn-toISOTimestamp"></a><tt class="mochidef docutils literal"><span class="pre">toISOTimestamp(date,</span> <span class="pre">realISO)</span></tt>:</p>
 <blockquote>
 <p>Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to something that's ALMOST but not quite an
 ISO 8601 [1]_timestamp.  If it was a proper ISO timestamp it would be:</p>
@@ -64,16 +64,16 @@ YYYY-MM-DD hh:mm:ss</blockquote>
 <p>So, this function returns the latter form, despite its name, unless
 you pass <tt class="docutils literal"><span class="pre">true</span></tt> for <tt class="docutils literal"><span class="pre">realISO</span></tt>.</p>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">toISODate(date)</span></tt>:</p>
+<p><a name="fn-toISODate"></a><tt class="mochidef docutils literal"><span class="pre">toISODate(date)</span></tt>:</p>
 <blockquote>
 Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an ISO 8601 <a class="footnote-reference" href="#id3" id="id2" name="id2">[1]</a> date string (YYYY-MM-DD)</blockquote>
-<p><tt class="docutils literal"><span class="pre">americanDate(d)</span></tt>:</p>
+<p><a name="fn-americanDate"></a><tt class="mochidef docutils literal"><span class="pre">americanDate(d)</span></tt>:</p>
 <blockquote>
 Converts a MM/DD/YYYY date to a <tt class="docutils literal"><span class="pre">Date</span></tt> object</blockquote>
-<p><tt class="docutils literal"><span class="pre">toPaddedAmericanDate(d)</span></tt>:</p>
+<p><a name="fn-toPaddedAmericanDate"></a><tt class="mochidef docutils literal"><span class="pre">toPaddedAmericanDate(d)</span></tt>:</p>
 <blockquote>
 Converts a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an MM/DD/YYYY date, e.g. 01/01/2001</blockquote>
-<p><tt class="docutils literal"><span class="pre">toAmericanDate(d)</span></tt>:</p>
+<p><a name="fn-toAmericanDate"></a><tt class="mochidef docutils literal"><span class="pre">toAmericanDate(d)</span></tt>:</p>
 <blockquote>
 Converts a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an M/D/YYYY date, e.g. 1/1/2001</blockquote>
 </div>

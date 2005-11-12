@@ -27,16 +27,10 @@ MochiKit.Visual provides visual effects and support functions for visuals.
 Dependencies
 ============
 
-- `MochiKit.Base`_
-- `MochiKit.Iter`_
-- `MochiKit.DOM`_
-- `MochiKit.Color`_
-
-.. _`MochiKit.Base`: Base.html
-.. _`MochiKit.Iter`: Iter.html
-.. _`MochiKit.DOM`: DOM.html
-.. _`MochiKit.Color`: Color.html
-
+- :mochiref:`MochiKit.Base`
+- :mochiref:`MochiKit.Iter`
+- :mochiref:`MochiKit.DOM`
+- :mochiref:`MochiKit.Color`
 
 Overview
 ========
@@ -55,7 +49,15 @@ API Reference
 Functions
 ---------
 
-``roundElement(element[, options])``:
+:mochidef:`roundClass(tagName[, className[, options]])`:
+
+    Rounds all of the elements that match the ``tagName`` and ``className``
+    specifiers, using the options provided.  ``tagName`` or ``className`` can
+    be ``null`` to match all tags or classes.  For more information about
+    the options, see the :mochiref:`roundElement` function.
+
+
+:mochidef:`roundElement(element[, options])`:
 
     Immediately round the corners of the specified element.
     The element can be given as either a string 
@@ -92,14 +94,6 @@ Functions
         specifies whether the color and background color should be blended
         together to produce the border color.
     
-
-``roundClass(tagName[, className[, options]])``:
-
-    Rounds all of the elements that match the ``tagName`` and ``className``
-    specifiers, using the options provided.  ``tagName`` or ``className`` can
-    be ``null`` to match all tags or classes.  For more information about
-    the options, see the ``roundElement`` function above.
-
 
 See Also
 ========
