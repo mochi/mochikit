@@ -195,12 +195,12 @@ withWindow(child, function () {
 <h2><a name="functions">Functions</a></h2>
 <p>
 <a name="fn-$"></a>
-<tt class="mochidef docutils literal"><span class="pre">$(id[,</span> <span class="pre">...])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-$">$(id[, ...])</a>:</p>
 <blockquote>
 An alias for <a class="mochiref reference" href="#fn-getelement">getElement(id[, ...])</a></blockquote>
 <p>
 <a name="fn-addelementclass"></a>
-<tt class="mochidef docutils literal"><span class="pre">addElementClass(element,</span> <span class="pre">className)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-addelementclass">addElementClass(element, className)</a>:</p>
 <blockquote>
 Ensure that the given <tt class="docutils literal"><span class="pre">element</span></tt> has <tt class="docutils literal"><span class="pre">className</span></tt> set as part of its
 class attribute.  This will not disturb other class names.
@@ -208,14 +208,14 @@ class attribute.  This will not disturb other class names.
 are also acceptable.</blockquote>
 <p>
 <a name="fn-addloadevent"></a>
-<tt class="mochidef docutils literal"><span class="pre">addLoadEvent(func)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-addloadevent">addLoadEvent(func)</a>:</p>
 <blockquote>
 This will stack <tt class="docutils literal"><span class="pre">window.onload</span></tt> functions on top of each other.
 Each function added will be called after <tt class="docutils literal"><span class="pre">onload</span></tt> in the
 order that they were added.</blockquote>
 <p>
 <a name="fn-addtocallstack"></a>
-<tt class="mochidef docutils literal"><span class="pre">addToCallStack(target,</span> <span class="pre">path,</span> <span class="pre">func[,</span> <span class="pre">once])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-addtocallstack">addToCallStack(target, path, func[, once])</a>:</p>
 <blockquote>
 <p>Set the property <tt class="docutils literal"><span class="pre">path</span></tt> of <tt class="docutils literal"><span class="pre">target</span></tt> to a function that calls the
 existing function at that property (if any), then calls <tt class="docutils literal"><span class="pre">func</span></tt>.</p>
@@ -228,7 +228,7 @@ a stack of functions (instead of just a pair).</p>
 </blockquote>
 <p>
 <a name="fn-appendchildnodes"></a>
-<tt class="mochidef docutils literal"><span class="pre">appendChildNodes(node[,</span> <span class="pre">childNode[,</span> <span class="pre">...]])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-appendchildnodes">appendChildNodes(node[, childNode[, ...]])</a>:</p>
 <blockquote>
 <p>Append children to a DOM element using the <a class="reference" href="#dom-coercion-rules">DOM Coercion Rules</a>.</p>
 <dl class="docutils">
@@ -246,14 +246,14 @@ nodes that are appended as children using the
 </blockquote>
 <p>
 <a name="fn-computedstyle"></a>
-<tt class="mochidef docutils literal"><span class="pre">computedStyle(htmlElement,</span> <span class="pre">cssProperty,</span> <span class="pre">mozillaEquivalentCSS)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-computedstyle">computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)</a>:</p>
 <blockquote>
 Looks up a CSS property for the given element. The element can be
 specified as either a string with the element's ID or the element
 object itself.</blockquote>
 <p>
 <a name="fn-createdom"></a>
-<tt class="mochidef docutils literal"><span class="pre">createDOM(name[,</span> <span class="pre">attrs[,</span> <span class="pre">node[,</span> <span class="pre">...]]])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-createdom">createDOM(name[, attrs[, node[, ...]]])</a>:</p>
 <blockquote>
 <p>Create a DOM fragment in a really convenient manner, much like
 Nevow`s <a class="footnote-reference" href="#id5" id="id3" name="id3">[1]</a> stan <a class="footnote-reference" href="#id6" id="id4" name="id4">[2]</a>.</p>
@@ -314,7 +314,7 @@ nodes that are appended as children using the
 </blockquote>
 <p>
 <a name="fn-createdomfunc"></a>
-<tt class="mochidef docutils literal"><span class="pre">createDOMFunc(tag[,</span> <span class="pre">attrs[,</span> <span class="pre">node[,</span> <span class="pre">...]]])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-createdomfunc">createDOMFunc(tag[, attrs[, node[, ...]]])</a>:</p>
 <blockquote>
 <p>Convenience function to create a partially applied createDOM
 function.  You'd want to use this if you add additional convenience
@@ -335,39 +335,39 @@ a lot of tags with a bunch of the same attributes or contents.</p>
 </blockquote>
 <p>
 <a name="fn-currentdocument"></a>
-<tt class="mochidef docutils literal"><span class="pre">currentDocument()</span></tt>:</p>
+<a class="mochidef reference" href="#fn-currentdocument">currentDocument()</a>:</p>
 <blockquote>
 Return the current <tt class="docutils literal"><span class="pre">document</span></tt> <a class="reference" href="#dom-context">DOM Context</a>.  This will always
 be the same as the global <tt class="docutils literal"><span class="pre">document</span></tt> unless <a class="mochiref reference" href="#fn-withdocument">withDocument</a> or
 <a class="mochiref reference" href="#fn-withwindow">withWindow</a> is currently executing.</blockquote>
 <p>
 <a name="fn-currentwindow"></a>
-<tt class="mochidef docutils literal"><span class="pre">currentWindow()</span></tt>:</p>
+<a class="mochidef reference" href="#fn-currentwindow">currentWindow()</a>:</p>
 <blockquote>
 Return the current <tt class="docutils literal"><span class="pre">window</span></tt> <a class="reference" href="#dom-context">DOM Context</a>.  This will always
 be the same as the global <tt class="docutils literal"><span class="pre">window</span></tt> unless <a class="mochiref reference" href="#fn-withwindow">withWindow</a> is 
 currently executing.</blockquote>
 <p>
 <a name="fn-emithtml"></a>
-<tt class="mochidef docutils literal"><span class="pre">emitHTML(dom[,</span> <span class="pre">lst])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-emithtml">emitHTML(dom[, lst])</a>:</p>
 <blockquote>
 <p>Convert a DOM tree to an <tt class="docutils literal"><span class="pre">Array</span></tt> of HTML string fragments</p>
 <p>You probably want to use <a class="mochiref reference" href="#fn-tohtml">toHTML</a> instead.</p>
 </blockquote>
 <p>
 <a name="fn-escapehtml"></a>
-<tt class="mochidef docutils literal"><span class="pre">escapeHTML(s)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-escapehtml">escapeHTML(s)</a>:</p>
 <blockquote>
 Make a string safe for HTML, converting the usual suspects (lt,
 gt, quot, apos, amp)</blockquote>
 <p>
 <a name="fn-focusonload"></a>
-<tt class="mochidef docutils literal"><span class="pre">focusOnLoad(element)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-focusonload">focusOnLoad(element)</a>:</p>
 <blockquote>
 Add an onload event to focus the given element</blockquote>
 <p>
 <a name="fn-formcontents"></a>
-<tt class="mochidef docutils literal"><span class="pre">formContents(elem)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-formcontents">formContents(elem)</a>:</p>
 <blockquote>
 Search the DOM tree, starting at <tt class="docutils literal"><span class="pre">elem</span></tt>, for any elements with a
 <tt class="docutils literal"><span class="pre">name</span></tt> and <tt class="docutils literal"><span class="pre">value</span></tt> attribute.  Return a 2-element <tt class="docutils literal"><span class="pre">Array</span></tt> of 
@@ -375,7 +375,7 @@ Search the DOM tree, starting at <tt class="docutils literal"><span class="pre">
 <a class="mochiref reference" href="Base.html#fn-querystring">MochiKit.Base.queryString</a>.</blockquote>
 <p>
 <a name="fn-getelement"></a>
-<tt class="mochidef docutils literal"><span class="pre">getElement(id[,</span> <span class="pre">...])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-getelement">getElement(id[, ...])</a>:</p>
 <blockquote>
 <p>A small quick little function to encapsulate the <tt class="docutils literal"><span class="pre">getElementById</span></tt>
 method.  It includes a check to ensure we can use that method.</p>
@@ -386,7 +386,7 @@ other JavaScript frameworks.</p>
 </blockquote>
 <p>
 <a name="fn-getelementsbytagandclassname"></a>
-<tt class="mochidef docutils literal"><span class="pre">getElementsByTagAndClassName(tagName,</span> <span class="pre">className,</span> <span class="pre">parent=document)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-getelementsbytagandclassname">getElementsByTagAndClassName(tagName, className, parent=document)</a>:</p>
 <blockquote>
 <p>Returns an array of elements in <tt class="docutils literal"><span class="pre">parent</span></tt> that match the tag name
 and class name provided.  If <tt class="docutils literal"><span class="pre">parent</span></tt> is a string, it will be looked
@@ -398,7 +398,7 @@ returned.</p>
 </blockquote>
 <p>
 <a name="fn-getnodeattribute"></a>
-<tt class="mochidef docutils literal"><span class="pre">getNodeAttribute(node,</span> <span class="pre">attr)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-getnodeattribute">getNodeAttribute(node, attr)</a>:</p>
 <blockquote>
 <p>Get the value of the given attribute for a DOM element without
 ever raising an exception (will return <tt class="docutils literal"><span class="pre">null</span></tt> on exception).</p>
@@ -417,14 +417,14 @@ the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt c
 </blockquote>
 <p>
 <a name="fn-haselementclass"></a>
-<tt class="mochidef docutils literal"><span class="pre">hasElementClass(element,</span> <span class="pre">className[,</span> <span class="pre">...])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-haselementclass">hasElementClass(element, className[, ...])</a>:</p>
 <blockquote>
 Return <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">className</span></tt> is found on the <tt class="docutils literal"><span class="pre">element</span></tt>.
 <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers
 are also acceptable.</blockquote>
 <p>
 <a name="fn-hideelement"></a>
-<tt class="mochidef docutils literal"><span class="pre">hideElement(element,</span> <span class="pre">...)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-hideelement">hideElement(element, ...)</a>:</p>
 <blockquote>
 <p>Partial form of <a class="mochiref reference" href="#fn-setdisplayforelement">setDisplayForElement</a>, specifically:</p>
 <pre class="literal-block">
@@ -433,14 +433,14 @@ partial(setDisplayForElement, &quot;none&quot;)
 </blockquote>
 <p>
 <a name="fn-registerdomconverter"></a>
-<tt class="mochidef docutils literal"><span class="pre">registerDOMConverter(name,</span> <span class="pre">check,</span> <span class="pre">wrap[,</span> <span class="pre">override])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-registerdomconverter">registerDOMConverter(name, check, wrap[, override])</a>:</p>
 <blockquote>
 Register an adapter to convert objects that match <tt class="docutils literal"><span class="pre">check(obj,</span> <span class="pre">ctx)</span></tt>
 to a DOM element, or something that can be converted to a DOM
 element (i.e. number, bool, string, function, iterable).</blockquote>
 <p>
 <a name="fn-removeelement"></a>
-<tt class="mochidef docutils literal"><span class="pre">removeElement(node)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-removeelement">removeElement(node)</a>:</p>
 <blockquote>
 <p>Remove and return <tt class="docutils literal"><span class="pre">node</span></tt> from a DOM tree.  This is technically
 just a convenience for <a class="mochiref reference" href="#fn-swapdom">swapDOM(node, null)</a>.</p>
@@ -453,7 +453,7 @@ just a convenience for <a class="mochiref reference" href="#fn-swapdom">swapDOM(
 </blockquote>
 <p>
 <a name="fn-removeelementclass"></a>
-<tt class="mochidef docutils literal"><span class="pre">removeElementClass(element,</span> <span class="pre">className)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-removeelementclass">removeElementClass(element, className)</a>:</p>
 <blockquote>
 Ensure that the given <tt class="docutils literal"><span class="pre">element</span></tt> does not have <tt class="docutils literal"><span class="pre">className</span></tt> set as part
 of its class attribute.  This will not disturb other class names.
@@ -461,7 +461,7 @@ of its class attribute.  This will not disturb other class names.
 are also acceptable.</blockquote>
 <p>
 <a name="fn-replacechildnodes"></a>
-<tt class="mochidef docutils literal"><span class="pre">replaceChildNodes(node[,</span> <span class="pre">childNode[,</span> <span class="pre">...]])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-replacechildnodes">replaceChildNodes(node[, childNode[, ...]])</a>:</p>
 <blockquote>
 <p>Remove all children from the given DOM element, then append any given
 childNodes to it (by calling <a class="mochiref reference" href="#fn-appendchildnodes">appendChildNodes</a>).</p>
@@ -480,7 +480,7 @@ nodes that are appended as children using the
 </blockquote>
 <p>
 <a name="fn-scrapetext"></a>
-<tt class="mochidef docutils literal"><span class="pre">scrapeText(node[,</span> <span class="pre">asArray=false])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-scrapetext">scrapeText(node[, asArray=false])</a>:</p>
 <blockquote>
 <p>Walk a DOM tree and scrape all of the text out of it as a <tt class="docutils literal"><span class="pre">string</span></tt>.</p>
 <p>If <tt class="docutils literal"><span class="pre">asArray</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then an <tt class="docutils literal"><span class="pre">Array</span></tt> will be returned with
@@ -491,7 +491,7 @@ assert( scrapeText(node) == scrapeText(node, true).join(&quot;&quot;) );
 </blockquote>
 <p>
 <a name="fn-setdisplayforelement"></a>
-<tt class="mochidef docutils literal"><span class="pre">setDisplayForElement(display,</span> <span class="pre">element[,</span> <span class="pre">...])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-setdisplayforelement">setDisplayForElement(display, element[, ...])</a>:</p>
 <blockquote>
 <p>Change the <tt class="docutils literal"><span class="pre">style.display</span></tt> for the given element(s).  Usually
 used as the partial forms:</p>
@@ -504,14 +504,14 @@ are acceptable.</p>
 </blockquote>
 <p>
 <a name="fn-setelementclass"></a>
-<tt class="mochidef docutils literal"><span class="pre">setElementClass(element,</span> <span class="pre">className)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-setelementclass">setElementClass(element, className)</a>:</p>
 <blockquote>
 Set the entire class attribute of <tt class="docutils literal"><span class="pre">element</span></tt> to <tt class="docutils literal"><span class="pre">className</span></tt>.
 <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers
 are also acceptable.</blockquote>
 <p>
 <a name="fn-setnodeattribute"></a>
-<tt class="mochidef docutils literal"><span class="pre">setNodeAttribute(node,</span> <span class="pre">attr,</span> <span class="pre">value)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-setnodeattribute">setNodeAttribute(node, attr, value)</a>:</p>
 <blockquote>
 <p>Set the value of the given attribute for a DOM element without
 ever raising an exception (will return null on exception).  If
@@ -535,7 +535,7 @@ the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt c
 </blockquote>
 <p>
 <a name="fn-showelement"></a>
-<tt class="mochidef docutils literal"><span class="pre">showElement(element,</span> <span class="pre">...)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-showelement">showElement(element, ...)</a>:</p>
 <blockquote>
 <p>Partial form of <a class="mochiref reference" href="#fn-setdisplayforelement">setDisplayForElement</a>, specifically:</p>
 <pre class="literal-block">
@@ -544,7 +544,7 @@ partial(setDisplayForElement, &quot;block&quot;)
 </blockquote>
 <p>
 <a name="fn-swapdom"></a>
-<tt class="mochidef docutils literal"><span class="pre">swapDOM(dest,</span> <span class="pre">src)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-swapdom">swapDOM(dest, src)</a>:</p>
 <blockquote>
 <p>Replace <tt class="docutils literal"><span class="pre">dest</span></tt> in a DOM tree with <tt class="docutils literal"><span class="pre">src</span></tt>, returning <tt class="docutils literal"><span class="pre">src</span></tt>.</p>
 <dl class="docutils">
@@ -559,7 +559,7 @@ partial(setDisplayForElement, &quot;block&quot;)
 </blockquote>
 <p>
 <a name="fn-swapelementclass"></a>
-<tt class="mochidef docutils literal"><span class="pre">swapElementClass(element,</span> <span class="pre">fromClass,</span> <span class="pre">toClass)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-swapelementclass">swapElementClass(element, fromClass, toClass)</a>:</p>
 <blockquote>
 If <tt class="docutils literal"><span class="pre">fromClass</span></tt> is set on <tt class="docutils literal"><span class="pre">element</span></tt>, replace it with <tt class="docutils literal"><span class="pre">toClass</span></tt>.
 This will not disturb other classes on that element.
@@ -567,19 +567,19 @@ This will not disturb other classes on that element.
 are also acceptable.</blockquote>
 <p>
 <a name="fn-toggleelementclass"></a>
-<tt class="mochidef docutils literal"><span class="pre">toggleElementClass(className[,</span> <span class="pre">element[,</span> <span class="pre">...]])</span></tt>:</p>
+<a class="mochidef reference" href="#fn-toggleelementclass">toggleElementClass(className[, element[, ...]])</a>:</p>
 <blockquote>
 Toggle the presence of a given <tt class="docutils literal"><span class="pre">className</span></tt> in the class attribute
 of all given elements.  All elements will be looked up with
 <a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers are acceptable.</blockquote>
 <p>
 <a name="fn-tohtml"></a>
-<tt class="mochidef docutils literal"><span class="pre">toHTML(dom)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-tohtml">toHTML(dom)</a>:</p>
 <blockquote>
 Convert a DOM tree to a HTML string using <a class="mochiref reference" href="#fn-emithtml">emitHTML</a></blockquote>
 <p>
 <a name="fn-updatenodeattributes"></a>
-<tt class="mochidef docutils literal"><span class="pre">updateNodeAttributes(node,</span> <span class="pre">attrs)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-updatenodeattributes">updateNodeAttributes(node, attrs)</a>:</p>
 <blockquote>
 <p>Update the attributes of a DOM element from a given object.</p>
 <dl class="docutils">
@@ -603,7 +603,7 @@ setting &quot;on...&quot; event handlers correctly.</p>
 </blockquote>
 <p>
 <a name="fn-withwindow"></a>
-<tt class="mochidef docutils literal"><span class="pre">withWindow(win,</span> <span class="pre">func)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-withwindow">withWindow(win, func)</a>:</p>
 <blockquote>
 <p>Call <tt class="docutils literal"><span class="pre">func</span></tt> with the <tt class="docutils literal"><span class="pre">window</span></tt> <a class="reference" href="#dom-context">DOM Context</a> set to <tt class="docutils literal"><span class="pre">win</span></tt> and
 the <tt class="docutils literal"><span class="pre">document</span></tt> <a class="reference" href="#dom-context">DOM Context</a> set to <tt class="docutils literal"><span class="pre">win.document</span></tt>.  When
@@ -613,7 +613,7 @@ restored to its previous state.</p>
 </blockquote>
 <p>
 <a name="fn-withdocument"></a>
-<tt class="mochidef docutils literal"><span class="pre">withDocument(doc,</span> <span class="pre">func)</span></tt>:</p>
+<a class="mochidef reference" href="#fn-withdocument">withDocument(doc, func)</a>:</p>
 <blockquote>
 <p>Call <tt class="docutils literal"><span class="pre">func</span></tt> with the <tt class="docutils literal"><span class="pre">doc</span></tt> <a class="reference" href="#dom-context">DOM Context</a> set to <tt class="docutils literal"><span class="pre">doc</span></tt>.
 When <tt class="docutils literal"><span class="pre">func()</span></tt> returns or throws an error, the <a class="reference" href="#dom-context">DOM Context</a>
