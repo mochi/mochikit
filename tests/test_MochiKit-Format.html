@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 43});
+    plan({'tests': 53});
    
     is( truncToFixed(0.1234, 3), "0.123", "truncToFixed truncate" );
     is( truncToFixed(0.12, 3), "0.120", "truncToFixed trailing zeros" );
@@ -77,6 +77,17 @@ try {
     var customFormatter = numberFormatter("###,###.0%", "No breakfast", customLocale);
     is( customFormatter(23.458), "2 apples and 345 bagels at 8am for breakfast", "custom locale" );
 
+    nf = numberFormatter("###,###");
+    is( nf(123), "123", "large number format" );
+    is( nf(1234), "1,234", "large number format" );
+    is( nf(12345), "12,345", "large number format" );
+    is( nf(123456), "123,456", "large number format" );
+    is( nf(1234567), "1,234,567", "large number format" );
+    is( nf(12345678), "12,345,678", "large number format" );
+    is( nf(123456789), "123,456,789", "large number format" );
+    is( nf(1234567890), "1,234,567,890", "large number format" );
+    is( nf(12345678901), "12,345,678,901", "large number format" );
+    is( nf(123456789012), "123,456,789,012", "large number format" );
     
     // Done!
 

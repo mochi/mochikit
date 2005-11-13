@@ -59,7 +59,8 @@ MochiKit.Format._numberFormatter = function (placeholder, header, footer, locale
         if (separatorAt) {
             while (whole.length > separatorAt) {
                 var i = whole.length - separatorAt;
-                res = res + fmt.separator + whole.substring(i, whole.length);
+                //res = res + fmt.separator + whole.substring(i, whole.length);
+                res = fmt.separator + whole.substring(i, whole.length) + res;
                 whole = whole.substring(0, i);
             }
         }
