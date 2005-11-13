@@ -1,5 +1,6 @@
 2005-XX-XX      v1.1
 
+- Fixed a bug in numberFormatter with large numbers
 - Massively overhauled documentation
 - Fast-path for primitives in MochiKit.Base.compare
 - New groupby and groupby_as_array in MochiKit.Iter

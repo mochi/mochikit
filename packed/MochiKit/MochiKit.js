@@ -1758,7 +1758,7 @@ _234="0"+_234;
 if(_228){
 while(_234.length>_228){
 var i=_234.length-_228;
-res=res+fmt.separator+_234.substring(i,_234.length);
+res=fmt.separator+_234.substring(i,_234.length)+res;
 _234=_234.substring(0,i);
 }
 }
