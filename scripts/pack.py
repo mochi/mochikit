@@ -25,9 +25,9 @@ else:
         r"""(?mxs)MochiKit.MochiKit.SUBMODULES\s*=\s*\[([^\]]+)""",
         mk
     ).group(1).replace(' ', '').replace('"', '').split(','))
+    SUBMODULES.append('MochiKit')
 alltext = '\n'.join(
-    [file('MochiKit/%s.js' % m).read() for m in SUBMODULES]
-    + [mk])
+    [file('MochiKit/%s.js' % m).read() for m in SUBMODULES])
 
 tf = tempfile.NamedTemporaryFile(suffix='.js')
 tf.write(alltext)
