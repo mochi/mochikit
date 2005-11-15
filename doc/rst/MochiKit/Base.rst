@@ -195,7 +195,7 @@ both arguments.
 Convenience Functions
 ---------------------
 
-Much of :mochiref:MochiKit.Base is there to simply remove the grunt work of
+Much of :mochiref:`MochiKit.Base` is there to simply remove the grunt work of
 doing generic JavaScript programming.
 
 Need to take every property from one object and set them on another?  No
