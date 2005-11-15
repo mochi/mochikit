@@ -1,4 +1,4 @@
-2005-XX-XX      v1.1
+2005-11-14      v1.1
 
 - Fixed a bug in numberFormatter with large numbers
 - Massively overhauled documentation
