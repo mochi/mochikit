@@ -1,6 +1,6 @@
 /***
 
-MochiKit.LoggingPane 1.1
+MochiKit.LoggingPane 1.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -31,7 +31,7 @@ if (typeof(MochiKit.LoggingPane) == 'undefined') {
 }
 
 MochiKit.LoggingPane.NAME = "MochiKit.LoggingPane";
-MochiKit.LoggingPane.VERSION = "1.1";
+MochiKit.LoggingPane.VERSION = "1.2";
 MochiKit.LoggingPane.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
