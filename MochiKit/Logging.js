@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Logging 1.1
+MochiKit.Logging 1.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -29,7 +29,7 @@ if (typeof(MochiKit.Logging) == 'undefined') {
 }
 
 MochiKit.Logging.NAME = "MochiKit.Logging";
-MochiKit.Logging.VERSION = "1.1";
+MochiKit.Logging.VERSION = "1.2";
 MochiKit.Logging.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

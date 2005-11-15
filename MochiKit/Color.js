@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Color 1.1
+MochiKit.Color 1.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -30,7 +30,7 @@ if (typeof(MochiKit.Color) == "undefined") {
 }
 
 MochiKit.Color.NAME = "MochiKit.Color";
-MochiKit.Color.VERSION = "1.1";
+MochiKit.Color.VERSION = "1.2";
 
 MochiKit.Color.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
