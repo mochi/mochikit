@@ -19,6 +19,13 @@ MochiKit - makes JavaScript suck a bit less
 - :mochiref:`MochiKit.Visual` - visual effects
 
     
+Screencasts
+===========
+
+- `MochiKit 1.1 Intro`__
+
+.. __: http://bob.pythonmac.org/archives/2005/11/15/mochikit-11-intro-screencast/
+
 See Also
 ========
 
