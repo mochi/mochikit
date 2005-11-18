@@ -188,6 +188,41 @@ withWindow(child, function () {
 <p>Note that <a class="mochiref reference" href="#fn-withwindow">withWindow(win, ...)</a> also implies
 <a class="mochiref reference" href="#fn-withdocument">withDocument(win.document, ...)</a>.</p>
 </div>
+<div class="section" id="element-visibility">
+<h2><a name="element-visibility">Element Visibility</a></h2>
+<p>The <a class="mochiref reference" href="#fn-hideelement">hideElement</a> and <a class="mochiref reference" href="#fn-showelement">showElement</a> functions are
+provided as a convenience, but only work for elements that are
+<tt class="docutils literal"><span class="pre">display:</span> <span class="pre">block</span></tt>.  For a general solution to showing, hiding, and checking
+the explicit visibility of elements, we recommend using a solution that
+involves a little CSS.  Here's an example:</p>
+<pre class="literal-block">
+&lt;style type=&quot;text/css&quot;&gt;
+    .invisible { display: none; }
+&lt;/style&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+    function toggleVisible(elem) {
+        toggleElementClass(&quot;invisible&quot;, elem); 
+    }
+
+    functon makeVisible(elem) {
+        removeElementClass(elem, &quot;invisible&quot;);
+    }
+
+    function makeInvisible(elem) {
+        addElementClass(elem, &quot;invisible&quot;);
+    }
+
+    function isVisible(elem) {
+        // you may also want to check for
+        // getElement(elem).style.display == &quot;none&quot;
+        return !hasElementClass(elem, &quot;invisible&quot;);
+    }; 
+&lt;/script&gt;
+</pre>
+<p>MochiKit doesn't ship with such a solution, because there is no reliable and
+portable method for adding CSS rules on the fly with JavaScript.</p>
+</div>
 </div>
 <div class="section" id="api-reference">
 <h1><a name="api-reference">API Reference</a></h1>
@@ -452,6 +487,9 @@ are also acceptable.</blockquote>
 <pre class="literal-block">
 partial(setDisplayForElement, &quot;none&quot;)
 </pre>
+<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt> based
+show/hide mechanism, and a CSS based alternative, see
+<a class="reference" href="#element-visibility">Element Visibility</a>.</p>
 </blockquote>
 <p>
 <a name="fn-registerdomconverter"></a>
@@ -523,6 +561,9 @@ used as the partial forms:</p>
 </ul>
 <p>Elements are looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers
 are acceptable.</p>
+<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt> based
+show/hide mechanism, and a CSS based alternative, see
+<a class="reference" href="#element-visibility">Element Visibility</a>.</p>
 </blockquote>
 <p>
 <a name="fn-setelementclass"></a>
@@ -563,6 +604,9 @@ the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt c
 <pre class="literal-block">
 partial(setDisplayForElement, &quot;block&quot;)
 </pre>
+<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt> based
+show/hide mechanism, and a CSS based alternative, see
+<a class="reference" href="#element-visibility">Element Visibility</a>.</p>
 </blockquote>
 <p>
 <a name="fn-swapdom"></a>
