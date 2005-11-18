@@ -149,11 +149,8 @@ InterpreterManager.prototype.showError = function (e) {
 };
 
 __doEval = function () {
-    if (typeof(eval.call) != "undefined") {
-        return eval.call(window, arguments[0]);
-    } else {
-        with (window) { __ = eval(arguments[0]); }
-        return __;
+    with (window) {
+        return eval(arguments[0]);
     }
 };
 
