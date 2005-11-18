@@ -24,7 +24,7 @@ Screencasts
 
 - `MochiKit 1.1 Intro`__
 
-.. __: http://bob.pythonmac.org/archives/2005/11/15/mochikit-11-intro-screencast/
+.. __: http://mochikit.com/screencasts/MochiKit_Intro-1
 
 See Also
 ========
