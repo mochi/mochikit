@@ -1,3 +1,8 @@
+XXXX-XX-XX      v1.2
+
+- New MochiKit.DOM.elementPosition(element[, relativeTo={x: 0, y: 0}])
+  for determining the position of an element in the document
+
 2005-11-14      v1.1
 
 - Fixed a bug in numberFormatter with large numbers

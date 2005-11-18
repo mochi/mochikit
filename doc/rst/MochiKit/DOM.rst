@@ -342,6 +342,28 @@ Functions
     currently executing.
 
 
+:mochidef:`elementPosition(element[, relativeTo={x: 0, y: 0}])`:
+
+    Return the absolute pixel position of ``element`` in the document as an
+    object with ``x`` and ``y`` properties, or ``undefined`` if ``element``
+    is not in the document.  ``element`` may be specified as a string to
+    be looked up with :mochiref:`getElement`, a DOM element, or trivially
+    as an object with ``x`` and/or ``y`` properties.
+
+    If ``relativeTo`` is given, then its coordinates are subtracted from
+    the absolute position of ``element``, e.g.::
+        
+        var elemPos = elementPosition(elem);
+        var anotherElemPos = elementPosition(anotherElem);
+        var relPos = elementPosition(elem, anotherElem);
+        assert( relPos.x == (elemPos.x - anotherElemPos.x) );
+        assert( relPos.y == (elemPos.y - anotherElemPos.y) );
+
+    ``relativeTo`` may be specified as a string to be looked up with
+    :mochiref:`getElement`, a DOM element, or trivially as an object
+    with ``x`` and/or ``y`` properties.
+
+
 :mochidef:`emitHTML(dom[, lst])`:
 
     Convert a DOM tree to an ``Array`` of HTML string fragments
