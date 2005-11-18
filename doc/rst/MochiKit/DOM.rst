@@ -176,6 +176,43 @@ Note that :mochiref:`withWindow(win, ...)` also implies
 :mochiref:`withDocument(win.document, ...)`.
 
 
+Element Visibility
+------------------
+
+The :mochiref:`hideElement` and :mochiref:`showElement` functions are
+provided as a convenience, but only work for elements that are
+``display: block``.  For a general solution to showing, hiding, and checking
+the explicit visibility of elements, we recommend using a solution that
+involves a little CSS.  Here's an example::
+
+    <style type="text/css">
+        .invisible { display: none; }
+    </style>
+
+    <script type="text/javascript">
+        function toggleVisible(elem) {
+            toggleElementClass("invisible", elem); 
+        }
+
+        functon makeVisible(elem) {
+            removeElementClass(elem, "invisible");
+        }
+
+        function makeInvisible(elem) {
+            addElementClass(elem, "invisible");
+        }
+
+        function isVisible(elem) {
+            // you may also want to check for
+            // getElement(elem).style.display == "none"
+            return !hasElementClass(elem, "invisible");
+        }; 
+    </script>
+
+MochiKit doesn't ship with such a solution, because there is no reliable and
+portable method for adding CSS rules on the fly with JavaScript.
+
+
 API Reference
 =============
 
@@ -448,6 +485,10 @@ Functions
 
         partial(setDisplayForElement, "none")
 
+    For information about the caveats of using a ``style.display`` based
+    show/hide mechanism, and a CSS based alternative, see
+    `Element Visibility`_.
+
 
 :mochidef:`registerDOMConverter(name, check, wrap[, override])`:
 
@@ -516,6 +557,10 @@ Functions
     Elements are looked up with :mochiref:`getElement`, so string identifiers
     are acceptable.
 
+    For information about the caveats of using a ``style.display`` based
+    show/hide mechanism, and a CSS based alternative, see
+    `Element Visibility`_.
+
 
 :mochidef:`setElementClass(element, className)`:
 
@@ -554,6 +599,10 @@ Functions
     Partial form of :mochiref:`setDisplayForElement`, specifically::
 
         partial(setDisplayForElement, "block")
+
+    For information about the caveats of using a ``style.display`` based
+    show/hide mechanism, and a CSS based alternative, see
+    `Element Visibility`_.
 
 
 :mochidef:`swapDOM(dest, src)`:
