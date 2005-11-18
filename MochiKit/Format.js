@@ -110,10 +110,24 @@ MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, loca
     var leadingZeros = whole.length - whole.replace(/0/g, "").length;
     var trailingZeros = frac.length - frac.replace(/0/g, "").length;
     var precision = frac.length;
-    return MochiKit.Format._numberFormatter(
+    var rval = MochiKit.Format._numberFormatter(
         placeholder, header, footer, locale, isPercent, precision,
         leadingZeros, separatorAt, trailingZeros
     );
+    var m = MochiKit.Base;
+    if (m) {
+        var fn = arguments.callee;
+        var args = m.concat(arguments);
+        rval.repr = function () {
+            return [
+                self.NAME,
+                "(",
+                map(m.repr, args).join(", "),
+                ")"
+            ].join("");
+        }
+    }
+    return rval;
 };
 
 MochiKit.Format.formatLocale = function (locale) {
@@ -246,9 +260,9 @@ MochiKit.Format.EXPORT = [
 ];
 
 MochiKit.Format.LOCALE = {
-    "en_US": {"separator": ",", "decimal": ".", "percent": "%"},
-    "de_DE": {"separator": ".", "decimal": ",", "percent": "%"},
-    "fr_FR": {"separator": " ", "decimal": ",", "percent": "%"},
+    en_US: {separator: ",", decimal: ".", percent: "%"},
+    de_DE: {separator: ".", decimal: ",", percent: "%"},
+    fr_FR: {separator: " ", decimal: ",", percent: "%"},
     "default": "en_US"
 };
 
@@ -261,8 +275,16 @@ MochiKit.Format.EXPORT_TAGS = {
 MochiKit.Format.__new__ = function () {
     // MochiKit.Base.nameFunctions(this);
     var base = this.NAME + ".";
-    for (var k in this) {
-        var o = this[k];
+    var k, v;
+    for (k in this.LOCALE) {
+        o = this.LOCALE[k];
+        if (typeof(o) == "object") {
+            o.repr = function () { return this.NAME; };
+            o.NAME = base + "LOCALE." + k;
+        }
+    }
+    for (k in this) {
+        o = this[k];
         if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
             try {
                 o.NAME = base + k;
