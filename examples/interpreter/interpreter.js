@@ -148,14 +148,28 @@ InterpreterManager.prototype.showError = function (e) {
     this.doScroll();
 };
 
-__doEval = function () {
-    if (typeof(eval.call) != "undefined") {
-        return eval.call(window, arguments[0]);
-    }
-    with (window) {
-        return eval(arguments[0]);
+EvalFunctions = {
+    evalWith: function () {
+        with (arguments[1] || window) { return eval(arguments[0]); };
+    },
+    evalCall: function () {
+        return eval.call(arguments[1] || window, arguments[0]);
+    },
+    choose: function () {
+        var ns = {__test__: this};
+        var e;
+        try {
+            if (this.evalWith("return __test__", ns) === this) {
+                return this.evalWith;
+            }
+        } catch (e) {
+            // pass
+        }
+        return this.evalCall;
     }
 };
+        
+InterpreterManager.prototype.doEval = EvalFunctions.choose();
 
 InterpreterManager.prototype.doSubmit = function () {
     var elem = getElement("interpreter_text");
@@ -181,7 +195,7 @@ InterpreterManager.prototype.doSubmit = function () {
     this.lines = [];
     var res;
     try {
-        res = __doEval(allCode);
+        res = this.doEval(allCode);
     } catch (e) {
         // mozilla shows some keys more than once!
         this.showError(e);

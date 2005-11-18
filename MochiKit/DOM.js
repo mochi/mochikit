@@ -105,13 +105,52 @@ MochiKit.DOM.EXPORT = [
     "setDisplayForElement",
     "hideElement",
     "showElement",
-    "scrapeText"
+    "scrapeText",
+    "elementPosition"
 ];
 
 MochiKit.DOM.EXPORT_OK = [
     "domConverters"
 ];
 
+MochiKit.DOM.Coordinates = function (x, y) {
+    this.x = x;
+    this.y = y;
+};
+
+MochiKit.DOM.Coordinates.prototype.repr = function () {
+    var repr = MochiKit.Base.repr;
+    return "{x: "  + repr(this.x) + ", y: " + repr(this.y) + "}";
+};
+
+MochiKit.DOM.elementPosition = function (elem, /* optional */relativeTo) {
+    var self = MochiKit.DOM;
+    elem = self.getElement(elem);
+    if (!elem) {
+        return undefined;
+    }
+    var x = 0;
+    var y = 0;
+    if (elem.offsetParent) {
+        while (elem.offsetParent) {
+            x += elem.offsetLeft;
+            y += elem.offsetTop;
+            elem = elem.offsetParent;
+        }
+    } else {
+        x = elem.x || x;
+        y = elem.y || y;
+    }
+    if (relativeTo) {
+        relativeTo = arguments.callee(relativeTo);
+        if (relativeTo) {
+            x -= (relativeTo.x || 0);
+            y -= (relativeTo.y || 0);
+        }
+    }
+    return new self.Coordinates(x, y);
+};
+    
 MochiKit.DOM.currentWindow = function () {
     return MochiKit.DOM._window;
 };
