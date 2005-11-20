@@ -12,9 +12,9 @@ Synopsis
 ::
 
     // open a pop-up window
-    createDebugPane()
+    createLoggingPane()
     // use a div at the bottom of the document
-    createDebugPane(true);
+    createLoggingPane(true);
 
 
 Description
