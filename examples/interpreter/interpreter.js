@@ -20,6 +20,10 @@ InterpreterManager.prototype.initialize = function () {
     this.currentHistory = "";
     this.historyPos = -1;
     this.blockingOn = null;
+    if (typeof(this.doEval) == "undefined") {
+        // detect broken eval, warn at some point if a namespace ever gets used
+        this.doEval = EvalFunctions.evalWith;
+    }
 };
 
 InterpreterManager.prototype.banner = function () {
@@ -165,7 +169,14 @@ EvalFunctions = {
         } catch (e) {
             // pass
         }
-        return this.evalCall;
+        try {
+            if (this.evalCall("return __test__", ns) === this) {
+                return this.evalCall;
+            }
+        } catch (e) {
+            // pass
+        }
+        return undefined;
     }
 };
         
