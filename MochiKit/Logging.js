@@ -177,7 +177,7 @@ MochiKit.Logging.Logger.prototype = {
         ***/
         for (var k in this.listeners) {
             var pair = this.listeners[k];
-            if (pair[0] && !pair[0](msg)) {
+            if (pair.ident != k || (pair[0] && !pair[0](msg))) {
                 continue;
             }
             pair[1](msg);
@@ -224,7 +224,9 @@ MochiKit.Logging.Logger.prototype = {
         if (typeof(filter) == 'string') {
             filter = MochiKit.Logging.logLevelAtLeast(filter);
         }
-        this.listeners[ident] = [filter, listener];
+        var entry = [filter, listener];
+        entry.ident = ident;
+        this.listeners[ident] = entry;
     },
 
     removeListener: function (ident) {
