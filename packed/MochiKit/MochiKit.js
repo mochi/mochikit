@@ -3009,7 +3009,7 @@ if(typeof (MochiKit.DOM)!="undefined"){
 win=MochiKit.DOM.currentWindow();
 }
 if(!_389){
-var url=win.location.href.split("?")[0];
+var url=win.location.href.split("?")[0].replace(/[:\/]/g,"_");
 var name="MochiKit.LoggingPane."+url;
 win=win.open("",name,"dependent,resizable,height=200");
 if(!win){
@@ -3124,17 +3124,17 @@ _419();
 this.logger.removeListener(_403);
 this.logger.addListener(_403,_405,_413);
 };
-var _420=function(){
+var _420=bind(function(){
 _404=this.logger.getMessages();
 _419();
-};
-var _421=function(_422){
+},this);
+var _421=bind(function(_422){
 _422=_422||window.event;
 key=_422.which||_422.keyCode;
 if(key==13){
 this.buildAndApplyFilter();
 }
-};
+},this);
 var _423={"display":"block","position":"fixed","left":"0px","bottom":"0px","font":this.logFont,"width":"100%","height":"100%","backgroundColor":"white"};
 if(_389){
 _423.height="10em";
