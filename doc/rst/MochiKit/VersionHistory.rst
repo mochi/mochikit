@@ -1,5 +1,6 @@
 XXXX-XX-XX      v1.2
 
+- MochiKit.DOM now translates usemap to useMap to work around IE bug
 - MochiKit.Logging is now resistant to Prototype's dumb Object.prototype hacks
 - Added new MochiKit.DOM documentation on element visibility
 - New MochiKit.DOM.elementPosition(element[, relativeTo={x: 0, y: 0}])

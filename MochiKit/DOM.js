@@ -914,7 +914,8 @@ MochiKit.DOM.__new__ = function (win) {
         attributeArray.compliant = false;
         attributeArray.renames = {
             "class": "className",
-            "checked": "defaultChecked"
+            "checked": "defaultChecked",
+            "usemap": "useMap"
         };
     } else {
         attributeArray = function (node) {

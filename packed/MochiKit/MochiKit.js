@@ -2904,7 +2904,7 @@ _385.ignoreAttrFilter=function(a){
 return (_385.ignoreAttr[a.name]!=a.value);
 };
 _385.compliant=false;
-_385.renames={"class":"className","checked":"defaultChecked"};
+_385.renames={"class":"className","checked":"defaultChecked","usemap":"useMap"};
 }else{
 _385=function(node){
 return node.attributes;
