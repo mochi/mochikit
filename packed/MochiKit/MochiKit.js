@@ -3149,7 +3149,7 @@ _392(_396,{"value":".*","onkeypress":_421,"style":_423});
 _394.appendChild(_396);
 _423={"width":"8%","display":"inline","font":this.logFont};
 _397.appendChild(doc.createTextNode("Filter"));
-_397.onclick=this.buildAndApplyFilter;
+_397.onclick=bind(this.buildAndApplyFilter,this);
 _391(_397.style,_423);
 _394.appendChild(_397);
 _398.appendChild(doc.createTextNode("Load"));
