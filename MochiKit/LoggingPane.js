@@ -70,7 +70,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     }
     if (!inline) {
         // name the popup with the base URL for uniqueness
-        var url = win.location.href.split("?")[0];
+        var url = win.location.href.split("?")[0].replace(/[:\/]/g, "_");
         var name = "MochiKit.LoggingPane." + url;
         win = win.open("", name, "dependent,resizable,height=200");
         if (!win) {
@@ -83,7 +83,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     
     // Connect to the debug pane if it already exists (i.e. in a window orphaned by the page being refreshed)
     var debugPane = doc.getElementById("_debugPane");
-    if(debugPane && typeof(debugPane.loggingPane) != "undefined") {
+    if (debugPane && typeof(debugPane.loggingPane) != "undefined") {
         debugPane.loggingPane.logger = this.logger;
         debugPane.loggingPane.buildAndApplyFilter();
         return debugPane.loggingPane;
@@ -212,18 +212,18 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     };
 
 
-    var loadMessages = function () {
+    var loadMessages = bind(function () {
         messages = this.logger.getMessages();
         filterMessages();
-    };
+    }, this);
 
-    var filterOnEnter = function (event) {
+    var filterOnEnter = bind(function (event) {
         event = event || window.event;
         key = event.which || event.keyCode;
         if (key == 13) {
             this.buildAndApplyFilter();
         }
-    };
+    }, this);
 
     /* Create the debug pane */
     var style = {
