@@ -1,11 +1,13 @@
 XXXX-XX-XX      v1.2
 
+- MochiKit.DOM.scrapeText now walks the DOM tree in-order
 - MochiKit.LoggingPane now sanitizes the window name to work around IE bug
 - MochiKit.DOM now translates usemap to useMap to work around IE bug
 - MochiKit.Logging is now resistant to Prototype's dumb Object.prototype hacks
 - Added new MochiKit.DOM documentation on element visibility
 - New MochiKit.DOM.elementPosition(element[, relativeTo={x: 0, y: 0}])
   for determining the position of an element in the document
+- Added new MochiKit.DOM createDOMFunc aliases: STRONG
 
 2005-11-14      v1.1
 

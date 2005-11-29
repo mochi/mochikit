@@ -309,6 +309,7 @@ Functions
     - ``PRE``
     - ``SELECT``
     - ``SPAN``
+    - ``STRONG``
     - ``TABLE``
     - ``TBODY``
     - ``TD``
@@ -538,7 +539,8 @@ Functions
 
 :mochidef:`scrapeText(node[, asArray=false])`:
 
-    Walk a DOM tree and scrape all of the text out of it as a ``string``.
+    Walk a DOM tree in-order and scrape all of the text out of it as a
+    ``string``.
 
     If ``asArray`` is ``true``, then an ``Array`` will be returned with
     each individual text node.  These two are equivalent::
