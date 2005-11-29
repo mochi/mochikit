@@ -603,7 +603,10 @@ Functions
 
 :mochidef:`nodeWalk(node, visitor)`:
 
-    Non-recursive generic node walking function (e.g. for a DOM)
+    Non-recursive generic node walking function (e.g. for a DOM).
+
+    The walk order for nodeWalk is breadth first, meaning that all
+    siblings will be visited before any children.
 
     ``node``:
         The initial node to be searched.

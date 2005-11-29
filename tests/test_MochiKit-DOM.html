@@ -30,7 +30,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 65});
+    plan({'tests': 66});
 
     lst = [];
     o = {"blah": function () { lst.push("original"); }};
@@ -101,6 +101,10 @@ try {
     is( scrapeText(d), "Goddamn, I like pork tacos", "scrape OK" );
     is( scrapeText(d, true).join(""), "Goddamn, I like pork tacos", "scrape Array OK" );
 
+    var st = DIV(null, STRONG(null, "d"), "oor ", STRONG(null, "f", SPAN(null, "r"), "a"), "me");
+    is( scrapeText(st), "door frame", "scrape in-order" );
+    
+    
     ok( !isUndefinedOrNull(getElement("test")), "getElement might work" );
     ok( !isUndefinedOrNull($("test")), "$alias$$ CASH MONEY alias might work" );
 

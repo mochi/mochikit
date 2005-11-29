@@ -65,6 +65,7 @@ MochiKit.DOM.EXPORT = [
     "LABEL",
     "TEXTAREA",
     "FORM",
+    "STRONG",
     "SELECT",
     "OPTION",
     "OPTGROUP",
@@ -868,18 +869,23 @@ MochiKit.DOM.setDisplayForElement = function (display, element/*, ...*/) {
 MochiKit.DOM.scrapeText = function (node, /* optional */asArray) {
     /***
     
-        Walk a DOM tree and scrape all of the text out of it as a string
-        or an Array
+        Walk a DOM tree in-order and scrape all of the text out of it as a
+        string or an Array
 
     ***/
     var rval = [];
-    MochiKit.Base.nodeWalk(node, function (node) {
+    (function (node) {
+        var cn = node.childNodes;
+        if (cn) {
+            for (var i = 0; i < cn.length; i++) {
+                arguments.callee.call(this, cn[i]);
+            }
+        }
         var nodeValue = node.nodeValue;
         if (typeof(nodeValue) == 'string') {
             rval.push(nodeValue);
         }
-        return node.childNodes;
-    });
+    })(MochiKit.DOM.getElement(node));
     if (asArray) {
         return rval;
     } else {
@@ -968,6 +974,7 @@ MochiKit.DOM.__new__ = function (win) {
     this.OPTGROUP = createDOMFunc("optgroup");
     this.LEGEND = createDOMFunc("legend");
     this.FIELDSET = createDOMFunc("fieldset");
+    this.STRONG = createDOMFunc("strong");
 
     this.hideElement = m.partial(this.setDisplayForElement, "none");
     this.showElement = m.partial(this.setDisplayForElement, "block");

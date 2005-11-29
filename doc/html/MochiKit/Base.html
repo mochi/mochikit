@@ -590,7 +590,9 @@ Compare the equality of two objects.</blockquote>
 <a name="fn-nodewalk"></a>
 <a class="mochidef reference" href="#fn-nodewalk">nodeWalk(node, visitor)</a>:</p>
 <blockquote>
-<p>Non-recursive generic node walking function (e.g. for a DOM)</p>
+<p>Non-recursive generic node walking function (e.g. for a DOM).</p>
+<p>The walk order for nodeWalk is breadth first, meaning that all
+siblings will be visited before any children.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
 <dd>The initial node to be searched.</dd>

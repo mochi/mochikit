@@ -317,6 +317,7 @@ available as aliases:</p>
 <li><tt class="docutils literal"><span class="pre">PRE</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">SELECT</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">SPAN</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">STRONG</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">TABLE</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">TBODY</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">TD</span></tt></li>
@@ -542,7 +543,8 @@ nodes that are appended as children using the
 <a name="fn-scrapetext"></a>
 <a class="mochidef reference" href="#fn-scrapetext">scrapeText(node[, asArray=false])</a>:</p>
 <blockquote>
-<p>Walk a DOM tree and scrape all of the text out of it as a <tt class="docutils literal"><span class="pre">string</span></tt>.</p>
+<p>Walk a DOM tree in-order and scrape all of the text out of it as a
+<tt class="docutils literal"><span class="pre">string</span></tt>.</p>
 <p>If <tt class="docutils literal"><span class="pre">asArray</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then an <tt class="docutils literal"><span class="pre">Array</span></tt> will be returned with
 each individual text node.  These two are equivalent:</p>
 <pre class="literal-block">
