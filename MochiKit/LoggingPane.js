@@ -70,13 +70,23 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     }
     if (!inline) {
         // name the popup with the base URL for uniqueness
-        var url = win.location.href.split("?")[0].replace(/[:\/]/g, "_");
-        var name = "MochiKit.LoggingPane." + url;
-        win = win.open("", name, "dependent,resizable,height=200");
-        if (!win) {
+        var url = win.location.href.split("?")[0].replace(/[:\/.><&]/g, "_");
+        var name = "MochiKit_LoggingPane_" + url;
+        var nwin = win.open("", name, "dependent,resizable,height=200");
+        if (!nwin) {
             alert("Not able to open debugging window due to pop-up blocking.");
-            return;
+            return undefined;
         }
+        nwin.document.open();
+        nwin.document.write(
+            '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" '
+            + '"http://www.w3.org/TR/html4/loose.dtd">'
+            + '<html><head><title>[MochiKit.LoggingPane]</title></head>'
+            + '<body></body></html>'
+        );
+        nwin.document.close();
+        nwin.document.title += ' ' + win.document.title;
+        win = nwin;
     }
     var doc = win.document;
     this.doc = doc;
@@ -228,9 +238,9 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     /* Create the debug pane */
     var style = {
         "display": "block",
-        "position": "fixed",
         "left": "0px",
         "bottom": "0px",
+        "position": "fixed",
         "font": this.logFont,
         "width": "100%",
         "height": "100%",
@@ -288,9 +298,14 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     debugPane.style.display = "block";
     logPaneArea.style.overflow = "auto";
     logPaneArea.style.width = "100%";
-    logPane.style.whitespace = "preserve";
+    logPane.style.whiteSpace = "pre";
+    logPane.style.wordWrap = "break-word";
     logPane.style.width = "100%";
-    logPane.style.height = "8em";
+    if (inline) {
+        logPane.style.height = "8em";
+    } else {
+        logPane.style.height = "100%";
+    }
 
     logPaneArea.appendChild(logPane);
     debugPane.appendChild(logPaneArea);
@@ -306,6 +321,8 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     this.inline = inline;
     this.closePane = closePane;
     this.closed = false;
+
+    return this;
 };
 
 MochiKit.LoggingPane.LoggingPane.prototype = {
