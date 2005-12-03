@@ -33,7 +33,7 @@ Synopsis
     // repr() will look for objects that have a repr method
     myObjectArray = [
         {"a": 3, "b": 2, "repr": myObjectRepr},
-        {"a": 1, "b": 2, "repr", myObjectRepr}
+        {"a": 1, "b": 2, "repr": myObjectRepr}
     ];
 
     // sort it by the "a" property, check to see if it matches
