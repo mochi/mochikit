@@ -870,7 +870,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 }
                 res.push(val);
             }
-            return "[" + res.join(",") + "]";
+            return "[" + res.join(", ") + "]";
         }
         // look in the registry
         try {
@@ -905,7 +905,7 @@ MochiKit.Base.update(MochiKit.Base, {
             }
             res.push(useKey + ":" + val);
         }
-        return "{" + res.join(",") + "}";
+        return "{" + res.join(", ") + "}";
     },
             
 
