@@ -345,7 +345,7 @@ try {
     is( serializeJSON(1), "1", "1 JSON");
     is( serializeJSON(1.23), "1.23", "1.23 JSON");
     is( serializeJSON(serializeJSON), null, "function JSON (null, not string)" );
-    is( serializeJSON([1, "2", 3.3]), "[1,\"2\",3.3]", "array JSON" );
+    is( serializeJSON([1, "2", 3.3]), "[1, \"2\", 3.3]", "array JSON" );
     var res = evalJSON(serializeJSON({"a":1, "b":2}));
     is( res.a, 1, "evalJSON on an object (1)" );
     is( res.b, 2, "evalJSON on an object (2)" );
