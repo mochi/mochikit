@@ -275,7 +275,7 @@ MochiKit.Format.EXPORT_TAGS = {
 MochiKit.Format.__new__ = function () {
     // MochiKit.Base.nameFunctions(this);
     var base = this.NAME + ".";
-    var k, v;
+    var k, v, o;
     for (k in this.LOCALE) {
         o = this.LOCALE[k];
         if (typeof(o) == "object") {
