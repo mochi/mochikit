@@ -2592,7 +2592,7 @@ var elem;
 var self=MochiKit.DOM;
 if(typeof (name)=="string"){
 if(_329&&"name" in _329&&!self.attributeArray.compliant){
-name="<"+name+" name=\""+self.escapeHTML(name)+"\">";
+name="<"+name+" name=\""+self.escapeHTML(_329.name)+"\">";
 }
 elem=self._document.createElement(name);
 }else{

@@ -434,7 +434,7 @@ MochiKit.DOM.createDOM = function (name, attrs/*, nodes... */) {
         // Internet Explorer is dumb
         if (attrs && "name" in attrs && !self.attributeArray.compliant) {
             // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/name_2.asp
-            name = '<' + name + ' name="' + self.escapeHTML(name) + '">';
+            name = '<' + name + ' name="' + self.escapeHTML(attrs.name) + '">';
         }
         elem = self._document.createElement(name);
     } else {
