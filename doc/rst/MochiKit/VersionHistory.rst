@@ -1,5 +1,7 @@
 XXXX-XX-XX      v1.2
 
+- MochiKit.DOM.createDOM now has a workaround for an IE bug when setting the
+  name property
 - MochiKit.DOM.scrapeText now walks the DOM tree in-order
 - MochiKit.LoggingPane now sanitizes the window name to work around IE bug
 - MochiKit.DOM now translates usemap to useMap to work around IE bug
