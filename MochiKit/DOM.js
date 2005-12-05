@@ -307,7 +307,7 @@ MochiKit.DOM.coerceToDOM = function (node, ctx) {
     
 MochiKit.DOM.setNodeAttribute = function (node, attr, value) {
     var o = {};
-    o.attr = value;
+    o[attr] = value;
     try {
         return MochiKit.DOM.updateNodeAttributes(node, o);
     } catch (e) {
@@ -358,7 +358,9 @@ MochiKit.DOM.updateNodeAttributes = function (node, attrs) {
             for (k in attrs) {
                 v = attrs[k];
                 var renamed = renames[k];
-                if (typeof(renamed) == "string") {
+                if (k == "style" && typeof(v) == "string") {
+                    elem.style.cssText = v;
+                } else if (typeof(renamed) == "string") {
                     elem[renamed] = v;
                 } else if (typeof(elem[k]) == 'object' && typeof(v) == 'object') {
                     updatetree(elem[k], v);
