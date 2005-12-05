@@ -75,8 +75,20 @@ inspired by AppKit's NSColor <a class="footnote-reference" href="#id6" id="id1" 
 <a name="fn-color.frombackground"></a>
 <a class="mochidef reference" href="#fn-color.frombackground">Color.fromBackground(elem)</a>:</p>
 <blockquote>
-Returns a <a class="mochiref reference" href="#fn-color">Color</a> object based on the background of the provided
-element.</blockquote>
+<p>Returns a <a class="mochiref reference" href="#fn-color">Color</a> object based on the background of the provided
+element.  Equivalent to:</p>
+<pre class="literal-block">
+c = Color.fromComputedStyle(
+    elem, &quot;backgroundColor&quot;, &quot;background-color&quot;) || Color.whiteColor();
+</pre>
+</blockquote>
+<p>
+<a name="fn-color.fromcomputedstyle"></a>
+<a class="mochidef reference" href="#fn-color.fromcomputedstyle">Color.fromComputedStyle(elem, style, mozillaEquivalentCSS)</a>:</p>
+<blockquote>
+Returns a <a class="mochiref reference" href="#fn-color">Color</a> object based on the result of 
+<a class="mochiref reference" href="DOM.html#fn-computedstyle">MochiKit.DOM.computedStyle(elem, style, mozillaEquivalentCSS)</a>
+or <tt class="docutils literal"><span class="pre">null</span></tt> if not found.</blockquote>
 <p>
 <a name="fn-color.fromhexstring"></a>
 <a class="mochidef reference" href="#fn-color.fromhexstring">Color.fromHexString(hexString)</a>:</p>
@@ -118,6 +130,14 @@ HSL values <tt class="docutils literal"><span class="pre">[0/360,</span> <span c
 </dl>
 </blockquote>
 <p>
+<a name="fn-color.fromname"></a>
+<a class="mochidef reference" href="#fn-color.fromname">Color.fromName(colorName)</a>:</p>
+<blockquote>
+Returns a <a class="mochiref reference" href="#fn-color">Color</a> object corresponding to the given
+SVG 1.0 color keyword name <a class="footnote-reference" href="#id7" id="id2" name="id2">[2]</a> as per the W3C CSS3
+Color Module <a class="footnote-reference" href="#id8" id="id3" name="id3">[3]</a>.  <tt class="docutils literal"><span class="pre">&quot;transparent&quot;</span></tt> is also accepted
+as a color name, and will return <a class="mochiref reference" href="#fn-color.transparentcolor">Color.transparentColor()</a>.</blockquote>
+<p>
 <a name="fn-color.fromrgb"></a>
 <a class="mochidef reference" href="#fn-color.fromrgb">Color.fromRGB(red, green, blue, alpha=1.0)</a>:</p>
 <blockquote>
@@ -138,13 +158,15 @@ Returns a <a class="mochiref reference" href="#fn-color">Color</a> object from t
 For example, <tt class="docutils literal"><span class="pre">&quot;rgb(255,255,255)&quot;</span></tt> would return a <a class="mochiref reference" href="#fn-color">Color</a> with
 RGB values <tt class="docutils literal"><span class="pre">[255/255,</span> <span class="pre">255/255,</span> <span class="pre">255/255]</span></tt> (white).</blockquote>
 <p>
-<a name="fn-color.fromname"></a>
-<a class="mochidef reference" href="#fn-color.fromname">Color.fromName(colorName)</a>:</p>
+<a name="fn-color.fromtext"></a>
+<a class="mochidef reference" href="#fn-color.fromtext">Color.fromText(elem)</a>:</p>
 <blockquote>
-Returns a <a class="mochiref reference" href="#fn-color">Color</a> object corresponding to the given
-SVG 1.0 color keyword name <a class="footnote-reference" href="#id7" id="id2" name="id2">[2]</a> as per the W3C CSS3
-Color Module <a class="footnote-reference" href="#id8" id="id3" name="id3">[3]</a>.  <tt class="docutils literal"><span class="pre">&quot;transparent&quot;</span></tt> is also accepted
-as a color name, and will return <a class="mochiref reference" href="#fn-color.transparentcolor">Color.transparentColor()</a>.</blockquote>
+<p>Returns a <a class="mochiref reference" href="#fn-color">Color</a> object based on the text color of the provided
+element.  Equivalent to:</p>
+<pre class="literal-block">
+c = Color.fromComputedStyle(elem, &quot;color&quot;) || Color.whiteColor();
+</pre>
+</blockquote>
 <p>
 <a name="fn-color.fromstring"></a>
 <a class="mochidef reference" href="#fn-color.fromstring">Color.fromString(rgbOrHexString)</a>:</p>

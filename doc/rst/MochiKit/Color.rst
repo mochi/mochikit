@@ -77,8 +77,18 @@ Constructors
 :mochidef:`Color.fromBackground(elem)`:
 
     Returns a :mochiref:`Color` object based on the background of the provided
-    element.
+    element.  Equivalent to::
+
+        c = Color.fromComputedStyle(
+            elem, "backgroundColor", "background-color") || Color.whiteColor();
     
+
+:mochidef:`Color.fromComputedStyle(elem, style, mozillaEquivalentCSS)`:
+    
+    Returns a :mochiref:`Color` object based on the result of 
+    :mochiref:`MochiKit.DOM.computedStyle(elem, style, mozillaEquivalentCSS)`
+    or ``null`` if not found.
+
 
 :mochidef:`Color.fromHexString(hexString)`:
 
@@ -118,6 +128,14 @@ Constructors
         :mochiref:`Color.fromHSV({h: hue, s: saturation, v: value, a: alpha})`
 
 
+:mochidef:`Color.fromName(colorName)`:
+
+    Returns a :mochiref:`Color` object corresponding to the given
+    SVG 1.0 color keyword name [2]_ as per the W3C CSS3
+    Color Module [3]_.  ``"transparent"`` is also accepted
+    as a color name, and will return :mochiref:`Color.transparentColor()`.
+
+
 :mochidef:`Color.fromRGB(red, green, blue, alpha=1.0)`:
 
     Return a :mochiref:`Color` object from the given ``red``, ``green``,
@@ -137,12 +155,12 @@ Constructors
     RGB values ``[255/255, 255/255, 255/255]`` (white).
 
 
-:mochidef:`Color.fromName(colorName)`:
+:mochidef:`Color.fromText(elem)`:
 
-    Returns a :mochiref:`Color` object corresponding to the given
-    SVG 1.0 color keyword name [2]_ as per the W3C CSS3
-    Color Module [3]_.  ``"transparent"`` is also accepted
-    as a color name, and will return :mochiref:`Color.transparentColor()`.
+    Returns a :mochiref:`Color` object based on the text color of the provided
+    element.  Equivalent to::
+
+        c = Color.fromComputedStyle(elem, "color") || Color.whiteColor();
 
 
 :mochidef:`Color.fromString(rgbOrHexString)`:
