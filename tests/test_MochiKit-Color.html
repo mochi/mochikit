@@ -7,15 +7,16 @@
     <script type="text/javascript" src="../MochiKit/DOM.js"></script>
     <script type="text/javascript" src="../MochiKit/Logging.js"></script>
     <script type="text/javascript" src="../MochiKit/Color.js"></script>
+    <style type="text/css">.redtext {color: red}</style>
 </head>
-<body>
-
+<body onload="runtest()">
 <pre id="test">
 <script type="text/javascript">
+function runtest() {
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 75});
+    plan({'tests': 80});
 
     var approx = function (a, b, msg) {
         return is(a.toPrecision(4), b.toPrecision(4), msg);
@@ -140,6 +141,36 @@ try {
         "fromHSV alt form"
     );
 
+    is(
+        Color.fromText(SPAN()).toHexString(),
+        "#000000",
+        "fromText no style"
+    );
+
+    is(
+        Color.fromText("c_direct").toHexString(),
+        Color.fromName("red").toHexString(),
+        "fromText direct style"
+    );
+
+    is(
+        Color.fromText("c_indirect").toHexString(),
+        Color.fromName("red").toHexString(),
+        "fromText indirect style"
+    );
+
+    is(
+        Color.fromComputedStyle("c_direct", "color").toHexString(),
+        Color.fromName("red").toHexString(),
+        "fromComputedStyle direct style"
+    );
+
+    is(
+        Color.fromComputedStyle("c_indirect", "color").toHexString(),
+        Color.fromName("red").toHexString(),
+        "fromComputedStyle indirect style"
+    );
+
 
     // Done!
 
@@ -160,7 +191,12 @@ try {
     ok ( false, s );
 
 }
+}
 </script>
 </pre>
+<div>
+    <span style="color: red" id="c_direct"></span>
+    <span class="redtext" id="c_indirect"></span>
+</div>
 </body>
 </html>

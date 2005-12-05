@@ -1,5 +1,6 @@
 XXXX-XX-XX      v1.2
 
+- Added new MochiKit.Color constructors fromComputedStyle and fromText
 - MochiKit.DOM.setNodeAttribute should work now
 - MochiKit.DOM now has a workaround for an IE bug when setting the style
   property to a string
