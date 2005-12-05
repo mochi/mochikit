@@ -61,6 +61,7 @@ MochiKit.DOM.EXPORT = [
     "H2",
     "H3",
     "BR",
+    "CANVAS",
     "HR",
     "LABEL",
     "TEXTAREA",
@@ -982,6 +983,7 @@ MochiKit.DOM.__new__ = function (win) {
     this.LEGEND = createDOMFunc("legend");
     this.FIELDSET = createDOMFunc("fieldset");
     this.STRONG = createDOMFunc("strong");
+    this.CANVAS = createDOMFunc("canvas");
 
     this.hideElement = m.partial(this.setDisplayForElement, "none");
     this.showElement = m.partial(this.setDisplayForElement, "block");

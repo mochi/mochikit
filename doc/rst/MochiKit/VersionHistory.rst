@@ -13,7 +13,7 @@ XXXX-XX-XX      v1.2
 - Added new MochiKit.DOM documentation on element visibility
 - New MochiKit.DOM.elementPosition(element[, relativeTo={x: 0, y: 0}])
   for determining the position of an element in the document
-- Added new MochiKit.DOM createDOMFunc aliases: STRONG
+- Added new MochiKit.DOM createDOMFunc aliases: CANVAS, STRONG
 
 2005-11-14      v1.1
 
