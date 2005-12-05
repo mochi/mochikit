@@ -2318,7 +2318,7 @@ return "["+this.NAME+" "+this.VERSION+"]";
 MochiKit.DOM.toString=function(){
 return this.__repr__();
 };
-MochiKit.DOM.EXPORT=["formContents","currentWindow","currentDocument","withWindow","withDocument","registerDOMConverter","coerceToDOM","createDOM","createDOMFunc","getNodeAttribute","setNodeAttribute","updateNodeAttributes","appendChildNodes","replaceChildNodes","removeElement","swapDOM","BUTTON","TT","PRE","H1","H2","H3","BR","HR","LABEL","TEXTAREA","FORM","STRONG","SELECT","OPTION","OPTGROUP","LEGEND","FIELDSET","P","UL","OL","LI","TD","TR","THEAD","TBODY","TFOOT","TABLE","TH","INPUT","SPAN","A","DIV","IMG","getElement","$","computedStyle","getElementsByTagAndClassName","addToCallStack","addLoadEvent","focusOnLoad","setElementClass","toggleElementClass","addElementClass","removeElementClass","swapElementClass","hasElementClass","escapeHTML","toHTML","emitHTML","setDisplayForElement","hideElement","showElement","scrapeText","elementPosition"];
+MochiKit.DOM.EXPORT=["formContents","currentWindow","currentDocument","withWindow","withDocument","registerDOMConverter","coerceToDOM","createDOM","createDOMFunc","getNodeAttribute","setNodeAttribute","updateNodeAttributes","appendChildNodes","replaceChildNodes","removeElement","swapDOM","BUTTON","TT","PRE","H1","H2","H3","BR","CANVAS","HR","LABEL","TEXTAREA","FORM","STRONG","SELECT","OPTION","OPTGROUP","LEGEND","FIELDSET","P","UL","OL","LI","TD","TR","THEAD","TBODY","TFOOT","TABLE","TH","INPUT","SPAN","A","DIV","IMG","getElement","$","computedStyle","getElementsByTagAndClassName","addToCallStack","addLoadEvent","focusOnLoad","setElementClass","toggleElementClass","addElementClass","removeElementClass","swapElementClass","hasElementClass","escapeHTML","toHTML","emitHTML","setDisplayForElement","hideElement","showElement","scrapeText","elementPosition"];
 MochiKit.DOM.EXPORT_OK=["domConverters"];
 MochiKit.DOM.Coordinates=function(x,y){
 this.x=x;
@@ -2959,6 +2959,7 @@ this.OPTGROUP=_388("optgroup");
 this.LEGEND=_388("legend");
 this.FIELDSET=_388("fieldset");
 this.STRONG=_388("strong");
+this.CANVAS=_388("canvas");
 this.hideElement=m.partial(this.setDisplayForElement,"none");
 this.showElement=m.partial(this.setDisplayForElement,"block");
 this.removeElement=this.swapDOM;

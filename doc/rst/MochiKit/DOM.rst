@@ -290,6 +290,7 @@ Functions
     - ``A``
     - ``BUTTON``
     - ``BR``
+    - ``CANVAS``
     - ``DIV``
     - ``FIELDSET``
     - ``FORM``
