@@ -126,6 +126,9 @@ InterpreterManager.prototype.blockOn = function (d) {
 };
 
 InterpreterManager.prototype.showError = function (e) {
+    if (typeof(e) != "object") {
+        e = new Error(e);
+    }
     appendChildNodes("interpreter_output",
         SPAN({"class": "error"}, "Error:"),
         TABLE({"class": "error"},
