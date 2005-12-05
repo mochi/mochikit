@@ -194,7 +194,7 @@ involves a little CSS.  Here's an example::
             toggleElementClass("invisible", elem); 
         }
 
-        functon makeVisible(elem) {
+        function makeVisible(elem) {
             removeElementClass(elem, "invisible");
         }
 
