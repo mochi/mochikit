@@ -1,5 +1,8 @@
 XXXX-XX-XX      v1.2
 
+- MochiKit.DOM.setNodeAttribute should work now
+- MochiKit.DOM now has a workaround for an IE bug when setting the style
+  property to a string
 - MochiKit.DOM.createDOM now has a workaround for an IE bug when setting the
   name property
 - MochiKit.DOM.scrapeText now walks the DOM tree in-order

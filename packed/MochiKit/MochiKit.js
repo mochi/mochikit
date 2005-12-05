@@ -2477,7 +2477,7 @@ return undefined;
 };
 MochiKit.DOM.setNodeAttribute=function(node,attr,_320){
 var o={};
-o.attr=_320;
+o[attr]=_320;
 try{
 return MochiKit.DOM.updateNodeAttributes(node,o);
 }
@@ -2528,6 +2528,9 @@ var _324=self.attributeArray.renames;
 for(k in _322){
 v=_322[k];
 var _325=_324[k];
+if(k=="style"&&typeof (v)=="string"){
+elem.style.cssText=v;
+}else{
 if(typeof (_325)=="string"){
 elem[_325]=v;
 }else{
@@ -2541,6 +2544,7 @@ v=new Function(v);
 elem[k]=v;
 }else{
 elem.setAttribute(k,v);
+}
 }
 }
 }
@@ -3025,7 +3029,6 @@ if(!nwin){
 alert("Not able to open debugging window due to pop-up blocking.");
 return undefined;
 }
-nwin.document.open();
 nwin.document.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" "+"\"http://www.w3.org/TR/html4/loose.dtd\">"+"<html><head><title>[MochiKit.LoggingPane]</title></head>"+"<body></body></html>");
 nwin.document.close();
 nwin.document.title+=" "+win.document.title;
@@ -3069,8 +3072,8 @@ var _412=_408(msg);
 var text=_410(msg);
 var c=this.colorTable[_412];
 var p=doc.createElement("span");
-p.style.color=c;
-p.style.margin="0";
+p.className="MochiKit-LogMessage MochiKit-LogLevel-"+_412;
+p.style.cssText="margin: 0px; white-space: -moz-pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; white-space: pre-line; word-wrap: break-word; wrap-option: emergency; color: "+c;
 p.appendChild(doc.createTextNode(_412+": "+text));
 _404.appendChild(p);
 _404.appendChild(doc.createElement("br"));
@@ -3149,46 +3152,38 @@ if(key==13){
 this.buildAndApplyFilter();
 }
 },this);
-var _425={"display":"block","left":"0px","bottom":"0px","position":"fixed","font":this.logFont,"width":"100%","height":"100%","backgroundColor":"white"};
+var _425="display: block; left: 0px; bottom: 0px; position: fixed; width: 100%; background-color: white; font: "+this.logFont;
 if(_390){
-_425.height="10em";
-_425.borderTop="2px solid black";
+_425+="; height: 10em; border-top: 2px solid black";
+}else{
+_425+="; height: 100%;";
 }
-_392(_396.style,_425);
+_396.style.cssText=_425;
 doc.body.appendChild(_396);
-_425={"width":"33%","display":"inline","font":this.logFont};
+_425={"cssText":"width: 33%; display: inline; font: "+this.logFont};
 _393(_397,{"value":"FATAL|ERROR|WARNING|INFO|DEBUG","onkeypress":_423,"style":_425});
 _396.appendChild(_397);
 _393(_398,{"value":".*","onkeypress":_423,"style":_425});
 _396.appendChild(_398);
-_425={"width":"8%","display":"inline","font":this.logFont};
+_425="width: 8%; display:inline; font: "+this.logFont;
 _399.appendChild(doc.createTextNode("Filter"));
 _399.onclick=bind(this.buildAndApplyFilter,this);
-_392(_399.style,_425);
+_399.style.cssText=_425;
 _396.appendChild(_399);
 _400.appendChild(doc.createTextNode("Load"));
 _400.onclick=_422;
-_392(_400.style,_425);
+_400.style.cssText=_425;
 _396.appendChild(_400);
 _401.appendChild(doc.createTextNode("Clear"));
 _401.onclick=_419;
-_392(_401.style,_425);
+_401.style.cssText=_425;
 _396.appendChild(_401);
 _402.appendChild(doc.createTextNode("Close"));
 _402.onclick=_420;
-_392(_402.style,_425);
+_402.style.cssText=_425;
 _396.appendChild(_402);
-_396.style.display="block";
-_403.style.overflow="auto";
-_403.style.width="100%";
-_404.style.whiteSpace="pre";
-_404.style.wordWrap="break-word";
-_404.style.width="100%";
-if(_390){
-_404.style.height="8em";
-}else{
-_404.style.height="100%";
-}
+_403.style.cssText="overflow: auto; width: 100%";
+_404.style.cssText="width: 100%; height: "+(_390?"8em":"100%");
 _403.appendChild(_404);
 _396.appendChild(_403);
 this.buildAndApplyFilter();
