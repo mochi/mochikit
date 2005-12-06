@@ -2916,7 +2916,7 @@ _386.ignoreAttrFilter=function(a){
 return (_386.ignoreAttr[a.name]!=a.value);
 };
 _386.compliant=false;
-_386.renames={"class":"className","checked":"defaultChecked","usemap":"useMap"};
+_386.renames={"class":"className","checked":"defaultChecked","usemap":"useMap","for":"htmlFor"};
 }else{
 _386=function(node){
 return node.attributes;
