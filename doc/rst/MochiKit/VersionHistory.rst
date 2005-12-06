@@ -4,8 +4,8 @@ XXXX-XX-XX      v1.2
 - MochiKit.DOM.setNodeAttribute should work now
 - MochiKit.DOM now has a workaround for an IE bug when setting the style
   property to a string
-- MochiKit.DOM.createDOM now has a workaround for an IE bug when setting the
-  name property
+- MochiKit.DOM.createDOM now has workarounds for IE bugs when setting the
+  name and for properties
 - MochiKit.DOM.scrapeText now walks the DOM tree in-order
 - MochiKit.LoggingPane now sanitizes the window name to work around IE bug
 - MochiKit.DOM now translates usemap to useMap to work around IE bug

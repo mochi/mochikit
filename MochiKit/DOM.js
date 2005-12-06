@@ -929,7 +929,8 @@ MochiKit.DOM.__new__ = function (win) {
         attributeArray.renames = {
             "class": "className",
             "checked": "defaultChecked",
-            "usemap": "useMap"
+            "usemap": "useMap",
+            "for": "htmlFor"
         };
     } else {
         attributeArray = function (node) {
