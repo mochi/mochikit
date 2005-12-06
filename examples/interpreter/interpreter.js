@@ -8,6 +8,10 @@ InterpreterManager = function () {
 };
 
 InterpreterManager.prototype.initialize = function () {
+    updateNodeAttributes(currentDocument().body, {
+        "onbeforepaste": this.beforePaste,
+        "onpaste": this.paste
+    });
     updateNodeAttributes("interpreter_text", {
         "onkeyup": this.keyUp
     });
@@ -96,6 +100,27 @@ InterpreterManager.prototype.moveHistory = function (dir) {
     this.historyPos += dir;
     elem.value = this.history[this.historyPos];
 }
+
+InterpreterManager.prototype.beforePaste = function (e) {
+    e.preventDefault();
+};
+
+
+InterpreterManager.prototype.doPaste = function (text) {
+    var lines = rstrip(text).split(/\n/);
+    appendChildNodes("interpreter_output",
+        SPAN({"class": "code"}, ">>> ", izip(lines, imap(BR, cycle([null]))))
+    );
+    this.runCode(text);
+}
+
+InterpreterManager.prototype.paste = function (e) {
+    var text = e.clipboardData.getData("text/plain");
+    if (text) {
+        e.preventDefault();
+        callLater(0.0, this.doPaste, text);
+    }
+};
 
 InterpreterManager.prototype.keyUp = function (e) {
     e = e || window.event;
@@ -207,6 +232,11 @@ InterpreterManager.prototype.doSubmit = function () {
     }
     var allCode = this.lines.join("\n");
     this.lines = [];
+    this.runCode(allCode);
+    return;
+};
+
+InterpreterManager.prototype.runCode = function (allCode) {
     var res;
     try {
         res = this.doEval(allCode);
@@ -216,7 +246,6 @@ InterpreterManager.prototype.doSubmit = function () {
         return;
     }
     this.showResult(res);
-    return;
 };
 
 InterpreterManager.prototype.showResult = function (res) {
