@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+Using a made-up xmlns..
+
+-->
+<html xmlns:mochi="http://mochikit.com/examples/rjson_tables">
+    <head>
+        <title>Sortable Tables from Scratch with MochiKit</title>
+        <link href="rjson_tables.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="../../MochiKit/MochiKit.js"></script>
+        <script type="text/javascript" src="rjson_tables.js"></script>
+    </head>
+    <body>
+        <h1>
+            Sortable RJSON Tables with MochiKit
+        </h1>
+        <div>
+            <div>
+                <p>
+                    This is an example of how one might use <a href="http://mochikit.com/">MochiKit</a> to do
+                    sortable tables from data given by a server in RJSON format.
+                    <a href="../../doc/html/MochiKit/Async.html">MochiKit.Async</a>
+                    to fetch the data, and 
+                    <a href="../../doc/html/MochiKit/DOM.html">MochiKit.DOM</a>
+                    to display it.
+                </p>
+                <p>
+                    RJSON is a simple extension to JSON that
+                    allows it to be used in a remote context via dynamic 
+                    <tt>&lt;script&gt;</tt> tag loading in an iframe tag.
+                    Normally a JSON response will look like:
+                    <blockquote>
+                        <tt>{"json": "object"}</tt>
+                    </blockquote>
+                    Where an RJSON response looks like this:
+                    <blockquote>
+                        <tt>rjson = {"json": "object"};</tt>
+                    </blockquote>
+                </p>
+                <p>
+                    Includes a micro implementation of something
+                    <a href="http://www.zope.org/Wikis/DevSite/Projects/ZPT/FrontPage">TAL</a>-esque
+                    (called "MochiTAL" in the source, using a mochi: namespace).
+                    For a more detailed description of what happens under the
+                    covers, view the <a href="rjson_tables.js" class="view-source">rjson_tables.js</a>
+                    source and look at the comments.
+                </p>
+            </div>
+        </div>
+        <div>
+            View Source: [
+            <a href="index.html" class="view-source">index.html</a> |
+            <a href="rjson_tables.js" class="view-source">rjson_tables.js</a> |
+            <a href="domains.rjson" class="view-source">domains.rjson</a>
+            ]
+        </div>
+        <div>
+            Load data: [
+            <a href="domains.rjson" mochi:dataformat="rjson">domains.rjson</a> (local)
+            | <a href="http://mochikit.com/examples/rjson_tables/domains.rjson" mochi:dataformat="rjson">domains.rjson</a> (@mochikit.com)
+            ]
+        </div>
+        <table id="sortable_table" class="datagrid">
+            <thead>
+                <tr>
+                    <th mochi:sortcolumn="domain_name str">Domain Name</th>
+                    <th mochi:sortcolumn="create_date isoDate">Creation Date</th>
+                    <th mochi:sortcolumn="expiry_date isoDate">Expiry Date</th>
+                    <th mochi:sortcolumn="organization_name istr">Organization Name</th>
+                </tr>
+            </thead>
+            <tfoot class="invisible">
+                <tr>
+                    <td colspan="0"></td>
+                </tr>
+            </tfoot>
+            <tbody class="mochi-template">
+                <tr mochi:repeat="item domains">
+                    <td mochi:content="item.domain_name">mochibot.com</td>
+                    <td mochi:content="item.create_date">2005-02-10</td>
+                    <td mochi:content="item.expiry_date">2007-02-10</td>
+                    <td mochi:content="item.organization_name">Jameson Hsu</td>
+                </tr>
+                <tr class="mochi-example">
+                    <td>pythonmac.org</td>
+                    <td>2003-09-24</td>
+                    <td>2006-09-24</td>
+                    <td>Bob Ippolito</td>
+                </tr>
+                <tr class="mochi-example">
+                    <td>undefined.org</td>
+                    <td>2000-01-10</td>
+                    <td>2006-01-10</td>
+                    <td>Robert J Ippolito</td>
+                </tr>
+                <tr class="mochi-example">
+                    <td>python.org</td>
+                    <td>1995-03-27</td>
+                    <td>2007-03-28</td>
+                    <td>Python Software Foundation</td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
