@@ -186,7 +186,7 @@ SortableManager.prototype = {
         this.thead_proto = this.thead.cloneNode(true);
 
         this.sortkey = "domain_name";
-        this.loadFromURL("rjson", "domains.json");
+        this.loadFromURL("rjson", "domains.rjson");
     },
 
     "loadFromURL": function (format, url) {
