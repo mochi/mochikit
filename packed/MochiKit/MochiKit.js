@@ -2394,7 +2394,7 @@ m.nodeWalk(elem,function(elem){
 var name=elem.name;
 var _304=elem.value;
 if(m.isNotEmpty(name,_304)){
-if(elem.tagName=="INPUT"&&elem.type=="radio"&&!elem.checked){
+if(elem.tagName=="INPUT"&&(elem.type=="radio"||elem.type=="checkbox")&&!elem.checked){
 return null;
 }
 _302.push(name);
