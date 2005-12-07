@@ -195,7 +195,7 @@ MochiKit.DOM.formContents = function (elem/* = document */) {
         var value = elem.value;
         if (m.isNotEmpty(name, value)) {
             if (elem.tagName == "INPUT"
-                && elem.type == "radio"
+                && (elem.type == "radio" || elem.type == "checkbox")
                 && !elem.checked
             ) {
                 return null;

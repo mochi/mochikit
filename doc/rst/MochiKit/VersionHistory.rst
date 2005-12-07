@@ -1,5 +1,7 @@
-XXXX-XX-XX      v1.2
+XXXX-XX-XX      v1.2 "the ocho"
 
+- MochiKit.DOM.formContents correctly handles unchecked checkboxes that have
+  a custom value attribute
 - Added new MochiKit.Color constructors fromComputedStyle and fromText
 - MochiKit.DOM.setNodeAttribute should work now
 - MochiKit.DOM now has a workaround for an IE bug when setting the style
