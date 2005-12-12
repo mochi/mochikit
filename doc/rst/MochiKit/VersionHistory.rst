@@ -1,5 +1,6 @@
 XXXX-XX-XX      v1.2 "the ocho"
 
+- MochiKit.Base now has operator.mul
 - MochiKit.DOM.formContents correctly handles unchecked checkboxes that have
   a custom value attribute
 - Added new MochiKit.Color constructors fromComputedStyle and fromText

@@ -12,7 +12,7 @@ Synopsis
 ::
 
         
-    theSum = sum(ifilter(
+    theSum = sum(takewhile(
             partial(operator.gt, 10),
             imap(
                 partial(operator.mul, 2),

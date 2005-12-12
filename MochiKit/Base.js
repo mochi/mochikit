@@ -227,6 +227,7 @@ MochiKit.Base.update(MochiKit.Base, {
         sub: function (a, b) { return a - b; },
         div: function (a, b) { return a / b; },
         mod: function (a, b) { return a % b; },
+        mul: function (a, b) { return a * b; },
 
         // bitwise binary operators
         and: function (a, b) { return a & b; },
@@ -236,7 +237,7 @@ MochiKit.Base.update(MochiKit.Base, {
         rshift: function (a, b) { return a >> b; },
         zrshift: function (a, b) { return a >>> b; },
 
-        // near-worthless build-in comparators
+        // near-worthless built-in comparators
         eq: function (a, b) { return a == b; },
         ne: function (a, b) { return a != b; },
         gt: function (a, b) { return a > b; },
