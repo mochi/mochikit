@@ -147,6 +147,8 @@ return a-b;
 return a/b;
 },mod:function(a,b){
 return a%b;
+},mul:function(a,b){
+return a*b;
 },and:function(a,b){
 return a&b;
 },or:function(a,b){

@@ -16,7 +16,7 @@
 <div class="section" id="synopsis">
 <h1><a name="synopsis">Synopsis</a></h1>
 <pre class="literal-block">
-theSum = sum(ifilter(
+theSum = sum(takewhile(
         partial(operator.gt, 10),
         imap(
             partial(operator.mul, 2),
