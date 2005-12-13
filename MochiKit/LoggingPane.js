@@ -65,13 +65,14 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     var bind = MochiKit.Base.bind;
     var clone = MochiKit.Base.clone;
     var win = window;
+    var uid = "_MochiKit_LoggingPane";
     if (typeof(MochiKit.DOM) != "undefined") {
         win = MochiKit.DOM.currentWindow();
     }
     if (!inline) {
         // name the popup with the base URL for uniqueness
         var url = win.location.href.split("?")[0].replace(/[:\/.><&]/g, "_");
-        var name = "MochiKit_LoggingPane_" + url;
+        var name = uid + "_" + url;
         var nwin = win.open("", name, "dependent,resizable,height=200");
         if (!nwin) {
             alert("Not able to open debugging window due to pop-up blocking.");
@@ -91,15 +92,24 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     this.doc = doc;
     
     // Connect to the debug pane if it already exists (i.e. in a window orphaned by the page being refreshed)
-    var debugPane = doc.getElementById("_debugPane");
+    var debugPane = doc.getElementById(uid);
+    var existing_pane = !!debugPane;
     if (debugPane && typeof(debugPane.loggingPane) != "undefined") {
         debugPane.loggingPane.logger = this.logger;
         debugPane.loggingPane.buildAndApplyFilter();
         return debugPane.loggingPane;
     }
     
-    debugPane = doc.createElement("div");
-    debugPane.id = "_debugPane";
+    if (existing_pane) {
+        // clear any existing contents
+        var child;
+        while ((child = debugPane.firstChild)) {
+            debugPane.removeChild(child);
+        }
+    } else {
+        debugPane = doc.createElement("div");
+        debugPane.id = uid;
+    }
     debugPane.loggingPane = this;
     var levelFilterField = doc.createElement("input");
     var infoFilterField = doc.createElement("input");
@@ -111,7 +121,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     var logPane = doc.createElement("div");
 
     /* Set up the functions */
-    var listenerId = "_debugPaneListener";
+    var listenerId = uid + "_Listener";
     this.colorTable = clone(this.colorTable);
     var messages = [];
     var messageFilter = null;
@@ -243,7 +253,9 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     }
     debugPane.style.cssText = style;
 
-    doc.body.appendChild(debugPane);
+    if (!existing_pane) {
+        doc.body.appendChild(debugPane);
+    }
 
     /* Create the filter fields */
     style = {"cssText": "width: 33%; display: inline; font: " + this.logFont};

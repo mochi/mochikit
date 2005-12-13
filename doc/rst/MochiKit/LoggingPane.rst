@@ -50,7 +50,9 @@ Constructors
 
     If ``inline`` is ``true``, then the ``LoggingPane`` will be a ``DIV``
     at the bottom of the document.  Otherwise, it will be in a pop-up
-    window with a name based on the calling page's URL.
+    window with a name based on the calling page's URL.  If there is an
+    element in the document with an id of ``_MochiKit_LoggingPane``,
+    it will be used instead of appending a new ``DIV`` to the body. 
 
     ``logger`` is the reference to the :mochiref:`MochiKit.Logging.Logger` to
     listen to.  If not specified, the global default logger is used.
@@ -79,7 +81,8 @@ Constructors
 
 :mochidef:`LoggingPane.prototype.closePane()`:
 
-    Close the :mochiref:`LoggingPane`
+    Close the :mochiref:`LoggingPane` (close the child window, or
+    remove the ``_MochiKit_LoggingPane`` ``DIV`` from the document).
 
 
 Functions
