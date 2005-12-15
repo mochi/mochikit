@@ -7,7 +7,6 @@ import os
 import re
 import sys
 import shutil
-import tempfile
 import subprocess
 mk = file('MochiKit/MochiKit.js').read()
 if len(sys.argv) > 1:
@@ -29,7 +28,7 @@ else:
 alltext = '\n'.join(
     [file('MochiKit/%s.js' % m).read() for m in SUBMODULES])
 
-tf = tempfile.NamedTemporaryFile(suffix='.js')
+tf = file('packed/_scratch.js', 'w')
 tf.write(alltext)
 tf.flush()
 p = subprocess.Popen(
@@ -53,3 +52,5 @@ shutil.copyfileobj(p.stdout, outf)
 outf.write('\n')
 outf.flush()
 outf.close()
+tf.close()
+os.remove(tf.name)
