@@ -912,7 +912,8 @@ MochiKit.DOM.__new__ = function (win) {
     
     var __tmpElement = this._document.createElement("span");
     var attributeArray;
-    if (__tmpElement.attributes.length > 0) {
+    if (__tmpElement && __tmpElement.attributes &&
+            __tmpElement.attributes.length > 0) {
         // for braindead browsers (IE) that insert extra junk
         var filter = m.filter;
         attributeArray = function (node) {

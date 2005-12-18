@@ -1,5 +1,7 @@
 XXXX-XX-XX      v1.2 "the ocho"
 
+- MochiKit.DOM's initialization is now compatible with
+  HTMLUnit + JWebUnit + Rhino
 - MochiKit.LoggingPane will now re-use a ``_MochiKit_LoggingPane`` DIV element
   currently in the document instead of always creating one.
 - MochiKit.Base now has operator.mul
