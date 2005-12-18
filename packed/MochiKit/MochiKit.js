@@ -2905,7 +2905,7 @@ this._window=win;
 this.domConverters=new m.AdapterRegistry();
 var _385=this._document.createElement("span");
 var _386;
-if(_385.attributes.length>0){
+if(_385&&_385.attributes&&_385.attributes.length>0){
 var _387=m.filter;
 _386=function(node){
 return _387(_386.ignoreAttrFilter,node.attributes);
