@@ -9,12 +9,12 @@
 </head>
 <body>
 <div class="document">
-<div class="section" id="name">
-<h1><a name="name">Name</a></h1>
+<div class="section">
+<h1><a id="name" name="name">Name</a></h1>
 <p>MochiKit.Base - functional programming and useful comparisons</p>
 </div>
-<div class="section" id="synopsis">
-<h1><a name="synopsis">Synopsis</a></h1>
+<div class="section">
+<h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
 <pre class="literal-block">
 myObjectRepr = function () {
     // gives a nice, stable string representation for objects,
@@ -30,11 +30,11 @@ myObjectRepr = function () {
     return &quot;{&quot; + map(
         function (pair) {
             return map(repr, pair).join(&quot;:&quot;);
-        }, 
+        },
         keyValuePairs
     ).join(&quot;, &quot;) + &quot;}&quot;;
 };
-        
+
 // repr() will look for objects that have a repr method
 myObjectArray = [
     {&quot;a&quot;: 3, &quot;b&quot;: 2, &quot;repr&quot;: myObjectRepr},
@@ -55,14 +55,14 @@ myArray = [1, 2, &quot;3&quot;, null, undefined];
 assert( objEqual(evalJSON(serializeJSON(myArray)), myArray) );
 </pre>
 </div>
-<div class="section" id="description">
-<h1><a name="description">Description</a></h1>
+<div class="section">
+<h1><a id="description" name="description">Description</a></h1>
 <p><a class="mochiref reference" href="Base.html">MochiKit.Base</a> is the foundation for the MochiKit suite.
 It provides:</p>
 <ul class="simple">
 <li>An extensible comparison facility (<tt class="docutils literal"><span class="pre">compare</span></tt>, <tt class="docutils literal"><span class="pre">registerComparator</span></tt>)</li>
 <li>An extensible programmer representation facility (<tt class="docutils literal"><span class="pre">repr</span></tt>, <tt class="docutils literal"><span class="pre">registerRepr</span></tt>)</li>
-<li>An extensible JSON <a class="footnote-reference" href="#id7" id="id1" name="id1">[1]</a> serialization and evaluation facility 
+<li>An extensible JSON <a class="footnote-reference" href="#id7" id="id1" name="id1">[1]</a> serialization and evaluation facility
 (<tt class="docutils literal"><span class="pre">serializeJSON</span></tt>, <tt class="docutils literal"><span class="pre">evalJSON</span></tt>, <tt class="docutils literal"><span class="pre">registerJSON</span></tt>)</li>
 <li>A simple adaptation facility (<tt class="docutils literal"><span class="pre">AdapterRegistry</span></tt>)</li>
 <li>Convenience functions for manipulating objects (<tt class="docutils literal"><span class="pre">update</span></tt>, <tt class="docutils literal"><span class="pre">extend</span></tt>, etc.)</li>
@@ -70,17 +70,17 @@ It provides:</p>
 <li>Bound and partially applied functions (<tt class="docutils literal"><span class="pre">bind</span></tt>, <tt class="docutils literal"><span class="pre">partial</span></tt>)</li>
 </ul>
 <p>Python users will feel at home with <a class="mochiref reference" href="Base.html">MochiKit.Base</a>, as the
-facilities are quite similar to those available as part of Python and the 
+facilities are quite similar to those available as part of Python and the
 Python standard library.</p>
 </div>
-<div class="section" id="dependencies">
-<h1><a name="dependencies">Dependencies</a></h1>
+<div class="section">
+<h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
 <p>None.</p>
 </div>
-<div class="section" id="overview">
-<h1><a name="overview">Overview</a></h1>
-<div class="section" id="comparison">
-<h2><a name="comparison">Comparison</a></h2>
+<div class="section">
+<h1><a id="overview" name="overview">Overview</a></h1>
+<div class="section">
+<h2><a id="comparison" name="comparison">Comparison</a></h2>
 <p>The comparators (operators for comparison) in JavaScript are deeply broken,
 and it is not possible to teach them new tricks.</p>
 <p>MochiKit exposes an extensible comparison facility as a simple
@@ -93,8 +93,8 @@ sort function for <tt class="docutils literal"><span class="pre">Array.prototype
 by adding an entry to its <a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a> with the
 <a class="mochiref reference" href="#fn-registercomparator">registerComparator</a> function.</p>
 </div>
-<div class="section" id="programmer-representation">
-<h2><a name="programmer-representation">Programmer Representation</a></h2>
+<div class="section">
+<h2><a id="programmer-representation" name="programmer-representation">Programmer Representation</a></h2>
 <p>JavaScript's default representation mechanism, <tt class="docutils literal"><span class="pre">toString</span></tt>, is notorious
 for having terrible default behavior.  It's also very unwise to change that
 default, as other JavaScript code you may be using may depend on it.</p>
@@ -114,12 +114,12 @@ objects that <tt class="docutils literal"><span class="pre">repr</span></tt> doe
 the idiomatic JavaScript <tt class="docutils literal"><span class="pre">toString</span></tt> method!</p>
 <p>To define a programmer representation for your own objects, simply add
 a <tt class="docutils literal"><span class="pre">.repr()</span></tt> or <tt class="docutils literal"><span class="pre">.__repr__()</span></tt> method that returns a string.  For
-objects that you didn't create (e.g., from a script you didn't write, or a 
+objects that you didn't create (e.g., from a script you didn't write, or a
 built-in object), it is instead recommended that you create an adapter
 with <a class="mochiref reference" href="#fn-registerrepr">registerRepr</a>.</p>
 </div>
-<div class="section" id="json-serialization">
-<h2><a name="json-serialization">JSON Serialization</a></h2>
+<div class="section">
+<h2><a id="json-serialization" name="json-serialization">JSON Serialization</a></h2>
 <p>JSON <a class="footnote-reference" href="#id7" id="id2" name="id2">[1]</a>, JavaScript Object Notation, is a widely used serialization format
 in the context of web development.  It's extremely simple, lightweight, and
 fast.  In its essence, JSON is a restricted subset of JavaScript syntax
@@ -133,7 +133,7 @@ with the serialization.</p>
 <p>In order of precedence, <a class="mochiref reference" href="#fn-serializejson">serializeJSON</a> coerces the given argument
 into a JSON serialization:</p>
 <ol class="arabic simple">
-<li>Primitive types are returned as their JSON representation: 
+<li>Primitive types are returned as their JSON representation:
 <tt class="docutils literal"><span class="pre">undefined</span></tt>, <tt class="docutils literal"><span class="pre">string</span></tt>, <tt class="docutils literal"><span class="pre">number</span></tt>, <tt class="docutils literal"><span class="pre">boolean</span></tt>, <tt class="docutils literal"><span class="pre">null</span></tt>.</li>
 <li>If the object has a <tt class="docutils literal"><span class="pre">__json__</span></tt> or <tt class="docutils literal"><span class="pre">json</span></tt> method, then it is called
 with no arguments.  If the result of this method is not the object itself,
@@ -149,12 +149,12 @@ expected to behave like a <tt class="docutils literal"><span class="pre">__json_
 object to be serialized, or itself).</li>
 <li>If no adapter is available, the object is enumerated and serialized as a
 JSON object (name:value pairs).  All names are expected to be strings.
-Each value is serialized according to these rules, and if it can not be 
+Each value is serialized according to these rules, and if it can not be
 serialized (e.g. methods), then that name:value pair will be skipped.</li>
 </ol>
 </div>
-<div class="section" id="adapter-registries">
-<h2><a name="adapter-registries">Adapter Registries</a></h2>
+<div class="section">
+<h2><a id="adapter-registries" name="adapter-registries">Adapter Registries</a></h2>
 <p>MochiKit makes extensive use of adapter registries, which enable you to
 implement object-specific behaviors for objects that you do not necessarily
 want to modify, such as built-in objects.  This is especially useful because
@@ -173,8 +173,8 @@ perform &quot;cheap&quot; checks of an object's type or contents, before the
 operation, such as creating a programmer representation or comparing
 both arguments.</p>
 </div>
-<div class="section" id="convenience-functions">
-<h2><a name="convenience-functions">Convenience Functions</a></h2>
+<div class="section">
+<h2><a id="convenience-functions" name="convenience-functions">Convenience Functions</a></h2>
 <p>Much of <a class="mochiref reference" href="Base.html">MochiKit.Base</a> is there to simply remove the grunt work of
 doing generic JavaScript programming.</p>
 <p>Need to take every property from one object and set them on another?  No
@@ -196,8 +196,8 @@ is for, and it even comes with additional operators based on the
 A DOM element tree perhaps?  Use <a class="mochiref reference" href="#fn-nodewalk">nodeWalk(node, visitor)</a>!</p>
 <p>There's plenty more, so check out the <a class="reference" href="#api-reference">API Reference</a> below.</p>
 </div>
-<div class="section" id="functional-programming">
-<h2><a name="functional-programming">Functional Programming</a></h2>
+<div class="section">
+<h2><a id="functional-programming" name="functional-programming">Functional Programming</a></h2>
 <p>Functional programming constructs such as <a class="mochiref reference" href="#fn-map">map</a> and
 <a class="mochiref reference" href="#fn-filter">filter</a> can save you a lot of time, because JavaScript iteration is
 error-prone and arduous.  Writing less code is the best way to prevent bugs,
@@ -234,8 +234,8 @@ full blown iterators, <a class="mochiref reference" href="Iter.html#fn-range">Mo
 <a class="mochiref reference" href="Iter.html#fn-reduce">MochiKit.Iter.reduce</a>, and a near-complete port of Python's
 itertools <a class="footnote-reference" href="#id8" id="id3" name="id3">[2]</a> module, with some extra stuff thrown in for good measure!</p>
 </div>
-<div class="section" id="bound-and-partial-functions">
-<h2><a name="bound-and-partial-functions">Bound and Partial Functions</a></h2>
+<div class="section">
+<h2><a id="bound-and-partial-functions" name="bound-and-partial-functions">Bound and Partial Functions</a></h2>
 <p>JavaScript's method-calling special form and lack of bound functions (functions
 that know what <tt class="docutils literal"><span class="pre">this</span></tt> should be) are one of the first stumbling blocks that
 programmers new to JavaScript face.  The <a class="mochiref reference" href="#fn-bind">bind(func, self)</a> method
@@ -244,7 +244,7 @@ fixes that right up by returning a new function that calls func with the right
 <p>In order to take real advantage of all this fancy functional programming stuff,
 you're probably going to want partial application.  This allows you to create
 a new function from an existing function that remembers some of the arguments.
-For example, if you wanted to compare a given object to a slew of other 
+For example, if you wanted to compare a given object to a slew of other
 objects, you could do something like this:</p>
 <pre class="literal-block">
 compareWithOne = partial(compare, 1);
@@ -256,18 +256,18 @@ which is certainly a must-see for those of you creating lots of DOM elements
 with JavaScript!</p>
 </div>
 </div>
-<div class="section" id="api-reference">
-<h1><a name="api-reference">API Reference</a></h1>
-<div class="section" id="errors">
-<h2><a name="errors">Errors</a></h2>
+<div class="section">
+<h1><a id="api-reference" name="api-reference">API Reference</a></h1>
+<div class="section">
+<h2><a id="errors" name="errors">Errors</a></h2>
 <p>
 <a name="fn-notfound"></a>
 <a class="mochidef reference" href="#fn-notfound">NotFound</a>:</p>
 <blockquote>
 A singleton error raised when no suitable adapter is found</blockquote>
 </div>
-<div class="section" id="constructors">
-<h2><a name="constructors">Constructors</a></h2>
+<div class="section">
+<h2><a id="constructors" name="constructors">Constructors</a></h2>
 <p>
 <a name="fn-adapterregistry"></a>
 <a class="mochidef reference" href="#fn-adapterregistry">AdapterRegistry</a>:</p>
@@ -303,8 +303,8 @@ Remove a named adapter from the registry</blockquote>
 <blockquote>
 Convenience constructor for creating new errors (e.g. <a class="mochiref reference" href="#fn-notfound">NotFound</a>)</blockquote>
 </div>
-<div class="section" id="functions">
-<h2><a name="functions">Functions</a></h2>
+<div class="section">
+<h2><a id="functions" name="functions">Functions</a></h2>
 <p>
 <a name="fn-arrayequal"></a>
 <a class="mochidef reference" href="#fn-arrayequal">arrayEqual(self, arr)</a>:</p>
@@ -462,7 +462,7 @@ Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all g
 <a name="fn-isdatelike"></a>
 <a class="mochidef reference" href="#fn-isdatelike">isDateLike(obj[, ...])</a>:</p>
 <blockquote>
-Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all given arguments are <tt class="docutils literal"><span class="pre">Date</span></tt>-like (have a 
+Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all given arguments are <tt class="docutils literal"><span class="pre">Date</span></tt>-like (have a
 <tt class="docutils literal"><span class="pre">.getTime()</span></tt> method)</blockquote>
 <p>
 <a name="fn-isnotempty"></a>
@@ -857,7 +857,7 @@ assert( args.foo == &quot;value one&quot; &amp;&amp; args.bar == &quot;two&quot;
 same name, then give <tt class="docutils literal"><span class="pre">true</span></tt> as a second argument, which will
 use arrays to store the values.  e.g.:</p>
 <pre class="literal-block">
-var args = parseQueryString(&quot;foo=one&amp;foo=two&quot;);
+var args = parseQueryString(&quot;foo=one&amp;foo=two&quot;, true);
 assert( args.foo[0] == &quot;one&quot; &amp;&amp; args.foo[1] == &quot;two&quot; );
 </pre>
 </blockquote>
@@ -982,7 +982,7 @@ highest precedence comparator.  Otherwise, the lowest.</p>
 <a class="mochidef reference" href="#fn-registerrepr">registerRepr(name, check, wrap[, override])</a>:</p>
 <blockquote>
 <p>Register a programmer representation function.
-<a class="mochiref reference" href="#fn-repr">repr</a> functions should take one argument and 
+<a class="mochiref reference" href="#fn-repr">repr</a> functions should take one argument and
 return a string representation of it
 suitable for developers, primarily used when debugging.</p>
 <p>If <tt class="docutils literal"><span class="pre">override</span></tt> is given, it is used as the highest priority
@@ -1086,8 +1086,8 @@ given as an argument.</p>
 </blockquote>
 </div>
 </div>
-<div class="section" id="see-also">
-<h1><a name="see-also">See Also</a></h1>
+<div class="section">
+<h1><a id="see-also" name="see-also">See Also</a></h1>
 <table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -1102,14 +1102,14 @@ module: <a class="reference" href="http://docs.python.org/lib/module-itertools.h
 </tbody>
 </table>
 </div>
-<div class="section" id="authors">
-<h1><a name="authors">Authors</a></h1>
+<div class="section">
+<h1><a id="authors" name="authors">Authors</a></h1>
 <ul class="simple">
 <li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
 </ul>
 </div>
-<div class="section" id="copyright">
-<h1><a name="copyright">Copyright</a></h1>
+<div class="section">
+<h1><a id="copyright" name="copyright">Copyright</a></h1>
 <p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>

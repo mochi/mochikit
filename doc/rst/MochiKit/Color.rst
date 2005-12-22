@@ -285,7 +285,7 @@ Constructors
 
 :mochidef:`Color.prototype.asRGB()`:
 
-    Return the RGB (red, green, blue, alph) components of this color as an
+    Return the RGB (red, green, blue, alpha) components of this color as an
     object with ``r``, ``g``, ``b``, and ``a`` properties that have
     values between ``0.0`` and ``1.0``.
 
