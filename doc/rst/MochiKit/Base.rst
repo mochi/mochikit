@@ -753,7 +753,7 @@ Functions
     same name, then give ``true`` as a second argument, which will
     use arrays to store the values.  e.g.::
 
-        var args = parseQueryString("foo=one&foo=two");
+        var args = parseQueryString("foo=one&foo=two", true);
         assert( args.foo[0] == "one" && args.foo[1] == "two" );
 
 
