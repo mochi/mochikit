@@ -9,12 +9,12 @@
 </head>
 <body>
 <div class="document">
-<div class="section" id="name">
-<h1><a name="name">Name</a></h1>
+<div class="section">
+<h1><a id="name" name="name">Name</a></h1>
 <p>MochiKit.Async - manage asynchronous tasks</p>
 </div>
-<div class="section" id="synopsis">
-<h1><a name="synopsis">Synopsis</a></h1>
+<div class="section">
+<h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
 <pre class="literal-block">
 var url = &quot;/src/b/bo/bob/MochiKit.Async/META.json&quot;;
 /*
@@ -29,7 +29,7 @@ var gotMetadata = function (meta) {
     if (MochiKit.Async.VERSION == meta.version) {
         alert(&quot;You have the newest MochiKit.Async!&quot;);
     } else {
-        alert(&quot;MochiKit.Async &quot; 
+        alert(&quot;MochiKit.Async &quot;
             + meta.version
             + &quot; is available, upgrade!&quot;);
     }
@@ -40,22 +40,22 @@ var metadataFetchFailed = function (err) {
 d.addCallbacks(gotMetadata, metadataFetchFailed);
 </pre>
 </div>
-<div class="section" id="description">
-<h1><a name="description">Description</a></h1>
+<div class="section">
+<h1><a id="description" name="description">Description</a></h1>
 <p>MochiKit.Async provides facilities to manage asynchronous
 (as in AJAX <a class="footnote-reference" href="#id7" id="id1" name="id1">[1]</a>) tasks. The model for asynchronous computation
 used in this module is heavily inspired by Twisted <a class="footnote-reference" href="#id8" id="id2" name="id2">[2]</a>.</p>
 </div>
-<div class="section" id="dependencies">
-<h1><a name="dependencies">Dependencies</a></h1>
+<div class="section">
+<h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
 <ul class="simple">
 <li><a class="mochiref reference" href="Base.html">MochiKit.Base</a></li>
 </ul>
 </div>
-<div class="section" id="overview">
-<h1><a name="overview">Overview</a></h1>
-<div class="section" id="deferred">
-<h2><a name="deferred">Deferred</a></h2>
+<div class="section">
+<h1><a id="overview" name="overview">Overview</a></h1>
+<div class="section">
+<h2><a id="deferred" name="deferred">Deferred</a></h2>
 <p>The Deferred constructor encapsulates a single value that
 is not available yet.  The most important example of this
 in the context of a web browser would be an <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>
@@ -65,10 +65,10 @@ computations that occur exactly once.</p>
 <p>The producer of the Deferred is responsible for doing all
 of the complicated work behind the scenes.  This often
 means waiting for a timer to fire, or waiting for an event
-(e.g. <tt class="docutils literal"><span class="pre">onreadystatechange</span></tt> of <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>).  
+(e.g. <tt class="docutils literal"><span class="pre">onreadystatechange</span></tt> of <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>).
 It could also be coordinating several events (e.g.
 <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> with a timeout, or several Deferreds
-(e.g. fetching a set of XML documents that should be 
+(e.g. fetching a set of XML documents that should be
 processed at the same time).</p>
 <p>Since these sorts of tasks do not respond immediately, the
 producer of the Deferred does the following steps before
@@ -78,7 +78,7 @@ returning to the consumer:</p>
 to it, because it will be needed later when the value is
 ready.</li>
 <li>Setup the conditions to create the value requested (e.g.
-create a new <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>, set its 
+create a new <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt>, set its
 <tt class="docutils literal"><span class="pre">onreadystatechange</span></tt>).</li>
 <li>Return the <a class="mochiref reference" href="#fn-deferred">Deferred</a> object.</li>
 </ol>
@@ -95,15 +95,15 @@ As soon as this happens, the callback that the consumer
 attached to the <a class="mochiref reference" href="#fn-deferred">Deferred</a> is called with <tt class="docutils literal"><span class="pre">theValue</span></tt>
 as the only argument.</p>
 <p>There are quite a few additional &quot;advanced&quot; features
-baked into <a class="mochiref reference" href="#fn-deferred">Deferred</a>, such as cancellation and 
+baked into <a class="mochiref reference" href="#fn-deferred">Deferred</a>, such as cancellation and
 callback chains, so take a look at the API
 reference if you would like to know more!</p>
 </div>
 </div>
-<div class="section" id="api-reference">
-<h1><a name="api-reference">API Reference</a></h1>
-<div class="section" id="errors">
-<h2><a name="errors">Errors</a></h2>
+<div class="section">
+<h1><a id="api-reference" name="api-reference">API Reference</a></h1>
+<div class="section">
+<h2><a id="errors" name="errors">Errors</a></h2>
 <p>
 <a name="fn-alreadycallederror"></a>
 <a class="mochidef reference" href="#fn-alreadycallederror">AlreadyCalledError</a>:</p>
@@ -138,8 +138,8 @@ for any reason.  The <tt class="docutils literal"><span class="pre">req</span></
 <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> object, and for convenience the <tt class="docutils literal"><span class="pre">number</span></tt>
 property corresponds to <tt class="docutils literal"><span class="pre">req.status</span></tt>.</blockquote>
 </div>
-<div class="section" id="constructors">
-<h2><a name="constructors">Constructors</a></h2>
+<div class="section">
+<h2><a id="constructors" name="constructors">Constructors</a></h2>
 <p>
 <a name="fn-deferred"></a>
 <a class="mochidef reference" href="#fn-deferred">Deferred()</a>:</p>
@@ -227,7 +227,7 @@ if (result instanceof Error) {
 <p>The result is then stored away in case another step is added to the
 callback sequence.  Since the <a class="mochiref reference" href="#fn-deferred">Deferred</a> already has a value
 available, any new callbacks added will be called immediately.</p>
-<p>There are two other &quot;advanced&quot; details about this implementation that are 
+<p>There are two other &quot;advanced&quot; details about this implementation that are
 useful:</p>
 <p>Callbacks are allowed to return <a class="mochiref reference" href="#fn-deferred">Deferred</a> instances,
 so you can build complicated sequences of events with (relative) ease.</p>
@@ -305,7 +305,7 @@ with <a class="mochiref reference" href="#fn-cancellederror">CancelledError</a>.
 <a name="fn-deferred.prototype.errback"></a>
 <a class="mochidef reference" href="#fn-deferred.prototype.errback">Deferred.prototype.errback([result])</a>:</p>
 <blockquote>
-Begin the callback sequence with an error result.  If 
+Begin the callback sequence with an error result.  If
 <tt class="docutils literal"><span class="pre">!(result</span> <span class="pre">instanceof</span> <span class="pre">Error)</span></tt>, it will be wrapped
 with <a class="mochiref reference" href="#fn-genericerror">GenericError</a>.</blockquote>
 <div class="note">
@@ -337,8 +337,8 @@ is locked, then the <a class="mochiref reference" href="#fn-deferred">Deferred</
 Release the lock.  If there is a waiting list, then the first
 <a class="mochiref reference" href="#fn-deferred">Deferred</a> in that waiting list will be called back.</blockquote>
 </div>
-<div class="section" id="functions">
-<h2><a name="functions">Functions</a></h2>
+<div class="section">
+<h2><a id="functions" name="functions">Functions</a></h2>
 <p>
 <a name="fn-calllater"></a>
 <a class="mochidef reference" href="#fn-calllater">callLater(seconds, func[, args...])</a>:</p>
@@ -479,8 +479,8 @@ Return a new cancellable <a class="mochiref reference" href="#fn-deferred">Defer
 after at least <tt class="docutils literal"><span class="pre">seconds</span></tt> seconds have elapsed.</blockquote>
 </div>
 </div>
-<div class="section" id="see-also">
-<h1><a name="see-also">See Also</a></h1>
+<div class="section">
+<h1><a id="see-also" name="see-also">See Also</a></h1>
 <table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -506,14 +506,14 @@ after at least <tt class="docutils literal"><span class="pre">seconds</span></tt
 </tbody>
 </table>
 </div>
-<div class="section" id="authors">
-<h1><a name="authors">Authors</a></h1>
+<div class="section">
+<h1><a id="authors" name="authors">Authors</a></h1>
 <ul class="simple">
 <li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
 </ul>
 </div>
-<div class="section" id="copyright">
-<h1><a name="copyright">Copyright</a></h1>
+<div class="section">
+<h1><a id="copyright" name="copyright">Copyright</a></h1>
 <p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>

@@ -9,42 +9,42 @@
 </head>
 <body>
 <div class="document">
-<div class="section" id="name">
-<h1><a name="name">Name</a></h1>
+<div class="section">
+<h1><a id="name" name="name">Name</a></h1>
 <p>MochiKit.Logging - we're all tired of alert()</p>
 </div>
-<div class="section" id="synopsis">
-<h1><a name="synopsis">Synopsis</a></h1>
+<div class="section">
+<h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
 <pre class="literal-block">
 log(&quot;INFO messages are so boring&quot;);
 logDebug(&quot;DEBUG messages are even worse&quot;);
 log(&quot;good thing I can pass&quot;, objects, &quot;conveniently&quot;);
 </pre>
 </div>
-<div class="section" id="description">
-<h1><a name="description">Description</a></h1>
+<div class="section">
+<h1><a id="description" name="description">Description</a></h1>
 <p>MochiKit.Logging steals some ideas from Python's logging module <a class="footnote-reference" href="#id5" id="id1" name="id1">[1]</a>, but
 completely forgot about the Java <a class="footnote-reference" href="#id6" id="id2" name="id2">[2]</a> inspiration.  This is a KISS module for
 logging that provides enough flexibility to do just about anything via
 listeners, but without all the cruft.</p>
 </div>
-<div class="section" id="dependencies">
-<h1><a name="dependencies">Dependencies</a></h1>
+<div class="section">
+<h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
 <ul class="simple">
 <li><a class="mochiref reference" href="Base.html">MochiKit.Base</a></li>
 </ul>
 </div>
-<div class="section" id="overview">
-<h1><a name="overview">Overview</a></h1>
-<div class="section" id="bookmarklet-based-debugging">
-<h2><a name="bookmarklet-based-debugging">Bookmarklet Based Debugging</a></h2>
+<div class="section">
+<h1><a id="overview" name="overview">Overview</a></h1>
+<div class="section">
+<h2><a id="bookmarklet-based-debugging" name="bookmarklet-based-debugging">Bookmarklet Based Debugging</a></h2>
 <p>JavaScript is at a serious disadvantage without a standard console for
 &quot;print&quot; statements.  Everything else has one.  The closest thing that
 you get in a browser environment is the <tt class="docutils literal"><span class="pre">alert</span></tt> function, which is
 absolutely evil.</p>
 <p>This leaves you with one reasonable solution: do your logging in the page
 somehow.  The problem here is that you don't want to clutter the page with
-debugging tools.  The solution to that problem is what we call BBD, or 
+debugging tools.  The solution to that problem is what we call BBD, or
 Bookmarklet Based Debugging <a class="footnote-reference" href="#id7" id="id3" name="id3">[3]</a>.</p>
 <p>Simply create a bookmarklet for <a class="reference" href="javascript:MochiKit.Logging.logger.debuggingBookmarklet()">javascript:MochiKit.Logging.logger.debuggingBookmarklet()</a>,
 and whack it whenever you want to see what's in the logger.  Of course, this
@@ -55,10 +55,10 @@ Real Soon Now, and when we do, you only have to upgrade MochiKit.Logging,
 not your bookmarklet!</p>
 </div>
 </div>
-<div class="section" id="api-reference">
-<h1><a name="api-reference">API Reference</a></h1>
-<div class="section" id="constructors">
-<h2><a name="constructors">Constructors</a></h2>
+<div class="section">
+<h1><a id="api-reference" name="api-reference">API Reference</a></h1>
+<div class="section">
+<h2><a id="constructors" name="constructors">Constructors</a></h2>
 <p>
 <a name="fn-logmessage"></a>
 <a class="mochidef reference" href="#fn-logmessage">LogMessage(num, level, info)</a>:</p>
@@ -120,7 +120,7 @@ true then <tt class="docutils literal"><span class="pre">listener(msg)</span></t
 </dl>
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">listener</span></tt> is a function that takes one argument, a log message.  A log
-message is an object (<a class="mochiref reference" href="#fn-logmessage">LogMessage</a> instance) that has at least these 
+message is an object (<a class="mochiref reference" href="#fn-logmessage">LogMessage</a> instance) that has at least these
 properties:</p>
 <blockquote>
 <dl class="docutils">
@@ -218,8 +218,8 @@ LAST {messages.length} MESSAGES:
 <blockquote>
 Remove a listener using the ident given to <a class="mochiref reference" href="#fn-logger.prototype.addlistener">Logger.prototype.addListener</a></blockquote>
 </div>
-<div class="section" id="functions">
-<h2><a name="functions">Functions</a></h2>
+<div class="section">
+<h2><a id="functions" name="functions">Functions</a></h2>
 <p>
 <a name="fn-alertlistener"></a>
 <a class="mochidef reference" href="#fn-alertlistener">alertListener(msg)</a>:</p>
@@ -253,8 +253,8 @@ is at least minLevel</blockquote>
 Log a WARNING message to the default logger</blockquote>
 </div>
 </div>
-<div class="section" id="see-also">
-<h1><a name="see-also">See Also</a></h1>
+<div class="section">
+<h1><a id="see-also" name="see-also">See Also</a></h1>
 <table class="docutils footnote" frame="void" id="id5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -274,14 +274,14 @@ Log a WARNING message to the default logger</blockquote>
 </tbody>
 </table>
 </div>
-<div class="section" id="authors">
-<h1><a name="authors">Authors</a></h1>
+<div class="section">
+<h1><a id="authors" name="authors">Authors</a></h1>
 <ul class="simple">
 <li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
 </ul>
 </div>
-<div class="section" id="copyright">
-<h1><a name="copyright">Copyright</a></h1>
+<div class="section">
+<h1><a id="copyright" name="copyright">Copyright</a></h1>
 <p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
