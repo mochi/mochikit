@@ -9,12 +9,12 @@
 </head>
 <body>
 <div class="document">
-<div class="section" id="name">
-<h1><a name="name">Name</a></h1>
+<div class="section">
+<h1><a id="name" name="name">Name</a></h1>
 <p>MochiKit.Iter - itertools for JavaScript; iteration made HARD, and then easy</p>
 </div>
-<div class="section" id="synopsis">
-<h1><a name="synopsis">Synopsis</a></h1>
+<div class="section">
+<h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
 <pre class="literal-block">
 theSum = sum(takewhile(
         partial(operator.gt, 10),
@@ -28,8 +28,8 @@ theSum = sum(takewhile(
 assert( theSum == (0 + 0 + 2 + 4 + 6 + 8) );
 </pre>
 </div>
-<div class="section" id="description">
-<h1><a name="description">Description</a></h1>
+<div class="section">
+<h1><a id="description" name="description">Description</a></h1>
 <p>All of the functional programming missing from <a class="mochiref reference" href="Base.html">MochiKit.Base</a> lives
 here.  The functionality in this module is largely inspired by Python's iteration
 protocol <a class="footnote-reference" href="#id4" id="id1" name="id1">[1]</a>, and the itertools module <a class="footnote-reference" href="#id5" id="id2" name="id2">[2]</a>.</p>
@@ -39,24 +39,24 @@ protocol.  Iterators are lazy, so it can potentially be cheaper to built a
 filter chain of iterators than to build lots of intermediate arrays.
 Especially when the data set is very large, but the result is not.</p>
 </div>
-<div class="section" id="dependencies">
-<h1><a name="dependencies">Dependencies</a></h1>
+<div class="section">
+<h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
 <ul class="simple">
 <li><a class="mochiref reference" href="Base.html">MochiKit.Base</a></li>
 </ul>
 </div>
-<div class="section" id="overview">
-<h1><a name="overview">Overview</a></h1>
-<div class="section" id="iteration-for-javascript">
-<h2><a name="iteration-for-javascript">Iteration for JavaScript</a></h2>
+<div class="section">
+<h1><a id="overview" name="overview">Overview</a></h1>
+<div class="section">
+<h2><a id="iteration-for-javascript" name="iteration-for-javascript">Iteration for JavaScript</a></h2>
 <p>The best overview right now is in my Iteration for JavaScript <a class="footnote-reference" href="#id6" id="id3" name="id3">[3]</a> blog entry.
 This information will migrate here eventually.</p>
 </div>
 </div>
-<div class="section" id="api-reference">
-<h1><a name="api-reference">API Reference</a></h1>
-<div class="section" id="errors">
-<h2><a name="errors">Errors</a></h2>
+<div class="section">
+<h1><a id="api-reference" name="api-reference">API Reference</a></h1>
+<div class="section">
+<h2><a id="errors" name="errors">Errors</a></h2>
 <p>
 <a name="fn-stopiteration"></a>
 <a class="mochidef reference" href="#fn-stopiteration">StopIteration</a>:</p>
@@ -64,8 +64,8 @@ This information will migrate here eventually.</p>
 The singleton <a class="mochiref reference" href="Base.html#fn-namederror">MochiKit.Base.NamedError</a> that signifies the end
 of an iterator</blockquote>
 </div>
-<div class="section" id="functions">
-<h2><a name="functions">Functions</a></h2>
+<div class="section">
+<h2><a id="functions" name="functions">Functions</a></h2>
 <p>
 <a name="fn-applymap"></a>
 <a class="mochidef reference" href="#fn-applymap">applymap(fun, seq[, self])</a>:</p>
@@ -125,7 +125,7 @@ iterable. The key is a function computing a key value for each element.
 If not specified or is None, key defaults to an identity function and
 returns the element unchanged. Generally, the iterable needs to already be
 sorted on the same key function.</p>
-<p>The returned group is itself an iterator that shares the underlying 
+<p>The returned group is itself an iterator that shares the underlying
 iterable with <a class="mochiref reference" href="#fn-groupby">groupby()</a>. Because the source is shared, when the
 groupby object is advanced, the previous group is no longer visible.
 So, if that data is needed later, it should be stored as an array:</p>
@@ -176,7 +176,7 @@ rather than creating a new one.</blockquote>
 <a class="mochidef reference" href="#fn-islice">islice(seq, [start,] stop[, step])</a>:</p>
 <blockquote>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">islice(seq,</span> <span class="pre">[start,]</span> <span class="pre">stop[,</span> <span class="pre">step])</span></tt> --&gt; elements from </dt>
+<dt><tt class="docutils literal"><span class="pre">islice(seq,</span> <span class="pre">[start,]</span> <span class="pre">stop[,</span> <span class="pre">step])</span></tt> --&gt; elements from</dt>
 <dd>seq[start:stop:step] (in Python slice syntax)</dd>
 </dl>
 </blockquote>
@@ -327,12 +327,12 @@ reduce(operator.add, iterable, start);
 <tt class="docutils literal"><span class="pre">tee(it,</span> <span class="pre">n=2)</span></tt> --&gt; [it1, it2, it3, ... itn] splits one iterator into n</blockquote>
 </div>
 </div>
-<div class="section" id="see-also">
-<h1><a name="see-also">See Also</a></h1>
+<div class="section">
+<h1><a id="see-also" name="see-also">See Also</a></h1>
 <table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1" name="id4">[1]</a></td><td>The iteration protocol is described in 
+<tr><td class="label"><a class="fn-backref" href="#id1" name="id4">[1]</a></td><td>The iteration protocol is described in
 PEP 234 - Iterators: <a class="reference" href="http://www.python.org/peps/pep-0234.html">http://www.python.org/peps/pep-0234.html</a></td></tr>
 </tbody>
 </table>
@@ -350,14 +350,14 @@ module: <a class="reference" href="http://docs.python.org/lib/module-itertools.h
 </tbody>
 </table>
 </div>
-<div class="section" id="authors">
-<h1><a name="authors">Authors</a></h1>
+<div class="section">
+<h1><a id="authors" name="authors">Authors</a></h1>
 <ul class="simple">
 <li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
 </ul>
 </div>
-<div class="section" id="copyright">
-<h1><a name="copyright">Copyright</a></h1>
+<div class="section">
+<h1><a id="copyright" name="copyright">Copyright</a></h1>
 <p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
