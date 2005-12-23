@@ -192,16 +192,27 @@ MochiKit.DOM.formContents = function (elem/* = document */) {
     }
     m.nodeWalk(elem, function (elem) {
         var name = elem.name;
-        var value = elem.value;
-        if (m.isNotEmpty(name, value)) {
+        if (m.isNotEmpty(name)) {
             if (elem.tagName == "INPUT"
                 && (elem.type == "radio" || elem.type == "checkbox")
                 && !elem.checked
             ) {
                 return null;
             }
-            names.push(name);
-            values.push(value);
+            if (elem.tagName == "SELECT") {
+                var opts = elem.options;
+                for (var i=0; i < opts.length; i++) {
+                    var opt = opts[i];
+                    if (!opt.selected) {
+                        return;
+                    }
+                    names.push(name);
+                    values.push((opt.value) ? opt.value : opt.text);
+                }
+            } else if (m.isNotEmpty(elem.value)) {
+                names.push(name);
+                values.push(elem.value);
+            }
             return null;
         }
         return elem.childNodes;
