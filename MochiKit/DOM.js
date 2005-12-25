@@ -204,7 +204,7 @@ MochiKit.DOM.formContents = function (elem/* = document */) {
                 for (var i=0; i < opts.length; i++) {
                     var opt = opts[i];
                     if (!opt.selected) {
-                        return;
+                        continue;
                     }
                     names.push(name);
                     values.push((opt.value) ? opt.value : opt.text);
