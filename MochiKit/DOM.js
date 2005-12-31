@@ -38,6 +38,7 @@ MochiKit.DOM.toString = function () {
 };
 
 MochiKit.DOM.EXPORT = [
+    "elementDimensions",
     "formContents",
     "currentWindow",
     "currentDocument",
@@ -115,6 +116,16 @@ MochiKit.DOM.EXPORT_OK = [
     "domConverters"
 ];
 
+MochiKit.DOM.Dimensions = function (w, h) {
+    this.w = w;
+    this.h = h;
+};
+
+MochiKit.DOM.Dimensions.prototype.repr = function () {
+    var repr = MochiKit.Base.repr;
+    return "{w: "  + repr(this.w) + ", h: " + repr(this.h) + "}";
+};
+
 MochiKit.DOM.Coordinates = function (x, y) {
     this.x = x;
     this.y = y;
@@ -123,6 +134,21 @@ MochiKit.DOM.Coordinates = function (x, y) {
 MochiKit.DOM.Coordinates.prototype.repr = function () {
     var repr = MochiKit.Base.repr;
     return "{x: "  + repr(this.x) + ", y: " + repr(this.y) + "}";
+};
+
+MochiKit.DOM.elementDimensions = function (elem) {
+    var self = MochiKit.DOM;
+    if (typeof(elem.w) == "number" || typeof(elem.h) == "number") {
+        return new self.Dimensions(elem.w || 0, elem.h || 0);
+    }
+    elem = self.getElement(elem);
+    if (!elem) {
+        return undefined;
+    }
+    return new self.Dimensions(
+        parseInt(self.computedStyle(elem, 'width').replace(/px/, '')),
+        parseInt(self.computedStyle(elem, 'height').replace(/px/, ''))
+    );
 };
 
 MochiKit.DOM.elementPosition = function (elem, /* optional */relativeTo) {

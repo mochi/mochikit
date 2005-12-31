@@ -1,5 +1,7 @@
 XXXX-XX-XX      v1.2 "the ocho"
 
+- New MochiKit.DOM.elementDimensions(element) for determining the width and
+  height of an element in the document
 - MochiKit.DOM's initialization is now compatible with
   HTMLUnit + JWebUnit + Rhino
 - MochiKit.LoggingPane will now re-use a ``_MochiKit_LoggingPane`` DIV element

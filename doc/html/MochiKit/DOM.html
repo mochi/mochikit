@@ -385,6 +385,15 @@ Return the current <tt class="docutils literal"><span class="pre">window</span><
 be the same as the global <tt class="docutils literal"><span class="pre">window</span></tt> unless <a class="mochiref reference" href="#fn-withwindow">withWindow</a> is
 currently executing.</blockquote>
 <p>
+<a name="fn-elementdimensions"></a>
+<a class="mochidef reference" href="#fn-elementdimensions">elementDimensions(element)</a>:</p>
+<blockquote>
+Return the absolute pixel width and height of <tt class="docutils literal"><span class="pre">element</span></tt> as an object with
+<tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if <tt class="docutils literal"><span class="pre">element</span></tt> is not in the
+document.  <tt class="docutils literal"><span class="pre">element</span></tt> may be specified as a string to be looked up with
+<a class="mochiref reference" href="#fn-getelement">getElement</a>, a DOM element, or trivially as an object with
+<tt class="docutils literal"><span class="pre">w</span></tt> and/or <tt class="docutils literal"><span class="pre">h</span></tt> properties.</blockquote>
+<p>
 <a name="fn-elementposition"></a>
 <a class="mochidef reference" href="#fn-elementposition">elementPosition(element[, relativeTo={x: 0, y: 0}])</a>:</p>
 <blockquote>
