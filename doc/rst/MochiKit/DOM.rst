@@ -381,6 +381,15 @@ Functions
     currently executing.
 
 
+:mochidef:`elementDimensions(element)`:
+
+    Return the absolute pixel width and height of ``element`` as an object with
+    ``x`` and ``y`` properties, or ``undefined`` if ``element`` is not in the
+    document.  ``element`` may be specified as a string to be looked up with
+    :mochiref:`getElement`, a DOM element, or trivially as an object with
+    ``w`` and/or ``h`` properties.
+
+
 :mochidef:`elementPosition(element[, relativeTo={x: 0, y: 0}])`:
 
     Return the absolute pixel position of ``element`` in the document as an
