@@ -278,7 +278,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     style = "width: 8%; display:inline; font: " + this.logFont;
 
     filterButton.appendChild(doc.createTextNode("Filter"));
-    filterButton.onclick = bind(this.buildAndApplyFilter, this);
+    filterButton.onclick = bind("buildAndApplyFilter", this);
     filterButton.style.cssText = style;
     debugPane.appendChild(filterButton);
 
