@@ -317,7 +317,13 @@ differences.</blockquote>
 <blockquote>
 <p>Return a copy of <tt class="docutils literal"><span class="pre">func</span></tt> bound to <tt class="docutils literal"><span class="pre">self</span></tt>.  This means whenever
 and however the returned function is called, <tt class="docutils literal"><span class="pre">this</span></tt> will always
-reference the given <tt class="docutils literal"><span class="pre">self</span></tt>.</p>
+reference the given <tt class="docutils literal"><span class="pre">self</span></tt>.  <tt class="docutils literal"><span class="pre">func</span></tt> may be either a function
+object, or a string.  If it is a string, then <tt class="docutils literal"><span class="pre">self[func]</span></tt> will
+be used, making these two statements equivalent:</p>
+<pre class="literal-block">
+bind(&quot;method&quot;, self);
+bind(self.method, self);
+</pre>
 <p>Calling <a class="mochiref reference" href="#fn-bind">bind(func, self)</a> on an already bound function will
 return a new function that is bound to the new <tt class="docutils literal"><span class="pre">self</span></tt>!  If
 <tt class="docutils literal"><span class="pre">self</span></tt> is <tt class="docutils literal"><span class="pre">undefined</span></tt>, then the previous <tt class="docutils literal"><span class="pre">self</span></tt> is used.

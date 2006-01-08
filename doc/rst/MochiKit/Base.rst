@@ -352,7 +352,12 @@ Functions
 
     Return a copy of ``func`` bound to ``self``.  This means whenever
     and however the returned function is called, ``this`` will always
-    reference the given ``self``.
+    reference the given ``self``.  ``func`` may be either a function
+    object, or a string.  If it is a string, then ``self[func]`` will
+    be used, making these two statements equivalent::
+        
+        bind("method", self);
+        bind(self.method, self);
 
     Calling :mochiref:`bind(func, self)` on an already bound function will
     return a new function that is bound to the new ``self``!  If

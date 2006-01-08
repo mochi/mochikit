@@ -557,6 +557,9 @@ MochiKit.Base.update(MochiKit.Base, {
     },
             
     bind: function (func, self/* args... */) {
+        if (typeof(func) == "string") {
+            func = self[func];
+        }
         var im_func = func.im_func;
         var im_preargs = func.im_preargs;
         var im_self = func.im_self;
