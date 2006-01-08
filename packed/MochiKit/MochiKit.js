@@ -376,6 +376,9 @@ _44.push("arguments["+i+"]");
 return eval("(func("+_44.join(",")+"))");
 };
 },bind:function(_45,_46){
+if(typeof (_45)=="string"){
+_45=_46[_45];
+}
 var _47=_45.im_func;
 var _48=_45.im_preargs;
 var _49=_45.im_self;

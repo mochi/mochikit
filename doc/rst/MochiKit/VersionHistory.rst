@@ -1,5 +1,7 @@
 2006-01-XX      v1.2 "the ocho"
 
+- MochiKit.Base.bind will accept a string for func, which will be immediately
+  looked up as self[func].
 - MochiKit.DOM.formContents no longer skips empty form elements for Zope
   compatibility
 - MochiKit.Iter.forEach will now catch StopIteration to break
