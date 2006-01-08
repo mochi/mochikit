@@ -707,7 +707,7 @@ MochiKit.Base.update(MochiKit.Iter, {
                     func(iterable[i]);
                 }
             } catch (e) {
-                if (e != self.StopIteration) {
+                if (e != MochiKit.Iter.StopIteration) {
                     throw e;
                 }
             }
