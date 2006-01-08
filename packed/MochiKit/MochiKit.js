@@ -1254,7 +1254,7 @@ func(_159[i]);
 }
 }
 catch(e){
-if(e!=self.StopIteration){
+if(e!=MochiKit.Iter.StopIteration){
 throw e;
 }
 }
