@@ -235,9 +235,9 @@ MochiKit.DOM.formContents = function (elem/* = document */) {
                     names.push(name);
                     values.push((opt.value) ? opt.value : opt.text);
                 }
-            } else if (m.isNotEmpty(elem.value)) {
+            } else {
                 names.push(name);
-                values.push(elem.value);
+                values.push(elem.value || '');
             }
             return null;
         }

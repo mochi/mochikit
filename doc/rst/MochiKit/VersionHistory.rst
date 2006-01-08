@@ -1,5 +1,8 @@
-XXXX-XX-XX      v1.2 "the ocho"
+2006-01-XX      v1.2 "the ocho"
 
+- MochiKit.DOM.formContents no longer skips empty form elements for Zope
+  compatibility
+- MochiKit.Iter.forEach will now catch StopIteration to break
 - New MochiKit.DOM.elementDimensions(element) for determining the width and
   height of an element in the document
 - MochiKit.DOM's initialization is now compatible with

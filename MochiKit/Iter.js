@@ -702,8 +702,14 @@ MochiKit.Base.update(MochiKit.Iter, {
         }
         // fast path for array
         if (m.isArrayLike(iterable)) {
-            for (var i = 0; i < iterable.length; i++) {
-                func(iterable[i]);
+            try {
+                for (var i = 0; i < iterable.length; i++) {
+                    func(iterable[i]);
+                }
+            } catch (e) {
+                if (e != self.StopIteration) {
+                    throw e;
+                }
             }
         } else {
             self = MochiKit.Iter;

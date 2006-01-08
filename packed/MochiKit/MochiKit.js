@@ -1245,8 +1245,15 @@ if(arguments.length>2){
 func=m.bind(func,self);
 }
 if(m.isArrayLike(_159)){
+try{
 for(var i=0;i<_159.length;i++){
 func(_159[i]);
+}
+}
+catch(e){
+if(e!=self.StopIteration){
+throw e;
+}
 }
 }else{
 self=MochiKit.Iter;
@@ -2428,10 +2435,8 @@ _304.push(name);
 _305.push((opt.value)?opt.value:opt.text);
 }
 }else{
-if(m.isNotEmpty(elem.value)){
 _304.push(name);
-_305.push(elem.value);
-}
+_305.push(elem.value||"");
 }
 return null;
 }
