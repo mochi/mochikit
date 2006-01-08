@@ -395,7 +395,7 @@ MochiKit.Base.update(MochiKit.Iter, {
                 if (argiter.length == 1) {
                     // optimize last element
                     var arg = argiter.shift();
-                    this.next = m.bind(arg.next, arg);
+                    this.next = m.bind("next", arg);
                     return this.next();
                 }
                 throw self.StopIteration;
@@ -448,7 +448,7 @@ MochiKit.Base.update(MochiKit.Iter, {
                         break;
                     }
                 }
-                this.next = bind(seq.next, seq);
+                this.next = bind("next", seq);
                 return rval;
             }
         };
