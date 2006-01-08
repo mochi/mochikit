@@ -1056,7 +1056,7 @@ _143.shift();
 }
 if(_143.length==1){
 var arg=_143.shift();
-this.next=m.bind(arg.next,arg);
+this.next=m.bind("next",arg);
 return this.next();
 }
 throw self.StopIteration;
@@ -1089,7 +1089,7 @@ if(!pred(rval)){
 break;
 }
 }
-this.next=bind(seq.next,seq);
+this.next=bind("next",seq);
 return rval;
 }};
 },_tee:function(_145,sync,_147){
@@ -2225,7 +2225,7 @@ d.addCallback(function(){
 return _288;
 });
 }
-var _289=setTimeout(m.bind(d.callback,d),Math.floor(_287*1000));
+var _289=setTimeout(m.bind("callback",d),Math.floor(_287*1000));
 d.canceller=function(){
 try{
 clearTimeout(_289);
@@ -3221,7 +3221,7 @@ _396(_404,{"value":".*","onkeypress":_429,"style":_431});
 _400.appendChild(_404);
 _431="width: 8%; display:inline; font: "+this.logFont;
 _405.appendChild(doc.createTextNode("Filter"));
-_405.onclick=bind(this.buildAndApplyFilter,this);
+_405.onclick=bind("buildAndApplyFilter",this);
 _405.style.cssText=_431;
 _400.appendChild(_405);
 _406.appendChild(doc.createTextNode("Load"));
