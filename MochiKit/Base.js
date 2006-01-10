@@ -519,8 +519,7 @@ MochiKit.Base.update(MochiKit.Base, {
         if (typeof(Array.prototype.filter) == 'function') {
             // Mozilla fast-path
             return Array.prototype.filter.call(lst, fn, self);
-        }
-        else if (typeof(self) == 'undefined' || self == null) {
+        } else if (typeof(self) == 'undefined' || self == null) {
             for (var i = 0; i < lst.length; i++) {
                 var o = lst[i];
                 if (fn(o)) {
