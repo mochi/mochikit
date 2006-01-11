@@ -1055,6 +1055,31 @@ MochiKit.Base.update(MochiKit.Base, {
         return MochiKit.Base.listMinMax(-1, arguments);
     },
 
+    findIdentical: function (lst, value, start/* = 0 */, /* optional */end) {
+        if (typeof(end) == "undefined" || end == null) {
+            end = lst.length;
+        }
+        for (var i = (start || 0); i < end; i++) {
+            if (lst[i] === value) {
+                return i;
+            }
+        }
+        return -1;
+    },
+
+    find: function (lst, value, start/* = 0 */, /* optional */end) {
+        if (typeof(end) == "undefined" || end == null) {
+            end = lst.length;
+        }
+        var cmp = MochiKit.Base.compare;
+        for (var i = (start || 0); i < end; i++) {
+            if (cmp(lst[i], value) == 0) {
+                return i;
+            }
+        }
+        return -1;
+    },
+    
     nodeWalk: function (node, visitor) {
         /***
 
@@ -1286,7 +1311,9 @@ MochiKit.Base.EXPORT = [
     "serializeJSON",
     "registerJSON",
     "evalJSON",
-    "parseQueryString"
+    "parseQueryString",
+    "find",
+    "findIdentical"
 ];
 
 MochiKit.Base.EXPORT_OK = [

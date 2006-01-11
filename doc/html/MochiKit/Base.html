@@ -454,6 +454,39 @@ the scope of MochiKit, but there is one available from json.org <a class="footno
 <p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, <tt class="docutils literal"><span class="pre">operator.truth</span></tt> will be used.</p>
 </blockquote>
 <p>
+<a name="fn-find"></a>
+<a class="mochidef reference" href="#fn-find">find(lst, value, start=0, end=lst.length)</a>:</p>
+<blockquote>
+<p>Finds the index of <tt class="docutils literal"><span class="pre">value</span></tt> in the <tt class="docutils literal"><span class="pre">Array</span></tt>-like object <tt class="docutils literal"><span class="pre">lst</span></tt> using
+<a class="mochiref reference" href="#fn-compare">compare</a>.  The search starts at the index <tt class="docutils literal"><span class="pre">start</span></tt>, and ends
+at the index <tt class="docutils literal"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">1</span></tt>.  If <tt class="docutils literal"><span class="pre">value</span></tt> is not found in <tt class="docutils literal"><span class="pre">lst</span></tt>, it will
+return <tt class="docutils literal"><span class="pre">-1</span></tt>.</p>
+<p>For example:</p>
+<pre class="literal-block">
+assert( find([1, 2, 3, 2, 1], 2) == 1 )
+assert( find([1, 2, 3, 2, 1], 2, 2) == 3 )
+</pre>
+</blockquote>
+<p>
+<a name="fn-findidentical"></a>
+<a class="mochidef reference" href="#fn-findidentical">findIdentical(lst, value, start=0, end=lst.length)</a>:</p>
+<blockquote>
+<p>Finds the index of <tt class="docutils literal"><span class="pre">value</span></tt> in the <tt class="docutils literal"><span class="pre">Array</span></tt>-like object <tt class="docutils literal"><span class="pre">lst</span></tt> using
+the <tt class="docutils literal"><span class="pre">===</span></tt> operator.  The search starts at the index <tt class="docutils literal"><span class="pre">start</span></tt>, and ends
+at the index <tt class="docutils literal"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">1</span></tt>.  If <tt class="docutils literal"><span class="pre">value</span></tt> is not found in <tt class="docutils literal"><span class="pre">lst</span></tt>, it will
+return <tt class="docutils literal"><span class="pre">-1</span></tt>.</p>
+<p>You should use this function instead of <a class="mochiref reference" href="#fn-find">find</a> if <tt class="docutils literal"><span class="pre">lst</span></tt> may
+be comprised of objects for which no comparator is defined and all you care
+about is finding an identical object (e.g. the same instance), or if
+<tt class="docutils literal"><span class="pre">lst</span></tt> is comprised of just numbers or strings and performance is
+important.</p>
+<p>For example:</p>
+<pre class="literal-block">
+assert( findIdentical([1, 2, 3, 2, 1], 2) == 1 )
+assert( findIdentical([1, 2, 3, 2, 1], 2, 2) == 3 )
+</pre>
+</blockquote>
+<p>
 <a name="fn-forward"></a>
 <a class="mochidef reference" href="#fn-forward">forward(name)</a>:</p>
 <blockquote>
