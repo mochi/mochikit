@@ -49,6 +49,10 @@ related to development of and with MochiKit</li>
 <h1><a id="version-history" name="version-history">Version History</a></h1>
 <p>2006-01-XX      v1.2 &quot;the ocho&quot;</p>
 <ul class="simple">
+<li>Added new MochiKit.Base.findIdentical function to find the index of an
+element in an Array-like object.  Uses === for identity comparison.</li>
+<li>Added new MochiKit.Base.find function to find the index of an element in
+an Array-like object.  Uses compare for rich comparison.</li>
 <li>MochiKit.Base.bind will accept a string for func, which will be immediately
 looked up as self[func].</li>
 <li>MochiKit.DOM.formContents no longer skips empty form elements for Zope

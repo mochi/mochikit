@@ -11,7 +11,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 126});
+    plan({'tests': 134});
    
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
@@ -380,7 +380,16 @@ try {
     c = counter(2);
     is( c(), 2, "counter starts at 2" );
     is( c(), 3, "counter increases" );
-    
+
+    is( find([1, 2, 3], 4), -1, "find returns -1 on not found");
+    is( find([1, 2, 3], 1), 0, "find returns correct index");
+    is( find([1, 2, 3], 1, 1), -1, "find honors start");
+    is( find([1, 2, 3], 2, 0, 1), -1, "find honors end");
+    is( findIdentical([1, 2, 3], 4), -1, "findIdentical returns -1");
+    is( findIdentical([1, 2, 3], 1), 0, "findIdentical returns correct index");
+    is( findIdentical([1, 2, 3], 1, 1), -1, "findIdentical honors start");
+    is( findIdentical([1, 2, 3], 2, 0, 1), -1, "findIdentical honors end");
+ 
     ok( true, "test suite finished!");
     
 } catch (err) {
