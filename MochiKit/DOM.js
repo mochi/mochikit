@@ -145,10 +145,21 @@ MochiKit.DOM.elementDimensions = function (elem) {
     if (!elem) {
         return undefined;
     }
-    return new self.Dimensions(
-        parseInt(self.computedStyle(elem, 'width').replace(/px/, '')),
-        parseInt(self.computedStyle(elem, 'height').replace(/px/, ''))
-    );
+    if (self.computedStyle(elem, 'display') != 'none') {
+        return new self.Dimensions(elem.w || 0, elem.h || 0);
+    }
+    var s = elem.style;
+    var originalVisibility = s.visibility;
+    var originalPosition = s.position;
+    s.visibility = 'hidden';
+    s.position = 'absolute';
+    s.display = '';
+    var originalWidth = elem.clientWidth;
+    var originalHeight = elem.clientHeight;
+    s.display = 'none';
+    s.position = originalPosition;
+    s.visibility = originalVisibility;
+    return new self.Dimensions(originalWidth, originalHeight);
 };
 
 MochiKit.DOM.elementPosition = function (elem, /* optional */relativeTo) {
