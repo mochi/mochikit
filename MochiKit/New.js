@@ -226,28 +226,6 @@ MochiKit.Base.update(MochiKit.DOM, {
         element._overflow = undefined;
     },
 
-    getDimensions: function (element) {
-        element = MochiKit.DOM.getElement(element);
-        if (MochiKit.DOM.getStyle(element, 'display') != 'none') {
-            return {width: element.offsetWidth, height: element.offsetHeight};
-        }
-
-        // All *Width and *Height properties give 0 on elements with display none,
-        // so enable the element temporarily
-        var els = element.style;
-        var originalVisibility = els.visibility;
-        var originalPosition = els.position;
-        els.visibility = 'hidden';
-        els.position = 'absolute';
-        els.display = '';
-        var originalWidth = element.clientWidth;
-        var originalHeight = element.clientHeight;
-        els.display = 'none';
-        els.position = originalPosition;
-        els.visibility = originalVisibility;
-        return {width: originalWidth, height: originalHeight};
-    },
-
     makePositioned: function (element) {
         element = MochiKit.DOM.getElement(element);
         var pos = MochiKit.DOM.getStyle(element, 'position');

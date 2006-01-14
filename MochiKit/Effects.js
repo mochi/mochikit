@@ -648,13 +648,13 @@ Effect.BlindUp = function (element, options) {
 Effect.BlindDown = function (element, options) {
     element = MochiKit.DOM.getElement(element);
     var oldHeight = MochiKit.DOM.getStyle(element, 'height');
-    var elementDimensions = MochiKit.DOM.getDimensions(element);
+    var elementDimensions = MochiKit.DOM.elementDimensions(element);
     options = MochiKit.Base.update({
         scaleContent: false,
         scaleX: false,
         scaleFrom: 0,
-        scaleMode: {originalHeight: elementDimensions.height,
-                    originalWidth: elementDimensions.width},
+        scaleMode: {originalHeight: elementDimensions.h,
+                    originalWidth: elementDimensions.w},
         restoreAfterFinish: true,
         afterSetup: function (effect) {
             MochiKit.DOM.makeClipping(effect.element);
@@ -751,13 +751,13 @@ Effect.SlideDown = function (element, options) {
     MochiKit.DOM.cleanWhitespace(element);
     // SlideDown need to have the content of the element wrapped in a container element with fixed height!
     var oldInnerBottom = MochiKit.DOM.getStyle(element.firstChild, 'bottom');
-    var elementDimensions = MochiKit.DOM.getDimensions(element);
+    var elementDimensions = MochiKit.DOM.elementDimensions(element);
     options = MochiKit.Base.update({
         scaleContent: false,
         scaleX: false,
         scaleFrom: 0,
-        scaleMode: {originalHeight: elementDimensions.height,
-                    originalWidth: elementDimensions.width},
+        scaleMode: {originalHeight: elementDimensions.h,
+                    originalWidth: elementDimensions.w},
         restoreAfterFinish: true,
         afterSetup: function (effect) {
             MochiKit.DOM.makePositioned(effect.element);
@@ -847,7 +847,7 @@ Effect.Grow = function (element, options) {
         width: element.style.width,
         opacity: MochiKit.DOM.getInlineOpacity(element) };
 
-    var dims = MochiKit.DOM.getDimensions(element);
+    var dims = MochiKit.DOM.elementDimensions(element);
     var initialMoveX, initialMoveY;
     var moveX, moveY;
 
@@ -856,26 +856,26 @@ Effect.Grow = function (element, options) {
             initialMoveX = initialMoveY = moveX = moveY = 0;
             break;
         case 'top-right':
-            initialMoveX = dims.width;
+            initialMoveX = dims.w;
             initialMoveY = moveY = 0;
-            moveX = -dims.width;
+            moveX = -dims.w;
             break;
         case 'bottom-left':
             initialMoveX = moveX = 0;
-            initialMoveY = dims.height;
-            moveY = -dims.height;
+            initialMoveY = dims.h;
+            moveY = -dims.h;
             break;
         case 'bottom-right':
-            initialMoveX = dims.width;
-            initialMoveY = dims.height;
-            moveX = -dims.width;
-            moveY = -dims.height;
+            initialMoveX = dims.w;
+            initialMoveY = dims.h;
+            moveX = -dims.w;
+            moveY = -dims.h;
             break;
         case 'center':
-            initialMoveX = dims.width / 2;
-            initialMoveY = dims.height / 2;
-            moveX = -dims.width / 2;
-            moveY = -dims.height / 2;
+            initialMoveX = dims.w / 2;
+            initialMoveY = dims.h / 2;
+            moveX = -dims.w / 2;
+            moveY = -dims.h / 2;
             break;
     }
 
@@ -909,8 +909,8 @@ Effect.Grow = function (element, options) {
                      x: moveX, y: moveY, sync: true, transition: options.moveTransition
                  }),
                  new Effect.Scale(effect.element, 100, {
-                        scaleMode: {originalHeight: dims.height,
-                                    originalWidth: dims.width},
+                        scaleMode: {originalHeight: dims.h,
+                                    originalWidth: dims.w},
                         sync: true,
                         scaleFrom: MochiKit.Base.isOpera() ? 1 : 0,
                         transition: options.scaleTransition,
@@ -937,7 +937,7 @@ Effect.Shrink = function (element, options) {
         width: element.style.width,
         opacity: MochiKit.DOM.getInlineOpacity(element) };
 
-    var dims = MochiKit.DOM.getDimensions(element);
+    var dims = MochiKit.DOM.elementDimensions(element);
     var moveX, moveY;
 
     switch (options.direction) {
@@ -945,20 +945,20 @@ Effect.Shrink = function (element, options) {
             moveX = moveY = 0;
             break;
         case 'top-right':
-            moveX = dims.width;
+            moveX = dims.w;
             moveY = 0;
             break;
         case 'bottom-left':
             moveX = 0;
-            moveY = dims.height;
+            moveY = dims.h;
             break;
         case 'bottom-right':
-            moveX = dims.width;
-            moveY = dims.height;
+            moveX = dims.w;
+            moveY = dims.h;
             break;
         case 'center':
-            moveX = dims.width / 2;
-            moveY = dims.height / 2;
+            moveX = dims.w / 2;
+            moveY = dims.h / 2;
             break;
     }
 
