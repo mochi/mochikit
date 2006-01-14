@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>Drag and Drop Sortable Tables with MochiKit</title>
+        <link href="dnd_sortable.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="../../MochiKit/MochiKit.js"></script>
+        <script type="text/javascript" src="../../MochiKit/New.js"></script>
+        <script type="text/javascript" src="../../MochiKit/Effects.js"></script>
+        <script type="text/javascript" src="../../MochiKit/DragAndDrop.js"></script>
+    </head>
+    <body>
+        <h1>
+            Drag and Drop Sortable Tables with MochiKit
+        </h1>
+        <p>
+            View Source: [
+                <a href="index.html" class="view-source">index.html</a> 
+            ]
+        </p>
+        <ul id="dnd_sortable">
+            <li>mochibot.com</li>
+            <li>pythonmac.org</li>
+            <li>undefined.org</li>
+            <li>python.org</li>
+        </ul>
+        <p>
+            <a onclick="validate()">Validate order choice</a>
+        </p>
+<script type="text/javascript">
+Sortable.create('dnd_sortable');
+
+validate = function () {
+    var children = MochiKit.DOM.getElement("dnd_sortable").childNodes;
+    var res = '';
+    for (var i = 0; i < children.length; i++) {
+        res += children[i].firstChild.nodeValue + ' ';
+    }
+    alert(res);
+}
+</script>
+
+    </body>
+</html>
