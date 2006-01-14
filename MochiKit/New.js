@@ -39,29 +39,6 @@ MochiKit.Base.update(MochiKit.Base, {
         }, MochiKit.Base.extractScripts(str)));
     },
 
-    parseColor: function(str) {  
-        var color = '#';
-        if (str.slice(0, 4) == 'rgb(') {    
-            var cols = str.slice(4, str.length-1).split(',');
-            var i = 0;
-            do {
-                color += MochiKit.Base.toColorPart(parseInt(cols[i]));
-            } while (++i < 3);
-        } else {    
-            if (str.slice(0,1) == '#') {    
-                if (str.length == 4) {
-                    for (var i = 1; i < 4; i++) {
-                        color += (str.charAt(i) + str.charAt(i)).toLowerCase();
-                    }
-                }
-                if (str.length == 7) {
-                    color = str.toLowerCase();
-                }
-            }    
-        }    
-        return (color.length == 7 ? color : (arguments[1] || str));
-    },
-    
     toColorPart: function(num) {
         var digits = num.toString(16);
         if (num < 16) {

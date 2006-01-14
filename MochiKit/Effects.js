@@ -509,7 +509,7 @@ MochiKit.Base.update(Effect.Highlight.prototype, {
         });
 
         if (!this.options.endcolor) {
-            this.options.endcolor = MochiKit.Base.parseColor(MochiKit.DOM.getStyle(this.element, 'background-color'), '#ffffff');
+            this.options.endcolor = MochiKit.Color.Color.fromBackground(this.element).toHexString();
         }
         if(!this.options.restorecolor) {
             this.options.restorecolor = MochiKit.DOM.getStyle(this.element, 'background-color');
