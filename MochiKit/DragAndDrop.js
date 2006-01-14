@@ -246,21 +246,25 @@ DragAndDrop.Draggable.prototype = {
                                    {duration:0.2, from:1.0, to:0.7});
             },
             reverteffect: function (element, top_offset, left_offset) {
-                var dur = Math.sqrt(Math.abs(top_offset^2)+Math.abs(left_offset^2))*0.02;
-                element._revert = new Effect.Move(element, {x: -left_offset, y: -top_offset, duration: dur});
+                var dur = Math.sqrt(Math.abs(top_offset^2) +
+                          Math.abs(left_offset^2))*0.02;
+                element._revert = new Effect.Move(element, 
+                            {x: -left_offset, y: -top_offset, duration: dur});
             },
             endeffect: function (element) {
                 new Effect.Opacity(element, {duration:0.2, from:0.7, to:1.0});
             },
             zindex: 1000,
             revert: false,
-            snap: false   // false, or xy or [x, y] or function (x, y){return [x, y];}
+            // false, or xy or [x, y] or function (x, y){return [x, y];}
+            snap: false
         }, options || {});
 
         this.element = MochiKit.DOM.getElement(element);
 
         if (options.handle && (typeof options.handle == 'string')) {
-            this.handle = MochiKit.DOM.getElementsByTagAndClassName(null, options.handle, this.element)[0];
+            this.handle = MochiKit.DOM.getElementsByTagAndClassName(null,
+                                       options.handle, this.element)[0];
         }
         if (!this.handle) {
             this.handle = MochiKit.DOM.getElement(options.handle);
@@ -269,20 +273,21 @@ DragAndDrop.Draggable.prototype = {
             this.handle = this.element;
         }
 
-        MochiKit.DOM.makePositioned(this.element); // fix IE
+        MochiKit.DOM.makePositioned(this.element);  // fix IE
 
         this.delta = this.currentDelta();
         this.options = options;
         this.dragging = false;
 
-        this.eventMouseDown = MochiKit.DOM.bindAsEventListener(this.initDrag, this);
+        this.eventMouseDown = MochiKit.DOM.bindAsEventListener(this.initDrag,
+                                                               this);
         MochiKit.Event.observe(this.handle, 'mousedown', this.eventMouseDown);
-
         DragAndDrop.Draggables.register(this);
     },
 
     destroy: function () {
-        MochiKit.Event.stopObserving(this.handle, 'mousedown', this.eventMouseDown);
+        MochiKit.Event.stopObserving(this.handle, 'mousedown',
+                                     this.eventMouseDown);
         DragAndDrop.Draggables.unregister(this);
     },
 
@@ -293,38 +298,44 @@ DragAndDrop.Draggable.prototype = {
     },
 
     initDrag: function (event) {
-        if (MochiKit.Event.isLeftClick(event)) {
-            // abort on form elements, fixes a Firefox issue
-            var src = MochiKit.Event.element(event);
-            if (src.tagName && (
-                src.tagName == 'INPUT' ||
-                src.tagName == 'SELECT' ||
-                src.tagName == 'BUTTON' ||
-                src.tagName == 'TEXTAREA')) {
-                return;
-            }
-
-            if (this.element._revert) {
-                this.element._revert.cancel();
-                this.element._revert = null;
-            }
-
-            var pointer = [MochiKit.Event.pointerX(event), MochiKit.Event.pointerY(event)];
-            var pos = MochiKit.Position.cumulativeOffset(this.element);
-            this.offset = MochiKit.Base.map(function (i) {
-                return (pointer[i] - pos[i]);
-            }, [0, 1]);
-
-            DragAndDrop.Draggables.activate(this);
-            MochiKit.Event.stop(event);
+        if (!MochiKit.Event.isLeftClick(event)) {
+            return;
         }
+        // abort on form elements, fixes a Firefox issue
+        var src = MochiKit.Event.element(event);
+        if (src.tagName && (
+            src.tagName == 'INPUT' ||
+            src.tagName == 'SELECT' ||
+            src.tagName == 'BUTTON' ||
+            src.tagName == 'TEXTAREA')) {
+            return;
+        }
+
+        if (this.element._revert) {
+            this.element._revert.cancel();
+            this.element._revert = null;
+        }
+
+        var pointer = [MochiKit.Event.pointerX(event),
+                       MochiKit.Event.pointerY(event)];
+        var pos = MochiKit.Position.cumulativeOffset(this.element);
+        this.offset = MochiKit.Base.map(function (i) {
+            return (pointer[i] - pos[i]);
+        }, [0, 1]);
+
+        DragAndDrop.Draggables.activate(this);
+        MochiKit.Event.stop(event);
     },
 
     startDrag: function (event) {
         this.dragging = true;
-
+        if (this.options.selectClass) {
+            MochiKit.DOM.addElementClass(this.element,
+                                         this.options.selectClass);
+        }
         if (this.options.zindex) {
-            this.originalZ = parseInt(MochiKit.DOM.getStyle(this.element, 'z-index') || '0');
+            this.originalZ = parseInt(MochiKit.DOM.getStyle(this.element,
+                                      'z-index') || '0');
             this.element.style.zIndex = this.options.zindex;
         }
 
@@ -361,6 +372,10 @@ DragAndDrop.Draggable.prototype = {
 
     finishDrag: function (event, success) {
         this.dragging = false;
+        if (this.options.selectClass) {
+            MochiKit.DOM.removeElementClass(this.element,
+                                            this.options.selectClass);
+        }
 
         if (this.options.ghosting) {
             MochiKit.Position.relativize(this.element);
