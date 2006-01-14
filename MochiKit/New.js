@@ -39,14 +39,6 @@ MochiKit.Base.update(MochiKit.Base, {
         }, MochiKit.Base.extractScripts(str)));
     },
 
-    toColorPart: function(num) {
-        var digits = num.toString(16);
-        if (num < 16) {
-            return '0' + digits;
-        }
-        return digits;
-    },
-
     isIE: function () {
         return /MSIE/.test(navigator.userAgent);
     },

@@ -526,7 +526,7 @@ MochiKit.Base.update(Effect.Highlight.prototype, {
     update: function (position) {
         var m = '#';
         MochiKit.Iter.forEach([0, 1, 2], MochiKit.Base.bind(function (i) {
-            m += MochiKit.Base.toColorPart(Math.round(this._base[i] + (this._delta[i]*position)));
+            m += MochiKit.Color.toColorPart(Math.round(this._base[i] + (this._delta[i]*position)));
         }, this));
         MochiKit.DOM.setStyle(this.element, {
             backgroundColor: m
