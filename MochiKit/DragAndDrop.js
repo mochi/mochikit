@@ -34,7 +34,8 @@ DragAndDrop.Droppables = {
         element = MochiKit.DOM.getElement(element);
         options = MochiKit.Base.update({
             greedy: true,
-            hoverclass: null
+            hoverclass: null,
+            activeclass: null
         }, options || {});
 
         // cache containers
@@ -68,15 +69,20 @@ DragAndDrop.Droppables = {
         });
     },
 
+    isAccepted: function (element, drop) {
+        return ((!drop.accept) || MochiKit.Iter.some(drop.accept, function (d) {
+            return MochiKit.Iter.some(element.className.split(' '),
+            function (c) {
+                return c == d;
+            }
+        )}));
+    },
+
     isAffected: function (point, element, drop) {
         return (
             (drop.element != element) &&
             ((!drop._containers) || this.isContained(element, drop)) &&
-            ((!drop.accept) || MochiKit.Iter.some(drop.accept, function (d) {
-                return MochiKit.Iter.some(element.className.split(' '), function (c) {
-                    return c == d;
-                })
-            })) &&
+            (this.isAccepted(drop, element)) &&
             MochiKit.Position.within(drop.element, point[0], point[1]));
     },
 
@@ -92,6 +98,16 @@ DragAndDrop.Droppables = {
             MochiKit.DOM.addElementClass(drop.element, drop.hoverclass);
         }
         this.last_active = drop;
+    },
+
+    prepare: function (element) {
+        MochiKit.Iter.forEach(this.drops, function (drop) {
+            if (DragAndDrop.Droppables.isAccepted(element, drop)) {
+                if (drop.activeclass) {
+                    MochiKit.DOM.addElementClass(drop.element, drop.activeclass);
+                }
+            }
+        });
     },
 
     show: function (point, element) {
@@ -122,16 +138,23 @@ DragAndDrop.Droppables = {
         }
         MochiKit.Position.prepare();
 
-        if (this.isAffected([MochiKit.Event.pointerX(event), MochiKit.Event.pointerY(event)], element, this.last_active)) {
+        if (this.isAffected([MochiKit.Event.pointerX(event),
+                MochiKit.Event.pointerY(event)], element, this.last_active)) {
             if (this.last_active.onDrop) {
-                this.last_active.onDrop(element, this.last_active.element, event);
+                this.last_active.onDrop(element, this.last_active.element,
+                                        event);
             }
         }
     },
 
     reset: function () {
+        MochiKit.Iter.forEach(this.drops, function (drop) {
+            if (drop.activeclass) {
+                MochiKit.DOM.removeElementClass(drop.element, drop.activeclass);
+            }
+        });
         if (this.last_active) {
-          this.deactivate(this.last_active);
+            this.deactivate(this.last_active);
         }
     }
 };
@@ -142,9 +165,12 @@ DragAndDrop.Draggables = {
 
     register: function (draggable) {
         if (this.drags.length == 0) {
-            this.eventMouseUp = MochiKit.DOM.bindAsEventListener(this.endDrag, this);
-            this.eventMouseMove = MochiKit.DOM.bindAsEventListener(this.updateDrag, this);
-            this.eventKeypress = MochiKit.DOM.bindAsEventListener(this.keyPress, this);
+            this.eventMouseUp = MochiKit.DOM.bindAsEventListener(
+                                    this.endDrag, this);
+            this.eventMouseMove = MochiKit.DOM.bindAsEventListener(
+                                    this.updateDrag, this);
+            this.eventKeypress = MochiKit.DOM.bindAsEventListener(
+                                    this.keyPress, this);
 
             MochiKit.Event.observe(document, 'mouseup', this.eventMouseUp);
             MochiKit.Event.observe(document, 'mousemove', this.eventMouseMove);
@@ -158,14 +184,19 @@ DragAndDrop.Draggables = {
             return d != draggable
         }, this.drags);
         if (this.drags.length == 0) {
-            MochiKit.Event.stopObserving(document, 'mouseup', this.eventMouseUp);
-            MochiKit.Event.stopObserving(document, 'mousemove', this.eventMouseMove);
-            MochiKit.Event.stopObserving(document, 'keypress', this.eventKeypress);
+            MochiKit.Event.stopObserving(document, 'mouseup',
+                                         this.eventMouseUp);
+            MochiKit.Event.stopObserving(document, 'mousemove',
+                                         this.eventMouseMove);
+            MochiKit.Event.stopObserving(document, 'keypress',
+                                         this.eventKeypress);
         }
     },
 
     activate: function (draggable) {
-        window.focus(); // allows keypress events if window isn't currently focused, fails for Safari
+        // allows keypress events if window isn't currently focused
+        // fails for Safari
+        window.focus();
         this.activeDraggable = draggable;
     },
 
@@ -177,10 +208,12 @@ DragAndDrop.Draggables = {
         if (!this.activeDraggable) {
             return;
         }
-        var pointer = [MochiKit.Event.pointerX(event), MochiKit.Event.pointerY(event)];
+        var pointer = [MochiKit.Event.pointerX(event),
+                       MochiKit.Event.pointerY(event)];
         // Mozilla-based browsers fire successive mousemove events with
         // the same coordinates, prevent needless redrawing (moz bug?)
-        if (this._lastPointer && (MochiKit.Base.repr(this._lastPointer) == MochiKit.Base.repr(pointer))) {
+        if (this._lastPointer && (MochiKit.Base.repr(this._lastPointer) ==
+                                  MochiKit.Base.repr(pointer))) {
             return;
         }
         this._lastPointer = pointer;
@@ -207,15 +240,17 @@ DragAndDrop.Draggables = {
         this._cacheObserverCallbacks();
     },
 
-    removeObserver: function (element) {  // element instead of observer fixes mem leaks
+    removeObserver: function (element) {
+        // element instead of observer fixes mem leaks
         this.observers = MochiKit.Iter.ifilter(function (o) {
             return o.element != element;
         }, this.observers);
         this._cacheObserverCallbacks();
     },
 
-    notify: function (eventName, draggable, event) {  // 'onStart', 'onEnd', 'onDrag'
-        if (this[eventName+'Count'] > 0) {
+    notify: function (eventName, draggable, event) {
+        // 'onStart', 'onEnd', 'onDrag'
+        if (this[eventName + 'Count'] > 0) {
             MochiKit.Iter.forEach(this.observers, function (o) {
                 if (o[eventName]) {
                     o[eventName](eventName, draggable, event);
@@ -225,10 +260,12 @@ DragAndDrop.Draggables = {
     },
 
     _cacheObserverCallbacks: function () {
-        MochiKit.Iter.forEach(['onStart', 'onEnd', 'onDrag'], function (eventName) {
-            DragAndDrop.Draggables[eventName + 'Count'] = MochiKit.Base.filter(function (o) {
-                    return o[eventName];
-                }, DragAndDrop.Draggables.observers).length;
+        MochiKit.Iter.forEach(['onStart', 'onEnd', 'onDrag'],
+        function (eventName) {
+            DragAndDrop.Draggables[eventName + 'Count'] =
+            MochiKit.Base.filter(function (o) {
+                return o[eventName];
+            }, DragAndDrop.Draggables.observers).length;
         });
     }
 };
@@ -248,7 +285,7 @@ DragAndDrop.Draggable.prototype = {
             reverteffect: function (element, top_offset, left_offset) {
                 var dur = Math.sqrt(Math.abs(top_offset^2) +
                           Math.abs(left_offset^2))*0.02;
-                element._revert = new Effect.Move(element, 
+                element._revert = new Effect.Move(element,
                             {x: -left_offset, y: -top_offset, duration: dur});
             },
             endeffect: function (element) {
@@ -329,9 +366,9 @@ DragAndDrop.Draggable.prototype = {
 
     startDrag: function (event) {
         this.dragging = true;
-        if (this.options.selectClass) {
+        if (this.options.selectclass) {
             MochiKit.DOM.addElementClass(this.element,
-                                         this.options.selectClass);
+                                         this.options.selectclass);
         }
         if (this.options.zindex) {
             this.originalZ = parseInt(MochiKit.DOM.getStyle(this.element,
@@ -344,7 +381,7 @@ DragAndDrop.Draggable.prototype = {
             MochiKit.Position.absolutize(this.element);
             this.element.parentNode.insertBefore(this._clone, this.element);
         }
-
+        DragAndDrop.Droppables.prepare(this.element);
         DragAndDrop.Draggables.notify('onStart', this, event);
         if (this.options.starteffect) {
             this.options.starteffect(this.element);
@@ -372,12 +409,14 @@ DragAndDrop.Draggable.prototype = {
 
     finishDrag: function (event, success) {
         this.dragging = false;
-        if (this.options.selectClass) {
+        if (this.options.selectclass) {
             MochiKit.DOM.removeElementClass(this.element,
-                                            this.options.selectClass);
+                                            this.options.selectclass);
         }
 
         if (this.options.ghosting) {
+            // XXX: from a user point of view, it would be better to remove
+            // the node only *after* the Effect.Move end
             MochiKit.Position.relativize(this.element);
             MochiKit.DOM.removeElement(this._clone);
             this._clone = null;
@@ -396,7 +435,7 @@ DragAndDrop.Draggable.prototype = {
         var d = this.currentDelta();
         if (revert && this.options.reverteffect) {
             this.options.reverteffect(this.element,
-                d[1]-this.delta[1], d[0]-this.delta[0]);
+                d[1] - this.delta[1], d[0] - this.delta[0]);
         } else {
             this.delta = d;
         }
@@ -432,7 +471,8 @@ DragAndDrop.Draggable.prototype = {
     draw: function (point) {
         var pos = MochiKit.Position.cumulativeOffset(this.element);
         var d = this.currentDelta();
-        pos[0] -= d[0]; pos[1] -= d[1];
+        pos[0] -= d[0];
+        pos[1] -= d[1];
 
         var p = MochiKit.Base.map(MochiKit.Base.bind(function (i) {
             return (point[i]-pos[i]-this.offset[i])
@@ -444,22 +484,25 @@ DragAndDrop.Draggable.prototype = {
             } else {
                 if (this.options.snap instanceof Array) {
                     p = MochiKit.Base.map(MochiKit.Base.bind(function (v, i) {
-                            return Math.round(v/this.options.snap[i])*this.options.snap[i]
+                            return Math.round(v/this.options.snap[i]) *
+                                this.options.snap[i]
                         }, this), p)
                 } else {
                     p = MochiKit.Base.map(MochiKit.Base.bind(function (v) {
-                        return Math.round(v/this.options.snap)*this.options.snap
+                        return Math.round(v/this.options.snap) *
+                            this.options.snap
                         }, this), p)
                 }
             }
         }
-
         var style = this.element.style;
-        if ((!this.options.constraint) || (this.options.constraint == 'horizontal')) {
+        if ((!this.options.constraint) ||
+            (this.options.constraint == 'horizontal')) {
             style.left = p[0] + 'px';
         }
-        if ((!this.options.constraint) || (this.options.constraint == 'vertical')) {
-            style.top  = p[1] + 'px';
+        if ((!this.options.constraint) ||
+            (this.options.constraint == 'vertical')) {
+            style.top = p[1] + 'px';
         }
         if (style.visibility == 'hidden') {
             style.visibility = '';  // fix gecko rendering
@@ -531,7 +574,8 @@ var Sortable = {
             tree: false,  // fixme: unimplemented
             overlap: 'vertical',  // one of 'vertical', 'horizontal'
             constraint: 'vertical',  // one of 'vertical', 'horizontal', false
-            containment: element,  // also takes array of elements (or ids); or false
+            // also takes array of elements (or ids); or false
+            containment: element,
             handle: false,  // or a CSS class
             only: false,
             hoverclass: null,
@@ -593,16 +637,21 @@ var Sortable = {
         // drop on empty handling
         if (options.dropOnEmpty) {
             DragAndDrop.Droppables.add(element,
-            {containment: options.containment, onHover: Sortable.onEmptyHover, greedy: false});
+            {containment: options.containment,
+             onHover: Sortable.onEmptyHover,
+             greedy: false});
             options.droppables.push(element);
         }
-        MochiKit.Iter.forEach((this.findElements(element, options) || []), function (e) {
+        MochiKit.Iter.forEach((this.findElements(element, options) || []),
+        function (e) {
             // handles are per-draggable
             var handle = options.handle ?
-                MochiKit.DOM.getElementsByTagAndClassName(null, options.handle, e)[0] : e;
+                MochiKit.DOM.getElementsByTagAndClassName(null,
+                    options.handle, e)[0] : e;
             options.draggables.push(
-                new DragAndDrop.Draggable(e, MochiKit.Base.update(options_for_draggable,
-                                                          {handle: handle})));
+                new DragAndDrop.Draggable(e,
+                    MochiKit.Base.update(options_for_draggable,
+                                         {handle: handle})));
             DragAndDrop.Droppables.add(e, options_for_droppable);
             options.droppables.push(e);
         });
@@ -611,7 +660,8 @@ var Sortable = {
         this.sortables.push(options);
 
         // for onupdate
-        DragAndDrop.Draggables.addObserver(new SortableObserver(element, options.onUpdate));
+        DragAndDrop.Draggables.addObserver(
+            new SortableObserver(element, options.onUpdate));
     },
 
     // return all suitable-for-sortable elements in a guaranteed order
@@ -621,8 +671,10 @@ var Sortable = {
         }
         var elements = [];
         MochiKit.Iter.forEach(element.childNodes, function (e) {
-            if (e.tagName && e.tagName.toUpperCase() == options.tag.toUpperCase() &&
-               (!options.only || (MochiKit.DOM.hasElementClass(e, options.only)))) {
+            if (e.tagName &&
+                e.tagName.toUpperCase() == options.tag.toUpperCase() &&
+               (!options.only ||
+                (MochiKit.DOM.hasElementClass(e, options.only)))) {
                 elements.push(e);
             }
             if (options.tree) {
@@ -686,11 +738,13 @@ var Sortable = {
         }
 
         if (!Sortable._marker) {
-            Sortable._marker = MochiKit.DOM.getElement('dropmarker') || document.createElement('DIV');
+            Sortable._marker = MochiKit.DOM.getElement('dropmarker') ||
+                               document.createElement('DIV');
             MochiKit.DOM.hideElement(Sortable._marker);
             MochiKit.DOM.addElementClass(Sortable._marker, 'dropmarker');
             Sortable._marker.style.position = 'absolute';
-            document.getElementsByTagName('body').item(0).appendChild(Sortable._marker);
+            document.getElementsByTagName('body').item(0).appendChild(
+                Sortable._marker);
         }
         var offsets = MochiKit.Position.cumulativeOffset(dropon);
         Sortable._marker.style.left = offsets[0] + 'px';
@@ -698,9 +752,11 @@ var Sortable = {
 
         if (position == 'after') {
             if (sortable.overlap == 'horizontal') {
-                Sortable._marker.style.left = (offsets[0]+dropon.clientWidth) + 'px';
+                Sortable._marker.style.left = (offsets[0] +
+                                               dropon.clientWidth) + 'px';
             } else {
-                Sortable._marker.style.top = (offsets[1]+dropon.clientHeight) + 'px';
+                Sortable._marker.style.top = (offsets[1] +
+                                              dropon.clientHeight) + 'px';
             }
         }
         MochiKit.DOM.showElement(Sortable._marker);
@@ -718,8 +774,10 @@ var Sortable = {
         }, options || {});
         return MochiKit.Base.map(function (item) {
           return (encodeURIComponent(options.name) + '[]=' +
-                  encodeURIComponent(item.id.match(options.format) ? item.id.match(options.format)[1] : ''));
-        }, MochiKit.DOM.getElement(this.findElements(element, options) || [])).join('&');
+                  encodeURIComponent(item.id.match(options.format) ?
+                    item.id.match(options.format)[1] : ''));
+        }, MochiKit.DOM.getElement(
+            this.findElements(element, options) || [])).join('&');
     }
 };
 
