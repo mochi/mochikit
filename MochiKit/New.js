@@ -201,8 +201,9 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (pos == 'static' || !pos) {
             element._madePositioned = true;
             element.style.position = 'relative';
-            // Opera returns the offset relative to the positioning context, when an
-            // element is position relative but top and left have not been defined
+            // Opera returns the offset relative to the positioning context,
+            // when an element is position relative but top and left have
+            // not been defined
             if (MochiKit.Base.isOpera()) {
                 element.style.top = 0;
                 element.style.left = 0;
@@ -376,8 +377,10 @@ MochiKit.Position = {
         MochiKit.Position.prepare();
 
         element.style.position = 'relative';
-        var top = parseFloat(element.style.top || 0) - (element._originalTop || 0);
-        var left = parseFloat(element.style.left || 0) - (element._originalLeft || 0);
+        var top = parseFloat(element.style.top || 0) -
+                  (element._originalTop || 0);
+        var left = parseFloat(element.style.left || 0) -
+                   (element._originalLeft || 0);
 
         element.style.top = top + 'px';
         element.style.left = left + 'px';
@@ -399,14 +402,14 @@ MochiKit.Position = {
 
 MochiKit.Event = {
     KEY_BACKSPACE: 8,
-    KEY_TAB:       9,
-    KEY_RETURN:   13,
-    KEY_ESC:      27,
-    KEY_LEFT:     37,
-    KEY_UP:       38,
-    KEY_RIGHT:    39,
-    KEY_DOWN:     40,
-    KEY_DELETE:   46,
+    KEY_TAB: 9,
+    KEY_RETURN: 13,
+    KEY_ESC: 27,
+    KEY_LEFT: 37,
+    KEY_UP: 38,
+    KEY_RIGHT: 39,
+    KEY_DOWN: 40,
+    KEY_DELETE: 46,
 
     element: function (event) {
         return event.target || event.srcElement;
@@ -677,7 +680,8 @@ Ajax.Request = function (url, options) {
     this.__init__(url, options);
 };
 
-Ajax.Request.Events = ['Uninitialized', 'Loading', 'Loaded', 'Interactive', 'Complete'];
+Ajax.Request.Events = ['Uninitialized', 'Loading', 'Loaded',
+                       'Interactive', 'Complete'];
 
 MochiKit.Base.update(Ajax.Request.prototype, Ajax.Base.prototype);
 
@@ -701,7 +705,8 @@ MochiKit.Base.update(Ajax.Request.prototype, {
             }
             Ajax.Responders.dispatch('onCreate', this, this.transport);
 
-            this.transport.open(this.options.method, this.url, this.options.asynchronous);
+            this.transport.open(this.options.method, this.url,
+                                this.options.asynchronous);
 
             if (this.options.asynchronous) {
                 this.transport.onreadystatechange = MochiKit.Base.bind(this.onStateChange, this);
@@ -716,7 +721,7 @@ MochiKit.Base.update(Ajax.Request.prototype, {
             this.transport.send(this.options.method == 'post' ? body : null);
 
         } catch (e) {
-               this.dispatchException(e);
+            this.dispatchException(e);
         }
     },
 
@@ -724,10 +729,11 @@ MochiKit.Base.update(Ajax.Request.prototype, {
         var requestHeaders = ['X-Requested-With', 'XMLHttpRequest'];
 
         if (this.options.method == 'post') {
-            requestHeaders.push('Content-type', 'application/x-www-form-urlencoded');
+            requestHeaders.push('Content-type',
+                                'application/x-www-form-urlencoded');
 
             /* Force 'Connection: close' for Mozilla browsers to work around
-             * a bug where XMLHttpReqeuest sends an incorrect Content-length
+             * a bug where XMLHttpRequest sends an incorrect Content-length
              * header. See Mozilla Bugzilla #246651.
              */
             if (this.transport.overrideMimeType) {
@@ -846,7 +852,8 @@ MochiKit.Base.update(Ajax.Updater.prototype, {
             if (this.options.insertion) {
                 new this.options.insertion(receiver, response);
             } else {
-                MochiKit.DOM.getElement(receiver).innerHTML = MochiKit.Base.stripScripts(response);
+                MochiKit.DOM.getElement(receiver).innerHTML =
+                    MochiKit.Base.stripScripts(response);
                 setTimeout(function() {
                     MochiKit.Base.evalScripts(response);
                 }, 10);

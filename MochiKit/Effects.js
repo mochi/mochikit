@@ -749,7 +749,8 @@ Effect.Shake = function (element) {
 Effect.SlideDown = function (element, options) {
     element = MochiKit.DOM.getElement(element);
     MochiKit.DOM.cleanWhitespace(element);
-    // SlideDown need to have the content of the element wrapped in a container element with fixed height!
+    // SlideDown need to have the content of the element wrapped in
+    // a container element with fixed height!
     var oldInnerBottom = MochiKit.DOM.getStyle(element.firstChild, 'bottom');
     var elementDimensions = MochiKit.DOM.elementDimensions(element);
     options = MochiKit.Base.update({

@@ -30,81 +30,16 @@ DragAndDrop.Droppables = {
         }, this.drops);
     },
 
-    add: function (element, options) {
-        element = MochiKit.DOM.getElement(element);
-        options = MochiKit.Base.update({
-            greedy: true,
-            hoverclass: null,
-            activeclass: null
-        }, options || {});
-
-        // cache containers
-        if (options.containment) {
-            options._containers = [];
-            var containment = options.containment;
-            if ((typeof containment == 'object') &&
-                (containment.constructor == Array)) {
-                MochiKit.Iter.forEach(containment, function (c) {
-                    options._containers.push(MochiKit.DOM.getElement(c));
-                });
-            } else {
-                options._containers.push(MochiKit.DOM.getElement(containment));
-            }
-        }
-
-        if (options.accept) {
-            options.accept = MochiKit.Iter.flatten([options.accept]);
-        }
-
-        MochiKit.DOM.makePositioned(element); // fix IE
-        options.element = element;
-
-        this.drops.push(options);
-    },
-
-    isContained: function (element, drop) {
-        var parentNode = element.parentNode;
-        return MochiKit.Iter.some(drop._containers, function (c) {
-            return parentNode == c;
-        });
-    },
-
-    isAccepted: function (element, drop) {
-        return ((!drop.accept) || MochiKit.Iter.some(drop.accept, function (d) {
-            return MochiKit.Iter.some(element.className.split(' '),
-            function (c) {
-                return c == d;
-            }
-        )}));
-    },
-
-    isAffected: function (point, element, drop) {
-        return (
-            (drop.element != element) &&
-            ((!drop._containers) || this.isContained(element, drop)) &&
-            (this.isAccepted(drop, element)) &&
-            MochiKit.Position.within(drop.element, point[0], point[1]));
-    },
-
-    deactivate: function (drop) {
-        if (drop.hoverclass) {
-            MochiKit.DOM.removeElementClass(drop.element, drop.hoverclass);
-        }
-        this.last_active = null;
-    },
-
-    activate: function (drop) {
-        if (drop.hoverclass) {
-            MochiKit.DOM.addElementClass(drop.element, drop.hoverclass);
-        }
-        this.last_active = drop;
+    register: function (drop) {
+        this.drops.push(drop);
     },
 
     prepare: function (element) {
         MochiKit.Iter.forEach(this.drops, function (drop) {
-            if (DragAndDrop.Droppables.isAccepted(element, drop)) {
-                if (drop.activeclass) {
-                    MochiKit.DOM.addElementClass(drop.element, drop.activeclass);
+            if (drop.isAccepted(element)) {
+                if (drop.options.activeclass) {
+                    MochiKit.DOM.addElementClass(drop.element,
+                                                 drop.options.activeclass);
                 }
             }
         });
@@ -116,16 +51,17 @@ DragAndDrop.Droppables = {
         }
 
         if (this.last_active) {
-            this.deactivate(this.last_active);
+            this.last_active.deactivate();
         }
         MochiKit.Iter.forEach(this.drops, function (drop) {
-            if (DragAndDrop.Droppables.isAffected(point, element, drop)) {
-                if (drop.onHover) {
-                    drop.onHover(element, drop.element,
-                       MochiKit.Position.overlap(drop.overlap, drop.element));
+            if (drop.isAffected(point, element)) {
+                if (drop.options.onHover) {
+                    drop.options.onHover(element, drop.element,
+                       MochiKit.Position.overlap(drop.options.overlap,
+                                                 drop.element));
                 }
-                if (drop.greedy) {
-                    DragAndDrop.Droppables.activate(drop);
+                if (drop.options.greedy) {
+                    drop.activate();
                     throw MochiKit.Iter.StopIteration;
                 }
             }
@@ -138,24 +74,100 @@ DragAndDrop.Droppables = {
         }
         MochiKit.Position.prepare();
 
-        if (this.isAffected([MochiKit.Event.pointerX(event),
-                MochiKit.Event.pointerY(event)], element, this.last_active)) {
-            if (this.last_active.onDrop) {
-                this.last_active.onDrop(element, this.last_active.element,
-                                        event);
+        if (this.last_active.isAffected([MochiKit.Event.pointerX(event),
+                MochiKit.Event.pointerY(event)], element)) {
+            if (this.last_active.options.onDrop) {
+                this.last_active.options.onDrop(element,
+                   this.last_active.element, event);
             }
         }
     },
 
     reset: function () {
         MochiKit.Iter.forEach(this.drops, function (drop) {
-            if (drop.activeclass) {
-                MochiKit.DOM.removeElementClass(drop.element, drop.activeclass);
+            if (drop.options.activeclass) {
+                MochiKit.DOM.removeElementClass(drop.element,
+                                                drop.options.activeclass);
             }
         });
         if (this.last_active) {
-            this.deactivate(this.last_active);
+            this.last_active.deactivate();
         }
+    }
+};
+
+DragAndDrop.Droppable = function (element, options) {
+    this.__init__(element, options);
+};
+
+DragAndDrop.Droppable.prototype = {
+    __init__: function (element, options) {
+        this.element = MochiKit.DOM.getElement(element);
+        this.options = MochiKit.Base.update({
+            greedy: true,
+            hoverclass: null,
+            activeclass: null
+        }, options || {});
+
+        // cache containers
+        if (this.options.containment) {
+            this.options._containers = [];
+            var containment = this.options.containment;
+            if ((typeof containment == 'object') &&
+                (containment.constructor == Array)) {
+                MochiKit.Iter.forEach(containment, function (c) {
+                    this.options._containers.push(MochiKit.DOM.getElement(c));
+                });
+            } else {
+                this.options._containers.push(MochiKit.DOM.getElement(containment));
+            }
+        }
+
+        if (this.options.accept) {
+            this.options.accept = MochiKit.Iter.flatten([this.options.accept]);
+        }
+
+        MochiKit.DOM.makePositioned(this.element); // fix IE
+
+        DragAndDrop.Droppables.register(this);
+    },
+
+    isContained: function (element) {
+        var parentNode = element.parentNode;
+        return MochiKit.Iter.some(this._containers, function (c) {
+            return parentNode == c;
+        });
+    },
+
+    isAccepted: function (element) {
+        return ((!this.accept) || MochiKit.Iter.some(this.accept, function (d) {
+            return MochiKit.Iter.some(element.className.split(' '),
+            function (c) {
+                return c == d;
+            }
+        )}));
+    },
+
+    isAffected: function (point, element) {
+        return (
+            (this.element != element) &&
+            ((!this._containers) || this.isContained(element)) &&
+            (this.isAccepted(element)) &&
+            MochiKit.Position.within(this.element, point[0], point[1]));
+    },
+
+    deactivate: function () {
+        if (this.options.hoverclass) {
+            MochiKit.DOM.removeElementClass(this.element, this.options.hoverclass);
+        }
+        DragAndDrop.Droppables.last_active = null;
+    },
+
+    activate: function () {
+        if (this.options.hoverclass) {
+            MochiKit.DOM.addElementClass(this.element, this.options.hoverclass);
+        }
+        DragAndDrop.Droppables.last_active = this;
     }
 };
 
@@ -566,8 +578,7 @@ var Sortable = {
 
     create: function (element, options) {
         element = MochiKit.DOM.getElement(element);
-        options = MochiKit.Base.update(
-        {
+        options = MochiKit.Base.update({
             element: element,
             tag: 'li',  // assumes li children, override with tag: 'tagname'
             dropOnEmpty: false,
@@ -601,7 +612,7 @@ var Sortable = {
         }
 
         if (options.reverteffect) {
-          options_for_draggable.reverteffect = options.reverteffect;
+            options_for_draggable.reverteffect = options.reverteffect;
         } else if (options.ghosting) {
             options_for_draggable.reverteffect = function (element) {
                 element.style.top = 0;
@@ -636,7 +647,7 @@ var Sortable = {
 
         // drop on empty handling
         if (options.dropOnEmpty) {
-            DragAndDrop.Droppables.add(element,
+            new DragAndDrop.Droppable(element,
             {containment: options.containment,
              onHover: Sortable.onEmptyHover,
              greedy: false});
@@ -652,7 +663,7 @@ var Sortable = {
                 new DragAndDrop.Draggable(e,
                     MochiKit.Base.update(options_for_draggable,
                                          {handle: handle})));
-            DragAndDrop.Droppables.add(e, options_for_droppable);
+            new DragAndDrop.Droppable(e, options_for_droppable);
             options.droppables.push(e);
         });
 
