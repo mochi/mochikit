@@ -681,7 +681,7 @@ Effect.Fade = function (element, options) {
         from: MochiKit.DOM.getOpacity(element) || 1.0,
         to: 0.0,
         afterFinishInternal: function (effect) {
-            if (!effect.options.to) {
+            if (effect.options.to !== 0) {
                 return;
             }
             MochiKit.DOM.hideElement(effect.element);
