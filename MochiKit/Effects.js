@@ -33,8 +33,8 @@ var Effect = {
 
     multiple: function (element, effect, options) {
         var elements;
-        if (((typeof element == 'object') ||
-             (typeof element == 'function')) &&
+        if (((typeof(element) == 'object') ||
+             (typeof(element) == 'function')) &&
             (element.length)) {
             elements = element;
         } else {
@@ -114,7 +114,7 @@ MochiKit.Base.update(Effect.ScopedQueue.prototype, {
     add: function (effect) {
         var timestamp = new Date().getTime();
 
-        var position = (typeof effect.options.queue == 'string') ?
+        var position = (typeof(effect.options.queue) == 'string') ?
             effect.options.queue : effect.options.queue.position;
 
         switch(position) {
@@ -169,7 +169,7 @@ MochiKit.Base.update(Effect.ScopedQueue.prototype, {
 Effect.Queues = {
     instances: new Array(),
     get: function (queueName) {
-        if (typeof queueName != 'string') {
+        if (typeof(queueName) != 'string') {
             return queueName;
         }
 
@@ -206,7 +206,7 @@ Effect.Base.prototype = {
         this.finishOn = this.startOn + (this.options.duration*1000);
         this.event('beforeStart');
         if (!this.options.sync) {
-            Effect.Queues.get(typeof this.options.queue == 'string' ?
+            Effect.Queues.get(typeof(this.options.queue) == 'string' ?
                 'global' : this.options.queue.scope).add(this);
         }
     },
@@ -258,7 +258,7 @@ Effect.Base.prototype = {
 
     cancel: function () {
         if (!this.options.sync) {
-            Effect.Queues.get(typeof this.options.queue == 'string' ?
+            Effect.Queues.get(typeof(this.options.queue) == 'string' ?
                 'global' : this.options.queue.scope).remove(this);
         }
         this.state = 'finished';

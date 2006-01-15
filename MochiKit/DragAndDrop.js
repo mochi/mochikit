@@ -113,7 +113,7 @@ DragAndDrop.Droppable.prototype = {
         if (this.options.containment) {
             this.options._containers = [];
             var containment = this.options.containment;
-            if ((typeof containment == 'object') &&
+            if ((typeof(containment) == 'object') &&
                 (containment.constructor == Array)) {
                 MochiKit.Iter.forEach(containment, function (c) {
                     this.options._containers.push(MochiKit.DOM.getElement(c));
@@ -311,7 +311,7 @@ DragAndDrop.Draggable.prototype = {
 
         this.element = MochiKit.DOM.getElement(element);
 
-        if (options.handle && (typeof options.handle == 'string')) {
+        if (options.handle && (typeof(options.handle) == 'string')) {
             this.handle = MochiKit.DOM.getElementsByTagAndClassName(null,
                                        options.handle, this.element)[0];
         }
@@ -440,7 +440,7 @@ DragAndDrop.Draggable.prototype = {
         DragAndDrop.Draggables.notify('onEnd', this, event);
 
         var revert = this.options.revert;
-        if (revert && typeof revert == 'function') {
+        if (revert && typeof(revert) == 'function') {
             revert = revert(this.element);
         }
 
@@ -491,7 +491,7 @@ DragAndDrop.Draggable.prototype = {
         }, this), [0, 1]);
 
         if (this.options.snap) {
-            if (typeof this.options.snap == 'function') {
+            if (typeof(this.options.snap) == 'function') {
                 p = this.options.snap(p[0], p[1]);
             } else {
                 if (this.options.snap instanceof Array) {

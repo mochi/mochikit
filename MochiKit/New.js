@@ -634,7 +634,8 @@ Ajax.Responders = {
 
     dispatch: function (callback, request, transport, json) {
         MochiKit.Iter.forEach(this.responders, function (responder) {
-            if (responder[callback] && typeof responder[callback] == 'function') {
+            if (responder[callback] && 
+                typeof(responder[callback]) == 'function') {
                 try {
                     responder[callback].apply(responder, [request, transport, json]);
                 } catch (e) {}
