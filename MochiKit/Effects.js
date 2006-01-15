@@ -641,12 +641,16 @@ MochiKit.Base.update(Effect.ScrollTo.prototype, {
         if (this.options.offset) {
             offsets[1] += this.options.offset;
         }
-        var max = window.innerHeight ?
-            window.height - window.innerHeight :
-            document.body.scrollHeight -
-                (document.documentElement.clientHeight ?
-                    document.documentElement.clientHeight :
-                    document.body.clientHeight);
+        var max;
+        if (window.innerHeight && window.height) {
+            max = window.innerHeight - window.height;
+        } else if (document.documentElement &&
+                   document.documentElement.clientHeight) {
+            max = document.documentElement.clientHeight -
+                  document.body.scrollHeight;
+        } else if (document.body) {
+            max = document.body.clientHeight - document.body.scrollHeight;
+        }
         this.scrollStart = MochiKit.Position.deltaY;
         this.delta = (offsets[1] > max ? max : offsets[1]) - this.scrollStart;
     },
