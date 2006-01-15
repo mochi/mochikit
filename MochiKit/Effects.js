@@ -613,7 +613,7 @@ MochiKit.Base.update(Effect.Highlight.prototype, {
     finish: function () {
         MochiKit.DOM.setStyle(this.element,
             MochiKit.Base.update(this.oldStyle, {
-            backgroundColor: this.options.endColor
+                backgroundColor: this.options.endColor
         }));
     }
 });
@@ -669,12 +669,19 @@ Combination effects.
 ***/
 
 Effect.Fade = function (element, options) {
+    /***
+
+    Fade a given element: change its opacity and hide it in the end.
+
+    @param options: 'to' and 'from' to change opacity.
+
+    ***/
     var oldOpacity = MochiKit.DOM.getInlineOpacity(element);
     options = MochiKit.Base.update({
         from: MochiKit.DOM.getOpacity(element) || 1.0,
         to: 0.0,
         afterFinishInternal: function (effect) {
-            if (effect.options.to != 0) {
+            if (!effect.options.to) {
                 return;
             }
             MochiKit.DOM.hideElement(effect.element);
@@ -685,8 +692,16 @@ Effect.Fade = function (element, options) {
 };
 
 Effect.Appear = function (element, options) {
+    /***
+
+    Make an element appear.
+
+    @param options: 'to' and 'from' to change opacity.
+
+    ***/
     options = MochiKit.Base.update({
-        from: (MochiKit.DOM.getStyle(element, 'display') == 'none' ? 0.0 : MochiKit.DOM.getOpacity(element) || 0.0),
+        from: (MochiKit.DOM.getStyle(element, 'display') == 'none' ? 0.0 :
+               MochiKit.DOM.getOpacity(element) || 0.0),
         to: 1.0,
         beforeSetup: function (effect) {
             MochiKit.DOM.setOpacity(effect.element, effect.options.from);
@@ -697,6 +712,13 @@ Effect.Appear = function (element, options) {
 };
 
 Effect.Puff = function (element, options) {
+    /***
+
+    'Puff' an element: grow it to double size, fading it and make it hidden.
+
+    @param options: 'duration' in seconds for the effect, default to 1.0.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     var oldStyle = {
         opacity: MochiKit.DOM.getInlineOpacity(element),
@@ -705,7 +727,8 @@ Effect.Puff = function (element, options) {
     options = MochiKit.Base.update({
         duration: 1.0,
         beforeSetupInternal: function (effect) {
-            MochiKit.DOM.setStyle(effect.effects[0].element, {position: 'absolute'});
+            MochiKit.DOM.setStyle(effect.effects[0].element,
+                                  {position: 'absolute'});
         },
         afterFinishInternal: function (effect) {
             MochiKit.DOM.hideElement(effect.effects[0].element);
@@ -713,15 +736,20 @@ Effect.Puff = function (element, options) {
         }
     }, options || {});
     return new Effect.Parallel(
-     [new Effect.Scale(element, 200,
+        [new Effect.Scale(element, 200,
             {sync: true, scaleFromCenter: true,
              scaleContent: true, restoreAfterFinish: true}),
-      new Effect.Opacity(element, {sync: true, to: 0.0 })],
-      options
+         new Effect.Opacity(element, {sync: true, to: 0.0 })],
+        options
     );
 };
 
 Effect.BlindUp = function (element, options) {
+    /***
+
+    Blind an element up: change its vertical size to 0.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     MochiKit.DOM.makeClipping(element);
     options = MochiKit.Base.update({
@@ -738,6 +766,11 @@ Effect.BlindUp = function (element, options) {
 };
 
 Effect.BlindDown = function (element, options) {
+    /***
+
+    Blind an element down: restore its vertical size.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     var oldHeight = MochiKit.DOM.getStyle(element, 'height');
     var elementDimensions = MochiKit.DOM.elementDimensions(element);
@@ -762,6 +795,11 @@ Effect.BlindDown = function (element, options) {
 };
 
 Effect.SwitchOff = function (element) {
+    /***
+
+    Apply a switch-off-like effect.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     var oldOpacity = MochiKit.DOM.getInlineOpacity(element);
     var optionsScale = {
@@ -792,6 +830,11 @@ Effect.SwitchOff = function (element) {
 };
 
 Effect.DropOut = function (element, options) {
+    /***
+
+    Make an element fall and disappear.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     var oldStyle = {
         top: MochiKit.DOM.getStyle(element, 'top'),
@@ -817,32 +860,42 @@ Effect.DropOut = function (element, options) {
 };
 
 Effect.Shake = function (element) {
+    /***
+
+    Move an element from left to right several times.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     var oldStyle = {
         top: MochiKit.DOM.getStyle(element, 'top'),
         left: MochiKit.DOM.getStyle(element, 'left') };
         return new Effect.Move(element,
-            {x: 20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
+          {x: 20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
         new Effect.Move(effect.element,
-            {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
+          {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
         new Effect.Move(effect.element,
-            {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
+           {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
         new Effect.Move(effect.element,
-            {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
+          {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
         new Effect.Move(effect.element,
-            {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
+           {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
         new Effect.Move(effect.element,
-            {x: -20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
+         {x: -20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
                 MochiKit.DOM.undoPositioned(effect.element);
                 MochiKit.DOM.setStyle(effect.element, oldStyle);
     }}) }}) }}) }}) }}) }});
 };
 
 Effect.SlideDown = function (element, options) {
+    /***
+
+    Slide an element down.
+    It needs to have the content of the element wrapped in a container
+    element with fixed height.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     MochiKit.DOM.cleanWhitespace(element);
-    // SlideDown need to have the content of the element wrapped in
-    // a container element with fixed height!
     var oldInnerBottom = MochiKit.DOM.getStyle(element.firstChild, 'bottom');
     var elementDimensions = MochiKit.DOM.elementDimensions(element);
     options = MochiKit.Base.update({
@@ -870,7 +923,8 @@ Effect.SlideDown = function (element, options) {
             MochiKit.DOM.undoClipping(effect.element);
             MochiKit.DOM.undoPositioned(effect.element.firstChild);
             MochiKit.DOM.undoPositioned(effect.element);
-            MochiKit.DOM.setStyle(effect.element.firstChild, {bottom: oldInnerBottom});
+            MochiKit.DOM.setStyle(effect.element.firstChild,
+                                  {bottom: oldInnerBottom});
         }
     }, options || {});
 
@@ -878,6 +932,13 @@ Effect.SlideDown = function (element, options) {
 };
 
 Effect.SlideUp = function (element, options) {
+    /***
+
+    Slide an element up.
+    It needs to have the content of the element wrapped in a container
+    element with fixed height.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     MochiKit.DOM.cleanWhitespace(element);
     var oldInnerBottom = MochiKit.DOM.getStyle(element.firstChild, 'bottom');
@@ -911,21 +972,35 @@ Effect.SlideUp = function (element, options) {
     return new Effect.Scale(element, 0, options);
 };
 
-// Bug in opera makes the TD containing this element expand for a instance after finish
-Effect.Squish = function (element) {
-    return new Effect.Scale(element, MochiKit.Base.isOpera() ? 1 : 0,
-        {restoreAfterFinish: true,
-         beforeSetup: function (effect) {
+// Bug in opera makes the TD containing this element expand for a instance
+// after finish
+Effect.Squish = function (element, options) {
+    /***
+
+    Reduce an element and make it disappear.
+
+    ***/
+    options = MochiKit.Base.update({
+        restoreAfterFinish: true,
+        beforeSetup: function (effect) {
              MochiKit.DOM.makeClipping(effect.element);
-         },
-         afterFinishInternal: function (effect) {
+        },
+        afterFinishInternal: function (effect) {
               MochiKit.DOM.hideElement(effect.element);
               MochiKit.DOM.undoClipping(effect.element);
-         }
-    });
+        }
+    }, options || {});
+
+    return new Effect.Scale(element, MochiKit.Base.isOpera() ? 1 : 0, options);
 };
 
 Effect.Grow = function (element, options) {
+    /***
+
+    Grow an element to its original size. Make it zero-sized before
+    if necessary.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     options = MochiKit.Base.update({
         direction: 'center',
@@ -996,10 +1071,12 @@ Effect.Grow = function (element, options) {
         afterFinishInternal: function (effect) {
             new Effect.Parallel(
                 [new Effect.Opacity(effect.element, {
-                    sync: true, to: 1.0, from: 0.0, transition: options.opacityTransition
+                    sync: true, to: 1.0, from: 0.0,
+                    transition: options.opacityTransition
                  }),
                  new Effect.Move(effect.element, {
-                     x: moveX, y: moveY, sync: true, transition: options.moveTransition
+                     x: moveX, y: moveY, sync: true,
+                     transition: options.moveTransition
                  }),
                  new Effect.Scale(effect.element, 100, {
                         scaleMode: {originalHeight: dims.h,
@@ -1016,6 +1093,11 @@ Effect.Grow = function (element, options) {
 };
 
 Effect.Shrink = function (element, options) {
+    /***
+
+    Shrink an element and make it disappear.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     options = MochiKit.Base.update({
         direction: 'center',
@@ -1055,8 +1137,7 @@ Effect.Shrink = function (element, options) {
             break;
     }
 
-    var optionsParallel = MochiKit.Base.update(
-    {
+    var optionsParallel = MochiKit.Base.update({
         beforeStartInternal: function (effect) {
             MochiKit.DOM.makePositioned(effect.effects[0].element);
             MochiKit.DOM.makeClipping(effect.effects[0].element);
@@ -1086,25 +1167,35 @@ Effect.Shrink = function (element, options) {
 };
 
 Effect.Pulsate = function (element, options) {
+    /***
+
+    Pulse an element between appear/fade.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     options = MochiKit.Base.update({
         duration: 3.0,
         from: 0,
         afterFinishInternal: function (effect) {
             MochiKit.DOM.setStyle(effect.element, {opacity: oldOpacity});
-        },
-        transition: reverser
+        }
     }, options || {});
     var oldOpacity = MochiKit.DOM.getInlineOpacity(element);
     var transition = options.transition || Effect.Transitions.sinoidal;
-    var reverser = function (pos) {
+    var reverser = MochiKit.Base.bind(function (pos) {
         return transition(1 - Effect.Transitions.pulse(pos));
-    };
+    }, transition);
     MochiKit.Base.bind(reverser, transition);
-    return new Effect.Opacity(element, options);
+    return new Effect.Opacity(element, MochiKit.Base.update({
+        transition: reverser}, options));
 };
 
 Effect.Fold = function (element, options) {
+    /***
+
+    Fold an element, first vertically, then horizontally.
+
+    ***/
     element = MochiKit.DOM.getElement(element);
     var oldStyle = {
         top: element.style.top,
