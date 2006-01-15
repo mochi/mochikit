@@ -13,6 +13,7 @@ See scriptaculous.js for full license.
 
 var Effect = {
     tagifyText: function (element) {
+        // XXX: what's this function for ? Doesn't work
         var tagifyStyle = 'position:relative';
         if (MochiKit.Base.isIE()) {
             tagifyStyle += ';zoom:1';
@@ -32,6 +33,7 @@ var Effect = {
     },
 
     multiple: function (element, effect, options) {
+        // XXX: what's this function for ? Doesn't work
         var elements;
         if (((typeof(element) == 'object') ||
              (typeof(element) == 'function')) &&
@@ -58,18 +60,29 @@ var Effect = {
         'appear': ['Appear','Fade']
     },
 
-    toggle: function (element, effect, options) {
+    toggle: function (element, /* optional */effect, /* optional */options) {
+    /***
+
+    Toggle an item between two state depending of its visibility, making
+    a effect between these states. Default  effect is 'appear', can be
+    'slide' or 'blind'.
+
+    ***/
         element = MochiKit.DOM.getElement(element);
         effect = (effect || 'appear').toLowerCase();
         options = MochiKit.Base.update({
             queue: {position: 'end', scope: (element.id || 'global')}
         }, options || {});
         Effect[MochiKit.DOM.isVisible(element) ?
-            Effect.PAIRS[effect][1] : Effect.PAIRS[effect][0]](element, options);
+          Effect.PAIRS[effect][1] : Effect.PAIRS[effect][0]](element, options);
     }
 };
 
-/* ------------- transitions ------------- */
+/***
+
+Transitions: define functions calculating variations depending of a position.
+
+***/
 
 Effect.Transitions = {}
 
@@ -79,8 +92,8 @@ Effect.Transitions.linear = function (pos) {
 Effect.Transitions.sinoidal = function (pos) {
     return (-Math.cos(pos*Math.PI)/2) + 0.5;
 }
-Effect.Transitions.reverse    = function (pos) {
-    return 1-pos;
+Effect.Transitions.reverse = function (pos) {
+    return 1 - pos;
 }
 Effect.Transitions.flicker = function (pos) {
     return ((-Math.cos(pos*Math.PI)/4) + 0.75) + Math.random()/4;
@@ -90,7 +103,7 @@ Effect.Transitions.wobble = function (pos) {
 }
 Effect.Transitions.pulse = function (pos) {
     return (Math.floor(pos*10) % 2 == 0 ?
-        (pos*10-Math.floor(pos*10)) : 1-(pos*10-Math.floor(pos*10)));
+        (pos*10 - Math.floor(pos*10)) : 1 - (pos*10 - Math.floor(pos*10)));
 }
 Effect.Transitions.none = function (pos) {
     return 0;
@@ -99,7 +112,11 @@ Effect.Transitions.full = function (pos) {
     return 1;
 }
 
-/* ------------- core effects ------------- */
+/***
+
+Core effects
+
+***/
 
 Effect.ScopedQueue = function () {
     this.__init__();
@@ -144,7 +161,8 @@ MochiKit.Base.update(Effect.ScopedQueue.prototype, {
         effect.finishOn += timestamp;
         this.effects.push(effect);
         if (!this.interval) {
-            this.interval = setInterval(MochiKit.Base.bind(this.loop, this), 40);
+            this.interval = setInterval(MochiKit.Base.bind(this.loop, this),
+                                        40);
         }
     },
 
@@ -168,6 +186,7 @@ MochiKit.Base.update(Effect.ScopedQueue.prototype, {
 
 Effect.Queues = {
     instances: new Array(),
+
     get: function (queueName) {
         if (typeof(queueName) != 'string') {
             return queueName;
@@ -196,10 +215,17 @@ Effect.DefaultOptions = {
 Effect.Base = function () {};
 
 Effect.Base.prototype = {
+    /***
+
+    Basic class for all Effects. Define a looping mecanism called for each step
+    of an effect. Don't instanciate it, only subclass it.
+
+    ***/
     position: null,
 
     start: function (options) {
-        this.options = MochiKit.Base.setdefault(options || {}, Effect.DefaultOptions);
+        this.options = MochiKit.Base.setdefault(options || {},
+                                                Effect.DefaultOptions);
         this.currentFrame = 0;
         this.state = 'idle';
         this.startOn = this.options.delay*1000;
@@ -224,7 +250,8 @@ Effect.Base.prototype = {
                 return;
             }
             var pos = (timePos - this.startOn) / (this.finishOn - this.startOn);
-            var frame = Math.round(pos * this.options.fps * this.options.duration);
+            var frame =
+                Math.round(pos * this.options.fps * this.options.duration);
             if (frame > this.currentFrame) {
                 this.render(pos);
                 this.currentFrame = frame;
@@ -274,7 +301,8 @@ Effect.Base.prototype = {
     },
 
     __repr__: function () {
-        return '<Effect:' + MochiKit.Base.repr(this) + ', options:' + MochiKit.Base.repr(this.options) + '>';
+        return '<Effect:' + MochiKit.Base.repr(this) + ', options:' +
+               MochiKit.Base.repr(this.options) + '>';
     }
 }
 
@@ -285,6 +313,11 @@ Effect.Parallel = function (effects, options) {
 MochiKit.Base.update(Effect.Parallel.prototype, Effect.Base.prototype);
 
 MochiKit.Base.update(Effect.Parallel.prototype, {
+    /***
+
+    Run multiple effects at the same time.
+
+    ***/
     __init__: function (effects, options) {
         this.effects = effects || [];
         this.start(options);
@@ -316,7 +349,15 @@ Effect.Opacity = function (element, options) {
 MochiKit.Base.update(Effect.Opacity.prototype, Effect.Base.prototype);
 
 MochiKit.Base.update(Effect.Opacity.prototype, {
-    __init__: function (element, options) {
+    /***
+
+    Change the opacity of an element.
+
+    @param options: 'from' and 'to' change the starting and ending opacities.
+    Must be between 0.0 and 1.0. Default to current opacity and 1.0.
+
+    ***/
+    __init__: function (element, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element);
         // make this work on IE on elements without 'layout'
         if (MochiKit.Base.isIE() && (!this.element.hasLayout)) {
@@ -341,7 +382,14 @@ Effect.Move = function (element, options) {
 MochiKit.Base.update(Effect.Move.prototype, Effect.Base.prototype);
 
 MochiKit.Base.update(Effect.Move.prototype, {
-    __init__: function (element, options) {
+    /***
+
+    Move an element between its current position to a defined position
+
+    @param options: 'x' and 'y' for final positions, default to 0, 0.
+
+    ***/
+    __init__: function (element, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element);
         options = MochiKit.Base.update({
             x: 0,
@@ -352,13 +400,15 @@ MochiKit.Base.update(Effect.Move.prototype, {
     },
 
     setup: function () {
-        // Bug in Opera: Opera returns the 'real' position of a static element or
-        // relative element that does not have top/left explicitly set.
-        // ==> Always set top and left for position relative elements in your stylesheets
-        // (to 0 if you do not need them)
+        // Bug in Opera: Opera returns the 'real' position of a static element
+        // or relative element that does not have top/left explicitly set.
+        // ==> Always set top and left for position relative elements in your
+        // stylesheets (to 0 if you do not need them)
         MochiKit.DOM.makePositioned(this.element);
-        this.originalLeft = parseFloat(MochiKit.DOM.getStyle(this.element,'left') || '0');
-        this.originalTop = parseFloat(MochiKit.DOM.getStyle(this.element,'top') || '0');
+        this.originalLeft = parseFloat(MochiKit.DOM.getStyle(this.element,
+                                                             'left') || '0');
+        this.originalTop = parseFloat(MochiKit.DOM.getStyle(this.element,
+                                                            'top') || '0');
         if (this.options.mode == 'absolute') {
             // absolute movement, so we need to calc deltaX and deltaY
             this.options.x = this.options.x - this.originalLeft;
@@ -381,7 +431,16 @@ Effect.Scale = function (element, percent, options) {
 MochiKit.Base.update(Effect.Scale.prototype, Effect.Base.prototype);
 
 MochiKit.Base.update(Effect.Scale.prototype, {
-    __init__: function (element, percent, options) {
+    /***
+
+    Change the size of an element.
+
+    @param percent: final_size = percent*original_size
+
+    @param options: several options changing scale behaviour
+
+    ***/
+    __init__: function (element, percent, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element)
         options = MochiKit.Base.update({
             scaleX: true,
@@ -397,7 +456,8 @@ MochiKit.Base.update(Effect.Scale.prototype, {
 
     setup: function () {
         this.restoreAfterFinish = this.options.restoreAfterFinish || false;
-        this.elementPositioning = MochiKit.DOM.getStyle(this.element,'position');
+        this.elementPositioning = MochiKit.DOM.getStyle(this.element,
+                                                        'position');
 
         this.originalStyle = {};
         MochiKit.Iter.forEach(['top', 'left', 'width', 'height', 'fontSize'],
@@ -408,8 +468,10 @@ MochiKit.Base.update(Effect.Scale.prototype, {
         this.originalTop = this.element.offsetTop;
         this.originalLeft = this.element.offsetLeft;
 
-        var fontSize = MochiKit.DOM.getStyle(this.element,'font-size') || '100%';
-        MochiKit.Iter.forEach(['em','px','%'], MochiKit.Base.bind(function (fontSizeType) {
+        var fontSize = MochiKit.DOM.getStyle(this.element,
+                                             'font-size') || '100%';
+        MochiKit.Iter.forEach(['em', 'px', '%'],
+            MochiKit.Base.bind(function (fontSizeType) {
             if (fontSize.indexOf(fontSizeType) > 0) {
                 this.fontSize = parseFloat(fontSize);
                 this.fontSizeType = fontSizeType;
@@ -432,13 +494,15 @@ MochiKit.Base.update(Effect.Scale.prototype, {
     },
 
     update: function (position) {
-        var currentScale = (this.options.scaleFrom/100.0) + (this.factor * position);
+        var currentScale = (this.options.scaleFrom/100.0) +
+                           (this.factor * position);
         if (this.options.scaleContent && this.fontSize) {
             MochiKit.DOM.setStyle(this.element, {
                 fontSize: this.fontSize * currentScale + this.fontSizeType
             });
         }
-        this.setDimensions(this.dims[0] * currentScale, this.dims[1] * currentScale);
+        this.setDimensions(this.dims[0] * currentScale,
+                           this.dims[1] * currentScale);
     },
 
     finish: function (position) {
@@ -485,11 +549,18 @@ Effect.Highlight = function (element, options) {
 MochiKit.Base.update(Effect.Highlight.prototype, Effect.Base.prototype);
 
 MochiKit.Base.update(Effect.Highlight.prototype, {
-    __init__: function (element, options) {
+    /***
+
+    Highlight an item of the page.
+
+    @param options: 'startcolor' for choosing highlighting color, default
+    to '#ffff99'.
+
+    ***/
+    __init__: function (element, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element);
         options = MochiKit.Base.update({
-            startcolor: '#ffff99',
-            numSteps: 16
+            startcolor: '#ffff99'
         }, options || {});
         this.start(options);
     },
@@ -502,31 +573,37 @@ MochiKit.Base.update(Effect.Highlight.prototype, {
         }
         // Disable background image during the effect
         this.oldStyle = {
-            backgroundImage: MochiKit.DOM.getStyle(this.element, 'background-image')
+            backgroundImage: MochiKit.DOM.getStyle(this.element,
+                                                   'background-image')
         };
         MochiKit.DOM.setStyle(this.element, {
             backgroundImage: 'none'
         });
 
         if (!this.options.endcolor) {
-            this.options.endcolor = MochiKit.Color.Color.fromBackground(this.element).toHexString();
+            this.options.endcolor =
+                MochiKit.Color.Color.fromBackground(this.element).toHexString();
         }
         if(!this.options.restorecolor) {
-            this.options.restorecolor = MochiKit.DOM.getStyle(this.element, 'background-color');
+            this.options.restorecolor = MochiKit.DOM.getStyle(this.element,
+                                                            'background-color');
         }
         // init color calculations
         this._base = MochiKit.Base.map(MochiKit.Base.bind(function (i) {
-            return parseInt(this.options.startcolor.slice(i*2 + 1, i*2 + 3), 16);
+            return parseInt(
+                this.options.startcolor.slice(i*2 + 1, i*2 + 3), 16);
         }, this), [0, 1, 2]);
         this._delta = MochiKit.Base.map(MochiKit.Base.bind(function (i) {
-            return parseInt(this.options.endcolor.slice(i*2 + 1, i*2 + 3), 16) - this._base[i];
+            return parseInt(this.options.endcolor.slice(i*2 + 1, i*2 + 3), 16)
+                - this._base[i];
         }, this), [0, 1, 2]);
     },
 
     update: function (position) {
         var m = '#';
         MochiKit.Iter.forEach([0, 1, 2], MochiKit.Base.bind(function (i) {
-            m += MochiKit.Color.toColorPart(Math.round(this._base[i] + (this._delta[i]*position)));
+            m += MochiKit.Color.toColorPart(Math.round(this._base[i] +
+                                            this._delta[i]*position));
         }, this));
         MochiKit.DOM.setStyle(this.element, {
             backgroundColor: m
@@ -534,7 +611,8 @@ MochiKit.Base.update(Effect.Highlight.prototype, {
     },
 
     finish: function () {
-        MochiKit.DOM.setStyle(this.element, MochiKit.Base.update(this.oldStyle, {
+        MochiKit.DOM.setStyle(this.element,
+            MochiKit.Base.update(this.oldStyle, {
             backgroundColor: this.options.endColor
         }));
     }
@@ -547,13 +625,18 @@ Effect.ScrollTo = function (element, options) {
 MochiKit.Base.update(Effect.ScrollTo.prototype, Effect.Base.prototype);
 
 MochiKit.Base.update(Effect.ScrollTo.prototype, {
-    __init__: function (element, options) {
+    /***
+
+    Scroll to an element in the page.
+
+    ***/
+    __init__: function (element, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element);
         this.start(options || {});
     },
 
     setup: function () {
-        Position.prepare();
+        MochiKit.Position.prepare();
         var offsets = MochiKit.Position.cumulativeOffset(this.element);
         if (this.options.offset) {
             offsets[1] += this.options.offset;
@@ -562,19 +645,24 @@ MochiKit.Base.update(Effect.ScrollTo.prototype, {
             window.height - window.innerHeight :
             document.body.scrollHeight -
                 (document.documentElement.clientHeight ?
-                    document.documentElement.clientHeight : document.body.clientHeight);
+                    document.documentElement.clientHeight :
+                    document.body.clientHeight);
         this.scrollStart = MochiKit.Position.deltaY;
         this.delta = (offsets[1] > max ? max : offsets[1]) - this.scrollStart;
     },
 
     update: function (position) {
-        Position.prepare();
-        window.scrollTo(Position.deltaX,
+        MochiKit.Position.prepare();
+        window.scrollTo(MochiKit.Position.deltaX,
             this.scrollStart + (position*this.delta));
     }
 });
 
-/* ------------- combination effects ------------- */
+/***
+
+Combination effects.
+
+***/
 
 Effect.Fade = function (element, options) {
     var oldOpacity = MochiKit.DOM.getInlineOpacity(element);
