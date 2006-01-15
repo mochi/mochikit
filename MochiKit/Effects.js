@@ -12,45 +12,48 @@ See scriptaculous.js for full license.
 ***/
 
 var Effect = {
-    tagifyText: function (element) {
-        // XXX: what's this function for ? Doesn't work
-        var tagifyStyle = 'position:relative';
+    tagifyText: function (element, /* optional */tagifyStyle) {
+        /***
+
+        Change a node text to character in tags.
+
+        @param tagifyStyle: the style to apply to character nodes, default to
+        'position: relative'.
+
+        ***/
+        var tagifyStyle = tagifyStyle || 'position:relative';
         if (MochiKit.Base.isIE()) {
             tagifyStyle += ';zoom:1';
         }
         element = MochiKit.DOM.getElement(element);
         MochiKit.Iter.forEach(element.childNodes, function (child) {
             if (child.nodeType == 3) {
-                MochiKit.Iter.forEach(child.split(''), function (character) {
+                MochiKit.Iter.forEach(child.nodeValue.split(''), function (character) {
                     element.insertBefore(
-                        Builder.node('span', {style: tagifyStyle},
-                            character == ' ' ? String.fromCharCode(160) : character),
-                            child);
+                        MochiKit.DOM.SPAN({style: tagifyStyle},
+                            character == ' ' ? String.fromCharCode(160) : character), child);
                 });
                 MochiKit.DOM.removeElement(child);
             }
         });
     },
 
-    multiple: function (element, effect, options) {
-        // XXX: what's this function for ? Doesn't work
-        var elements;
-        if (((typeof(element) == 'object') ||
-             (typeof(element) == 'function')) &&
-            (element.length)) {
-            elements = element;
-        } else {
-            elements = MochiKit.DOM.getElement(element).childNodes;
-        }
+    multiple: function (elements, effect, /* optional */options) {
+        /***
+
+        Launch the same effect subsequently on given elements.
+
+        ***/
         options = MochiKit.Base.update({
             speed: 0.1,
             delay: 0.0
         }, options || {});
         var masterDelay = options.delay;
-
-        MochiKit.Iter.forEach(elements, function (element, index) {
+        var index = 0;
+        MochiKit.Iter.forEach(elements, function (element) {
             options.delay = index * options.speed + masterDelay;
             new effect(element, options);
+            index += 1;
         });
     },
 
