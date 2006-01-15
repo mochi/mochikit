@@ -613,7 +613,7 @@ MochiKit.Base.update(Effect.Highlight.prototype, {
     finish: function () {
         MochiKit.DOM.setStyle(this.element,
             MochiKit.Base.update(this.oldStyle, {
-                backgroundColor: this.options.endColor
+                backgroundColor: this.options.endcolor
         }));
     }
 });
