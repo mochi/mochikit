@@ -440,7 +440,7 @@ MochiKit.Base.update(Autocompleter.Local.prototype, {
     },
 
     setOptions: function (options) {
-        this.options = Object.extend({
+        this.options = MochiKit.Base.update({
             choices: 10,
             partialSearch: true,
             partialChars: 2,
@@ -501,13 +501,8 @@ the DOM might be a bit confused when this gets called so do this
 waits 1 ms (with setTimeout) until it does the activation
 
 ***/
-Field.scrollFreeActivate = function (field) {
-    setTimeout(function () {
-        Field.activate(field);
-    }, 1);
-};
 
-Ajax.InPlaceEditor = function () {
+Ajax.InPlaceEditor = function (element, url, options) {
     this.__init__(element, url, options);
 };
 
@@ -518,7 +513,7 @@ Ajax.InPlaceEditor.prototype = {
         this.url = url;
         this.element = MochiKit.DOM.getElement(element);
 
-        this.options = Object.extend({
+        this.options = MochiKit.Base.update({
             okButton: true,
             okText: 'ok',
             cancelLink: true,
@@ -698,7 +693,7 @@ Ajax.InPlaceEditor.prototype = {
         this.editField.disabled = true;
         new Ajax.Request(
             this.options.loadTextURL,
-            Object.extend({
+            MochiKit.Base.update({
                 asynchronous: true,
                 onComplete: MochiKit.Base.bind(this.onLoadedExternalText, this)
             }, this.options.ajaxOptions)
@@ -733,7 +728,7 @@ Ajax.InPlaceEditor.prototype = {
 
         // do this first, sometimes the ajax call returns before we get a
         // chance to switch on Saving which means this will actually switch on
-        // Saving *after* we've left edit mode causing Saving to be
+        // Saving *after* we have left edit mode causing Saving to be
         // displayed indefinitely
         this.onLoading();
 
@@ -744,7 +739,7 @@ Ajax.InPlaceEditor.prototype = {
                 failure: null
             },
             this.url,
-            Object.extend({
+            MochiKit.Base.update({
                 parameters: this.options.callback(form, value),
                 onComplete: MochiKit.Base.bind(this.onComplete, this),
                 onFailure: MochiKit.Base.bind(this.onFailure, this)

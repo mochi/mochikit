@@ -513,7 +513,7 @@ MochiKit.Form = {
         var queryComponents = new Array();
 
         for (var i = 0; i < elements.length; i++) {
-            var queryComponent = Form.serializeElement(elements[i]);
+            var queryComponent = MochiKit.Form.serializeElement(elements[i]);
             if (queryComponent) {
                 queryComponents.push(queryComponent);
             }
@@ -526,7 +526,7 @@ MochiKit.Form = {
         form = MochiKit.DOM.getElement(form);
         var elements = new Array();
 
-        for (tagName in Form.Element.Serializers) {
+        for (tagName in MochiKit.Form.Serializers) {
             var tagElements = form.getElementsByTagName(tagName);
             for (var j = 0; j < tagElements.length; j++) {
                 elements.push(tagElements[j]);
@@ -899,6 +899,12 @@ var Field = {
         if (element.select) {
             element.select();
         }
+    },
+    
+    scrollFreeActivate: function (field) {
+        setTimeout(function () {
+            Field.activate(field);
+        }, 1);
     }
 };
 

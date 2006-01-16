@@ -199,7 +199,7 @@ DragAndDrop.Draggables = {
     observers: [],
 
     register: function (draggable) {
-        if (this.drags.length == 0) {
+        if (this.drags.length === 0) {
             this.eventMouseUp = MochiKit.DOM.bindAsEventListener(
                                     this.endDrag, this);
             this.eventMouseMove = MochiKit.DOM.bindAsEventListener(
@@ -218,7 +218,7 @@ DragAndDrop.Draggables = {
         this.drags = MochiKit.Iter.ifilter(function (d) {
             return d != draggable
         }, this.drags);
-        if (this.drags.length == 0) {
+        if (this.drags.length === 0) {
             MochiKit.Event.stopObserving(document, 'mouseup',
                                          this.eventMouseUp);
             MochiKit.Event.stopObserving(document, 'mousemove',
