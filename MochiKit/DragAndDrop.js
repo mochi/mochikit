@@ -1,5 +1,5 @@
 /***
-MochiKit.Effect 1.2
+MochiKit.DragAndDrop 1.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -7,6 +7,32 @@ Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
     Mochi-ized By Thomas Herve (_firstname_@nimail.org)
 
 ***/
+
+if (typeof(dojo) != 'undefined') {
+    dojo.provide('MochiKit.DragAndDrop');
+    dojo.require('MochiKit.Base');
+    dojo.require('MochiKit.DOM');
+    dojo.require('MochiKit.Effect');
+    dojo.require('MochiKit.Iter');
+}
+
+if (typeof(JSAN) != 'undefined') {
+    JSAN.use("MochiKit.Base", []);
+    JSAN.use("MochiKit.DOM", []);
+    JSAN.use("MochiKit.Effect", []);
+    JSAN.use("MochiKit.Iter", []);
+}
+
+try {
+    if (typeof(MochiKit.Base) == 'undefined' ||
+        typeof(MochiKit.DOM) == 'undefined' ||
+        typeof(MochiKit.Effect) == 'undefined' ||
+        typeof(MochiKit.Iter) == 'undefined') {
+        throw "";
+    }
+} catch (e) {
+    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.DOM, MochiKit.Effect and MochiKit.Iter!";
+}
 
 if (typeof(MochiKit.DragAndDrop) == 'undefined') {
     MochiKit.DragAndDrop = {};
@@ -22,6 +48,16 @@ MochiKit.DragAndDrop.__repr__ = function () {
 MochiKit.DragAndDrop.toString = function () {
     return this.__repr__();
 };
+
+MochiKit.DragAndDrop.EXPORT = [
+    "Droppable",
+    "Draggable"
+];
+
+MochiKit.DragAndDrop.EXPORT_OK = [
+    "Droppables",
+    "Draggables"
+];
 
 MochiKit.DragAndDrop.Droppables = {
     /***
@@ -331,17 +367,17 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         options = MochiKit.Base.update({
             handle: false,
             starteffect: function (element) {
-                new Effect.Opacity(element,
+                new MochiKit.Effect.Opacity(element,
                                    {duration:0.2, from:1.0, to:0.7});
             },
             reverteffect: function (element, top_offset, left_offset) {
                 var dur = Math.sqrt(Math.abs(top_offset^2) +
                           Math.abs(left_offset^2))*0.02;
-                element._revert = new Effect.Move(element,
+                element._revert = new MochiKit.Effect.Move(element,
                             {x: -left_offset, y: -top_offset, duration: dur});
             },
             endeffect: function (element) {
-                new Effect.Opacity(element, {duration:0.2, from:0.7, to:1.0});
+                new MochiKit.Effect.Opacity(element, {duration:0.2, from:0.7, to:1.0});
             },
             zindex: 1000,
             revert: false,
@@ -468,7 +504,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
         if (this.options.ghosting) {
             // XXX: from a user point of view, it would be better to remove
-            // the node only *after* the Effect.Move end
+            // the node only *after* the MochiKit.Effect.Move end
             MochiKit.Position.relativize(this.element);
             MochiKit.DOM.removeElement(this._clone);
             this._clone = null;
@@ -565,4 +601,17 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         return '[' + this.__class__.NAME + ", options:" + MochiKit.Base.repr(this.options) + "]";
     }
 };
+
+MochiKit.DragAndDrop.__new__ = function () {
+    MochiKit.Base.nameFunctions(this);
+
+    this.EXPORT_TAGS = {
+        ":common": this.EXPORT,
+        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
+    };
+};
+
+MochiKit.DragAndDrop.__new__();
+
+MochiKit.Base._exportSymbols(this, MochiKit.DragAndDrop);
 

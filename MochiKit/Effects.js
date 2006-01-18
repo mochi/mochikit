@@ -54,6 +54,38 @@ MochiKit.Effect.toString = function () {
     return this.__repr__();
 };
 
+MochiKit.Effect.EXPORT = [
+    "tagifyText",
+    "multiple",
+    "toggle",
+    "Base",
+    "Parallel",
+    "Opacity",
+    "Move",
+    "Scale",
+    "Highlight",
+    "ScrollTo",
+    "Fade",
+    "Appear",
+    "Puff",
+    "BlindUp",
+    "BlindDown",
+    "SwitchOff",
+    "DropOut",
+    "Shake",
+    "SlideDown",
+    "SlideUp",
+    "Squish",
+    "Grow",
+    "Shrink",
+    "Pulsate",
+    "Fold"
+];
+
+MochiKit.Effect.EXPORT_OK = [
+    "PAIRS"
+];
+
 MochiKit.Effect.tagifyText = function (element, /* optional */tagifyStyle) {
     /***
 
@@ -218,7 +250,7 @@ MochiKit.Base.update(MochiKit.Effect.ScopedQueue.prototype, {
     },
 
     remove: function (effect) {
-        this.effects = MochiKit.Iter.filter(function (e) {
+        this.effects = MochiKit.Base.filter(function (e) {
             return e != effect;
         }, this.effects);
         if (this.effects.length == 0) {
@@ -1275,4 +1307,17 @@ MochiKit.Effect.Fold = function (element, options) {
     }, options || {});
     return new MochiKit.Effect.Scale(element, 5, options);
 };
+
+MochiKit.Effect.__new__ = function () {
+    MochiKit.Base.nameFunctions(this);
+
+    this.EXPORT_TAGS = {
+        ":common": this.EXPORT,
+        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
+    };
+};
+
+MochiKit.Effect.__new__();
+
+MochiKit.Base._exportSymbols(this, MochiKit.Effect);
 
