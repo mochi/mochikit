@@ -1,5 +1,9 @@
 /***
 
+MochiKit.Effect 1.2
+
+See <http://mochikit.com/> for documentation, downloads, license, etc.
+
 Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 Contributors:
     Justin Palmer (http://encytemedia.com/)
@@ -7,63 +11,101 @@ Contributors:
     Martin Bialasinki
     Mochi-ized By Thomas Herve (_firstname_@nimail.org)
 
-See scriptaculous.js for full license.
-
 ***/
 
-var Effect = {
-    tagifyText: function (element, /* optional */tagifyStyle) {
-        /***
+if (typeof(dojo) != 'undefined') {
+    dojo.provide('MochiKit.Effect');
+    dojo.require('MochiKit.Base');
+    dojo.require('MochiKit.DOM');
+    dojo.require('MochiKit.Color');
+    dojo.require('MochiKit.Iter');
+}
 
-        Change a node text to character in tags.
+if (typeof(JSAN) != 'undefined') {
+    JSAN.use("MochiKit.Base", []);
+    JSAN.use("MochiKit.DOM", []);
+    JSAN.use("MochiKit.Color", []);
+    JSAN.use("MochiKit.Iter", []);
+}
 
-        @param tagifyStyle: the style to apply to character nodes, default to
-        'position: relative'.
+try {
+    if (typeof(MochiKit.Base) == 'undefined' ||
+        typeof(MochiKit.DOM) == 'undefined' ||
+        typeof(MochiKit.Color) == 'undefined' ||
+        typeof(MochiKit.Iter) == 'undefined') {
+        throw "";
+    }
+} catch (e) {
+    throw "MochiKit.Effect depends on MochiKit.Base, MochiKit.DOM, MochiKit.Color and MochiKit.Iter!";
+}
 
-        ***/
-        var tagifyStyle = tagifyStyle || 'position:relative';
-        if (MochiKit.Base.isIE()) {
-            tagifyStyle += ';zoom:1';
+if (typeof(MochiKit.Effect) == "undefined") {
+    MochiKit.Effect = {};
+}
+
+MochiKit.Effect.NAME = "MochiKit.Effect";
+MochiKit.Effect.VERSION = "1.2";
+
+MochiKit.Effect.__repr__ = function () {
+    return "[" + this.NAME + " " + this.VERSION + "]";
+};
+
+MochiKit.Effect.toString = function () {
+    return this.__repr__();
+};
+
+MochiKit.Effect.tagifyText = function (element, /* optional */tagifyStyle) {
+    /***
+
+    Change a node text to character in tags.
+
+    @param tagifyStyle: the style to apply to character nodes, default to
+    'position: relative'.
+
+    ***/
+    var tagifyStyle = tagifyStyle || 'position:relative';
+    if (MochiKit.Base.isIE()) {
+        tagifyStyle += ';zoom:1';
+    }
+    element = MochiKit.DOM.getElement(element);
+    MochiKit.Iter.forEach(element.childNodes, function (child) {
+        if (child.nodeType == 3) {
+            MochiKit.Iter.forEach(child.nodeValue.split(''), function (character) {
+                element.insertBefore(
+                    MochiKit.DOM.SPAN({style: tagifyStyle},
+                        character == ' ' ? String.fromCharCode(160) : character), child);
+            });
+            MochiKit.DOM.removeElement(child);
         }
-        element = MochiKit.DOM.getElement(element);
-        MochiKit.Iter.forEach(element.childNodes, function (child) {
-            if (child.nodeType == 3) {
-                MochiKit.Iter.forEach(child.nodeValue.split(''), function (character) {
-                    element.insertBefore(
-                        MochiKit.DOM.SPAN({style: tagifyStyle},
-                            character == ' ' ? String.fromCharCode(160) : character), child);
-                });
-                MochiKit.DOM.removeElement(child);
-            }
-        });
-    },
+    });
+};
 
-    multiple: function (elements, effect, /* optional */options) {
-        /***
+MochiKit.Effect.multiple = function (elements, effect, /* optional */options) {
+    /***
 
-        Launch the same effect subsequently on given elements.
+    Launch the same effect subsequently on given elements.
 
-        ***/
-        options = MochiKit.Base.update({
-            speed: 0.1,
-            delay: 0.0
-        }, options || {});
-        var masterDelay = options.delay;
-        var index = 0;
-        MochiKit.Iter.forEach(elements, function (element) {
-            options.delay = index * options.speed + masterDelay;
-            new effect(element, options);
-            index += 1;
-        });
-    },
+    ***/
+    options = MochiKit.Base.update({
+        speed: 0.1,
+        delay: 0.0
+    }, options || {});
+    var masterDelay = options.delay;
+    var index = 0;
+    MochiKit.Iter.forEach(elements, function (element) {
+        options.delay = index * options.speed + masterDelay;
+        new effect(element, options);
+        index += 1;
+    });
+};
 
-    PAIRS: {
-        'slide': ['SlideDown','SlideUp'],
-        'blind': ['BlindDown','BlindUp'],
-        'appear': ['Appear','Fade']
-    },
+MochiKit.Effect.PAIRS = {
+    'slide': ['SlideDown','SlideUp'],
+    'blind': ['BlindDown','BlindUp'],
+    'appear': ['Appear','Fade']
+};
 
-    toggle: function (element, /* optional */effect, /* optional */options) {
+MochiKit.Effect.toggle = function (element, /* optional */effect, /* optional */options) {
     /***
 
     Toggle an item between two state depending of its visibility, making
@@ -71,14 +113,13 @@ var Effect = {
     'slide' or 'blind'.
 
     ***/
-        element = MochiKit.DOM.getElement(element);
-        effect = (effect || 'appear').toLowerCase();
-        options = MochiKit.Base.update({
-            queue: {position: 'end', scope: (element.id || 'global')}
-        }, options || {});
-        Effect[MochiKit.DOM.isVisible(element) ?
-          Effect.PAIRS[effect][1] : Effect.PAIRS[effect][0]](element, options);
-    }
+    element = MochiKit.DOM.getElement(element);
+    effect = (effect || 'appear').toLowerCase();
+    options = MochiKit.Base.update({
+        queue: {position: 'end', scope: (element.id || 'global')}
+    }, options || {});
+    MochiKit.Effect[MochiKit.DOM.isVisible(element) ?
+      MochiKit.Effect.PAIRS[effect][1] : MochiKit.Effect.PAIRS[effect][0]](element, options);
 };
 
 /***
@@ -87,33 +128,40 @@ Transitions: define functions calculating variations depending of a position.
 
 ***/
 
-Effect.Transitions = {}
+MochiKit.Effect.Transitions = {}
 
-Effect.Transitions.linear = function (pos) {
+MochiKit.Effect.Transitions.linear = function (pos) {
     return pos;
-}
-Effect.Transitions.sinoidal = function (pos) {
+};
+
+MochiKit.Effect.Transitions.sinoidal = function (pos) {
     return (-Math.cos(pos*Math.PI)/2) + 0.5;
-}
-Effect.Transitions.reverse = function (pos) {
+};
+
+MochiKit.Effect.Transitions.reverse = function (pos) {
     return 1 - pos;
-}
-Effect.Transitions.flicker = function (pos) {
+};
+
+MochiKit.Effect.Transitions.flicker = function (pos) {
     return ((-Math.cos(pos*Math.PI)/4) + 0.75) + Math.random()/4;
-}
-Effect.Transitions.wobble = function (pos) {
+};
+
+MochiKit.Effect.Transitions.wobble = function (pos) {
     return (-Math.cos(pos*Math.PI*(9*pos))/2) + 0.5;
-}
-Effect.Transitions.pulse = function (pos) {
+};
+
+MochiKit.Effect.Transitions.pulse = function (pos) {
     return (Math.floor(pos*10) % 2 == 0 ?
         (pos*10 - Math.floor(pos*10)) : 1 - (pos*10 - Math.floor(pos*10)));
-}
-Effect.Transitions.none = function (pos) {
+};
+
+MochiKit.Effect.Transitions.none = function (pos) {
     return 0;
-}
-Effect.Transitions.full = function (pos) {
+};
+
+MochiKit.Effect.Transitions.full = function (pos) {
     return 1;
-}
+};
 
 /***
 
@@ -121,11 +169,11 @@ Core effects
 
 ***/
 
-Effect.ScopedQueue = function () {
+MochiKit.Effect.ScopedQueue = function () {
     this.__init__();
 };
 
-MochiKit.Base.update(Effect.ScopedQueue.prototype, {
+MochiKit.Base.update(MochiKit.Effect.ScopedQueue.prototype, {
     __init__: function () {
         this.effects = [];
         this.interval = null;
@@ -170,9 +218,9 @@ MochiKit.Base.update(Effect.ScopedQueue.prototype, {
     },
 
     remove: function (effect) {
-        this.effects = MochiKit.Iter.list(MochiKit.Iter.ifilter(function (e) {
+        this.effects = MochiKit.Iter.filter(function (e) {
             return e != effect;
-        }, this.effects));
+        }, this.effects);
         if (this.effects.length == 0) {
             clearInterval(this.interval);
             this.interval = null;
@@ -187,7 +235,7 @@ MochiKit.Base.update(Effect.ScopedQueue.prototype, {
     }
 });
 
-Effect.Queues = {
+MochiKit.Effect.Queues = {
     instances: new Array(),
 
     get: function (queueName) {
@@ -196,18 +244,18 @@ Effect.Queues = {
         }
 
         if (!this.instances[queueName]) {
-            this.instances[queueName] = new Effect.ScopedQueue();
+            this.instances[queueName] = new MochiKit.Effect.ScopedQueue();
         }
         return this.instances[queueName];
     }
 };
 
-Effect.Queue = Effect.Queues.get('global');
+MochiKit.Effect.Queue = MochiKit.Effect.Queues.get('global');
 
-Effect.DefaultOptions = {
-    transition: Effect.Transitions.sinoidal,
+MochiKit.Effect.DefaultOptions = {
+    transition: MochiKit.Effect.Transitions.sinoidal,
     duration: 1.0,  // seconds
-    fps: 25.0,  // max. 25fps due to Effect.Queue implementation
+    fps: 25.0,  // max. 25fps due to MochiKit.Effect.Queue implementation
     sync: false,  // true for combining
     from: 0.0,
     to: 1.0,
@@ -215,27 +263,30 @@ Effect.DefaultOptions = {
     queue: 'parallel'
 };
 
-Effect.Base = function () {};
+MochiKit.Effect.Base = function () {};
 
-Effect.Base.prototype = {
+MochiKit.Effect.Base.prototype = {
     /***
 
     Basic class for all Effects. Define a looping mecanism called for each step
     of an effect. Don't instanciate it, only subclass it.
 
     ***/
+
+    __class__ : MochiKit.Effect.Base,
+    
     position: null,
 
     start: function (options) {
         this.options = MochiKit.Base.setdefault(options || {},
-                                                Effect.DefaultOptions);
+                                                MochiKit.Effect.DefaultOptions);
         this.currentFrame = 0;
         this.state = 'idle';
         this.startOn = this.options.delay*1000;
         this.finishOn = this.startOn + (this.options.duration*1000);
         this.event('beforeStart');
         if (!this.options.sync) {
-            Effect.Queues.get(typeof(this.options.queue) == 'string' ?
+            MochiKit.Effect.Queues.get(typeof(this.options.queue) == 'string' ?
                 'global' : this.options.queue.scope).add(this);
         }
     },
@@ -288,7 +339,7 @@ Effect.Base.prototype = {
 
     cancel: function () {
         if (!this.options.sync) {
-            Effect.Queues.get(typeof(this.options.queue) == 'string' ?
+            MochiKit.Effect.Queues.get(typeof(this.options.queue) == 'string' ?
                 'global' : this.options.queue.scope).remove(this);
         }
         this.state = 'finished';
@@ -303,19 +354,19 @@ Effect.Base.prototype = {
         }
     },
 
-    __repr__: function () {
-        return '<Effect:' + MochiKit.Base.repr(this) + ', options:' +
-               MochiKit.Base.repr(this.options) + '>';
+    repr: function () {
+        return '[' + this.__class__.NAME + ', options:' +
+               MochiKit.Base.repr(this.options) + ']';
     }
 }
 
-Effect.Parallel = function (effects, options) {
+MochiKit.Effect.Parallel = function (effects, options) {
     this.__init__(effects, options);
 };
 
-MochiKit.Base.update(Effect.Parallel.prototype, Effect.Base.prototype);
+MochiKit.Base.update(MochiKit.Effect.Parallel.prototype, MochiKit.Effect.Base.prototype);
 
-MochiKit.Base.update(Effect.Parallel.prototype, {
+MochiKit.Base.update(MochiKit.Effect.Parallel.prototype, {
     /***
 
     Run multiple effects at the same time.
@@ -345,13 +396,13 @@ MochiKit.Base.update(Effect.Parallel.prototype, {
     }
 });
 
-Effect.Opacity = function (element, options) {
+MochiKit.Effect.Opacity = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(Effect.Opacity.prototype, Effect.Base.prototype);
+MochiKit.Base.update(MochiKit.Effect.Opacity.prototype, MochiKit.Effect.Base.prototype);
 
-MochiKit.Base.update(Effect.Opacity.prototype, {
+MochiKit.Base.update(MochiKit.Effect.Opacity.prototype, {
     /***
 
     Change the opacity of an element.
@@ -378,13 +429,13 @@ MochiKit.Base.update(Effect.Opacity.prototype, {
     }
 });
 
-Effect.Move = function (element, options) {
+MochiKit.Effect.Move = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(Effect.Move.prototype, Effect.Base.prototype);
+MochiKit.Base.update(MochiKit.Effect.Move.prototype, MochiKit.Effect.Base.prototype);
 
-MochiKit.Base.update(Effect.Move.prototype, {
+MochiKit.Base.update(MochiKit.Effect.Move.prototype, {
     /***
 
     Move an element between its current position to a defined position
@@ -427,13 +478,13 @@ MochiKit.Base.update(Effect.Move.prototype, {
     }
 });
 
-Effect.Scale = function (element, percent, options) {
+MochiKit.Effect.Scale = function (element, percent, options) {
     this.__init__(element, percent, options);
 };
 
-MochiKit.Base.update(Effect.Scale.prototype, Effect.Base.prototype);
+MochiKit.Base.update(MochiKit.Effect.Scale.prototype, MochiKit.Effect.Base.prototype);
 
-MochiKit.Base.update(Effect.Scale.prototype, {
+MochiKit.Base.update(MochiKit.Effect.Scale.prototype, {
     /***
 
     Change the size of an element.
@@ -545,13 +596,13 @@ MochiKit.Base.update(Effect.Scale.prototype, {
     }
 });
 
-Effect.Highlight = function (element, options) {
+MochiKit.Effect.Highlight = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(Effect.Highlight.prototype, Effect.Base.prototype);
+MochiKit.Base.update(MochiKit.Effect.Highlight.prototype, MochiKit.Effect.Base.prototype);
 
-MochiKit.Base.update(Effect.Highlight.prototype, {
+MochiKit.Base.update(MochiKit.Effect.Highlight.prototype, {
     /***
 
     Highlight an item of the page.
@@ -621,13 +672,13 @@ MochiKit.Base.update(Effect.Highlight.prototype, {
     }
 });
 
-Effect.ScrollTo = function (element, options) {
+MochiKit.Effect.ScrollTo = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(Effect.ScrollTo.prototype, Effect.Base.prototype);
+MochiKit.Base.update(MochiKit.Effect.ScrollTo.prototype, MochiKit.Effect.Base.prototype);
 
-MochiKit.Base.update(Effect.ScrollTo.prototype, {
+MochiKit.Base.update(MochiKit.Effect.ScrollTo.prototype, {
     /***
 
     Scroll to an element in the page.
@@ -671,7 +722,7 @@ Combination effects.
 
 ***/
 
-Effect.Fade = function (element, options) {
+MochiKit.Effect.Fade = function (element, options) {
     /***
 
     Fade a given element: change its opacity and hide it in the end.
@@ -691,10 +742,10 @@ Effect.Fade = function (element, options) {
             MochiKit.DOM.setStyle(effect.element, {opacity: oldOpacity});
         }
     }, options || {});
-    return new Effect.Opacity(element, options);
+    return new MochiKit.Effect.Opacity(element, options);
 };
 
-Effect.Appear = function (element, options) {
+MochiKit.Effect.Appear = function (element, options) {
     /***
 
     Make an element appear.
@@ -711,10 +762,10 @@ Effect.Appear = function (element, options) {
             MochiKit.DOM.showElement(effect.element);
         }
     }, options || {});
-    return new Effect.Opacity(element, options);
+    return new MochiKit.Effect.Opacity(element, options);
 };
 
-Effect.Puff = function (element, options) {
+MochiKit.Effect.Puff = function (element, options) {
     /***
 
     'Puff' an element: grow it to double size, fading it and make it hidden.
@@ -738,16 +789,16 @@ Effect.Puff = function (element, options) {
             MochiKit.DOM.setStyle(effect.effects[0].element, oldStyle);
         }
     }, options || {});
-    return new Effect.Parallel(
-        [new Effect.Scale(element, 200,
+    return new MochiKit.Effect.Parallel(
+        [new MochiKit.Effect.Scale(element, 200,
             {sync: true, scaleFromCenter: true,
              scaleContent: true, restoreAfterFinish: true}),
-         new Effect.Opacity(element, {sync: true, to: 0.0 })],
+         new MochiKit.Effect.Opacity(element, {sync: true, to: 0.0 })],
         options
     );
 };
 
-Effect.BlindUp = function (element, options) {
+MochiKit.Effect.BlindUp = function (element, options) {
     /***
 
     Blind an element up: change its vertical size to 0.
@@ -765,10 +816,10 @@ Effect.BlindUp = function (element, options) {
         }
     }, options || {});
 
-    return new Effect.Scale(element, 0, options);
+    return new MochiKit.Effect.Scale(element, 0, options);
 };
 
-Effect.BlindDown = function (element, options) {
+MochiKit.Effect.BlindDown = function (element, options) {
     /***
 
     Blind an element down: restore its vertical size.
@@ -794,10 +845,10 @@ Effect.BlindDown = function (element, options) {
             MochiKit.DOM.setStyle(effect.element, {height: oldHeight});
         }
     }, options || {});
-    return new Effect.Scale(element, 100, options);
+    return new MochiKit.Effect.Scale(element, 100, options);
 };
 
-Effect.SwitchOff = function (element) {
+MochiKit.Effect.SwitchOff = function (element) {
     /***
 
     Apply a switch-off-like effect.
@@ -822,17 +873,17 @@ Effect.SwitchOff = function (element) {
             MochiKit.DOM.setStyle(effect.element, {opacity: oldOpacity});
         }
     };
-    return new Effect.Appear(element, {
+    return new MochiKit.Effect.Appear(element, {
         duration: 0.4,
         from: 0,
-        transition: Effect.Transitions.flicker,
+        transition: MochiKit.Effect.Transitions.flicker,
         afterFinishInternal: function (effect) {
-            new Effect.Scale(effect.element, 1, optionsScale)
+            new MochiKit.Effect.Scale(effect.element, 1, optionsScale)
         }
     });
 };
 
-Effect.DropOut = function (element, options) {
+MochiKit.Effect.DropOut = function (element, options) {
     /***
 
     Make an element fall and disappear.
@@ -856,13 +907,13 @@ Effect.DropOut = function (element, options) {
             MochiKit.DOM.setStyle(effect.effects[0].element, oldStyle);
         }
     }, options || {});
-    return new Effect.Parallel(
-        [new Effect.Move(element, {x: 0, y: 100, sync: true}),
-         new Effect.Opacity(element, {sync: true, to: 0.0})],
+    return new MochiKit.Effect.Parallel(
+        [new MochiKit.Effect.Move(element, {x: 0, y: 100, sync: true}),
+         new MochiKit.Effect.Opacity(element, {sync: true, to: 0.0})],
         options);
 };
 
-Effect.Shake = function (element) {
+MochiKit.Effect.Shake = function (element) {
     /***
 
     Move an element from left to right several times.
@@ -872,24 +923,24 @@ Effect.Shake = function (element) {
     var oldStyle = {
         top: MochiKit.DOM.getStyle(element, 'top'),
         left: MochiKit.DOM.getStyle(element, 'left') };
-        return new Effect.Move(element,
+        return new MochiKit.Effect.Move(element,
           {x: 20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
-        new Effect.Move(effect.element,
+        new MochiKit.Effect.Move(effect.element,
           {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new Effect.Move(effect.element,
+        new MochiKit.Effect.Move(effect.element,
            {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new Effect.Move(effect.element,
+        new MochiKit.Effect.Move(effect.element,
           {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new Effect.Move(effect.element,
+        new MochiKit.Effect.Move(effect.element,
            {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new Effect.Move(effect.element,
+        new MochiKit.Effect.Move(effect.element,
          {x: -20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
                 MochiKit.DOM.undoPositioned(effect.element);
                 MochiKit.DOM.setStyle(effect.element, oldStyle);
     }}) }}) }}) }}) }}) }});
 };
 
-Effect.SlideDown = function (element, options) {
+MochiKit.Effect.SlideDown = function (element, options) {
     /***
 
     Slide an element down.
@@ -931,10 +982,10 @@ Effect.SlideDown = function (element, options) {
         }
     }, options || {});
 
-    return new Effect.Scale(element, 100, options);
+    return new MochiKit.Effect.Scale(element, 100, options);
 };
 
-Effect.SlideUp = function (element, options) {
+MochiKit.Effect.SlideUp = function (element, options) {
     /***
 
     Slide an element up.
@@ -972,12 +1023,12 @@ Effect.SlideUp = function (element, options) {
             MochiKit.DOM.setStyle(effect.element.firstChild, {bottom: oldInnerBottom});
         }
     }, options || {});
-    return new Effect.Scale(element, 0, options);
+    return new MochiKit.Effect.Scale(element, 0, options);
 };
 
 // Bug in opera makes the TD containing this element expand for a instance
 // after finish
-Effect.Squish = function (element, options) {
+MochiKit.Effect.Squish = function (element, options) {
     /***
 
     Reduce an element and make it disappear.
@@ -994,10 +1045,10 @@ Effect.Squish = function (element, options) {
         }
     }, options || {});
 
-    return new Effect.Scale(element, MochiKit.Base.isOpera() ? 1 : 0, options);
+    return new MochiKit.Effect.Scale(element, MochiKit.Base.isOpera() ? 1 : 0, options);
 };
 
-Effect.Grow = function (element, options) {
+MochiKit.Effect.Grow = function (element, options) {
     /***
 
     Grow an element to its original size. Make it zero-sized before
@@ -1007,9 +1058,9 @@ Effect.Grow = function (element, options) {
     element = MochiKit.DOM.getElement(element);
     options = MochiKit.Base.update({
         direction: 'center',
-        moveTransistion: Effect.Transitions.sinoidal,
-        scaleTransition: Effect.Transitions.sinoidal,
-        opacityTransition: Effect.Transitions.full
+        moveTransistion: MochiKit.Effect.Transitions.sinoidal,
+        scaleTransition: MochiKit.Effect.Transitions.sinoidal,
+        opacityTransition: MochiKit.Effect.Transitions.full
     }, options || {});
     var oldStyle = {
         top: element.style.top,
@@ -1062,7 +1113,7 @@ Effect.Grow = function (element, options) {
         }
     }, options || {});
 
-    return new Effect.Move(element, {
+    return new MochiKit.Effect.Move(element, {
         x: initialMoveX,
         y: initialMoveY,
         duration: 0.01,
@@ -1072,16 +1123,16 @@ Effect.Grow = function (element, options) {
             MochiKit.DOM.makePositioned(effect.element);
         },
         afterFinishInternal: function (effect) {
-            new Effect.Parallel(
-                [new Effect.Opacity(effect.element, {
+            new MochiKit.Effect.Parallel(
+                [new MochiKit.Effect.Opacity(effect.element, {
                     sync: true, to: 1.0, from: 0.0,
                     transition: options.opacityTransition
                  }),
-                 new Effect.Move(effect.element, {
+                 new MochiKit.Effect.Move(effect.element, {
                      x: moveX, y: moveY, sync: true,
                      transition: options.moveTransition
                  }),
-                 new Effect.Scale(effect.element, 100, {
+                 new MochiKit.Effect.Scale(effect.element, 100, {
                         scaleMode: {originalHeight: dims.h,
                                     originalWidth: dims.w},
                         sync: true,
@@ -1095,7 +1146,7 @@ Effect.Grow = function (element, options) {
     });
 };
 
-Effect.Shrink = function (element, options) {
+MochiKit.Effect.Shrink = function (element, options) {
     /***
 
     Shrink an element and make it disappear.
@@ -1104,9 +1155,9 @@ Effect.Shrink = function (element, options) {
     element = MochiKit.DOM.getElement(element);
     options = MochiKit.Base.update({
         direction: 'center',
-        moveTransistion: Effect.Transitions.sinoidal,
-        scaleTransition: Effect.Transitions.sinoidal,
-        opacityTransition: Effect.Transitions.none
+        moveTransistion: MochiKit.Effect.Transitions.sinoidal,
+        scaleTransition: MochiKit.Effect.Transitions.sinoidal,
+        opacityTransition: MochiKit.Effect.Transitions.none
     }, options || {});
     var oldStyle = {
         top: element.style.top,
@@ -1153,23 +1204,23 @@ Effect.Shrink = function (element, options) {
         }
     }, options || {});
 
-    return new Effect.Parallel(
-        [new Effect.Opacity(element, {
+    return new MochiKit.Effect.Parallel(
+        [new MochiKit.Effect.Opacity(element, {
             sync: true, to: 0.0, from: 1.0,
             transition: options.opacityTransition
          }),
-         new Effect.Scale(element, MochiKit.Base.isOpera() ? 1 : 0, {
+         new MochiKit.Effect.Scale(element, MochiKit.Base.isOpera() ? 1 : 0, {
              sync: true, transition: options.scaleTransition,
              restoreAfterFinish: true
          }),
-         new Effect.Move(element, {
+         new MochiKit.Effect.Move(element, {
              x: moveX, y: moveY, sync: true, transition: options.moveTransition
          })
         ], optionsParallel
     );
 };
 
-Effect.Pulsate = function (element, options) {
+MochiKit.Effect.Pulsate = function (element, options) {
     /***
 
     Pulse an element between appear/fade.
@@ -1184,16 +1235,16 @@ Effect.Pulsate = function (element, options) {
         }
     }, options || {});
     var oldOpacity = MochiKit.DOM.getInlineOpacity(element);
-    var transition = options.transition || Effect.Transitions.sinoidal;
+    var transition = options.transition || MochiKit.Effect.Transitions.sinoidal;
     var reverser = MochiKit.Base.bind(function (pos) {
-        return transition(1 - Effect.Transitions.pulse(pos));
+        return transition(1 - MochiKit.Effect.Transitions.pulse(pos));
     }, transition);
     MochiKit.Base.bind(reverser, transition);
-    return new Effect.Opacity(element, MochiKit.Base.update({
+    return new MochiKit.Effect.Opacity(element, MochiKit.Base.update({
         transition: reverser}, options));
 };
 
-Effect.Fold = function (element, options) {
+MochiKit.Effect.Fold = function (element, options) {
     /***
 
     Fold an element, first vertically, then horizontally.
@@ -1211,7 +1262,7 @@ Effect.Fold = function (element, options) {
         scaleContent: false,
         scaleX: false,
         afterFinishInternal: function (effect) {
-            new Effect.Scale(element, 1, {
+            new MochiKit.Effect.Scale(element, 1, {
                 scaleContent: false,
                 scaleY: false,
                 afterFinishInternal: function (effect) {
@@ -1222,6 +1273,6 @@ Effect.Fold = function (element, options) {
             });
         }
     }, options || {});
-    return new Effect.Scale(element, 5, options);
+    return new MochiKit.Effect.Scale(element, 5, options);
 };
 

@@ -1,27 +1,29 @@
 /***
+MochiKit.Effect 1.2
+
+See <http://mochikit.com/> for documentation, downloads, license, etc.
+
 Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
     Mochi-ized By Thomas Herve (_firstname_@nimail.org)
 
-See scriptaculous.js for full license.
-
 ***/
 
-if (typeof(DragAndDrop) == 'undefined') {
-    DragAndDrop = {};
+if (typeof(MochiKit.DragAndDrop) == 'undefined') {
+    MochiKit.DragAndDrop = {};
 }
 
-DragAndDrop.NAME = 'DragAndDrop';
-DragAndDrop.VERSION = '1.0';
+MochiKit.DragAndDrop.NAME = 'MochiKit.DragAndDrop';
+MochiKit.DragAndDrop.VERSION = '1.2';
 
-DragAndDrop.__repr__ = function () {
+MochiKit.DragAndDrop.__repr__ = function () {
     return '[' + this.NAME + ' ' + this.VERSION + ']';
 };
 
-DragAndDrop.toString = function () {
+MochiKit.DragAndDrop.toString = function () {
     return this.__repr__();
 };
 
-DragAndDrop.Droppables = {
+MochiKit.DragAndDrop.Droppables = {
     /***
 
     Manage all droppables. Shouldn't be used, use the Droppable object instead.
@@ -101,21 +103,23 @@ DragAndDrop.Droppables = {
     }
 };
 
-DragAndDrop.Droppable = function (element, options) {
+MochiKit.DragAndDrop.Droppable = function (element, options) {
     this.__init__(element, options);
 };
 
-DragAndDrop.Droppable.prototype = {
+MochiKit.DragAndDrop.Droppable.prototype = {
     /***
 
     A droppable object. Simple use is to create giving an element:
 
-        new DragAndDrop.Droppable('myelement');
+        new MochiKit.DragAndDrop.Droppable('myelement');
 
     Generally you'll want to define the 'onDrop' function and maybe the
     'accept' option to filter draggables.
 
     ***/
+    __class__: MochiKit.DragAndDrop.Droppable,
+
     __init__: function (element, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element);
         this.options = MochiKit.Base.update({
@@ -145,7 +149,7 @@ DragAndDrop.Droppable.prototype = {
 
         MochiKit.DOM.makePositioned(this.element); // fix IE
 
-        DragAndDrop.Droppables.register(this);
+        MochiKit.DragAndDrop.Droppables.register(this);
     },
 
     isContained: function (element) {
@@ -177,18 +181,22 @@ DragAndDrop.Droppable.prototype = {
             MochiKit.DOM.removeElementClass(this.element,
                                             this.options.hoverclass);
         }
-        DragAndDrop.Droppables.last_active = null;
+        MochiKit.DragAndDrop.Droppables.last_active = null;
     },
 
     activate: function () {
         if (this.options.hoverclass) {
             MochiKit.DOM.addElementClass(this.element, this.options.hoverclass);
         }
-        DragAndDrop.Droppables.last_active = this;
+        MochiKit.DragAndDrop.Droppables.last_active = this;
+    },
+
+    repr: function () {
+        return '[' + this.__class__.NAME + ", options:" + MochiKit.Base.repr(this.options) + "]";
     }
 };
 
-DragAndDrop.Draggables = {
+MochiKit.DragAndDrop.Draggables = {
     /***
 
     Manage draggables elements. Not intended to direct use.
@@ -229,13 +237,13 @@ DragAndDrop.Draggables = {
     },
 
     activate: function (draggable) {
-        // allows keypress events if window isn't currently focused
+        // allows keypress events if window is not currently focused
         // fails for Safari
         window.focus();
         this.activeDraggable = draggable;
     },
 
-    deactivate: function (draggbale) {
+    deactivate: function (draggable) {
         this.activeDraggable = null;
     },
 
@@ -297,26 +305,28 @@ DragAndDrop.Draggables = {
     _cacheObserverCallbacks: function () {
         MochiKit.Iter.forEach(['onStart', 'onEnd', 'onDrag'],
         function (eventName) {
-            DragAndDrop.Draggables[eventName + 'Count'] =
+            MochiKit.DragAndDrop.Draggables[eventName + 'Count'] =
             MochiKit.Base.filter(function (o) {
                 return o[eventName];
-            }, DragAndDrop.Draggables.observers).length;
+            }, MochiKit.DragAndDrop.Draggables.observers).length;
         });
     }
 };
 
-DragAndDrop.Draggable = function (element, options) {
+MochiKit.DragAndDrop.Draggable = function (element, options) {
     this.__init__(element, options);
 };
 
-DragAndDrop.Draggable.prototype = {
+MochiKit.DragAndDrop.Draggable.prototype = {
     /***
 
     A draggable object. Simple instantiate :
 
-        new DragAndDrop.Draggable('myelement');
+        new MochiKit.DragAndDrop.Draggable('myelement');
 
     ***/
+    __class__ : MochiKit.DragAndDrop.Draggable,
+
     __init__: function (element, /* optional */options) {
         options = MochiKit.Base.update({
             handle: false,
@@ -361,13 +371,13 @@ DragAndDrop.Draggable.prototype = {
         this.eventMouseDown = MochiKit.DOM.bindAsEventListener(this.initDrag,
                                                                this);
         MochiKit.Event.observe(this.handle, 'mousedown', this.eventMouseDown);
-        DragAndDrop.Draggables.register(this);
+        MochiKit.DragAndDrop.Draggables.register(this);
     },
 
     destroy: function () {
         MochiKit.Event.stopObserving(this.handle, 'mousedown',
                                      this.eventMouseDown);
-        DragAndDrop.Draggables.unregister(this);
+        MochiKit.DragAndDrop.Draggables.unregister(this);
     },
 
     currentDelta: function () {
@@ -402,7 +412,7 @@ DragAndDrop.Draggable.prototype = {
             return (pointer[i] - pos[i]);
         }, [0, 1]);
 
-        DragAndDrop.Draggables.activate(this);
+        MochiKit.DragAndDrop.Draggables.activate(this);
         MochiKit.Event.stop(event);
     },
 
@@ -423,8 +433,8 @@ DragAndDrop.Draggable.prototype = {
             MochiKit.Position.absolutize(this.element);
             this.element.parentNode.insertBefore(this._clone, this.element);
         }
-        DragAndDrop.Droppables.prepare(this.element);
-        DragAndDrop.Draggables.notify('onStart', this, event);
+        MochiKit.DragAndDrop.Droppables.prepare(this.element);
+        MochiKit.DragAndDrop.Draggables.notify('onStart', this, event);
         if (this.options.starteffect) {
             this.options.starteffect(this.element);
         }
@@ -435,8 +445,8 @@ DragAndDrop.Draggable.prototype = {
             this.startDrag(event);
         }
         MochiKit.Position.prepare();
-        DragAndDrop.Droppables.show(pointer, this.element);
-        DragAndDrop.Draggables.notify('onDrag', this, event);
+        MochiKit.DragAndDrop.Droppables.show(pointer, this.element);
+        MochiKit.DragAndDrop.Draggables.notify('onDrag', this, event);
         this.draw(pointer);
         if (this.options.change) {
             this.options.change(this);
@@ -465,9 +475,9 @@ DragAndDrop.Draggable.prototype = {
         }
 
         if (success) {
-            DragAndDrop.Droppables.fire(event, this.element);
+            MochiKit.DragAndDrop.Droppables.fire(event, this.element);
         }
-        DragAndDrop.Draggables.notify('onEnd', this, event);
+        MochiKit.DragAndDrop.Draggables.notify('onEnd', this, event);
 
         var revert = this.options.revert;
         if (revert && typeof(revert) == 'function') {
@@ -490,8 +500,8 @@ DragAndDrop.Draggable.prototype = {
             this.options.endeffect(this.element);
         }
 
-        DragAndDrop.Draggables.deactivate(this);
-        DragAndDrop.Droppables.reset();
+        MochiKit.DragAndDrop.Draggables.deactivate(this);
+        MochiKit.DragAndDrop.Droppables.reset();
     },
 
     keyPress: function (event) {
@@ -549,6 +559,10 @@ DragAndDrop.Draggable.prototype = {
         if (style.visibility == 'hidden') {
             style.visibility = '';  // fix gecko rendering
         }
+    },
+
+    repr: function () {
+        return '[' + this.__class__.NAME + ", options:" + MochiKit.Base.repr(this.options) + "]";
     }
 };
 

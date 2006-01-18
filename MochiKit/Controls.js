@@ -461,7 +461,7 @@ MochiKit.Base.update(Autocompleter.Local.prototype, {
                         elem.indexOf(entry);
 
                     while (foundPos != -1) {
-                        if (foundPos == 0 && elem.length != entry.length) {
+                        if (foundPos === 0 && elem.length != entry.length) {
                             ret.push('<li><strong>' + elem.substr(0, entry.length) + '</strong>' +
                                 elem.substr(entry.length) + '</li>');
                             break;
@@ -657,7 +657,7 @@ Ajax.InPlaceEditor.prototype = {
             textField.value = text;
             textField.style.backgroundColor = this.options.highlightcolor;
             var size = this.options.size || this.options.cols || 0;
-            if (size != 0) {
+            if (size !== 0) {
                 textField.size = size;
             }
             if (this.options.submitOnBlur) {

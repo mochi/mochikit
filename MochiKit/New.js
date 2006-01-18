@@ -10,7 +10,7 @@ MochiKit.Base.update(MochiKit.Base, {
             return oStringList[0];
         }
 
-        var camelizedString = str.indexOf('-') == 0
+        var camelizedString = str.indexOf('-') === 0
           ? oStringList[0].charAt(0).toUpperCase() + oStringList[0].substring(1)
           : oStringList[0];
 
@@ -542,7 +542,7 @@ MochiKit.Form = {
 
         if (parameter) {
             var key = encodeURIComponent(parameter[0]);
-            if (key.length == 0) {
+            if (key.length === 0) {
                 return;
             }
 
@@ -668,7 +668,7 @@ Ajax.Base.prototype = {
 
     responseIsSuccess: function () {
         return this.transport.status == undefined
-            || this.transport.status == 0
+            || this.transport.status === 0
             || (this.transport.status >= 200 && this.transport.status < 300);
     },
 
