@@ -1,5 +1,6 @@
 2006-01-XX      v1.2 "the ocho"
 
+- Fixed MochiKit.Color.Color.lighterColorWithLevel
 - Added new MochiKit.Base.findIdentical function to find the index of an
   element in an Array-like object.  Uses === for identity comparison.
 - Added new MochiKit.Base.find function to find the index of an element in
