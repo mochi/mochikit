@@ -13,7 +13,7 @@ else {
 Test.Simple = {};
 Test.Simple.EXPORT      = ['plan', 'ok'];
 Test.Simple.EXPORT_TAGS = { ':all': Test.Simple.EXPORT };
-Test.Simple.VERSION     = '0.21';
+Test.Simple.VERSION     = '0.22';
 
 Test.Simple.plan = function (cmds) {
     return Test.Simple.Test.plan(cmds);

@@ -1,7 +1,7 @@
 // # $Id: Kinetic.pm 1493 2005-04-07 19:20:18Z theory $
 
 Test.Harness.Director = function () {};
-Test.Harness.Director.VERSION = '0.21';
+Test.Harness.Director.VERSION = '0.22';
 
 Test.Harness.Director.runTests = function () {
     var harness = new Test.Harness.Director();
