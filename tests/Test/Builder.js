@@ -28,7 +28,7 @@ Test.Builder.globalScope = typeof JSAN != 'undefined'
       ? _global
       : null;
 
-Test.Builder.VERSION = '0.21';
+Test.Builder.VERSION = '0.22';
 Test.Builder.Instances = [];
 Test.Builder.lineEndingRx = /\r?\n|\r/g;
 Test.Builder.StringOps = {

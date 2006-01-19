@@ -72,7 +72,7 @@ if (window.parent != window &&
         this.includes.push('');
     };
 
-    Test.Harness.Browser.VERSION = '0.21';
+    Test.Harness.Browser.VERSION = '0.22';
 
     Test.Harness.Browser.runTests = function () {
         var harness = new Test.Harness.Browser();
