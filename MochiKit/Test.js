@@ -68,7 +68,11 @@ MochiKit.Test.Suite.prototype = {
         var items = MochiKit.Iter.sorted(MochiKit.Base.items(e));
         print("not ok " + this.testIndex + " - Error thrown");
         for (var i = 0; i < items.length; i++) {
-            this.print("# " + items[i].join(": "));
+            var kv = items[i];
+            if (kv[0] == "stack") {
+                kv[1] = kv[1].split(/\n/)[0];
+            }
+            this.print("# " + kv.join(": "));
         }
     },
     print: function (s) {

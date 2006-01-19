@@ -101,7 +101,7 @@ MochiKit.Color.Color.prototype = {
 
     lighterColorWithLevel: function (level) {
         var hsl  = this.asHSL();
-        Math.min(hsl.l + level, 1);
+        hsl.l = Math.min(hsl.l + level, 1);
         var m = MochiKit.Color;
         return m.Color.fromHSL(hsl);
     },
