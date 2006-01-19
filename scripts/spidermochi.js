@@ -51,3 +51,5 @@ print("[[ MochiKit.Base ]]");
 runTests('tests.test_Base');
 print("[[ MochiKit.Color ]]");
 runTests('tests.test_Color');
+print("[[ MochiKit.DateTime ]]");
+runTests('tests.test_DateTime');
