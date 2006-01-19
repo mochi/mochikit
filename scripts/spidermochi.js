@@ -47,4 +47,7 @@ JSAN.use('MochiKit.MochiKit');
 
 JSAN.use('MochiKit.Test');
 
+print("[[ MochiKit.Base ]]");
 runTests('tests.test_Base');
+print("[[ MochiKit.Color ]]");
+runTests('tests.test_Color');
