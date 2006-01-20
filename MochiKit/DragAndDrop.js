@@ -84,6 +84,9 @@ MochiKit.DragAndDrop.Droppables = {
                     MochiKit.DOM.addElementClass(drop.element,
                                                  drop.options.activeclass);
                 }
+                if (drop.options.onactive) {
+                    drop.options.onactive(drop.element, element);
+                }
             }
         });
     },
@@ -126,11 +129,14 @@ MochiKit.DragAndDrop.Droppables = {
         }
     },
 
-    reset: function () {
+    reset: function (element) {
         MochiKit.Iter.forEach(this.drops, function (drop) {
             if (drop.options.activeclass) {
                 MochiKit.DOM.removeElementClass(drop.element,
                                                 drop.options.activeclass);
+            }
+            if (drop.options.ondesactive) {
+                drop.options.ondesactive(drop.element, element);
             }
         });
         if (this.last_active) {
@@ -213,16 +219,32 @@ MochiKit.DragAndDrop.Droppable.prototype = {
     },
 
     deactivate: function () {
+        /***
+
+        A droppable is deactivate when a draggablehas been over it and left.
+
+        ***/
         if (this.options.hoverclass) {
             MochiKit.DOM.removeElementClass(this.element,
                                             this.options.hoverclass);
+        }
+        if (this.options.outhover) {
+            this.options.outhover(this.element);
         }
         MochiKit.DragAndDrop.Droppables.last_active = null;
     },
 
     activate: function () {
+        /***
+
+        A droppable is active when a draggable is over it.
+
+        ***/
         if (this.options.hoverclass) {
             MochiKit.DOM.addElementClass(this.element, this.options.hoverclass);
+        }
+        if (this.options.onhover) {
+            this.options.onhover(this.element);
         }
         MochiKit.DragAndDrop.Droppables.last_active = this;
     },
@@ -458,6 +480,9 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             MochiKit.DOM.addElementClass(this.element,
                                          this.options.selectclass);
         }
+        if (this.options.onselect) {
+            this.options.onselect(this.element);
+        }
         if (this.options.zindex) {
             this.originalZ = parseInt(MochiKit.DOM.getStyle(this.element,
                                       'z-index') || '0');
@@ -501,6 +526,9 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             MochiKit.DOM.removeElementClass(this.element,
                                             this.options.selectclass);
         }
+        if (this.options.ondeselect) {
+            this.options.ondeselect(this.element);
+        }
 
         if (this.options.ghosting) {
             // XXX: from a user point of view, it would be better to remove
@@ -537,7 +565,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
 
         MochiKit.DragAndDrop.Draggables.deactivate(this);
-        MochiKit.DragAndDrop.Droppables.reset();
+        MochiKit.DragAndDrop.Droppables.reset(this.element);
     },
 
     keyPress: function (event) {

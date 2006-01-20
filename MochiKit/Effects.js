@@ -306,7 +306,7 @@ MochiKit.Effect.Base.prototype = {
     ***/
 
     __class__ : MochiKit.Effect.Base,
-    
+
     position: null,
 
     start: function (options) {
