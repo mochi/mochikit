@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Test Effects</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="effects_combi.css" rel="stylesheet" type="text/css" />
+    <script src="../../MochiKit/MochiKit.js" type="text/javascript"></script>
+    <script src="../../MochiKit/New.js" type="text/javascript"></script>
+    <script src="../../MochiKit/Effects.js" type="text/javascript"></script>
+</head>
+
+<body>
+	<h3>Here are demos of all combination effects:</h3>
+ <div class="demo">
+      <div class="example" id="demo-effect-appear" onclick="new MochiKit.Effect.Appear('demo-effect-fade')">
+        <span>Click for Effect.Appear demo</span>
+      </div>
+      <div class="example" id="demo-effect-fade" onclick="new MochiKit.Effect.Fade(this)">
+        <span>Click for Effect.Fade demo</span>
+      </div>
+      <div class="example" id="demo-effect-puff" onclick="new MochiKit.Effect.Puff(this)">
+        <span>Click for Effect.Puff demo</span>
+      </div>
+      <div class="example" id="demo-effect-blinddown" onclick="new MochiKit.Effect.BlindDown(this)">
+        <div style="height:120px;">
+
+          <span>Click for Effect.BlindDown demo</span>
+        </div>
+      </div>
+      <div class="example" id="demo-effect-blindup" onclick="new MochiKit.Effect.BlindUp(this)">
+        <span>Click for Effect.BlindUp demo</span>
+      </div>
+      <div class="example" id="demo-effect-switchoff" onclick="new MochiKit.Effect.SwitchOff(this)">
+        <span>Click for Effect.SwitchOff demo</span>
+      </div>
+      <div class="example" id="demo-effect-slidedown" onclick="new MochiKit.Effect.SlideDown(this)"><div style="height:120px;">
+        <span>Click for Effect.SlideDown demo</span>
+      </div></div>
+      <div class="example" id="demo-effect-slideup" onclick="new MochiKit.Effect.SlideUp(this)"><div style="height:120px;">
+        <span>Click for Effect.SlideUp demo</span>
+      </div></div>
+      <div class="example" id="demo-effect-dropout" onclick="new MochiKit.Effect.DropOut(this)">
+        <span>Click for Effect.DropOut demo</span>
+      </div>
+      <div class="example" id="demo-effect-shake" onclick="new MochiKit.Effect.Shake(this)">
+        <span>Click for Effect.Shake demo</span>
+      </div>
+      <div class="example" id="demo-effect-pulsate" onclick="new MochiKit.Effect.Pulsate(this)">
+        <span>Click for Effect.Pulsate demo</span>
+      </div>
+      <div class="example" id="demo-effect-squish" onclick="new MochiKit.Effect.Squish(this)">
+        <span>Click for Effect.Squish demo</span>
+      </div>
+      <div class="example" id="demo-effect-fold" onclick="new MochiKit.Effect.Fold(this)">
+        <span>Click for Effect.Fold demo</span>
+      </div>
+       <div class="example" id="demo-effect-grow" onclick="new MochiKit.Effect.Grow(this)">
+        <span>Click for Effect.Grow demo</span>
+      </div>
+      <div class="example" id="demo-effect-shrink" onclick="new MochiKit.Effect.Shrink(this)">
+        <span>Click for Effect.Shrink demo</span>
+      </div>
+      <div class="example" id="demo-effect-highlight" onclick="new MochiKit.Effect.Highlight(this)">
+        <span>Click for Effect.Highlight demo</span>
+      </div>
+</div>
+
+	<h3>Here are all demos on one single element:</h3>
+ <ul class="demo">
+    <li onclick="new MochiKit.Effect.Appear('demo-all')">Click for Effect.Appear demo</li>
+    <li onclick="new MochiKit.Effect.Fade('demo-all')">Click for Effect.Fade demo</li>
+    <li onclick="new MochiKit.Effect.Puff('demo-all')">Click for Effect.Puff demo</li>
+    <li onclick="new MochiKit.Effect.BlindDown('demo-all')">Click for Effect.BlindDown demo</li>
+    <li onclick="new MochiKit.Effect.BlindUp('demo-all')">Click for Effect.BlindUp demo</li>
+    <li onclick="new MochiKit.Effect.SwitchOff('demo-all')">Click for Effect.SwitchOff demo</li>
+    <li onclick="new MochiKit.Effect.SlideDown('demo-all')">Click for Effect.SlideDown demo</li>
+    <li onclick="new MochiKit.Effect.SlideUp('demo-all')">Click for Effect.SlideUp demo</li>
+    <li onclick="new MochiKit.Effect.DropOut('demo-all')">Click for Effect.DropOut demo</li>
+    <li onclick="new MochiKit.Effect.Shake('demo-all')">Click for Effect.Shake demo</li>
+    <li onclick="new MochiKit.Effect.Pulsate('demo-all')">Click for Effect.Pulsate demo</li>
+    <li onclick="new MochiKit.Effect.Squish('demo-all')">Click for Effect.Squish demo</li>
+    <li onclick="new MochiKit.Effect.Fold('demo-all')">Click for Effect.Fold demo</li>
+    <li onclick="new MochiKit.Effect.Grow('demo-all')">Click for Effect.Grow demo</li>
+    <li onclick="new MochiKit.Effect.Shrink('demo-all')">Click for Effect.Shrink demo</li>
+    <li onclick="new MochiKit.Effect.Highlight('demo-all')">Click for Effect.Highlight demo</li>
+    <li onclick="new MochiKit.Effect.toggle('demo-all', 'blind')">Click for Effect.toggle demo (blind)</li>
+    <li onclick="new MochiKit.Effect.toggle('demo-all', 'slide')">Click for Effect.toggle demo (slide)</li>
+    <li onclick="new MochiKit.Effect.toggle('demo-all', 'appear')">Click for Effect.toggle demo (appear)</li>
+</ul>
+      <div id="demo-all">
+        <span>Click on one of the left to see the effect</span>
+      </div>
+<span id="reset" onclick="new MochiKit.Effect.Appear('demo-all')">Click here to reset box</span>
+
+    <script type="text/javascript">
+    createLoggingPane();
+    </script>
+</body>
+</html>

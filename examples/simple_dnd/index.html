@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Test Drag and drop with MochiKit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="simple_dnd.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../../MochiKit/MochiKit.js"></script>
+    <script type="text/javascript" src="../../MochiKit/New.js"></script>
+    <script type="text/javascript" src="../../MochiKit/Effects.js"></script>
+    <script type="text/javascript" src="../../MochiKit/DragAndDrop.js"></script>
+  </head>
+  <body>
+    <h3>Drag and Drop examples.</h3>
+    <div>
+        <div id="drag-1" class="drag">test drag 1</div>
+        <div id="drag-2" class="drag">test drag 2 (horizontal)</div>
+        <div id="drag-3" class="drag">test drag 3 (vertical)</div>
+        <div id="drag-4" class="drag">test drag 4 (selectclass)</div>
+        <div id="drag-5" class="drag">test drag 5 (fixed)</div>
+        <div id="drag-6" class="drag">test drag 6 (absolute)</div>
+        <div id="drag-7" class="drag">test drag 7 (relative)</div>
+    </div>
+    <div id="dropzones">
+        <div id="drop-1" class="drop">test drop 1</div>
+        <div id="drop-2" class="drop">test drop 2 (hoverclass)</div>
+        <div id="drop-3" class="drop">test drop 3 (activeclass)</div>
+        <div id="drop-4" class="drop">test drop 4 (hoverFunc)</div>
+        <div id="drop-5" class="drop">test drop 5 (activeFunc)</div>
+        <div id="drop-6">test drop 6</div>
+        <div id="droptext">No select</div>
+    </div>
+    <script type="text/javascript">
+    <!--
+    var saveTxt = "";
+    onHoverFunc = function (element) {
+        saveTxt = element.childNodes[0].nodeValue;
+        element.childNodes[0].nodeValue = "Please drop on me!";
+    };
+    outHoverFunc = function (element) {
+        element.childNodes[0].nodeValue = saveTxt;
+    };
+    onActiveFunc = function (element, dragElt) {
+        element.childNodes[0].nodeValue += " and I'm active ! (" + dragElt.id + ")";
+    };
+    onDesactiveFunc = function (element, dragElt) {
+        var ind = element.childNodes[0].nodeValue.lastIndexOf(" and I'm active !");
+        element.childNodes[0].nodeValue = element.childNodes[0].nodeValue.slice(0, ind);
+    };
+    onSelectFunc = function (element) {
+        new MochiKit.Effect.Highlight(element);
+    };
+    onDeselectFunc = function (element) {
+        element.childNodes[0].nodeValue += ".";
+    };
+    onDrop = function (element, dropElt) {
+        new MochiKit.Effect.Pulsate(dropElt);
+        MochiKit.DOM.getElement('droptext').childNodes[0].nodeValue = "Selected: " + element.id;
+    };
+    
+    new MochiKit.DragAndDrop.Draggable('drag-1', {'revert': true, 'ghosting': true});
+    new MochiKit.DragAndDrop.Draggable('drag-2', {'revert': true, 'constraint': 'horizontal'});
+    new MochiKit.DragAndDrop.Draggable('drag-3', {'revert': true, 'constraint': 'vertical'});
+    new MochiKit.DragAndDrop.Draggable('drag-4', {'revert': true, 'selectclass': 'drag-select'});
+    new MochiKit.DragAndDrop.Draggable('drag-5', {'revert': true, 'starteffect': onSelectFunc, 'endeffect': onDeselectFunc});
+    new MochiKit.DragAndDrop.Draggable('drag-6', {'revert': true});
+    new MochiKit.DragAndDrop.Draggable('drag-7', {'revert': true});
+
+    new MochiKit.DragAndDrop.Droppable('drop-1', {'onDrop': onDrop});
+    new MochiKit.DragAndDrop.Droppable('drop-2', {'onDrop': onDrop, 'hoverclass': 'drop-hover'});
+    new MochiKit.DragAndDrop.Droppable('drop-3', {'onDrop': onDrop, 'activeclass': 'drop-active'});
+    new MochiKit.DragAndDrop.Droppable('drop-4', {'onDrop': onDrop, 'onhover': onHoverFunc, 'outhover': outHoverFunc});
+    new MochiKit.DragAndDrop.Droppable('drop-5', {'onDrop': onDrop, 'onactive': onActiveFunc, 'ondesactive': onDesactiveFunc});
+    new MochiKit.DragAndDrop.Droppable('drop-6', {'onDrop': onDrop, 'transparent': true});
+    // -->
+    </script>
+    </body>
+</html>
