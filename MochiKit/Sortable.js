@@ -58,9 +58,9 @@ var Sortable = {
         MochiKit.Iter.forEach(MochiKit.Iter.ifilter(function (s) {
                 return s.element == element;
             }, this.sortables), function (s) {
-                DragAndDrop.Draggables.removeObserver(s.element);
+                MochiKit.DragAndDrop.Draggables.removeObserver(s.element);
                 MochiKit.Iter.forEach(s.droppables, function (d) {
-                    DragAndDrop.Droppables.remove(d);
+                    MochiKit.DragAndDrop.Droppables.remove(d);
                 });
             s.draggables.invoke('destroy');
         });
@@ -140,7 +140,7 @@ var Sortable = {
 
         // drop on empty handling
         if (options.dropOnEmpty) {
-            new DragAndDrop.Droppable(element,
+            new MochiKit.DragAndDrop.Droppable(element,
             {containment: options.containment,
              onHover: Sortable.onEmptyHover,
              greedy: false});
@@ -153,10 +153,10 @@ var Sortable = {
                 MochiKit.DOM.getElementsByTagAndClassName(null,
                     options.handle, e)[0] : e;
             options.draggables.push(
-                new DragAndDrop.Draggable(e,
+                new MochiKit.DragAndDrop.Draggable(e,
                     MochiKit.Base.update(options_for_draggable,
                                          {handle: handle})));
-            new DragAndDrop.Droppable(e, options_for_droppable);
+            new MochiKit.DragAndDrop.Droppable(e, options_for_droppable);
             options.droppables.push(e);
         });
 
@@ -164,7 +164,7 @@ var Sortable = {
         this.sortables.push(options);
 
         // for onupdate
-        DragAndDrop.Draggables.addObserver(
+        MochiKit.DragAndDrop.Draggables.addObserver(
             new SortableObserver(element, options.onUpdate));
     },
 
@@ -189,7 +189,7 @@ var Sortable = {
             }
         });
 
-        return (elements.length > 0 ? MochiKit.Iter.flatten(elements) : null);
+        return (elements.length > 0 ? MochiKit.Base.flatten(elements) : null);
     },
 
     onHover: function (element, dropon, overlap) {

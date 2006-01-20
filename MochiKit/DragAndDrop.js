@@ -180,7 +180,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         }
 
         if (this.options.accept) {
-            this.options.accept = MochiKit.Iter.flatten([this.options.accept]);
+            this.options.accept = MochiKit.Base.flatten([this.options.accept]);
         }
 
         MochiKit.DOM.makePositioned(this.element); // fix IE
