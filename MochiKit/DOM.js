@@ -1052,4 +1052,10 @@ MochiKit.DOM.__new__ = function (win) {
 
 MochiKit.DOM.__new__(this);
 
+//
+// XXX: Internet Explorer blows
+//
+withWindow = MochiKit.DOM.withWindow;
+withDocument = MochiKit.DOM.withDocument;
+
 MochiKit.Base._exportSymbols(this, MochiKit.DOM);
