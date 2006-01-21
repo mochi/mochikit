@@ -236,9 +236,8 @@ try {
     is( objMin(1, 3, 5, 3, -1), -1, "objMin" );
     is( listMax([1, 3, 5, 3, -1]), 5, "listMax" );
     is( objMax(1, 3, 5, 3, -1), 5, "objMax" );
-
-    is( compare(keys(a1), ["a", "b", "c"]), 0, "keys" );
-    is( compare(items(a1), [["a", 1], ["b", 2], ["c", 2]]), 0, "items" );
+    is( compare(keys(a1).sort(), ["a", "b", "c"]), 0, "keys" );
+    is( compare(items(a1).sort(), [["a", 1], ["b", 2], ["c", 2]]), 0, "items" );
 
     var StringMap = function() {};
     a = new StringMap();
@@ -302,7 +301,7 @@ try {
     is( a.bar, "web taco", "setdefault worked (set non-existing)" );
 
     var c = merge({"foo": "bar"}, {"wibble": "baz"});
-    is( compare(items(c), [["foo", "bar"], ["wibble", "baz"]]), 0, "merge worked" );
+    is( compare(items(c).sort(), [["foo", "bar"], ["wibble", "baz"]]), 0, "merge worked" );
     
     // not public API
     MochiKit.Base.comparatorRegistry.unregister("stringMap");
