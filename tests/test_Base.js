@@ -227,8 +227,12 @@ tests.test_Base = function (t) {
     t.is( listMax([1, 3, 5, 3, -1]), 5, "listMax" );
     t.is( objMax(1, 3, 5, 3, -1), 5, "objMax" );
 
-    t.is( compare(keys(a1), ["a", "b", "c"]), 0, "keys" );
-    t.is( compare(items(a1), [["a", 1], ["b", 2], ["c", 2]]), 0, "items" );
+    var v = keys(a1);
+    v.sort();
+    t.is( compare(v, ["a", "b", "c"]), 0, "keys" );
+    v = items(a1);
+    v.sort();
+    t.is( compare(v, [["a", 1], ["b", 2], ["c", 2]]), 0, "items" );
 
     var StringMap = function() {};
     a = new StringMap();
