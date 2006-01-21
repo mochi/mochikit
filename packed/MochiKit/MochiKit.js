@@ -2444,6 +2444,7 @@ var self=MochiKit.DOM;
 var _311=self._document;
 var _312=self._win;
 var rval;
+var err;
 try{
 self._window=win;
 self._document=win.document;
@@ -2452,7 +2453,11 @@ rval=func();
 catch(e){
 self._window=_312;
 self._document=_311;
+err=e;
 throw e;
+}
+if(err){
+throw err;
 }
 self._window=_312;
 self._document=_311;
@@ -2498,13 +2503,18 @@ MochiKit.DOM.withDocument=function(doc,func){
 var self=MochiKit.DOM;
 var _318=self._document;
 var rval;
+var err;
 try{
 self._document=doc;
 rval=func();
 }
 catch(e){
 self._document=_318;
+err=e;
 throw e;
+}
+if(err){
+throw err;
 }
 self._document=_318;
 return rval;
