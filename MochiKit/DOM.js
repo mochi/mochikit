@@ -348,13 +348,18 @@ MochiKit.DOM.coerceToDOM = function (node, ctx) {
         }
 
         // adapter
+        var err;
         try {
             node = domConverters.match(node, ctx);
             continue;
         } catch (e) {
             if (e != NotFound) {
+                err = e;
                 throw e;
             }
+        }
+        if (err) {
+            throw err;
         }
 
         // fallback
