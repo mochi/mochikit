@@ -3057,6 +3057,8 @@ this.EXPORT_TAGS={":common":this.EXPORT,":all":m.concat(this.EXPORT,this.EXPORT_
 m.nameFunctions(this);
 };
 MochiKit.DOM.__new__(this);
+withWindow=MochiKit.DOM.withWindow;
+withDocument=MochiKit.DOM.withDocument;
 MochiKit.Base._exportSymbols(this,MochiKit.DOM);
 if(typeof (dojo)!="undefined"){
 dojo.provide("MochiKit.LoggingPane");
