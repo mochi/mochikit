@@ -203,7 +203,6 @@ MochiKit.DOM.withWindow = function (win, func) {
     var oldDoc = self._document;
     var oldWin = self._win;
     var rval;
-    var err;
     try {
         self._window = win;
         self._document = win.document;
@@ -211,11 +210,7 @@ MochiKit.DOM.withWindow = function (win, func) {
     } catch (e) {
         self._window = oldWin;
         self._document = oldDoc;
-        err = e;
         throw e;
-    }
-    if (err) {
-        throw err;
     }
     self._window = oldWin;
     self._document = oldDoc;
@@ -266,17 +261,12 @@ MochiKit.DOM.withDocument = function (doc, func) {
     var self = MochiKit.DOM;
     var oldDoc = self._document;
     var rval;
-    var err;
     try {
         self._document = doc;
         rval = func();
     } catch (e) {
         self._document = oldDoc;
-        err = e;
         throw e;
-    }
-    if (err) {
-        throw err;
     }
     self._document = oldDoc;
     return rval;
@@ -348,18 +338,13 @@ MochiKit.DOM.coerceToDOM = function (node, ctx) {
         }
 
         // adapter
-        var err;
         try {
             node = domConverters.match(node, ctx);
             continue;
         } catch (e) {
             if (e != NotFound) {
-                err = e;
                 throw e;
             }
-        }
-        if (err) {
-            throw err;
         }
 
         // fallback

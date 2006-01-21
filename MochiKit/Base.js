@@ -682,17 +682,12 @@ MochiKit.Base.update(MochiKit.Base, {
         // bool, number, string have meaningful comparisons
         var prim = m._primitives;
         if (!(typeof(a) in prim && typeof(b) in prim)) {
-            var err;
             try {
                 return m.comparatorRegistry.match(a, b);
             } catch (e) {
                 if (e != m.NotFound) {
-                    err = e;
                     throw e;
                 }
-            }
-            if (err) {
-                throw err;
             }
         }
         if (a < b) {
@@ -881,19 +876,14 @@ MochiKit.Base.update(MochiKit.Base, {
             return "[" + res.join(", ") + "]";
         }
         // look in the registry
-        var err;
         try {
             newObj = m.jsonRegistry.match(o);
             return me(newObj);
         } catch (e) {
             if (e != m.NotFound) {
                 // something really bad happened
-                err = e;
                 throw e;
             }
-        }
-        if (err) {
-            throw err;
         }
         // it's a function with no adapter, bad
         if (objtype == "function") {
@@ -1419,5 +1409,10 @@ MochiKit.Base.__new__ = function () {
 };
 
 MochiKit.Base.__new__();
+
+//
+// XXX: Internet Explorer blows
+//
+compare = MochiKit.Base.compare;
 
 MochiKit.Base._exportSymbols(this, MochiKit.Base);
