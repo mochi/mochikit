@@ -1,4 +1,4 @@
-2006-01-XX      v1.2 "the ocho"
+2006-01-26      v1.2 "the ocho"
 
 - Fixed MochiKit.Color.Color.lighterColorWithLevel
 - Added new MochiKit.Base.findIdentical function to find the index of an
