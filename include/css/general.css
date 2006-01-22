@@ -44,3 +44,5 @@ strong { color: #4b81bc; font-weight: bold; }
 hr { border: none; border-bottom: 1px solid #aaa; background: none; height: 1px; }
 a img { border: none; }
 .clear { clear: both; }
+
+.invisible { display: none; }
