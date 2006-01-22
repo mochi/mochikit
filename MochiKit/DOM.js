@@ -146,7 +146,7 @@ MochiKit.DOM.elementDimensions = function (elem) {
         return undefined;
     }
     if (self.computedStyle(elem, 'display') != 'none') {
-        return new self.Dimensions(elem.w || 0, elem.h || 0);
+        return new self.Dimensions(elem.offsetWidth || 0, elem.offsetHeight || 0);
     }
     var s = elem.style;
     var originalVisibility = s.visibility;

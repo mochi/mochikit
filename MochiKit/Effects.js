@@ -492,6 +492,7 @@ MochiKit.Base.update(MochiKit.Effect.Move.prototype, {
         // ==> Always set top and left for position relative elements in your
         // stylesheets (to 0 if you do not need them)
         MochiKit.DOM.makePositioned(this.element);
+
         var s = this.element.style;
         var originalVisibility = s.visibility;
         var originalDisplay = s.display;
@@ -504,8 +505,6 @@ MochiKit.Base.update(MochiKit.Effect.Move.prototype, {
                                                            'left') || '0');
         this.originalTop = parseFloat(MochiKit.DOM.getStyle(this.element,
                                                             'top') || '0');
-        log(this.originalLeft + " " + this.originalTop);
-
         if (this.options.mode == 'absolute') {
             // absolute movement, so we need to calc deltaX and deltaY
             this.options.x = this.options.x - this.originalLeft;
@@ -522,7 +521,11 @@ MochiKit.Base.update(MochiKit.Effect.Move.prototype, {
             left: this.options.x * position + this.originalLeft + 'px',
             top: this.options.y * position + this.originalTop + 'px'
         });
-    }
+    },
+
+    finish: function (position) {
+        MochiKit.DOM.undoPositioned(this.element);
+    },
 });
 
 MochiKit.Effect.Scale = function (element, percent, options) {
@@ -1189,7 +1192,7 @@ MochiKit.Effect.Grow = function (element, options) {
                         restoreAfterFinish: true
                 })
                 ], optionsParallel
-            )
+            );
         }
     });
 };
