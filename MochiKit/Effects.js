@@ -132,10 +132,10 @@ MochiKit.Effect.multiple = function (elements, effect, /* optional */options) {
 };
 
 MochiKit.Effect.PAIRS = {
-    'slide': ['SlideDown','SlideUp'],
-    'blind': ['BlindDown','BlindUp'],
-    'appear': ['Appear','Fade'],
-    'size': ['Grow','Fade']
+    'slide': ['SlideDown', 'SlideUp'],
+    'blind': ['BlindDown', 'BlindUp'],
+    'appear': ['Appear', 'Fade'],
+    'size': ['Grow', 'Shrink']
 };
 
 MochiKit.Effect.toggle = function (element, /* optional */effect, /* optional */options) {
@@ -492,14 +492,28 @@ MochiKit.Base.update(MochiKit.Effect.Move.prototype, {
         // ==> Always set top and left for position relative elements in your
         // stylesheets (to 0 if you do not need them)
         MochiKit.DOM.makePositioned(this.element);
+        var s = this.element.style;
+        var originalVisibility = s.visibility;
+        var originalDisplay = s.display;
+        if (originalDisplay == 'none') {
+            s.visibility = 'hidden';
+            s.display = '';
+        }
+
         this.originalLeft = parseFloat(MochiKit.DOM.getStyle(this.element,
-                                                             'left') || '0');
+                                                           'left') || '0');
         this.originalTop = parseFloat(MochiKit.DOM.getStyle(this.element,
                                                             'top') || '0');
+        log(this.originalLeft + " " + this.originalTop);
+
         if (this.options.mode == 'absolute') {
             // absolute movement, so we need to calc deltaX and deltaY
             this.options.x = this.options.x - this.originalLeft;
             this.options.y = this.options.y - this.originalTop;
+        }
+        if (originalDisplay == 'none') {
+            s.visibility = originalVisibility;
+            s.display = originalDisplay;
         }
     },
 
