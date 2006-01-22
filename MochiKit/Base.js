@@ -1329,12 +1329,17 @@ MochiKit.Base.EXPORT_OK = [
 ];
 
 MochiKit.Base._exportSymbols = function (globals, module) {
-    if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-        || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
-        var all = module.EXPORT_TAGS[":all"];
-        for (var i = 0; i < all.length; i++) {
-            globals[all[i]] = module[all[i]];
-        }
+    if (typeof(MochiKit.__export__) == "undefined") {
+        MochiKit.__export__ = (MochiKit.__compat__  ||
+            (typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
+        );
+    }
+    if (!MochiKit.__export__) {
+        return;
+    }
+    var all = module.EXPORT_TAGS[":all"];
+    for (var i = 0; i < all.length; i++) {
+        globals[all[i]] = module[all[i]];
     }
 };
 

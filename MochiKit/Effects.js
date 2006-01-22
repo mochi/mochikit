@@ -134,7 +134,8 @@ MochiKit.Effect.multiple = function (elements, effect, /* optional */options) {
 MochiKit.Effect.PAIRS = {
     'slide': ['SlideDown','SlideUp'],
     'blind': ['BlindDown','BlindUp'],
-    'appear': ['Appear','Fade']
+    'appear': ['Appear','Fade'],
+    'size': ['Grow','Fade']
 };
 
 MochiKit.Effect.toggle = function (element, /* optional */effect, /* optional */options) {
@@ -1099,7 +1100,8 @@ MochiKit.Effect.Grow = function (element, options) {
         left: element.style.left,
         height: element.style.height,
         width: element.style.width,
-        opacity: MochiKit.DOM.getInlineOpacity(element) };
+        opacity: MochiKit.DOM.getInlineOpacity(element)
+    };
 
     var dims = MochiKit.DOM.elementDimensions(element);
     var initialMoveX, initialMoveY;
@@ -1196,7 +1198,8 @@ MochiKit.Effect.Shrink = function (element, options) {
         left: element.style.left,
         height: element.style.height,
         width: element.style.width,
-        opacity: MochiKit.DOM.getInlineOpacity(element) };
+        opacity: MochiKit.DOM.getInlineOpacity(element)
+    };
 
     var dims = MochiKit.DOM.elementDimensions(element);
     var moveX, moveY;
