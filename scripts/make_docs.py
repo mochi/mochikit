@@ -4,9 +4,22 @@ import sys
 from pkg_resources import require
 require("docutils>0.3.9")
 from docutils import nodes, utils
-from docutils.core import publish_file
+from docutils.core import publish_parts
 from docutils.parsers.rst import roles
 
+TEMPLATE = u"""%(html_prolog)s
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+%(html_head)s
+<link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
+<script type="text/javascript" src="../../../packed/MochiKit/MochiKit.js"></script>
+<script type="text/javascript" src="../../js/toc.js"></script>
+</head>
+<body>
+%(html_body)s
+</body>
+</html>
+"""
 def mochi_name(text):
     name = text.split('(', 1)[0].split()[0]
     base = ''
@@ -73,17 +86,22 @@ def main():
                     except OSError:
                         pass
                 print srcfn
-                res = publish_file(
+                parts = publish_parts(
                     source_path=srcfn,
+                    source=file(srcfn, 'rb').read().decode('utf8'),
                     destination_path=dest,
                     writer_name='html',
                     settings_overrides=dict(
-                        input_encoding='utf8',
-                        output_encoding='utf8',
                         embed_stylesheet=False,
                         stylesheet_path='include/css/documentation.css',
                     ),
                 )
+                parts['html_head'] = parts['html_head'] % ('utf-8',)
+                parts['html_prolog'] = parts['html_prolog'] % ('utf-8',)
+                doc = (TEMPLATE % parts).encode("utf8")
+                out = file(dest, 'wb')
+                out.write(doc)
+                out.close()
 
 if __name__ == '__main__':
     main()
