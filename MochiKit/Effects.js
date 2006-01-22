@@ -505,6 +505,7 @@ MochiKit.Base.update(MochiKit.Effect.Move.prototype, {
                                                            'left') || '0');
         this.originalTop = parseFloat(MochiKit.DOM.getStyle(this.element,
                                                             'top') || '0');
+
         if (this.options.mode == 'absolute') {
             // absolute movement, so we need to calc deltaX and deltaY
             this.options.x = this.options.x - this.originalLeft;
@@ -521,11 +522,7 @@ MochiKit.Base.update(MochiKit.Effect.Move.prototype, {
             left: this.options.x * position + this.originalLeft + 'px',
             top: this.options.y * position + this.originalTop + 'px'
         });
-    },
-
-    finish: function (position) {
-        MochiKit.DOM.undoPositioned(this.element);
-    },
+    }
 });
 
 MochiKit.Effect.Scale = function (element, percent, options) {
