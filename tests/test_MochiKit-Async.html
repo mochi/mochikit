@@ -12,7 +12,7 @@
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 35});
+    plan({'tests': 39});
 
     var increment = function (res) {
         return res + 1;
@@ -162,6 +162,88 @@ try {
     } catch (e) {
         ok(e instanceof AlreadyCalledError, "non-swallowed cancel");
     }
+
+    /*
+        Test DeferredList
+    */
+    
+    var callList = new Array(3);
+    callList[0] = new Deferred();
+    callList[1] = new Deferred();
+    callList[2] = new Deferred();
+    callList[0].addCallback(increment);
+    callList[1].addCallback(increment);
+    callList[2].addCallback(increment);
+    var defList = new DeferredList(callList);
+    callList[0].callback(3);
+    callList[1].callback(5);
+    callList[2].callback(4);
+    
+    defList.addCallback(function (lst) {
+        is( arrayEqual(lst, [[true, 4], [true, 6], [true, 5]]), 1,
+           "deferredlist result ok" );
+    });
+   
+    /*
+        Test fireOnOneCallback
+    */
+   
+    var callList2 = new Array(3);
+    callList2[0] = new Deferred();
+    callList2[1] = new Deferred();
+    callList2[2] = new Deferred();
+    callList2[0].addCallback(increment);
+    callList2[1].addCallback(increment);
+    callList2[2].addCallback(increment);
+    var defList2 = new DeferredList(callList2, true);
+    callList2[1].callback(5);
+    callList2[0].callback(3);
+    callList2[2].callback(4);
+    
+    defList2.addCallback(function (lst) {
+        is( arrayEqual(lst, [1, 6]), 1, "deferredlist fireOnOneCallback ok" );
+    });
+
+    /*
+        Test fireOnOneErrback
+    */
+
+    var callList3 = new Array(3);
+    callList3[0] = new Deferred();
+    callList3[1] = new Deferred();
+    callList3[2] = new Deferred();
+    callList3[0].addCallback(increment);
+    callList3[1].addCallback(throwStuff);
+    callList3[2].addCallback(increment);
+    var defList3 = new DeferredList(callList3, false, true);
+    callList3[0].callback(3);
+    callList3[1].callback("foo");
+    callList3[2].callback(4);
+    
+    defList3.addErrback(function (err) {
+        is( err.message, "foo", "deferredlist fireOnOneErrback ok" );
+    });
+
+    /*
+        Test consumeErrors
+    */
+
+    var callList4 = new Array(3);
+    callList4[0] = new Deferred();
+    callList4[1] = new Deferred();
+    callList4[2] = new Deferred();
+    callList4[0].addCallback(increment);
+    callList4[1].addCallback(throwStuff);
+    callList4[2].addCallback(increment);
+    var defList4 = new DeferredList(callList4, false, false, true);
+    defList4.addErrback(neverHappen);
+    callList4[1].addCallback(function (arg) {
+        is(arg, null, "deferredlist consumeErrors ok" );
+    });
+    callList4[0].callback(3);
+    callList4[1].callback("foo");
+    callList4[2].callback(4);
+    
     
     /*
         evalJSONRequest test
