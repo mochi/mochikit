@@ -101,8 +101,8 @@ MochiKit.DragAndDrop.Droppables = {
         }
         MochiKit.Iter.forEach(this.drops, function (drop) {
             if (drop.isAffected(point, element)) {
-                if (drop.options.onHover) {
-                    drop.options.onHover(element, drop.element,
+                if (drop.options.onhover) {
+                    drop.options.onhover(element, drop.element,
                        MochiKit.Position.overlap(drop.options.overlap,
                                                  drop.element));
                 }
@@ -242,9 +242,6 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         ***/
         if (this.options.hoverclass) {
             MochiKit.DOM.addElementClass(this.element, this.options.hoverclass);
-        }
-        if (this.options.onhover) {
-            this.options.onhover(this.element);
         }
         MochiKit.DragAndDrop.Droppables.last_active = this;
     },

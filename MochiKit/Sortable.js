@@ -126,7 +126,7 @@ var Sortable = {
             overlap: options.overlap,
             containment: options.containment,
             hoverclass: options.hoverclass,
-            onHover: Sortable.onHover,
+            onhover: Sortable.onHover,
             greedy: !options.dropOnEmpty
         }
 
@@ -140,10 +140,11 @@ var Sortable = {
 
         // drop on empty handling
         if (options.dropOnEmpty) {
-            new MochiKit.DragAndDrop.Droppable(element,
-            {containment: options.containment,
-             onHover: Sortable.onEmptyHover,
-             greedy: false});
+            new MochiKit.DragAndDrop.Droppable(element, {
+                containment: options.containment,
+                onhover: Sortable.onEmptyHover,
+                greedy: false
+            });
             options.droppables.push(element);
         }
         MochiKit.Iter.forEach((this.findElements(element, options) || []),
