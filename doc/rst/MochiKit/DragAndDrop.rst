@@ -9,6 +9,7 @@ Synopsis
 ========
 
 ::
+
     // Create a draggable
     new Draggable('mydrag');
     // Create a corresponding droppable

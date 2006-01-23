@@ -9,6 +9,7 @@ Synopsis
 ========
 
 ::
+
     // Add an fade effect to an element
     MochiKit.Effect.Fade('myelement');
 
@@ -58,7 +59,7 @@ Basic Effects classes
     Base class to all effects. Define a basic looping service, use it for
     creating new effects.
 
-:mochidef:`Parallel(effecs [, options])`:
+:mochidef:`Parallel(effects [, options])`:
 
     Launch effects in parallel.
 
