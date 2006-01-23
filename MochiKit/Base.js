@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Base 1.2
+MochiKit.Base 1.3
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -19,7 +19,7 @@ if (typeof(MochiKit.Base) == 'undefined') {
     MochiKit.Base = {};
 }
 
-MochiKit.Base.VERSION = "1.2";
+MochiKit.Base.VERSION = "1.3";
 MochiKit.Base.NAME = "MochiKit.Base"
 MochiKit.Base.update = function (self, obj/*, ... */) {
     /***
