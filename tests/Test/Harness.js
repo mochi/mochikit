@@ -14,7 +14,7 @@ if (typeof self != 'undefined') {
 }
 
 Test.Harness = function () {};
-Test.Harness.VERSION = '0.21';
+Test.Harness.VERSION = '0.22';
 Test.Harness.Done = 0;
 
 // Stoopid IE.

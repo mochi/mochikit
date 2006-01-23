@@ -23,7 +23,7 @@ Test.More.EXPORT = [
     'beginAsync', 'endAsync'
 ];
 Test.More.EXPORT_TAGS = { ':all': Test.More.EXPORT };
-Test.More.VERSION     = '0.21';
+Test.More.VERSION     = '0.22';
 
 Test.More.ShowDiag = true;
 Test.Builder.DNE = { dne: 'Does not exist' };
@@ -89,7 +89,7 @@ Test.More.canOK = function (proto) {
         if (typeof proto[method] != 'function') nok.push(method);
     }
 
-    // There'es no can() method in JavaScript, but what the hell!
+    // There's no can() method in JavaScript, but what the hell!
     var desc = clas + ".can('" + (arguments.length == 2 ? arguments[1] : '...') + "')";
     ok = Test.More.Test.ok(!nok.length, desc);
     for (var i = 0; i < nok.length; i++) {

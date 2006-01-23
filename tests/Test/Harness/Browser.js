@@ -72,7 +72,7 @@ if (window.parent != window &&
         this.includes.push('');
     };
 
-    Test.Harness.Browser.VERSION = '0.21';
+    Test.Harness.Browser.VERSION = '0.22';
 
     Test.Harness.Browser.runTests = function () {
         var harness = new Test.Harness.Browser();
@@ -92,7 +92,7 @@ if (window.parent != window &&
         // Safari makes it impossible to do anything with the iframe if it's
         // set to display:none. See:
         // http://www.quirksmode.org/bugreports/archives/2005/02/hidden_iframes.html
-        if (/Safari/.test(navigator.userAgent)) {
+        if (true || /Safari/.test(navigator.userAgent)) {
             node.style.visibility = "hidden";
             node.style.height = "0"; 
             node.style.width = "0";
