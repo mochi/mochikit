@@ -122,8 +122,8 @@ MochiKit.DragAndDrop.Droppables = {
 
         if (this.last_active.isAffected([MochiKit.Event.pointerX(event),
                 MochiKit.Event.pointerY(event)], element)) {
-            if (this.last_active.options.onDrop) {
-                this.last_active.options.onDrop(element,
+            if (this.last_active.options.ondrop) {
+                this.last_active.options.ondrop(element,
                    this.last_active.element, event);
             }
         }
@@ -156,7 +156,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
 
         new MochiKit.DragAndDrop.Droppable('myelement');
 
-    Generally you'll want to define the 'onDrop' function and maybe the
+    Generally you'll want to define the 'ondrop' function and maybe the
     'accept' option to filter draggables.
 
     ***/

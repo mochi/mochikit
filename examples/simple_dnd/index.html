@@ -53,7 +53,7 @@
     onDeselectFunc = function (element) {
         element.childNodes[0].nodeValue += ".";
     };
-    onDrop = function (element, dropElt) {
+    ondrop = function (element, dropElt) {
         new MochiKit.Effect.Pulsate(dropElt);
         MochiKit.DOM.getElement('droptext').childNodes[0].nodeValue = "Selected: " + element.id;
     };
@@ -66,12 +66,12 @@
     new MochiKit.DragAndDrop.Draggable('drag-6', {'revert': true});
     new MochiKit.DragAndDrop.Draggable('drag-7', {'revert': true});
 
-    new MochiKit.DragAndDrop.Droppable('drop-1', {'onDrop': onDrop});
-    new MochiKit.DragAndDrop.Droppable('drop-2', {'onDrop': onDrop, 'hoverclass': 'drop-hover'});
-    new MochiKit.DragAndDrop.Droppable('drop-3', {'onDrop': onDrop, 'activeclass': 'drop-active'});
-    new MochiKit.DragAndDrop.Droppable('drop-4', {'onDrop': onDrop, 'onhover': onHoverFunc, 'outhover': outHoverFunc});
-    new MochiKit.DragAndDrop.Droppable('drop-5', {'onDrop': onDrop, 'onactive': onActiveFunc, 'ondesactive': onDesactiveFunc});
-    new MochiKit.DragAndDrop.Droppable('drop-6', {'onDrop': onDrop, 'transparent': true});
+    new MochiKit.DragAndDrop.Droppable('drop-1', {'ondrop': ondrop});
+    new MochiKit.DragAndDrop.Droppable('drop-2', {'ondrop': ondrop, 'hoverclass': 'drop-hover'});
+    new MochiKit.DragAndDrop.Droppable('drop-3', {'ondrop': ondrop, 'activeclass': 'drop-active'});
+    new MochiKit.DragAndDrop.Droppable('drop-4', {'ondrop': ondrop, 'onhover': onHoverFunc, 'outhover': outHoverFunc});
+    new MochiKit.DragAndDrop.Droppable('drop-5', {'ondrop': ondrop, 'onactive': onActiveFunc, 'ondesactive': onDesactiveFunc});
+    new MochiKit.DragAndDrop.Droppable('drop-6', {'ondrop': ondrop, 'transparent': true});
     // -->
     </script>
     </body>
