@@ -295,8 +295,9 @@ tests.test_Base = function (t) {
     t.is( a.foo, "bar", "setdefault worked (skipped existing)" );
     t.is( a.bar, "web taco", "setdefault worked (set non-existing)" );
 
-    var c = merge({"foo": "bar"}, {"wibble": "baz"});
-    t.is( compare(items(c), [["foo", "bar"], ["wibble", "baz"]]), 0, "merge worked" );
+    var c = items(merge({"foo": "bar"}, {"wibble": "baz"}));
+    c.sort(compare);
+    t.is( compare(c, [["foo", "bar"], ["wibble", "baz"]]), 0, "merge worked" );
     
     // not public API
     MochiKit.Base.comparatorRegistry.unregister("stringMap");
