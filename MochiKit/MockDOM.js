@@ -1,3 +1,12 @@
+/***
+    
+MochiKit.MockDOM 1.3
+
+See <http://mochikit.com/> for documentation, downloads, license, etc.
+    
+(c) 2005 Bob Ippolito.  All rights Reserved.
+
+***/
 if (typeof(MochiKit) == "undefined") {
     var MochiKit = {};
 }
@@ -7,7 +16,7 @@ if (typeof(MochiKit.MockDOM) == "undefined") {
 }
 
 MochiKit.MockDOM.NAME = "MochiKit.MockDOM";
-MochiKit.MockDOM.VERSION = "1.2";
+MochiKit.MockDOM.VERSION = "1.3";
 
 MochiKit.MockDOM.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";

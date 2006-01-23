@@ -1,3 +1,7 @@
+2006-XX-XX      v1.3
+
+- Documentation now uses MochiKit to generate a function index
+
 2006-01-26      v1.2 "the ocho"
 
 - Fixed MochiKit.Color.Color.lighterColorWithLevel
