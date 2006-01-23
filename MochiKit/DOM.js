@@ -230,13 +230,14 @@ MochiKit.DOM.formContents = function (elem/* = document */) {
     m.nodeWalk(elem, function (elem) {
         var name = elem.name;
         if (m.isNotEmpty(name)) {
-            if (elem.tagName == "INPUT"
+            var tagName = elem.nodeName;
+            if (tagName == "INPUT"
                 && (elem.type == "radio" || elem.type == "checkbox")
                 && !elem.checked
             ) {
                 return null;
             }
-            if (elem.tagName == "SELECT") {
+            if (tagName == "SELECT") {
                 var opts = elem.options;
                 for (var i=0; i < opts.length; i++) {
                     var opt = opts[i];
@@ -246,10 +247,15 @@ MochiKit.DOM.formContents = function (elem/* = document */) {
                     names.push(name);
                     values.push((opt.value) ? opt.value : opt.text);
                 }
-            } else {
-                names.push(name);
-                values.push(elem.value || '');
+                return null;
             }
+            if (tagName == "FORM" || tagName == "P" || tagName == "SPAN"
+                || tagName == "DIV"
+            ) {
+                return elem.childNodes;
+            }
+            names.push(name);
+            values.push(elem.value || '');
             return null;
         }
         return elem.childNodes;
