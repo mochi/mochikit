@@ -138,15 +138,15 @@ MochiKit.DOM.Coordinates.prototype.repr = function () {
 
 MochiKit.DOM.elementDimensions = function (elem) {
     var self = MochiKit.DOM;
-    if (typeof(elem.w) == "number" || typeof(elem.h) == "number") {
-        return new self.Dimensions(elem.w || 0, elem.h || 0);
+    if (typeof(elem) == 'string') {
+        elem = self.getElement(elem);
     }
-    elem = self.getElement(elem);
     if (!elem) {
         return undefined;
     }
     if (self.computedStyle(elem, 'display') != 'none') {
-        return new self.Dimensions(elem.w || 0, elem.h || 0);
+        return new self.Dimensions(elem.offsetWidth || 0, 
+            elem.offsetHeight || 0);
     }
     var s = elem.style;
     var originalVisibility = s.visibility;
@@ -154,8 +154,8 @@ MochiKit.DOM.elementDimensions = function (elem) {
     s.visibility = 'hidden';
     s.position = 'absolute';
     s.display = '';
-    var originalWidth = elem.clientWidth;
-    var originalHeight = elem.clientHeight;
+    var originalWidth = elem.offsetWidth;
+    var originalHeight = elem.offsetHeight;
     s.display = 'none';
     s.position = originalPosition;
     s.visibility = originalVisibility;
