@@ -138,9 +138,10 @@ MochiKit.DOM.Coordinates.prototype.repr = function () {
 
 MochiKit.DOM.elementDimensions = function (elem) {
     var self = MochiKit.DOM;
-    if (typeof(elem) == 'string') {
-        elem = self.getElement(elem);
+    if (typeof(elem.w) == 'number' || typeof(elem.h) == 'number') {
+        return new self.Dimensions(elem.w || 0, elem.h || 0);
     }
+    elem = self.getElement(elem);
     if (!elem) {
         return undefined;
     }
@@ -172,13 +173,13 @@ MochiKit.DOM.elementPosition = function (elem, /* optional */relativeTo) {
     var y = 0;
     if (elem.offsetParent) {
         while (elem.offsetParent) {
-            x += elem.offsetLeft;
-            y += elem.offsetTop;
+            x += elem.offsetLeft || 0;
+            y += elem.offsetTop || 0;
             elem = elem.offsetParent;
         }
     } else {
-        x = elem.x || x;
-        y = elem.y || y;
+        x = elem.x || 0;
+        y = elem.y || 0;
     }
     if (relativeTo) {
         relativeTo = arguments.callee(relativeTo);
