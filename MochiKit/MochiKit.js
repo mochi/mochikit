@@ -76,8 +76,9 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
             if (!all) {
                 all = extend(null, m.EXPORT, m.EXPORT_OK);
             }
-            for (i = 0; i < all.length; i++) {
-                k = all[i];
+            var j;
+            for (j = 0; j < all.length; j++) {
+                k = all[j];
                 self[k] = m[k];
             }
         }
