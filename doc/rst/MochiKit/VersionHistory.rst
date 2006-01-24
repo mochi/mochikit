@@ -1,5 +1,7 @@
 2006-XX-XX      v1.3
 
+- updated elementDimensions to calculate width from offsetWidth instead
+  of clientWidth 
 - formContents now works with FORM tags that have a name attribute
 - Documentation now uses MochiKit to generate a function index
 
