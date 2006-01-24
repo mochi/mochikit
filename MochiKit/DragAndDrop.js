@@ -14,6 +14,7 @@ if (typeof(dojo) != 'undefined') {
     dojo.require('MochiKit.DOM');
     dojo.require('MochiKit.Effect');
     dojo.require('MochiKit.Iter');
+    dojo.require('MochiKit.Signal');
 }
 
 if (typeof(JSAN) != 'undefined') {
@@ -21,17 +22,19 @@ if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.DOM", []);
     JSAN.use("MochiKit.Effect", []);
     JSAN.use("MochiKit.Iter", []);
+    JSAN.use("MochiKit.Signal", []);
 }
 
 try {
     if (typeof(MochiKit.Base) == 'undefined' ||
         typeof(MochiKit.DOM) == 'undefined' ||
         typeof(MochiKit.Effect) == 'undefined' ||
+        typeof(MochiKit.Signal) == 'undefined' ||
         typeof(MochiKit.Iter) == 'undefined') {
         throw "";
     }
 } catch (e) {
-    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.DOM, MochiKit.Effect and MochiKit.Iter!";
+    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.DOM, MochiKit.Effect, MochiKit.Signal and MochiKit.Iter!";
 }
 
 if (typeof(MochiKit.DragAndDrop) == 'undefined') {
@@ -120,8 +123,7 @@ MochiKit.DragAndDrop.Droppables = {
         }
         MochiKit.Position.prepare();
 
-        if (this.last_active.isAffected([MochiKit.Event.pointerX(event),
-                MochiKit.Event.pointerY(event)], element)) {
+        if (this.last_active.isAffected([event.cursor.x, event.cursor.y], element)) {
             if (this.last_active.options.ondrop) {
                 this.last_active.options.ondrop(element,
                    this.last_active.element, event);
@@ -263,16 +265,12 @@ MochiKit.DragAndDrop.Draggables = {
 
     register: function (draggable) {
         if (this.drags.length === 0) {
-            this.eventMouseUp = MochiKit.DOM.bindAsEventListener(
-                                    this.endDrag, this);
-            this.eventMouseMove = MochiKit.DOM.bindAsEventListener(
-                                    this.updateDrag, this);
-            this.eventKeypress = MochiKit.DOM.bindAsEventListener(
-                                    this.keyPress, this);
-
-            MochiKit.Event.observe(document, 'mouseup', this.eventMouseUp);
-            MochiKit.Event.observe(document, 'mousemove', this.eventMouseMove);
-            MochiKit.Event.observe(document, 'keypress', this.eventKeypress);
+            this.eventMouseUp = MochiKit.Base.bind(this.endDrag, this); 
+            this.eventMouseMove = MochiKit.Base.bind(this.updateDrag, this); 
+            this.eventKeypress = MochiKit.Base.bind(this.keyPress, this); 
+            MochiKit.Signal.connect(document, 'onmouseup', this.eventMouseUp); 
+            MochiKit.Signal.connect(document, 'onmousemove', this.eventMouseMove); 
+            MochiKit.Signal.connect(document, 'onkeypress', this.eventKeypress); 
         }
         this.drags.push(draggable);
     },
@@ -282,12 +280,12 @@ MochiKit.DragAndDrop.Draggables = {
             return d != draggable
         }, this.drags);
         if (this.drags.length === 0) {
-            MochiKit.Event.stopObserving(document, 'mouseup',
-                                         this.eventMouseUp);
-            MochiKit.Event.stopObserving(document, 'mousemove',
-                                         this.eventMouseMove);
-            MochiKit.Event.stopObserving(document, 'keypress',
-                                         this.eventKeypress);
+            MochiKit.Signal.disconnect(document, 'onmouseup', 
+                                       this.eventMouseUp); 
+            MochiKit.Signal.disconnect(document, 'onmousemove', 
+                                       this.eventMouseMove); 
+            MochiKit.Signal.disconnect(document, 'onkeypress', 
+                                       this.eventKeypress);
         }
     },
 
@@ -306,8 +304,7 @@ MochiKit.DragAndDrop.Draggables = {
         if (!this.activeDraggable) {
             return;
         }
-        var pointer = [MochiKit.Event.pointerX(event),
-                       MochiKit.Event.pointerY(event)];
+        var pointer = [event.cursor.x, event.cursor.y];
         // Mozilla-based browsers fire successive mousemove events with
         // the same coordinates, prevent needless redrawing (moz bug?)
         if (this._lastPointer && (MochiKit.Base.repr(this._lastPointer) ==
@@ -423,15 +420,14 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         this.options = options;
         this.dragging = false;
 
-        this.eventMouseDown = MochiKit.DOM.bindAsEventListener(this.initDrag,
-                                                               this);
-        MochiKit.Event.observe(this.handle, 'mousedown', this.eventMouseDown);
+        this.eventMouseDown = MochiKit.Base.bind(this.initDrag, this); 
+        MochiKit.Signal.connect(this.handle, 'onmousedown', this.eventMouseDown); 
         MochiKit.DragAndDrop.Draggables.register(this);
     },
 
     destroy: function () {
-        MochiKit.Event.stopObserving(this.handle, 'mousedown',
-                                     this.eventMouseDown);
+        MochiKit.Signal.disconnect(this.handle, 'onmousedown',
+                                  this.eventMouseDown);
         MochiKit.DragAndDrop.Draggables.unregister(this);
     },
 
@@ -442,11 +438,11 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     },
 
     initDrag: function (event) {
-        if (!MochiKit.Event.isLeftClick(event)) {
+        if (!event.isLeftClick) {
             return;
         }
         // abort on form elements, fixes a Firefox issue
-        var src = MochiKit.Event.element(event);
+        var src = event.target;
         if (src.tagName && (
             src.tagName == 'INPUT' ||
             src.tagName == 'SELECT' ||
@@ -460,15 +456,14 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             this.element._revert = null;
         }
 
-        var pointer = [MochiKit.Event.pointerX(event),
-                       MochiKit.Event.pointerY(event)];
+        var pointer = [event.cursor.x, event.cursor.y];
         var pos = MochiKit.Position.cumulativeOffset(this.element);
         this.offset = MochiKit.Base.map(function (i) {
             return (pointer[i] - pos[i]);
         }, [0, 1]);
 
         MochiKit.DragAndDrop.Draggables.activate(this);
-        MochiKit.Event.stop(event);
+        event.stop();
     },
 
     startDrag: function (event) {
@@ -514,7 +509,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         if (MochiKit.Base.isSafari()) {
             window.scrollBy(0, 0);
         }
-        MochiKit.Event.stop(event);
+        event.stop();
     },
 
     finishDrag: function (event, success) {
@@ -566,11 +561,11 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     },
 
     keyPress: function (event) {
-        if (event.keyCode != MochiKit.Event.KEY_ESC) {
+        if (event.keyString != "KEY_ESCAPE") {
             return;
         }
         this.finishDrag(event, false);
-        MochiKit.Event.stop(event);
+        event.stop();
     },
 
     endDrag: function (event) {
@@ -578,7 +573,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             return;
         }
         this.finishDrag(event, true);
-        MochiKit.Event.stop(event);
+        event.stop();
     },
 
     draw: function (point) {
