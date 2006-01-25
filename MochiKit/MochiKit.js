@@ -36,6 +36,7 @@ MochiKit.MochiKit.SUBMODULES = [
     "DOM",
     "LoggingPane",
     "Color",
+    "Signal",
     "Visual"
 ];
 

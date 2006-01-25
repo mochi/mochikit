@@ -49,7 +49,7 @@ MochiKit.Signal.Event = function (e) {
 
     // the actual this.event.timeStamp value seems kind of random, or is
     // missing, or is broken, so fixing it
-    this.timeStamp = (new Date).getTime();
+    this.timeStamp = (new Date()).getTime();
 
     this.target = this.event.target || this.event.srcElement;
     
@@ -306,7 +306,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         // undefined: 'KEY_UNKNOWN'
     },
     
-    _get_slot: function(slot, func) {
+    _get_slot: function (slot, func) {
         if (typeof(func) == 'string' || typeof(func) == 'function') {
             slot = [slot, func];
         } else if (!func && typeof(slot) == 'function') {
@@ -318,13 +318,13 @@ MochiKit.Base.update(MochiKit.Signal, {
         return slot;
     },
 
-    _unloadCache: function() {
-        try {
-            for (var i = 0; i < MochiKit.Signal._observers.length; i++) {
-                var src = MochiKit.Signal._observers[i][0];
-                var sig = MochiKit.Signal._observers[i][1];
-                var listener = MochiKit.Signal._observers[i][2];
-    
+    _unloadCache: function () {
+        for (var i = 0; i < MochiKit.Signal._observers.length; i++) {
+            var src = MochiKit.Signal._observers[i][0];
+            var sig = MochiKit.Signal._observers[i][1];
+            var listener = MochiKit.Signal._observers[i][2];
+
+            try {
                 if (src.addEventListener) {
                     src.removeEventListener(sig.substr(2), listener, false);
                 } else if (src.attachEvent) {
@@ -332,9 +332,9 @@ MochiKit.Base.update(MochiKit.Signal, {
                 } else {
                     src[sig] = undefined;
                 }
+            } catch(e) {
+                // clean IE garbage
             }
-        } catch(e) {
-            // clean IE garbage
         }
 
         MochiKit.Signal._observers = null;
@@ -352,7 +352,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
     
-    connect: function(src, sig, slot, /* optional */func) {
+    connect: function (src, sig, slot, /* optional */func) {
         /***
             
             Connects a signal to a slot.
@@ -408,7 +408,7 @@ MochiKit.Base.update(MochiKit.Signal, {
 
             // Add the signal connector if it hasn't been done already.
             if (!src.__listeners[sig]) {
-                var listener = function(nativeEvent) {
+                var listener = function (nativeEvent) {
                     var eventObject = new MochiKit.Signal.Event(nativeEvent);
                     MochiKit.Signal.signal(src, sig, eventObject);
                     return true;
@@ -449,7 +449,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         signals.push(slot);
     },
 
-    disconnect: function(src, sig, slot, /* optional */func) {
+    disconnect: function (src, sig, slot, /* optional */func) {
         /***
         
             When 'disconnect()' is called, it will disconnect whatever
@@ -497,19 +497,19 @@ MochiKit.Base.update(MochiKit.Signal, {
                     src.__signals[sig] = undefined;
                 }
 
-                MochiKit.Signal._observers = MochiKit.Base.filter(
-                    function(o) {
-                        return MochiKit.Base.operator.cne(o,
-                            [src.sig, listener]);
-                    },
-                    MochiKit.Signal._observers);
-
+                var observers = MochiKit.Signal._observers;
+                for (var i = 0; i < observers.length; i++) {
+                    if (o[0] === src && o[1] === sig && o[2] === listener) {
+                        observers.splice(i, 1);
+                        break;
+                    }
+                }
                 src.__listeners[sig] = undefined;
             }
         }
     },
 
-    signal: function(src, sig) {
+    signal: function (src, sig) {
         /***
         
         This will signal a signal, passing whatever additional parameters
@@ -552,7 +552,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                     }
                 }
             } catch (e) {
-                errors.push(repr(items(e)));
+                errors.push(e);
             }
         }
         if (errors.length) {
@@ -562,7 +562,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
 
-    register_signals: function(src, signals) {
+    register_signals: function (src, signals) {
         /***
     
         This will register signals for the object 'src'. (Note that a string
