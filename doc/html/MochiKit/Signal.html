@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<title>MochiKit.Signal - Simple universal event handling</title>
+
+<link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
+<script type="text/javascript" src="../../../packed/MochiKit/MochiKit.js"></script>
+<script type="text/javascript" src="../../js/toc.js"></script>
+</head>
+<body>
+<div class="document">
+<div class="section">
+<h1><a id="name" name="name">Name</a></h1>
+<p>MochiKit.Signal - Simple universal event handling</p>
+</div>
+<div class="section">
+<h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
+<pre class="literal-block">
+// Allow your objects to create events.
+var myObject = {};
+register_signals(myObject, ['flash', 'bang']);
+
+// otherObject.gotFlash() will be called when 'flash' signalled.
+connect(myObject, 'flash', otherObject, 'gotFlash');
+
+// gotBang.apply(otherObject) will be called when 'bang' signalled.
+connect(myObject, 'bang', otherObject, gotBang);
+
+// myFunc.apply(myObject) will be called when 'flash' signalled.
+connect(myObject, 'flash', myFunc);
+
+// You may disconnect with disconnect() and the same parameters.
+
+// Signal can take parameters. These will be passed along to the connected
+// functions.
+signal(myObject, 'flash');
+signal(myObject, 'bang', 'BANG!');
+
+// DOM events are also signals. Connect freely! The functions will be
+// called with the event as a parameter.
+
+// calls myClicked.apply($('myID'), event)
+connect('myID', 'onclick', myClicked);
+
+// calls wasClicked.apply(myObject, event)
+connect($('myID'), 'onclick', myObject, wasClicked);
+
+// calls myObject.wasClicked(event)
+connect($('myID'), 'onclick', myObject, 'wasClicked');
+
+// the event is normalized, no more e = e || window.event!
+myOjbect.wasClicked = function(e) {
+    crossBrowserCursorPosX = e.cursor.x;
+    crossBrowserCursorPosY = e.cursor.y;
+}
+</pre>
+</div>
+<div class="section">
+<h1><a id="description" name="description">Description</a></h1>
+<p>Event handling was never so easy!</p>
+<p>This module takes care of all the hard work---figuring out which event model
+to use, trying to retrieve the event object, and handling your own internal
+events, as well as cleanup when the page is unloaded to handle IE's nasty
+memory leakage.</p>
+<p>This event system is largely based on Qt's signal/slot system. You should read
+more on how that is handled and also how it is used in model/view programming
+at: <a class="reference" href="http://docs.trolltech.com/">http://docs.trolltech.com/</a></p>
+<p>Here are the rules for the signal and slot system.</p>
+<ol class="arabic">
+<li><p class="first">Don't use the browser event handling.  That means, no <tt class="docutils literal"><span class="pre">onclick=&quot;blah&quot;</span></tt>,
+no <tt class="docutils literal"><span class="pre">elem.attachEvent(...)</span></tt>, and certainly no
+<tt class="docutils literal"><span class="pre">elem.addEventListener(...)</span></tt>.</p>
+</li>
+<li><p class="first">Objects other than DOM objects (window, document, or any HTMLElement)
+must have its signals declared via <a class="mochiref reference" href="#fn-register_signals">register_signals()</a>
+before they can be used.</p>
+</li>
+<li><p class="first">For DOM objects (window, document, or any HTMLElement), the signals
+already exist and are named 'onclick', 'onkeyup', etc... just like they
+are named already.</p>
+</li>
+<li><p class="first">The following are acceptable for slots:</p>
+<blockquote>
+<ul class="simple">
+<li>A function</li>
+<li>An object and a function</li>
+<li>An object and a string</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">You may connect or disconnect slots to signals freely using the
+<a class="mochiref reference" href="#fn-connect">connect()</a> and <a class="mochiref reference" href="#fn-disconnect">disconnect()</a> methods.  The
+same parameters to <a class="mochiref reference" href="#fn-disconnect">disconnect</a> will only remove a previous
+connection made with the same parameters to <a class="mochiref reference" href="#fn-connect">connect</a>.
+Also, connecting multiple times only leaves one connection in place.</p>
+</li>
+<li><p class="first">Slots that are connected to a signal are called when that signal is
+signalled.</p>
+<ul class="simple">
+<li>If the slot was a single function, then it is called with <tt class="docutils literal"><span class="pre">this</span></tt> set
+to the object originating the signal with whatever parameters it was
+signalled with.</li>
+<li>If the slot was an object and a function, then it is called with
+<tt class="docutils literal"><span class="pre">this</span></tt> set to the object, and with whatever parameters it was
+signalled with.</li>
+<li>If the slot was an object and a string, then <tt class="docutils literal"><span class="pre">object[string]</span></tt> is
+called with the parameters to the signal.</li>
+</ul>
+</li>
+<li><p class="first">Signals are triggered with the <a class="mochiref reference" href="#fn-signal">signal(src, 'signal', ...)</a>
+function.  Additional parameters passed to this are passed onto the
+connected slots.</p>
+</li>
+<li><p class="first">Signals triggered by DOM events are called with a custom event object as
+a parameter.  Use <tt class="docutils literal"><span class="pre">customObject.stop()</span></tt> to do the W3C equivalent of
+<tt class="docutils literal"><span class="pre">stopPropagation</span></tt> and <tt class="docutils literal"><span class="pre">preventDefault</span></tt>.  You can grab the native event
+by accessing <tt class="docutils literal"><span class="pre">customObject.event</span></tt>.  Here is a complete list of this
+object's properties:</p>
+<p>These are always generated:</p>
+<dl class="docutils">
+<dt>event:</dt>
+<dd><p class="first last">The native event produced by the browser.  You should not need to
+access this.</p>
+</dd>
+<dt>type:</dt>
+<dd><p class="first last">The event type: click, mouseover, keypress, etc. (Does not include
+the 'on' prefix.)</p>
+</dd>
+<dt>timeStamp:</dt>
+<dd><p class="first last">Generated via <tt class="docutils literal"><span class="pre">(new</span> <span class="pre">Date).getTime()</span></tt></p>
+</dd>
+<dt>target:</dt>
+<dd><p class="first last">The element that triggered the event.</p>
+</dd>
+<dt>altKey, ctrlKey, metaKey, shiftKey:</dt>
+<dd><p class="first last"><tt class="docutils literal"><span class="pre">true</span></tt> if pressed, <tt class="docutils literal"><span class="pre">false</span></tt> if not.  <tt class="docutils literal"><span class="pre">metaKey</span></tt> will be <tt class="docutils literal"><span class="pre">false</span></tt>
+instead of <tt class="docutils literal"><span class="pre">undefined</span></tt> in IE.</p>
+</dd>
+</dl>
+<p>These are generated for keydown and keyup events:</p>
+<dl class="docutils">
+<dt>keyCode:</dt>
+<dd><p class="first last">contains the raw key code, such as 8 for backspace.</p>
+</dd>
+<dt>keyString:</dt>
+<dd><p class="first last">contains a human readable string, such as 'KEY_BACKSPACE'.
+The complete list is defined in MochiKit.Signal._specialKeys.</p>
+</dd>
+</dl>
+<p>Note that you should use keydown and keyup to detect control characters,
+and keypressed to detect &quot;printable&quot; characters.  Some browsers will
+return control characters for keypressed.  This is what's generated for
+keypressed events:</p>
+<dl class="docutils">
+<dt>charCode:</dt>
+<dd><p class="first last">contains the raw character code, such as 33.</p>
+</dd>
+<dt>charString:</dt>
+<dd><p class="first last">contains the actual character, such as '!'.</p>
+</dd>
+</dl>
+<p>These are only generated for mouse*, click, dblclick, and contextmenu
+(note that contextmenu doesn't work in Opera):</p>
+<dl class="docutils">
+<dt>cursor.x, cursor.y:</dt>
+<dd><p class="first last">represents the cursor position relative to the HTML document.</p>
+</dd>
+</dl>
+<p>These are only generated for mouseup, mousedown, click, and dblclick:</p>
+<dl class="docutils">
+<dt>isLeftClick, isRightClick, isMiddleClick:</dt>
+<dd><p class="first"><tt class="docutils literal"><span class="pre">true</span></tt> or <tt class="docutils literal"><span class="pre">false</span></tt>.  Mac browsers don't report right click
+consistently.  Firefox fires the click and sets ctrlKey to true,
+Opera fires the click and sets metaKey to true, and Safari just
+doesn't fire the click.</p>
+<p>The folks on #webkit agree that Safari's behavior is strange, and asked
+us to file a bug report:
+<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">http://bugzilla.opendarwin.org/show_bug.cgi?id=6595</a></p>
+<p class="last">If you want a right click, I suggest that instead of looking for
+a right click, look for a contextmenu event.</p>
+</dd>
+</dl>
+<p>This is generated on mouseover and mouseout:</p>
+<dl class="docutils">
+<dt>relatedTarget:</dt>
+<dd><p class="first last">the document element that the mouse has moved to.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<p>If you find that you're accessing the native event for any reason, create a
+<a class="reference" href="http://trac.mochikit.com/newticket">new ticket</a> and we'll look into normalizing the behavior you're looking for.</p>
+</div>
+<div class="section">
+<h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
+<ul class="simple">
+<li><a class="mochiref reference" href="Base.html">MochiKit.Base</a></li>
+<li><a class="mochiref reference" href="DOM.html">MochiKit.DOM</a></li>
+</ul>
+</div>
+<div class="section">
+<h1><a id="overview" name="overview">Overview</a></h1>
+</div>
+<div class="section">
+<h1><a id="api-reference" name="api-reference">API Reference</a></h1>
+<div class="section">
+<h2><a id="functions" name="functions">Functions</a></h2>
+<p>
+<a name="fn-connect"></a>
+<a class="mochidef reference" href="#fn-connect">connect(src, signal, dest[, func])</a>:</p>
+<blockquote>
+<p>Connects a signal to a slot.</p>
+<p><tt class="docutils literal"><span class="pre">src</span></tt> is the object that has the signal.  You may pass in a string, in
+which case, it is interpreted as an id for an HTML Element.</p>
+<p><tt class="docutils literal"><span class="pre">signal</span></tt> is a string that represents a signal name. If 'src' is an HTML
+Element, Window, or the Document, then it can be one of the 'on-XYZ'
+events. Note that you must include the 'on' prefix, and it must be all
+lower-case. If <tt class="docutils literal"><span class="pre">src</span></tt> is another kind of object, the signal must be
+previously registered with <a class="mochiref reference" href="#fn-register_signals">register_signals()</a>.</p>
+<p><tt class="docutils literal"><span class="pre">dest</span></tt> and <tt class="docutils literal"><span class="pre">func</span></tt> describe the slot, or the action to take when the
+signal is triggered.</p>
+<blockquote>
+<ul class="simple">
+<li>If <tt class="docutils literal"><span class="pre">dest</span></tt> is an object and <tt class="docutils literal"><span class="pre">func</span></tt> is a string, then
+<tt class="docutils literal"><span class="pre">dest[func].apply(dest,</span> <span class="pre">...)</span></tt> will be called when the signal
+is signalled.</li>
+<li>If <tt class="docutils literal"><span class="pre">dest</span></tt> is an object and <tt class="docutils literal"><span class="pre">func</span></tt> is a function, then
+<tt class="docutils literal"><span class="pre">func.apply(dest,</span> <span class="pre">...)</span></tt> will be called when the signal is
+signalled.</li>
+<li>If <tt class="docutils literal"><span class="pre">func</span></tt> is undefined and <tt class="docutils literal"><span class="pre">dest</span></tt> is a function, then
+<tt class="docutils literal"><span class="pre">func.apply(src,</span> <span class="pre">...)</span></tt> will be called when the signal is
+signalled.</li>
+</ul>
+</blockquote>
+<p>No other combinations are allowed and should raise and exception.</p>
+<p>You may call <a class="mochiref reference" href="#fn-connect">connect()</a> multiple times with the same connection
+paramters.  However, only a single connection will be made.</p>
+</blockquote>
+<p>
+<a name="fn-disconnect"></a>
+<a class="mochidef reference" href="#fn-disconnect">disconnect(src, signal, dest[, func])</a>:</p>
+<blockquote>
+When <a class="mochiref reference" href="#fn-disconnect">disconnect()</a> is called, it will disconnect whatever
+connection was made given the same parameters to <a class="mochiref reference" href="#fn-connect">connect()</a>.
+Note that if you want to pass a closure to <a class="mochiref reference" href="#fn-connect">connect()</a>, you'll
+have to remember it if you want to later <a class="mochiref reference" href="#fn-disconnect">disconnect()</a> it.</blockquote>
+<p>
+<a name="fn-register_signals"></a>
+<a class="mochidef reference" href="#fn-register_signals">register_signals(src, signals)</a>:</p>
+<blockquote>
+<p>This will register signals for the object <tt class="docutils literal"><span class="pre">src</span></tt>.  Note that a string
+here is not allowed -- you don't need to register signals for DOM objects.
+'signals' is an array of strings.</p>
+<p>You may register the same signals multiple times; subsequent
+register_signals calls with the same signal names will have no effect,
+and the existing connections, if any, will not be lost.</p>
+</blockquote>
+<p>
+<a name="fn-signal"></a>
+<a class="mochidef reference" href="#fn-signal">signal(src, signal, ...)</a>:</p>
+<blockquote>
+This will signal a signal, passing whatever additional parameters on to
+the connected slots. <tt class="docutils literal"><span class="pre">src</span></tt> and <tt class="docutils literal"><span class="pre">signal</span></tt> are the same as for
+<a class="mochiref reference" href="#fn-connect">connect()</a>.</blockquote>
+</div>
+</div>
+<div class="section">
+<h1><a id="authors" name="authors">Authors</a></h1>
+<ul class="simple">
+<li>Jonathan Gardner &lt;<a class="reference" href="mailto:jgardner&#64;jonathangardner.net">jgardner&#64;jonathangardner.net</a>&gt;</li>
+<li>Beau Hartshorne &lt;<a class="reference" href="mailto:beau&#64;hartshornesoftware.com">beau&#64;hartshornesoftware.com</a>&gt;</li>
+</ul>
+</div>
+<div class="section">
+<h1><a id="copyright" name="copyright">Copyright</a></h1>
+<p>Copyright 2006 Jonathan Gardner &lt;<a class="reference" href="mailto:jgardner&#64;jonathangardner.net">jgardner&#64;jonathangardner.net</a>&gt; and Beau
+Hartshorne &lt;<a class="reference" href="mailto:beau&#64;hartshornesoftware.com">beau&#64;hartshornesoftware.com</a>&gt;.  This program is dual-licensed free
+software; you can redistribute it and/or modify it under the terms of the <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT
+License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
+</div>
+</div>
+
+</body>
+</html>

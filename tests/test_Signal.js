@@ -56,18 +56,16 @@ tests.test_Signal = function (t) {
     signal(hasSignals, 'signalTwo');
     t.is(i, 4, 'Disconnecting obj-string');
 
-    var shouldRaise = function() {
-      return undefined.attr;
-    };
+    var shouldRaise = function() { return undefined.attr; };
 
     try {
         connect(hasSignals, 'signalOne', shouldRaise);
         signal(hasSignals, 'signalOne');
-        disconnect(hasSignals, 'signalOne', shouldRaise);
         t.ok(false, 'An exception was not raised');
     } catch (e) {
         t.ok(true, 'An exception was raised');
     }
+    disconnect(hasSignals, 'signalOne', shouldRaise);
     
     connect('submit', 'onclick', aFunction);
     $('submit').click();
