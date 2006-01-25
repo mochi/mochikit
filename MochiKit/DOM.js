@@ -217,56 +217,6 @@ MochiKit.DOM.withWindow = function (win, func) {
     return rval;
 };
 
-MochiKit.DOM.formContents2 = function (elem/* = document */) {
-    var names = [];
-    var values = [];
-    var m = MochiKit.Base;
-    var self = MochiKit.DOM;
-    if (typeof(elem) == "undefined" || elem == null) {
-        elem = self._document;
-    } else {
-        elem = self.getElement(elem);
-    }
-    m.nodeWalk(elem, function (elem) {
-        var name = elem.name;
-        if (m.isNotEmpty(name)) {
-            if (elem.tagName == "INPUT"
-                && (elem.type == "radio" || elem.type == "checkbox")
-                && !elem.checked
-            ) {
-                return null;
-            }
-            if (elem.tagName == "SELECT") {
-                if (elem.type == "select-one") {
-                    var index = elem.selectedIndex;
-                    if (index >= 0) {
-                        var opt = elem.options[index];
-                        names.push(name);
-                        values.push((opt.value) ? opt.value : opt.text);
-                    }
-                } else {
-                    var opts = elem.options;
-                    for (var i=0; i < opts.length; i++) {
-                        var opt = opts[i];
-                        alert("opt " + opts[i].value + " " + name);
-                        if (!opt.selected) {
-                            continue;
-                        }
-                        names.push(name);
-                        values.push((opt.value) ? opt.value : opt.text);
-                    }
-                }
-            } else {
-                names.push(name);
-                values.push(elem.value || '');
-            }
-            return null;
-        }
-        return elem.childNodes;
-    });
-    return [names, values];
-};
-
 MochiKit.DOM.formContents = function (elem/* = document */) {
     var names = [];
     var values = [];
