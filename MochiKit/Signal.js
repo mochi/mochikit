@@ -159,14 +159,14 @@ MochiKit.Signal.Event = function (e) {
             //     methods/getboundingclientrect.asp
             
             // the offset is (2,2) in standards mode and (0,0) in quirks mode
-            this.cursor.x = this.event.clientX + 
+            this.cursor.x = (this.event.clientX + 
                 (document.documentElement.scrollLeft || 
                 document.body.scrollLeft) - 
-                document.documentElement.clientLeft;
-            this.cursor.y = this.event.clientY + 
+                document.documentElement.clientLeft);
+            this.cursor.y = (this.event.clientY + 
                 (document.documentElement.scrollTop || 
                 document.body.scrollTop) - 
-                document.documentElement.clientTop;
+                document.documentElement.clientTop);
         }
         
         if (this.type != 'mousemove') {
@@ -175,9 +175,9 @@ MochiKit.Signal.Event = function (e) {
             this.isMiddleClick = false;
             
             if (this.event.which) {
-                this.isLeftClick = (this.event.which == 1) ? true : false;
-                this.isMiddleClick = (this.event.which == 2) ? true: false;
-                this.isRightClick = (this.event.which == 3) ? true : false;
+                this.isLeftClick = (this.event.which == 1);
+                this.isMiddleClick = (this.event.which == 2);
+                this.isRightClick = (this.event.which == 3);
     
                 // mac browsers and right click:
                 // safari doesn't fire any click events on a right click
@@ -187,18 +187,18 @@ MochiKit.Signal.Event = function (e) {
                 // across platforms
                 
             } else {
-                this.isLeftClick = (this.event.button & 1) ? true : false;
-                this.isRightClick = (this.event.button & 2) ? true : false;
-                this.isMiddleClick = (this.event.button & 4) ? true : false;               
+                this.isLeftClick = !!(this.event.button & 1);
+                this.isRightClick = !!(this.event.button & 2);
+                this.isMiddleClick = !!(this.event.button & 4);
             }
         }
         
         if (this.type == 'mouseover') {
-            this.relatedTarget = this.event.relatedTarget || 
-                this.event.fromElement;
+            this.relatedTarget = (this.event.relatedTarget
+                || this.event.fromElement);
         } else if (this.type == 'mouseout') {
-            this.relatedTarget = this.event.relatedTarget || 
-                this.event.toElement;
+            this.relatedTarget = (this.event.relatedTarget
+                || this.event.toElement);
         }
     }
 };
@@ -439,14 +439,14 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
 
         // Actually add the slot... if it isn't there already.
-        if (MochiKit.Base.filter(
-            function(s) {
-                return MochiKit.Base.operator.ceq(s, slot);
-            },
-            src.__signals[sig]).length === 0) {
-
-            src.__signals[sig].push(slot);
+        var signals = src.__signals[sig];
+        for (var i = 0; i < signals.length; i++) {
+            var s = signals[i];
+            if (slot[0] === s[0] && slot[1] === s[1] && slot[2] === s[2]) {
+                return;
+            }
         }
+        signals.push(slot);
     },
 
     disconnect: function(src, sig, slot, /* optional */func) {
@@ -469,14 +469,18 @@ MochiKit.Base.update(MochiKit.Signal, {
         slot = MochiKit.Signal._get_slot(slot, func);
 
         if (src.__signals && src.__signals[sig]) {
-            src.__signals[sig] = MochiKit.Base.filter(
-                function(s) {
-                    return MochiKit.Base.operator.cne(s, slot); // FIXME: possible bug?
-                },
-                src.__signals[sig]);
+            var signals = src.__signals[sig];
+            var origlen = signals.length;
+            for (var i = 0; i < signals.length; i++) {
+                var s = signals[i];
+                if (s[0] === slot[0] && s[1] === slot[1] && s[2] === slot[2]) {
+                    signals.splice(i, 1);
+                    break;
+                }
+            }
         }
 
-        if (src.addEventListener || src.attachEvent || src[signal]) {
+        if (src.addEventListener || src.attachEvent || src.__signals[sig]) {
             // DOM object
 
             // Stop listening if there are no connected slots.
@@ -490,7 +494,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                 } else if (src.attachEvent) {
                     src.detachEvent(sig, listener);
                 } else {
-                    src[sig] = undefined;
+                    src.__signals[sig] = undefined;
                 }
 
                 MochiKit.Signal._observers = MochiKit.Base.filter(
@@ -508,9 +512,9 @@ MochiKit.Base.update(MochiKit.Signal, {
     signal: function(src, sig) {
         /***
         
-            This will signal a signal, passing whatever additional parameters
-            on to the connected slots. 'src' and 'signal' are the same as for
-            'connect()'.
+        This will signal a signal, passing whatever additional parameters
+        on to the connected slots. 'src' and 'signal' are the same as for
+        'connect()'.
         
         ***/
         if (typeof(src) == 'string') {
@@ -548,9 +552,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                     }
                 }
             } catch (e) {
-                // TODO: Should we use the Logging module? Hartshorne says no.
-                // I need to ask Bob.
-                errors.push(e);
+                errors.push(repr(items(e)));
             }
         }
         if (errors.length) {
@@ -561,7 +563,7 @@ MochiKit.Base.update(MochiKit.Signal, {
     },
 
     register_signals: function(src, signals) {
-    /***
+        /***
     
         This will register signals for the object 'src'. (Note that a string
         here is not allowed--you don't need to register signals for DOM
@@ -571,13 +573,35 @@ MochiKit.Base.update(MochiKit.Signal, {
         calls with the same signal names will have no effect, and the existing
         connections, if any, will not be lost.
     
-    ***/
+        ***/
         if (!src.__signals) {
-            src.__signals = {};
+            src.__signals = {
+                /*
+                __repr__: function () {
+                    var m = MochiKit.Base;
+                    var signals = m.items(this);
+                    signals = m.filter(
+                        function (a) { return a[0] != "__repr__"; },
+                        signals
+                    );
+                    signals.sort(m.compare);
+                    return (
+                        '{\n    ' + m.map(
+                            function (a) {
+                                return m.map(m.repr, a).join(": ")
+                            },
+                            signals
+                        ).join(",\n    ") + "\n}"
+                    );
+                }
+                */
+            };
         }
+
         for (var i = 0; i < signals.length; i++) {
-            if (!src.__signals[signals[i]]) {
-                src.__signals[signals[i]] = [];
+            var sig = signals[i];
+            if (!src.__signals[sig]) {
+                src.__signals[sig] = [];
             }
         }
     }
@@ -591,7 +615,7 @@ MochiKit.Signal.EXPORT = [
     'connect',
     'disconnect',
     'signal',
-    'register_signals',
+    'register_signals'
 ];
 
 MochiKit.Signal.__new__ = function (win) {

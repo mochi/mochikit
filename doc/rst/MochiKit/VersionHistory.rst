@@ -1,5 +1,6 @@
 2006-XX-XX      v1.3
 
+- New MochiKit.Signal module, modeled after the slot/signal mechanism in Qt
 - updated elementDimensions to calculate width from offsetWidth instead
   of clientWidth 
 - formContents now works with FORM tags that have a name attribute

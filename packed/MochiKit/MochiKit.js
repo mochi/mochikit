@@ -2391,7 +2391,7 @@ if(!elem){
 return undefined;
 }
 if(self.computedStyle(elem,"display")!="none"){
-return new self.Dimensions(elem.w||0,elem.h||0);
+return new self.Dimensions(elem.offsetWidth||0,elem.offsetHeight||0);
 }
 var s=elem.style;
 var _305=s.visibility;
@@ -2399,8 +2399,8 @@ var _306=s.position;
 s.visibility="hidden";
 s.position="absolute";
 s.display="";
-var _307=elem.clientWidth;
-var _308=elem.clientHeight;
+var _307=elem.offsetWidth;
+var _308=elem.offsetHeight;
 s.display="none";
 s.position=_306;
 s.visibility=_305;
@@ -2416,13 +2416,13 @@ var x=0;
 var y=0;
 if(elem.offsetParent){
 while(elem.offsetParent){
-x+=elem.offsetLeft;
-y+=elem.offsetTop;
+x+=elem.offsetLeft||0;
+y+=elem.offsetTop||0;
 elem=elem.offsetParent;
 }
 }else{
-x=elem.x||x;
-y=elem.y||y;
+x=elem.x||0;
+y=elem.y||0;
 }
 if(_309){
 _309=arguments.callee(_309);
