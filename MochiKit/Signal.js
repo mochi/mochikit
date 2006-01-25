@@ -499,6 +499,7 @@ MochiKit.Base.update(MochiKit.Signal, {
 
                 var observers = MochiKit.Signal._observers;
                 for (var i = 0; i < observers.length; i++) {
+                    var o = observers[i];
                     if (o[0] === src && o[1] === sig && o[2] === listener) {
                         observers.splice(i, 1);
                         break;
