@@ -234,7 +234,7 @@ try {
     doc.appendChild(doc.body);
     var frm;
     withDocument(doc, function () {
-        frm = FORM(null,
+        frm = FORM({name: "ignore"},
             INPUT({name:"foo", value:"bar"}),
             INPUT({name:"foo", value:"bar"}),
             INPUT({name:"baz", value:"bar"})
