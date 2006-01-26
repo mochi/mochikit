@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Async 1.2
+MochiKit.Async 1.3
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -29,7 +29,7 @@ if (typeof(MochiKit.Async) == 'undefined') {
 }
 
 MochiKit.Async.NAME = "MochiKit.Async";
-MochiKit.Async.VERSION = "1.2";
+MochiKit.Async.VERSION = "1.3";
 MochiKit.Async.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

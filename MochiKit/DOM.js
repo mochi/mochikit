@@ -1,6 +1,6 @@
 /***
 
-MochiKit.DOM 1.2
+MochiKit.DOM 1.3
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -29,7 +29,7 @@ if (typeof(MochiKit.DOM) == 'undefined') {
 }
 
 MochiKit.DOM.NAME = "MochiKit.DOM";
-MochiKit.DOM.VERSION = "1.2";
+MochiKit.DOM.VERSION = "1.3";
 MochiKit.DOM.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
@@ -138,7 +138,7 @@ MochiKit.DOM.Coordinates.prototype.repr = function () {
 
 MochiKit.DOM.elementDimensions = function (elem) {
     var self = MochiKit.DOM;
-    if (typeof(elem.w) == "number" || typeof(elem.h) == "number") {
+    if (typeof(elem.w) == 'number' || typeof(elem.h) == 'number') {
         return new self.Dimensions(elem.w || 0, elem.h || 0);
     }
     elem = self.getElement(elem);
@@ -146,7 +146,8 @@ MochiKit.DOM.elementDimensions = function (elem) {
         return undefined;
     }
     if (self.computedStyle(elem, 'display') != 'none') {
-        return new self.Dimensions(elem.offsetWidth || 0, elem.offsetHeight || 0);
+        return new self.Dimensions(elem.offsetWidth || 0, 
+            elem.offsetHeight || 0);
     }
     var s = elem.style;
     var originalVisibility = s.visibility;
@@ -154,8 +155,8 @@ MochiKit.DOM.elementDimensions = function (elem) {
     s.visibility = 'hidden';
     s.position = 'absolute';
     s.display = '';
-    var originalWidth = elem.clientWidth;
-    var originalHeight = elem.clientHeight;
+    var originalWidth = elem.offsetWidth;
+    var originalHeight = elem.offsetHeight;
     s.display = 'none';
     s.position = originalPosition;
     s.visibility = originalVisibility;
@@ -172,13 +173,13 @@ MochiKit.DOM.elementPosition = function (elem, /* optional */relativeTo) {
     var y = 0;
     if (elem.offsetParent) {
         while (elem.offsetParent) {
-            x += elem.offsetLeft;
-            y += elem.offsetTop;
+            x += elem.offsetLeft || 0;
+            y += elem.offsetTop || 0;
             elem = elem.offsetParent;
         }
     } else {
-        x = elem.x || x;
-        y = elem.y || y;
+        x = elem.x || 0;
+        y = elem.y || 0;
     }
     if (relativeTo) {
         relativeTo = arguments.callee(relativeTo);
@@ -272,7 +273,6 @@ MochiKit.DOM.formContents = function (elem/* = document */) {
     });
     return [names, values];
 };
-
 
 MochiKit.DOM.withDocument = function (doc, func) {
     var self = MochiKit.DOM;
