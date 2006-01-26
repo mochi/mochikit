@@ -276,7 +276,7 @@ MochiKit.DragAndDrop.Draggables = {
     },
 
     unregister: function (draggable) {
-        this.drags = MochiKit.Iter.ifilter(function (d) {
+        this.drags = MochiKit.Base.filter(function (d) {
             return d != draggable
         }, this.drags);
         if (this.drags.length === 0) {
@@ -337,7 +337,7 @@ MochiKit.DragAndDrop.Draggables = {
 
     removeObserver: function (element) {
         // element instead of observer fixes mem leaks
-        this.observers = MochiKit.Iter.ifilter(function (o) {
+        this.observers = MochiKit.Base.filter(function (o) {
             return o.element != element;
         }, this.observers);
         this._cacheObserverCallbacks();

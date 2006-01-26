@@ -55,14 +55,17 @@ var Sortable = {
 
     destroy: function (element){
         element = MochiKit.DOM.getElement(element);
-        MochiKit.Iter.forEach(MochiKit.Iter.ifilter(function (s) {
-                return s.element == element;
-            }, this.sortables), function (s) {
-                MochiKit.DragAndDrop.Draggables.removeObserver(s.element);
-                MochiKit.Iter.forEach(s.droppables, function (d) {
-                    MochiKit.DragAndDrop.Droppables.remove(d);
-                });
-            s.draggables.invoke('destroy');
+        var toDestroy = MochiKit.Base.filter(function (s) {
+            return s.element == element;
+        }, this.sortables);
+        MochiKit.Iter.forEach(toDestroy, function (s) {
+            MochiKit.DragAndDrop.Draggables.removeObserver(s.element);
+            MochiKit.Iter.forEach(s.droppables, function (d) {
+                MochiKit.DragAndDrop.Droppables.remove(d);
+            });
+            MochiKit.Iter.forEach(s.draggables, function (d) {
+                d.destroy();
+            });
         });
         this.sortables = MochiKit.Base.filter(function (s) {
             return s.element != element;
@@ -270,8 +273,7 @@ var Sortable = {
     serialize: function (element, options) {
         element = MochiKit.DOM.getElement(element);
         var sortableOptions = this.options(element);
-        options = MochiKit.Base.update(
-        {
+        options = MochiKit.Base.update({
             tag: sortableOptions.tag,
             only: sortableOptions.only,
             name: element.id,
