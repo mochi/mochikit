@@ -80,6 +80,12 @@ MochiKit.DragAndDrop.Droppables = {
         this.drops.push(drop);
     },
 
+    unregister: function (drop) {
+        this.drops = MochiKit.Base.filter(function (d) {
+            return d != drop;
+        }, this.drops);
+    },
+
     prepare: function (element) {
         MochiKit.Iter.forEach(this.drops, function (drop) {
             if (drop.isAccepted(element)) {
@@ -248,6 +254,15 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         MochiKit.DragAndDrop.Droppables.last_active = this;
     },
 
+    destroy: function () {
+        /***
+
+        Delete this droppable.
+
+        ***/
+        MochiKit.DragAndDrop.Droppables.unregister(this);
+    },
+
     repr: function () {
         return '[' + this.__class__.NAME + ", options:" + MochiKit.Base.repr(this.options) + "]";
     }
@@ -277,7 +292,7 @@ MochiKit.DragAndDrop.Draggables = {
 
     unregister: function (draggable) {
         this.drags = MochiKit.Base.filter(function (d) {
-            return d != draggable
+            return d != draggable;
         }, this.drags);
         if (this.drags.length === 0) {
             MochiKit.Signal.disconnect(document, 'onmouseup', 
