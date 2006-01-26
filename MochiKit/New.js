@@ -81,27 +81,6 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
-    bindAsEventListener: function (func, self) {
-        return MochiKit.DOM.asEventListener(MochiKit.Base.bind(func, self));
-    },
-
-    asEventListener: function (func) {
-        return function (e) {
-            func.call(this, e || event);
-        };
-    },
-
-    addEventListener: function (element, action, func) {
-        var listener = MochiKit.DOM.asEventListener(func);
-        element = MochiKit.DOM.getElement(element);
-        if (element.addEventListener) {
-            element.addEventListener(action, listener, false);
-        } else if (element.attachEvent) {
-            element.attachEvent('on' + action, listener);
-        }
-        return listener;
-    },
-
     getStyle: function (element, style) {
         element = MochiKit.DOM.getElement(element);
         var value = element.style[MochiKit.Base.camelize(style)];
@@ -215,28 +194,6 @@ MochiKit.Base.update(MochiKit.DOM, {
             element._madePositioned = undefined;
             element.style.position = element.style.top = element.style.left = element.style.bottom = element.style.right = '';
         }
-    },
-
-    collectTextNodes: function (element) {
-        return MochiKit.Base.flatten(MochiKit.Base.map(function (node) {
-            if (node.nodeType == 3) {
-                return node.nodeValue;
-            } else if (node.hasChildNodes()) {
-                return MochiKit.DOM.collectTextNodes(node);
-            }
-            return '';
-        }, MochiKit.DOM.getElement(element).childNodes)).join('');
-    },
-
-    collectTextNodesIgnoreClass: function (element, className) {
-        return MochiKit.Base.flatten(MochiKit.Base.map(function (node) {
-            if (node.nodeType == 3) {
-                return node.nodeValue;
-            } else if (node.hasChildNodes() && !MochiKit.DOM.hasElementClass(node, className)) {
-                return MochiKit.DOM.collectTextNodesIgnoreClass(node, className);
-            }
-            return '';
-        }, MochiKit.DOM.getElement(element).childNodes)).join('');
     },
 
     setContentZoom: function (element, percent) {
@@ -395,19 +352,6 @@ MochiKit.Position = {
         target.style.left = offsets[0] + 'px';
         target.style.width = source.offsetWidth + 'px';
         target.style.height = source.offsetHeight + 'px';
-    }
-};
-
-MochiKit.Event = {
-    // find the first node with the given tagName, starting from the
-    // node the event was triggered on; traverses the DOM upwards
-    findElement: function (event, tagName) {
-        var element = event.target;
-        while (element.parentNode && (!element.tagName ||
-              (element.tagName.toUpperCase() != tagName.toUpperCase()))) {
-            element = element.parentNode;
-        }
-        return element;
     }
 };
 

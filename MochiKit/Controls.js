@@ -584,8 +584,17 @@ Autocompleter.Base.prototype = {
                                    this.options.frequency*1000);
     },
 
+    findElement: function (event, tagName) {
+        var element = event.target;
+        while (element.parentNode && (!element.tagName ||
+              (element.tagName.toUpperCase() != tagName.toUpperCase()))) {
+            element = element.parentNode;
+        }
+        return element;
+    }
+
     onHover: function (event) {
-        var element = MochiKit.Event.findElement(event, 'LI');
+        var element = this.findElement(event, 'LI');
         if (this.index != element.autocompleteIndex) {
             this.index = element.autocompleteIndex;
             this.render();
@@ -594,7 +603,7 @@ Autocompleter.Base.prototype = {
     },
 
     onClick: function (event) {
-        var element = MochiKit.Event.findElement(event, 'LI');
+        var element = this.findElement(event, 'LI');
         this.index = element.autocompleteIndex;
         this.selectEntry();
         this.hide();
@@ -653,6 +662,17 @@ Autocompleter.Base.prototype = {
         this.updateElement(this.getCurrentEntry());
     },
 
+    collectTextNodesIgnoreClass: function (element, className) {
+        return MochiKit.Base.flatten(MochiKit.Base.map(function (node) {
+            if (node.nodeType == 3) {
+                return node.nodeValue;
+            } else if (node.hasChildNodes() && !MochiKit.DOM.hasElementClass(node, className)) {
+                return this.collectTextNodesIgnoreClass(node, className);
+            }
+            return '';
+        }, MochiKit.DOM.getElement(element).childNodes)).join('');
+    },
+
     updateElement: function (selectedElement) {
         if (this.options.updateElement) {
             this.options.updateElement(selectedElement);
@@ -662,10 +682,10 @@ Autocompleter.Base.prototype = {
         if (this.options.select) {
             var nodes = document.getElementsByClassName(this.options.select, selectedElement) || [];
             if (nodes.length > 0) {
-                value = MochiKit.DOM.collectTextNodes(nodes[0], this.options.select);
+                value = MochiKit.DOM.scrapeText(nodes[0]);
             }
         } else {
-            value = MochiKit.DOM.collectTextNodesIgnoreClass(selectedElement, 'informal');
+            value = this.collectTextNodesIgnoreClass(selectedElement, 'informal');
         }
         var lastTokenPos = this.findLastToken();
         if (lastTokenPos != -1) {
