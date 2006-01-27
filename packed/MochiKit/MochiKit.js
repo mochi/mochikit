@@ -4066,6 +4066,7 @@ src.__signals[sig]=undefined;
 }
 var _535=MochiKit.Signal._observers;
 for(var i=0;i<_535.length;i++){
+var o=_535[i];
 if(o[0]===src&&o[1]===sig&&o[2]===_534){
 _535.splice(i,1);
 break;

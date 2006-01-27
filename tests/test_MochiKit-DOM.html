@@ -2,6 +2,7 @@
 <head>
     <script type="text/javascript" src="Test/Builder.js"></script>
     <script type="text/javascript" src="Test/More.js"></script>
+    <script type="text/javascript" src="../MochiKit/MockDOM.js"></script>
     <script type="text/javascript" src="../MochiKit/Base.js"></script>
     <script type="text/javascript" src="../MochiKit/Iter.js"></script>
     <script type="text/javascript" src="../MochiKit/DOM.js"></script>
@@ -177,29 +178,8 @@ try {
         "getElementsByTagAndClassName found all tr tags"
     );
         
-    var MockElement = function (name, data) {
-        this.nodeName = name.toUpperCase();
-        if (typeof(data) == "string") {
-            this.nodeValue = data;
-            this.nodeType = 3;
-        } else {
-            this.nodeType = 1;
-            this.childNodes = [];
-        }
-    }
-    MockElement.prototype = {
-        createElement: function (nodeName) { return new MockElement(nodeName); },
-        createTextNode: function (text) { return new MockElement("text", text); },
-        setAttribute: function (name, value) { this[name] = value; },
-        getAttribute: function (name) { return this[name]; },
-        appendChild: function (child) { this.childNodes.push(child); },
-        toString: function () { return "MockElement(" + this.nodeName + ")"; }
-    };
-
     var oldDoc = document;
-    var doc = new MockElement("DOCUMENT");
-    doc.body = new MockElement("BODY");
-    doc.appendChild(doc.body);
+    var doc = MochiKit.MockDOM.createDocument();
     is( currentDocument(), document, "currentDocument() correct" );
     withDocument(doc, function () {
         ok( document != doc, "global doc unchanged" );
@@ -229,9 +209,7 @@ try {
         ok( true, "threw" );
     }
 
-    doc = new MockElement("DOCUMENT");
-    doc.body = new MockElement("BODY");
-    doc.appendChild(doc.body);
+    doc = MochiKit.MockDOM.createDocument();
     var frm;
     withDocument(doc, function () {
         frm = FORM({name: "ignore"},
@@ -240,7 +218,6 @@ try {
             INPUT({name:"baz", value:"bar"})
         );
     });
-    diag(frm);
     var kv = formContents(frm);
     is( kv[0].join(","), "foo,foo,baz", "mock formContents names" );
     is( kv[1].join(","), "bar,bar,bar", "mock formContents values" );
