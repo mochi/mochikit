@@ -240,6 +240,7 @@ try {
             INPUT({name:"baz", value:"bar"})
         );
     });
+    diag(frm);
     var kv = formContents(frm);
     is( kv[0].join(","), "foo,foo,baz", "mock formContents names" );
     is( kv[1].join(","), "bar,bar,bar", "mock formContents values" );
