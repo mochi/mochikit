@@ -42,10 +42,10 @@ MochiKit.MockDOM.MockElement = function (name, data) {
         this.nodeType = 1;
         this.childNodes = [];
     }
-    if (name.substr(0, 1) == "<") {
-        var nameattr = name.substr(
+    if (name.substring(0, 1) == "<") {
+        var nameattr = name.substring(
             name.indexOf('"') + 1, name.lastIndexOf('"'));
-        name = name.substr(1, name.indexOf(" "));
+        name = name.substring(1, name.indexOf(" "));
         this.nodeName = name.toUpperCase();
         this.setAttribute("name", nameattr);
     }
