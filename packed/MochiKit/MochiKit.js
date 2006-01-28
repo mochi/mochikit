@@ -4503,8 +4503,11 @@ s.setAttribute("src",uri);
 s.setAttribute("type","application/x-javascript");
 _600.parentNode.appendChild(s);
 }else{
-var tag="<"+"script src=\""+uri+"\" type=\"text/javascript\""+">"+"<"+"/script"+">";
-document.write(tag);
+var s=document.createElement("script");
+s.id="MochiKit_"+base+_602[i];
+s.src=uri;
+s.type="text/javascript";
+document.getElementsByTagName("head")[0].appendChild(s);
 }
 }
 })();

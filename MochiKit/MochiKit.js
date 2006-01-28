@@ -131,8 +131,11 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
                 s.setAttribute("type", "application/x-javascript");
                 baseElem.parentNode.appendChild(s);
             } else {
-                var tag = '<' + 'script src="' + uri + '" type="text/javascript"' + '>' + '<' + '/script' + '>';
-                document.write(tag);
+                var s = document.createElement("script");
+                s.id = "MochiKit_" + base + modules[i];
+                s.src = uri;
+                s.type = "text/javascript";
+                document.getElementsByTagName("head")[0].appendChild(s);
             }
         }
     })();
