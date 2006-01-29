@@ -17,9 +17,9 @@ Please ignore this button: <input type="submit" id="submit" /><br />
 try {
         
     // Counting the number of tests is really lame
-    plan({'tests': 16});
+    plan({'tests': 51});
     tests.test_Signal({ok:ok, is:is});
-    ok( true, "test suite finished!");
+    ok(true, "test suite finished!");
     
 } catch (err) {
     
@@ -33,7 +33,7 @@ try {
             o[k] = err[k];
         }
     }
-    ok ( false, s );
+    ok(false, s);
 
 }
 </script>
