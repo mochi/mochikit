@@ -378,7 +378,8 @@ MochiKit.Base.update(MochiKit.Base, {
         ***/
         for (var i = 0; i < arguments.length; i++) {
             var o = arguments[i];
-            if (typeof(o) != "object" || typeof(o.getTime) != 'function') {
+            if (typeof(o) != "object" || o == null
+                    || typeof(o.getTime) != 'function') {
                 return false;
             }
         }
