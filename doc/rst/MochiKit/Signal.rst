@@ -19,9 +19,11 @@ Synopsis
     connect(myObject, 'flash', otherObject, 'gotFlash');
 
     // gotBang.apply(otherObject) will be called when 'bang' signalled.
+    // You can access otherObject from within gotBang as 'this'.
     connect(myObject, 'bang', otherObject, gotBang);
 
     // myFunc.apply(myObject) will be called when 'flash' signalled.
+    // You can access myObject from within myFunc as 'this'.
     connect(myObject, 'flash', myFunc);
 
     // You may disconnect with disconnect() and the same parameters.
@@ -45,8 +47,8 @@ Synopsis
 
     // the event is normalized, no more e = e || window.event!
     myOjbect.wasClicked = function(e) {
-        crossBrowserCursorPosX = e.cursor.x;
-        crossBrowserCursorPosY = e.cursor.y;
+        var crossBrowserCoordinates = e.mouse().page;
+        // e.mouse().page is a MochiKit.DOM.Coordinates object
     }
 
 
@@ -112,62 +114,56 @@ Here are the rules for the signal and slot system.
 8.  Signals triggered by DOM events are called with a custom event object as
     a parameter.  Use ``customObject.stop()`` to do the W3C equivalent of
     ``stopPropagation`` and ``preventDefault``.  You can grab the native event
-    by accessing ``customObject.event``.  Here is a complete list of this
-    object's properties:
+    by accessing ``customObject.event()``.  Here is a complete list of this
+    object's methods:
 
     These are always generated:
 
-    event:
+    event():
         The native event produced by the browser.  You should not need to
         access this.
 
-    type:
+    type():
         The event type: click, mouseover, keypress, etc. (Does not include
         the 'on' prefix.)
 
-    timeStamp:
-        Generated via ``(new Date).getTime()``
-
-    target:
+    target():
         The element that triggered the event.
 
-    altKey, ctrlKey, metaKey, shiftKey:
-        ``true`` if pressed, ``false`` if not.  ``metaKey`` will be ``false``
-        instead of ``undefined`` in IE.
-
-    These are generated for keydown and keyup events:
-
-    keyCode:
-        contains the raw key code, such as 8 for backspace.
-
-    keyString:
-        contains a human readable string, such as 'KEY_BACKSPACE'.
-        The complete list is defined in MochiKit.Signal._specialKeys.
+    modifier().alt, modifier().ctrl, modifier().meta, modifier().shift:
+        ``true`` if pressed, ``false`` if not.  ``modifier().meta`` will be 
+        ``false`` instead of ``undefined`` in IE.
 
     Note that you should use keydown and keyup to detect control characters,
     and keypressed to detect "printable" characters.  Some browsers will
-    return control characters for keypressed.  This is what's generated for
-    keypressed events:
+    return control characters for keypressed. These are generated for keydown
+    and keyup events:
 
-    charCode:
-        contains the raw character code, such as 33.
-    
-    charString:
-        contains the actual character, such as '!'.
-      
+    key().code:
+        contains the raw key code, such as 8 for backspace.
+
+    key().string:
+        contains a human readable string, such as 'KEY_BACKSPACE' or '!'.
+        The complete list is defined in MochiKit.Signal._specialKeys.
+
     These are only generated for mouse*, click, dblclick, and contextmenu
     (note that contextmenu doesn't work in Opera):
 
-    cursor.x, cursor.y:
-        represents the cursor position relative to the HTML document.
+    mouse().page.x, mouse().page.y:
+        represents the cursor position relative to the HTML document. 
+        (Equivalent to pageX/Y in Safari, Mozilla, and Opera.)
+        
+    mouse().client.x, mouse().client.y:
+        represents the cursor position relative to the visible portion of the
+        HTML document. (Equivalent to clientX/Y on all browsers.)
     
     These are only generated for mouseup, mousedown, click, and dblclick:
 
-    isLeftClick, isRightClick, isMiddleClick:
+    mouse().button.left, mouse().button.right, mouse().button.middle:
         ``true`` or ``false``.  Mac browsers don't report right click
-        consistently.  Firefox fires the click and sets ctrlKey to true,
-        Opera fires the click and sets metaKey to true, and Safari just
-        doesn't fire the click.
+        consistently.  Firefox fires the click and sets modifier().ctrl to
+        true, Opera fires the click and sets modifier().meta to true, and
+        Safari doesn't fire the click.
 
         The folks on #webkit agree that Safari's behavior is strange, and asked 
         us to file a bug report:
@@ -178,7 +174,7 @@ Here are the rules for the signal and slot system.
 
     This is generated on mouseover and mouseout:
 
-    relatedTarget:
+    relatedTarget():
         the document element that the mouse has moved to.
 
 If you find that you're accessing the native event for any reason, create a
