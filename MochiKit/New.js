@@ -19,16 +19,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return camelizedString;
     },
 
-    flatten: function (array) {
-        return MochiKit.Base.map(function (item) {
-            if (item.constructor == Array) {
-                return MochiKit.Base.flatten(item);
-            } else {
-                return item;
-            }
-        }, array);
-    },
-
     isIE: function () {
         return /MSIE/.test(navigator.userAgent);
     },

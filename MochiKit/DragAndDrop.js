@@ -193,10 +193,6 @@ MochiKit.DragAndDrop.Droppable.prototype = {
             }
         }
 
-        if (this.options.accept) {
-            this.options.accept = MochiKit.Base.flatten([this.options.accept]);
-        }
-
         MochiKit.DOM.makePositioned(this.element); // fix IE
 
         MochiKit.DragAndDrop.Droppables.register(this);
@@ -236,8 +232,8 @@ MochiKit.DragAndDrop.Droppable.prototype = {
             MochiKit.DOM.removeElementClass(this.element,
                                             this.options.hoverclass);
         }
-        if (this.options.outhover) {
-            this.options.outhover(this.element);
+        if (this.options.hoverfunc) {
+            this.options.hoverfunc(this.element, false);
         }
         MochiKit.DragAndDrop.Droppables.last_active = null;
     },
@@ -250,6 +246,9 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         ***/
         if (this.options.hoverclass) {
             MochiKit.DOM.addElementClass(this.element, this.options.hoverclass);
+        }
+        if (this.options.hoverfunc) {
+            this.options.hoverfunc(this.element, true);
         }
         MochiKit.DragAndDrop.Droppables.last_active = this;
     },

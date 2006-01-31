@@ -34,6 +34,7 @@ Dependencies
 - :mochiref:`MochiKit.DOM`
 - :mochiref:`MochiKit.Color`
 - :mochiref:`MochiKit.Effect`
+- :mochiref:`MochiKit.Signal`
 
 Overview
 ========
@@ -82,7 +83,7 @@ Functions
     activeclass   ``null``
     containment   ``null``
     accept        ``null``
-    outhover      ``null``
+    hoverfunc     ``null``
     onhover       ``null``
     onactive      ``null``
     ondrop        ``null``

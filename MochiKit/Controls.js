@@ -40,6 +40,17 @@ allows smart autocompletion after linebreaks.
 MochiKit.Base.update(MochiKit.Base, {
     ScriptFragment: '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)',
 
+    flatten: function (array) {
+        return MochiKit.Base.map(function (item) {
+            if (item.constructor == Array) {
+                return MochiKit.Base.flatten(item);
+            } else {
+                return item;
+            }
+        }, array);
+    },
+
+
     stripScripts: function (str) {
         return str.replace(new RegExp(MochiKit.Base.ScriptFragment, 'img'), '');
     },

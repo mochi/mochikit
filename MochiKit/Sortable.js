@@ -193,7 +193,7 @@ var Sortable = {
             }
         });
 
-        return (elements.length > 0 ? MochiKit.Base.flatten(elements) : null);
+        return (elements.length > 0 ? elements : null);
     },
 
     onHover: function (element, dropon, overlap) {
