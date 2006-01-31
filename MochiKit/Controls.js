@@ -37,6 +37,28 @@ allows smart autocompletion after linebreaks.
 
 ***/
 
+MochiKit.Base.update(MochiKit.Base, {
+    ScriptFragment: '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)',
+
+    stripScripts: function (str) {
+        return str.replace(new RegExp(MochiKit.Base.ScriptFragment, 'img'), '');
+    },
+
+    extractScripts: function (str) {
+        var matchAll = new RegExp(MochiKit.Base.ScriptFragment, 'img');
+        var matchOne = new RegExp(MochiKit.Base.ScriptFragment, 'im');
+        return MochiKit.Base.map(function (scriptTag) {
+            return (scriptTag.match(matchOne) || ['', ''])[1];
+        }, str.match(matchAll) || []);
+    },
+
+    evalScripts: function (str) {
+        return MochiKit.Base.map(function (scr) {
+            eval(scr);
+        }, MochiKit.Base.extractScripts(str));
+    }
+});
+
 MochiKit.Form = {
     serialize: function (form) {
         var elements = MochiKit.Form.getElements(form);
@@ -385,7 +407,7 @@ MochiKit.Base.update(Ajax.Updater.prototype, {
             } else {
                 MochiKit.DOM.getElement(receiver).innerHTML =
                     MochiKit.Base.stripScripts(response);
-                setTimeout(function() {
+                setTimeout(function () {
                     MochiKit.Base.evalScripts(response);
                 }, 10);
             }

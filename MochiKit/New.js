@@ -1,7 +1,5 @@
 
 MochiKit.Base.update(MochiKit.Base, {
-    ScriptFragment: '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)',
-
     emptyFunction: function () {},
 
     camelize: function (str) {
@@ -21,24 +19,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return camelizedString;
     },
 
-    stripScripts: function (str) {
-        return str.replace(new RegExp(MochiKit.Base.ScriptFragment, 'img'), '');
-    },
-
-    extractScripts: function (str) {
-        var matchAll = new RegExp(MochiKit.Base.ScriptFragment, 'img');
-        var matchOne = new RegExp(MochiKit.Base.ScriptFragment, 'im');
-        return MochiKit.Iter.imap(function (scriptTag) {
-            return (scriptTag.match(matchOne) || ['', ''])[1];
-        }, str.match(matchAll) || []);
-    },
-
-    evalScripts: function (str) {
-        return MochiKit.Iter.list(MochiKit.Iter.imap(function (scr) {
-            eval(scr);
-        }, MochiKit.Base.extractScripts(str)));
-    },
-    
     flatten: function (array) {
         return MochiKit.Base.map(function (item) {
             if (item.constructor == Array) {
@@ -127,7 +107,7 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     setOpacity: function (element, value) {
-        element= MochiKit.DOM.getElement(element);
+        element = MochiKit.DOM.getElement(element);
         if (value == 1) {
             MochiKit.DOM.setStyle(element, {opacity:
                 (MochiKit.Base.isGecko() && !MochiKit.Base.isKHTML()) ?
@@ -175,7 +155,7 @@ MochiKit.Base.update(MochiKit.DOM, {
     makePositioned: function (element) {
         element = MochiKit.DOM.getElement(element);
         var pos = MochiKit.DOM.getStyle(element, 'position');
-        if (pos == 'static' || !pos) {
+        if ((pos == 'static' || !pos) && !element._madePositioned) {
             element._madePositioned = true;
             element.style.position = 'relative';
             // Opera returns the offset relative to the positioning context,
@@ -193,13 +173,6 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (element._madePositioned) {
             element._madePositioned = undefined;
             element.style.position = element.style.top = element.style.left = element.style.bottom = element.style.right = '';
-        }
-    },
-
-    setContentZoom: function (element, percent) {
-        MochiKit.DOM.setStyle(element, {fontSize: (percent/100) + 'em'});
-        if (MochiKit.Base.isSafari()) {
-            window.scrollBy(0, 0);
         }
     }
 });
@@ -231,7 +204,7 @@ MochiKit.Position = {
         return [valueL, valueT];
     },
 
-    realOffset: function(element) {
+    realOffset: function (element) {
         var valueT = 0, valueL = 0;
         do {
             valueT += element.scrollTop  || 0;
