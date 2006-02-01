@@ -28,9 +28,11 @@ register_signals(myObject, ['flash', 'bang']);
 connect(myObject, 'flash', otherObject, 'gotFlash');
 
 // gotBang.apply(otherObject) will be called when 'bang' signalled.
+// You can access otherObject from within gotBang as 'this'.
 connect(myObject, 'bang', otherObject, gotBang);
 
 // myFunc.apply(myObject) will be called when 'flash' signalled.
+// You can access myObject from within myFunc as 'this'.
 connect(myObject, 'flash', myFunc);
 
 // You may disconnect with disconnect() and the same parameters.
@@ -54,8 +56,8 @@ connect($('myID'), 'onclick', myObject, 'wasClicked');
 
 // the event is normalized, no more e = e || window.event!
 myOjbect.wasClicked = function(e) {
-    crossBrowserCursorPosX = e.cursor.x;
-    crossBrowserCursorPosY = e.cursor.y;
+    var crossBrowserCoordinates = e.mouse().page;
+    // e.mouse().page is a MochiKit.DOM.Coordinates object
 }
 </pre>
 </div>
@@ -118,65 +120,58 @@ connected slots.</p>
 <li><p class="first">Signals triggered by DOM events are called with a custom event object as
 a parameter.  Use <tt class="docutils literal"><span class="pre">customObject.stop()</span></tt> to do the W3C equivalent of
 <tt class="docutils literal"><span class="pre">stopPropagation</span></tt> and <tt class="docutils literal"><span class="pre">preventDefault</span></tt>.  You can grab the native event
-by accessing <tt class="docutils literal"><span class="pre">customObject.event</span></tt>.  Here is a complete list of this
-object's properties:</p>
+by accessing <tt class="docutils literal"><span class="pre">customObject.event()</span></tt>.  Here is a complete list of this
+object's methods:</p>
 <p>These are always generated:</p>
 <dl class="docutils">
-<dt>event:</dt>
+<dt>event():</dt>
 <dd><p class="first last">The native event produced by the browser.  You should not need to
 access this.</p>
 </dd>
-<dt>type:</dt>
+<dt>type():</dt>
 <dd><p class="first last">The event type: click, mouseover, keypress, etc. (Does not include
 the 'on' prefix.)</p>
 </dd>
-<dt>timeStamp:</dt>
-<dd><p class="first last">Generated via <tt class="docutils literal"><span class="pre">(new</span> <span class="pre">Date).getTime()</span></tt></p>
-</dd>
-<dt>target:</dt>
+<dt>target():</dt>
 <dd><p class="first last">The element that triggered the event.</p>
 </dd>
-<dt>altKey, ctrlKey, metaKey, shiftKey:</dt>
-<dd><p class="first last"><tt class="docutils literal"><span class="pre">true</span></tt> if pressed, <tt class="docutils literal"><span class="pre">false</span></tt> if not.  <tt class="docutils literal"><span class="pre">metaKey</span></tt> will be <tt class="docutils literal"><span class="pre">false</span></tt>
-instead of <tt class="docutils literal"><span class="pre">undefined</span></tt> in IE.</p>
-</dd>
-</dl>
-<p>These are generated for keydown and keyup events:</p>
-<dl class="docutils">
-<dt>keyCode:</dt>
-<dd><p class="first last">contains the raw key code, such as 8 for backspace.</p>
-</dd>
-<dt>keyString:</dt>
-<dd><p class="first last">contains a human readable string, such as 'KEY_BACKSPACE'.
-The complete list is defined in MochiKit.Signal._specialKeys.</p>
+<dt>modifier().alt, modifier().ctrl, modifier().meta, modifier().shift:</dt>
+<dd><p class="first last"><tt class="docutils literal"><span class="pre">true</span></tt> if pressed, <tt class="docutils literal"><span class="pre">false</span></tt> if not.  <tt class="docutils literal"><span class="pre">modifier().meta</span></tt> will be
+<tt class="docutils literal"><span class="pre">false</span></tt> instead of <tt class="docutils literal"><span class="pre">undefined</span></tt> in IE.</p>
 </dd>
 </dl>
 <p>Note that you should use keydown and keyup to detect control characters,
 and keypressed to detect &quot;printable&quot; characters.  Some browsers will
-return control characters for keypressed.  This is what's generated for
-keypressed events:</p>
+return control characters for keypressed. These are generated for keydown
+and keyup events:</p>
 <dl class="docutils">
-<dt>charCode:</dt>
-<dd><p class="first last">contains the raw character code, such as 33.</p>
+<dt>key().code:</dt>
+<dd><p class="first last">contains the raw key code, such as 8 for backspace.</p>
 </dd>
-<dt>charString:</dt>
-<dd><p class="first last">contains the actual character, such as '!'.</p>
+<dt>key().string:</dt>
+<dd><p class="first last">contains a human readable string, such as 'KEY_BACKSPACE' or '!'.
+The complete list is defined in MochiKit.Signal._specialKeys.</p>
 </dd>
 </dl>
 <p>These are only generated for mouse*, click, dblclick, and contextmenu
 (note that contextmenu doesn't work in Opera):</p>
 <dl class="docutils">
-<dt>cursor.x, cursor.y:</dt>
-<dd><p class="first last">represents the cursor position relative to the HTML document.</p>
+<dt>mouse().page.x, mouse().page.y:</dt>
+<dd><p class="first last">represents the cursor position relative to the HTML document.
+(Equivalent to pageX/Y in Safari, Mozilla, and Opera.)</p>
+</dd>
+<dt>mouse().client.x, mouse().client.y:</dt>
+<dd><p class="first last">represents the cursor position relative to the visible portion of the
+HTML document. (Equivalent to clientX/Y on all browsers.)</p>
 </dd>
 </dl>
 <p>These are only generated for mouseup, mousedown, click, and dblclick:</p>
 <dl class="docutils">
-<dt>isLeftClick, isRightClick, isMiddleClick:</dt>
+<dt>mouse().button.left, mouse().button.right, mouse().button.middle:</dt>
 <dd><p class="first"><tt class="docutils literal"><span class="pre">true</span></tt> or <tt class="docutils literal"><span class="pre">false</span></tt>.  Mac browsers don't report right click
-consistently.  Firefox fires the click and sets ctrlKey to true,
-Opera fires the click and sets metaKey to true, and Safari just
-doesn't fire the click.</p>
+consistently.  Firefox fires the click and sets modifier().ctrl to
+true, Opera fires the click and sets modifier().meta to true, and
+Safari doesn't fire the click.</p>
 <p>The folks on #webkit agree that Safari's behavior is strange, and asked
 us to file a bug report:
 <a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">http://bugzilla.opendarwin.org/show_bug.cgi?id=6595</a></p>
@@ -186,7 +181,7 @@ a right click, look for a contextmenu event.</p>
 </dl>
 <p>This is generated on mouseover and mouseout:</p>
 <dl class="docutils">
-<dt>relatedTarget:</dt>
+<dt>relatedTarget():</dt>
 <dd><p class="first last">the document element that the mouse has moved to.</p>
 </dd>
 </dl>

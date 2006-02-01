@@ -114,7 +114,7 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
             return;
         }
         var modules = MochiKit.MochiKit.SUBMODULES;
-        for (i = 0; i < modules.length; i++) {
+        for (var i = 0; i < modules.length; i++) {
             if (MochiKit[modules[i]]) {
                 continue;
             }
@@ -124,19 +124,28 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
             }
             if (document.documentElement &&
                 document.documentElement.namespaceURI == kXULNSURI) {
-                // doesn't work in Safari
+                // XUL
                 var s = document.createElementNS(kXULNSURI, 'script');
                 s.setAttribute("id", "MochiKit_" + base + modules[i]);
                 s.setAttribute("src", uri);
                 s.setAttribute("type", "application/x-javascript");
                 baseElem.parentNode.appendChild(s);
             } else {
-                var s = document.createElement("script");
-                s.id = "MochiKit_" + base + modules[i];
-                s.src = uri;
-                s.type = "text/javascript";
-                document.getElementsByTagName("head")[0].appendChild(s);
+                // HTML
+                /*
+                    DOM can not be used here because Safari does
+                    deferred loading of scripts unless they are
+                    in the document or inserted with document.write
+
+                    This is not XHTML compliant.  If you want XHTML
+                    compliance then you must use the packed version of MochiKit
+                    or include each script individually (basically unroll
+                    these document.write calls into your XHTML source)
+
+                */
+                document.write('<script src="' + uri +
+                    '" type="text/javascript"></script>');
             }
-        }
+        };
     })();
 }
