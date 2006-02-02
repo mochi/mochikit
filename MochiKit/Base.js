@@ -312,7 +312,7 @@ MochiKit.Base.update(MochiKit.Base, {
 
         ***/
         for (var i = 0; i < arguments.length; i++) {
-            if (arguments[i] != null) {
+            if (arguments[i] !== null) {
                 return false;
             }
         }
