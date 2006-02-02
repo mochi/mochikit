@@ -660,8 +660,6 @@ MochiKit.Base.update(MochiKit.Signal, {
     }
 });
 
-MochiKit.Signal.connect(window, 'onunload', MochiKit.Signal._unloadCache);
-
 MochiKit.Signal.EXPORT_OK = [];
 
 MochiKit.Signal.EXPORT = [
@@ -675,6 +673,12 @@ MochiKit.Signal.__new__ = function (win) {
     var m = MochiKit.Base;
     this._document = document;
     this._window = win;
+
+    try {
+        this.connect(window, 'onunload', this._unloadCache);
+    } catch (e) {
+        // pass: might not be a browser
+    }
 
     this.EXPORT_TAGS = {
         ':common': this.EXPORT,
