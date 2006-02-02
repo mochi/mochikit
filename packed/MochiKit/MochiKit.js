@@ -215,7 +215,7 @@ return true;
 };
 },isNull:function(){
 for(var i=0;i<arguments.length;i++){
-if(arguments[i]!=null){
+if(arguments[i]!==null){
 return false;
 }
 }
@@ -3999,7 +3999,7 @@ if(typeof (sig)!="string"){
 throw new Error("'sig' must be a string");
 }
 slot=MochiKit.Signal._getSlot(slot,func);
-if(src.addEventListener||src.attachEvent||src[signal]){
+if(src.addEventListener||src.attachEvent||src[sig]){
 if(!src.__listeners){
 src.__listeners={};
 }
@@ -4133,13 +4133,17 @@ src.__signals[sig]=[];
 }
 }
 }});
-MochiKit.Signal.connect(window,"onunload",MochiKit.Signal._unloadCache);
 MochiKit.Signal.EXPORT_OK=[];
 MochiKit.Signal.EXPORT=["connect","disconnect","signal","register_signals"];
 MochiKit.Signal.__new__=function(win){
 var m=MochiKit.Base;
 this._document=document;
 this._window=win;
+try{
+this.connect(window,"onunload",this._unloadCache);
+}
+catch(e){
+}
 this.EXPORT_TAGS={":common":this.EXPORT,":all":m.concat(this.EXPORT,this.EXPORT_OK)};
 m.nameFunctions(this);
 };
@@ -4473,6 +4477,7 @@ JSAN.use("MochiKit.Async",[]);
 JSAN.use("MochiKit.DOM",[]);
 JSAN.use("MochiKit.LoggingPane",[]);
 JSAN.use("MochiKit.Color",[]);
+JSAN.use("MochiKit.Signal",[]);
 JSAN.use("MochiKit.Visual",[]);
 }
 (function(){

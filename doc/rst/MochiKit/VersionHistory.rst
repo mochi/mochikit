@@ -1,5 +1,6 @@
 2006-XX-XX      v1.3
 
+- MochiKit.Base.isNull no longer matches undefined
 - example doctypes changed to HTML4
 - isDateLike no longer throws error on null
 - New MochiKit.Signal module, modeled after the slot/signal mechanism in Qt
