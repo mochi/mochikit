@@ -451,7 +451,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         // Find the signal, attach the slot.
 
         // DOM object
-        if (src.addEventListener || src.attachEvent || src[signal]) {
+        if (src.addEventListener || src.attachEvent || src[sig]) {
             // Create the __listeners object. This will help us remember which
             // events we are watching.
             if (!src.__listeners) {
