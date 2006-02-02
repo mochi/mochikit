@@ -56,6 +56,7 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         JSAN.use("MochiKit.DOM", []);
         JSAN.use("MochiKit.LoggingPane", []);
         JSAN.use("MochiKit.Color", []);
+        JSAN.use("MochiKit.Signal", []);
         JSAN.use("MochiKit.Visual", []);
     }
     (function () {
