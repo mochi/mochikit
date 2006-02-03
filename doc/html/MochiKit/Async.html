@@ -47,8 +47,8 @@ d.addCallbacks(gotMetadata, metadataFetchFailed);
 <div class="section">
 <h1><a id="description" name="description">Description</a></h1>
 <p>MochiKit.Async provides facilities to manage asynchronous
-(as in AJAX <a class="footnote-reference" href="#id7" id="id1" name="id1">[1]</a>) tasks. The model for asynchronous computation
-used in this module is heavily inspired by Twisted <a class="footnote-reference" href="#id8" id="id2" name="id2">[2]</a>.</p>
+(as in AJAX <a class="footnote-reference" href="#id9" id="id1" name="id1">[1]</a>) tasks. The model for asynchronous computation
+used in this module is heavily inspired by Twisted <a class="footnote-reference" href="#id10" id="id2" name="id2">[2]</a>.</p>
 </div>
 <div class="section">
 <h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
@@ -150,7 +150,7 @@ property corresponds to <tt class="docutils literal"><span class="pre">req.statu
 <blockquote>
 Encapsulates a sequence of callbacks in response to a value that
 may not yet be available.  This is modeled after the Deferred class
-from Twisted <a class="footnote-reference" href="#id9" id="id3" name="id3">[3]</a>.</blockquote>
+from Twisted <a class="footnote-reference" href="#id11" id="id3" name="id3">[3]</a>.</blockquote>
 <blockquote>
 <p>Why do we want this?  JavaScript has no threads, and even if it did,
 threads are hard.  Deferreds are a way of abstracting non-blocking
@@ -331,9 +331,13 @@ it locked, <tt class="docutils literal"><span class="pre">false</span></tt> othe
 <a name="fn-deferredlock.prototype.acquire"></a>
 <a class="mochidef reference" href="#fn-deferredlock.prototype.acquire">DeferredLock.prototype.acquire()</a>:</p>
 <blockquote>
-Attempt to acquire the lock.  Returns a <a class="mochiref reference" href="#fn-deferred">Deferred</a> that fires on
-lock acquisition with the :mochref:DeferredLock as the value.  If the lock
-is locked, then the <a class="mochiref reference" href="#fn-deferred">Deferred</a> goes into a waiting list.</blockquote>
+<p>Attempt to acquire the lock.  Returns a <a class="mochiref reference" href="#fn-deferred">Deferred</a> that fires on
+lock acquisition with the <a href="#id4" name="id5"><span class="problematic" id="id5">:mochref:`DeferredLock`</span></a> as the value.  If the lock
+is locked, then the <a class="mochiref reference" href="#fn-deferred">Deferred</a> goes into a waiting list.</p>
+<div class="system-message" id="id4">
+<p class="system-message-title">System Message: <a name="id4">ERROR/3</a> (<tt class="docutils">doc/rst/MochiKit/Async.rst</tt>, line 318); <em><a href="#id5">backlink</a></em></p>
+Unknown interpreted text role &quot;mochref&quot;.</div>
+</blockquote>
 <p>
 <a name="fn-deferredlock.prototype.release"></a>
 <a class="mochidef reference" href="#fn-deferredlock.prototype.release">DeferredLock.prototype.release()</a>:</p>
@@ -386,7 +390,7 @@ instance on success</dd>
 <a name="fn-evaljsonrequest"></a>
 <a class="mochidef reference" href="#fn-evaljsonrequest">evalJSONRequest(req)</a>:</p>
 <blockquote>
-<p>Evaluate a JSON <a class="footnote-reference" href="#id10" id="id4" name="id4">[4]</a> <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt></p>
+<p>Evaluate a JSON <a class="footnote-reference" href="#id12" id="id6" name="id6">[4]</a> <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt></p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">req</span></tt>:</dt>
 <dd>The request whose <tt class="docutils literal"><span class="pre">.responseText</span></tt> property is to be evaluated</dd>
@@ -427,12 +431,12 @@ platform.</p>
 <a class="mochidef reference" href="#fn-loadjsondoc">loadJSONDoc(url)</a>:</p>
 <blockquote>
 <p>Do a simple <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> to a URL and get the response
-as a JSON <a class="footnote-reference" href="#id10" id="id5" name="id5">[4]</a> document.</p>
+as a JSON <a class="footnote-reference" href="#id12" id="id7" name="id7">[4]</a> document.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">url</span></tt>:</dt>
 <dd>The URL to GET</dd>
 <dt><em>returns</em>:</dt>
-<dd><a class="mochiref reference" href="#fn-deferred">Deferred</a> that will callback with the evaluated JSON <a class="footnote-reference" href="#id10" id="id6" name="id6">[4]</a>
+<dd><a class="mochiref reference" href="#fn-deferred">Deferred</a> that will callback with the evaluated JSON <a class="footnote-reference" href="#id12" id="id8" name="id8">[4]</a>
 response upon successful <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt></dd>
 </dl>
 </blockquote>
@@ -485,28 +489,28 @@ after at least <tt class="docutils literal"><span class="pre">seconds</span></tt
 </div>
 <div class="section">
 <h1><a id="see-also" name="see-also">See Also</a></h1>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1" name="id7">[1]</a></td><td>AJAX, Asynchronous JavaScript and XML: <a class="reference" href="http://en.wikipedia.org/wiki/AJAX">http://en.wikipedia.org/wiki/AJAX</a></td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2" name="id8">[2]</a></td><td>Twisted, an event-driven networking framework written in Python: <a class="reference" href="http://twistedmatrix.com/">http://twistedmatrix.com/</a></td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3" name="id9">[3]</a></td><td>Twisted Deferred Reference: <a class="reference" href="http://twistedmatrix.com/projects/core/documentation/howto/defer.html">http://twistedmatrix.com/projects/core/documentation/howto/defer.html</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id1" name="id9">[1]</a></td><td>AJAX, Asynchronous JavaScript and XML: <a class="reference" href="http://en.wikipedia.org/wiki/AJAX">http://en.wikipedia.org/wiki/AJAX</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a name="id10">[4]</a></td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id5">2</a>, <a class="fn-backref" href="#id6">3</a>)</em> JSON, JavaScript Object Notation: <a class="reference" href="http://json.org/">http://json.org/</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2" name="id10">[2]</a></td><td>Twisted, an event-driven networking framework written in Python: <a class="reference" href="http://twistedmatrix.com/">http://twistedmatrix.com/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3" name="id11">[3]</a></td><td>Twisted Deferred Reference: <a class="reference" href="http://twistedmatrix.com/projects/core/documentation/howto/defer.html">http://twistedmatrix.com/projects/core/documentation/howto/defer.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a name="id12">[4]</a></td><td><em>(<a class="fn-backref" href="#id6">1</a>, <a class="fn-backref" href="#id7">2</a>, <a class="fn-backref" href="#id8">3</a>)</em> JSON, JavaScript Object Notation: <a class="reference" href="http://json.org/">http://json.org/</a></td></tr>
 </tbody>
 </table>
 </div>
