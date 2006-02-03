@@ -316,8 +316,9 @@ Constructors
 :mochidef:`DeferredLock.prototype.acquire()`:
 
     Attempt to acquire the lock.  Returns a :mochiref:`Deferred` that fires on
-    lock acquisition with the :mochref:`DeferredLock` as the value.  If the lock
-    is locked, then the :mochiref:`Deferred` goes into a waiting list.
+    lock acquisition with the :mochiref:`DeferredLock` as the value.
+    If the lock is locked, then the :mochiref:`Deferred` goes into a waiting
+    list.
 
 
 :mochidef:`DeferredLock.prototype.release()`:
