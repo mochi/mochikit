@@ -685,7 +685,8 @@ MochiKit.Visual.Parallel = function (effects, options) {
     this.__init__(effects, options);
 };
 
-MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, MochiKit.Visual.Base.prototype);
+MochiKit.Base.update(MochiKit.Visual.Parallel.prototype,
+                     MochiKit.Visual.Base.prototype);
 
 MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, {
     /***
@@ -721,7 +722,8 @@ MochiKit.Visual.Opacity = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(MochiKit.Visual.Opacity.prototype, MochiKit.Visual.Base.prototype);
+MochiKit.Base.update(MochiKit.Visual.Opacity.prototype,
+                     MochiKit.Visual.Base.prototype);
 
 MochiKit.Base.update(MochiKit.Visual.Opacity.prototype, {
     /***
@@ -1105,8 +1107,6 @@ MochiKit.Visual.Puff = function (element, options) {
 
     'Puff' an element: grow it to double size, fading it and make it hidden.
 
-    @param options: 'duration' in seconds for the effect, default to 1.0.
-
     ***/
     element = MochiKit.DOM.getElement(element);
     var oldStyle = {
@@ -1114,7 +1114,6 @@ MochiKit.Visual.Puff = function (element, options) {
         position: MochiKit.DOM.getStyle(element, 'position')
     };
     options = MochiKit.Base.update({
-        duration: 1.0,
         beforeSetupInternal: function (effect) {
             MochiKit.DOM.setStyle(effect.effects[0].element,
                                   {position: 'absolute'});

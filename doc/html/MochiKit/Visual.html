@@ -23,7 +23,7 @@ roundClass(&quot;h1&quot;, null);
 roundElement(&quot;title&quot;, {corners: &quot;tl&quot;});
 
 // Add an fade effect to an element
-MochiKit.Effect.Fade('myelement');
+Fade('myelement');
 </pre>
 </div>
 <div class="section">
@@ -121,12 +121,21 @@ together to produce the border color.</dd>
 <a name="fn-toggle"></a>
 <a class="mochidef reference" href="#fn-toggle">toggle(element[, effect[, options]])</a>:</p>
 <blockquote>
-Toggle an element between visible and invisible state using an effect.</blockquote>
+<p>Toggle an element between visible and invisible state using an effect.</p>
+<p>effect:</p>
+<blockquote>
+One of the visual pairs to use, between 'slide', 'blind', 'appear',
+and 'size'.</blockquote>
+</blockquote>
 <p>
 <a name="fn-tagifytext"></a>
 <a class="mochidef reference" href="#fn-tagifytext">tagifyText(element[, tagifyStyle])</a>:</p>
 <blockquote>
-Transform a node text into nodes containing one letter by tag.</blockquote>
+<p>Transform a node text into nodes containing one letter by tag.</p>
+<p>tagifyStyle:</p>
+<blockquote>
+style to apply to character nodes, default to 'position: relative'.</blockquote>
+</blockquote>
 <p>
 <a name="fn-multiple"></a>
 <a class="mochidef reference" href="#fn-multiple">multiple(elements, effect[, options])</a>:</p>
@@ -136,11 +145,51 @@ Launch the same effect on a list of elements.</blockquote>
 <div class="section">
 <h2><a id="basic-effects-classes" name="basic-effects-classes">Basic Effects classes</a></h2>
 <p>
+<a name="fn-defaultoptions"></a>
+<a class="mochidef reference" href="#fn-defaultoptions">DefaultOptions</a>:</p>
+<blockquote>
+<p>Default options for all Effect creation.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>transition</td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.Visual.Transitions.sinoidal</span></tt></td>
+</tr>
+<tr><td>duration</td>
+<td><tt class="docutils literal"><span class="pre">1.0</span></tt></td>
+</tr>
+<tr><td>fps</td>
+<td><tt class="docutils literal"><span class="pre">25.0</span></tt></td>
+</tr>
+<tr><td>sync</td>
+<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
+</tr>
+<tr><td>from</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+</tr>
+<tr><td>to</td>
+<td><tt class="docutils literal"><span class="pre">1.0</span></tt></td>
+</tr>
+<tr><td>delay</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+</tr>
+<tr><td>queue</td>
+<td><tt class="docutils literal"><span class="pre">'parallel'</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>
 <a name="fn-base"></a>
 <a class="mochidef reference" href="#fn-base">Base()</a>:</p>
 <blockquote>
-Base class to all effects. Define a basic looping service, use it for
-creating new effects.</blockquote>
+<p>Base class to all effects. Define a basic looping service, use it for
+creating new effects.</p>
+<p>You can override the methods <tt class="docutils literal"><span class="pre">setup</span></tt>, <tt class="docutils literal"><span class="pre">update</span></tt> and <tt class="docutils literal"><span class="pre">finish`</span></tt>.</p>
+</blockquote>
 <p>
 <a name="fn-parallel"></a>
 <a class="mochidef reference" href="#fn-parallel">Parallel(effects [, options])</a>:</p>
@@ -150,22 +199,105 @@ Launch effects in parallel.</blockquote>
 <a name="fn-opacity"></a>
 <a class="mochidef reference" href="#fn-opacity">Opacity(element [, options])</a>:</p>
 <blockquote>
-Change the opacity of an element progressively.</blockquote>
+<p>Change the opacity of an element progressively.</p>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="57%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>from</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+</tr>
+<tr><td>to</td>
+<td><tt class="docutils literal"><span class="pre">1.0</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
 <p>
 <a name="fn-move"></a>
 <a class="mochidef reference" href="#fn-move">Move(element [, options])</a>:</p>
 <blockquote>
-Change the position of an element in small steps, creating a moving effect.</blockquote>
+<p>Change the position of an element in small steps, creating a moving effect.</p>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>x</td>
+<td><tt class="docutils literal"><span class="pre">0</span></tt></td>
+</tr>
+<tr><td>y</td>
+<td><tt class="docutils literal"><span class="pre">0</span></tt></td>
+</tr>
+<tr><td>position</td>
+<td><tt class="docutils literal"><span class="pre">'relative'</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
 <p>
 <a name="fn-scale"></a>
 <a class="mochidef reference" href="#fn-scale">Scale(element, percent [, options])</a>:</p>
 <blockquote>
-Change the size of an element.</blockquote>
+<p>Change the size of an element.</p>
+<p>percent:</p>
+<blockquote>
+Final wanted size in percent of current size. The size will be reduced
+if the value is between 0 and 1, and raised if the value is above 1.</blockquote>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="43%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>scaleX</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
+</tr>
+<tr><td>scaleY</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
+</tr>
+<tr><td>scaleContent</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
+</tr>
+<tr><td>scaleFromCenter</td>
+<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
+</tr>
+<tr><td>scaleMode</td>
+<td><tt class="docutils literal"><span class="pre">'box'</span></tt></td>
+</tr>
+<tr><td>scaleFrom</td>
+<td><tt class="docutils literal"><span class="pre">100.0</span></tt></td>
+</tr>
+<tr><td>scaleTo</td>
+<td><tt class="docutils literal"><span class="pre">percent</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
 <p>
 <a name="fn-highlight"></a>
 <a class="mochidef reference" href="#fn-highlight">Highlight(element [, options])</a>:</p>
 <blockquote>
-Highlight an element, flashing with one color.</blockquote>
+<p>Highlight an element, flashing with one color.</p>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>startcolor</td>
+<td><tt class="docutils literal"><span class="pre">'#ffff99'</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
 <p>
 <a name="fn-scrollto"></a>
 <a class="mochidef reference" href="#fn-scrollto">ScrollTo(element [, options])</a>:</p>
@@ -178,12 +310,44 @@ Scroll the window to the position of the given element.</blockquote>
 <a name="fn-fade"></a>
 <a class="mochidef reference" href="#fn-fade">Fade(element [, options])</a>:</p>
 <blockquote>
-Change the opacity of an element until making it disappear.</blockquote>
+<p>Change the opacity of an element until making it disappear.</p>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>from</td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.DOM.getOpacity(element)</span> <span class="pre">||</span> <span class="pre">1.0</span></tt></td>
+</tr>
+<tr><td>to</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
 <p>
 <a name="fn-appear"></a>
 <a class="mochidef reference" href="#fn-appear">Appear(element [, options])</a>:</p>
 <blockquote>
-Slowly show an invisible element.</blockquote>
+<p>Slowly show an invisible element.</p>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>from</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+</tr>
+<tr><td>to</td>
+<td><tt class="docutils literal"><span class="pre">1.0</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
 <p>
 <a name="fn-puff"></a>
 <a class="mochidef reference" href="#fn-puff">Puff(element [, options])</a>:</p>

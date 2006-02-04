@@ -19,7 +19,6 @@ MochiKit - makes JavaScript suck a bit less
 - :mochiref:`MochiKit.Signal` - simple universal event handling
 - :mochiref:`MochiKit.Visual` - visual effects
 - :mochiref:`MochiKit.DragAndDrop` - drag and drop
-- :mochiref:`MochiKit.Effects` - visual effects too
 
     
 Screencasts

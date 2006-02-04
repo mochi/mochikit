@@ -18,7 +18,7 @@ Synopsis
     roundElement("title", {corners: "tl"});
 
     // Add an fade effect to an element
-    MochiKit.Effect.Fade('myelement');
+    Fade('myelement');
     
 
 Description
@@ -104,9 +104,18 @@ Functions
 
     Toggle an element between visible and invisible state using an effect.
 
+    effect:
+        
+        One of the visual pairs to use, between 'slide', 'blind', 'appear', 
+        and 'size'.
+
 :mochidef:`tagifyText(element[, tagifyStyle])`:
 
     Transform a node text into nodes containing one letter by tag.
+
+    tagifyStyle:
+
+        style to apply to character nodes, default to 'position: relative'.
 
 :mochidef:`multiple(elements, effect[, options])`:
 
@@ -115,10 +124,27 @@ Functions
 Basic Effects classes
 ---------------------
 
+:mochidef:`DefaultOptions`:
+
+    Default options for all Effect creation.
+
+    =========== ========================================
+    transition  ``MochiKit.Visual.Transitions.sinoidal``
+    duration    ``1.0``
+    fps         ``25.0``
+    sync        ``false``
+    from        ``0.0``
+    to          ``1.0``
+    delay       ``0.0``
+    queue       ``'parallel'``
+    =========== ========================================
+
 :mochidef:`Base()`:
 
     Base class to all effects. Define a basic looping service, use it for
     creating new effects.
+
+    You can override the methods ``setup``, ``update`` and ``finish```.
 
 :mochidef:`Parallel(effects [, options])`:
 
@@ -128,17 +154,56 @@ Basic Effects classes
 
     Change the opacity of an element progressively.
 
+    options:
+
+    ====== ========
+    from   ``0.0``
+    to     ``1.0``
+    ====== ========
+
 :mochidef:`Move(element [, options])`:
 
     Change the position of an element in small steps, creating a moving effect.
+
+    options:
+
+    ========= ================
+    x         ``0``
+    y         ``0``
+    position  ``'relative'``
+    ========= ================
 
 :mochidef:`Scale(element, percent [, options])`:
 
     Change the size of an element.
 
+    percent:
+    
+        Final wanted size in percent of current size. The size will be reduced
+        if the value is between 0 and 1, and raised if the value is above 1.
+
+    options:
+
+    ================ ============
+    scaleX           ``true``
+    scaleY           ``true``
+    scaleContent     ``true``
+    scaleFromCenter  ``false``
+    scaleMode        ``'box'``
+    scaleFrom        ``100.0``
+    scaleTo          ``percent``
+    ================ ============
+
+
 :mochidef:`Highlight(element [, options])`:
 
     Highlight an element, flashing with one color.
+
+    options:
+
+    =========== ==============
+    startcolor  ``'#ffff99'``
+    =========== ==============
 
 :mochidef:`ScrollTo(element [, options])`:
 
@@ -151,9 +216,23 @@ Combination Effects
 
     Change the opacity of an element until making it disappear.
 
+    options:
+
+    ====== =============================================
+    from   ``MochiKit.DOM.getOpacity(element) || 1.0``
+    to     ``0.0``
+    ====== =============================================
+
 :mochidef:`Appear(element [, options])`:
 
     Slowly show an invisible element.
+
+    options:
+
+    ===== =========
+    from  ``0.0``
+    to    ``1.0``
+    ===== =========
 
 :mochidef:`Puff(element [, options])`:
 

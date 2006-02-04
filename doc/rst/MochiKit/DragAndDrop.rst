@@ -12,6 +12,7 @@ Synopsis
 
     // Create a draggable
     new Draggable('mydrag');
+
     // Create a corresponding droppable
     new Droppable('mydrop', {
         accept: 'drag-class',
