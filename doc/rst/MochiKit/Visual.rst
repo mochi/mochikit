@@ -18,7 +18,7 @@ Synopsis
     roundElement("title", {corners: "tl"});
 
     // Add an fade effect to an element
-    Fade('myelement');
+    fade('myelement');
     
 
 Description
@@ -212,7 +212,7 @@ Basic Effects classes
 Combination Effects
 -------------------
 
-:mochidef:`Fade(element [, options])`:
+:mochidef:`fade(element [, options])`:
 
     Change the opacity of an element until making it disappear.
 
@@ -223,7 +223,7 @@ Combination Effects
     to     ``0.0``
     ====== =============================================
 
-:mochidef:`Appear(element [, options])`:
+:mochidef:`appear(element [, options])`:
 
     Slowly show an invisible element.
 
@@ -234,56 +234,56 @@ Combination Effects
     to    ``1.0``
     ===== =========
 
-:mochidef:`Puff(element [, options])`:
+:mochidef:`puff(element [, options])`:
 
     Make an element double size, and then make it disappear.
 
-:mochidef:`BlindUp(element [, options])`:
+:mochidef:`blindUp(element [, options])`:
 
     Blind an element up, changing its vertical size to 0.
 
-:mochidef:`BlindDown(element [, options])`:
+:mochidef:`blindDown(element [, options])`:
 
     Blind an element down, restoring its vertical size.
 
-:mochidef:`SwitchOff(element [, options])`:
+:mochidef:`switchOff(element [, options])`:
 
     A switch-off like effect, making the element disappear.
 
-:mochidef:`DropOut(element [, options])`:
+:mochidef:`dropOut(element [, options])`:
 
     Make the element fall and fade.
 
-:mochidef:`Shake(element [, options])`:
+:mochidef:`shake(element [, options])`:
 
     Shake an element from left to right.
 
-:mochidef:`SlideDown(element [, options])`:
+:mochidef:`slideDown(element [, options])`:
 
     Slide an element down.
 
-:mochidef:`SlideUp(element [, options])`:
+:mochidef:`slideUp(element [, options])`:
 
     Slide an element up.
 
-:mochidef:`Squish(element [, options])`:
+:mochidef:`squish(element [, options])`:
 
     Reduce the horizontal and vertical sizes at the same time, using the
     top left corner.
 
-:mochidef:`Grow(element [, options])`:
+:mochidef:`grow(element [, options])`:
 
     Restore the size of an element.
 
-:mochidef:`Shrink(element [, options])`:
+:mochidef:`shrink(element [, options])`:
 
     Shrink an element to its center.
 
-:mochidef:`Pulsate(element [, options])`:
+:mochidef:`pulsate(element [, options])`:
 
-    Switch an element between Appear and Fade.
+    Switch an element between appear and fade.
 
-:mochidef:`Fold(element [, options])`:
+:mochidef:`fold(element [, options])`:
 
     Reduce first the vertical size, and then the horizontal size.
 

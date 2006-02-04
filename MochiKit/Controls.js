@@ -504,10 +504,10 @@ Autocompleter.Base.prototype = {
                         offsetTop: element.offsetHeight
                     });
                 }
-                MochiKit.Visual.Appear(update, {duration:0.15});
+                MochiKit.Visual.appear(update, {duration:0.15});
             };
         this.options.onHide = this.options.onHide || function (element, update) {
-                new MochiKit.Visual.Fade(update, {duration: 0.15});
+                MochiKit.Visual.fade(update, {duration: 0.15});
             };
 
         if (typeof(this.options.tokens) == 'string') {

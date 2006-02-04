@@ -55,7 +55,7 @@
         element.childNodes[0].nodeValue += ".";
     };
     ondrop = function (element, dropElt) {
-        new MochiKit.Visual.Pulsate(dropElt);
+        MochiKit.Visual.pulsate(dropElt);
         MochiKit.DOM.getElement('droptext').childNodes[0].nodeValue = "Selected: " + element.id;
     };
     
