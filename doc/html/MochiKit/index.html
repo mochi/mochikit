@@ -24,7 +24,10 @@ and then easy</li>
 <li><a class="mochiref reference" href="Logging.html">MochiKit.Logging</a> - we're all tired of <tt class="docutils literal"><span class="pre">alert()</span></tt></li>
 <li><a class="mochiref reference" href="LoggingPane.html">MochiKit.LoggingPane</a> - interactive <a class="mochiref reference" href="Logging.html">MochiKit.Logging</a>
 pane</li>
+<li><a class="mochiref reference" href="Signal.html">MochiKit.Signal</a> - simple universal event handling</li>
 <li><a class="mochiref reference" href="Visual.html">MochiKit.Visual</a> - visual effects</li>
+<li><a class="mochiref reference" href="DragAndDrop.html">MochiKit.DragAndDrop</a> - drag and drop</li>
+<li><a class="mochiref reference" href="Effects.html">MochiKit.Effects</a> - visual effects too</li>
 </ul>
 </div>
 <div class="section">
@@ -47,8 +50,20 @@ related to development of and with MochiKit</li>
 </div>
 <div class="section">
 <h1><a id="version-history" name="version-history">Version History</a></h1>
-<p>2006-01-XX      v1.2 &quot;the ocho&quot;</p>
+<p>2006-XX-XX      v1.3</p>
 <ul class="simple">
+<li>MochiKit.Base.isNull no longer matches undefined</li>
+<li>example doctypes changed to HTML4</li>
+<li>isDateLike no longer throws error on null</li>
+<li>New MochiKit.Signal module, modeled after the slot/signal mechanism in Qt</li>
+<li>updated elementDimensions to calculate width from offsetWidth instead
+of clientWidth</li>
+<li>formContents now works with FORM tags that have a name attribute</li>
+<li>Documentation now uses MochiKit to generate a function index</li>
+</ul>
+<p>2006-01-26      v1.2 &quot;the ocho&quot;</p>
+<ul class="simple">
+<li>Fixed MochiKit.Color.Color.lighterColorWithLevel</li>
 <li>Added new MochiKit.Base.findIdentical function to find the index of an
 element in an Array-like object.  Uses === for identity comparison.</li>
 <li>Added new MochiKit.Base.find function to find the index of an element in

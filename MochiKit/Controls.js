@@ -504,10 +504,10 @@ Autocompleter.Base.prototype = {
                         offsetTop: element.offsetHeight
                     });
                 }
-                Effect.Appear(update, {duration:0.15});
+                MochiKit.Visual.Appear(update, {duration:0.15});
             };
         this.options.onHide = this.options.onHide || function (element, update) {
-                new Effect.Fade(update, {duration: 0.15});
+                new MochiKit.Visual.Fade(update, {duration: 0.15});
             };
 
         if (typeof(this.options.tokens) == 'string') {
@@ -976,7 +976,7 @@ Ajax.InPlaceEditor.prototype = {
             okText: 'ok',
             rows: 1,
             onComplete: function (transport, element) {
-                new Effect.Highlight(element, {startcolor: this.options.highlightcolor});
+                new MochiKit.Visual.Highlight(element, {startcolor: this.options.highlightcolor});
             },
             onFailure: function (transport) {
                 alert('Error communicating with the server: ' + transport.responseText.stripTags());
@@ -1248,7 +1248,7 @@ Ajax.InPlaceEditor.prototype = {
         if (this.saving) {
             return;
         }
-        this.effect = new Effect.Highlight(this.element, {
+        this.effect = new MochiKit.Visual.Highlight(this.element, {
             startcolor: this.options.highlightcolor,
             endcolor: this.options.highlightendcolor,
             restorecolor: this.originalBackground

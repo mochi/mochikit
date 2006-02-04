@@ -1,5 +1,17 @@
-2006-01-XX      v1.2 "the ocho"
+2006-XX-XX      v1.3
 
+- MochiKit.Base.isNull no longer matches undefined
+- example doctypes changed to HTML4
+- isDateLike no longer throws error on null
+- New MochiKit.Signal module, modeled after the slot/signal mechanism in Qt
+- updated elementDimensions to calculate width from offsetWidth instead
+  of clientWidth 
+- formContents now works with FORM tags that have a name attribute
+- Documentation now uses MochiKit to generate a function index
+
+2006-01-26      v1.2 "the ocho"
+
+- Fixed MochiKit.Color.Color.lighterColorWithLevel
 - Added new MochiKit.Base.findIdentical function to find the index of an
   element in an Array-like object.  Uses === for identity comparison.
 - Added new MochiKit.Base.find function to find the index of an element in

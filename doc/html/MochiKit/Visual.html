@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
-<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
 <title>MochiKit.Visual - visual effects</title>
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
 </head>
@@ -21,6 +21,9 @@ roundClass(&quot;h1&quot;, null);
 
 // round the top left corner of the element with the id &quot;title&quot;
 roundElement(&quot;title&quot;, {corners: &quot;tl&quot;});
+
+// Add an fade effect to an element
+MochiKit.Effect.Fade('myelement');
 </pre>
 </div>
 <div class="section">
@@ -38,10 +41,11 @@ roundElement(&quot;title&quot;, {corners: &quot;tl&quot;});
 </div>
 <div class="section">
 <h1><a id="overview" name="overview">Overview</a></h1>
-<p>At this time, MochiKit.Visual provides one visual effect: rounded corners
-for your HTML elements. These rounded corners are created completely
+<p>MochiKit.Visual provides different visual effect: rounded corners and
+animations for your HTML elements. Rounded corners are created completely
 through CSS manipulations and require no external images or style sheets.
-This implementation was adapted from <a class="reference" href="http://www.openrico.org">Rico</a>.</p>
+This implementation was adapted from <a class="reference" href="http://www.openrico.org">Rico</a>. Dynamic effects are ported from
+<a class="reference" href="http://script.aculo.us">Scriptaculous</a>.</p>
 </div>
 <div class="section">
 <h1><a id="api-reference" name="api-reference">API Reference</a></h1>
@@ -113,6 +117,139 @@ Choices are:</p>
 together to produce the border color.</dd>
 </dl>
 </blockquote>
+<p>
+<a name="fn-toggle"></a>
+<a class="mochidef reference" href="#fn-toggle">toggle(element[, effect[, options]])</a>:</p>
+<blockquote>
+Toggle an element between visible and invisible state using an effect.</blockquote>
+<p>
+<a name="fn-tagifytext"></a>
+<a class="mochidef reference" href="#fn-tagifytext">tagifyText(element[, tagifyStyle])</a>:</p>
+<blockquote>
+Transform a node text into nodes containing one letter by tag.</blockquote>
+<p>
+<a name="fn-multiple"></a>
+<a class="mochidef reference" href="#fn-multiple">multiple(elements, effect[, options])</a>:</p>
+<blockquote>
+Launch the same effect on a list of elements.</blockquote>
+</div>
+<div class="section">
+<h2><a id="basic-effects-classes" name="basic-effects-classes">Basic Effects classes</a></h2>
+<p>
+<a name="fn-base"></a>
+<a class="mochidef reference" href="#fn-base">Base()</a>:</p>
+<blockquote>
+Base class to all effects. Define a basic looping service, use it for
+creating new effects.</blockquote>
+<p>
+<a name="fn-parallel"></a>
+<a class="mochidef reference" href="#fn-parallel">Parallel(effects [, options])</a>:</p>
+<blockquote>
+Launch effects in parallel.</blockquote>
+<p>
+<a name="fn-opacity"></a>
+<a class="mochidef reference" href="#fn-opacity">Opacity(element [, options])</a>:</p>
+<blockquote>
+Change the opacity of an element progressively.</blockquote>
+<p>
+<a name="fn-move"></a>
+<a class="mochidef reference" href="#fn-move">Move(element [, options])</a>:</p>
+<blockquote>
+Change the position of an element in small steps, creating a moving effect.</blockquote>
+<p>
+<a name="fn-scale"></a>
+<a class="mochidef reference" href="#fn-scale">Scale(element, percent [, options])</a>:</p>
+<blockquote>
+Change the size of an element.</blockquote>
+<p>
+<a name="fn-highlight"></a>
+<a class="mochidef reference" href="#fn-highlight">Highlight(element [, options])</a>:</p>
+<blockquote>
+Highlight an element, flashing with one color.</blockquote>
+<p>
+<a name="fn-scrollto"></a>
+<a class="mochidef reference" href="#fn-scrollto">ScrollTo(element [, options])</a>:</p>
+<blockquote>
+Scroll the window to the position of the given element.</blockquote>
+</div>
+<div class="section">
+<h2><a id="combination-effects" name="combination-effects">Combination Effects</a></h2>
+<p>
+<a name="fn-fade"></a>
+<a class="mochidef reference" href="#fn-fade">Fade(element [, options])</a>:</p>
+<blockquote>
+Change the opacity of an element until making it disappear.</blockquote>
+<p>
+<a name="fn-appear"></a>
+<a class="mochidef reference" href="#fn-appear">Appear(element [, options])</a>:</p>
+<blockquote>
+Slowly show an invisible element.</blockquote>
+<p>
+<a name="fn-puff"></a>
+<a class="mochidef reference" href="#fn-puff">Puff(element [, options])</a>:</p>
+<blockquote>
+Make an element double size, and then make it disappear.</blockquote>
+<p>
+<a name="fn-blindup"></a>
+<a class="mochidef reference" href="#fn-blindup">BlindUp(element [, options])</a>:</p>
+<blockquote>
+Blind an element up, changing its vertical size to 0.</blockquote>
+<p>
+<a name="fn-blinddown"></a>
+<a class="mochidef reference" href="#fn-blinddown">BlindDown(element [, options])</a>:</p>
+<blockquote>
+Blind an element down, restoring its vertical size.</blockquote>
+<p>
+<a name="fn-switchoff"></a>
+<a class="mochidef reference" href="#fn-switchoff">SwitchOff(element [, options])</a>:</p>
+<blockquote>
+A switch-off like effect, making the element disappear.</blockquote>
+<p>
+<a name="fn-dropout"></a>
+<a class="mochidef reference" href="#fn-dropout">DropOut(element [, options])</a>:</p>
+<blockquote>
+Make the element fall and fade.</blockquote>
+<p>
+<a name="fn-shake"></a>
+<a class="mochidef reference" href="#fn-shake">Shake(element [, options])</a>:</p>
+<blockquote>
+Shake an element from left to right.</blockquote>
+<p>
+<a name="fn-slidedown"></a>
+<a class="mochidef reference" href="#fn-slidedown">SlideDown(element [, options])</a>:</p>
+<blockquote>
+Slide an element down.</blockquote>
+<p>
+<a name="fn-slideup"></a>
+<a class="mochidef reference" href="#fn-slideup">SlideUp(element [, options])</a>:</p>
+<blockquote>
+Slide an element up.</blockquote>
+<p>
+<a name="fn-squish"></a>
+<a class="mochidef reference" href="#fn-squish">Squish(element [, options])</a>:</p>
+<blockquote>
+Reduce the horizontal and vertical sizes at the same time, using the
+top left corner.</blockquote>
+<p>
+<a name="fn-grow"></a>
+<a class="mochidef reference" href="#fn-grow">Grow(element [, options])</a>:</p>
+<blockquote>
+Restore the size of an element.</blockquote>
+<p>
+<a name="fn-shrink"></a>
+<a class="mochidef reference" href="#fn-shrink">Shrink(element [, options])</a>:</p>
+<blockquote>
+Shrink an element to its center.</blockquote>
+<p>
+<a name="fn-pulsate"></a>
+<a class="mochidef reference" href="#fn-pulsate">Pulsate(element [, options])</a>:</p>
+<blockquote>
+Switch an element between Appear and Fade.</blockquote>
+<p>
+<a name="fn-fold"></a>
+<a class="mochidef reference" href="#fn-fold">Fold(element [, options])</a>:</p>
+<blockquote>
+Reduce first the vertical size, and then the horizontal size.</blockquote>
 </div>
 </div>
 <div class="section">
@@ -141,7 +278,9 @@ together to produce the border color.</dd>
 <ul class="simple">
 <li>Kevin Dangoor &lt;<a class="reference" href="mailto:dangoor&#64;gmail.com">dangoor&#64;gmail.com</a>&gt;</li>
 <li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
-<li>Originally adapted from Rico &lt;<a class="reference" href="http://openrico.org/">http://openrico.org/</a>&gt; (though little remains)</li>
+<li>Thomas Herve &lt;<a class="reference" href="mailto:therve&#64;gmail.com">therve&#64;gmail.com</a>&gt;</li>
+<li>Round corners originally adapted from Rico &lt;<a class="reference" href="http://openrico.org/">http://openrico.org/</a>&gt; (though little remains)</li>
+<li>Effects originally adapted from Script.aculo.us &lt;<a class="reference" href="http://script.aculo.us/">http://script.aculo.us/</a>&gt;</li>
 </ul>
 </div>
 <div class="section">
@@ -151,6 +290,8 @@ free software; you can redistribute it and/or modify it under the terms of the
 <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
 <p>Portions adapted from <a class="reference" href="http://www.openrico.org">Rico</a> are available under the terms of the
 <a class="reference" href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License, Version 2.0</a>.</p>
+<p>Portions adapted from <a class="reference" href="http://script.aculo.us">Scriptaculous</a> are available under the terms of the
+<a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
 </div>
 </div>
 </body>

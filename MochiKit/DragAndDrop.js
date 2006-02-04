@@ -12,15 +12,15 @@ if (typeof(dojo) != 'undefined') {
     dojo.provide('MochiKit.DragAndDrop');
     dojo.require('MochiKit.Base');
     dojo.require('MochiKit.DOM');
-    dojo.require('MochiKit.Effect');
     dojo.require('MochiKit.Iter');
+    dojo.require('MochiKit.Visual');
     dojo.require('MochiKit.Signal');
 }
 
 if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Base", []);
     JSAN.use("MochiKit.DOM", []);
-    JSAN.use("MochiKit.Effect", []);
+    JSAN.use("MochiKit.Visual", []);
     JSAN.use("MochiKit.Iter", []);
     JSAN.use("MochiKit.Signal", []);
 }
@@ -28,13 +28,13 @@ if (typeof(JSAN) != 'undefined') {
 try {
     if (typeof(MochiKit.Base) == 'undefined' ||
         typeof(MochiKit.DOM) == 'undefined' ||
-        typeof(MochiKit.Effect) == 'undefined' ||
+        typeof(MochiKit.Visual) == 'undefined' ||
         typeof(MochiKit.Signal) == 'undefined' ||
         typeof(MochiKit.Iter) == 'undefined') {
         throw "";
     }
 } catch (e) {
-    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.DOM, MochiKit.Effect, MochiKit.Signal and MochiKit.Iter!";
+    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.DOM, MochiKit.Visual, MochiKit.Signal and MochiKit.Iter!";
 }
 
 if (typeof(MochiKit.DragAndDrop) == 'undefined') {
@@ -129,7 +129,7 @@ MochiKit.DragAndDrop.Droppables = {
         }
         MochiKit.Position.prepare();
 
-        if (this.last_active.isAffected([event.cursor.x, event.cursor.y], element)) {
+        if (this.last_active.isAffected(event.mouse(), element)) {
             if (this.last_active.options.ondrop) {
                 this.last_active.options.ondrop(element,
                    this.last_active.element, event);
@@ -219,7 +219,8 @@ MochiKit.DragAndDrop.Droppable.prototype = {
             (this.element != element) &&
             ((!this._containers) || this.isContained(element)) &&
             (this.isAccepted(element)) &&
-            MochiKit.Position.within(this.element, point[0], point[1]));
+            MochiKit.Position.within(this.element, point.page.x,
+                                                   point.page.y));
     },
 
     deactivate: function () {
@@ -318,11 +319,11 @@ MochiKit.DragAndDrop.Draggables = {
         if (!this.activeDraggable) {
             return;
         }
-        var pointer = [event.cursor.x, event.cursor.y];
+        var pointer = event.mouse();
         // Mozilla-based browsers fire successive mousemove events with
         // the same coordinates, prevent needless redrawing (moz bug?)
-        if (this._lastPointer && (MochiKit.Base.repr(this._lastPointer) ==
-                                  MochiKit.Base.repr(pointer))) {
+        if (this._lastPointer && (MochiKit.Base.repr(this._lastPointer.page) ==
+                                  MochiKit.Base.repr(pointer.page))) {
             return;
         }
         this._lastPointer = pointer;
@@ -397,17 +398,17 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         options = MochiKit.Base.update({
             handle: false,
             starteffect: function (element) {
-                new MochiKit.Effect.Opacity(element,
+                new MochiKit.Visual.Opacity(element,
                                    {duration:0.2, from:1.0, to:0.7});
             },
             reverteffect: function (element, top_offset, left_offset) {
                 var dur = Math.sqrt(Math.abs(top_offset^2) +
                           Math.abs(left_offset^2))*0.02;
-                element._revert = new MochiKit.Effect.Move(element,
+                element._revert = new MochiKit.Visual.Move(element,
                             {x: -left_offset, y: -top_offset, duration: dur});
             },
             endeffect: function (element) {
-                new MochiKit.Effect.Opacity(element, {duration:0.2, from:0.7, to:1.0});
+                new MochiKit.Visual.Opacity(element, {duration:0.2, from:0.7, to:1.0});
             },
             zindex: 1000,
             revert: false,
@@ -452,7 +453,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     },
 
     initDrag: function (event) {
-        if (!event.isLeftClick) {
+        if (!event.mouse().button.left) {
             return;
         }
         // abort on form elements, fixes a Firefox issue
@@ -470,11 +471,9 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             this.element._revert = null;
         }
 
-        var pointer = [event.cursor.x, event.cursor.y];
+        var pointer = event.mouse();
         var pos = MochiKit.Position.cumulativeOffset(this.element);
-        this.offset = MochiKit.Base.map(function (i) {
-            return (pointer[i] - pos[i]);
-        }, [0, 1]);
+        this.offset = [pointer.page.x - pos[0], pointer.page.y - pos[1]]
 
         MochiKit.DragAndDrop.Draggables.activate(this);
         event.stop();
@@ -538,7 +537,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
         if (this.options.ghosting) {
             // XXX: from a user point of view, it would be better to remove
-            // the node only *after* the MochiKit.Effect.Move end
+            // the node only *after* the MochiKit.Visual.Move end
             MochiKit.Position.relativize(this.element);
             MochiKit.DOM.removeElement(this._clone);
             this._clone = null;
@@ -596,9 +595,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         pos[0] -= d[0];
         pos[1] -= d[1];
 
-        var p = MochiKit.Base.map(MochiKit.Base.bind(function (i) {
-            return (point[i]-pos[i]-this.offset[i])
-        }, this), [0, 1]);
+        var p = [point.page.x - pos[0] - this.offset[0],
+                 point.page.y - pos[1] - this.offset[1]]
 
         if (this.options.snap) {
             if (typeof(this.options.snap) == 'function') {

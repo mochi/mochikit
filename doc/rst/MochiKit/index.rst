@@ -16,7 +16,10 @@ MochiKit - makes JavaScript suck a bit less
 - :mochiref:`MochiKit.Logging` - we're all tired of ``alert()``
 - :mochiref:`MochiKit.LoggingPane` - interactive :mochiref:`MochiKit.Logging`
   pane
+- :mochiref:`MochiKit.Signal` - simple universal event handling
 - :mochiref:`MochiKit.Visual` - visual effects
+- :mochiref:`MochiKit.DragAndDrop` - drag and drop
+- :mochiref:`MochiKit.Effects` - visual effects too
 
     
 Screencasts

@@ -16,6 +16,9 @@ Synopsis
     
     // round the top left corner of the element with the id "title"
     roundElement("title", {corners: "tl"});
+
+    // Add an fade effect to an element
+    MochiKit.Effect.Fade('myelement');
     
 
 Description
@@ -35,12 +38,15 @@ Dependencies
 Overview
 ========
 
-At this time, MochiKit.Visual provides one visual effect: rounded corners
-for your HTML elements. These rounded corners are created completely
+MochiKit.Visual provides different visual effect: rounded corners and
+animations for your HTML elements. Rounded corners are created completely
 through CSS manipulations and require no external images or style sheets.
-This implementation was adapted from Rico_.
+This implementation was adapted from Rico_. Dynamic effects are ported from
+Scriptaculous_.
 
 .. _Rico: http://www.openrico.org
+
+.. _Scriptaculous: http://script.aculo.us
 
 
 API Reference
@@ -94,6 +100,113 @@ Functions
         specifies whether the color and background color should be blended
         together to produce the border color.
     
+:mochidef:`toggle(element[, effect[, options]])`:
+
+    Toggle an element between visible and invisible state using an effect.
+
+:mochidef:`tagifyText(element[, tagifyStyle])`:
+
+    Transform a node text into nodes containing one letter by tag.
+
+:mochidef:`multiple(elements, effect[, options])`:
+
+    Launch the same effect on a list of elements.
+
+Basic Effects classes
+---------------------
+
+:mochidef:`Base()`:
+
+    Base class to all effects. Define a basic looping service, use it for
+    creating new effects.
+
+:mochidef:`Parallel(effects [, options])`:
+
+    Launch effects in parallel.
+
+:mochidef:`Opacity(element [, options])`:
+
+    Change the opacity of an element progressively.
+
+:mochidef:`Move(element [, options])`:
+
+    Change the position of an element in small steps, creating a moving effect.
+
+:mochidef:`Scale(element, percent [, options])`:
+
+    Change the size of an element.
+
+:mochidef:`Highlight(element [, options])`:
+
+    Highlight an element, flashing with one color.
+
+:mochidef:`ScrollTo(element [, options])`:
+
+    Scroll the window to the position of the given element.
+
+Combination Effects
+-------------------
+
+:mochidef:`Fade(element [, options])`:
+
+    Change the opacity of an element until making it disappear.
+
+:mochidef:`Appear(element [, options])`:
+
+    Slowly show an invisible element.
+
+:mochidef:`Puff(element [, options])`:
+
+    Make an element double size, and then make it disappear.
+
+:mochidef:`BlindUp(element [, options])`:
+
+    Blind an element up, changing its vertical size to 0.
+
+:mochidef:`BlindDown(element [, options])`:
+
+    Blind an element down, restoring its vertical size.
+
+:mochidef:`SwitchOff(element [, options])`:
+
+    A switch-off like effect, making the element disappear.
+
+:mochidef:`DropOut(element [, options])`:
+
+    Make the element fall and fade.
+
+:mochidef:`Shake(element [, options])`:
+
+    Shake an element from left to right.
+
+:mochidef:`SlideDown(element [, options])`:
+
+    Slide an element down.
+
+:mochidef:`SlideUp(element [, options])`:
+
+    Slide an element up.
+
+:mochidef:`Squish(element [, options])`:
+
+    Reduce the horizontal and vertical sizes at the same time, using the
+    top left corner.
+
+:mochidef:`Grow(element [, options])`:
+
+    Restore the size of an element.
+
+:mochidef:`Shrink(element [, options])`:
+
+    Shrink an element to its center.
+
+:mochidef:`Pulsate(element [, options])`:
+
+    Switch an element between Appear and Fade.
+
+:mochidef:`Fold(element [, options])`:
+
+    Reduce first the vertical size, and then the horizontal size.
 
 See Also
 ========
@@ -108,7 +221,9 @@ Authors
 
 - Kevin Dangoor <dangoor@gmail.com>
 - Bob Ippolito <bob@redivi.com>
-- Originally adapted from Rico <http://openrico.org/> (though little remains)
+- Thomas Herve <therve@gmail.com>
+- Round corners originally adapted from Rico <http://openrico.org/> (though little remains)
+- Effects originally adapted from Script.aculo.us <http://script.aculo.us/>
 
 
 Copyright
@@ -123,5 +238,8 @@ free software; you can redistribute it and/or modify it under the terms of the
 
 Portions adapted from `Rico`_ are available under the terms of the
 `Apache License, Version 2.0`_.
+
+Portions adapted from `Scriptaculous`_ are available under the terms of the
+`MIT License`_.
 
 .. _`Apache License, Version 2.0`: http://www.apache.org/licenses/LICENSE-2.0.html

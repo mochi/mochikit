@@ -7,7 +7,7 @@
     <link href="simple_dnd.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="../../MochiKit/MochiKit.js"></script>
     <script type="text/javascript" src="../../MochiKit/New.js"></script>
-    <script type="text/javascript" src="../../MochiKit/Effects.js"></script>
+    <script type="text/javascript" src="../../MochiKit/Visual.js"></script>
     <script type="text/javascript" src="../../MochiKit/DragAndDrop.js"></script>
   </head>
   <body>
@@ -49,13 +49,13 @@
         element.childNodes[0].nodeValue = element.childNodes[0].nodeValue.slice(0, ind);
     };
     onSelectFunc = function (element) {
-        new MochiKit.Effect.Highlight(element);
+        new MochiKit.Visual.Highlight(element);
     };
     onDeselectFunc = function (element) {
         element.childNodes[0].nodeValue += ".";
     };
     ondrop = function (element, dropElt) {
-        new MochiKit.Effect.Pulsate(dropElt);
+        new MochiKit.Visual.Pulsate(dropElt);
         MochiKit.DOM.getElement('droptext').childNodes[0].nodeValue = "Selected: " + element.id;
     };
     
