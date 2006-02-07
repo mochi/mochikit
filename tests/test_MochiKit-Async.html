@@ -1,9 +1,11 @@
 <html>
 <head>
-    <script type="text/javascript" src="Test/Builder.js"></script>
-    <script type="text/javascript" src="Test/More.js"></script>
     <script type="text/javascript" src="../MochiKit/Base.js"></script>
     <script type="text/javascript" src="../MochiKit/Async.js"></script>
+    <script type="text/javascript" src="../MochiKit/Iter.js"></script>
+    <script type="text/javascript" src="../MochiKit/DOM.js"></script>    
+    <script type="text/javascript" src="SimpleTest/SimpleTest.js"></script>        
+    <link rel="stylesheet" type="text/css" href="SimpleTest/test.css">
 </head>
 <body>
 
@@ -11,9 +13,6 @@
 <script type="text/javascript">
 try {
         
-    // Counting the number of tests is really lame
-    plan({'tests': 35});
-
     var increment = function (res) {
         return res + 1;
     }
@@ -228,12 +227,11 @@ try {
         is(originalTime, t, "argument passed in OK");
         is(arguments.length, 1, "argument count right");
         if (endtest) {
-            tx.endAsync(async);
+            SimpleTest.finish();
         }
         endtest++;
     };
-    var tx = new Test.Builder();
-    var async = tx.beginAsync(1000);
+    SimpleTest.waitForExplicitFinish();
     callLater(0.25, checkCallLater, t);
     wait(0.25, t).addCallback(checkCallLater);
     

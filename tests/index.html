@@ -1,12 +1,12 @@
 <html>
 <head>
     <!-- This harness does not work locally in Safari -->
-    <script type="text/javascript" src="JSAN.js"></script>
+    <script type="text/javascript" src="../MochiKit/MochiKit.js"></script>
+    <script type="text/javascript" src="SimpleTest/TestRunner.js"></script>
 </head>
 <body>
 <script type="text/javascript">
-JSAN.use("Test.Harness.Browser");
-Test.Harness.Browser.runTests(
+TestRunner.runTests(
     'test_MochiKit-Async.html',
     'test_MochiKit-Base.html',
     'test_MochiKit-DateTime.html',
@@ -15,7 +15,8 @@ Test.Harness.Browser.runTests(
     'test_MochiKit-Iter.html',
     'test_MochiKit-Logging.html',
     'test_MochiKit-MochiKit.html',
-    'test_MochiKit-Color.html'
+    'test_MochiKit-Color.html',
+    'test_MochiKit-Signal.html'
 );
 </script>
 </body>
