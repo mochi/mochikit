@@ -240,15 +240,15 @@ MochiKit.Base.update(MochiKit.DOM, {
                     return null;
                 }
                 if (tagName == "SELECT") {
-                    var opts = elem.options;
-                    for (var i=0; i < opts.length; i++) {
-                        var opt = opts[i];
-                        if (!opt.selected) {
-                            continue;
-                        }
+                    if (elem.selectedIndex >= 0) {
+                        var opt = elem.options[elem.selectedIndex];
                         names.push(name);
                         values.push((opt.value) ? opt.value : opt.text);
+                        return null;
                     }
+                    // no form elements?
+                    names.push(name);
+                    values.push("");
                     return null;
                 }
                 if (tagName == "FORM" || tagName == "P" || tagName == "SPAN"
