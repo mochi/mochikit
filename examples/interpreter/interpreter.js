@@ -26,7 +26,7 @@ InterpreterManager.prototype.initialize = function () {
     this.blockingOn = null;
     if (typeof(this.doEval) == "undefined") {
         // detect broken eval, warn at some point if a namespace ever gets used
-        this.doEval = EvalFunctions.evalWith;
+        this.doEval = function () { return eval(arguments[0]); }
     }
 };
 
