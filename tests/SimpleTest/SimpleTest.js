@@ -44,7 +44,8 @@ SimpleTest.ok = function(condition, name, diag) {
  * Roughly equivalent to ok(a==b, name)
 **/
 SimpleTest.is = function (a, b, name) {
-    SimpleTest.ok(a == b, name, "expected " + a + ", got " + b);
+    var repr = MochiKit.Base.repr;
+    SimpleTest.ok(a == b, name, "got " + repr(a) + ", expected " + repr(b));
 }
 
 
