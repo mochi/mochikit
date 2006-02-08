@@ -13,6 +13,14 @@
    border-bottom-color: black;
 }
 
+.all_pass {
+    background-color: lime;
+}
+
+.some_fail {
+    background-color: red;
+}
+
 .tests_report {
 	border-width: 2px;
 	border-style: solid;

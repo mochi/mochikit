@@ -8,37 +8,21 @@
  *  * Support the Test.Simple API used by MochiKit, to be able to test MochiKit 
  * itself against IE 5.5
  *
- *    Things that stop MochiKit tests rigth now:
- * 
- *    * JSAN Support (For JSAN test) 
- *
- *    Things that require to modify MochiKit tests:
- *
- *    * Async tests: Use SimpleTest.waitForExplicitFinish() instead of 
- *      Test.Builder().beginAsync.
- *
- *
- * As the JSAN test is not currently included on the tests  index,
- * I think that I can stay away of JSAN and its magic and keep the
- * focus on getting Test.More functions supported.
 **/
 
-var SimpleTest = {};
+if (typeof(SimpleTest) == "undefined") {
+    var SimpleTest = {};
+}
 SimpleTest._tests = [];
 SimpleTest._stopOnLoad = true;
 
 /**
- * Not implemented.
-**/
-SimpleTest.plan = function(){};
-
-/**
  * Something like assert.
 **/
-SimpleTest.ok = function(condition, name, diag) {
+SimpleTest.ok = function (condition, name, diag) {
     SimpleTest._tests.push({'result': !!condition, 'name': name, 
                             'diag': diag || ""});
-}
+};
 
 /**
  * Roughly equivalent to ok(a==b, name)
@@ -46,55 +30,59 @@ SimpleTest.ok = function(condition, name, diag) {
 SimpleTest.is = function (a, b, name) {
     var repr = MochiKit.Base.repr;
     SimpleTest.ok(a == b, name, "got " + repr(a) + ", expected " + repr(b));
-}
+};
 
 
 /**
  * Makes a test report, returns it as a DIV element.
 **/
-SimpleTest.report = function() {
+SimpleTest.report = function () {
+    var DIV = MochiKit.DOM.DIV;
     var passed = 0;
     var failed = 0;
-    var output = DIV({'class': 'tests_report'});
-    var results = [];
-    forEach(SimpleTest._tests, function(test) {
-        if(test.result) {
-            results.push(DIV({'class': 'test_ok'},
-                         "ok - " + test.name));
-            passed++;
-        } else {
-            results.push(DIV({'class': 'test_not_ok'},
-                             "not ok - " + test.name + " " + test.diag));
-            failed++;
-        }
-    });
+    var results = MochiKit.Base.map(
+        function (test) {
+            var cls, msg;
+            if (test.result) {
+                passed++;
+                cls = "test_ok";
+                msg = "ok - " + test.name;
+            } else {
+                failed++;
+                cls = "test_not_ok";
+                msg = "not ok - " + test.name + " " + test.diag;
+            }
+            return DIV({"class": cls}, msg);
+        },
+        SimpleTest._tests
+    );
+    var summary_class = ((failed == 0) ? 'all_pass' : 'some_fail');
     return DIV({'class': 'tests_report'},
-                DIV({'class': 'tests_summary', 
-                     'style': {'backgroundColor': failed==0?'#0f0':'#f00'}},
-                    DIV({'class': 'tests_passed'},
-                        "Passed: " + passed),
-                    DIV({'class': 'tests_failed'},
-                        "Failed: " + failed)),
-                results);
-}
+        DIV({'class': 'tests_summary ' + summary_class},
+            DIV({'class': 'tests_passed'}, "Passed: " + passed),
+            DIV({'class': 'tests_failed'}, "Failed: " + failed)),
+        results
+    );
+};
 
 /**
  * Toggle element visibility
 **/
 SimpleTest.toggle = function(el) {
-    if (computedStyle(el, 'display') == 'block') {
+    if (MochiKit.DOM.computedStyle(el, 'display') == 'block') {
         el.style.display = 'none';
     } else {
         el.style.display = 'block';
     }
-}
+};
 
 /**
  * Toggle visibility for divs with a specific class.
 **/
-SimpleTest.toggleByClass = function(cls) {
-    map(SimpleTest.toggle, getElementsByTagAndClassName('div', cls));
-}
+SimpleTest.toggleByClass = function (cls) {
+    var elems = getElementsByTagAndClassName('div', cls);
+    MochiKit.Base.map(SimpleTest.toggle, elems);
+};
 
 /**
  * Shows the report in the browser
@@ -109,50 +97,49 @@ SimpleTest.showReport = function() {
     var firstChild = body.childNodes[0];
     var addNode;
     if (firstChild) {
-        addNode = function(el){body.insertBefore(el, firstChild)};
+        addNode = function (el) {
+            body.insertBefore(el, firstChild);
+        };
     } else {
-        addNode = function(el){body.appendChild(el)};
+        addNode = function (el) {
+            body.appendChild(el)
+        };
     }
     addNode(togglePassed);
     addNode(SPAN(null, " "));
     addNode(toggleFailed);
     addNode(SimpleTest.report());
-}
+};
 
 /**
- * Tells SimpleTest to don't finish the test when the document is loaded, useful
- * for asynchronous tests.
+ * Tells SimpleTest to don't finish the test when the document is loaded,
+ * useful for asynchronous tests.
  *
- * When SimpleTest.waitForExplicitFinish is called, explicit SimpleTest.finish() 
- * is required.
+ * When SimpleTest.waitForExplicitFinish is called,
+ * explicit SimpleTest.finish() is required.
 **/
-SimpleTest.waitForExplicitFinish = function() {
+SimpleTest.waitForExplicitFinish = function () {
     SimpleTest._stopOnLoad = false;
-}
+};
 
 /**
  * Talks to the TestRunner if being ran on a iframe and the parent has a 
  * TestRunner object.
 **/
-SimpleTest.talkToRunner = function() {
-    if (parent && parent.TestRunner) {
+SimpleTest.talkToRunner = function () {
+    if (typeof(parent) != "undefined" && parent.TestRunner) {
         parent.TestRunner.testFinished(document);
     }
-}
+};
 
 /**
  * Finishes the tests. This is automatically called, except when 
  * SimpleTest.waitForExplicitFinish() has been invoked.
 **/
-SimpleTest.finish = function() {
-    // doesn't fix Safari's incorrect complete count, but it does 
-    // make it show everything as loaded in the activity monitor
-    var _doFinish = function () {
-        SimpleTest.showReport();
-        SimpleTest.talkToRunner();
-    }
-    setTimeout(_doFinish, 1);
-}
+SimpleTest.finish = function () {
+    SimpleTest.showReport();
+    SimpleTest.talkToRunner();
+};
 
 
 addLoadEvent(function() {
@@ -164,7 +151,7 @@ addLoadEvent(function() {
 //  --------------- Test.Builder/Test.More isDeeply() -----------------
 
 
-SimpleTest.DNE = { dne: 'Does not exist' };
+SimpleTest.DNE = {dne: 'Does not exist'};
 SimpleTest.LF = "\r\n";
 SimpleTest._isRef = function (object) {
     var type = typeof(object);
