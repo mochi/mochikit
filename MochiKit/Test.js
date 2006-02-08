@@ -155,7 +155,8 @@ MochiKit.Test.Suite.prototype = {
         }
         
         return this.testResult((!res), msg,
-            (msg ? [["got:", got], ["expected:", expected]] : undefined));
+            (msg ? [["got:", got], ["expected:", expected]] : undefined)
+        );
     },
     
     ok: function (res, message) {
