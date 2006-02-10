@@ -2640,7 +2640,7 @@ if(typeof (node)=="string"){
 elem=self.getElement(node);
 }
 var _337=[self.coerceToDOM(MochiKit.Base.extend(null,arguments,1),elem)];
-var _338=MochiKit.Iter.iextend;
+var _338=MochiKit.Iter.forEach;
 while(_337.length){
 var n=_337.shift();
 if(typeof (n)=="undefined"||n==null){
@@ -2648,7 +2648,7 @@ if(typeof (n)=="undefined"||n==null){
 if(typeof (n.nodeType)=="number"){
 elem.appendChild(n);
 }else{
-_338(_337,n);
+_338(n,_337.unshift,_337);
 }
 }
 }
