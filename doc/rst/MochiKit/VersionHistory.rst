@@ -1,5 +1,7 @@
 2006-XX-XX      v1.3
 
+- MochiKit.DOM.appendChildNodes and associated functions now append iterables
+  in the correct order.
 - New MochiKit-based SimpleTest test runner as a replacement for Test.Simple
 - MochiKit.Base.isNull no longer matches undefined
 - example doctypes changed to HTML4
