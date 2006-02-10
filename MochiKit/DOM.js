@@ -450,7 +450,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                 elem
             )
         ];
-        var forEach = MochiKit.Iter.forEach;
+        var concat = MochiKit.Base.concat;
         while (nodeStack.length) {
             var n = nodeStack.shift();
             if (typeof(n) == 'undefined' || n == null) {
@@ -458,7 +458,7 @@ MochiKit.Base.update(MochiKit.DOM, {
             } else if (typeof(n.nodeType) == 'number') {
                 elem.appendChild(n);
             } else {
-                forEach(n, nodeStack.unshift, nodeStack);
+                nodeStack = concat(n, nodeStack);
             }
         }
         return elem;
