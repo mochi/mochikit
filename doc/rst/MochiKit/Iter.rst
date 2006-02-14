@@ -33,7 +33,7 @@ protocol [1]_, and the itertools module [2]_.
 
 MochiKit.Iter defines a standard way to iterate over anything, that you can
 extend with :mochiref:`registerIterator`, or by implementing the ``.iter()``
-protocol.  Iterators are lazy, so it can potentially be cheaper to built a
+protocol.  Iterators are lazy, so it can potentially be cheaper to build a
 filter chain of iterators than to build lots of intermediate arrays.
 Especially when the data set is very large, but the result is not.
 
