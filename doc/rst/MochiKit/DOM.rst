@@ -384,7 +384,7 @@ Functions
 :mochidef:`elementDimensions(element)`:
 
     Return the absolute pixel width and height of ``element`` as an object with
-    ``x`` and ``y`` properties, or ``undefined`` if ``element`` is not in the
+    ``w`` and ``h`` properties, or ``undefined`` if ``element`` is not in the
     document.  ``element`` may be specified as a string to be looked up with
     :mochiref:`getElement`, a DOM element, or trivially as an object with
     ``w`` and/or ``h`` properties.
@@ -481,6 +481,13 @@ Functions
 
     *returns*:
         The attribute's value, or ``null``
+
+
+:mochidef:`getViewportDimensions(element)`:
+
+    Return the pixel width and height of the viewport as an object with ``w``
+    and ``h`` properties. ``element`` is looked up with
+    :mochiref:`getElement`, so string identifiers are also acceptable.
 
 
 :mochidef:`hasElementClass(element, className[, ...])`:
@@ -581,6 +588,38 @@ Functions
     are also acceptable.
         
 
+:mochidef:`setElementDimensions(element, dimensions[, units='px'])`:
+
+    Sets the dimensions of ``element`` in the document from an
+    object with ``w`` and ``h`` properties.
+    
+    ``node``:
+        A reference to the DOM element to update (if a string is given,
+        :mochiref:`getElement(node)` will be used to locate the node)
+        
+    ``dimensions``:
+        An object with ``w`` and ``h`` properties
+        
+    ``units``:
+        Optionally set the units to use, default is ``px``
+
+
+:mochidef:`setElementPosition(element, position[, units='px'])`:
+
+    Sets the absolute position of ``element`` in the document from an
+    object with ``x`` and ``y`` properties.
+    
+    ``node``:
+        A reference to the DOM element to update (if a string is given,
+        :mochiref:`getElement(node)` will be used to locate the node)
+        
+    ``position``:
+        An object with ``x`` and ``y`` properties
+        
+    ``units``:
+        Optionally set the units to use, default is ``px``
+
+
 :mochidef:`setNodeAttribute(node, attr, value)`:
 
     Set the value of the given attribute for a DOM element without
@@ -604,6 +643,13 @@ Functions
 
     *returns*:
         The given DOM element or ``null`` on failure
+
+
+:mochidef:`setOpacity(element, opacity)`:
+
+    Sets ``opacity`` for ``element``. Valid ``opacity`` values range from 0
+    (invisible) to 1 (opaque). ``element`` is looked up with
+    :mochiref:`getElement`, so string identifiers are also acceptable.
 
 
 :mochidef:`showElement(element, ...)`:
