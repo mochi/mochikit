@@ -437,7 +437,7 @@ MochiKit.Visual.toggle = function (element, /* optional */effect, /* optional */
     element = MochiKit.DOM.getElement(element);
     effect = (effect || 'appear').toLowerCase();
     options = MochiKit.Base.update({
-        queue: {position: 'end', scope: (element.id || 'global')}
+        queue: {position: 'end', scope: (element.id || 'global'), limit: 1}
     }, options || {});
     MochiKit.Visual[MochiKit.DOM.isVisible(element) ?
       MochiKit.Visual.PAIRS[effect][1] : MochiKit.Visual.PAIRS[effect][0]](element, options);
@@ -531,7 +531,10 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
 
         effect.startOn += timestamp;
         effect.finishOn += timestamp;
-        this.effects.push(effect);
+        if (!effect.options.queue.limit || (this.effects.length < effect.options.queue.limit)) {
+            this.effects.push(effect);
+        }
+                      
         if (!this.interval) {
             this.interval = setInterval(MochiKit.Base.bind(this.loop, this),
                                         40);
