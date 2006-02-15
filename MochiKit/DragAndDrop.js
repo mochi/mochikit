@@ -311,7 +311,7 @@ MochiKit.DragAndDrop.Draggables = {
         this.activeDraggable = draggable;
     },
 
-    deactivate: function (draggable) {
+    deactivate: function () {
         this.activeDraggable = null;
     },
 
@@ -461,6 +461,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         if (src.tagName && (
             src.tagName == 'INPUT' ||
             src.tagName == 'SELECT' ||
+            src.tagName == 'OPTION' ||
             src.tagName == 'BUTTON' ||
             src.tagName == 'TEXTAREA')) {
             return;
@@ -569,7 +570,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             this.options.endeffect(this.element);
         }
 
-        MochiKit.DragAndDrop.Draggables.deactivate(this);
+        MochiKit.DragAndDrop.Draggables.deactivate();
         MochiKit.DragAndDrop.Droppables.reset(this.element);
     },
 

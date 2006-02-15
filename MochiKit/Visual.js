@@ -1309,8 +1309,14 @@ MochiKit.Visual.slideDown = function (element, options) {
         },
         afterFinishInternal: function (effect) {
             MochiKit.DOM.undoClipping(effect.element);
-            MochiKit.DOM.undoPositioned(effect.element.firstChild);
-            MochiKit.DOM.undoPositioned(effect.element);
+            // IE will crash if child is undoPositioned first
+            if (MochiKit.DOM.isIE()){
+                MochiKit.DOM.undoPositioned(effect.element);
+                MochiKit.DOM.undoPositioned(effect.element.firstChild);
+            } else {
+                MochiKit.DOM.undoPositioned(effect.element.firstChild);
+                MochiKit.DOM.undoPositioned(effect.element);
+            }
             MochiKit.DOM.setStyle(effect.element.firstChild,
                                   {bottom: oldInnerBottom});
         }
@@ -1392,7 +1398,7 @@ MochiKit.Visual.grow = function (element, options) {
     element = MochiKit.DOM.getElement(element);
     options = MochiKit.Base.update({
         direction: 'center',
-        moveTransistion: MochiKit.Visual.Transitions.sinoidal,
+        moveTransition: MochiKit.Visual.Transitions.sinoidal,
         scaleTransition: MochiKit.Visual.Transitions.sinoidal,
         opacityTransition: MochiKit.Visual.Transitions.full
     }, options || {});
@@ -1490,7 +1496,7 @@ MochiKit.Visual.shrink = function (element, options) {
     element = MochiKit.DOM.getElement(element);
     options = MochiKit.Base.update({
         direction: 'center',
-        moveTransistion: MochiKit.Visual.Transitions.sinoidal,
+        moveTransition: MochiKit.Visual.Transitions.sinoidal,
         scaleTransition: MochiKit.Visual.Transitions.sinoidal,
         opacityTransition: MochiKit.Visual.Transitions.none
     }, options || {});
