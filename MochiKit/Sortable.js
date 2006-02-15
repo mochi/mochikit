@@ -87,6 +87,7 @@ var Sortable = {
             only: false,
             hoverclass: null,
             ghosting: false,
+            scroll: false,
             format: null,
             onChange: MochiKit.Base.emptyFunction,
             onUpdate: MochiKit.Base.emptyFunction
@@ -99,6 +100,7 @@ var Sortable = {
         var options_for_draggable = {
             revert: true,
             ghosting: options.ghosting,
+            scroll: options.scroll,
             constraint: options.constraint,
             handle: options.handle
         };

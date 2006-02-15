@@ -1310,7 +1310,7 @@ MochiKit.Visual.slideDown = function (element, options) {
         afterFinishInternal: function (effect) {
             MochiKit.DOM.undoClipping(effect.element);
             // IE will crash if child is undoPositioned first
-            if (MochiKit.DOM.isIE()){
+            if (MochiKit.Base.isIE()){
                 MochiKit.DOM.undoPositioned(effect.element);
                 MochiKit.DOM.undoPositioned(effect.element.firstChild);
             } else {

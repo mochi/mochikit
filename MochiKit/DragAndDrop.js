@@ -412,6 +412,9 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             },
             zindex: 1000,
             revert: false,
+            scroll: false,
+            scrollSensitivity: 20,
+            scrollSpeed: 15,
             // false, or xy or [x, y] or function (x, y){return [x, y];}
             snap: false
         }, options || {});
@@ -427,6 +430,10 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
         if (!this.handle) {
             this.handle = this.element;
+        }
+
+        if (options.scroll) {
+            options.scroll = MochiKit.DOM.getElement(options.scroll);
         }
 
         MochiKit.DOM.makePositioned(this.element);  // fix IE
@@ -500,6 +507,12 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             MochiKit.Position.absolutize(this.element);
             this.element.parentNode.insertBefore(this._clone, this.element);
         }
+
+        if (this.options.scroll) {
+            this.originalScrollLeft = this.options.scroll.scrollLeft;
+            this.originalScrollTop = this.options.scroll.scrollTop;
+        }
+
         MochiKit.DragAndDrop.Droppables.prepare(this.element);
         MochiKit.DragAndDrop.Draggables.notify('onStart', this, event);
         if (this.options.starteffect) {
@@ -517,6 +530,29 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         this.draw(pointer);
         if (this.options.change) {
             this.options.change(this);
+        }
+
+        if (this.options.scroll) {
+            this.stopScrolling();
+            var p = MochiKit.Position.page(this.options.scroll);
+            p[0] += this.options.scroll.scrollLeft;
+            p[1] += this.options.scroll.scrollTop;
+            p.push(p[0] + this.options.scroll.offsetWidth);
+            p.push(p[1] + this.options.scroll.offsetHeight);
+            var speed = [0, 0];
+            if (pointer.page.x < (p[0] + this.options.scrollSensitivity)) {
+                speed[0] = pointer.page.x - (p[0] + this.options.scrollSensitivity);
+            }
+            if (pointer.page.y < (p[1] + this.options.scrollSensitivity)) {
+                speed[1] = pointer.page.y - (p[1] + this.options.scrollSensitivity);
+            }
+            if (pointer.page.x > (p[2] - this.options.scrollSensitivity)) {
+                speed[0] = pointer.page.x - (p[2]-this.options.scrollSensitivity);
+            }
+            if (pointer.page.y > (p[3] - this.options.scrollSensitivity)) {
+                speed[1] = pointer.page.y - (p[3] - this.options.scrollSensitivity);
+            }
+            this.startScrolling(speed);
         }
 
         // fix AppleWebKit rendering
@@ -586,6 +622,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         if (!this.dragging) {
             return;
         }
+        this.stopScrolling();
         this.finishDrag(event, true);
         event.stop();
     },
@@ -595,6 +632,11 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         var d = this.currentDelta();
         pos[0] -= d[0];
         pos[1] -= d[1];
+
+        if (this.options.scroll) {
+            pos[0] -= this.options.scroll.scrollLeft - this.originalScrollLeft;
+            pos[1] -= this.options.scroll.scrollTop - this.originalScrollTop;
+        }
 
         var p = [point.page.x - pos[0] - this.offset[0],
                  point.page.y - pos[1] - this.offset[1]]
@@ -627,6 +669,34 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
         if (style.visibility == 'hidden') {
             style.visibility = '';  // fix gecko rendering
+        }
+    },
+
+    stopScrolling: function () {
+        if (this.scrollInterval) {
+            clearInterval(this.scrollInterval);
+            this.scrollInterval = null;
+        }
+    },
+
+    startScrolling: function (speed) {
+        this.scrollSpeed = [speed[0] * this.options.scrollSpeed, speed[1] * this.options.scrollSpeed];
+        this.lastScrolled = new Date();
+        this.scrollInterval = setInterval(MochiKit.Base.bind(this.scroll, this), 10);
+    },
+
+    scroll: function () {
+        var current = new Date();
+        var delta = current - this.lastScrolled;
+        this.lastScrolled = current;
+        this.options.scroll.scrollLeft += this.scrollSpeed[0] * delta / 1000;
+        this.options.scroll.scrollTop += this.scrollSpeed[1] * delta / 1000;
+        MochiKit.Position.prepare();
+        MochiKit.DragAndDrop.Droppables.show(MochiKit.DragAndDrop.Draggables._lastPointer, this.element);
+        //MochiKit.DragAndDrop.Draggables.notify('onDrag', this);
+        this.draw(MochiKit.DragAndDrop.Draggables._lastPointer);
+        if (this.options.change) {
+            this.options.change(this);
         }
     },
 

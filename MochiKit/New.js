@@ -185,11 +185,12 @@ MochiKit.Position = {
     },
 
     cumulativeOffset: function (element) {
-        var valueT = 0, valueL = 0;
+        var valueT = 0;
+        var valueL = 0;
         do {
             valueT += element.offsetTop  || 0;
             valueL += element.offsetLeft || 0;
-            element = parent.offsetParent;
+            element = element.offsetParent;
         } while (element);
         return [valueL, valueT];
     },
@@ -315,6 +316,30 @@ MochiKit.Position = {
         target.style.left = offsets[0] + 'px';
         target.style.width = source.offsetWidth + 'px';
         target.style.height = source.offsetHeight + 'px';
+    },
+
+    page: function (forElement) {
+        var valueT = 0;
+        var valueL = 0;
+
+        var element = forElement;
+        do {
+            valueT += element.offsetTop  || 0;
+            valueL += element.offsetLeft || 0;
+
+            // Safari fix
+            if (element.offsetParent == document.body && MochiKit.DOM.getStyle(element, 'position') == 'absolute') {
+                break;
+            }
+        } while (element = element.offsetParent);
+
+        element = forElement;
+        do {
+            valueT -= element.scrollTop  || 0;
+            valueL -= element.scrollLeft || 0;
+        } while (element = element.parentNode);
+
+        return [valueL, valueT];
     }
 };
 
