@@ -1036,7 +1036,7 @@ MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
             offsets[1] += this.options.offset;
         }
         var max;
-        if (window.innerHeight && window.height) {
+        if (window.innerHeight) {
             max = window.innerHeight - window.height;
         } else if (document.documentElement &&
                    document.documentElement.clientHeight) {
@@ -1287,7 +1287,7 @@ MochiKit.Visual.slideDown = function (element, options) {
     ***/
     element = MochiKit.DOM.getElement(element);
     MochiKit.DOM.cleanWhitespace(element);
-    var oldInnerBottom = MochiKit.DOM.getStyle(element.firstChild, 'bottom');
+    var oldInnerBottom = MochiKit.DOM.getStyle(element.firstChild, 'bottom') || 0;
     var elementDimensions = MochiKit.DOM.elementDimensions(element);
     options = MochiKit.Base.update({
         scaleContent: false,
@@ -1308,7 +1308,7 @@ MochiKit.Visual.slideDown = function (element, options) {
         },
         afterUpdateInternal: function (effect) {
             MochiKit.DOM.setStyle(effect.element.firstChild,
-            {bottom: (effect.dims[0] - effect.element.clientHeight) + 'px'})
+               {bottom: (effect.dims[0] - effect.element.clientHeight) + 'px'})
         },
         afterFinishInternal: function (effect) {
             MochiKit.DOM.undoClipping(effect.element);
