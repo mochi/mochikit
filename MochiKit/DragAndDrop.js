@@ -646,14 +646,16 @@ MochiKit.DragAndDrop.Draggable.prototype = {
                 p = this.options.snap(p[0], p[1]);
             } else {
                 if (this.options.snap instanceof Array) {
-                    p = MochiKit.Base.map(MochiKit.Base.bind(function (v, i) {
+                    var i = -1;
+                    p = MochiKit.Base.map(MochiKit.Base.bind(function (v) {
+                            i += 1;
                             return Math.round(v/this.options.snap[i]) *
-                                this.options.snap[i]
+                                   this.options.snap[i]
                         }, this), p)
                 } else {
                     p = MochiKit.Base.map(MochiKit.Base.bind(function (v) {
                         return Math.round(v/this.options.snap) *
-                            this.options.snap
+                               this.options.snap
                         }, this), p)
                 }
             }
