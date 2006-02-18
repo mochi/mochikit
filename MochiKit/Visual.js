@@ -520,7 +520,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
                 var finish;
                 // start effect after last queued effect has finished
                 MochiKit.Iter.forEach(this.effects, function (e) {
-                    var i = e.finishOn();
+                    var i = e.finishOn;
                     if (i >= (finish || i)) {
                         finish = i;
                     }
