@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
 <title>MochiKit Documentation Index</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -54,6 +54,8 @@ related to development of and with MochiKit</li>
 <h1><a id="version-history" name="version-history">Version History</a></h1>
 <p>2006-XX-XX      v1.3</p>
 <ul class="simple">
+<li>MochiKit.Async.Deferred will now wrap thrown objects that are not instanceof
+Error, so that the errback chain is used instead of the callback chain.</li>
 <li>MochiKit.DOM.appendChildNodes and associated functions now append iterables
 in the correct order.</li>
 <li>New MochiKit-based SimpleTest test runner as a replacement for Test.Simple</li>

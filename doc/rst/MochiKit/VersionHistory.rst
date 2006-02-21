@@ -1,5 +1,7 @@
 2006-XX-XX      v1.3
 
+- MochiKit.Async.Deferred will now wrap thrown objects that are not instanceof
+  Error, so that the errback chain is used instead of the callback chain.
 - MochiKit.DOM.appendChildNodes and associated functions now append iterables
   in the correct order.
 - New MochiKit-based SimpleTest test runner as a replacement for Test.Simple

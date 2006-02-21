@@ -342,6 +342,9 @@ MochiKit.Async.Deferred.prototype = {
                 }
             } catch (err) {
                 fired = 1;
+                if (!(err instanceof Error)) {
+                    err = new MochiKit.Async.GenericError(err);
+                }
                 res = err;
             }
         }
