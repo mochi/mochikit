@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
 <title>MochiKit.DOM - painless DOM manipulation API</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -393,7 +393,7 @@ currently executing.</blockquote>
 <a class="mochidef reference" href="#fn-elementdimensions">elementDimensions(element)</a>:</p>
 <blockquote>
 Return the absolute pixel width and height of <tt class="docutils literal"><span class="pre">element</span></tt> as an object with
-<tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if <tt class="docutils literal"><span class="pre">element</span></tt> is not in the
+<tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if <tt class="docutils literal"><span class="pre">element</span></tt> is not in the
 document.  <tt class="docutils literal"><span class="pre">element</span></tt> may be specified as a string to be looked up with
 <a class="mochiref reference" href="#fn-getelement">getElement</a>, a DOM element, or trivially as an object with
 <tt class="docutils literal"><span class="pre">w</span></tt> and/or <tt class="docutils literal"><span class="pre">h</span></tt> properties.</blockquote>
@@ -487,6 +487,13 @@ the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt c
 <dd>The attribute's value, or <tt class="docutils literal"><span class="pre">null</span></tt></dd>
 </dl>
 </blockquote>
+<p>
+<a name="fn-getviewportdimensions"></a>
+<a class="mochidef reference" href="#fn-getviewportdimensions">getViewportDimensions(element)</a>:</p>
+<blockquote>
+Return the pixel width and height of the viewport as an object with <tt class="docutils literal"><span class="pre">w</span></tt>
+and <tt class="docutils literal"><span class="pre">h</span></tt> properties. <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with
+<a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers are also acceptable.</blockquote>
 <p>
 <a name="fn-haselementclass"></a>
 <a class="mochidef reference" href="#fn-haselementclass">hasElementClass(element, className[, ...])</a>:</p>
@@ -589,6 +596,38 @@ Set the entire class attribute of <tt class="docutils literal"><span class="pre"
 <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers
 are also acceptable.</blockquote>
 <p>
+<a name="fn-setelementdimensions"></a>
+<a class="mochidef reference" href="#fn-setelementdimensions">setElementDimensions(element, dimensions[, units='px'])</a>:</p>
+<blockquote>
+<p>Sets the dimensions of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an
+object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element to update (if a string is given,
+<a class="mochiref reference" href="#fn-getelement">getElement(node)</a> will be used to locate the node)</dd>
+<dt><tt class="docutils literal"><span class="pre">dimensions</span></tt>:</dt>
+<dd>An object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties</dd>
+<dt><tt class="docutils literal"><span class="pre">units</span></tt>:</dt>
+<dd>Optionally set the units to use, default is <tt class="docutils literal"><span class="pre">px</span></tt></dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-setelementposition"></a>
+<a class="mochidef reference" href="#fn-setelementposition">setElementPosition(element, position[, units='px'])</a>:</p>
+<blockquote>
+<p>Sets the absolute position of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an
+object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element to update (if a string is given,
+<a class="mochiref reference" href="#fn-getelement">getElement(node)</a> will be used to locate the node)</dd>
+<dt><tt class="docutils literal"><span class="pre">position</span></tt>:</dt>
+<dd>An object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties</dd>
+<dt><tt class="docutils literal"><span class="pre">units</span></tt>:</dt>
+<dd>Optionally set the units to use, default is <tt class="docutils literal"><span class="pre">px</span></tt></dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-setnodeattribute"></a>
 <a class="mochidef reference" href="#fn-setnodeattribute">setNodeAttribute(node, attr, value)</a>:</p>
 <blockquote>
@@ -612,6 +651,13 @@ the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt c
 <dd>The given DOM element or <tt class="docutils literal"><span class="pre">null</span></tt> on failure</dd>
 </dl>
 </blockquote>
+<p>
+<a name="fn-setopacity"></a>
+<a class="mochidef reference" href="#fn-setopacity">setOpacity(element, opacity)</a>:</p>
+<blockquote>
+Sets <tt class="docutils literal"><span class="pre">opacity</span></tt> for <tt class="docutils literal"><span class="pre">element</span></tt>. Valid <tt class="docutils literal"><span class="pre">opacity</span></tt> values range from 0
+(invisible) to 1 (opaque). <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with
+<a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers are also acceptable.</blockquote>
 <p>
 <a name="fn-showelement"></a>
 <a class="mochidef reference" href="#fn-showelement">showElement(element, ...)</a>:</p>

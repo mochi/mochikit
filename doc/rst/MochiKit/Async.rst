@@ -192,7 +192,9 @@ Constructors
     conditions are met:
     
     1. The result given to callback or errback is "``instanceof Error``"
-    2. The callback or errback thew an ``Error`` while executing
+    2. The callback or errback threw while executing.  If the thrown object
+       is not ``instanceof Error``, it will be wrapped with
+       :mochiref:`GenericError`.
 
     Otherwise, the :mochiref:`Deferred` will be in the success state.  The state
     of the :mochiref:`Deferred` determines the next element in the callback
