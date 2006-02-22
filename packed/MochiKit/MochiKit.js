@@ -1547,7 +1547,7 @@ this._messages.push(msg);
 this.dispatchListeners(msg);
 this.counter+=1;
 while(this.maxSize>=0&&this._messages.length>this.maxSize){
-this._messges.shift();
+this._messages.shift();
 }
 },getMessages:function(_201){
 var _202=0;

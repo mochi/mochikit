@@ -1,5 +1,7 @@
 2006-XX-XX      v1.3
 
+- Fix a bug in MochiKit.Logging that prevented logs from being capped at a
+  maximum size
 - MochiKit.Async.Deferred will now wrap thrown objects that are not instanceof
   Error, so that the errback chain is used instead of the callback chain.
 - MochiKit.DOM.appendChildNodes and associated functions now append iterables
