@@ -382,23 +382,30 @@ MochiKit.Base.update(MochiKit.Signal, {
                 } else if (src.attachEvent) {
                     src.detachEvent(sig, listener);
                 } else {
-                    src[sig] = undefined;
+                    src.__signals[sig] = undefined;
                 }
+                
+                src.__listeners[sig] = undefined;
+                
+                // delete removes object properties, not variables
+                delete(src.__listeners);
+                delete(src.__signals);
+                
             } catch(e) {
                 // clean IE garbage
             }
         }
-
-        MochiKit.Signal._observers = null;
+        
+        MochiKit.Signal._observers = undefined;
 
         try {
-            window.onload = null;
+            window.onload = undefined;
         } catch(e) {
             // clean IE garbage
         }
 
         try {
-            window.onunload = null;
+            window.onunload = undefined;
         } catch(e) {
             // clean IE garbage
         }
