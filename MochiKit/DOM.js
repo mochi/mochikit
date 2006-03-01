@@ -147,7 +147,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         MochiKit.DOM.updateNodeAttributes(elem, {'style': {
                 'opacity': o, 
                 '-moz-opacity': o,
-                '-khtml-opacity': 0,
+                '-khtml-opacity': o,
                 'filter':' alpha(opacity=' + (o * 100) + ')'
             }});
     },
