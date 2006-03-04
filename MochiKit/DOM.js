@@ -154,15 +154,19 @@ MochiKit.Base.update(MochiKit.DOM, {
     
     getViewportDimensions: function() {
         var d = new MochiKit.DOM.Dimensions();
-        if (window.innerWidth) {
-            d.w = window.innerWidth;
-            d.h = window.innerHeight;
-        } else if (document.body.parentElement.clientWidth) {
-            d.w = document.body.parentElement.clientWidth;
-            d.h = document.body.parentElement.clientHeight;
-        } else if (document.body && document.body.clientWidth) {
-            d.w = document.body.clientWidth;
-            d.h = document.body.clientHeight;
+        
+        var w = MochiKit.DOM._window;
+        var b = MochiKit.DOM._document.body;
+        
+        if (w.innerWidth) {
+            d.w = w.innerWidth;
+            d.h = w.innerHeight;
+        } else if (b.parentElement.clientWidth) {
+            d.w = b.parentElement.clientWidth;
+            d.h = b.parentElement.clientHeight;
+        } else if (b && b.clientWidth) {
+            d.w = b.clientWidth;
+            d.h = b.clientHeight;
         }
         return d;
     },
@@ -213,6 +217,8 @@ MochiKit.Base.update(MochiKit.DOM, {
         var box = null;
         var parent = null;
         
+        var d = MochiKit.DOM._document;
+        
         if (typeof(relativeTo) != 'undefined') {
             relativeTo = arguments.callee(relativeTo);
             if (relativeTo) {
@@ -225,16 +231,16 @@ MochiKit.Base.update(MochiKit.DOM, {
             box = elem.getBoundingClientRect();
             
             c.x += box.left + 
-                (document.documentElement.scrollLeft || 
-                document.body.scrollLeft);
+                (d.documentElement.scrollLeft || 
+                d.body.scrollLeft);
             
             c.y += box.top + 
-                (document.documentElement.scrollTop || 
-                document.body.scrollTop);
+                (d.documentElement.scrollTop || 
+                d.body.scrollTop);
             
             return c;
-        } else if (document.getBoxObjectFor) { // Gecko shortcut
-            box = document.getBoxObjectFor(elem);
+        } else if (d.getBoxObjectFor) { // Gecko shortcut
+            box = d.getBoxObjectFor(elem);
             c.x += box.x;
             c.y += box.y;
         } else if (elem.offsetParent) {
@@ -256,7 +262,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                 (ua.indexOf('safari') != -1 && 
                 self.computedStyle(elem, 'position') == 'absolute')) {
                 
-                c.y -= document.body.offsetTop;
+                c.y -= d.body.offsetTop;
                 
             }
         } else {
