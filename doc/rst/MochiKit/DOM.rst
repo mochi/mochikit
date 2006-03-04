@@ -483,7 +483,7 @@ Functions
         The attribute's value, or ``null``
 
 
-:mochidef:`getViewportDimensions(element)`:
+:mochidef:`getViewportDimensions()`:
 
     Return the pixel width and height of the viewport as an object with ``w``
     and ``h`` properties. ``element`` is looked up with

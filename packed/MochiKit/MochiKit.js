@@ -2389,17 +2389,19 @@ elem=MochiKit.DOM.getElement(elem);
 MochiKit.DOM.updateNodeAttributes(elem,{"style":{"opacity":o,"-moz-opacity":o,"-khtml-opacity":o,"filter":" alpha(opacity="+(o*100)+")"}});
 },getViewportDimensions:function(){
 var d=new MochiKit.DOM.Dimensions();
-if(window.innerWidth){
-d.w=window.innerWidth;
-d.h=window.innerHeight;
+var w=MochiKit.DOM._window;
+var b=MochiKit.DOM._document.body;
+if(w.innerWidth){
+d.w=w.innerWidth;
+d.h=w.innerHeight;
 }else{
-if(document.body.parentElement.clientWidth){
-d.w=document.body.parentElement.clientWidth;
-d.h=document.body.parentElement.clientHeight;
+if(b.parentElement.clientWidth){
+d.w=b.parentElement.clientWidth;
+d.h=b.parentElement.clientHeight;
 }else{
-if(document.body&&document.body.clientWidth){
-d.w=document.body.clientWidth;
-d.h=document.body.clientHeight;
+if(b&&b.clientWidth){
+d.w=b.clientWidth;
+d.h=b.clientHeight;
 }
 }
 }
@@ -2437,6 +2439,7 @@ return undefined;
 var c=new self.Coordinates(0,0);
 var box=null;
 var _312=null;
+var d=MochiKit.DOM._document;
 if(typeof (_309)!="undefined"){
 _309=arguments.callee(_309);
 if(_309){
@@ -2446,12 +2449,12 @@ c.y-=(_309.y||0);
 }
 if(elem.getBoundingClientRect){
 box=elem.getBoundingClientRect();
-c.x+=box.left+(document.documentElement.scrollLeft||document.body.scrollLeft);
-c.y+=box.top+(document.documentElement.scrollTop||document.body.scrollTop);
+c.x+=box.left+(d.documentElement.scrollLeft||d.body.scrollLeft);
+c.y+=box.top+(d.documentElement.scrollTop||d.body.scrollTop);
 return c;
 }else{
-if(document.getBoxObjectFor){
-box=document.getBoxObjectFor(elem);
+if(d.getBoxObjectFor){
+box=d.getBoxObjectFor(elem);
 c.x+=box.x;
 c.y+=box.y;
 }else{
@@ -2468,7 +2471,7 @@ _312=_312.offsetParent;
 }
 var ua=navigator.userAgent.toLowerCase();
 if(ua.indexOf("opera")!=-1||(ua.indexOf("safari")!=-1&&self.computedStyle(elem,"position")=="absolute")){
-c.y-=document.body.offsetTop;
+c.y-=d.body.offsetTop;
 }
 }else{
 c.x+=elem.x||0;
