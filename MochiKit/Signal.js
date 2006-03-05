@@ -360,6 +360,9 @@ MochiKit.Base.update(MochiKit.Signal, {
 
     _getSlot: function (slot, func) {
         if (typeof(func) == 'string' || typeof(func) == 'function') {
+            if (typeof(func) == 'string' && typeof(slot[func]) == 'undefined') {
+                throw new Error('Invalid function slot');
+            }
             slot = [slot, func];
         } else if (!func && typeof(slot) == 'function') {
             slot = [slot];
@@ -382,23 +385,30 @@ MochiKit.Base.update(MochiKit.Signal, {
                 } else if (src.attachEvent) {
                     src.detachEvent(sig, listener);
                 } else {
-                    src[sig] = undefined;
+                    src.__signals[sig] = undefined;
                 }
+                
+                src.__listeners[sig] = undefined;
+                
+                // delete removes object properties, not variables
+                delete(src.__listeners);
+                delete(src.__signals);
+                
             } catch(e) {
                 // clean IE garbage
             }
         }
-
-        MochiKit.Signal._observers = null;
+        
+        MochiKit.Signal._observers = undefined;
 
         try {
-            window.onload = null;
+            window.onload = undefined;
         } catch(e) {
             // clean IE garbage
         }
 
         try {
-            window.onunload = null;
+            window.onunload = undefined;
         } catch(e) {
             // clean IE garbage
         }
@@ -447,6 +457,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
 
         slot = MochiKit.Signal._getSlot(slot, func);
+        //alert(slot + " " + slot.length + " " + typeof(slot[1]) + " " + slot[0][slot[1]]);
 
         // Find the signal, attach the slot.
 
@@ -458,7 +469,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                 src.__listeners = {};
             }
 
-            // Add the signal connector if it hasn't been done already.
+            // Add the signal connector if it hasnt been done already.
             if (!src.__listeners[sig]) {
                 var listener = function (nativeEvent) {
                     var eventObject = new MochiKit.Signal.Event(nativeEvent);
@@ -530,6 +541,8 @@ MochiKit.Base.update(MochiKit.Signal, {
                     break;
                 }
             }
+        } else {
+            throw new Error("Invalid signal to disconnect");
         }
 
         if (src.addEventListener || src.attachEvent || src.__signals[sig]) {
