@@ -360,6 +360,9 @@ MochiKit.Base.update(MochiKit.Signal, {
 
     _getSlot: function (slot, func) {
         if (typeof(func) == 'string' || typeof(func) == 'function') {
+            if (typeof(func) == 'string' && typeof(slot[func]) == 'undefined') {
+                throw new Error('Invalid function slot');
+            }
             slot = [slot, func];
         } else if (!func && typeof(slot) == 'function') {
             slot = [slot];
@@ -537,6 +540,8 @@ MochiKit.Base.update(MochiKit.Signal, {
                     break;
                 }
             }
+        } else {
+            throw new Error("Invalid signal to disconnect");
         }
 
         if (src.addEventListener || src.attachEvent || src.__signals[sig]) {
