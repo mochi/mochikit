@@ -423,7 +423,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         HTML Element, Window, or the Document, then it can be one of the
         'on-XYZ' events. Note that you must include the 'on' prefix, and it
         must be all lower-case. If 'src' is another kind of object, the signal
-        must be previously registered with 'register_signals()'.
+        must be previously registered with 'registerSignals()'.
 
         'dest' and 'func' describe the slot, or the action to take when the
         signal is triggered.
@@ -622,7 +622,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
 
-    register_signals: function (src, signals) {
+    registerSignals: function (src, signals) {
         /***
 
         This will register signals for the object 'src'. (Note that a string
@@ -673,7 +673,7 @@ MochiKit.Signal.EXPORT = [
     'connect',
     'disconnect',
     'signal',
-    'register_signals'
+    'registerSignals'
 ];
 
 MochiKit.Signal.__new__ = function (win) {

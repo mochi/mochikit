@@ -13,7 +13,7 @@ Synopsis
 
     // Allow your objects to create events.
     var myObject = {};
-    register_signals(myObject, ['flash', 'bang']);
+    registerSignals(myObject, ['flash', 'bang']);
 
     // otherObject.gotFlash() will be called when 'flash' signalled.
     connect(myObject, 'flash', otherObject, 'gotFlash');
@@ -73,7 +73,7 @@ Here are the rules for the signal and slot system.
     ``elem.addEventListener(...)``.
 
 2.  Objects other than DOM objects (window, document, or any HTMLElement)
-    must have its signals declared via :mochiref:`register_signals()`
+    must have its signals declared via :mochiref:`registerSignals()`
     before they can be used.
 
 3.  For DOM objects (window, document, or any HTMLElement), the signals
@@ -211,7 +211,7 @@ Functions
     Element, Window, or the Document, then it can be one of the 'on-XYZ'
     events. Note that you must include the 'on' prefix, and it must be all
     lower-case. If ``src`` is another kind of object, the signal must be
-    previously registered with :mochiref:`register_signals()`.
+    previously registered with :mochiref:`registerSignals()`.
 
     ``dest`` and ``func`` describe the slot, or the action to take when the
     signal is triggered.
@@ -242,14 +242,14 @@ Functions
     have to remember it if you want to later :mochiref:`disconnect()` it.
 
 
-:mochidef:`register_signals(src, signals)`:
+:mochidef:`registerSignals(src, signals)`:
 
     This will register signals for the object ``src``.  Note that a string
     here is not allowed -- you don't need to register signals for DOM objects.
     'signals' is an array of strings.
 
     You may register the same signals multiple times; subsequent
-    register_signals calls with the same signal names will have no effect,
+    registerSignals calls with the same signal names will have no effect,
     and the existing connections, if any, will not be lost.
 
 
