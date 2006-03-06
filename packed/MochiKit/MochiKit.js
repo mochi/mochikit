@@ -4200,7 +4200,7 @@ var e=new Error("There were errors in handling signal 'sig'.");
 e.errors=_544;
 throw e;
 }
-},register_signals:function(src,_545){
+},registerSignals:function(src,_545){
 if(!src.__signals){
 src.__signals={};
 }
@@ -4212,7 +4212,7 @@ src.__signals[sig]=[];
 }
 }});
 MochiKit.Signal.EXPORT_OK=[];
-MochiKit.Signal.EXPORT=["connect","disconnect","signal","register_signals"];
+MochiKit.Signal.EXPORT=["connect","disconnect","signal","registerSignals"];
 MochiKit.Signal.__new__=function(win){
 var m=MochiKit.Base;
 this._document=document;

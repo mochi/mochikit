@@ -7,7 +7,7 @@ tests.test_Signal = function (t) {
     var hasNoSignals = {};
     
     var hasSignals = {someVar: 1};
-    register_signals(hasSignals, ['signalOne', 'signalTwo']);
+    registerSignals(hasSignals, ['signalOne', 'signalTwo']);
 
     var i = 0;
         
