@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
 <title>MochiKit.Signal - Simple universal event handling</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -78,7 +78,7 @@ no <tt class="docutils literal"><span class="pre">elem.attachEvent(...)</span></
 <tt class="docutils literal"><span class="pre">elem.addEventListener(...)</span></tt>.</p>
 </li>
 <li><p class="first">Objects other than DOM objects (window, document, or any HTMLElement)
-must have its signals declared via <a class="mochiref reference" href="#fn-registerSignals">registerSignals()</a>
+must have its signals declared via <a class="mochiref reference" href="#fn-registersignals">registerSignals()</a>
 before they can be used.</p>
 </li>
 <li><p class="first">For DOM objects (window, document, or any HTMLElement), the signals
@@ -215,7 +215,7 @@ which case, it is interpreted as an id for an HTML Element.</p>
 Element, Window, or the Document, then it can be one of the 'on-XYZ'
 events. Note that you must include the 'on' prefix, and it must be all
 lower-case. If <tt class="docutils literal"><span class="pre">src</span></tt> is another kind of object, the signal must be
-previously registered with <a class="mochiref reference" href="#fn-registerSignals">registerSignals()</a>.</p>
+previously registered with <a class="mochiref reference" href="#fn-registersignals">registerSignals()</a>.</p>
 <p><tt class="docutils literal"><span class="pre">dest</span></tt> and <tt class="docutils literal"><span class="pre">func</span></tt> describe the slot, or the action to take when the
 signal is triggered.</p>
 <blockquote>
@@ -244,8 +244,8 @@ connection was made given the same parameters to <a class="mochiref reference" h
 Note that if you want to pass a closure to <a class="mochiref reference" href="#fn-connect">connect()</a>, you'll
 have to remember it if you want to later <a class="mochiref reference" href="#fn-disconnect">disconnect()</a> it.</blockquote>
 <p>
-<a name="fn-registerSignals"></a>
-<a class="mochidef reference" href="#fn-registerSignals">registerSignals(src, signals)</a>:</p>
+<a name="fn-registersignals"></a>
+<a class="mochidef reference" href="#fn-registersignals">registerSignals(src, signals)</a>:</p>
 <blockquote>
 <p>This will register signals for the object <tt class="docutils literal"><span class="pre">src</span></tt>.  Note that a string
 here is not allowed -- you don't need to register signals for DOM objects.

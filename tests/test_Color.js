@@ -17,6 +17,7 @@ tests.test_Color = function (t) {
     t.ok( Color.whiteColor().toRGBString(), "rgb(255,255,255)", "toRGBString white" );
     t.ok( Color.blueColor().toRGBString(), "rgb(0,0,255)", "toRGBString blue" );
     t.is( Color.fromRGB(190/255, 222/255, 173/255).toHexString(), "#bedead", "fromRGB works" );
+    t.is( Color.fromRGB(226/255, 15.9/255, 182/255).toHexString(), "#e210b6", "fromRGB < 16 works" );
     t.is( Color.fromRGB({r:190/255,g:222/255,b:173/255}).toHexString(), "#bedead", "alt fromRGB works" );
     t.is( Color.fromHexString("#bedead").toHexString(), "#bedead", "round-trip hex" );
     t.is( Color.fromString("#bedead").toHexString(), "#bedead", "round-trip string(hex)" );
