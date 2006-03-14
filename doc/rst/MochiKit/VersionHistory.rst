@@ -1,5 +1,7 @@
 2006-XX-XX      v1.3
 
+- Fix a bug in MochiKit.Color that incorrectly generated hex colors for
+  component values smaller than 16/255.
 - Fix a bug in MochiKit.Logging that prevented logs from being capped at a
   maximum size
 - MochiKit.Async.Deferred will now wrap thrown objects that are not instanceof
