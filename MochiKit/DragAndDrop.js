@@ -87,7 +87,7 @@ MochiKit.DragAndDrop.Droppables = {
     },
 
     prepare: function (element) {
-        MochiKit.Iter.forEach(this.drops, function (drop) {
+        MochiKit.Base.map(function (drop) {
             if (drop.isAccepted(element)) {
                 if (drop.options.activeclass) {
                     MochiKit.DOM.addElementClass(drop.element,
@@ -97,7 +97,7 @@ MochiKit.DragAndDrop.Droppables = {
                     drop.options.onactive(drop.element, element);
                 }
             }
-        });
+        }, this.drops);
     },
 
     show: function (point, element) {
@@ -138,7 +138,7 @@ MochiKit.DragAndDrop.Droppables = {
     },
 
     reset: function (element) {
-        MochiKit.Iter.forEach(this.drops, function (drop) {
+        MochiKit.Base.map(function (drop) {
             if (drop.options.activeclass) {
                 MochiKit.DOM.removeElementClass(drop.element,
                                                 drop.options.activeclass);
@@ -146,7 +146,7 @@ MochiKit.DragAndDrop.Droppables = {
             if (drop.options.ondesactive) {
                 drop.options.ondesactive(drop.element, element);
             }
-        });
+        }, this.drops);
         if (this.last_active) {
             this.last_active.deactivate();
         }
@@ -184,9 +184,9 @@ MochiKit.DragAndDrop.Droppable.prototype = {
             var containment = this.options.containment;
             if ((typeof(containment) == 'object') &&
                 (containment.constructor == Array)) {
-                MochiKit.Iter.forEach(containment, function (c) {
+                MochiKit.Base.map(MochiKit.Base.bind(function (c) {
                     this.options._containers.push(MochiKit.DOM.getElement(c));
-                });
+                }, this), containment);
             } else {
                 this.options._containers.push(
                     MochiKit.DOM.getElement(containment));
@@ -361,22 +361,21 @@ MochiKit.DragAndDrop.Draggables = {
     notify: function (eventName, draggable, event) {
         // 'onStart', 'onEnd', 'onDrag'
         if (this[eventName + 'Count'] > 0) {
-            MochiKit.Iter.forEach(this.observers, function (o) {
+            MochiKit.Base.map(function (o) {
                 if (o[eventName]) {
                     o[eventName](eventName, draggable, event);
                 }
-            });
+            }, this.observers);
         }
     },
 
     _cacheObserverCallbacks: function () {
-        MochiKit.Iter.forEach(['onStart', 'onEnd', 'onDrag'],
-        function (eventName) {
+        MochiKit.Base.map(function (eventName) {
             MochiKit.DragAndDrop.Draggables[eventName + 'Count'] =
             MochiKit.Base.filter(function (o) {
                 return o[eventName];
             }, MochiKit.DragAndDrop.Draggables.observers).length;
-        });
+        }, ['onStart', 'onEnd', 'onDrag']);
     }
 };
 

@@ -5,11 +5,58 @@ Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 See scriptaculous.js for full license.
 
 ***/
-SortableObserver = function (element, observer) {
+
+if (typeof(dojo) != 'undefined') {
+    dojo.provide('MochiKit.DragAndDrop');
+    dojo.require('MochiKit.Base');
+    dojo.require('MochiKit.DOM');
+    dojo.require('MochiKit.Iter');
+}
+
+if (typeof(JSAN) != 'undefined') {
+    JSAN.use("MochiKit.Base", []);
+    JSAN.use("MochiKit.DOM", []);
+    JSAN.use("MochiKit.Iter", []);
+}
+
+try {
+    if (typeof(MochiKit.Base) == 'undefined' ||
+        typeof(MochiKit.DOM) == 'undefined' ||
+        typeof(MochiKit.Iter) == 'undefined') {
+        throw "";
+    }
+} catch (e) {
+    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.DOM and MochiKit.Iter!";
+}
+
+if (typeof(MochiKit.Sortable) == 'undefined') {
+    MochiKit.Sortable = {};
+}
+
+MochiKit.Sortable.NAME = 'MochiKit.Sortable';
+MochiKit.Sortable.VERSION = '1.3';
+
+MochiKit.Sortable.__repr__ = function () {
+    return '[' + this.NAME + ' ' + this.VERSION + ']';
+};
+
+MochiKit.Sortable.toString = function () {
+    return this.__repr__();
+};
+
+MochiKit.Sortable.EXPORT = [
+    "SortableObserver"
+];
+
+MochiKit.DragAndDrop.EXPORT_OK = [
+    "Sortable"
+];
+
+MochiKit.Sortable.SortableObserver = function (element, observer) {
     this.__init__(element, observer);
 };
 
-SortableObserver.prototype = {
+MochiKit.Sortable.SortableObserver.prototype = {
     /***
 
     Observe events of drag and drop sortables.
@@ -18,22 +65,22 @@ SortableObserver.prototype = {
     __init__: function (element, observer) {
         this.element = MochiKit.DOM.getElement(element);
         this.observer = observer;
-        this.lastValue = Sortable.serialize(this.element);
+        this.lastValue = MochiKit.Sortable.Sortable.serialize(this.element);
     },
 
     onStart: function () {
-        this.lastValue = Sortable.serialize(this.element);
+        this.lastValue = MochiKit.Sortable.Sortable.serialize(this.element);
     },
 
     onEnd: function () {
-        Sortable.unmark();
-        if (this.lastValue != Sortable.serialize(this.element)) {
+        MochiKit.Sortable.Sortable.unmark();
+        if (this.lastValue != MochiKit.Sortable.Sortable.serialize(this.element)) {
             this.observer(this.element)
         }
     }
 };
 
-var Sortable = {
+MochiKit.Sortable.Sortable = {
     /***
 
     Manage sortables. Mainly use the create function to add a sortable.
@@ -58,15 +105,15 @@ var Sortable = {
         var toDestroy = MochiKit.Base.filter(function (s) {
             return s.element == element;
         }, this.sortables);
-        MochiKit.Iter.forEach(toDestroy, function (s) {
+        MochiKit.Base.map(function (s) {
             MochiKit.DragAndDrop.Draggables.removeObserver(s.element);
-            MochiKit.Iter.forEach(s.droppables, function (d) {
+            MochiKit.Base.map(function (d) {
                 MochiKit.DragAndDrop.Droppables.remove(d);
-            });
-            MochiKit.Iter.forEach(s.draggables, function (d) {
+            }, s.droppables);
+            MochiKit.Base.map(function (d) {
                 d.destroy();
-            });
-        });
+            }, s.draggables);
+        }, toDestroy);
         this.sortables = MochiKit.Base.filter(function (s) {
             return s.element != element;
         }, this.sortables);
@@ -131,7 +178,7 @@ var Sortable = {
             overlap: options.overlap,
             containment: options.containment,
             hoverclass: options.hoverclass,
-            onhover: Sortable.onHover,
+            onhover: MochiKit.Sortable.Sortable.onHover,
             greedy: !options.dropOnEmpty
         }
 
@@ -147,13 +194,12 @@ var Sortable = {
         if (options.dropOnEmpty) {
             new MochiKit.DragAndDrop.Droppable(element, {
                 containment: options.containment,
-                onhover: Sortable.onEmptyHover,
+                onhover: MochiKit.Sortable.Sortable.onEmptyHover,
                 greedy: false
             });
             options.droppables.push(element);
         }
-        MochiKit.Iter.forEach((this.findElements(element, options) || []),
-        function (e) {
+        MochiKit.Base.map(function (e) {
             // handles are per-draggable
             var handle = options.handle ?
                 MochiKit.DOM.getElementsByTagAndClassName(null,
@@ -164,14 +210,14 @@ var Sortable = {
                                          {handle: handle})));
             new MochiKit.DragAndDrop.Droppable(e, options_for_droppable);
             options.droppables.push(e);
-        });
+        }, (this.findElements(element, options) || []));
 
         // keep reference
         this.sortables.push(options);
 
         // for onupdate
         MochiKit.DragAndDrop.Draggables.addObserver(
-            new SortableObserver(element, options.onUpdate));
+            new MochiKit.Sortable.SortableObserver(element, options.onUpdate));
     },
 
     // return all suitable-for-sortable elements in a guaranteed order
@@ -180,7 +226,7 @@ var Sortable = {
             return null;
         }
         var elements = [];
-        MochiKit.Iter.forEach(element.childNodes, function (e) {
+        MochiKit.Base.map(MochiKit.Base.bind(function (e) {
             if (e.tagName &&
                 e.tagName.toUpperCase() == options.tag.toUpperCase() &&
                (!options.only ||
@@ -193,34 +239,34 @@ var Sortable = {
                     elements.push(grandchildren);
                 }
             }
-        });
+        }, this), element.childNodes);
 
         return (elements.length > 0 ? elements : null);
     },
 
     onHover: function (element, dropon, overlap) {
         if (overlap > 0.5) {
-            Sortable.mark(dropon, 'before');
+            MochiKit.Sortable.Sortable.mark(dropon, 'before');
             if (dropon.previousSibling != element) {
                 var oldParentNode = element.parentNode;
                 element.style.visibility = 'hidden';  // fix gecko rendering
                 dropon.parentNode.insertBefore(element, dropon);
                 if (dropon.parentNode != oldParentNode) {
-                    Sortable.options(oldParentNode).onChange(element);
+                    MochiKit.Sortable.Sortable.options(oldParentNode).onChange(element);
                 }
-                Sortable.options(dropon.parentNode).onChange(element);
+                MochiKit.Sortable.Sortable.options(dropon.parentNode).onChange(element);
             }
         } else {
-            Sortable.mark(dropon, 'after');
+            MochiKit.Sortable.Sortable.mark(dropon, 'after');
             var nextElement = dropon.nextSibling || null;
             if (nextElement != element) {
                 var oldParentNode = element.parentNode;
                 element.style.visibility = 'hidden';  // fix gecko rendering
                 dropon.parentNode.insertBefore(element, nextElement);
                 if (dropon.parentNode != oldParentNode) {
-                    Sortable.options(oldParentNode).onChange(element);
+                    MochiKit.Sortable.Sortable.options(oldParentNode).onChange(element);
                 }
-                Sortable.options(dropon.parentNode).onChange(element);
+                MochiKit.Sortable.Sortable.options(dropon.parentNode).onChange(element);
             }
         }
     },
@@ -229,47 +275,47 @@ var Sortable = {
         if (element.parentNode != dropon) {
             var oldParentNode = element.parentNode;
             dropon.appendChild(element);
-            Sortable.options(oldParentNode).onChange(element);
-            Sortable.options(dropon).onChange(element);
+            MochiKit.Sortable.Sortable.options(oldParentNode).onChange(element);
+            MochiKit.Sortable.Sortable.options(dropon).onChange(element);
         }
     },
 
     unmark: function () {
-        if (Sortable._marker) {
-            MochiKit.DOM.hideElement(Sortable._marker);
+        if (MochiKit.Sortable.Sortable._marker) {
+            MochiKit.DOM.hideElement(MochiKit.Sortable.Sortable._marker);
         }
     },
 
     mark: function (dropon, position) {
         // mark on ghosting only
-        var sortable = Sortable.options(dropon.parentNode);
+        var sortable = MochiKit.Sortable.Sortable.options(dropon.parentNode);
         if (sortable && !sortable.ghosting) {
             return;
         }
 
-        if (!Sortable._marker) {
-            Sortable._marker = MochiKit.DOM.getElement('dropmarker') ||
+        if (!MochiKit.Sortable.Sortable._marker) {
+            MochiKit.Sortable.Sortable._marker = MochiKit.DOM.getElement('dropmarker') ||
                                document.createElement('DIV');
-            MochiKit.DOM.hideElement(Sortable._marker);
-            MochiKit.DOM.addElementClass(Sortable._marker, 'dropmarker');
-            Sortable._marker.style.position = 'absolute';
+            MochiKit.DOM.hideElement(MochiKit.Sortable.Sortable._marker);
+            MochiKit.DOM.addElementClass(MochiKit.Sortable.Sortable._marker, 'dropmarker');
+            MochiKit.Sortable.Sortable._marker.style.position = 'absolute';
             document.getElementsByTagName('body').item(0).appendChild(
-                Sortable._marker);
+                MochiKit.Sortable.Sortable._marker);
         }
         var offsets = MochiKit.Position.cumulativeOffset(dropon);
-        Sortable._marker.style.left = offsets[0] + 'px';
-        Sortable._marker.style.top = offsets[1] + 'px';
+        MochiKit.Sortable.Sortable._marker.style.left = offsets[0] + 'px';
+        MochiKit.Sortable.Sortable._marker.style.top = offsets[1] + 'px';
 
         if (position == 'after') {
             if (sortable.overlap == 'horizontal') {
-                Sortable._marker.style.left = (offsets[0] +
+                MochiKit.Sortable.Sortable._marker.style.left = (offsets[0] +
                                                dropon.clientWidth) + 'px';
             } else {
-                Sortable._marker.style.top = (offsets[1] +
+                MochiKit.Sortable.Sortable._marker.style.top = (offsets[1] +
                                               dropon.clientHeight) + 'px';
             }
         }
-        MochiKit.DOM.showElement(Sortable._marker);
+        MochiKit.DOM.showElement(MochiKit.Sortable.Sortable._marker);
     },
 
     serialize: function (element, options) {

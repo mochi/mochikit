@@ -30,7 +30,7 @@
             <a onclick="validate()">Validate order choice</a>
         </p>
 <script type="text/javascript">
-Sortable.create('dnd_sortable');
+MochiKit.Sortable.Sortable.create('dnd_sortable');
 
 validate = function () {
     var children = MochiKit.DOM.getElement("dnd_sortable").childNodes;
@@ -41,6 +41,14 @@ validate = function () {
     alert(res);
 }
 </script>
-
+<p>
+    <ul>
+        <li><a href="sortable_test.html">Test 1</a></li>
+        <li><a href="sortable2_test.html">Test 2</a></li>
+        <li><a href="sortable3_test.html">Test 3</a></li>
+        <li><a href="sortable4_test.html">Test 4</a></li>
+        <li><a href="sortable5_test.html">Test 5</a></li>
+    </ul>
+</p>
     </body>
 </html>
