@@ -71,8 +71,7 @@ MochiKit.Signal.Event.prototype.relatedTarget = function () {
         return (this._event.relatedTarget ||
             this._event.toElement);
     }
-    // FIXME: throw an exception instead?
-    return undefined;
+    throw new Error('No related target');
 };
 
 MochiKit.Signal.Event.prototype.modifier = function () {
@@ -155,22 +154,15 @@ MochiKit.Signal.Event.prototype.key = function () {
             k.string = (MochiKit.Signal._specialKeys[k.code] ||
                 'KEY_UNKNOWN');
             return k;
+        
         // look for unicode characters here
         } else if (this.type() == 'keypress') {
             k.code = (this._event.charCode || this._event.keyCode);
-            // special keys don't have a character
-            if (MochiKit.Signal._specialKeys[k.code]) {
-                // remind users not to look for special chars in keypress
-                // FIXME: throw an exception instead?
-                return undefined;
-            } else {
-                k.string = String.fromCharCode(k.code);
-            }
+            k.string = String.fromCharCode(k.code);
             return k;
         }
     }
-    // FIXME: throw an exception instead?
-    return undefined;
+    throw new Error('This is not a key event');
 };
 
 MochiKit.Signal.Event.prototype._fixPoint = function (point) {
@@ -243,8 +235,7 @@ MochiKit.Signal.Event.prototype.mouse = function () {
         }
         return m;
     }
-    // FIXME: throw an exception instead?
-    return undefined;
+    throw new Error('This is not a mouse event');
 };
 
 MochiKit.Signal.Event.prototype.stop = function () {
@@ -268,7 +259,7 @@ MochiKit.Signal.Event.prototype.preventDefault = function () {
     }
 };
 
-MochiKit.Signal.Event.prototype.repr = function () {
+MochiKit.Signal.Event.prototype.__repr__ = function () {
     var repr = MochiKit.Base.repr;
     var str = '{event(): ' + repr(this.event()) +
         ', type(): ' + repr(this.type()) +
@@ -305,6 +296,10 @@ MochiKit.Signal.Event.prototype.repr = function () {
     str += '}';
     return str;
 };
+
+MochiKit.Signal.Event.prototype.toString = function() {
+    return this.__repr__();
+}
 
 MochiKit.Base.update(MochiKit.Signal, {
 
@@ -382,14 +377,14 @@ MochiKit.Base.update(MochiKit.Signal, {
                 } else if (src.attachEvent) {
                     src.detachEvent(sig, listener);
                 } else {
-                    src.__signals[sig] = undefined;
+                    src._signals[sig] = undefined;
                 }
                 
-                src.__listeners[sig] = undefined;
+                src._listeners[sig] = undefined;
                 
                 // delete removes object properties, not variables
-                delete(src.__listeners);
-                delete(src.__signals);
+                delete(src._listeners);
+                delete(src._signals);
                 
             } catch(e) {
                 // clean IE garbage
@@ -459,14 +454,14 @@ MochiKit.Base.update(MochiKit.Signal, {
 
         // DOM object
         if (src.addEventListener || src.attachEvent || src[sig]) {
-            // Create the __listeners object. This will help us remember which
+            // Create the _listeners object. This will help us remember which
             // events we are watching.
-            if (!src.__listeners) {
-                src.__listeners = {};
+            if (!src._listeners) {
+                src._listeners = {};
             }
 
             // Add the signal connector if it hasn't been done already.
-            if (!src.__listeners[sig]) {
+            if (!src._listeners[sig]) {
                 var listener = function (nativeEvent) {
                     var eventObject = new MochiKit.Signal.Event(nativeEvent);
                     MochiKit.Signal.signal(src, sig, eventObject);
@@ -482,23 +477,23 @@ MochiKit.Base.update(MochiKit.Signal, {
                     src[sig] = listener;
                 }
 
-                src.__listeners[sig] = listener;
+                src._listeners[sig] = listener;
             }
 
-            if (!src.__signals) {
-                src.__signals = {};
+            if (!src._signals) {
+                src._signals = {};
             }
-            if (!src.__signals[sig]) {
-                src.__signals[sig] = [];
+            if (!src._signals[sig]) {
+                src._signals[sig] = [];
             }
         } else {
-            if (!src.__signals || !src.__signals[sig]) {
+            if (!src._signals || !src._signals[sig]) {
                 throw new Error("No such signal '" + sig + "' registered.");
             }
         }
 
         // Actually add the slot... if it isn't there already.
-        var signals = src.__signals[sig];
+        var signals = src._signals[sig];
         for (var i = 0; i < signals.length; i++) {
             var s = signals[i];
             if (slot[0] === s[0] && slot[1] === s[1] && slot[2] === s[2]) {
@@ -527,8 +522,8 @@ MochiKit.Base.update(MochiKit.Signal, {
 
         slot = MochiKit.Signal._getSlot(slot, func);
 
-        if (src.__signals && src.__signals[sig]) {
-            var signals = src.__signals[sig];
+        if (src._signals && src._signals[sig]) {
+            var signals = src._signals[sig];
             var origlen = signals.length;
             for (var i = 0; i < signals.length; i++) {
                 var s = signals[i];
@@ -539,21 +534,21 @@ MochiKit.Base.update(MochiKit.Signal, {
             }
         }
 
-        if (src.addEventListener || src.attachEvent || src.__signals[sig]) {
+        if (src.addEventListener || src.attachEvent || src._signals[sig]) {
             // DOM object
 
             // Stop listening if there are no connected slots.
-            if (src.__listeners && src.__listeners[sig] &&
-                src.__signals[sig].length === 0) {
+            if (src._listeners && src._listeners[sig] &&
+                src._signals[sig].length === 0) {
 
-                var listener = src.__listeners[sig];
+                var listener = src._listeners[sig];
 
                 if (src.addEventListener) {
                     src.removeEventListener(sig.substr(2), listener, false);
                 } else if (src.attachEvent) {
                     src.detachEvent(sig, listener);
                 } else {
-                    src.__signals[sig] = undefined;
+                    src._signals[sig] = undefined;
                 }
 
                 var observers = MochiKit.Signal._observers;
@@ -564,7 +559,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                         break;
                     }
                 }
-                src.__listeners[sig] = undefined;
+                src._listeners[sig] = undefined;
             }
         }
     },
@@ -585,7 +580,7 @@ MochiKit.Base.update(MochiKit.Signal, {
             throw new Error("'signal' must be a string");
         }
 
-        if (!src.__signals || !src.__signals[sig]) {
+        if (!src._signals || !src._signals[sig]) {
             if (src.addEventListener || src.attachEvent || src[sig]) {
                 // Ignored.
                 return;
@@ -593,32 +588,22 @@ MochiKit.Base.update(MochiKit.Signal, {
                 throw new Error("No such signal '" + sig + "'");
             }
         }
-        var slots = src.__signals[sig];
+        var slots = src._signals[sig];
 
         var args = MochiKit.Base.extend(null, arguments, 2);
 
         var slot;
-        var errors = [];
         for (var i = 0; i < slots.length; i++) {
             slot = slots[i];
-            try {
-                if (slot.length == 1) {
-                    slot[0].apply(src, args);
+            if (slot.length == 1) {
+                slot[0].apply(src, args);
+            } else {
+                if (typeof(slot[1]) == 'string') {
+                    slot[0][slot[1]].apply(slot[0], args);
                 } else {
-                    if (typeof(slot[1]) == 'string') {
-                        slot[0][slot[1]].apply(slot[0], args);
-                    } else {
-                        slot[1].apply(slot[0], args);
-                    }
+                    slot[1].apply(slot[0], args);
                 }
-            } catch (e) {
-                errors.push(e);
             }
-        }
-        if (errors.length) {
-            var e = new Error("There were errors in handling signal 'sig'.");
-            e.errors = errors;
-            throw e;
         }
     },
 
@@ -634,8 +619,8 @@ MochiKit.Base.update(MochiKit.Signal, {
         connections, if any, will not be lost.
 
         ***/
-        if (!src.__signals) {
-            src.__signals = {
+        if (!src._signals) {
+            src._signals = {
                 /*
                 __repr__: function () {
                     var m = MochiKit.Base;
@@ -660,8 +645,8 @@ MochiKit.Base.update(MochiKit.Signal, {
 
         for (var i = 0; i < signals.length; i++) {
             var sig = signals[i];
-            if (!src.__signals[sig]) {
-                src.__signals[sig] = [];
+            if (!src._signals[sig]) {
+                src._signals[sig] = [];
             }
         }
     }
