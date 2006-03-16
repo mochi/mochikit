@@ -64,7 +64,7 @@ memory leakage.
 
 This event system is largely based on Qt's signal/slot system. You should read
 more on how that is handled and also how it is used in model/view programming
-at: http://docs.trolltech.com/
+at: http://doc.trolltech.com/
 
 Here are the rules for the signal and slot system.
 
