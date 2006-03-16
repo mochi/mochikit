@@ -171,7 +171,7 @@ tests.test_Signal = function (t) {
     }
     // FIXME: this fails in IE6
     try {
-        connect(hasSignals, 'signalOne', aObject, aObject.nothing);
+        disconnect(hasSignals, 'signalOne', aObject, aObject.nothing);
         t.ok(false, 'An exception was not raised when disconnecting an undefined method');
     } catch (e) {
         t.ok(true, 'An exception was raised when disconnecting an undefined method');
@@ -187,7 +187,7 @@ tests.test_Signal = function (t) {
     }
     // FIXME: this fails in IE6
     try {
-        connect(hasSignals, 'signalOne', aObject, 'nothing');
+        disconnect(hasSignals, 'signalOne', aObject, 'nothing');
         t.ok(false, 'An exception was not raised when disconnecting an undefined method (as string)');
     } catch (e) {
         t.ok(true, 'An exception was raised when disconnecting an undefined method (as string)');

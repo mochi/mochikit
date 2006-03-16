@@ -355,6 +355,9 @@ MochiKit.Base.update(MochiKit.Signal, {
 
     _getSlot: function (slot, func) {
         if (typeof(func) == 'string' || typeof(func) == 'function') {
+            if (typeof(func) == 'string' && typeof(slot[func]) == 'undefined') {
+                throw new Error('Invalid function slot');
+            }
             slot = [slot, func];
         } else if (!func && typeof(slot) == 'function') {
             slot = [slot];
@@ -451,8 +454,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         slot = MochiKit.Signal._getSlot(slot, func);
 
         // Find the signal, attach the slot.
-
-        // DOM object
+        
         if (src.addEventListener || src.attachEvent || src[sig]) {
             // Create the _listeners object. This will help us remember which
             // events we are watching.
@@ -532,11 +534,11 @@ MochiKit.Base.update(MochiKit.Signal, {
                     break;
                 }
             }
+        } else {
+            throw new Error("Invalid signal to disconnect");
         }
-
+        
         if (src.addEventListener || src.attachEvent || src._signals[sig]) {
-            // DOM object
-
             // Stop listening if there are no connected slots.
             if (src._listeners && src._listeners[sig] &&
                 src._signals[sig].length === 0) {
@@ -593,17 +595,29 @@ MochiKit.Base.update(MochiKit.Signal, {
         var args = MochiKit.Base.extend(null, arguments, 2);
 
         var slot;
+        var errors = [];
         for (var i = 0; i < slots.length; i++) {
             slot = slots[i];
-            if (slot.length == 1) {
-                slot[0].apply(src, args);
-            } else {
-                if (typeof(slot[1]) == 'string') {
-                    slot[0][slot[1]].apply(slot[0], args);
+            try {
+                if (slot.length == 1) {
+                    slot[0].apply(src, args);
                 } else {
-                    slot[1].apply(slot[0], args);
+                    if (typeof(slot[1]) == 'string') {
+                        slot[0][slot[1]].apply(slot[0], args);
+                    } else {
+                        slot[1].apply(slot[0], args);
+                    }
                 }
+            } catch (e) {
+                errors.push(e);
             }
+        }
+        if (errors.length == 1) {
+            throw errors[0];
+        } else if (errors.length) {
+            var e = new Error("There were errors in handling signal 'sig'.");
+            e.errors = errors;
+            throw e;
         }
     },
 
