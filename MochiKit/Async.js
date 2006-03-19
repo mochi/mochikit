@@ -438,8 +438,8 @@ MochiKit.Base.update(MochiKit.Async, {
     },
 
     sendXMLHttpRequest: function (req, /* optional */ sendContent) {
-        if (typeof(sendContent) == 'undefined') {
-            sendContent = null;
+        if (sendContent == null) {
+            sendContent = "";
         }
 
         var canceller = function () {
