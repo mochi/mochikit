@@ -2170,8 +2170,8 @@ catch(e){
 }
 return self.XMLHttpRequest();
 },sendXMLHttpRequest:function(req,_285){
-if(typeof (_285)=="undefined"){
-_285=null;
+if(_285==null){
+_285="";
 }
 var _286=function(){
 try{
