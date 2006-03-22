@@ -258,6 +258,10 @@ that you want to guarantee to run, e.g. a finalizer.</p>
 with <a class="mochiref reference" href="Base.html#fn-partial">MochiKit.Base.partial.apply(null, arguments)</a>.  This
 differs from <a class="reference" href="http://twistedmatrix.com/">Twisted</a>, because the result of the callback or
 errback will be the <em>last</em> argument passed to <tt class="docutils literal"><span class="pre">func</span></tt>.</p>
+<p>If <tt class="docutils literal"><span class="pre">func</span></tt> returns a <a class="mochiref reference" href="#fn-deferred">Deferred</a>, then it will be chained
+(its value or error will be passed to the next callback).  Note that
+once the returned <tt class="docutils literal"><span class="pre">Deferred</span></tt> is chained, it can no longer accept new
+callbacks.</p>
 </blockquote>
 <p>
 <a name="fn-deferred.prototype.addcallback"></a>
@@ -268,14 +272,23 @@ errback will be the <em>last</em> argument passed to <tt class="docutils literal
 with <a class="mochiref reference" href="Base.html#fn-partial">MochiKit.Base.partial.apply(null, arguments)</a>.  This
 differs from <a class="reference" href="http://twistedmatrix.com/">Twisted</a>, because the result of the callback will
 be the <em>last</em> argument passed to <tt class="docutils literal"><span class="pre">func</span></tt>.</p>
+<p>If <tt class="docutils literal"><span class="pre">func</span></tt> returns a <a class="mochiref reference" href="#fn-deferred">Deferred</a>, then it will be chained
+(its value or error will be passed to the next callback).  Note that
+once the returned <tt class="docutils literal"><span class="pre">Deferred</span></tt> is chained, it can no longer accept new
+callbacks.</p>
 </blockquote>
 <p>
 <a name="fn-deferred.prototype.addcallbacks"></a>
 <a class="mochidef reference" href="#fn-deferred.prototype.addcallbacks">Deferred.prototype.addCallbacks(callback, errback)</a>:</p>
 <blockquote>
-Add separate callback and errback to the end of the callback
+<p>Add separate callback and errback to the end of the callback
 sequence.  Either callback or errback may be <tt class="docutils literal"><span class="pre">null</span></tt>,
-but not both.</blockquote>
+but not both.</p>
+<p>If <tt class="docutils literal"><span class="pre">callback</span></tt> or <tt class="docutils literal"><span class="pre">errback</span></tt> returns a <a class="mochiref reference" href="#fn-deferred">Deferred</a>,
+then it will be chained (its value or error will be passed to the
+next callback).  Note that once the returned <tt class="docutils literal"><span class="pre">Deferred</span></tt> is chained,
+it can no longer accept new callbacks.</p>
+</blockquote>
 <p>
 <a name="fn-deferred.prototype.adderrback"></a>
 <a class="mochidef reference" href="#fn-deferred.prototype.adderrback">Deferred.prototype.addErrback(func)</a>:</p>
@@ -285,12 +298,17 @@ but not both.</blockquote>
 with <a class="mochiref reference" href="Base.html#fn-partial">MochiKit.Base.partial.apply(null, arguments)</a>.  This
 differs from <a class="reference" href="http://twistedmatrix.com/">Twisted</a>, because the result of the errback will
 be the <em>last</em> argument passed to <tt class="docutils literal"><span class="pre">func</span></tt>.</p>
+<p>If <tt class="docutils literal"><span class="pre">func</span></tt> returns a <a class="mochiref reference" href="#fn-deferred">Deferred</a>, then it will be chained
+(its value or error will be passed to the next callback).  Note that
+once the returned <tt class="docutils literal"><span class="pre">Deferred</span></tt> is chained, it can no longer accept new
+callbacks.</p>
 </blockquote>
 <p>
 <a name="fn-deferred.prototype.callback"></a>
 <a class="mochidef reference" href="#fn-deferred.prototype.callback">Deferred.prototype.callback([result])</a>:</p>
 <blockquote>
-Begin the callback sequence with a non-<tt class="docutils literal"><span class="pre">Error</span></tt> result.</blockquote>
+Begin the callback sequence with a non-<tt class="docutils literal"><span class="pre">Error</span></tt> result.  Result
+may be any value except for a <a class="mochiref reference" href="#fn-deferred">Deferred</a>.</blockquote>
 <div class="note">
 <p class="first admonition-title">Note</p>
 <p class="last">Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
@@ -311,8 +329,9 @@ with <a class="mochiref reference" href="#fn-cancellederror">CancelledError</a>.
 <a name="fn-deferred.prototype.errback"></a>
 <a class="mochidef reference" href="#fn-deferred.prototype.errback">Deferred.prototype.errback([result])</a>:</p>
 <blockquote>
-Begin the callback sequence with an error result.  If
-<tt class="docutils literal"><span class="pre">!(result</span> <span class="pre">instanceof</span> <span class="pre">Error)</span></tt>, it will be wrapped
+Begin the callback sequence with an error result.
+Result may be any value except for a <a class="mochiref reference" href="#fn-deferred">Deferred</a>,
+but if <tt class="docutils literal"><span class="pre">!(result</span> <span class="pre">instanceof</span> <span class="pre">Error)</span></tt>, it will be wrapped
 with <a class="mochiref reference" href="#fn-genericerror">GenericError</a>.</blockquote>
 <div class="note">
 <p class="first admonition-title">Note</p>

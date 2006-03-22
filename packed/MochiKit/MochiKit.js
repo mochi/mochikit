@@ -2017,6 +2017,7 @@ this.paused=0;
 this.results=[null,null];
 this.canceller=_274;
 this.silentlyCancelled=false;
+this.chained=false;
 };
 MochiKit.Async.Deferred.prototype={repr:function(){
 var _275;
@@ -2070,11 +2071,18 @@ return;
 }
 },callback:function(res){
 this._check();
+if(res instanceof MochiKit.Async.Deferred){
+throw new Error("Deferred instances can only be chained if they are the result of a callback");
+}
 this._resback(res);
 },errback:function(res){
 this._check();
+var self=MochiKit.Async;
+if(res instanceof self.Deferred){
+throw new Error("Deferred instances can only be chained if they are the result of a callback");
+}
 if(!(res instanceof Error)){
-res=new MochiKit.Async.GenericError(res);
+res=new self.GenericError(res);
 }
 this._resback(res);
 },addBoth:function(fn){
@@ -2093,6 +2101,9 @@ fn=MochiKit.Base.partial.apply(null,arguments);
 }
 return this.addCallbacks(null,fn);
 },addCallbacks:function(cb,eb){
+if(this.chained){
+throw new Error("Chained Deferreds can not be re-used");
+}
 this.chain.push([cb,eb]);
 if(this.fired>=0){
 this._fire();
@@ -2132,6 +2143,7 @@ this.fired=_279;
 this.results[_279]=res;
 if(cb&&this.paused){
 res.addBoth(cb);
+res.chained=true;
 }
 }};
 MochiKit.Base.update(MochiKit.Async,{evalJSONRequest:function(){
