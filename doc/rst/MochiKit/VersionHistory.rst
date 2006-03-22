@@ -1,5 +1,7 @@
 2006-XX-XX      v1.3
 
+- Added sanity checking to Deferred to ensure that errors happen when chaining
+  is used incorrectly
 - Opera sendXMLHttpRequest fix (sends empty string instead of null by default)
 - Fix a bug in MochiKit.Color that incorrectly generated hex colors for
   component values smaller than 16/255.

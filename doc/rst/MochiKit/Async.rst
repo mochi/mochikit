@@ -250,6 +250,11 @@ Constructors
     differs from `Twisted`_, because the result of the callback or
     errback will be the *last* argument passed to ``func``.
 
+    If ``func`` returns a :mochiref:`Deferred`, then it will be chained
+    (its value or error will be passed to the next callback).  Note that
+    once the returned ``Deferred`` is chained, it can no longer accept new
+    callbacks.
+
 
 :mochidef:`Deferred.prototype.addCallback(func[, ...])`:
 
@@ -260,6 +265,10 @@ Constructors
     differs from `Twisted`_, because the result of the callback will
     be the *last* argument passed to ``func``.
 
+    If ``func`` returns a :mochiref:`Deferred`, then it will be chained
+    (its value or error will be passed to the next callback).  Note that
+    once the returned ``Deferred`` is chained, it can no longer accept new
+    callbacks.
 
 :mochidef:`Deferred.prototype.addCallbacks(callback, errback)`:
 
@@ -267,6 +276,10 @@ Constructors
     sequence.  Either callback or errback may be ``null``,
     but not both.
 
+    If ``callback`` or ``errback`` returns a :mochiref:`Deferred`,
+    then it will be chained (its value or error will be passed to the
+    next callback).  Note that once the returned ``Deferred`` is chained,
+    it can no longer accept new callbacks.
 
 :mochidef:`Deferred.prototype.addErrback(func)`:
 
@@ -277,10 +290,15 @@ Constructors
     differs from `Twisted`_, because the result of the errback will
     be the *last* argument passed to ``func``.
 
+    If ``func`` returns a :mochiref:`Deferred`, then it will be chained
+    (its value or error will be passed to the next callback).  Note that
+    once the returned ``Deferred`` is chained, it can no longer accept new
+    callbacks.
 
 :mochidef:`Deferred.prototype.callback([result])`:
 
-    Begin the callback sequence with a non-``Error`` result.
+    Begin the callback sequence with a non-``Error`` result.  Result
+    may be any value except for a :mochiref:`Deferred`.
     
 .. note:: Either ``.callback`` or ``.errback`` should
           be called exactly once on a :mochiref:`Deferred`.
@@ -299,8 +317,9 @@ Constructors
 
 :mochidef:`Deferred.prototype.errback([result])`:
 
-    Begin the callback sequence with an error result.  If 
-    ``!(result instanceof Error)``, it will be wrapped
+    Begin the callback sequence with an error result.
+    Result may be any value except for a :mochiref:`Deferred`,
+    but if ``!(result instanceof Error)``, it will be wrapped
     with :mochiref:`GenericError`.
 
 .. note:: Either ``.callback`` or ``.errback`` should

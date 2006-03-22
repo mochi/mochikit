@@ -162,6 +162,32 @@ try {
         ok(e instanceof AlreadyCalledError, "non-swallowed cancel");
     }
     
+    /* Test incorrect Deferred usage */
+
+    d = new Deferred();
+    try {
+        d.callback(new Deferred());
+        neverHappen();
+    } catch (e) {
+        ok (e instanceof Error, "deferred not allowed for callback");
+    }
+    d = new Deferred();
+    try {
+        d.errback(new Deferred());
+        neverHappen();
+    } catch (e) {
+        ok (e instanceof Error, "deferred not allowed for errback");
+    }
+
+    d = new Deferred();
+    (new Deferred()).addCallback(function () { return d; }).callback(1);
+    try {
+        d.addCallback(function () {});
+        neverHappen();
+    } catch (e) {
+        ok (e instanceof Error, "chained deferred not allowed to be re-used");
+    }
+ 
     /*
         evalJSONRequest test
     */

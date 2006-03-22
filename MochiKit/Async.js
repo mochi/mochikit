@@ -131,6 +131,7 @@ MochiKit.Async.Deferred = function (/* optional */ canceller) {
     this.results = [null, null];
     this.canceller = canceller;
     this.silentlyCancelled = false;
+    this.chained = false;
 };
 
 MochiKit.Async.Deferred.prototype = {
@@ -241,6 +242,9 @@ MochiKit.Async.Deferred.prototype = {
 
         ***/
         this._check();
+        if (res instanceof MochiKit.Async.Deferred) {
+            throw new Error("Deferred instances can only be chained if they are the result of a callback");
+        }
         this._resback(res);
     },
 
@@ -254,8 +258,12 @@ MochiKit.Async.Deferred.prototype = {
 
         ***/
         this._check();
+        var self = MochiKit.Async;
+        if (res instanceof self.Deferred) {
+            throw new Error("Deferred instances can only be chained if they are the result of a callback");
+        }
         if (!(res instanceof Error)) {
-            res = new MochiKit.Async.GenericError(res);
+            res = new self.GenericError(res);
         }
         this._resback(res);
     },
@@ -305,6 +313,9 @@ MochiKit.Async.Deferred.prototype = {
         sequence.
 
         ***/
+        if (this.chained) {
+            throw new Error("Chained Deferreds can not be re-used");
+        }
         this.chain.push([cb, eb])
         if (this.fired >= 0) {
             this._fire();
@@ -354,6 +365,7 @@ MochiKit.Async.Deferred.prototype = {
             // this is for "tail recursion" in case the dependent deferred
             // is already fired
             res.addBoth(cb);
+            res.chained = true;
         }
     }
 };
