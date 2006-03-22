@@ -928,7 +928,7 @@ Functions
 
         var lst = ["a", "bbb", "cc"];
         lst.sort(reverseKeyComparator("length"));
-        assert(lst.toString() == "bbb,cc,aa");
+        assert(lst.toString() == "bbb,cc,a");
 
 
 :mochidef:`serializeJSON(anObject)`:
