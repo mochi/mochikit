@@ -22,6 +22,7 @@ h1 {
 .red { background: red; }
 .white
 {
+    background: white;
     border: 1px solid black;
     color: black;
 }

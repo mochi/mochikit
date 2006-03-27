@@ -17,10 +17,10 @@ Drag = {
         */
         Drag._offset = Drag._diff(
             e.mouse().page,
-            MochiKit.DOM.elementPosition(Drag._target));
+            elementPosition(Drag._target));
         
-        MochiKit.Signal.connect(document, 'onmousemove', Drag._drag);
-        MochiKit.Signal.connect(document, 'onmouseup', Drag._stop);
+        connect(document, 'onmousemove', Drag._drag);
+        connect(document, 'onmouseup', Drag._stop);
     },
 
     _offset: null,
@@ -32,27 +32,27 @@ Drag = {
         
     _drag: function(e) {
         e.stop();
-        MochiKit.DOM.setElementPosition(
+        setElementPosition(
             Drag._target,
             Drag._diff(e.mouse().page, Drag._offset));
     },
     
     _stop: function(e) {
-        MochiKit.Signal.disconnect(document, 'onmousemove', Drag._drag);
-        MochiKit.Signal.disconnect(document, 'onmouseup', Drag._stop);
+        disconnect(document, 'onmousemove', Drag._drag);
+        disconnect(document, 'onmouseup', Drag._stop);
     }
 };
 
-MochiKit.Signal.connect(window, 'onload',   
+connect(window, 'onload',   
     function() {
         /*
             Find all DIVs tagged with the draggable class, and connect them to
             the Drag handler.
         */
-        var d = MochiKit.DOM.getElementsByTagAndClassName('DIV', 'draggable');
-        MochiKit.Iter.forEach(d,
+        var d = getElementsByTagAndClassName('DIV', 'draggable');
+        forEach(d,
             function(elem) {
-                MochiKit.Signal.connect(elem, 'onmousedown', Drag.start);
+                connect(elem, 'onmousedown', Drag.start);
             });
     });
     
