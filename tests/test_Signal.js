@@ -210,8 +210,7 @@ tests.test_Signal = function (t) {
     } catch (e) {
         t.ok(true, 'An exception was raised when disconnecting a non-existant signal');
     }
-    
-    
+
     // FIXME: need more tests for the Event object
     // These tests will always fail in Safari, it doesn't support synthetic events.
 
@@ -228,7 +227,7 @@ tests.test_Signal = function (t) {
             newEvt.clientY = 1;
             newEvt.button = 1;
             element.fireEvent('on' + eventType, newEvt);
-        } else {
+        } else if (document.createEvent && (typeof(document.createEvent('MouseEvents').initMouseEvent) == 'function')) {
             var evt = document.createEvent('MouseEvents');
             evt.initMouseEvent(eventType, canBubble, true, // event, bubbles, cancelable
                 document.defaultView, 1, // view, # of clicks
@@ -274,5 +273,4 @@ tests.test_Signal = function (t) {
     disconnect('submit', 'onmousedown', eventTest);
     triggerMouseEvent('submit', 'mousedown', false);
     t.is(i, 11, 'Disconnecting an event to an HTML object and firing a synthetic event');
-
 };
