@@ -48,10 +48,6 @@ MochiKit.Signal.Event = function (e) {
 };
 
 MochiKit.Signal.Event.prototype.event = function () {
-    // just to keep the top-level api consistent, i forget to look for
-    // event or event() -- maybe we should just keep this private so
-    // people know they should be filing bugs instead of playing with the
-    // raw event?
     return this._event;
 };
 
@@ -89,62 +85,62 @@ MochiKit.Signal.Event.prototype.key = function () {
 
         /*
 
-        // If you're looking for a special key, look for it in keydown or
-        // keyup, but never keypress. If you're looking for a Unicode
-        // chracter, look for it with keypress, but never kd or ku.
+        If you're looking for a special key, look for it in keydown or keyup,
+        but never keypress. If you're looking for a Unicode chracter, look for
+        it with keypress, but never kd or ku.
 
-        // keyCode will contain the raw key code in a kd/ku event
-        // keyString will contain a human-redable keyCode
+        keyCode will contain the raw key code in a kd/ku event keyString will
+        contain a human-redable keyCode.
 
-        // charCode will contain the raw character code in a kp event
-        // charString will contain the actual character
+        charCode will contain the raw character code in a kp event charString
+        will contain the actual character.
 
-        Here are some of my notes:
+        Notes:
 
-            FF key event behavior:
-            key event   charCode    keyCode
-            DOWN    ku,kd   0           40
-            DOWN    kp      0           40
-            ESC     ku,kd   0           27
-            ESC     kp      0           27
-            a       ku,kd   0           65
-            a       kp      97          0
-            shift+a ku,kd   0           65
-            shift+a kp      65          0
-            1       ku,kd   0           49
-            1       kp      49          0
-            shift+1 ku,kd   0           0
-            shift+1 kp      33          0
+        FF key event behavior:
+        key event   charCode    keyCode
+        DOWN    ku,kd   0           40
+        DOWN    kp      0           40
+        ESC     ku,kd   0           27
+        ESC     kp      0           27
+        a       ku,kd   0           65
+        a       kp      97          0
+        shift+a ku,kd   0           65
+        shift+a kp      65          0
+        1       ku,kd   0           49
+        1       kp      49          0
+        shift+1 ku,kd   0           0
+        shift+1 kp      33          0
 
-            IE key event behavior:
-            key     event   keyCode
-            DOWN    ku,kd   40
-            DOWN    kp      undefined
-            ESC     ku,kd   27
-            ESC     kp      27
-            a       ku,kd   65
-            a       kp      97
-            shift+a ku,kd   65
-            shift+a kp      65
-            1       ku,kd   49
-            1       kp      49
-            shift+1 ku,kd   49
-            shift+1 kp      33
+        IE key event behavior:
+        key     event   keyCode
+        DOWN    ku,kd   40
+        DOWN    kp      undefined
+        ESC     ku,kd   27
+        ESC     kp      27
+        a       ku,kd   65
+        a       kp      97
+        shift+a ku,kd   65
+        shift+a kp      65
+        1       ku,kd   49
+        1       kp      49
+        shift+1 ku,kd   49
+        shift+1 kp      33
 
-            Safari key event behavior:
-            key     event   charCode    keyCode
-            DOWN    ku,kd   63233       40
-            DOWN    kp      63233       63233
-            ESC     ku,kd   27          27
-            ESC     kp      27          27
-            a       ku,kd   97          65
-            a       kp      97          97
-            shift+a ku,kd   65          65
-            shift+a kp      65          65
-            1       ku,kd   49          49
-            1       kp      49          49
-            shift+1 ku,kd   33          49
-            shift+1 kp      33          33
+        Safari key event behavior:
+        key     event   charCode    keyCode
+        DOWN    ku,kd   63233       40
+        DOWN    kp      63233       63233
+        ESC     ku,kd   27          27
+        ESC     kp      27          27
+        a       ku,kd   97          65
+        a       kp      97          97
+        shift+a ku,kd   65          65
+        shift+a kp      65          65
+        1       ku,kd   49          49
+        1       kp      49          49
+        shift+1 ku,kd   33          49
+        shift+1 kp      33          33
 
         */
 
@@ -166,7 +162,7 @@ MochiKit.Signal.Event.prototype.key = function () {
 };
 
 MochiKit.Signal.Event.prototype._fixPoint = function (point) {
-    // maybe this should be an inline function?
+    // inline this for performance?
     if (typeof(point) == 'undefined' || point < 0) {
         return 0;
     }
@@ -192,13 +188,15 @@ MochiKit.Signal.Event.prototype.mouse = function () {
             m.page.x = this._fixPoint(this._event.pageX);
             m.page.y = this._fixPoint(this._event.pageY);
         } else {
-            // IE keeps its document offset in
-            // document.documentElement.clientTop
-
-            // see http://msdn.microsoft.com/workshop/author/dhtml/reference/
-            //     methods/getboundingclientrect.asp
-
-            // the offset is (2,2) in standards mode and (0,0) in quirks mode
+            /*
+            IE keeps its document offset in document.documentElement.clientTop
+            
+            http://msdn.microsoft.com/workshop/author/dhtml/reference/
+                methods/getboundingclientrect.asp
+                
+            the offset is (2,2) in standards mode and (0,0) in quirks mode
+            */
+            
             m.page.x = (this._event.clientX +
                 (document.documentElement.scrollLeft ||
                 document.body.scrollLeft) -
@@ -220,13 +218,20 @@ MochiKit.Signal.Event.prototype.mouse = function () {
                 m.button.middle = (this._event.which == 2);
                 m.button.right = (this._event.which == 3);
 
-                // mac browsers and right click:
-                // safari doesn't fire any click events on a right click
-                // firefox fires the event, and sets ctrlKey = true
-                // opera fires the event, and sets metaKey = true
-                // oncontextmenu can detect right clicks between browsers and
-                // across platforms
-
+                /*
+                Mac browsers and right click:
+                
+                    -   Safari doesn't fire any click events on a right click:
+                        http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
+                        
+                    -   Firefox fires the event, and sets ctrlKey = true
+                    
+                    -   Opera fires the event, and sets metaKey = true                
+                
+                oncontextmenu is fired on right clicks between browsers and
+                across platforms.
+                */
+                
             } else {
                 m.button.left = !!(this._event.button & 1);
                 m.button.right = !!(this._event.button & 2);
@@ -375,22 +380,26 @@ MochiKit.Base.update(MochiKit.Signal, {
             var listener = MochiKit.Signal._observers[i][2];
 
             try {
-                if (src.addEventListener) {
+                if (src.removeEventListener) {
                     src.removeEventListener(sig.substr(2), listener, false);
-                } else if (src.attachEvent) {
+                } else if (src.detachEvent) {
                     src.detachEvent(sig, listener);
                 } else {
                     src._signals[sig] = undefined;
                 }
                 
-                src._listeners[sig] = undefined;
+                // some browsers don't let you set random properties on 
+                // some elements (Firefox won't let you change window)
+                if (src._listeners && src._listeners[sig]) {
+                    src._listeners[sig] = undefined;
+                }
                 
                 // delete removes object properties, not variables
                 delete(src._listeners);
                 delete(src._signals);
                 
             } catch(e) {
-                // clean IE garbage
+                // pass
             }
         }
         
@@ -399,13 +408,13 @@ MochiKit.Base.update(MochiKit.Signal, {
         try {
             window.onload = undefined;
         } catch(e) {
-            // clean IE garbage
+            // pass
         }
 
         try {
             window.onunload = undefined;
         } catch(e) {
-            // clean IE garbage
+            // pass
         }
     },
 
@@ -474,7 +483,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                 if (src.addEventListener) {
                     src.addEventListener(sig.substr(2), listener, false);
                 } else if (src.attachEvent) {
-                    src.attachEvent(sig, listener);
+                    src.attachEvent(sig, listener); // useCapture unsupported
                 } else {
                     src[sig] = listener;
                 }
@@ -545,9 +554,9 @@ MochiKit.Base.update(MochiKit.Signal, {
 
                 var listener = src._listeners[sig];
 
-                if (src.addEventListener) {
+                if (src.removeEventListener) {
                     src.removeEventListener(sig.substr(2), listener, false);
-                } else if (src.attachEvent) {
+                } else if (src.detachEvent) {
                     src.detachEvent(sig, listener);
                 } else {
                     src._signals[sig] = undefined;

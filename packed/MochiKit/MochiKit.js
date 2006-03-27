@@ -4057,16 +4057,18 @@ var src=MochiKit.Signal._observers[i][0];
 var sig=MochiKit.Signal._observers[i][1];
 var _534=MochiKit.Signal._observers[i][2];
 try{
-if(src.addEventListener){
+if(src.removeEventListener){
 src.removeEventListener(sig.substr(2),_534,false);
 }else{
-if(src.attachEvent){
+if(src.detachEvent){
 src.detachEvent(sig,_534);
 }else{
 src._signals[sig]=undefined;
 }
 }
+if(src._listeners&&src._listeners[sig]){
 src._listeners[sig]=undefined;
+}
 delete (src._listeners);
 delete (src._signals);
 }
@@ -4157,10 +4159,10 @@ throw new Error("Invalid signal to disconnect");
 if(src.addEventListener||src.attachEvent||src._signals[sig]){
 if(src._listeners&&src._listeners[sig]&&src._signals[sig].length===0){
 var _541=src._listeners[sig];
-if(src.addEventListener){
+if(src.removeEventListener){
 src.removeEventListener(sig.substr(2),_541,false);
 }else{
-if(src.attachEvent){
+if(src.detachEvent){
 src.detachEvent(sig,_541);
 }else{
 src._signals[sig]=undefined;
