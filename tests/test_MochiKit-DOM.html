@@ -7,7 +7,9 @@
     <script type="text/javascript" src="SimpleTest/SimpleTest.js"></script>        
     <link rel="stylesheet" type="text/css" href="SimpleTest/test.css">
 </head>
-<body>
+<body style="margin: 10px; padding: 10px;">
+
+<div id="posTest" style="position: absolute; left: 400px; top: 100px; width: 100px; height: 100px; background: red;">&nbsp;</div>
 
 <div style="display: none;">
     <form id="form_test">
@@ -29,7 +31,6 @@
 <pre id="test">
 <script type="text/javascript">
 try {
-        
 
     lst = [];
     o = {"blah": function () { lst.push("original"); }};
@@ -225,8 +226,30 @@ try {
     is( kv[0].join(","), "select,hidden,radio_on", "formContents names" );
     is( kv[1].join(","), "foo,test,2", "formContents values" );
     is( queryString("form_test"), "select=foo&hidden=test&radio_on=2", "queryString hook" );
+
+    // initial
+    var pos = elementPosition('posTest');
+    is( pos.x, 400, 'initial x position' );
+    is( pos.y, 100, 'initial y position' );
+    
+    // moved
+    var newPos = new MochiKit.DOM.Coordinates(500, 200);
+    setElementPosition('posTest', newPos);
+    pos = elementPosition('posTest');
+    is( pos.x, 500, 'updated x position' );
+    is( pos.y, 200, 'updated y position' );
+
+    // moved with relativeTo
+    anotherPos = new MochiKit.DOM.Coordinates(100, 100);
+    pos = elementPosition('posTest', anotherPos);
+    is( pos.x, 400, 'updated x position (using relativeTo parameter)' );
+    is( pos.y, 100, 'updated y position (using relativeTo parameter)' );
+    
+    pos = elementPosition('garbage');
+    is( typeof(pos), 'undefined', 'invalid element should return an undefined position' ); // actually, i think this should raise an exception
     
     ok( true, "test suite finished!");
+    
     
 } catch (err) {
     

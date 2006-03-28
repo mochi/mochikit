@@ -82,10 +82,10 @@ Here are the rules for the signal and slot system.
 
 4.  The following are acceptable for slots:
 
-	-   A function
-	-   An object and a function
-	-   An object and a string
-	
+    -   A function
+    -   An object and a function
+    -   An object and a string
+    
 
 5.  You may connect or disconnect slots to signals freely using the
     :mochiref:`connect()` and :mochiref:`disconnect()` methods.  The
@@ -111,11 +111,9 @@ Here are the rules for the signal and slot system.
     function.  Additional parameters passed to this are passed onto the
     connected slots.
 
-8.  Signals triggered by DOM events are called with a custom event object as
-    a parameter.  Use ``customObject.stop()`` to do the W3C equivalent of
-    ``stopPropagation`` and ``preventDefault``.  You can grab the native event
-    by accessing ``customObject.event()``.  Here is a complete list of this
-    object's methods:
+8.  Signals triggered by DOM events are called with a custom event object as a
+    parameter.  You can grab the native event by accessing
+    ``customObject.event()``. Here is a complete list of this object's methods:
 
     These are always generated:
 
@@ -133,6 +131,15 @@ Here are the rules for the signal and slot system.
     modifier().alt, modifier().ctrl, modifier().meta, modifier().shift:
         ``true`` if pressed, ``false`` if not.  ``modifier().meta`` will be 
         ``false`` instead of ``undefined`` in IE.
+
+    stopPropagation():
+        Works like W3C's ``stopPropagation()``.
+        
+    preventDefault():
+        Works like W3C's ``preventDefault()``.
+        
+    stop():
+        Shortcut that calls ``stopPropagation()`` and ``preventDefault()``.
 
     Note that you should use keydown and keyup to detect control characters,
     and keypressed to detect "printable" characters.  Some browsers will
@@ -163,14 +170,15 @@ Here are the rules for the signal and slot system.
         ``true`` or ``false``.  Mac browsers don't report right click
         consistently.  Firefox fires the click and sets modifier().ctrl to
         true, Opera fires the click and sets modifier().meta to true, and
-        Safari doesn't fire the click.
-
-        The folks on #webkit agree that Safari's behavior is strange, and asked 
-        us to file a bug report:
-        http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
+        Safari doesn't fire the click. (Bugzilla:
+        http://bugzilla.opendarwin.org/show_bug.cgi?id=6595.)
 
         If you want a right click, I suggest that instead of looking for
         a right click, look for a contextmenu event.
+        
+        Current versions of Safari won't fire a dblclick event when attached
+        via ``connect()``. (Bugzilla:
+        http://bugzilla.opendarwin.org/show_bug.cgi?id=7790.)
 
     This is generated on mouseover and mouseout:
 

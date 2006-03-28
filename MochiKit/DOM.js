@@ -140,6 +140,10 @@ MochiKit.DOM.Coordinates.prototype.repr = function () {
     return "{x: "  + repr(this.x) + ", y: " + repr(this.y) + "}";
 };
 
+MochiKit.DOM.Coordinates.prototype.toString = function () {
+    return this.repr();
+};
+
 MochiKit.Base.update(MochiKit.DOM, {
 
     setOpacity: function(elem, o) {
@@ -204,29 +208,29 @@ MochiKit.Base.update(MochiKit.DOM, {
     BSD License: http://developer.yahoo.net/yui/license.txt
     */
     elementPosition: function (elem, /* optional */relativeTo) {
-        var self = MochiKit.DOM;
+        var self = MochiKit.DOM;        
         elem = self.getElement(elem);
         
-        if (!elem || 
-            elem.parentNode === null || 
-            self.computedStyle(elem, 'display') == 'none') {
+        if (!elem) { 
+            return undefined;
+        }
+
+        var c = new self.Coordinates(0, 0);
+        
+        if (elem.x && elem.y) {
+            /* it's just a MochiKit.DOM.Coordinates object */
+            c.x += elem.x || 0;
+            c.y += elem.y || 0;
+            return c;
+        } else if (elem.parentNode === null || self.computedStyle(elem, 'display') == 'none') {
             return undefined;
         }
         
-        var c = new self.Coordinates(0, 0);
         var box = null;
         var parent = null;
         
         var d = MochiKit.DOM._document;
-        
-        if (typeof(relativeTo) != 'undefined') {
-            relativeTo = arguments.callee(relativeTo);
-            if (relativeTo) {
-                c.x -= (relativeTo.x || 0);
-                c.y -= (relativeTo.y || 0);
-            }
-        }
-        
+                
         if (elem.getBoundingClientRect) { // IE shortcut
             box = elem.getBoundingClientRect();
             
@@ -256,20 +260,29 @@ MochiKit.Base.update(MochiKit.DOM, {
                 }
             }
 
-            // opera & (safari absolute) incorrectly account for body offsetTop
+            /*
+                
+                Opera & (safari absolute) incorrectly account for body offsetTop
+                and offsetLeft.
+                
+            */
             var ua = navigator.userAgent.toLowerCase();
             if (ua.indexOf('opera') != -1 || 
                 (ua.indexOf('safari') != -1 && 
                 self.computedStyle(elem, 'position') == 'absolute')) {
                 
+                c.x -= d.body.offsetLeft;
                 c.y -= d.body.offsetTop;
                 
             }
-        } else {
-            /* it's just a MochiKit.DOM.Coordinates object */
-            c.x += elem.x || 0;
-            c.y += elem.y || 0;
-            return c;
+        }
+        
+        if (typeof(relativeTo) != 'undefined') {
+            relativeTo = arguments.callee(relativeTo);
+            if (relativeTo) {
+                c.x -= (relativeTo.x || 0);
+                c.y -= (relativeTo.y || 0);
+            }
         }
         
         if (elem.parentNode) {
