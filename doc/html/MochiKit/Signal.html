@@ -86,13 +86,11 @@ already exist and are named 'onclick', 'onkeyup', etc... just like they
 are named already.</p>
 </li>
 <li><p class="first">The following are acceptable for slots:</p>
-<blockquote>
 <ul class="simple">
 <li>A function</li>
 <li>An object and a function</li>
 <li>An object and a string</li>
 </ul>
-</blockquote>
 </li>
 <li><p class="first">You may connect or disconnect slots to signals freely using the
 <a class="mochiref reference" href="#fn-connect">connect()</a> and <a class="mochiref reference" href="#fn-disconnect">disconnect()</a> methods.  The
@@ -117,11 +115,9 @@ called with the parameters to the signal.</li>
 function.  Additional parameters passed to this are passed onto the
 connected slots.</p>
 </li>
-<li><p class="first">Signals triggered by DOM events are called with a custom event object as
-a parameter.  Use <tt class="docutils literal"><span class="pre">customObject.stop()</span></tt> to do the W3C equivalent of
-<tt class="docutils literal"><span class="pre">stopPropagation</span></tt> and <tt class="docutils literal"><span class="pre">preventDefault</span></tt>.  You can grab the native event
-by accessing <tt class="docutils literal"><span class="pre">customObject.event()</span></tt>.  Here is a complete list of this
-object's methods:</p>
+<li><p class="first">Signals triggered by DOM events are called with a custom event object as a
+parameter.  You can grab the native event by accessing
+<tt class="docutils literal"><span class="pre">customObject.event()</span></tt>. Here is a complete list of this object's methods:</p>
 <p>These are always generated:</p>
 <dl class="docutils">
 <dt>event():</dt>
@@ -138,6 +134,15 @@ the 'on' prefix.)</p>
 <dt>modifier().alt, modifier().ctrl, modifier().meta, modifier().shift:</dt>
 <dd><p class="first last"><tt class="docutils literal"><span class="pre">true</span></tt> if pressed, <tt class="docutils literal"><span class="pre">false</span></tt> if not.  <tt class="docutils literal"><span class="pre">modifier().meta</span></tt> will be
 <tt class="docutils literal"><span class="pre">false</span></tt> instead of <tt class="docutils literal"><span class="pre">undefined</span></tt> in IE.</p>
+</dd>
+<dt>stopPropagation():</dt>
+<dd><p class="first last">Works like W3C's <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt>.</p>
+</dd>
+<dt>preventDefault():</dt>
+<dd><p class="first last">Works like W3C's <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</p>
+</dd>
+<dt>stop():</dt>
+<dd><p class="first last">Shortcut that calls <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt> and <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</p>
 </dd>
 </dl>
 <p>Note that you should use keydown and keyup to detect control characters,
@@ -171,12 +176,13 @@ HTML document. (Equivalent to clientX/Y on all browsers.)</p>
 <dd><p class="first"><tt class="docutils literal"><span class="pre">true</span></tt> or <tt class="docutils literal"><span class="pre">false</span></tt>.  Mac browsers don't report right click
 consistently.  Firefox fires the click and sets modifier().ctrl to
 true, Opera fires the click and sets modifier().meta to true, and
-Safari doesn't fire the click.</p>
-<p>The folks on #webkit agree that Safari's behavior is strange, and asked
-us to file a bug report:
-<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">http://bugzilla.opendarwin.org/show_bug.cgi?id=6595</a></p>
-<p class="last">If you want a right click, I suggest that instead of looking for
+Safari doesn't fire the click. (Bugzilla:
+<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">http://bugzilla.opendarwin.org/show_bug.cgi?id=6595</a>.)</p>
+<p>If you want a right click, I suggest that instead of looking for
 a right click, look for a contextmenu event.</p>
+<p class="last">Current versions of Safari won't fire a dblclick event when attached
+via <tt class="docutils literal"><span class="pre">connect()</span></tt>. (Bugzilla:
+<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=7790">http://bugzilla.opendarwin.org/show_bug.cgi?id=7790</a>.)</p>
 </dd>
 </dl>
 <p>This is generated on mouseover and mouseout:</p>
