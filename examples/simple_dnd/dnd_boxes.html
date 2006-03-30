@@ -36,7 +36,7 @@
   new MochiKit.DragAndDrop.Draggable('revertbox1',{handle:'handle1',revert:function(element){return ($('shouldrevert1').checked)}});
   new MochiKit.DragAndDrop.Draggable('revertbox2',{handle:'handle2',revert:function(element){return ($('shouldrevert2').checked)}});
   new MochiKit.DragAndDrop.Droppable('droptarget1',{accept:['box1','otherstuff'],ondrop:function(){alert('drop!')}});
-  new MochiKit.DragAndDrop.Droppable('droptarget2',{accept:'box',ondrop:function(){alert('drop!')}});
+  new MochiKit.DragAndDrop.Droppable('droptarget2',{accept:['box'],ondrop:function(){alert('drop!')}});
 // ]]>
 </script>
 
