@@ -135,6 +135,8 @@ MochiKit.Sortable.Sortable = {
             hoverclass: null,
             ghosting: false,
             scroll: false,
+            scrollSensitivity: 20,
+            scrollSpeed: 15,
             format: null,
             onChange: MochiKit.Base.emptyFunction,
             onUpdate: MochiKit.Base.emptyFunction
@@ -148,6 +150,8 @@ MochiKit.Sortable.Sortable = {
             revert: true,
             ghosting: options.ghosting,
             scroll: options.scroll,
+            scrollSensitivity: options.scrollSensitivity,
+            scrollSpeed: options.scrollSpeed,
             constraint: options.constraint,
             handle: options.handle
         };
@@ -202,8 +206,8 @@ MochiKit.Sortable.Sortable = {
         MochiKit.Base.map(function (e) {
             // handles are per-draggable
             var handle = options.handle ?
-                MochiKit.DOM.getElementsByTagAndClassName(null,
-                    options.handle, e)[0] : e;
+                MochiKit.DOM.getFirstElementByTagAndClassName(null,
+                    options.handle, e) : e;
             options.draggables.push(
                 new MochiKit.DragAndDrop.Draggable(e,
                     MochiKit.Base.update(options_for_draggable,
@@ -230,7 +234,9 @@ MochiKit.Sortable.Sortable = {
             if (e.tagName &&
                 e.tagName.toUpperCase() == options.tag.toUpperCase() &&
                (!options.only ||
-                (MochiKit.DOM.hasElementClass(e, options.only)))) {
+                MochiKit.Iter.some(option.only, function (c) {
+                    return MochiKit.DOM.hasElementClass(element, c);
+                }))) {
                 elements.push(e);
             }
             if (options.tree) {
@@ -318,6 +324,28 @@ MochiKit.Sortable.Sortable = {
         MochiKit.DOM.showElement(MochiKit.Sortable.Sortable._marker);
     },
 
+    setSequence: function (element, newSequence) {
+        element = MochiKit.DOM.getElement(element);
+        var options = MochiKit.Base.update(arguments[2] || {}, this.options(element));
+
+        var nodeMap = {};
+        MochiKit.Base.map(function (n) {
+            var m = n.id.match(options.format);
+            if (m) {
+                nodeMap[m[1]] = [n, n.parentNode];
+            }
+            n.parentNode.removeChild(n);
+        }, this.findElements(element, options));
+
+        MochiKit.Base.map(function (ident) {
+            var n = nodeMap[ident];
+            if (n) {
+                n[1].appendChild(n[0]);
+                delete nodeMap[ident];
+            }
+        }, newSequence);
+    },
+
     serialize: function (element, options) {
         element = MochiKit.DOM.getElement(element);
         var sortableOptions = this.options(element);
@@ -327,6 +355,7 @@ MochiKit.Sortable.Sortable = {
             name: element.id,
             format: sortableOptions.format || /^[^_]*_(.*)$/
         }, options || {});
+
         return MochiKit.Base.map(function (item) {
           return (encodeURIComponent(options.name) + '[]=' +
                   encodeURIComponent(item.id.match(options.format) ?

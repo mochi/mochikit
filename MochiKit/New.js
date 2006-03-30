@@ -164,6 +164,33 @@ MochiKit.Base.update(MochiKit.DOM, {
             element._madePositioned = undefined;
             element.style.position = element.style.top = element.style.left = element.style.bottom = element.style.right = '';
         }
+    },
+
+    getFirstElementByTagAndClassName: function (tagName, className,
+            /* optional */parent) {
+        var self = MochiKit.DOM;
+        if (typeof(tagName) == 'undefined' || tagName === null) {
+            tagName = '*';
+        }
+        if (typeof(parent) == 'undefined' || parent === null) {
+            parent = self._document;
+        }
+        parent = self.getElement(parent);
+        var children = (parent.getElementsByTagName(tagName)
+            || self._document.all);
+        if (typeof(className) == 'undefined' || className === null) {
+            return MochiKit.Base.extend(null, children);
+        }
+
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i];
+            var classNames = child.className.split(' ');
+            for (var j = 0; j < classNames.length; j++) {
+                if (classNames[j] == className) {
+                    return child;
+                }
+            }
+        }
     }
 });
 

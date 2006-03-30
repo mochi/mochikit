@@ -400,6 +400,16 @@ MochiKit.Visual.tagifyText = function (element, /* optional */tagifyStyle) {
     });
 };
 
+MochiKit.Visual.forceRerendering = function (element) {
+    try {
+        element = MochiKit.DOM.getElement(element);
+        var n = document.createTextNode(' ');
+        element.appendChild(n);
+        element.removeChild(n);
+    } catch(e) {
+    }
+};
+
 MochiKit.Visual.multiple = function (elements, effect, /* optional */options) {
     /***
 
@@ -1097,6 +1107,10 @@ MochiKit.Visual.appear = function (element, options) {
         from: (MochiKit.DOM.getStyle(element, 'display') == 'none' ? 0.0 :
                MochiKit.DOM.getOpacity(element) || 0.0),
         to: 1.0,
+        // force Safari to render floated elements properly
+        afterFinishInternal: function(effect) {
+            MochiKit.Visual.forceRerendering(effect.element);
+        },
         beforeSetup: function (effect) {
             MochiKit.DOM.setOpacity(effect.element, effect.options.from);
             MochiKit.DOM.showElement(effect.element);
@@ -1163,7 +1177,6 @@ MochiKit.Visual.blindDown = function (element, options) {
 
     ***/
     element = MochiKit.DOM.getElement(element);
-    var oldHeight = MochiKit.DOM.getStyle(element, 'height');
     var elementDimensions = MochiKit.DOM.elementDimensions(element);
     options = MochiKit.Base.update({
         scaleContent: false,
@@ -1179,7 +1192,6 @@ MochiKit.Visual.blindDown = function (element, options) {
         },
         afterFinishInternal: function (effect) {
             MochiKit.DOM.undoClipping(effect.element);
-            MochiKit.DOM.setStyle(effect.element, {height: oldHeight});
         }
     }, options || {});
     return new MochiKit.Visual.Scale(element, 100, options);
