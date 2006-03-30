@@ -206,7 +206,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
     },
 
     isAccepted: function (element) {
-        return ((!this.accept) || MochiKit.Iter.some(this.accept, function (c) {
+        return ((!this.options.accept) || MochiKit.Iter.some(this.options.accept, function (c) {
             return MochiKit.DOM.hasElementClass(element, c);
         }));
     },
