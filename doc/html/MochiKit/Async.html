@@ -362,6 +362,43 @@ list.</blockquote>
 <blockquote>
 Release the lock.  If there is a waiting list, then the first
 <a class="mochiref reference" href="#fn-deferred">Deferred</a> in that waiting list will be called back.</blockquote>
+<p>
+<a name="fn-deferredlist"></a>
+<a class="mochidef reference" href="#fn-deferredlist">DeferredList(list, [fireOnOneCallback, fireOnOneErrback, consumeErrors, canceller])</a>:</p>
+<blockquote>
+<p>Combine a list of <a class="mochiref reference" href="#fn-deferred">Deferred</a> into one. Track the callbacks and
+return a list of (success, result) tuples, 'success' being a boolean
+indicating whether result is a normal result or an error.</p>
+<p>Once created, you have access to all <a class="mochiref reference" href="#fn-deferred">Deferred</a> methods, like
+addCallback, addErrback, addBoth. The behaviour can be changed by the
+following options:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">fireOnOneCallback</span></tt>:</dt>
+<dd>Flag for launching the callback once the first Deferred of the list
+has returned.</dd>
+<dt><tt class="docutils literal"><span class="pre">fireOnOneErrback</span></tt>:</dt>
+<dd>Flag for calling the errback at the first error of a Deferred.</dd>
+<dt><tt class="docutils literal"><span class="pre">consumeErrors</span></tt>:</dt>
+<dd>Flag indicating that any errors raised in the Deferreds should be
+consumed by the DeferredList.</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+// We need to fetch data from 2 different urls
+var d1 = loadJSONDoc(url1);
+var d2 = loadJSONDoc(url2);
+var l1 = new DeferredList([d1, d2], false, false, true);
+l1.addCallback(function (resultList) {
+    MochiKit.Base.map(function (result) {
+        if (result[0]) {
+            alert(&quot;Data is here: &quot; + result[1]);
+        } else {
+            alert(&quot;Got an error: &quot; + result[1]);
+        }
+    }, resultList);
+});
+</pre>
+</blockquote>
 </div>
 <div class="section">
 <h2><a id="functions" name="functions">Functions</a></h2>

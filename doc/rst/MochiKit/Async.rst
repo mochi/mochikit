@@ -348,6 +348,44 @@ Constructors
     :mochiref:`Deferred` in that waiting list will be called back.
 
 
+:mochidef:`DeferredList(list, [fireOnOneCallback, fireOnOneErrback, consumeErrors, canceller])`:
+
+    Combine a list of :mochiref:`Deferred` into one. Track the callbacks and 
+    return a list of (success, result) tuples, 'success' being a boolean 
+    indicating whether result is a normal result or an error.
+
+    Once created, you have access to all :mochiref:`Deferred` methods, like
+    addCallback, addErrback, addBoth. The behaviour can be changed by the
+    following options:
+
+    ``fireOnOneCallback``:
+        Flag for launching the callback once the first Deferred of the list
+        has returned.
+
+    ``fireOnOneErrback``:
+        Flag for calling the errback at the first error of a Deferred.
+
+    ``consumeErrors``:
+        Flag indicating that any errors raised in the Deferreds should be
+        consumed by the DeferredList.
+
+    Example::
+
+        // We need to fetch data from 2 different urls
+        var d1 = loadJSONDoc(url1);
+        var d2 = loadJSONDoc(url2);
+        var l1 = new DeferredList([d1, d2], false, false, true);
+        l1.addCallback(function (resultList) {
+            MochiKit.Base.map(function (result) {
+                if (result[0]) {
+                    alert("Data is here: " + result[1]);
+                } else {
+                    alert("Got an error: " + result[1]);
+                }
+            }, resultList);
+        });
+        
+
 Functions
 ---------
 

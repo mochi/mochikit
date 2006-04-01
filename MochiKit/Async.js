@@ -627,6 +627,58 @@ MochiKit.Async.DeferredLock.prototype = {
 
 };
 
+MochiKit.Async.DeferredList = function (list, /* optional */fireOnOneCallback, fireOnOneErrback, consumeErrors, canceller) {
+    this.list = list;
+    this.resultList = new Array(this.list.length);
+
+    // Deferred init
+    this.chain = [];
+    this.id = this._nextId();
+    this.fired = -1;
+    this.paused = 0;
+    this.results = [null, null];
+    this.canceller = canceller;
+    this.silentlyCancelled = false;
+    
+    if (this.list.length == 0 && !fireOnOneCallback) {
+        this.callback(this.resultList);
+    }
+    
+    this.finishedCount = 0
+    this.fireOnOneCallback = fireOnOneCallback;
+    this.fireOnOneErrback = fireOnOneErrback;
+    this.consumeErrors = consumeErrors;
+
+    var index = 0;
+    MochiKit.Base.map(MochiKit.Base.bind(function (d) {
+        d.addCallback(MochiKit.Base.bind(this._cbDeferred, this), index, true);
+        d.addErrback(MochiKit.Base.bind(this._cbDeferred, this), index, false);
+        index += 1;
+    }, this), this.list);
+};
+
+MochiKit.Base.update(MochiKit.Async.DeferredList.prototype,
+                     MochiKit.Async.Deferred.prototype);
+
+MochiKit.Base.update(MochiKit.Async.DeferredList.prototype, {
+    _cbDeferred: function (index, succeeded, result) {
+        this.resultList[index] = [succeeded, result];
+        this.finishedCount += 1;
+        if (this.fired != 0) {
+            if (succeeded && this.fireOnOneCallback) {
+                this.callback([index, result]);
+            } else if (!succeeded && this.fireOnOneErrback) {
+                this.errback(result);
+            } else if (this.finishedCount == this.list.length) {
+                this.callback(this.resultList);
+            }
+        }
+        if (!succeeded && this.consumeErrors) {
+            result = null;
+        }
+        return result;
+    }
+});
 
 MochiKit.Async.EXPORT = [
     "AlreadyCalledError",
@@ -643,7 +695,8 @@ MochiKit.Async.EXPORT = [
     "wait",
     "callLater",
     "sendXMLHttpRequest",
-    "DeferredLock"
+    "DeferredLock",
+    "DeferredList"
 ];
     
 MochiKit.Async.EXPORT_OK = [
