@@ -32,7 +32,7 @@ tests.test_DateTime = function (t) {
     testTimestamp = isoTimestamp('2005-2-3T22:01:03Z');
     t.is(toISOTimestamp(testTimestamp, true), '2005-02-03T22:01:03Z', "toISOTimestamp (real ISO) eq");
 
-    var localTZ = Math.round((new Date()).getTimezoneOffset()/60)
+    var localTZ = Math.round((new Date(2005,1,3,22,1,3)).getTimezoneOffset()/60)
     var direction = (localTZ < 0) ? "+" : "-";
     localTZ = Math.abs(localTZ);
     localTZ = direction + ((localTZ < 10) ? "0" : "") + localTZ;
