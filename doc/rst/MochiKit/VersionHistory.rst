@@ -1,5 +1,7 @@
-2006-XX-XX      v1.3
+2006-04-XX      v1.3 "warp zone"
 
+- New MochiKit.Async.DeferredList
+- New MochiKit.Signal example: draggable
 - Added sanity checking to Deferred to ensure that errors happen when chaining
   is used incorrectly
 - Opera sendXMLHttpRequest fix (sends empty string instead of null by default)
