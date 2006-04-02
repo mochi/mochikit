@@ -388,9 +388,10 @@ MochiKit.Visual.tagifyText = function (element, /* optional */tagifyStyle) {
         tagifyStyle += ';zoom:1';
     }
     element = MochiKit.DOM.getElement(element);
-    MochiKit.Iter.forEach(element.childNodes, function (child) {
+    var fe = MochiKit.Iter.forEach;
+    fe(element.childNodes, function (child) {
         if (child.nodeType == 3) {
-            MochiKit.Iter.forEach(child.nodeValue.split(''), function (character) {
+            fe(child.nodeValue.split(''), function (character) {
                 element.insertBefore(
                     MochiKit.DOM.SPAN({style: tagifyStyle},
                         character == ' ' ? String.fromCharCode(160) : character), child);
@@ -449,8 +450,9 @@ MochiKit.Visual.toggle = function (element, /* optional */effect, /* optional */
     options = MochiKit.Base.update({
         queue: {position: 'end', scope: (element.id || 'global'), limit: 1}
     }, options || {});
-    MochiKit.Visual[MochiKit.DOM.isVisible(element) ?
-      MochiKit.Visual.PAIRS[effect][1] : MochiKit.Visual.PAIRS[effect][0]](element, options);
+    var v = MochiKit.Visual;
+    v[MochiKit.DOM.isVisible(element) ?
+      v.PAIRS[effect][1] : v.PAIRS[effect][0]](element, options);
 };
 
 /***
@@ -516,10 +518,11 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
         var position = (typeof(effect.options.queue) == 'string') ?
             effect.options.queue : effect.options.queue.position;
 
+        var fe = MochiKit.Iter.forEach;
         switch(position) {
             case 'front':
                 // move unstarted effects after this effect
-                MochiKit.Iter.forEach(this.effects, function (e) {
+                fe(this.effects, function (e) {
                     if (e.state == 'idle') {
                         e.startOn += effect.finishOn;
                         e.finishOn += effect.finishOn;
@@ -529,7 +532,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
             case 'end':
                 var finish;
                 // start effect after last queued effect has finished
-                MochiKit.Iter.forEach(this.effects, function (e) {
+                fe(this.effects, function (e) {
                     var i = e.finishOn;
                     if (i >= (finish || i)) {
                         finish = i;
@@ -612,15 +615,16 @@ MochiKit.Visual.Base.prototype = {
     position: null,
 
     start: function (options) {
+        var v = MochiKit.Visual;
         this.options = MochiKit.Base.setdefault(options || {},
-                                                MochiKit.Visual.DefaultOptions);
+                                                v.DefaultOptions);
         this.currentFrame = 0;
         this.state = 'idle';
         this.startOn = this.options.delay*1000;
         this.finishOn = this.startOn + (this.options.duration*1000);
         this.event('beforeStart');
         if (!this.options.sync) {
-            MochiKit.Visual.Queues.get(typeof(this.options.queue) == 'string' ?
+            v.Queues.get(typeof(this.options.queue) == 'string' ?
                 'global' : this.options.queue.scope).add(this);
         }
     },
@@ -748,13 +752,15 @@ MochiKit.Base.update(MochiKit.Visual.Opacity.prototype, {
 
     ***/
     __init__: function (element, /* optional */options) {
-        this.element = MochiKit.DOM.getElement(element);
+        var b = MochiKit.Base;
+        var d = MochiKit.DOM;
+        this.element = d.getElement(element);
         // make this work on IE on elements without 'layout'
-        if (MochiKit.Base.isIE() && (!this.element.hasLayout)) {
-            MochiKit.DOM.setStyle(this.element, {zoom: 1});
+        if (b.isIE() && (!this.element.hasLayout)) {
+            d.setStyle(this.element, {zoom: 1});
         }
-        options = MochiKit.Base.update({
-            from: MochiKit.DOM.getOpacity(this.element) || 0.0,
+        options = b.update({
+            from: d.getOpacity(this.element) || 0.0,
             to: 1.0
         }, options || {});
         this.start(options);
@@ -790,11 +796,12 @@ MochiKit.Base.update(MochiKit.Visual.Move.prototype, {
     },
 
     setup: function () {
+        var d = MochiKit.DOM;
         // Bug in Opera: Opera returns the 'real' position of a static element
         // or relative element that does not have top/left explicitly set.
         // ==> Always set top and left for position relative elements in your
         // stylesheets (to 0 if you do not need them)
-        MochiKit.DOM.makePositioned(this.element);
+        d.makePositioned(this.element);
 
         var s = this.element.style;
         var originalVisibility = s.visibility;
@@ -804,10 +811,8 @@ MochiKit.Base.update(MochiKit.Visual.Move.prototype, {
             s.display = '';
         }
 
-        this.originalLeft = parseFloat(MochiKit.DOM.getStyle(this.element,
-                                                           'left') || '0');
-        this.originalTop = parseFloat(MochiKit.DOM.getStyle(this.element,
-                                                            'top') || '0');
+        this.originalLeft = parseFloat(d.getStyle(this.element, 'left') || '0');
+        this.originalTop = parseFloat(d.getStyle(this.element, 'top') || '0');
 
         if (this.options.mode == 'absolute') {
             // absolute movement, so we need to calc deltaX and deltaY
@@ -863,9 +868,11 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
         this.elementPositioning = MochiKit.DOM.getStyle(this.element,
                                                         'position');
 
+        var fe = MochiKit.Iter.forEach;
+        var b = MochiKit.Base.bind;
         this.originalStyle = {};
-        MochiKit.Iter.forEach(['top', 'left', 'width', 'height', 'fontSize'],
-            MochiKit.Base.bind(function (k) {
+        fe(['top', 'left', 'width', 'height', 'fontSize'],
+            b(function (k) {
                 this.originalStyle[k] = this.element.style[k];
             }, this));
 
@@ -874,8 +881,8 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
 
         var fontSize = MochiKit.DOM.getStyle(this.element,
                                              'font-size') || '100%';
-        MochiKit.Iter.forEach(['em', 'px', '%'],
-            MochiKit.Base.bind(function (fontSizeType) {
+        fe(['em', 'px', '%'],
+            b(function (fontSizeType) {
             if (fontSize.indexOf(fontSizeType) > 0) {
                 this.fontSize = parseFloat(fontSize);
                 this.fontSizeType = fontSizeType;
@@ -970,17 +977,18 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
     },
 
     setup: function () {
+        var d = MochiKit.DOM;
+        var b = MochiKit.Base;
         // Prevent executing on elements not in the layout flow
-        if (MochiKit.DOM.getStyle(this.element, 'display') == 'none') {
+        if (d.getStyle(this.element, 'display') == 'none') {
             this.cancel();
             return;
         }
         // Disable background image during the effect
         this.oldStyle = {
-            backgroundImage: MochiKit.DOM.getStyle(this.element,
-                                                   'background-image')
+            backgroundImage: d.getStyle(this.element, 'background-image')
         };
-        MochiKit.DOM.setStyle(this.element, {
+        d.setStyle(this.element, {
             backgroundImage: 'none'
         });
 
@@ -989,15 +997,14 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
                 MochiKit.Color.Color.fromBackground(this.element).toHexString();
         }
         if(!this.options.restorecolor) {
-            this.options.restorecolor = MochiKit.DOM.getStyle(this.element,
-                                                            'background-color');
+            this.options.restorecolor = d.getStyle(this.element, 'background-color');
         }
         // init color calculations
-        this._base = MochiKit.Base.map(MochiKit.Base.bind(function (i) {
+        this._base = b.map(b.bind(function (i) {
             return parseInt(
                 this.options.startcolor.slice(i*2 + 1, i*2 + 3), 16);
         }, this), [0, 1, 2]);
-        this._delta = MochiKit.Base.map(MochiKit.Base.bind(function (i) {
+        this._delta = b.map(b.bind(function (i) {
             return parseInt(this.options.endcolor.slice(i*2 + 1, i*2 + 3), 16)
                 - this._base[i];
         }, this), [0, 1, 2]);
@@ -1040,8 +1047,9 @@ MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
     },
 
     setup: function () {
-        MochiKit.Position.prepare();
-        var offsets = MochiKit.Position.cumulativeOffset(this.element);
+        var p = MochiKit.Position;
+        p.prepare();
+        var offsets = p.cumulativeOffset(this.element);
         if (this.options.offset) {
             offsets[1] += this.options.offset;
         }
@@ -1055,14 +1063,14 @@ MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
         } else if (document.body) {
             max = document.body.clientHeight - document.body.scrollHeight;
         }
-        this.scrollStart = MochiKit.Position.deltaY;
+        this.scrollStart = p.deltaY;
         this.delta = (offsets[1] > max ? max : offsets[1]) - this.scrollStart;
     },
 
     update: function (position) {
-        MochiKit.Position.prepare();
-        window.scrollTo(MochiKit.Position.deltaX,
-            this.scrollStart + (position*this.delta));
+        var p = MochiKit.Position;
+        p.prepare();
+        window.scrollTo(p.deltaX, this.scrollStart + (position * this.delta));
     }
 });
 
@@ -1080,16 +1088,17 @@ MochiKit.Visual.fade = function (element, options) {
     @param options: 'to' and 'from' to change opacity.
 
     ***/
-    var oldOpacity = MochiKit.DOM.getInlineOpacity(element);
+    var d = MochiKit.DOM;
+    var oldOpacity = d.getInlineOpacity(element);
     options = MochiKit.Base.update({
-        from: MochiKit.DOM.getOpacity(element) || 1.0,
+        from: d.getOpacity(element) || 1.0,
         to: 0.0,
         afterFinishInternal: function (effect) {
             if (effect.options.to !== 0) {
                 return;
             }
-            MochiKit.DOM.hideElement(effect.element);
-            MochiKit.DOM.setStyle(effect.element, {opacity: oldOpacity});
+            d.hideElement(effect.element);
+            d.setStyle(effect.element, {opacity: oldOpacity});
         }
     }, options || {});
     return new MochiKit.Visual.Opacity(element, options);
@@ -1103,20 +1112,22 @@ MochiKit.Visual.appear = function (element, options) {
     @param options: 'to' and 'from' to change opacity.
 
     ***/
+    var d = MochiKit.DOM;
+    var v = MochiKit.Visual;
     options = MochiKit.Base.update({
-        from: (MochiKit.DOM.getStyle(element, 'display') == 'none' ? 0.0 :
-               MochiKit.DOM.getOpacity(element) || 0.0),
+        from: (d.getStyle(element, 'display') == 'none' ? 0.0 :
+               d.getOpacity(element) || 0.0),
         to: 1.0,
         // force Safari to render floated elements properly
         afterFinishInternal: function(effect) {
-            MochiKit.Visual.forceRerendering(effect.element);
+            v.forceRerendering(effect.element);
         },
         beforeSetup: function (effect) {
-            MochiKit.DOM.setOpacity(effect.element, effect.options.from);
-            MochiKit.DOM.showElement(effect.element);
+            d.setOpacity(effect.element, effect.options.from);
+            d.showElement(effect.element);
         }
     }, options || {});
-    return new MochiKit.Visual.Opacity(element, options);
+    return new v.Opacity(element, options);
 };
 
 MochiKit.Visual.puff = function (element, options) {
@@ -1125,28 +1136,29 @@ MochiKit.Visual.puff = function (element, options) {
     'Puff' an element: grow it to double size, fading it and make it hidden.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
+    var d = MochiKit.DOM;
+    var v = MochiKit.Visual;
+    element = d.getElement(element);
     var oldStyle = {
-        opacity: MochiKit.DOM.getInlineOpacity(element),
-        position: MochiKit.DOM.getStyle(element, 'position')
+        opacity: d.getInlineOpacity(element),
+        position: d.getStyle(element, 'position')
     };
     options = MochiKit.Base.update({
         beforeSetupInternal: function (effect) {
-            MochiKit.DOM.setStyle(effect.effects[0].element,
+            d.setStyle(effect.effects[0].element,
                                   {position: 'absolute'});
         },
         afterFinishInternal: function (effect) {
-            MochiKit.DOM.hideElement(effect.effects[0].element);
-            MochiKit.DOM.setStyle(effect.effects[0].element, oldStyle);
+            d.hideElement(effect.effects[0].element);
+            d.setStyle(effect.effects[0].element, oldStyle);
         }
     }, options || {});
-    return new MochiKit.Visual.Parallel(
-        [new MochiKit.Visual.Scale(element, 200,
+    return new v.Parallel(
+        [new v.Scale(element, 200,
             {sync: true, scaleFromCenter: true,
              scaleContent: true, restoreAfterFinish: true}),
-         new MochiKit.Visual.Opacity(element, {sync: true, to: 0.0 })],
-        options
-    );
+         new v.Opacity(element, {sync: true, to: 0.0 })],
+        options);
 };
 
 MochiKit.Visual.blindUp = function (element, options) {
@@ -1155,15 +1167,16 @@ MochiKit.Visual.blindUp = function (element, options) {
     Blind an element up: change its vertical size to 0.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
-    MochiKit.DOM.makeClipping(element);
+    var d = MochiKit.DOM;
+    element = d.getElement(element);
+    d.makeClipping(element);
     options = MochiKit.Base.update({
         scaleContent: false,
         scaleX: false,
         restoreAfterFinish: true,
         afterFinishInternal: function (effect) {
-            MochiKit.DOM.hideElement(effect.element);
-            MochiKit.DOM.undoClipping(effect.element);
+            d.hideElement(effect.element);
+            d.undoClipping(effect.element);
         }
     }, options || {});
 
@@ -1176,8 +1189,9 @@ MochiKit.Visual.blindDown = function (element, options) {
     Blind an element down: restore its vertical size.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
-    var elementDimensions = MochiKit.DOM.elementDimensions(element);
+    var d = MochiKit.DOM;
+    element = d.getElement(element);
+    var elementDimensions = d.elementDimensions(element);
     options = MochiKit.Base.update({
         scaleContent: false,
         scaleX: false,
@@ -1186,12 +1200,12 @@ MochiKit.Visual.blindDown = function (element, options) {
                     originalWidth: elementDimensions.w},
         restoreAfterFinish: true,
         afterSetup: function (effect) {
-            MochiKit.DOM.makeClipping(effect.element);
-            MochiKit.DOM.setStyle(effect.element, {height: '0px'});
-            MochiKit.DOM.showElement(effect.element);
+            d.makeClipping(effect.element);
+            d.setStyle(effect.element, {height: '0px'});
+            d.showElement(effect.element);
         },
         afterFinishInternal: function (effect) {
-            MochiKit.DOM.undoClipping(effect.element);
+            d.undoClipping(effect.element);
         }
     }, options || {});
     return new MochiKit.Visual.Scale(element, 100, options);
@@ -1203,8 +1217,9 @@ MochiKit.Visual.switchOff = function (element) {
     Apply a switch-off-like effect.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
-    var oldOpacity = MochiKit.DOM.getInlineOpacity(element);
+    var d = MochiKit.DOM;
+    element = d.getElement(element);
+    var oldOpacity = d.getInlineOpacity(element);
     var optionsScale = {
         duration: 0.3,
         scaleFromCenter: true,
@@ -1212,22 +1227,23 @@ MochiKit.Visual.switchOff = function (element) {
         scaleContent: false,
         restoreAfterFinish: true,
         beforeSetup: function (effect) {
-            MochiKit.DOM.makePositioned(effect.element);
-            MochiKit.DOM.makeClipping(effect.element);
+            d.makePositioned(effect.element);
+            d.makeClipping(effect.element);
         },
         afterFinishInternal: function (effect) {
-            MochiKit.DOM.hideElement(effect.element);
-            MochiKit.DOM.undoClipping(effect.element);
-            MochiKit.DOM.undoPositioned(effect.element);
-            MochiKit.DOM.setStyle(effect.element, {opacity: oldOpacity});
+            d.hideElement(effect.element);
+            d.undoClipping(effect.element);
+            d.undoPositioned(effect.element);
+            d.setStyle(effect.element, {opacity: oldOpacity});
         }
     };
-    return new MochiKit.Visual.appear(element, {
+    var v = MochiKit.Visual;
+    return new v.appear(element, {
         duration: 0.4,
         from: 0,
-        transition: MochiKit.Visual.Transitions.flicker,
+        transition: v.Transitions.flicker,
         afterFinishInternal: function (effect) {
-            new MochiKit.Visual.Scale(effect.element, 1, optionsScale)
+            new v.Scale(effect.element, 1, optionsScale)
         }
     });
 };
@@ -1238,27 +1254,29 @@ MochiKit.Visual.dropOut = function (element, options) {
     Make an element fall and disappear.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
+    var d = MochiKit.DOM;
+    element = d.getElement(element);
     var oldStyle = {
-        top: MochiKit.DOM.getStyle(element, 'top'),
-        left: MochiKit.DOM.getStyle(element, 'left'),
-        opacity: MochiKit.DOM.getInlineOpacity(element)
+        top: d.getStyle(element, 'top'),
+        left: d.getStyle(element, 'left'),
+        opacity: d.getInlineOpacity(element)
     };
 
     options = MochiKit.Base.update({
         duration: 0.5,
         beforeSetup: function (effect) {
-            MochiKit.DOM.makePositioned(effect.effects[0].element);
+            d.makePositioned(effect.effects[0].element);
         },
         afterFinishInternal: function (effect) {
-            MochiKit.DOM.hideElement(effect.effects[0].element);
-            MochiKit.DOM.undoPositioned(effect.effects[0].element);
-            MochiKit.DOM.setStyle(effect.effects[0].element, oldStyle);
+            d.hideElement(effect.effects[0].element);
+            d.undoPositioned(effect.effects[0].element);
+            d.setStyle(effect.effects[0].element, oldStyle);
         }
     }, options || {});
-    return new MochiKit.Visual.Parallel(
-        [new MochiKit.Visual.Move(element, {x: 0, y: 100, sync: true}),
-         new MochiKit.Visual.Opacity(element, {sync: true, to: 0.0})],
+    var v = MochiKit.Visual;
+    return new v.Parallel(
+        [new v.Move(element, {x: 0, y: 100, sync: true}),
+         new v.Opacity(element, {sync: true, to: 0.0})],
         options);
 };
 
@@ -1268,24 +1286,26 @@ MochiKit.Visual.shake = function (element) {
     Move an element from left to right several times.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
+    var d = MochiKit.DOM;
+    var v = MochiKit.Visual;
+    element = d.getElement(element);
     var oldStyle = {
-        top: MochiKit.DOM.getStyle(element, 'top'),
-        left: MochiKit.DOM.getStyle(element, 'left') };
-        return new MochiKit.Visual.Move(element,
+        top: d.getStyle(element, 'top'),
+        left: d.getStyle(element, 'left') };
+        return new v.Move(element,
           {x: 20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
-        new MochiKit.Visual.Move(effect.element,
+        new v.Move(effect.element,
           {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new MochiKit.Visual.Move(effect.element,
+        new v.Move(effect.element,
            {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new MochiKit.Visual.Move(effect.element,
+        new v.Move(effect.element,
           {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new MochiKit.Visual.Move(effect.element,
+        new v.Move(effect.element,
            {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new MochiKit.Visual.Move(effect.element,
+        new v.Move(effect.element,
          {x: -20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
-                MochiKit.DOM.undoPositioned(effect.element);
-                MochiKit.DOM.setStyle(effect.element, oldStyle);
+                d.undoPositioned(effect.element);
+                d.setStyle(effect.element, oldStyle);
     }}) }}) }}) }}) }}) }});
 };
 
@@ -1297,11 +1317,13 @@ MochiKit.Visual.slideDown = function (element, options) {
     element with fixed height.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
-    MochiKit.DOM.cleanWhitespace(element);
-    var oldInnerBottom = MochiKit.DOM.getStyle(element.firstChild, 'bottom') || 0;
-    var elementDimensions = MochiKit.DOM.elementDimensions(element);
-    options = MochiKit.Base.update({
+    var d = MochiKit.DOM;
+    var b = MochiKit.Base;
+    element = d.getElement(element);
+    d.cleanWhitespace(element);
+    var oldInnerBottom = d.getStyle(element.firstChild, 'bottom') || 0;
+    var elementDimensions = d.elementDimensions(element);
+    options = b.update({
         scaleContent: false,
         scaleX: false,
         scaleFrom: 0,
@@ -1309,30 +1331,30 @@ MochiKit.Visual.slideDown = function (element, options) {
                     originalWidth: elementDimensions.w},
         restoreAfterFinish: true,
         afterSetup: function (effect) {
-            MochiKit.DOM.makePositioned(effect.element);
-            MochiKit.DOM.makePositioned(effect.element.firstChild);
-            if (MochiKit.Base.isOpera()) {
-                MochiKit.DOM.setStyle(effect.element, {top: ''});
+            d.makePositioned(effect.element);
+            d.makePositioned(effect.element.firstChild);
+            if (b.isOpera()) {
+                d.setStyle(effect.element, {top: ''});
             }
-            MochiKit.DOM.makeClipping(effect.element);
-            MochiKit.DOM.setStyle(effect.element, {height: '0px'});
-            MochiKit.DOM.showElement(element);
+            d.makeClipping(effect.element);
+            d.setStyle(effect.element, {height: '0px'});
+            d.showElement(element);
         },
         afterUpdateInternal: function (effect) {
-            MochiKit.DOM.setStyle(effect.element.firstChild,
+            d.setStyle(effect.element.firstChild,
                {bottom: (effect.dims[0] - effect.element.clientHeight) + 'px'})
         },
         afterFinishInternal: function (effect) {
-            MochiKit.DOM.undoClipping(effect.element);
+            d.undoClipping(effect.element);
             // IE will crash if child is undoPositioned first
-            if (MochiKit.Base.isIE()){
-                MochiKit.DOM.undoPositioned(effect.element);
-                MochiKit.DOM.undoPositioned(effect.element.firstChild);
+            if (b.isIE()){
+                d.undoPositioned(effect.element);
+                d.undoPositioned(effect.element.firstChild);
             } else {
-                MochiKit.DOM.undoPositioned(effect.element.firstChild);
-                MochiKit.DOM.undoPositioned(effect.element);
+                d.undoPositioned(effect.element.firstChild);
+                d.undoPositioned(effect.element);
             }
-            MochiKit.DOM.setStyle(effect.element.firstChild,
+            d.setStyle(effect.element.firstChild,
                                   {bottom: oldInnerBottom});
         }
     }, options || {});
@@ -1348,34 +1370,36 @@ MochiKit.Visual.slideUp = function (element, options) {
     element with fixed height.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
-    MochiKit.DOM.cleanWhitespace(element);
-    var oldInnerBottom = MochiKit.DOM.getStyle(element.firstChild, 'bottom');
-    options = MochiKit.Base.update({
+    var d = MochiKit.DOM;
+    var b = MochiKit.Base;
+    element = d.getElement(element);
+    d.cleanWhitespace(element);
+    var oldInnerBottom = d.getStyle(element.firstChild, 'bottom');
+    options = b.update({
         scaleContent: false,
         scaleX: false,
         scaleMode: 'box',
         scaleFrom: 100,
         restoreAfterFinish: true,
         beforeStartInternal: function (effect) {
-            MochiKit.DOM.makePositioned(effect.element);
-            MochiKit.DOM.makePositioned(effect.element.firstChild);
-            if (MochiKit.Base.isOpera()) {
-                MochiKit.DOM.setStyle(effect.element, {top: ''});
+            d.makePositioned(effect.element);
+            d.makePositioned(effect.element.firstChild);
+            if (b.isOpera()) {
+                d.setStyle(effect.element, {top: ''});
             }
-            MochiKit.DOM.makeClipping(effect.element);
-            MochiKit.DOM.showElement(element);
+            d.makeClipping(effect.element);
+            d.showElement(element);
         },
         afterUpdateInternal: function (effect) {
-            MochiKit.DOM.setStyle(effect.element.firstChild,
+            d.setStyle(effect.element.firstChild,
             {bottom: (effect.dims[0] - effect.element.clientHeight) + 'px'});
         },
         afterFinishInternal: function (effect) {
-            MochiKit.DOM.hideElement(effect.element);
-            MochiKit.DOM.undoClipping(effect.element);
-            MochiKit.DOM.undoPositioned(effect.element.firstChild);
-            MochiKit.DOM.undoPositioned(effect.element);
-            MochiKit.DOM.setStyle(effect.element.firstChild, {bottom: oldInnerBottom});
+            d.hideElement(effect.element);
+            d.undoClipping(effect.element);
+            d.undoPositioned(effect.element.firstChild);
+            d.undoPositioned(effect.element);
+            d.setStyle(effect.element.firstChild, {bottom: oldInnerBottom});
         }
     }, options || {});
     return new MochiKit.Visual.Scale(element, 0, options);
@@ -1389,18 +1413,20 @@ MochiKit.Visual.squish = function (element, options) {
     Reduce an element and make it disappear.
 
     ***/
-    options = MochiKit.Base.update({
+    var d = MochiKit.DOM;
+    var b = MochiKit.Base;
+    options = b.update({
         restoreAfterFinish: true,
         beforeSetup: function (effect) {
-             MochiKit.DOM.makeClipping(effect.element);
+             d.makeClipping(effect.element);
         },
         afterFinishInternal: function (effect) {
-              MochiKit.DOM.hideElement(effect.element);
-              MochiKit.DOM.undoClipping(effect.element);
+              d.hideElement(effect.element);
+              d.undoClipping(effect.element);
         }
     }, options || {});
 
-    return new MochiKit.Visual.Scale(element, MochiKit.Base.isOpera() ? 1 : 0, options);
+    return new MochiKit.Visual.Scale(element, b.isOpera() ? 1 : 0, options);
 };
 
 MochiKit.Visual.grow = function (element, options) {
@@ -1410,22 +1436,24 @@ MochiKit.Visual.grow = function (element, options) {
     if necessary.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
+    var d = MochiKit.DOM;
+    var v = MochiKit.Visual;
+    element = d.getElement(element);
     options = MochiKit.Base.update({
         direction: 'center',
-        moveTransition: MochiKit.Visual.Transitions.sinoidal,
-        scaleTransition: MochiKit.Visual.Transitions.sinoidal,
-        opacityTransition: MochiKit.Visual.Transitions.full
+        moveTransition: v.Transitions.sinoidal,
+        scaleTransition: v.Transitions.sinoidal,
+        opacityTransition: v.Transitions.full
     }, options || {});
     var oldStyle = {
         top: element.style.top,
         left: element.style.left,
         height: element.style.height,
         width: element.style.width,
-        opacity: MochiKit.DOM.getInlineOpacity(element)
+        opacity: d.getInlineOpacity(element)
     };
 
-    var dims = MochiKit.DOM.elementDimensions(element);
+    var dims = d.elementDimensions(element);
     var initialMoveX, initialMoveY;
     var moveX, moveY;
 
@@ -1459,36 +1487,36 @@ MochiKit.Visual.grow = function (element, options) {
 
     var optionsParallel = MochiKit.Base.update({
         beforeSetup: function (effect) {
-            MochiKit.DOM.setStyle(effect.effects[0].element, {height: '0px'});
-            MochiKit.DOM.showElement(effect.effects[0].element);
+            d.setStyle(effect.effects[0].element, {height: '0px'});
+            d.showElement(effect.effects[0].element);
         },
         afterFinishInternal: function (effect) {
-            MochiKit.DOM.undoClipping(effect.effects[0].element);
-            MochiKit.DOM.undoPositioned(effect.effects[0].element);
-            MochiKit.DOM.setStyle(effect.effects[0].element, oldStyle);
+            d.undoClipping(effect.effects[0].element);
+            d.undoPositioned(effect.effects[0].element);
+            d.setStyle(effect.effects[0].element, oldStyle);
         }
     }, options || {});
 
-    return new MochiKit.Visual.Move(element, {
+    return new v.Move(element, {
         x: initialMoveX,
         y: initialMoveY,
         duration: 0.01,
         beforeSetup: function (effect) {
-            MochiKit.DOM.hideElement(effect.element);
-            MochiKit.DOM.makeClipping(effect.element);
-            MochiKit.DOM.makePositioned(effect.element);
+            d.hideElement(effect.element);
+            d.makeClipping(effect.element);
+            d.makePositioned(effect.element);
         },
         afterFinishInternal: function (effect) {
-            new MochiKit.Visual.Parallel(
-                [new MochiKit.Visual.Opacity(effect.element, {
+            new v.Parallel(
+                [new v.Opacity(effect.element, {
                     sync: true, to: 1.0, from: 0.0,
                     transition: options.opacityTransition
                  }),
-                 new MochiKit.Visual.Move(effect.element, {
+                 new v.Move(effect.element, {
                      x: moveX, y: moveY, sync: true,
                      transition: options.moveTransition
                  }),
-                 new MochiKit.Visual.Scale(effect.element, 100, {
+                 new v.Scale(effect.element, 100, {
                         scaleMode: {originalHeight: dims.h,
                                     originalWidth: dims.w},
                         sync: true,
@@ -1508,22 +1536,24 @@ MochiKit.Visual.shrink = function (element, options) {
     Shrink an element and make it disappear.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
+    var d = MochiKit.DOM;
+    var v = MochiKit.Visual;
+    element = d.getElement(element);
     options = MochiKit.Base.update({
         direction: 'center',
-        moveTransition: MochiKit.Visual.Transitions.sinoidal,
-        scaleTransition: MochiKit.Visual.Transitions.sinoidal,
-        opacityTransition: MochiKit.Visual.Transitions.none
+        moveTransition: v.Transitions.sinoidal,
+        scaleTransition: v.Transitions.sinoidal,
+        opacityTransition: v.Transitions.none
     }, options || {});
     var oldStyle = {
         top: element.style.top,
         left: element.style.left,
         height: element.style.height,
         width: element.style.width,
-        opacity: MochiKit.DOM.getInlineOpacity(element)
+        opacity: d.getInlineOpacity(element)
     };
 
-    var dims = MochiKit.DOM.elementDimensions(element);
+    var dims = d.elementDimensions(element);
     var moveX, moveY;
 
     switch (options.direction) {
@@ -1550,27 +1580,27 @@ MochiKit.Visual.shrink = function (element, options) {
 
     var optionsParallel = MochiKit.Base.update({
         beforeStartInternal: function (effect) {
-            MochiKit.DOM.makePositioned(effect.effects[0].element);
-            MochiKit.DOM.makeClipping(effect.effects[0].element);
+            d.makePositioned(effect.effects[0].element);
+            d.makeClipping(effect.effects[0].element);
         },
         afterFinishInternal: function (effect) {
-            MochiKit.DOM.hideElement(effect.effects[0].element);
-            MochiKit.DOM.undoClipping(effect.effects[0].element);
-            MochiKit.DOM.undoPositioned(effect.effects[0].element);
-            MochiKit.DOM.setStyle(effect.effects[0].element, oldStyle);
+            d.hideElement(effect.effects[0].element);
+            d.undoClipping(effect.effects[0].element);
+            d.undoPositioned(effect.effects[0].element);
+            d.setStyle(effect.effects[0].element, oldStyle);
         }
     }, options || {});
 
-    return new MochiKit.Visual.Parallel(
-        [new MochiKit.Visual.Opacity(element, {
+    return new v.Parallel(
+        [new v.Opacity(element, {
             sync: true, to: 0.0, from: 1.0,
             transition: options.opacityTransition
          }),
-         new MochiKit.Visual.Scale(element, MochiKit.Base.isOpera() ? 1 : 0, {
+         new v.Scale(element, MochiKit.Base.isOpera() ? 1 : 0, {
              sync: true, transition: options.scaleTransition,
              restoreAfterFinish: true
          }),
-         new MochiKit.Visual.Move(element, {
+         new v.Move(element, {
              x: moveX, y: moveY, sync: true, transition: options.moveTransition
          })
         ], optionsParallel
@@ -1583,21 +1613,24 @@ MochiKit.Visual.pulsate = function (element, options) {
     Pulse an element between appear/fade.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
-    options = MochiKit.Base.update({
+    var d = MochiKit.DOM;
+    var v = MochiKit.Visual;
+    var b = MochiKit.Base;
+    element = d.getElement(element);
+    options = b.update({
         duration: 3.0,
         from: 0,
         afterFinishInternal: function (effect) {
-            MochiKit.DOM.setStyle(effect.element, {opacity: oldOpacity});
+            d.setStyle(effect.element, {opacity: oldOpacity});
         }
     }, options || {});
-    var oldOpacity = MochiKit.DOM.getInlineOpacity(element);
-    var transition = options.transition || MochiKit.Visual.Transitions.sinoidal;
-    var reverser = MochiKit.Base.bind(function (pos) {
-        return transition(1 - MochiKit.Visual.Transitions.pulse(pos));
+    var oldOpacity = d.getInlineOpacity(element);
+    var transition = options.transition || v.Transitions.sinoidal;
+    var reverser = b.bind(function (pos) {
+        return transition(1 - v.Transitions.pulse(pos));
     }, transition);
-    MochiKit.Base.bind(reverser, transition);
-    return new MochiKit.Visual.Opacity(element, MochiKit.Base.update({
+    b.bind(reverser, transition);
+    return new v.Opacity(element, b.update({
         transition: reverser}, options));
 };
 
@@ -1607,30 +1640,32 @@ MochiKit.Visual.fold = function (element, options) {
     Fold an element, first vertically, then horizontally.
 
     ***/
-    element = MochiKit.DOM.getElement(element);
+    var d = MochiKit.DOM;
+    var v = MochiKit.Visual;
+    element = d.getElement(element);
     var oldStyle = {
         top: element.style.top,
         left: element.style.left,
         width: element.style.width,
         height: element.style.height
     };
-    MochiKit.DOM.makeClipping(element);
+    d.makeClipping(element);
     options = MochiKit.Base.update({
         scaleContent: false,
         scaleX: false,
         afterFinishInternal: function (effect) {
-            new MochiKit.Visual.Scale(element, 1, {
+            new v.Scale(element, 1, {
                 scaleContent: false,
                 scaleY: false,
                 afterFinishInternal: function (effect) {
-                    MochiKit.DOM.hideElement(effect.element);
-                    MochiKit.DOM.undoClipping(effect.element);
-                    MochiKit.DOM.setStyle(effect.element, oldStyle);
+                    d.hideElement(effect.element);
+                    d.undoClipping(effect.element);
+                    d.setStyle(effect.element, oldStyle);
                 }
             });
         }
     }, options || {});
-    return new MochiKit.Visual.Scale(element, 5, options);
+    return new v.Scale(element, 5, options);
 };
 
 

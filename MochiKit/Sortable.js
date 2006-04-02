@@ -89,32 +89,35 @@ MochiKit.Sortable.Sortable = {
     sortables: new Array(),
 
     options: function (element){
+        var i = MochiKit.Iter;
         element = MochiKit.DOM.getElement(element);
         var result;
-        MochiKit.Iter.forEach(this.sortables, function (s) {
+        i.forEach(this.sortables, function (s) {
             if (s.element == element) {
                 result = s;
-                throw MochiKit.Iter.StopIteration;
+                throw i.StopIteration;
             }
         });
         return result;
     },
 
     destroy: function (element){
+        var b = MochiKit.Base;
+        var d = MochiKit.DragAndDrop;
         element = MochiKit.DOM.getElement(element);
-        var toDestroy = MochiKit.Base.filter(function (s) {
+        var toDestroy = b.filter(function (s) {
             return s.element == element;
         }, this.sortables);
-        MochiKit.Base.map(function (s) {
-            MochiKit.DragAndDrop.Draggables.removeObserver(s.element);
-            MochiKit.Base.map(function (d) {
-                MochiKit.DragAndDrop.Droppables.remove(d);
+        b.map(function (s) {
+            d.Draggables.removeObserver(s.element);
+            b.map(function (dr) {
+                d.Droppables.remove(dr);
             }, s.droppables);
-            MochiKit.Base.map(function (d) {
-                d.destroy();
+            b.map(function (dr) {
+                dr.destroy();
             }, s.draggables);
         }, toDestroy);
-        this.sortables = MochiKit.Base.filter(function (s) {
+        this.sortables = b.filter(function (s) {
             return s.element != element;
         }, this.sortables);
     },
@@ -278,58 +281,60 @@ MochiKit.Sortable.Sortable = {
     },
 
     onEmptyHover: function (element, dropon) {
+        var o = MochiKit.Sortable.Sortable.options;
         if (element.parentNode != dropon) {
             var oldParentNode = element.parentNode;
             dropon.appendChild(element);
-            MochiKit.Sortable.Sortable.options(oldParentNode).onChange(element);
-            MochiKit.Sortable.Sortable.options(dropon).onChange(element);
+            o(oldParentNode).onChange(element);
+            o(dropon).onChange(element);
         }
     },
 
     unmark: function () {
-        if (MochiKit.Sortable.Sortable._marker) {
-            MochiKit.DOM.hideElement(MochiKit.Sortable.Sortable._marker);
+        var m = MochiKit.Sortable.Sortable._marker;
+        if (m) {
+            MochiKit.DOM.hideElement(m);
         }
     },
 
     mark: function (dropon, position) {
         // mark on ghosting only
-        var sortable = MochiKit.Sortable.Sortable.options(dropon.parentNode);
+        var s = MochiKit.Sortable.Sortable;
+        var d = MochiKit.DOM;
+        var sortable = s.options(dropon.parentNode);
         if (sortable && !sortable.ghosting) {
             return;
         }
 
-        if (!MochiKit.Sortable.Sortable._marker) {
-            MochiKit.Sortable.Sortable._marker = MochiKit.DOM.getElement('dropmarker') ||
-                               document.createElement('DIV');
-            MochiKit.DOM.hideElement(MochiKit.Sortable.Sortable._marker);
-            MochiKit.DOM.addElementClass(MochiKit.Sortable.Sortable._marker, 'dropmarker');
-            MochiKit.Sortable.Sortable._marker.style.position = 'absolute';
-            document.getElementsByTagName('body').item(0).appendChild(
-                MochiKit.Sortable.Sortable._marker);
+        if (!s._marker) {
+            s._marker = d.getElement('dropmarker') ||
+                        document.createElement('DIV');
+            d.hideElement(s._marker);
+            d.addElementClass(s._marker, 'dropmarker');
+            s._marker.style.position = 'absolute';
+            document.getElementsByTagName('body').item(0).appendChild(s._marker);
         }
         var offsets = MochiKit.Position.cumulativeOffset(dropon);
-        MochiKit.Sortable.Sortable._marker.style.left = offsets[0] + 'px';
-        MochiKit.Sortable.Sortable._marker.style.top = offsets[1] + 'px';
+        s._marker.style.left = offsets[0] + 'px';
+        s._marker.style.top = offsets[1] + 'px';
 
         if (position == 'after') {
             if (sortable.overlap == 'horizontal') {
-                MochiKit.Sortable.Sortable._marker.style.left = (offsets[0] +
-                                               dropon.clientWidth) + 'px';
+                s._marker.style.left = (offsets[0] + dropon.clientWidth) + 'px';
             } else {
-                MochiKit.Sortable.Sortable._marker.style.top = (offsets[1] +
-                                              dropon.clientHeight) + 'px';
+                s._marker.style.top = (offsets[1] + dropon.clientHeight) + 'px';
             }
         }
-        MochiKit.DOM.showElement(MochiKit.Sortable.Sortable._marker);
+        d.showElement(s._marker);
     },
 
     setSequence: function (element, newSequence) {
+        var b = MochiKit.Base;
         element = MochiKit.DOM.getElement(element);
-        var options = MochiKit.Base.update(arguments[2] || {}, this.options(element));
+        var options = b.update(arguments[2] || {}, this.options(element));
 
         var nodeMap = {};
-        MochiKit.Base.map(function (n) {
+        b.map(function (n) {
             var m = n.id.match(options.format);
             if (m) {
                 nodeMap[m[1]] = [n, n.parentNode];
@@ -337,7 +342,7 @@ MochiKit.Sortable.Sortable = {
             n.parentNode.removeChild(n);
         }, this.findElements(element, options));
 
-        MochiKit.Base.map(function (ident) {
+        b.map(function (ident) {
             var n = nodeMap[ident];
             if (n) {
                 n[1].appendChild(n[0]);
