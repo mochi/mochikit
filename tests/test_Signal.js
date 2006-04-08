@@ -268,9 +268,9 @@ tests.test_Signal = function (t) {
 
     connect('submit', 'onmousedown', eventTest);
     triggerMouseEvent('submit', 'mousedown', false);
-    t.is(i, 11, 'Connecting an event to an HTML object and firing a synthetic event');
+    t.is(i, 11, 'Connecting an event to an HTML object and firing a synthetic event (EXPECT FAILURE FOR SAFARI - NO SYNTHETIC EVENTS)');
     
     disconnect('submit', 'onmousedown', eventTest);
     triggerMouseEvent('submit', 'mousedown', false);
-    t.is(i, 11, 'Disconnecting an event to an HTML object and firing a synthetic event');
+    t.is(i, 11, 'Disconnecting an event to an HTML object and firing a synthetic event (EXPECT FAILURE FOR SAFARI - NO SYNTHETIC EVENTS)');
 };
