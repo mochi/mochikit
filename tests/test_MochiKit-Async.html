@@ -324,7 +324,38 @@ try {
     callList4[0].callback(3); 
     callList4[1].callback("foo"); 
     callList4[2].callback(4);
+
+    /*
+        Test gatherResults
+    */
+
+    var callList5 = new Array(3); 
+    callList5[0] = new Deferred(); 
+    callList5[1] = new Deferred(); 
+    callList5[2] = new Deferred(); 
+    callList5[0].addCallback(increment); 
+    callList5[1].addCallback(increment); 
+    callList5[2].addCallback(increment); 
+    var gatherRet = gatherResults(callList5); 
+    callList5[0].callback(3); 
+    callList5[1].callback(5); 
+    callList5[2].callback(4); 
+     
+    gatherRet.addCallback(function (lst) { 
+        is( arrayEqual(lst, [4, 6, 5]), 1, 
+           "gatherResults result ok" ); 
+    }); 
     
+    /*
+        Test maybeDeferred
+    */
+
+    var maybeDef = maybeDeferred(increment, 4);
+    maybeDef.addCallback(testEqCallback(5, "maybeDeferred sync ok"));
+
+    var maybeDef2 = deferredIncrement(8);
+    maybeDef2.addCallback(testEqCallback(9, "maybeDeferred async ok"));
+
     ok( true, "synchronous test suite finished!");
 
     var t = (new Date().getTime());

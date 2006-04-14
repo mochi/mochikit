@@ -464,7 +464,20 @@ called.</p>
 <dt><tt class="docutils literal"><span class="pre">result</span></tt>:</dt>
 <dd>The result to give to <a class="mochiref reference" href="#fn-deferred.prototype.errback">Deferred.prototype.errback(result)</a>.</dd>
 <dt><em>returns</em>:</dt>
-<dd>a <tt class="docutils literal"><span class="pre">new</span></tt> <a class="mochiref reference" href="#fn-deferred">Deferred()</a></dd>
+<dd>A <tt class="docutils literal"><span class="pre">new</span></tt> <a class="mochiref reference" href="#fn-deferred">Deferred()</a></dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-gatherresults"></a>
+<a class="mochidef reference" href="#fn-gatherresults">gatherResults(deferredList)</a>:</p>
+<blockquote>
+<p>Return an Array of only results from the given <a class="mochiref reference" href="#fn-deferredlist">DeferredList</a>
+callback result.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">deferredList</span></tt>:</dt>
+<dd>The callback result of a <a class="mochiref reference" href="#fn-deferredlist">DeferredList</a></dd>
+<dt><em>returns</em>:</dt>
+<dd>An Array of results</dd>
 </dl>
 </blockquote>
 <p>
@@ -480,6 +493,21 @@ platform.</p>
 <li><tt class="docutils literal"><span class="pre">new</span> <span class="pre">ActiveXObject('Microsoft.XMLHTTP')</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">new</span> <span class="pre">ActiveXObject('Msxml2.XMLHTTP.4.0')</span></tt></li>
 </ul>
+</blockquote>
+<p>
+<a name="fn-maybedeferred"></a>
+<a class="mochidef reference" href="#fn-maybedeferred">maybeDeferred(func[, argument...])</a>:</p>
+<blockquote>
+<p>Call a <tt class="docutils literal"><span class="pre">func</span></tt> with the given arguments and ensure the result is a
+<a class="mochiref reference" href="#fn-deferred">Deferred</a>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">func</span></tt>:</dt>
+<dd>The function to call.</dd>
+<dt><em>returns</em>:</dt>
+<dd>A new <a class="mochiref reference" href="#fn-deferred">Deferred</a> based on the call to <tt class="docutils literal"><span class="pre">func</span></tt>.  If <tt class="docutils literal"><span class="pre">func</span></tt>
+does not naturally return a <a class="mochiref reference" href="#fn-deferred">Deferred</a>, its result or error
+value will be wrapped by one.</dd>
+</dl>
 </blockquote>
 <p>
 <a name="fn-loadjsondoc"></a>

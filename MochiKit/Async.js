@@ -680,6 +680,57 @@ MochiKit.Base.update(MochiKit.Async.DeferredList.prototype, {
     }
 });
 
+MochiKit.Async.gatherResults = function (deferredList) {
+    /***
+
+    Return list of results of given deferreds.
+
+    @type deferredList: C{Array} of L{MochiKit.Async.Deferred}s
+
+    @rtype: L{Deferred} returning the list of results.
+
+    ***/
+    var d = new MochiKit.Async.DeferredList(deferredList, false, true, false);
+    d.addCallback(function (results) {
+        var ret = []
+        for (var i = 0; i < results.length; i++) {
+            ret.push(results[i][1]);
+        }
+        return ret;
+    });
+    return d;
+};
+
+MochiKit.Async.maybeDeferred = function (func) {
+    /***
+
+    Call a function and wrap the result in a Deferred if the function
+    does not return one.
+
+    @param func: the function to call. Additional arguments are passed
+    as parameters to that function.
+
+    @rtype: L{Deferred} returning the return value of func.
+
+    ***/
+    var self = MochiKit.Async;
+    var result;
+    try {
+        var r = func.apply(null, MochiKit.Base.extend([], arguments, 1));
+        if (r instanceof self.Deferred) {
+            result = r;
+        } else if (r instanceof Error) {
+            result = self.fail(r);
+        } else {
+            result = self.succeed(r);
+        }
+    } catch (e) {
+        result = self.fail(e);
+    }
+    return result;
+};
+
+
 MochiKit.Async.EXPORT = [
     "AlreadyCalledError",
     "CancelledError",
@@ -696,7 +747,9 @@ MochiKit.Async.EXPORT = [
     "callLater",
     "sendXMLHttpRequest",
     "DeferredLock",
-    "DeferredList"
+    "DeferredList",
+    "gatherResults",
+    "maybeDeferred"
 ];
     
 MochiKit.Async.EXPORT_OK = [
