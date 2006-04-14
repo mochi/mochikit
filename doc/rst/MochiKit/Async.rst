@@ -449,7 +449,19 @@ Functions
         The result to give to :mochiref:`Deferred.prototype.errback(result)`.
 
     *returns*:
-        a ``new`` :mochiref:`Deferred()`
+        A ``new`` :mochiref:`Deferred()`
+
+
+:mochidef:`gatherResults(deferredList)`:
+
+    Return an Array of only results from the given :mochiref:`DeferredList`
+    callback result.
+
+    ``deferredList``:
+        The callback result of a :mochiref:`DeferredList`
+
+    *returns*:
+        An Array of results
 
 
 :mochidef:`getXMLHttpRequest()`:
@@ -463,6 +475,20 @@ Functions
     - ``new ActiveXObject('Msxml2.XMLHTTP')``
     - ``new ActiveXObject('Microsoft.XMLHTTP')``
     - ``new ActiveXObject('Msxml2.XMLHTTP.4.0')``
+
+
+:mochidef:`maybeDeferred(func[, argument...])`:
+
+    Call a ``func`` with the given arguments and ensure the result is a
+    :mochiref:`Deferred`.
+
+    ``func``:
+        The function to call.
+
+    *returns*:
+        A new :mochiref:`Deferred` based on the call to ``func``.  If ``func``
+        does not naturally return a :mochiref:`Deferred`, its result or error
+        value will be wrapped by one.
 
 
 :mochidef:`loadJSONDoc(url)`:

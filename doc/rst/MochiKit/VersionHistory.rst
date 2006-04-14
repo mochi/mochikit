@@ -1,6 +1,6 @@
 2006-04-XX      v1.3 "warp zone"
 
-- New MochiKit.Async.DeferredList
+- New MochiKit.Async.DeferredList, gatherResults, maybeDeferred
 - New MochiKit.Signal example: draggable
 - Added sanity checking to Deferred to ensure that errors happen when chaining
   is used incorrectly
