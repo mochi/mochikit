@@ -3198,7 +3198,7 @@ this.$=this.getElement;
 this.EXPORT_TAGS={":common":this.EXPORT,":all":m.concat(this.EXPORT,this.EXPORT_OK)};
 m.nameFunctions(this);
 }});
-MochiKit.DOM.__new__(this);
+MochiKit.DOM.__new__(((typeof (window)=="undefined")?this:window));
 withWindow=MochiKit.DOM.withWindow;
 withDocument=MochiKit.DOM.withDocument;
 MochiKit.Base._exportSymbols(this,MochiKit.DOM);

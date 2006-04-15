@@ -1201,7 +1201,7 @@ MochiKit.Base.update(MochiKit.DOM, {
     }
 });
 
-MochiKit.DOM.__new__(this);
+MochiKit.DOM.__new__(((typeof(window) == "undefined") ? this : window));
 
 //
 // XXX: Internet Explorer blows
