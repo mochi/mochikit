@@ -267,6 +267,10 @@ MochiKit.Base.update(MochiKit.Color.Color, {
 
     fromName: function (name) {
         var Color = MochiKit.Color.Color;
+        // Opera 9 seems to "quote" named colors(?!)
+        if (name.charAt(0) == '"') {
+            name = name.substr(1, name.length - 2);
+        }
         var htmlColor = Color._namedColors[name.toLowerCase()];
         if (typeof(htmlColor) == 'string') {
             return Color.fromHexString(htmlColor);

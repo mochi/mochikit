@@ -3621,6 +3621,9 @@ var m=MochiKit.Color;
 return m.Color.fromRGB(m.hsvToRGB.apply(m,arguments));
 },fromName:function(name){
 var _490=MochiKit.Color.Color;
+if(name.charAt(0)=="\""){
+name=name.substr(1,name.length-2);
+}
 var _491=_490._namedColors[name.toLowerCase()];
 if(typeof (_491)=="string"){
 return _490.fromHexString(_491);
