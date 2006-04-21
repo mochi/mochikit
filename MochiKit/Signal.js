@@ -85,62 +85,62 @@ MochiKit.Signal.Event.prototype.key = function () {
 
         /*
 
-        If you're looking for a special key, look for it in keydown or keyup,
-        but never keypress. If you're looking for a Unicode chracter, look for
-        it with keypress, but never kd or ku.
+			If you're looking for a special key, look for it in keydown or
+			keyup, but never keypress. If you're looking for a Unicode
+			chracter, look for it with keypress, but never kd or ku.
 
-        keyCode will contain the raw key code in a kd/ku event keyString will
-        contain a human-redable keyCode.
+			keyCode will contain the raw key code in a kd/ku event keyString
+			will contain a human-redable keyCode.
 
-        charCode will contain the raw character code in a kp event charString
-        will contain the actual character.
-
-        Notes:
-
-        FF key event behavior:
-        key event   charCode    keyCode
-        DOWN    ku,kd   0           40
-        DOWN    kp      0           40
-        ESC     ku,kd   0           27
-        ESC     kp      0           27
-        a       ku,kd   0           65
-        a       kp      97          0
-        shift+a ku,kd   0           65
-        shift+a kp      65          0
-        1       ku,kd   0           49
-        1       kp      49          0
-        shift+1 ku,kd   0           0
-        shift+1 kp      33          0
-
-        IE key event behavior:
-        key     event   keyCode
-        DOWN    ku,kd   40
-        DOWN    kp      undefined
-        ESC     ku,kd   27
-        ESC     kp      27
-        a       ku,kd   65
-        a       kp      97
-        shift+a ku,kd   65
-        shift+a kp      65
-        1       ku,kd   49
-        1       kp      49
-        shift+1 ku,kd   49
-        shift+1 kp      33
-
-        Safari key event behavior:
-        key     event   charCode    keyCode
-        DOWN    ku,kd   63233       40
-        DOWN    kp      63233       63233
-        ESC     ku,kd   27          27
-        ESC     kp      27          27
-        a       ku,kd   97          65
-        a       kp      97          97
-        shift+a ku,kd   65          65
-        shift+a kp      65          65
-        1       ku,kd   49          49
-        1       kp      49          49
-        shift+1 ku,kd   33          49
-        shift+1 kp      33          33
+			charCode will contain the raw character code in a kp event
+			charString will contain the actual character.
+	
+			Notes:
+	
+			FF key event behavior:
+			key event   charCode    keyCode
+			DOWN    ku,kd   0           40
+			DOWN    kp      0           40
+			ESC     ku,kd   0           27
+			ESC     kp      0           27
+			a       ku,kd   0           65
+			a       kp      97          0
+			shift+a ku,kd   0           65
+			shift+a kp      65          0
+			1       ku,kd   0           49
+			1       kp      49          0
+			shift+1 ku,kd   0           0
+			shift+1 kp      33          0
+	
+			IE key event behavior:
+			key     event   keyCode
+			DOWN    ku,kd   40
+			DOWN    kp      undefined
+			ESC     ku,kd   27
+			ESC     kp      27
+			a       ku,kd   65
+			a       kp      97
+			shift+a ku,kd   65
+			shift+a kp      65
+			1       ku,kd   49
+			1       kp      49
+			shift+1 ku,kd   49
+			shift+1 kp      33
+	
+			Safari key event behavior:
+			key     event   charCode    keyCode
+			DOWN    ku,kd   63233       40
+			DOWN    kp      63233       63233
+			ESC     ku,kd   27          27
+			ESC     kp      27          27
+			a       ku,kd   97          65
+			a       kp      97          97
+			shift+a ku,kd   65          65
+			shift+a kp      65          65
+			1       ku,kd   49          49
+			1       kp      49          49
+			shift+1 ku,kd   33          49
+			shift+1 kp      33          33
 
         */
 
@@ -170,7 +170,9 @@ MochiKit.Signal.Event.prototype._fixPoint = function (point) {
 };
 
 MochiKit.Signal.Event.prototype.mouse = function () {
+
     // mouse events
+
     var m = {};
     if (this.type() && (
         this.type().indexOf('mouse') === 0 ||
@@ -189,22 +191,32 @@ MochiKit.Signal.Event.prototype.mouse = function () {
             m.page.y = this._fixPoint(this._event.pageY);
         } else {
             /*
-            IE keeps its document offset in document.documentElement.clientTop
             
-            http://msdn.microsoft.com/workshop/author/dhtml/reference/
-                methods/getboundingclientrect.asp
-                
-            the offset is (2,2) in standards mode and (0,0) in quirks mode
+				IE keeps the document offset in
+				document.documentElement.clientTop ||
+				document.body.clientTop
+
+				http://msdn.microsoft.com/workshop/author/dhtml/reference/
+				    methods/getboundingclientrect.asp
+
+				the offset is (2,2) in standards mode and (0,0) in quirks mode
+				
             */
             
-            m.page.x = (this._event.clientX +
-                (document.documentElement.scrollLeft ||
-                document.body.scrollLeft) -
-                document.documentElement.clientLeft);
-            m.page.y = (this._event.clientY +
-                (document.documentElement.scrollTop ||
-                document.body.scrollTop) -
-                document.documentElement.clientTop);
+            var d = MochiKit.DOM._document;
+            
+            m.page.x = this._event.clientX +
+                (d.documentElement.scrollLeft || 
+                d.body.scrollLeft) - 
+                (d.documentElement.clientLeft || 
+                d.body.clientLeft);
+            
+            m.page.y = this._event.clientY +
+                (d.documentElement.scrollTop || 
+                d.body.scrollTop) - 
+                (d.documentElement.clientTop || 
+                d.body.clientTop);
+            
         }
         if (this.type() != 'mousemove') {
             m.button = {};
@@ -219,17 +231,20 @@ MochiKit.Signal.Event.prototype.mouse = function () {
                 m.button.right = (this._event.which == 3);
 
                 /*
-                Mac browsers and right click:
                 
-                    -   Safari doesn't fire any click events on a right click:
-                        http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
-                        
-                    -   Firefox fires the event, and sets ctrlKey = true
-                    
-                    -   Opera fires the event, and sets metaKey = true                
-                
-                oncontextmenu is fired on right clicks between browsers and
-                across platforms.
+					Mac browsers and right click:
+					
+						- Safari doesn't fire any click events on a right
+						  click:
+						  http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
+						  
+						- Firefox fires the event, and sets ctrlKey = true
+						  
+						- Opera fires the event, and sets metaKey = true                
+					
+					oncontextmenu is fired on right clicks between browsers 
+					and across platforms.
+					
                 */
                 
             } else {
@@ -385,16 +400,10 @@ MochiKit.Base.update(MochiKit.Signal, {
                 } else if (src.detachEvent) {
                     src.detachEvent(sig, listener);
                 } else {
-                    src._signals[sig] = undefined;
+                    delete(src._signals[sig]);
                 }
                 
-                // some browsers don't let you set random properties on 
-                // some elements (Firefox won't let you change window)
-                if (src._listeners && src._listeners[sig]) {
-                    src._listeners[sig] = undefined;
-                }
-                
-                // delete removes object properties, not variables
+                delete(src._listeners[sig]);
                 delete(src._listeners);
                 delete(src._signals);
                 
@@ -421,35 +430,35 @@ MochiKit.Base.update(MochiKit.Signal, {
     connect: function (src, sig, slot, /* optional */func) {
         /***
 
-        Connects a signal to a slot.
+			Connects a signal to a slot.
 
-        'src' is the object that has the signal. You may pass in a string, in
-        which case, it is interpreted as an id for an HTML Element.
+			'src' is the object that has the signal. You may pass in a string,
+			in which case, it is interpreted as an id for an HTML Element.
 
-        'signal' is a string that represents a signal name. If 'src' is an
-        HTML Element, Window, or the Document, then it can be one of the
-        'on-XYZ' events. Note that you must include the 'on' prefix, and it
-        must be all lower-case. If 'src' is another kind of object, the signal
-        must be previously registered with 'registerSignals()'.
+			'signal' is a string that represents a signal name. If 'src' is an
+			HTML Element, Window, or the Document, then it can be one of the
+			'on-XYZ' events. Note that you must include the 'on' prefix, and
+			it must be all lower-case. If 'src' is another kind of object, the
+			signal must be previously registered with 'registerSignals()'.
 
-        'dest' and 'func' describe the slot, or the action to take when the
-        signal is triggered.
+			'dest' and 'func' describe the slot, or the action to take when
+			the signal is triggered.
 
-            -   If 'dest' is an object and 'func' is a string, then
-                'dest[func](...)' will be called when the signal is signalled.
+			-   If 'dest' is an object and 'func' is a string, then
+				'dest[func](...)' will be called when the signal is signalled.
 
-            -   If 'dest' is an object and 'func' is a function, then
-                'func.apply(dest, ...)' will be called when the signal is
-                signalled.
+			-   If 'dest' is an object and 'func' is a function, then
+				'func.apply(dest, ...)' will be called when the signal is
+				signalled.
 
-            -   If 'func' is undefined and 'dest' is a function, then
-                'func.apply(src, ...)' will be called when the signal is
-                signalled.
+			-   If 'func' is undefined and 'dest' is a function, then
+				'func.apply(src, ...)' will be called when the signal is
+				signalled.
 
-        No other combinations are allowed and should raise and exception.
+			No other combinations are allowed and should raise and exception.
 
-        You may call 'connect()' multiple times with the same connection
-        paramters. However, only a single connection will be made.
+			You may call 'connect()' multiple times with the same connection
+			paramters. However, only a single connection will be made.
 
         ***/
         if (typeof(src) == 'string') {
@@ -465,8 +474,12 @@ MochiKit.Base.update(MochiKit.Signal, {
         // Find the signal, attach the slot.
         
         if (src.addEventListener || src.attachEvent || src[sig]) {
-            // Create the _listeners object. This will help us remember which
-            // events we are watching.
+            /* 
+            
+				Create the _listeners object. This will help us remember which
+				events we are watching.
+				
+            */
             if (!src._listeners) {
                 src._listeners = {};
             }
@@ -517,10 +530,10 @@ MochiKit.Base.update(MochiKit.Signal, {
     disconnect: function (src, sig, slot, /* optional */func) {
         /***
 
-        When 'disconnect()' is called, it will disconnect whatever connection
-        was made given the same parameters to 'connect()'. Note that if you
-        want to pass a closure to 'connect()', you'll have to remember it if
-        you want to later 'disconnect()' it.
+			When 'disconnect()' is called, it will disconnect whatever
+			connection was made given the same parameters to 'connect()'. Note
+			that if you want to pass a closure to 'connect()', you'll have to
+			remember it if you want to later 'disconnect()' it.
 
         ***/
         if (typeof(src) == 'string') {
@@ -578,9 +591,9 @@ MochiKit.Base.update(MochiKit.Signal, {
     signal: function (src, sig) {
         /***
 
-        This will signal a signal, passing whatever additional parameters
-        on to the connected slots. 'src' and 'signal' are the same as for
-        'connect()'.
+			This will signal a signal, passing whatever additional parameters
+			on to the connected slots. 'src' and 'signal' are the same as for
+			'connect()'.
 
         ***/
         if (typeof(src) == 'string') {
@@ -633,13 +646,13 @@ MochiKit.Base.update(MochiKit.Signal, {
     registerSignals: function (src, signals) {
         /***
 
-        This will register signals for the object 'src'. (Note that a string
-        here is not allowed--you don't need to register signals for DOM
-        objects.) 'signals' is an array of strings.
+			This will register signals for the object 'src'. (Note that a
+			string here is not allowed--you don't need to register signals for
+			DOM objects.) 'signals' is an array of strings.
 
-        You may register the same signals multiple times; subsequent register
-        calls with the same signal names will have no effect, and the existing
-        connections, if any, will not be lost.
+			You may register the same signals multiple times; subsequent
+			register calls with the same signal names will have no effect, and
+			the existing connections, if any, will not be lost.
 
         ***/
         if (!src._signals) {
@@ -705,5 +718,12 @@ MochiKit.Signal.__new__ = function (win) {
 };
 
 MochiKit.Signal.__new__(this);
+
+//
+// XXX: Internet Explorer blows
+//
+signal = MochiKit.Signal.signal;
+connect = MochiKit.Signal.connect;
+disconnect = MochiKit.Signal.disconnect;
 
 MochiKit.Base._exportSymbols(this, MochiKit.Signal);
