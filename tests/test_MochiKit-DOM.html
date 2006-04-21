@@ -245,8 +245,9 @@ try {
     is( pos.x, 400, 'updated x position (using relativeTo parameter)' );
     is( pos.y, 100, 'updated y position (using relativeTo parameter)' );
     
-    pos = elementPosition('garbage');
-    is( typeof(pos), 'undefined', 'invalid element should return an undefined position' ); // actually, i think this should raise an exception
+    pos = elementPosition('garbage'); 
+    is( typeof(pos), 'undefined', // raise instead?
+        'invalid element should return an undefined position' );
     
     ok( true, "test suite finished!");
     

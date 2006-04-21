@@ -232,17 +232,29 @@ MochiKit.Base.update(MochiKit.DOM, {
         var d = MochiKit.DOM._document;
                 
         if (elem.getBoundingClientRect) { // IE shortcut
+            
+            /*
+            
+                The IE shortcut is off by two:
+                
+                http://msdn.microsoft.com/workshop/author/dhtml/reference/
+                    methods/getboundingclientrect.asp
+                
+            */
             box = elem.getBoundingClientRect();
             
             c.x += box.left + 
                 (d.documentElement.scrollLeft || 
-                d.body.scrollLeft);
+                d.body.scrollLeft) - 
+                (d.documentElement.clientLeft || 
+                d.body.clientLeft);
             
             c.y += box.top + 
                 (d.documentElement.scrollTop || 
-                d.body.scrollTop);
+                d.body.scrollTop) - 
+                (d.documentElement.clientTop || 
+                d.body.clientTop);
             
-            return c;
         } else if (d.getBoxObjectFor) { // Gecko shortcut
             box = d.getBoxObjectFor(elem);
             c.x += box.x;
@@ -262,8 +274,8 @@ MochiKit.Base.update(MochiKit.DOM, {
 
             /*
                 
-                Opera & (safari absolute) incorrectly account for body offsetTop
-                and offsetLeft.
+                Opera & (Safari absolute) incorrectly account for body 
+                offsetTop and offsetLeft.
                 
             */
             var ua = navigator.userAgent.toLowerCase();
@@ -273,7 +285,6 @@ MochiKit.Base.update(MochiKit.DOM, {
                 
                 c.x -= d.body.offsetLeft;
                 c.y -= d.body.offsetTop;
-                
             }
         }
         
