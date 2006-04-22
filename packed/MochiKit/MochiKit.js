@@ -2588,7 +2588,7 @@ _326=_326.offsetParent;
 }
 }
 var ua=navigator.userAgent.toLowerCase();
-if((ua.indexOf("opera")!=-1||(ua.indexOf("safari")!=-1&&typeof (d.createEvent("MouseEvents").initMouseEvent)=="undefined"&&self.computedStyle(elem,"position")=="absolute"))){
+if((ua.indexOf("opera")!=-1||(ua.indexOf("safari")!=-1&&typeof (d.createEvent("MouseEvents").initMouseEvent)!="undefined"&&self.computedStyle(elem,"position")=="absolute"))){
 c.x-=d.body.offsetLeft;
 c.y-=d.body.offsetTop;
 }
