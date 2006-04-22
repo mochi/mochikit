@@ -157,6 +157,7 @@ MochiKit.Logging.Logger = function (/* optional */maxSize) {
     this.maxSize = maxSize;
     this._messages = [];
     this.listeners = {};
+    this.useNativeConsole = false;
 };
 
 MochiKit.Logging.Logger.prototype = {
@@ -169,6 +170,20 @@ MochiKit.Logging.Logger.prototype = {
         this._messages.splice(0, this._messages.length);
     },
 
+    logToConsole: function (msg) {
+        if (typeof(window) != "undefined" && window.console
+                && window.console.log) {
+            // Safari
+            window.console.log(msg);
+        } else if (typeof(opera) != "undefined" && opera.postError) {
+            // Opera
+            opera.postError(msg);
+        } else if (typeof(printfire) == "function") {
+            // FireBug
+            printfire(msg);
+        }
+    },
+    
     dispatchListeners: function (msg) {
         /***
 
@@ -265,6 +280,9 @@ MochiKit.Logging.Logger.prototype = {
         );
         this._messages.push(msg);
         this.dispatchListeners(msg);
+        if (this.useNativeConsole) {
+            this.logToConsole(msg.level + ": " + msg.info.join(" "));
+        }
         this.counter += 1;
         while (this.maxSize >= 0 && this._messages.length > this.maxSize) {
             this._messages.shift();
@@ -366,6 +384,7 @@ MochiKit.Logging.__new__ = function () {
     this.logFatal = connectLog('fatal');
     this.logWarning = connectLog('warning');
     this.logger = new Logger();
+    this.logger.useNativeConsole = true;
 
     this.EXPORT_TAGS = {
         ":common": this.EXPORT,
@@ -375,6 +394,17 @@ MochiKit.Logging.__new__ = function () {
     m.nameFunctions(this);
 
 };
+
+if (typeof(printfire) == "undefined" &&
+        typeof(document) != "undefined" && document.createEvent) {
+    // FireBug really should be less lame about this global function
+    function printfire () {
+        printfire.args = arguments;
+        var ev = document.createEvent("Events");
+        ev.initEvent("printfire", false, true);
+        dispatchEvent(ev);
+    }
+}
 
 MochiKit.Logging.__new__();
 

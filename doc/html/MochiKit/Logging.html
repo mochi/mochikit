@@ -27,8 +27,8 @@ log(&quot;good thing I can pass&quot;, objects, &quot;conveniently&quot;);
 </div>
 <div class="section">
 <h1><a id="description" name="description">Description</a></h1>
-<p>MochiKit.Logging steals some ideas from Python's logging module <a class="footnote-reference" href="#id5" id="id1" name="id1">[1]</a>, but
-completely forgot about the Java <a class="footnote-reference" href="#id6" id="id2" name="id2">[2]</a> inspiration.  This is a KISS module for
+<p>MochiKit.Logging steals some ideas from Python's logging module <a class="footnote-reference" href="#id6" id="id1" name="id1">[1]</a>, but
+completely forgot about the Java <a class="footnote-reference" href="#id7" id="id2" name="id2">[2]</a> inspiration.  This is a KISS module for
 logging that provides enough flexibility to do just about anything via
 listeners, but without all the cruft.</p>
 </div>
@@ -41,6 +41,16 @@ listeners, but without all the cruft.</p>
 <div class="section">
 <h1><a id="overview" name="overview">Overview</a></h1>
 <div class="section">
+<h2><a id="native-console-logging" name="native-console-logging">Native Console Logging</a></h2>
+<p>As of MochiKit 1.3, the default logger will log all messages to your browser's
+native console.  This is currently supported in Safari, Opera 9, and Firefox
+when the <a class="reference" href="http://www.joehewitt.com/software/firebug/">FireBug</a> extension is installed.</p>
+<p>To disable this behavior:</p>
+<pre class="literal-block">
+MochiKit.Logging.logger.useNativeLogging = false;
+</pre>
+</div>
+<div class="section">
 <h2><a id="bookmarklet-based-debugging" name="bookmarklet-based-debugging">Bookmarklet Based Debugging</a></h2>
 <p>JavaScript is at a serious disadvantage without a standard console for
 &quot;print&quot; statements.  Everything else has one.  The closest thing that
@@ -49,7 +59,7 @@ absolutely evil.</p>
 <p>This leaves you with one reasonable solution: do your logging in the page
 somehow.  The problem here is that you don't want to clutter the page with
 debugging tools.  The solution to that problem is what we call BBD, or
-Bookmarklet Based Debugging <a class="footnote-reference" href="#id7" id="id3" name="id3">[3]</a>.</p>
+Bookmarklet Based Debugging <a class="footnote-reference" href="#id8" id="id4" name="id4">[3]</a>.</p>
 <p>Simply create a bookmarklet for <a class="reference" href="javascript:MochiKit.Logging.logger.debuggingBookmarklet()">javascript:MochiKit.Logging.logger.debuggingBookmarklet()</a>,
 and whack it whenever you want to see what's in the logger.  Of course, this
 means you must drink the MochiKit.Logging kool-aid.  It's tangy and sweet,
@@ -258,22 +268,22 @@ Log a WARNING message to the default logger</blockquote>
 </div>
 <div class="section">
 <h1><a id="see-also" name="see-also">See Also</a></h1>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1" name="id5">[1]</a></td><td>Python's logging module: <a class="reference" href="http://docs.python.org/lib/module-logging.html">http://docs.python.org/lib/module-logging.html</a></td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2" name="id6">[2]</a></td><td>PEP 282, where they admit all of the Java influence: <a class="reference" href="http://www.python.org/peps/pep-0282.html">http://www.python.org/peps/pep-0282.html</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id1" name="id6">[1]</a></td><td>Python's logging module: <a class="reference" href="http://docs.python.org/lib/module-logging.html">http://docs.python.org/lib/module-logging.html</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3" name="id7">[3]</a></td><td>Original Bookmarklet Based Debugging blather: <a class="reference" href="http://bob.pythonmac.org/archives/2005/07/03/bookmarklet-based-debugging/">http://bob.pythonmac.org/archives/2005/07/03/bookmarklet-based-debugging/</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2" name="id7">[2]</a></td><td>PEP 282, where they admit all of the Java influence: <a class="reference" href="http://www.python.org/peps/pep-0282.html">http://www.python.org/peps/pep-0282.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4" name="id8">[3]</a></td><td>Original Bookmarklet Based Debugging blather: <a class="reference" href="http://bob.pythonmac.org/archives/2005/07/03/bookmarklet-based-debugging/">http://bob.pythonmac.org/archives/2005/07/03/bookmarklet-based-debugging/</a></td></tr>
 </tbody>
 </table>
 </div>
