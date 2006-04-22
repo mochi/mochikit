@@ -114,7 +114,6 @@ tests.test_Signal = function (t) {
     t.is(i, 10, 'Disconnecting one signal from two slots in two objects');
     
 
-    // FIXME: this fails in IE6    
     try {
         connect('submit', 'onclick', null);
         submit.click();
@@ -122,7 +121,6 @@ tests.test_Signal = function (t) {
     } catch (e) {
         t.ok(true, 'An exception was raised when connecting null');
     }
-    // FIXME: this fails in IE6
     try {
         disconnect('submit', 'onclick', null);
         t.ok(false, 'An exception was not raised when disconnecting null');
@@ -161,7 +159,6 @@ tests.test_Signal = function (t) {
     }
     
     
-    // FIXME: this fails in IE6
     try {
         connect(hasSignals, 'signalOne', aObject, aObject.nothing);
         signal(hasSignals, 'signalOne');
@@ -169,7 +166,6 @@ tests.test_Signal = function (t) {
     } catch (e) {
         t.ok(true, 'An exception was raised when connecting an undefined method');
     }
-    // FIXME: this fails in IE6
     try {
         disconnect(hasSignals, 'signalOne', aObject, aObject.nothing);
         t.ok(false, 'An exception was not raised when disconnecting an undefined method');
@@ -177,7 +173,6 @@ tests.test_Signal = function (t) {
         t.ok(true, 'An exception was raised when disconnecting an undefined method');
     }
     
-    // FIXME: this fails in IE6
     try {
         connect(hasSignals, 'signalOne', aObject, 'nothing');
         signal(hasSignals, 'signalOne');
@@ -185,7 +180,6 @@ tests.test_Signal = function (t) {
     } catch (e) {
         t.ok(true, 'An exception was raised when connecting an undefined method (as string)');
     }
-    // FIXME: this fails in IE6
     try {
         disconnect(hasSignals, 'signalOne', aObject, 'nothing');
         t.ok(false, 'An exception was not raised when disconnecting an undefined method (as string)');
@@ -194,7 +188,6 @@ tests.test_Signal = function (t) {
     }
     
     
-    // FIXME: this fails in IE6
     try {
         connect(hasSignals, 'noSuchSignal', aObject, 'aMethod');
         signal(hasSignals, 'noSuchSignal');
@@ -202,75 +195,77 @@ tests.test_Signal = function (t) {
     } catch (e) {
         t.ok(true, 'An exception was raised when connecting a non-existant signal');
     }    
-    // FIXME: this fails in IE6
-    // FIXME: this fails in Firefox
+
     try {
         disconnect(hasSignals, 'noSuchSignal', aObject, 'aMethod');
         t.ok(false, 'An exception was not raised when disconnecting a non-existant signal');
     } catch (e) {
         t.ok(true, 'An exception was raised when disconnecting a non-existant signal');
     }
-
-    // FIXME: need more tests for the Event object
-    // These tests will always fail in Safari, it doesn't support synthetic events.
-
-    // adapted from: 
-    // http://www.devdaily.com/java/jwarehouse/jforum/tests/selenium/javascript/htmlutils.js.shtml
-    // license: apache
-    // copyright: Copyright 2004 ThoughtWorks, Inc
-    function triggerMouseEvent(element, eventType, canBubble) {
-        element = MochiKit.DOM.getElement(element);
-        canBubble = (typeof(canBubble) == 'undefined') ? true : canBubble;
-        if (element.fireEvent) {
-            var newEvt = document.createEventObject();
-            newEvt.clientX = 1;
-            newEvt.clientY = 1;
-            newEvt.button = 1;
-            element.fireEvent('on' + eventType, newEvt);
-        } else if (document.createEvent && (typeof(document.createEvent('MouseEvents').initMouseEvent) == 'function')) {
-            var evt = document.createEvent('MouseEvents');
-            evt.initMouseEvent(eventType, canBubble, true, // event, bubbles, cancelable
-                document.defaultView, 1, // view, # of clicks
-                1, 0, 0, 0, // screenX, screenY, clientX, clientY
-                false, false, false, false, // ctrlKey, altKey, shiftKey, metaKey
-                0, null); // buttonCode, relatedTarget
-            element.dispatchEvent(evt);
-        }
-    }
-    
-    var eventTest = function(e) {
-        i++;
-        t.ok((typeof(e.event()) === 'object'), 'checking that event() is an object');
-        t.ok((typeof(e.type()) === 'string'), 'checking that type() is a string');
-        t.ok((e.target() === MochiKit.DOM.getElement('submit')), 'checking that target is "submit"');
-        t.ok((typeof(e.modifier()) === 'object'), 'checking that modifier() is an object');
-        t.ok(e.modifier().alt === false, 'checking that modifier().alt is defined, but false');
-        t.ok(e.modifier().ctrl === false, 'checking that modifier().ctrl is defined, but false');
-        t.ok(e.modifier().meta === false, 'checking that modifier().meta is defined, but false');
-        t.ok(e.modifier().shift === false, 'checking that modifier().shift is defined, but  false');
-        t.ok((typeof(e.mouse()) === 'object'), 'checking that mouse() is an object');
-        t.ok((typeof(e.mouse().button) === 'object'), 'checking that mouse().button is an object');
-        t.ok(e.mouse().button.left === true, 'checking that mouse().button.left is true');
-        t.ok(e.mouse().button.middle === false, 'checking that mouse().button.middle is false');
-        t.ok(e.mouse().button.right === false, 'checking that mouse().button.right is false');
-        t.ok((typeof(e.mouse().page) === 'object'), 'checking that mouse().page is an object');
-        t.ok((typeof(e.mouse().page.x) === 'number'), 'checking that mouse().page.x is a number');
-        t.ok((typeof(e.mouse().page.y) === 'number'), 'checking that mouse().page.y is a number');
-        t.ok((typeof(e.mouse().client) === 'object'), 'checking that mouse().client is an object');
-        t.ok((typeof(e.mouse().client.x) === 'number'), 'checking that mouse().client.x is a number');
-        t.ok((typeof(e.mouse().client.y) === 'number'), 'checking that mouse().client.y is a number');
         
+    if (MochiKit.DOM.getElement('submit').fireEvent || 
+        (document.createEvent && 
+        (typeof(document.createEvent('MouseEvents').initMouseEvent) == 'function'))) {
         
-        // these should not be defined
-        t.ok((typeof(e.relatedTarget()) === 'undefined'), 'checking that relatedTarget() is undefined');
-        t.ok((typeof(e.key()) === 'undefined'), 'checking that key() is undefined');
-    };
+        // adapted from: 
+        // http://www.devdaily.com/java/jwarehouse/jforum/tests/selenium/javascript/htmlutils.js.shtml
+        // license: apache
+        // copyright: Copyright 2004 ThoughtWorks, Inc
+        var triggerMouseEvent = function(element, eventType, canBubble) {
+            element = MochiKit.DOM.getElement(element);
+            canBubble = (typeof(canBubble) == 'undefined') ? true : canBubble;
+            if (element.fireEvent) {
+                var newEvt = document.createEventObject();
+                newEvt.clientX = 1;
+                newEvt.clientY = 1;
+                newEvt.button = 1;
+                element.fireEvent('on' + eventType, newEvt);
+            } else if (document.createEvent && (typeof(document.createEvent('MouseEvents').initMouseEvent) == 'function')) {
+                var evt = document.createEvent('MouseEvents');
+                evt.initMouseEvent(eventType, canBubble, true, // event, bubbles, cancelable
+                    document.defaultView, 1, // view, # of clicks
+                    1, 0, 0, 0, // screenX, screenY, clientX, clientY
+                    false, false, false, false, // ctrlKey, altKey, shiftKey, metaKey
+                    0, null); // buttonCode, relatedTarget
+                element.dispatchEvent(evt);
+            }
+        };
 
-    connect('submit', 'onmousedown', eventTest);
-    triggerMouseEvent('submit', 'mousedown', false);
-    t.is(i, 11, 'Connecting an event to an HTML object and firing a synthetic event (EXPECT FAILURE FOR SAFARI - NO SYNTHETIC EVENTS)');
-    
-    disconnect('submit', 'onmousedown', eventTest);
-    triggerMouseEvent('submit', 'mousedown', false);
-    t.is(i, 11, 'Disconnecting an event to an HTML object and firing a synthetic event (EXPECT FAILURE FOR SAFARI - NO SYNTHETIC EVENTS)');
+        var eventTest = function(e) {
+            i++;
+            t.ok((typeof(e.event()) === 'object'), 'checking that event() is an object');
+            t.ok((typeof(e.type()) === 'string'), 'checking that type() is a string');
+            t.ok((e.target() === MochiKit.DOM.getElement('submit')), 'checking that target is "submit"');
+            t.ok((typeof(e.modifier()) === 'object'), 'checking that modifier() is an object');
+            t.ok(e.modifier().alt === false, 'checking that modifier().alt is defined, but false');
+            t.ok(e.modifier().ctrl === false, 'checking that modifier().ctrl is defined, but false');
+            t.ok(e.modifier().meta === false, 'checking that modifier().meta is defined, but false');
+            t.ok(e.modifier().shift === false, 'checking that modifier().shift is defined, but  false');
+            t.ok((typeof(e.mouse()) === 'object'), 'checking that mouse() is an object');
+            t.ok((typeof(e.mouse().button) === 'object'), 'checking that mouse().button is an object');
+            t.ok(e.mouse().button.left === true, 'checking that mouse().button.left is true');
+            t.ok(e.mouse().button.middle === false, 'checking that mouse().button.middle is false');
+            t.ok(e.mouse().button.right === false, 'checking that mouse().button.right is false');
+            t.ok((typeof(e.mouse().page) === 'object'), 'checking that mouse().page is an object');
+            t.ok((typeof(e.mouse().page.x) === 'number'), 'checking that mouse().page.x is a number');
+            t.ok((typeof(e.mouse().page.y) === 'number'), 'checking that mouse().page.y is a number');
+            t.ok((typeof(e.mouse().client) === 'object'), 'checking that mouse().client is an object');
+            t.ok((typeof(e.mouse().client.x) === 'number'), 'checking that mouse().client.x is a number');
+            t.ok((typeof(e.mouse().client.y) === 'number'), 'checking that mouse().client.y is a number');
+
+            // these should not be defined
+            t.ok((typeof(e.relatedTarget()) === 'undefined'), 'checking that relatedTarget() is undefined');
+            t.ok((typeof(e.key()) === 'undefined'), 'checking that key() is undefined');
+        };
+
+        
+        connect('submit', 'onmousedown', eventTest);
+        triggerMouseEvent('submit', 'mousedown', false);
+        t.is(i, 11, 'Connecting an event to an HTML object and firing a synthetic event');
+
+        disconnect('submit', 'onmousedown', eventTest);
+        triggerMouseEvent('submit', 'mousedown', false);
+        t.is(i, 11, 'Disconnecting an event to an HTML object and firing a synthetic event');
+        
+    }    
 };
