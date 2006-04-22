@@ -234,12 +234,21 @@ Functions
 
 :mochidef:`addLoadEvent(func)`:
 
+    Note that :mochiref:`addLoadEvent` can not be used in combination with
+    :mochiref:`MochiKit.Signal` if the ``onload`` event is connected.
+    Once an event is connected with :mochiref:`MochiKit.Signal`, no other APIs
+    may be used for that same event.
+
     This will stack ``window.onload`` functions on top of each other.
     Each function added will be called after ``onload`` in the
     order that they were added.
 
 
 :mochidef:`addToCallStack(target, path, func[, once])`:
+
+    Note that :mochiref:`addToCallStack` is not compatible with 
+    :mochiref:`MochiKit.Signal`.  Once an event is connected with
+    :mochiref:`MochiKit.Signal`, no other APIs may be used for that same event.
 
     Set the property ``path`` of ``target`` to a function that calls the
     existing function at that property (if any), then calls ``func``.
