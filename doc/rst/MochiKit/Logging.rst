@@ -34,6 +34,20 @@ Dependencies
 Overview
 ========
 
+Native Console Logging
+----------------------
+
+As of MochiKit 1.3, the default logger will log all messages to your browser's
+native console.  This is currently supported in Safari, Opera 9, and Firefox
+when the FireBug__ extension is installed.
+
+.. __: http://www.joehewitt.com/software/firebug/
+
+To disable this behavior::
+
+    MochiKit.Logging.logger.useNativeLogging = false;
+
+
 Bookmarklet Based Debugging
 ---------------------------
 

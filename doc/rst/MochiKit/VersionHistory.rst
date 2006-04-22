@@ -1,5 +1,6 @@
 2006-04-XX      v1.3 "warp zone"
 
+- Native Console Logging for the default MochiKit.Logging logger
 - New MochiKit.Async.DeferredList, gatherResults, maybeDeferred
 - New MochiKit.Signal example: draggable
 - Added sanity checking to Deferred to ensure that errors happen when chaining
