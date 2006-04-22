@@ -4,6 +4,14 @@ h1 {
     text-align: center;
 }
 
+textarea.textbox {
+    font-family: Monaco, "lucida console", Courier;
+    border: 1px solid #CCCCCC;
+    font-size: .60em; 
+    padding: 2px 4px;
+    margin-top: .3em;
+}
+
 input.textbox {
     font-family: Monaco, "lucida console", Courier;
     border: 1px solid #CCCCCC;

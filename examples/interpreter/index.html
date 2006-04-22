@@ -28,18 +28,24 @@
             <a href="interpreter.js" class="view-source">interpreter.js</a>
             ]
         </div>
-        <form id="interpreter_form">
+        <form id="interpreter_form" autocomplete="off">
             <div id="interpreter_area">
                 <div id="interpreter_output"></div>
             </div>
-            <input id="interpreter_text" name="input_text" type="text" class="textbox" size="100" />
+            <div id="oneline">
+                <input id="interpreter_text" name="input_text" type="text" class="textbox" size="100" />
+            </div>
+            <div id="multiline">
+                <textarea id="interpreter_textarea" name="input_textarea" type="text" class="textbox" cols="97" rows="10"></textarea>
+                <br />
+            </div>
         </form>
         <div>
             Notes:
             <ul>
                 <li>
-                    To continue code on the next line, end it with
-                    <tt>//</tt>
+                    To write multi-line code snippets, use the lower text area
+                    and press ctrl-enter or cmd-enter to submit.
                 </li>
                 <li>
                     <tt>function name() {}</tt> syntax might not end up in

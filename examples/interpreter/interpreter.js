@@ -8,16 +8,11 @@ InterpreterManager = function () {
 };
 
 InterpreterManager.prototype.initialize = function () {
-    updateNodeAttributes(currentDocument().body, {
-        "onbeforepaste": this.beforePaste,
-        "onpaste": this.paste
-    });
-    updateNodeAttributes("interpreter_text", {
-        "onkeyup": this.keyUp
-    });
-    updateNodeAttributes("interpreter_form", {
-        "onsubmit": this.submit
-    });
+    connect("interpreter_text", "onkeyup", this.keyUp);
+    connect("interpreter_textarea", "onkeydown", this.areaKeyDown);
+    connect("interpreter_form", "onsubmit", this.submit);
+    getElement("interpreter_text").focus();
+
     this.banner();
     this.lines = [];
     this.history = [];
@@ -26,7 +21,9 @@ InterpreterManager.prototype.initialize = function () {
     this.blockingOn = null;
     if (typeof(this.doEval) == "undefined") {
         // detect broken eval, warn at some point if a namespace ever gets used
-        this.doEval = function () { return eval(arguments[0]); }
+        this.doEval = function () {
+            return eval(arguments[0]);
+        }
     }
 };
 
@@ -47,7 +44,7 @@ InterpreterManager.prototype.banner = function () {
     );
 };
 
-InterpreterManager.prototype.submit = function () {
+InterpreterManager.prototype.submit = function (event) {
     if (this.blockingOn) {
         try {
             this.blockingOn.cancel();
@@ -58,7 +55,7 @@ InterpreterManager.prototype.submit = function () {
     }
     this.doSubmit();
     this.doScroll();
-    return false;
+    event.stop();
 };
 
 InterpreterManager.prototype.doScroll = function () {
@@ -101,36 +98,34 @@ InterpreterManager.prototype.moveHistory = function (dir) {
     elem.value = this.history[this.historyPos];
 }
 
-InterpreterManager.prototype.beforePaste = function (e) {
-    e.preventDefault();
-};
-
-
-InterpreterManager.prototype.doPaste = function (text) {
-    var lines = rstrip(text).split(/\n/);
+InterpreterManager.prototype.runMultipleLines = function (text) {
+    var lines = rstrip(text).replace("\r\n", "\n").split(/\n/);
     appendChildNodes("interpreter_output",
         SPAN({"class": "code"}, ">>> ", izip(lines, imap(BR, cycle([null]))))
     );
     this.runCode(text);
 }
 
-InterpreterManager.prototype.paste = function (e) {
-    var text = e.clipboardData.getData("text/plain");
-    if (text) {
-        e.preventDefault();
-        callLater(0.0, this.doPaste, text);
+InterpreterManager.prototype.areaKeyDown = function (e) {
+    var mod = e.modifier();
+    var hasMod = mod.alt || mod.ctrl || mod.meta;
+    if (e.key().string == 'KEY_ENTER' && hasMod) {
+        var elem = getElement("interpreter_textarea");
+        var text = elem.value;
+        elem.value = "";
+        this.runMultipleLines(text);
+        e.stop();
     }
 };
 
 InterpreterManager.prototype.keyUp = function (e) {
-    e = e || window.event;
-    switch (e.keyCode) {
-        case 38: this.moveHistory(-1); break;
-        case 40: this.moveHistory(1); break;
-        default: return true;
+    var key = e.key();
+    switch (key.string) {
+        case 'KEY_ARROW_UP': this.moveHistory(-1); break;
+        case 'KEY_ARROW_DOWN': this.moveHistory(1); break;
+        default: return;
     }
-    e.cancelBubble = true;
-    return false;
+    e.stop();
 };
 
 InterpreterManager.prototype.blockOn = function (d) {
