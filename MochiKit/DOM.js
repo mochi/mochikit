@@ -284,7 +284,7 @@ MochiKit.Base.update(MochiKit.DOM, {
             var ua = navigator.userAgent.toLowerCase();
             if ((ua.indexOf('opera') != -1 || 
                 (ua.indexOf('safari') != -1 && 
-                typeof(d.createEvent('MouseEvents').initMouseEvent) == 'undefined' && 
+                typeof(d.createEvent('MouseEvents').initMouseEvent) != 'undefined' && 
                 self.computedStyle(elem, 'position') == 'absolute'))) {
                 
                 c.x -= d.body.offsetLeft;
