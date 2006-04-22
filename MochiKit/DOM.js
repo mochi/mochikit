@@ -276,17 +276,12 @@ MochiKit.Base.update(MochiKit.DOM, {
                 
                 Opera & (Safari absolute) incorrectly account for body 
                 offsetTop and offsetLeft.
-              
-                WebKit nightlies fix this problem, so to check for latest 
-                Safari, we're looking for a property unique to it.
                 
-            */
+            */            
             var ua = navigator.userAgent.toLowerCase();
-            if ((ua.indexOf('opera') != -1 || 
+            if (ua.indexOf('opera') != -1 || 
                 (ua.indexOf('safari') != -1 && 
-                typeof(d.createEvent('MouseEvents').initMouseEvent) == 'undefined' && 
-                self.computedStyle(elem, 'position') == 'absolute'))) {
-                
+                self.computedStyle(elem, 'position') == 'absolute')) {
                 c.x -= d.body.offsetLeft;
                 c.y -= d.body.offsetTop;
             }
