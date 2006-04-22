@@ -249,13 +249,21 @@ are also acceptable.</blockquote>
 <a name="fn-addloadevent"></a>
 <a class="mochidef reference" href="#fn-addloadevent">addLoadEvent(func)</a>:</p>
 <blockquote>
-This will stack <tt class="docutils literal"><span class="pre">window.onload</span></tt> functions on top of each other.
+<p>Note that <a class="mochiref reference" href="#fn-addloadevent">addLoadEvent</a> can not be used in combination with
+<a class="mochiref reference" href="Signal.html">MochiKit.Signal</a> if the <tt class="docutils literal"><span class="pre">onload</span></tt> event is connected.
+Once an event is connected with <a class="mochiref reference" href="Signal.html">MochiKit.Signal</a>, no other APIs
+may be used for that same event.</p>
+<p>This will stack <tt class="docutils literal"><span class="pre">window.onload</span></tt> functions on top of each other.
 Each function added will be called after <tt class="docutils literal"><span class="pre">onload</span></tt> in the
-order that they were added.</blockquote>
+order that they were added.</p>
+</blockquote>
 <p>
 <a name="fn-addtocallstack"></a>
 <a class="mochidef reference" href="#fn-addtocallstack">addToCallStack(target, path, func[, once])</a>:</p>
 <blockquote>
+<p>Note that <a class="mochiref reference" href="#fn-addtocallstack">addToCallStack</a> is not compatible with
+<a class="mochiref reference" href="Signal.html">MochiKit.Signal</a>.  Once an event is connected with
+<a class="mochiref reference" href="Signal.html">MochiKit.Signal</a>, no other APIs may be used for that same event.</p>
 <p>Set the property <tt class="docutils literal"><span class="pre">path</span></tt> of <tt class="docutils literal"><span class="pre">target</span></tt> to a function that calls the
 existing function at that property (if any), then calls <tt class="docutils literal"><span class="pre">func</span></tt>.</p>
 <p>If <tt class="docutils literal"><span class="pre">target[path]()</span></tt> returns exactly <tt class="docutils literal"><span class="pre">false</span></tt>, then <tt class="docutils literal"><span class="pre">func</span></tt> will

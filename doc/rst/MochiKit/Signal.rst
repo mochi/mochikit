@@ -70,7 +70,10 @@ Here are the rules for the signal and slot system.
 
 1.  Don't use the browser event handling.  That means, no ``onclick="blah"``,
     no ``elem.attachEvent(...)``, and certainly no
-    ``elem.addEventListener(...)``.
+    ``elem.addEventListener(...)``.  This also means that
+    :mochiref:`MochiKit.DOM.addToCallStack` and
+    :mochiref:`MochiKit.DOM.addLoadEvent` can not be used in combination with
+    this module.
 
 2.  Objects other than DOM objects (window, document, or any HTMLElement)
     must have its signals declared via :mochiref:`registerSignals()`

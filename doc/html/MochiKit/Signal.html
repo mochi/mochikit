@@ -75,7 +75,10 @@ at: <a class="reference" href="http://doc.trolltech.com/">http://doc.trolltech.c
 <ol class="arabic">
 <li><p class="first">Don't use the browser event handling.  That means, no <tt class="docutils literal"><span class="pre">onclick=&quot;blah&quot;</span></tt>,
 no <tt class="docutils literal"><span class="pre">elem.attachEvent(...)</span></tt>, and certainly no
-<tt class="docutils literal"><span class="pre">elem.addEventListener(...)</span></tt>.</p>
+<tt class="docutils literal"><span class="pre">elem.addEventListener(...)</span></tt>.  This also means that
+<a class="mochiref reference" href="DOM.html#fn-addtocallstack">MochiKit.DOM.addToCallStack</a> and
+<a class="mochiref reference" href="DOM.html#fn-addloadevent">MochiKit.DOM.addLoadEvent</a> can not be used in combination with
+this module.</p>
 </li>
 <li><p class="first">Objects other than DOM objects (window, document, or any HTMLElement)
 must have its signals declared via <a class="mochiref reference" href="#fn-registersignals">registerSignals()</a>
