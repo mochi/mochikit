@@ -15,6 +15,11 @@
 <div class="document">
 <p>2006-04-XX      v1.3 &quot;warp zone&quot;</p>
 <ul class="simple">
+<li>New key_events example demonstrating use of MochiKit.Signal's key handling
+capabilities.</li>
+<li>MochiKit.DOM.createDOM API change for convenience: if attrs is a string,
+null is used and the string will be considered the first node.  This
+allows for the more natural P(&quot;foo&quot;) rather than P(null, &quot;foo&quot;).</li>
 <li>MochiKit Interpreter example refactored to use MochiKit.Signal and now
 provides multi-line input.</li>
 <li>Native Console Logging for the default MochiKit.Logging logger</li>

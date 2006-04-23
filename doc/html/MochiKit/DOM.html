@@ -351,7 +351,9 @@ pass to <tt class="docutils literal"><span class="pre">document.createElement</s
 <dd><p class="first">An object whose properties will be used as the attributes
 (e.g. <tt class="docutils literal"><span class="pre">{'style':</span> <span class="pre">'display:block'}</span></tt>), or <tt class="docutils literal"><span class="pre">null</span></tt> if no
 attributes need to be set.</p>
-<p class="last">See <a class="mochiref reference" href="#fn-updatenodeattributes">updateNodeAttributes</a> for more information.</p>
+<p>See <a class="mochiref reference" href="#fn-updatenodeattributes">updateNodeAttributes</a> for more information.</p>
+<p class="last">For convenience, if <tt class="docutils literal"><span class="pre">attrs</span></tt> is a string, <tt class="docutils literal"><span class="pre">null</span></tt> is used
+and the string will be considered the first <tt class="docutils literal"><span class="pre">node</span></tt>.</p>
 </dd>
 <dt><tt class="docutils literal"><span class="pre">node</span></tt>...:</dt>
 <dd>All additional arguments, if any, will be coerced into DOM

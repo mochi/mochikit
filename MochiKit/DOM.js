@@ -636,6 +636,11 @@ MochiKit.Base.update(MochiKit.DOM, {
 
         var elem;
         var self = MochiKit.DOM;
+        var m = MochiKit.Base;
+        if (typeof(attrs) == "string") {
+            var args = m.extend([name, null], arguments, 1)
+            return arguments.callee.apply(this, args);
+        }
         if (typeof(name) == 'string') {
             // Internet Explorer is dumb
             if (attrs && "name" in attrs && !self.attributeArray.compliant) {
@@ -653,7 +658,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (arguments.length <= 2) {
             return elem;
         } else {
-            var args = MochiKit.Base.extend([elem], arguments, 2);
+            var args = m.extend([elem], arguments, 2);
             return self.appendChildNodes.apply(this, args);
         }
     },

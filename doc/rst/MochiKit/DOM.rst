@@ -344,6 +344,9 @@ Functions
 
         See :mochiref:`updateNodeAttributes` for more information.
 
+        For convenience, if ``attrs`` is a string, ``null`` is used
+        and the string will be considered the first ``node``.
+
     ``node``...:
         All additional arguments, if any, will be coerced into DOM
         nodes that are appended as children using the
