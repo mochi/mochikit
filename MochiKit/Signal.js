@@ -153,8 +153,24 @@ MochiKit.Signal.Event.prototype.key = function () {
         
         // look for unicode characters here
         } else if (this.type() == 'keypress') {
-            k.code = (this._event.charCode || this._event.keyCode);
-            k.string = String.fromCharCode(k.code);
+            
+            // IE does not fire keypress events for special keys
+            // FF fires, but sets charCode to 0, and sets the correct keyCode
+            // Safari fires, and sets keyCode and charCode to something stupid
+            
+            k.code = 0;
+            k.string = '';
+                        
+            if (typeof(this._event.charCode) != 'undefined' && 
+                this._event.charCode !== 0 &&
+                !MochiKit.Signal._specialMacKeys[this._event.charCode]) {
+                k.code = this._event.charCode;
+                k.string = String.fromCharCode(k.code);
+            } else if (this._event.keyCode && typeof(this._event.charCode) == 'undefined') { // IE
+                k.code = this._event.keyCode;
+                k.string = String.fromCharCode(k.code);
+            }
+            
             return k;
         }
     }
@@ -195,11 +211,16 @@ MochiKit.Signal.Event.prototype.mouse = function () {
 				IE keeps the document offset in
 				document.documentElement.clientTop ||
 				document.body.clientTop
+				
+				and
+				
+				document.documentElement.clientLeft ||
+				document.body.clientLeft
 
 				http://msdn.microsoft.com/workshop/author/dhtml/reference/
 				    methods/getboundingclientrect.asp
 
-				the offset is (2,2) in standards mode and (0,0) in quirks mode
+				The offset is (2,2) in standards mode and (0,0) in quirks mode.
 				
             */
             
@@ -321,10 +342,29 @@ MochiKit.Signal.Event.prototype.toString = function() {
     return this.__repr__();
 }
 
+MochiKit.Signal._specialMacKeys = {
+    63289: 'KEY_NUM_PAD_CLEAR',
+    63276: 'KEY_PAGE_UP',
+    63277: 'KEY_PAGE_DOWN',
+    63275: 'KEY_END',
+    63273: 'KEY_HOME',
+    63234: 'KEY_ARROW_LEFT',
+    63232: 'KEY_ARROW_UP',
+    63235: 'KEY_ARROW_RIGHT',
+    63233: 'KEY_ARROW_DOWN',
+    63302: 'KEY_INSERT',
+    63272: 'KEY_DELETE'
+}
+
+/* for KEY_F1 - KEY_F12 */
+for (i = 63236; i <= 63242; i++) {
+    MochiKit.Signal._specialMacKeys[i] = 'KEY_F' + (i - 63236 + 1); // no F0
+}
+
 MochiKit.Signal._specialKeys = {
     8: 'KEY_BACKSPACE',
     9: 'KEY_TAB',
-    12: 'KEY_NUM_PAD_CLEAR', // for WebKit and Mac FF anyway
+    12: 'KEY_NUM_PAD_CLEAR', // for WebKit and Mac FF anyway -- Safari charCode: 63289
     13: 'KEY_ENTER',
     16: 'KEY_SHIFT',
     17: 'KEY_CTRL',
@@ -333,21 +373,21 @@ MochiKit.Signal._specialKeys = {
     20: 'KEY_CAPS_LOCK',
     27: 'KEY_ESCAPE',
     32: 'KEY_SPACEBAR',
-    33: 'KEY_PAGE_UP',
-    34: 'KEY_PAGE_DOWN',
-    35: 'KEY_END',
-    36: 'KEY_HOME',
-    37: 'KEY_ARROW_LEFT',
-    38: 'KEY_ARROW_UP',
-    39: 'KEY_ARROW_RIGHT',
-    40: 'KEY_ARROW_DOWN',
-    44: 'KEY_PRINT_SCREEN',
-    45: 'KEY_INSERT',
-    46: 'KEY_DELETE',
+    33: 'KEY_PAGE_UP', // Safari charCode: 63276
+    34: 'KEY_PAGE_DOWN', // Safari charCode: 63277
+    35: 'KEY_END', // Safari charCode: 63275
+    36: 'KEY_HOME', // Safari charCode: 63273
+    37: 'KEY_ARROW_LEFT', // Safari charCode: 63234
+    38: 'KEY_ARROW_UP', // Safari charCode: 63232
+    39: 'KEY_ARROW_RIGHT', // Safari charCode: 63235
+    40: 'KEY_ARROW_DOWN', // Safari charCode: 63233
+    44: 'KEY_PRINT_SCREEN', 
+    45: 'KEY_INSERT', // Safari charCode: 63302
+    46: 'KEY_DELETE', // Safari charCode: 63272
     59: 'KEY_SEMICOLON', // weird, for WebKit and IE
-    91: 'KEY_WINDOWS_LEFT',
-    92: 'KEY_WINDOWS_RIGHT',
-    93: 'KEY_SELECT',
+    91: 'KEY_WINDOWS_LEFT', 
+    92: 'KEY_WINDOWS_RIGHT', 
+    93: 'KEY_SELECT', 
     106: 'KEY_NUM_PAD_ASTERISK',
     107: 'KEY_NUM_PAD_PLUS_SIGN',
     109: 'KEY_NUM_PAD_HYPHEN-MINUS',
@@ -386,7 +426,7 @@ for (i = 96; i <= 105; i++) {
 
 /* for KEY_F1 - KEY_F12 */
 for (i = 112; i <= 123; i++) {
-    MochiKit.Signal._specialKeys[i] = 'KEY_F' + (i - 111); // no F0
+    MochiKit.Signal._specialKeys[i] = 'KEY_F' + (i - 112 + 1); // no F0
 }
 
 MochiKit.Base.update(MochiKit.Signal, {

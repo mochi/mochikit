@@ -54,16 +54,17 @@ connect(window, 'onload',
             function(elem) {
                 connect(elem, 'onmousedown', Drag.start);
             });
+                        
     });
     
-// rewrite the view-source links
-addLoadEvent(function () {
-    var elems = getElementsByTagAndClassName("A", "view-source");
-    var page = "draggable/";
-    for (var i = 0; i < elems.length; i++) {
-        var elem = elems[i];
-        var href = elem.href.split(/\//).pop();
-        elem.target = "_blank";
-        elem.href = "../view-source/view-source.html#" + page + href;
-    }
-});
+connect(window, 'onload',
+    function() {
+        var elems = getElementsByTagAndClassName("A", "view-source");
+        var page = "draggable/";
+        for (var i = 0; i < elems.length; i++) {
+            var elem = elems[i];
+            var href = elem.href.split(/\//).pop();
+            elem.target = "_blank";
+            elem.href = "../view-source/view-source.html#" + page + href;
+        } 
+    });
