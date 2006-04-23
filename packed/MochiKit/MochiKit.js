@@ -2870,6 +2870,11 @@ return self.appendChildNodes.apply(this,arguments);
 },createDOM:function(name,_362){
 var elem;
 var self=MochiKit.DOM;
+var m=MochiKit.Base;
+if(typeof (_362)=="string"){
+var args=m.extend([name,null],arguments,1);
+return arguments.callee.apply(this,args);
+}
 if(typeof (name)=="string"){
 if(_362&&"name" in _362&&!self.attributeArray.compliant){
 name=("<"+name+" name=\""+self.escapeHTML(_362.name)+"\">");
@@ -2884,7 +2889,7 @@ self.updateNodeAttributes(elem,_362);
 if(arguments.length<=2){
 return elem;
 }else{
-var args=MochiKit.Base.extend([elem],arguments,2);
+var args=m.extend([elem],arguments,2);
 return self.appendChildNodes.apply(this,args);
 }
 },createDOMFunc:function(){
