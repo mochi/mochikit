@@ -2588,7 +2588,7 @@ _326=_326.offsetParent;
 }
 }
 var ua=navigator.userAgent.toLowerCase();
-if((ua.indexOf("opera")!=-1||(ua.indexOf("safari")!=-1&&typeof (d.createEvent("MouseEvents").initMouseEvent)=="undefined"&&self.computedStyle(elem,"position")=="absolute"))){
+if(ua.indexOf("opera")!=-1||(ua.indexOf("safari")!=-1&&self.computedStyle(elem,"position")=="absolute")){
 c.x-=d.body.offsetLeft;
 c.y-=d.body.offsetTop;
 }
@@ -4056,8 +4056,17 @@ k.string=(MochiKit.Signal._specialKeys[k.code]||"KEY_UNKNOWN");
 return k;
 }else{
 if(this.type()=="keypress"){
-k.code=(this._event.charCode||this._event.keyCode);
+k.code=0;
+k.string="";
+if(typeof (this._event.charCode)!="undefined"&&this._event.charCode!==0&&!MochiKit.Signal._specialMacKeys[this._event.charCode]){
+k.code=this._event.charCode;
 k.string=String.fromCharCode(k.code);
+}else{
+if(this._event.keyCode&&typeof (this._event.charCode)=="undefined"){
+k.code=this._event.keyCode;
+k.string=String.fromCharCode(k.code);
+}
+}
 return k;
 }
 }
@@ -4147,6 +4156,10 @@ return str;
 MochiKit.Signal.Event.prototype.toString=function(){
 return this.__repr__();
 };
+MochiKit.Signal._specialMacKeys={63289:"KEY_NUM_PAD_CLEAR",63276:"KEY_PAGE_UP",63277:"KEY_PAGE_DOWN",63275:"KEY_END",63273:"KEY_HOME",63234:"KEY_ARROW_LEFT",63232:"KEY_ARROW_UP",63235:"KEY_ARROW_RIGHT",63233:"KEY_ARROW_DOWN",63302:"KEY_INSERT",63272:"KEY_DELETE"};
+for(i=63236;i<=63242;i++){
+MochiKit.Signal._specialMacKeys[i]="KEY_F"+(i-63236+1);
+}
 MochiKit.Signal._specialKeys={8:"KEY_BACKSPACE",9:"KEY_TAB",12:"KEY_NUM_PAD_CLEAR",13:"KEY_ENTER",16:"KEY_SHIFT",17:"KEY_CTRL",18:"KEY_ALT",19:"KEY_PAUSE",20:"KEY_CAPS_LOCK",27:"KEY_ESCAPE",32:"KEY_SPACEBAR",33:"KEY_PAGE_UP",34:"KEY_PAGE_DOWN",35:"KEY_END",36:"KEY_HOME",37:"KEY_ARROW_LEFT",38:"KEY_ARROW_UP",39:"KEY_ARROW_RIGHT",40:"KEY_ARROW_DOWN",44:"KEY_PRINT_SCREEN",45:"KEY_INSERT",46:"KEY_DELETE",59:"KEY_SEMICOLON",91:"KEY_WINDOWS_LEFT",92:"KEY_WINDOWS_RIGHT",93:"KEY_SELECT",106:"KEY_NUM_PAD_ASTERISK",107:"KEY_NUM_PAD_PLUS_SIGN",109:"KEY_NUM_PAD_HYPHEN-MINUS",110:"KEY_NUM_PAD_FULL_STOP",111:"KEY_NUM_PAD_SOLIDUS",144:"KEY_NUM_LOCK",145:"KEY_SCROLL_LOCK",186:"KEY_SEMICOLON",187:"KEY_EQUALS_SIGN",188:"KEY_COMMA",189:"KEY_HYPHEN-MINUS",190:"KEY_FULL_STOP",191:"KEY_SOLIDUS",192:"KEY_GRAVE_ACCENT",219:"KEY_LEFT_SQUARE_BRACKET",220:"KEY_REVERSE_SOLIDUS",221:"KEY_RIGHT_SQUARE_BRACKET",222:"KEY_APOSTROPHE"};
 for(var i=48;i<=57;i++){
 MochiKit.Signal._specialKeys[i]="KEY_"+(i-48);
@@ -4158,7 +4171,7 @@ for(i=96;i<=105;i++){
 MochiKit.Signal._specialKeys[i]="KEY_NUM_PAD_"+(i-96);
 }
 for(i=112;i<=123;i++){
-MochiKit.Signal._specialKeys[i]="KEY_F"+(i-111);
+MochiKit.Signal._specialKeys[i]="KEY_F"+(i-112+1);
 }
 MochiKit.Base.update(MochiKit.Signal,{__repr__:function(){
 return "["+this.NAME+" "+this.VERSION+"]";
