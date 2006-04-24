@@ -556,22 +556,22 @@ MochiKit.Base.update(MochiKit.Signal, {
         var observers = MochiKit.Signal._observers;
         src = MochiKit.DOM.getElement(src);
         var args = MochiKit.Base.extend(null, arguments, 2);
-        var exceptions = [];
+        var errors = [];
         for (var i = 0; i < observers.length; i++) {
             var ident = observers[i];
             if (ident[0] === src && ident[1] === sig) {
                 try {
                     ident[2].apply(src, args);
                 } catch (e) {
-                    exceptions.push(e);
+                    errors.push(e);
                 }
             }
         }
-        if (exceptions.length == 1) {
-            throw exceptions[0];
-        } else if (exceptions.length > 1) {
-            var e = new Error("Multiple exceptions raised in signal, see exceptions attribute");
-            e.exceptions = exceptions;
+        if (errors.length == 1) {
+            throw errors[0];
+        } else if (errors.length > 1) {
+            var e = new Error("Multiple errors thrown in handling 'sig', see errors property");
+            e.errors = errors;
             throw e;
         }
     },
