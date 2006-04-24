@@ -385,5 +385,9 @@ tests.test_Base = function (t) {
     t.is( findIdentical([1, 2, 3], 1, 1), -1, "findIdentical honors start");
     t.is( findIdentical([1, 2, 3], 2, 0, 1), -1, "findIdentical honors end");
     t.is( isNull(undefined), false, "isNull doesn't match undefined" );
+
+    var flat = flattenArguments(1, "2", 3, [4, [5, [6, 7], 8, [], 9]]);
+    var expect = [1, "2", 3, 4, 5, 6, 7, 8, 9];
+    t.is( repr(flat), repr(expect), "flattenArguments" );
     
 };

@@ -1,5 +1,7 @@
 2006-04-XX      v1.3 "warp zone"
 
+- New MochiKit.Base.flattenArguments for flattening a list of arguments to
+  a single Array
 - Refactored MochiRegExp example to use MochiKit.Signal
 - New key_events example demonstrating use of MochiKit.Signal's key handling
   capabilities.

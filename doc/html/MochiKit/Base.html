@@ -491,6 +491,17 @@ assert( findIdentical([1, 2, 3, 2, 1], 2, 2) == 3 )
 </pre>
 </blockquote>
 <p>
+<a name="fn-flattenarguments"></a>
+<a class="mochidef reference" href="#fn-flattenarguments">flattenArguments(arg[, ...])</a>:</p>
+<blockquote>
+<p>Given a bunch of arguments, return a single <tt class="docutils literal"><span class="pre">Array</span></tt> containing all
+of those arguments.  Any <tt class="docutils literal"><span class="pre">Array</span></tt> argument will be extended in-place,
+e.g.:</p>
+<pre class="literal-block">
+compare(flattenArguments(1, [2, 3, [4, 5]]), [1, 2, 3, 4, 5]) == 0
+</pre>
+</blockquote>
+<p>
 <a name="fn-forward"></a>
 <a class="mochidef reference" href="#fn-forward">forward(name)</a>:</p>
 <blockquote>
