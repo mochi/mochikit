@@ -57,6 +57,8 @@ update(SortableManager.prototype, {
             Initialize the SortableManager with a table object
         
         ***/
+        // Ensure that it's a DOM element
+        table = getElement(table);
         // Find the thead
         this.thead = table.getElementsByTagName('thead')[0];
         // get the mochi:format key and contents for each column header
@@ -185,7 +187,7 @@ update(SortableManager.prototype, {
 sortableManager = new SortableManager();
 
 addLoadEvent(function () {
-    sortableManager.initWithTable($('sortable_table'));
+    sortableManager.initWithTable('sortable_table');
 });
 
 // rewrite the view-source links
