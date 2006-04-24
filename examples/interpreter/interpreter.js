@@ -120,6 +120,10 @@ InterpreterManager.prototype.areaKeyDown = function (e) {
 
 InterpreterManager.prototype.keyUp = function (e) {
     var key = e.key();
+    // if any meta key is pressed, don't handle the signal
+    if (e.modifier().any) {
+        return;
+    }
     switch (key.string) {
         case 'KEY_ARROW_UP': this.moveHistory(-1); break;
         case 'KEY_ARROW_DOWN': this.moveHistory(1); break;
