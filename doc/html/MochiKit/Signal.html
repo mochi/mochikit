@@ -29,9 +29,10 @@ connect(myObject, 'bang', otherObject, gotBang);
 
 // myFunc.apply(myObject) will be called when 'flash' signalled.
 // You can access myObject from within myFunc as 'this'.
-connect(myObject, 'flash', myFunc);
+var ident = connect(myObject, 'flash', myFunc);
 
-// You may disconnect with disconnect() and the same parameters.
+// You may disconnect with the return value from connect
+disconnect(ident);
 
 // Signal can take parameters. These will be passed along to the connected
 // functions.
@@ -41,17 +42,17 @@ signal(myObject, 'bang', 'BANG!');
 // DOM events are also signals. Connect freely! The functions will be
 // called with the event as a parameter.
 
-// calls myClicked.apply($('myID'), event)
+// calls myClicked.apply(getElement('myID'), event)
 connect('myID', 'onclick', myClicked);
 
 // calls wasClicked.apply(myObject, event)
-connect($('myID'), 'onclick', myObject, wasClicked);
+connect('myID', 'onclick', myObject, wasClicked);
 
 // calls myObject.wasClicked(event)
-connect($('myID'), 'onclick', myObject, 'wasClicked');
+connect('myID', 'onclick', myObject, 'wasClicked');
 
 // the event is normalized, no more e = e || window.event!
-myOjbect.wasClicked = function(e) {
+myObject.wasClicked = function(e) {
     var crossBrowserCoordinates = e.mouse().page;
     // e.mouse().page is a MochiKit.DOM.Coordinates object
 }
@@ -89,9 +90,8 @@ are named already.</p>
 </li>
 <li><p class="first">You may connect or disconnect slots to signals freely using the
 <a class="mochiref reference" href="#fn-connect">connect()</a> and <a class="mochiref reference" href="#fn-disconnect">disconnect()</a> methods.  The
-same parameters to <a class="mochiref reference" href="#fn-disconnect">disconnect</a> will only remove a previous
-connection made with the same parameters to <a class="mochiref reference" href="#fn-connect">connect</a>.
-Also, connecting multiple times only leaves one connection in place.</p>
+return value from <a class="mochiref reference" href="#fn-connect">connect()</a> should be passed to
+<a class="mochiref reference" href="#fn-disconnect">disconnect()</a> to remove a connection.</p>
 </li>
 <li><p class="first">Slots that are connected to a signal are called when that signal is
 signalled.</p>
@@ -108,7 +108,7 @@ called with the parameters to the signal.</li>
 </li>
 <li><p class="first">Signals are triggered with the <a class="mochiref reference" href="#fn-signal">signal(src, 'signal', ...)</a>
 function.  Additional parameters passed to this are passed onto the
-connected slots.</p>
+connected slots.  Explicit signals are not required for DOM events.</p>
 </li>
 <li><p class="first">Signals triggered by DOM events are called with a custom event object as a
 parameter.  You can grab the native event by accessing
@@ -214,7 +214,8 @@ via <tt class="docutils literal"><span class="pre">connect()</span></tt>. (Bugzi
 <a name="fn-connect"></a>
 <a class="mochidef reference" href="#fn-connect">connect(src, signal, dest[, func])</a>:</p>
 <blockquote>
-<p>Connects a signal to a slot.</p>
+<p>Connects a signal to a slot, and return a unique identifier that can be
+used to disconnect that signal.</p>
 <p><tt class="docutils literal"><span class="pre">src</span></tt> is the object that has the signal.  You may pass in a string, in
 which case, it is interpreted as an id for an HTML Element.</p>
 <p><tt class="docutils literal"><span class="pre">signal</span></tt> is a string that represents a signal name. If 'src' is an HTML
@@ -237,17 +238,15 @@ signalled.</li>
 </ul>
 </blockquote>
 <p>No other combinations are allowed and should raise and exception.</p>
-<p>You may call <a class="mochiref reference" href="#fn-connect">connect()</a> multiple times with the same connection
-paramters.  However, only a single connection will be made.</p>
+<p>The return value can be passed to <a class="mochiref reference" href="#fn-disconnect">disconnect</a> to disconnect
+the signal.</p>
 </blockquote>
 <p>
 <a name="fn-disconnect"></a>
-<a class="mochidef reference" href="#fn-disconnect">disconnect(src, signal, dest[, func])</a>:</p>
+<a class="mochidef reference" href="#fn-disconnect">disconnect(ident)</a>:</p>
 <blockquote>
-When <a class="mochiref reference" href="#fn-disconnect">disconnect()</a> is called, it will disconnect whatever
-connection was made given the same parameters to <a class="mochiref reference" href="#fn-connect">connect()</a>.
-Note that if you want to pass a closure to <a class="mochiref reference" href="#fn-connect">connect()</a>, you'll
-have to remember it if you want to later <a class="mochiref reference" href="#fn-disconnect">disconnect()</a> it.</blockquote>
+To disconnect a signal, simply pass the ident returned by <a class="mochiref reference" href="#fn-connect">connect()</a>.
+This is similar to how the browser's <tt class="docutils literal"><span class="pre">setTimeout</span></tt> and <tt class="docutils literal"><span class="pre">clearTimeout</span></tt> works.</blockquote>
 <p>
 <a name="fn-signal"></a>
 <a class="mochidef reference" href="#fn-signal">signal(src, signal, ...)</a>:</p>
@@ -262,14 +261,16 @@ the connected slots. <tt class="docutils literal"><span class="pre">src</span></
 <ul class="simple">
 <li>Jonathan Gardner &lt;<a class="reference" href="mailto:jgardner&#64;jonathangardner.net">jgardner&#64;jonathangardner.net</a>&gt;</li>
 <li>Beau Hartshorne &lt;<a class="reference" href="mailto:beau&#64;hartshornesoftware.com">beau&#64;hartshornesoftware.com</a>&gt;</li>
+<li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
 </ul>
 </div>
 <div class="section">
 <h1><a id="copyright" name="copyright">Copyright</a></h1>
-<p>Copyright 2006 Jonathan Gardner &lt;<a class="reference" href="mailto:jgardner&#64;jonathangardner.net">jgardner&#64;jonathangardner.net</a>&gt; and Beau
-Hartshorne &lt;<a class="reference" href="mailto:beau&#64;hartshornesoftware.com">beau&#64;hartshornesoftware.com</a>&gt;.  This program is dual-licensed free
-software; you can redistribute it and/or modify it under the terms of the <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT
-License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
+<p>Copyright 2006 Jonathan Gardner &lt;<a class="reference" href="mailto:jgardner&#64;jonathangardner.net">jgardner&#64;jonathangardner.net</a>&gt;, Beau
+Hartshorne &lt;<a class="reference" href="mailto:beau&#64;hartshornesoftware.com">beau&#64;hartshornesoftware.com</a>&gt;, and Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.
+This program is dual-licensed free software; you can redistribute it and/or
+modify it under the terms of the <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the
+<a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
 </div>
 </div>
 

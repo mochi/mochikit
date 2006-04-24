@@ -20,9 +20,10 @@ Synopsis
 
     // myFunc.apply(myObject) will be called when 'flash' signalled.
     // You can access myObject from within myFunc as 'this'.
-    connect(myObject, 'flash', myFunc);
+    var ident = connect(myObject, 'flash', myFunc);
 
-    // You may disconnect with disconnect() and the same parameters.
+    // You may disconnect with the return value from connect
+    disconnect(ident);
 
     // Signal can take parameters. These will be passed along to the connected
     // functions.
@@ -32,17 +33,17 @@ Synopsis
     // DOM events are also signals. Connect freely! The functions will be
     // called with the event as a parameter.
 
-    // calls myClicked.apply($('myID'), event)
+    // calls myClicked.apply(getElement('myID'), event)
     connect('myID', 'onclick', myClicked);
 
     // calls wasClicked.apply(myObject, event)
-    connect($('myID'), 'onclick', myObject, wasClicked);
+    connect('myID', 'onclick', myObject, wasClicked);
 
     // calls myObject.wasClicked(event)
-    connect($('myID'), 'onclick', myObject, 'wasClicked');    
+    connect('myID', 'onclick', myObject, 'wasClicked');    
 
     // the event is normalized, no more e = e || window.event!
-    myOjbect.wasClicked = function(e) {
+    myObject.wasClicked = function(e) {
         var crossBrowserCoordinates = e.mouse().page;
         // e.mouse().page is a MochiKit.DOM.Coordinates object
     }
@@ -84,9 +85,8 @@ Here are the rules for the signal and slot system.
 
 4.  You may connect or disconnect slots to signals freely using the
     :mochiref:`connect()` and :mochiref:`disconnect()` methods.  The
-    same parameters to :mochiref:`disconnect` will only remove a previous
-    connection made with the same parameters to :mochiref:`connect`.
-    Also, connecting multiple times only leaves one connection in place.
+    return value from :mochiref:`connect()` should be passed to
+    :mochiref:`disconnect()` to remove a connection.
 
 5.  Slots that are connected to a signal are called when that signal is
     signalled.
@@ -104,7 +104,7 @@ Here are the rules for the signal and slot system.
 
 6.  Signals are triggered with the :mochiref:`signal(src, 'signal', ...)`
     function.  Additional parameters passed to this are passed onto the
-    connected slots.
+    connected slots.  Explicit signals are not required for DOM events.
 
 7.  Signals triggered by DOM events are called with a custom event object as a
     parameter.  You can grab the native event by accessing
@@ -210,7 +210,8 @@ Functions
 
 :mochidef:`connect(src, signal, dest[, func])`:
 
-    Connects a signal to a slot.
+    Connects a signal to a slot, and return a unique identifier that can be
+    used to disconnect that signal.
 
     ``src`` is the object that has the signal.  You may pass in a string, in
     which case, it is interpreted as an id for an HTML Element.
@@ -237,16 +238,14 @@ Functions
 
     No other combinations are allowed and should raise and exception.
 
-    You may call :mochiref:`connect()` multiple times with the same connection
-    paramters.  However, only a single connection will be made.
+    The return value can be passed to :mochiref:`disconnect` to disconnect
+    the signal.
 
 
-:mochidef:`disconnect(src, signal, dest[, func])`:
+:mochidef:`disconnect(ident)`:
 
-    When :mochiref:`disconnect()` is called, it will disconnect whatever
-    connection was made given the same parameters to :mochiref:`connect()`.
-    Note that if you want to pass a closure to :mochiref:`connect()`, you'll
-    have to remember it if you want to later :mochiref:`disconnect()` it.
+    To disconnect a signal, simply pass the ident returned by :mochiref:`connect()`.
+    This is similar to how the browser's ``setTimeout`` and ``clearTimeout`` works.
 
 
 :mochidef:`signal(src, signal, ...)`:
@@ -261,15 +260,17 @@ Authors
 
 -   Jonathan Gardner <jgardner@jonathangardner.net>
 -   Beau Hartshorne <beau@hartshornesoftware.com>
+-   Bob Ippolito <bob@redivi.com>
 
 
 Copyright
 =========
 
-Copyright 2006 Jonathan Gardner <jgardner@jonathangardner.net> and Beau 
-Hartshorne <beau@hartshornesoftware.com>.  This program is dual-licensed free
-software; you can redistribute it and/or modify it under the terms of the `MIT
-License`_ or the `Academic Free License v2.1`_.
+Copyright 2006 Jonathan Gardner <jgardner@jonathangardner.net>, Beau 
+Hartshorne <beau@hartshornesoftware.com>, and Bob Ippolito <bob@redivi.com>.
+This program is dual-licensed free software; you can redistribute it and/or
+modify it under the terms of the `MIT License`_ or the
+`Academic Free License v2.1`_.
 
 .. _`MIT License`: http://www.opensource.org/licenses/mit-license.php
 .. _`Academic Free License v2.1`: http://www.opensource.org/licenses/afl-2.1.php
