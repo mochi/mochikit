@@ -203,9 +203,11 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     /* 
-    elementPosition is adapted from YAHOO.util.Dom.getXY, version 0.9.0.
-    Copyright: Copyright (c) 2006, Yahoo! Inc. All rights reserved.
-    BSD License: http://developer.yahoo.net/yui/license.txt
+
+        elementPosition is adapted from YAHOO.util.Dom.getXY, version 0.9.0.
+        Copyright: Copyright (c) 2006, Yahoo! Inc. All rights reserved.
+        License: BSD, http://developer.yahoo.net/yui/license.txt
+
     */
     elementPosition: function (elem, /* optional */relativeTo) {
         var self = MochiKit.DOM;        
@@ -238,8 +240,7 @@ MochiKit.Base.update(MochiKit.DOM, {
             /*
             
                 The IE shortcut is off by two:
-                http://msdn.microsoft.com/workshop/author/dhtml/reference/
-                    methods/getboundingclientrect.asp
+                http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/getboundingclientrect.asp
                 
             */
             box = elem.getBoundingClientRect();
