@@ -56,7 +56,7 @@ try {
 
     var isDOM = function (value, expected, message) {
         is( escapeHTML(toHTML(value)), escapeHTML(expected), message );
-    }
+    };
 
     var d = document.createElement('span');
     updateNodeAttributes(d, {"foo": "bar", "baz": "wibble"});
