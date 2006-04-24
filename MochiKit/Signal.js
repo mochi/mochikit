@@ -577,64 +577,6 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
 
-    disconnectAll: function (src, sig, slot, /* optional */func) {
-        if (typeof(src) == 'string') {
-            src = MochiKit.DOM.getElement(src);
-        }
-
-        if (typeof(sig) != 'string') {
-            throw new Error("'signal' must be a string");
-        }
-
-        slot = MochiKit.Signal._getSlot(slot, func);
-
-        if (src._signals && src._signals[sig]) {
-            var signals = src._signals[sig];
-            var origlen = signals.length;
-            for (var i = 0; i < signals.length; i++) {
-                var s = signals[i];
-                if (s[0] === slot[0] && 
-                    s[1] === slot[1] && 
-                    s[2] === slot[2]) {
-                        
-                    signals.splice(i, 1);
-                    break;
-                    
-                }
-            }
-        } else {
-            throw new Error('Invalid signal to disconnect');
-        }
-        
-        if (src.addEventListener || src.attachEvent || src._signals[sig]) {
-            /* Stop listening if there are no connected slots. */
-            if (src._listeners && src._listeners[sig] &&
-                src._signals[sig].length === 0) {
-
-                var listener = src._listeners[sig];
-
-                if (src.removeEventListener) {
-                    src.removeEventListener(sig.substr(2), listener, false);
-                } else if (src.detachEvent) {
-                    src.detachEvent(sig, listener);
-                } else {
-                    src._signals[sig] = undefined;
-                }
-
-                var observers = MochiKit.Signal._observers;
-                for (var i = 0; i < observers.length; i++) {
-                    var o = observers[i];
-                    if (o[0] === src && o[1] === sig && o[2] === listener) {
-                        observers.splice(i, 1);
-                        break;
-                    }
-                }
-                src._listeners[sig] = undefined;
-            }
-        }
-    },
-
-
     signal: function (src, sig) {
         if (typeof(src) == 'string') {
             src = MochiKit.DOM.getElement(src);
