@@ -5,7 +5,7 @@ if (typeof(tests) == 'undefined') { tests = {}; }
 tests.test_Base = function (t) {
     // test bind
     var not_self = {"toString": function () { return "not self"; } };
-    var self = {"toString": function () { return "self" } };
+    var self = {"toString": function () { return "self"; } };
     var func = function (arg) { return this.toString() + " " + arg; };
     var boundFunc = bind(func, self);
     not_self.boundFunc = boundFunc;
@@ -15,6 +15,22 @@ tests.test_Base = function (t) {
     t.is( bind(boundFunc, not_self)("foo"), "not self foo", "boundFunc successfully rebound!" );
     t.is( bind(boundFunc, undefined, "foo")(), "self foo", "boundFunc partial no self change" );
     t.is( bind(boundFunc, not_self, "foo")(), "not self foo", "boundFunc partial self change" );
+
+    // test method
+    not_self = {"toString": function () { return "not self"; } };
+    self = {"toString": function () { return "self"; } };
+    func = function (arg) { return this.toString() + " " + arg; };
+    var boundMethod = method(self, func);
+    not_self.boundMethod = boundMethod;
+
+    t.is( boundMethod("foo"), "self foo", "boundMethod bound to self properly" );
+    t.is( not_self.boundMethod("foo"), "self foo", "boundMethod bound to self on another obj" );
+    t.is( method(not_self, boundMethod)("foo"), "not self foo", "boundMethod successfully rebound!" );
+    t.is( method(undefined, boundMethod, "foo")(), "self foo", "boundMethod partial no self change" );
+    t.is( method(not_self, boundMethod, "foo")(), "not self foo", "boundMethod partial self change" );
+
+
+
 
     // test bindMethods
 

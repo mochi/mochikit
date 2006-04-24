@@ -573,6 +573,11 @@ MochiKit.Base.update(MochiKit.Base, {
         };
     },
             
+    method: function (self, func) {
+        var m = MochiKit.Base;
+        return m.bind.apply(this, m.extend([func, self], arguments, 2));
+    },
+
     bind: function (func, self/* args... */) {
         if (typeof(func) == "string") {
             func = self[func];
@@ -1332,7 +1337,8 @@ MochiKit.Base.EXPORT = [
     "parseQueryString",
     "findValue",
     "findIdentical",
-    "flattenArguments"
+    "flattenArguments",
+    "method"
 ];
 
 MochiKit.Base.EXPORT_OK = [

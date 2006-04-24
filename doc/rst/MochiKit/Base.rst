@@ -628,6 +628,15 @@ Functions
     specifically, it is defined as :mochiref:`partial(update, null)`.
 
 
+:mochidef:`method(self, func, ...)`:
+
+    Alternate form of :mochiref:`bind` that takes the object before the
+    function.  These two are equivalent::
+
+        bind("method", myobject)
+        method(myobject, "method")
+
+
 :mochidef:`nameFunctions(namespace)`:
 
     Given a namespace with a ``NAME`` property, find all functions in it and
