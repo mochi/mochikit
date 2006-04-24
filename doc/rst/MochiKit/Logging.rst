@@ -228,17 +228,22 @@ Functions
     Ultra-obnoxious ``alert(...)`` listener
 
 
-:mochidef:`debug(message[, info[, ...]])`:
+:mochidef:`logDebug(message[, info[, ...]])`:
+
+    Log an INFO message to the default logger
+
+
+:mochidef:`logDebug(message[, info[, ...]])`:
 
     Log a DEBUG message to the default logger
 
 
-:mochidef:`error(message[, info[, ...]])`:
+:mochidef:`logError(message[, info[, ...]])`:
 
     Log an ERROR message to the default logger
 
 
-:mochidef:`fatal(message[, info[, ...]])`:
+:mochidef:`logFatal(message[, info[, ...]])`:
 
     Log a FATAL message to the default logger
 
@@ -249,7 +254,7 @@ Functions
     is at least minLevel
 
 
-:mochidef:`warning(message[, info[, ...]])`:
+:mochidef:`logWarning(message[, info[, ...]])`:
 
     Log a WARNING message to the default logger
 
