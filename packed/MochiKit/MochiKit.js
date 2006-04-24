@@ -4328,8 +4328,8 @@ if(_569.length==1){
 throw _569[0];
 }else{
 if(_569.length>1){
-var e=new Error("Multiple exceptions raised in signal, see exceptions attribute");
-e.exceptions=_569;
+var e=new Error("Multiple errors thrown in handling 'sig', see errors property");
+e.errors=_569;
 throw e;
 }
 }
