@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import os
 import sys
-from pkg_resources import require
-require("docutils>0.3.9")
+try:
+    from pkg_resources import require
+    require("docutils>0.3.9")
+except ImportError:
+    pass
 from docutils import nodes, utils
 from docutils.core import publish_parts
 from docutils.parsers.rst import roles
