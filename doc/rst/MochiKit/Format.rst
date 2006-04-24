@@ -90,7 +90,7 @@ Functions
     (equivalent to ``LOCALE.en_US``).
 
 
-:mochidef:`lstrip(str, chars="\s")`:
+:mochidef:`lstrip(str, chars="\\s")`:
 
     Returns a string based on ``str`` with leading whitespace stripped.
 
@@ -140,7 +140,7 @@ Functions
     supported platform, where some return ``.13`` for ``(0.1357).toFixed(2)``.
 
 
-:mochidef:`rstrip(str, chars="\s")`:
+:mochidef:`rstrip(str, chars="\\s")`:
 
     Returns a string based on ``str`` with trailing whitespace stripped.
 
@@ -149,7 +149,7 @@ Functions
     ``[character set]``.
 
 
-:mochidef:`strip(str, chars="\s")`:
+:mochidef:`strip(str, chars="\\s")`:
 
     Returns a string based on ``str`` with leading and trailing whitespace
     stripped (equivalent to :mochiref:`lstrip(rstrip(str, chars), chars)`).

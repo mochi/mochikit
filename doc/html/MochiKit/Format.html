@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
 <title>MochiKit.Format - string formatting goes here</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -108,7 +108,7 @@ a locale object.  If no locale is given, <tt class="docutils literal"><span clas
 (equivalent to <tt class="docutils literal"><span class="pre">LOCALE.en_US</span></tt>).</blockquote>
 <p>
 <a name="fn-lstrip"></a>
-<a class="mochidef reference" href="#fn-lstrip">lstrip(str, chars=&quot;s&quot;)</a>:</p>
+<a class="mochidef reference" href="#fn-lstrip">lstrip(str, chars=&quot;\s&quot;)</a>:</p>
 <blockquote>
 <p>Returns a string based on <tt class="docutils literal"><span class="pre">str</span></tt> with leading whitespace stripped.</p>
 <p>If <tt class="docutils literal"><span class="pre">chars</span></tt> is given, then that expression will be used instead of
@@ -166,7 +166,7 @@ supported platform, where some return <tt class="docutils literal"><span class="
 </blockquote>
 <p>
 <a name="fn-rstrip"></a>
-<a class="mochidef reference" href="#fn-rstrip">rstrip(str, chars=&quot;s&quot;)</a>:</p>
+<a class="mochidef reference" href="#fn-rstrip">rstrip(str, chars=&quot;\s&quot;)</a>:</p>
 <blockquote>
 <p>Returns a string based on <tt class="docutils literal"><span class="pre">str</span></tt> with trailing whitespace stripped.</p>
 <p>If <tt class="docutils literal"><span class="pre">chars</span></tt> is given, then that expression will be used instead of
@@ -175,7 +175,7 @@ whitespace.  <tt class="docutils literal"><span class="pre">chars</span></tt> sh
 </blockquote>
 <p>
 <a name="fn-strip"></a>
-<a class="mochidef reference" href="#fn-strip">strip(str, chars=&quot;s&quot;)</a>:</p>
+<a class="mochidef reference" href="#fn-strip">strip(str, chars=&quot;\s&quot;)</a>:</p>
 <blockquote>
 <p>Returns a string based on <tt class="docutils literal"><span class="pre">str</span></tt> with leading and trailing whitespace
 stripped (equivalent to <a class="mochiref reference" href="#fn-lstrip">lstrip(rstrip(str, chars), chars)</a>).</p>
