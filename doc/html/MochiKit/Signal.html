@@ -20,10 +20,6 @@
 <div class="section">
 <h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
 <pre class="literal-block">
-// Allow your objects to create events.
-var myObject = {};
-registerSignals(myObject, ['flash', 'bang']);
-
 // otherObject.gotFlash() will be called when 'flash' signalled.
 connect(myObject, 'flash', otherObject, 'gotFlash');
 
@@ -80,10 +76,6 @@ no <tt class="docutils literal"><span class="pre">elem.attachEvent(...)</span></
 <a class="mochiref reference" href="DOM.html#fn-addloadevent">MochiKit.DOM.addLoadEvent</a> can not be used in combination with
 this module.</p>
 </li>
-<li><p class="first">Objects other than DOM objects (window, document, or any HTMLElement)
-must have its signals declared via <a class="mochiref reference" href="#fn-registersignals">registerSignals()</a>
-before they can be used.</p>
-</li>
 <li><p class="first">For DOM objects (window, document, or any HTMLElement), the signals
 already exist and are named 'onclick', 'onkeyup', etc... just like they
 are named already.</p>
@@ -120,7 +112,7 @@ connected slots.</p>
 </li>
 <li><p class="first">Signals triggered by DOM events are called with a custom event object as a
 parameter.  You can grab the native event by accessing
-<tt class="docutils literal"><span class="pre">customObject.event()</span></tt>. Here is a complete list of this object's methods:</p>
+<tt class="docutils literal"><span class="pre">mochie.event()</span></tt>. Here is a complete list of this object's methods:</p>
 <p>These are always generated:</p>
 <dl class="docutils">
 <dt>event():</dt>
@@ -149,9 +141,14 @@ the 'on' prefix.)</p>
 </dd>
 </dl>
 <p>Note that you should use keydown and keyup to detect control characters,
-and keypressed to detect &quot;printable&quot; characters.  Some browsers will
-return control characters for keypressed. These are generated for keydown
-and keyup events:</p>
+and keypressed to detect &quot;printable&quot; characters. key().code will be set to
+0 and key().string will be set to an empty string in a keypress handler if
+a user presses a control character like F1 or Escape. IE will not fire
+your keypressed handler when you press a control character like KEY_F1 or
+KEY_ESCAPE. In your keyup and keydown handlers, Signal will pass the
+keyboard code and a human-readable string like KEY_A or KEY_ARROW_DOWN or
+KEY_NUM_PAD_ASTERISK. See <tt class="docutils literal"><span class="pre">_specialKeys</span></tt> for a comprehensive list. These
+are generated for keydown and keyup events:</p>
 <dl class="docutils">
 <dt>key().code:</dt>
 <dd><p class="first last">contains the raw key code, such as 8 for backspace.</p>
@@ -223,8 +220,7 @@ which case, it is interpreted as an id for an HTML Element.</p>
 <p><tt class="docutils literal"><span class="pre">signal</span></tt> is a string that represents a signal name. If 'src' is an HTML
 Element, Window, or the Document, then it can be one of the 'on-XYZ'
 events. Note that you must include the 'on' prefix, and it must be all
-lower-case. If <tt class="docutils literal"><span class="pre">src</span></tt> is another kind of object, the signal must be
-previously registered with <a class="mochiref reference" href="#fn-registersignals">registerSignals()</a>.</p>
+lower-case.</p>
 <p><tt class="docutils literal"><span class="pre">dest</span></tt> and <tt class="docutils literal"><span class="pre">func</span></tt> describe the slot, or the action to take when the
 signal is triggered.</p>
 <blockquote>
@@ -252,17 +248,6 @@ When <a class="mochiref reference" href="#fn-disconnect">disconnect()</a> is cal
 connection was made given the same parameters to <a class="mochiref reference" href="#fn-connect">connect()</a>.
 Note that if you want to pass a closure to <a class="mochiref reference" href="#fn-connect">connect()</a>, you'll
 have to remember it if you want to later <a class="mochiref reference" href="#fn-disconnect">disconnect()</a> it.</blockquote>
-<p>
-<a name="fn-registersignals"></a>
-<a class="mochidef reference" href="#fn-registersignals">registerSignals(src, signals)</a>:</p>
-<blockquote>
-<p>This will register signals for the object <tt class="docutils literal"><span class="pre">src</span></tt>.  Note that a string
-here is not allowed -- you don't need to register signals for DOM objects.
-'signals' is an array of strings.</p>
-<p>You may register the same signals multiple times; subsequent
-registerSignals calls with the same signal names will have no effect,
-and the existing connections, if any, will not be lost.</p>
-</blockquote>
 <p>
 <a name="fn-signal"></a>
 <a class="mochidef reference" href="#fn-signal">signal(src, signal, ...)</a>:</p>
