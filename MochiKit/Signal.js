@@ -47,304 +47,269 @@ MochiKit.Signal.Event = function (e) {
     this._event = e || window.event;
 };
 
-MochiKit.Signal.Event.prototype.event = function () {
-    return this._event;
-};
+MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
-MochiKit.Signal.Event.prototype.type = function () {
-    return this._event.type || undefined;
-};
-
-MochiKit.Signal.Event.prototype.target = function () {
-    return this._event.target || this._event.srcElement;
-};
-
-MochiKit.Signal.Event.prototype.relatedTarget = function () {
-    if (this.type() == 'mouseover') {
-        return (this._event.relatedTarget ||
-            this._event.fromElement);
-    } else if (this.type() == 'mouseout') {
-        return (this._event.relatedTarget ||
-            this._event.toElement);
-    }
-    throw new Error('No related target');
-};
-
-MochiKit.Signal.Event.prototype.modifier = function () {
-    var m = {};
-    m.alt = this._event.altKey;
-    m.ctrl = this._event.ctrlKey;
-    m.meta = this._event.metaKey || false; // ie and opera punt here
-    m.shift = this._event.shiftKey;
-    return m;
-};
-
-MochiKit.Signal.Event.prototype.key = function () {
-    var k = {};
-    if (this.type() && this.type().indexOf('key') === 0) {
-
-        /*
-
-			If you're looking for a special key, look for it in keydown or
-			keyup, but never keypress. If you're looking for a Unicode
-			chracter, look for it with keypress, but never keyup or keydown.
-	
-			Notes:
-	
-			FF key event behavior:
-			key     event   charCode    keyCode
-			DOWN    ku,kd   0           40
-			DOWN    kp      0           40
-			ESC     ku,kd   0           27
-			ESC     kp      0           27
-			a       ku,kd   0           65
-			a       kp      97          0
-			shift+a ku,kd   0           65
-			shift+a kp      65          0
-			1       ku,kd   0           49
-			1       kp      49          0
-			shift+1 ku,kd   0           0
-			shift+1 kp      33          0
-	
-			IE key event behavior:
-			(IE doesn't fire keypress events for special keys.)
-			key     event   keyCode
-			DOWN    ku,kd   40
-			DOWN    kp      undefined
-			ESC     ku,kd   27
-			ESC     kp      27
-			a       ku,kd   65
-			a       kp      97
-			shift+a ku,kd   65
-			shift+a kp      65
-			1       ku,kd   49
-			1       kp      49
-			shift+1 ku,kd   49
-			shift+1 kp      33
-
-			Safari key event behavior:
-			(Safari sets charCode and keyCode to something crazy for
-			special keys.)
-			key     event   charCode    keyCode
-			DOWN    ku,kd   63233       40
-			DOWN    kp      63233       63233
-			ESC     ku,kd   27          27
-			ESC     kp      27          27
-			a       ku,kd   97          65
-			a       kp      97          97
-			shift+a ku,kd   65          65
-			shift+a kp      65          65
-			1       ku,kd   49          49
-			1       kp      49          49
-			shift+1 ku,kd   33          49
-			shift+1 kp      33          33
-
-        */
-
-        /* look for special keys here */
-        if (this.type() == 'keydown' || this.type() == 'keyup') {
-            k.code = this._event.keyCode;
-            k.string = (MochiKit.Signal._specialKeys[k.code] ||
-                'KEY_UNKNOWN');
-            return k;
-        
-        /* look for characters here */
-        } else if (this.type() == 'keypress') {
-            
-            /*
-            
-                Special key behavior:
-                
-                IE: does not fire keypress events for special keys
-                FF: sets charCode to 0, and sets the correct keyCode
-                Safari sets keyCode and charCode to something stupid
-            
-            */
-            
-            k.code = 0;
-            k.string = '';
-                        
-            if (typeof(this._event.charCode) != 'undefined' && 
-                this._event.charCode !== 0 &&
-                !MochiKit.Signal._specialMacKeys[this._event.charCode]) {
-                k.code = this._event.charCode;
-                k.string = String.fromCharCode(k.code);
-            } else if (this._event.keyCode && 
-                typeof(this._event.charCode) == 'undefined') { // IE
-                k.code = this._event.keyCode;
-                k.string = String.fromCharCode(k.code);
-            }
-            
-            return k;
-        }
-    }
-    throw new Error('Signal cannot handle this type of key event');
-};
-
-MochiKit.Signal.Event.prototype._fixPoint = function (point) {
-    /* 
+    _fixPoint: function (point) {
+        /* 
     
-        FIXME: inline this to avoid funciton call overhead? Does JS have
-        function call overhead?
+            FIXME: inline this to avoid funciton call overhead? Does JS have
+            function call overhead? This code needs test coverage.
         
-    */
-    if (typeof(point) == 'undefined' || point < 0) {
-        return 0;
-    }
-    return point;
-};
-
-MochiKit.Signal.Event.prototype.mouse = function () {
-    var m = {};
-    if (this.type() && (
-        this.type().indexOf('mouse') === 0 ||
-        this.type().indexOf('click') != -1 ||
-        this.type() == 'contextmenu')) {
-
-        m.client = new MochiKit.DOM.Coordinates(0, 0);
-        if (this._event.clientX || this._event.clientY) {
-            m.client.x = this._fixPoint(this._event.clientX);
-            m.client.y = this._fixPoint(this._event.clientY);
+        */
+        if (typeof(point) == 'undefined' || point < 0) {
+            return 0;
         }
+        return point;
+    },
 
-        m.page = new MochiKit.DOM.Coordinates(0, 0);
-        if (this._event.pageX || this._event.pageY) {
-            m.page.x = this._fixPoint(this._event.pageX);
-            m.page.y = this._fixPoint(this._event.pageY);
-        } else {
+    event: function () {
+        return this._event;
+    },
+
+    type: function () {
+        return this._event.type || undefined;
+    },
+
+    target: function () {
+        return this._event.target || this._event.srcElement;
+    },
+
+    relatedTarget: function () {
+        if (this.type() == 'mouseover') {
+            return (this._event.relatedTarget ||
+                this._event.fromElement);
+        } else if (this.type() == 'mouseout') {
+            return (this._event.relatedTarget ||
+                this._event.toElement);
+        }
+        throw new Error('No related target');
+    },
+
+    modifier: function () {
+        var m = {};
+        m.alt = this._event.altKey;
+        m.ctrl = this._event.ctrlKey;
+        m.meta = this._event.metaKey || false; // ie and opera punt here
+        m.shift = this._event.shiftKey;
+        return m;
+    },
+
+    key: function () {
+        var k = {};
+        if (this.type() && this.type().indexOf('key') === 0) {
+
             /*
-            
-				IE keeps the document offset in:
-    				document.documentElement.clientTop ||
-    				document.body.clientTop
-				
-				and:
-    				document.documentElement.clientLeft ||
-    				document.body.clientLeft
 
-                see:
-				http://msdn.microsoft.com/workshop/author/dhtml/reference/
-				    methods/getboundingclientrect.asp
+    			If you're looking for a special key, look for it in keydown or
+                keyup, but never keypress. If you're looking for a Unicode
+                chracter, look for it with keypress, but never keyup or
+                keydown.
+	
+    			Notes:
+	
+    			FF key event behavior:
+    			key     event   charCode    keyCode
+    			DOWN    ku,kd   0           40
+    			DOWN    kp      0           40
+    			ESC     ku,kd   0           27
+    			ESC     kp      0           27
+    			a       ku,kd   0           65
+    			a       kp      97          0
+    			shift+a ku,kd   0           65
+    			shift+a kp      65          0
+    			1       ku,kd   0           49
+    			1       kp      49          0
+    			shift+1 ku,kd   0           0
+    			shift+1 kp      33          0
+	
+    			IE key event behavior:
+    			(IE doesn't fire keypress events for special keys.)
+    			key     event   keyCode
+    			DOWN    ku,kd   40
+    			DOWN    kp      undefined
+    			ESC     ku,kd   27
+    			ESC     kp      27
+    			a       ku,kd   65
+    			a       kp      97
+    			shift+a ku,kd   65
+    			shift+a kp      65
+    			1       ku,kd   49
+    			1       kp      49
+    			shift+1 ku,kd   49
+    			shift+1 kp      33
 
-				The offset is (2,2) in standards mode and (0,0) in quirks 
-				mode.
-				
+    			Safari key event behavior:
+    			(Safari sets charCode and keyCode to something crazy for
+    			special keys.)
+    			key     event   charCode    keyCode
+    			DOWN    ku,kd   63233       40
+    			DOWN    kp      63233       63233
+    			ESC     ku,kd   27          27
+    			ESC     kp      27          27
+    			a       ku,kd   97          65
+    			a       kp      97          97
+    			shift+a ku,kd   65          65
+    			shift+a kp      65          65
+    			1       ku,kd   49          49
+    			1       kp      49          49
+    			shift+1 ku,kd   33          49
+    			shift+1 kp      33          33
+
             */
-            
-            var de = MochiKit.DOM._document.documentElement;
-            var b = MochiKit.DOM._document.body;
-            
-            m.page.x = this._event.clientX +
-                (de.scrollLeft || b.scrollLeft) - 
-                (de.clientLeft || b.clientLeft);
-            
-            m.page.y = this._event.clientY +
-                (de.scrollTop || b.scrollTop) - 
-                (de.clientTop || b.clientTop);
-            
-        }
-        if (this.type() != 'mousemove') {
-            m.button = {};
-            m.button.left = false;
-            m.button.right = false;
-            m.button.middle = false;
 
-            // we could check this._event.button, but which is more consistent
-            if (this._event.which) {
-                m.button.left = (this._event.which == 1);
-                m.button.middle = (this._event.which == 2);
-                m.button.right = (this._event.which == 3);
-
+            /* look for special keys here */
+            if (this.type() == 'keydown' || this.type() == 'keyup') {
+                k.code = this._event.keyCode;
+                k.string = (MochiKit.Signal._specialKeys[k.code] ||
+                    'KEY_UNKNOWN');
+                return k;
+        
+            /* look for characters here */
+            } else if (this.type() == 'keypress') {
+            
                 /*
+            
+                    Special key behavior:
                 
-					Mac browsers and right click:
-					
-						- Safari doesn't fire any click events on a right
-						  click:
-						  http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
-						  
-						- Firefox fires the event, and sets ctrlKey = true
-						  
-						- Opera fires the event, and sets metaKey = true                
-					
-					oncontextmenu is fired on right clicks between browsers 
-					and across platforms.
-					
+                    IE: does not fire keypress events for special keys
+                    FF: sets charCode to 0, and sets the correct keyCode
+                    Safari: sets keyCode and charCode to something stupid
+            
                 */
-                
-            } else {
-                m.button.left = !!(this._event.button & 1);
-                m.button.right = !!(this._event.button & 2);
-                m.button.middle = !!(this._event.button & 4);
+            
+                k.code = 0;
+                k.string = '';
+                        
+                if (typeof(this._event.charCode) != 'undefined' && 
+                    this._event.charCode !== 0 &&
+                    !MochiKit.Signal._specialMacKeys[this._event.charCode]) {
+                    k.code = this._event.charCode;
+                    k.string = String.fromCharCode(k.code);
+                } else if (this._event.keyCode && 
+                    typeof(this._event.charCode) == 'undefined') { // IE
+                    k.code = this._event.keyCode;
+                    k.string = String.fromCharCode(k.code);
+                }
+            
+                return k;
             }
         }
-        return m;
-    }
-    throw new Error('This is not a mouse event');
-};
+        throw new Error('Signal cannot handle this type of key event');
+    },
 
-MochiKit.Signal.Event.prototype.stop = function () {
-    this.stopPropagation();
-    this.preventDefault();
-};
+    mouse: function () {
+        var m = {};
+        if (this.type() && (
+            this.type().indexOf('mouse') === 0 ||
+            this.type().indexOf('click') != -1 ||
+            this.type() == 'contextmenu')) {
 
-MochiKit.Signal.Event.prototype.stopPropagation = function () {
-    if (this._event.stopPropagation) {
-        this._event.stopPropagation();
-    } else {
-        this._event.cancelBubble = true;
-    }
-};
+            m.client = new MochiKit.DOM.Coordinates(0, 0);
+            if (this._event.clientX || this._event.clientY) {
+                m.client.x = this._fixPoint(this._event.clientX);
+                m.client.y = this._fixPoint(this._event.clientY);
+            }
 
-MochiKit.Signal.Event.prototype.preventDefault = function () {
-    if (this._event.preventDefault) {
-        this._event.preventDefault();
-    } else {
-        this._event.returnValue = false;
-    }
-};
+            m.page = new MochiKit.DOM.Coordinates(0, 0);
+            if (this._event.pageX || this._event.pageY) {
+                m.page.x = this._fixPoint(this._event.pageX);
+                m.page.y = this._fixPoint(this._event.pageY);
+            } else {
+                /*
+            
+    				IE keeps the document offset in:
+        				document.documentElement.clientTop ||
+        				document.body.clientTop
+				
+    				and:
+        				document.documentElement.clientLeft ||
+        				document.body.clientLeft
 
-MochiKit.Signal.Event.prototype.__repr__ = function () {
-    var repr = MochiKit.Base.repr;
-    var str = '{event(): ' + repr(this.event()) +
-        ', type(): ' + repr(this.type()) +
-        ', target(): ' + repr(this.target()) +
-        ', modifier(): ' + '{alt: ' + repr(this.modifier().alt) +
-        ', ctrl: ' + repr(this.modifier().ctrl) +
-        ', meta: ' + repr(this.modifier().meta) +
-        ', shift: ' + repr(this.modifier().shift) + '}';
+                    see:
+    				http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/getboundingclientrect.asp
 
-    if (this.type() && this.type().indexOf('key') === 0) {
-        str += ', key(): {code: ' + repr(this.key().code) +
-            ', string: ' + repr(this.key().string) + '}';
-    }
+    				The offset is (2,2) in standards mode and (0,0) in quirks 
+    				mode.
+				
+                */
+            
+                var de = MochiKit.DOM._document.documentElement;
+                var b = MochiKit.DOM._document.body;
+            
+                m.page.x = this._event.clientX +
+                    (de.scrollLeft || b.scrollLeft) - 
+                    (de.clientLeft || b.clientLeft);
+            
+                m.page.y = this._event.clientY +
+                    (de.scrollTop || b.scrollTop) - 
+                    (de.clientTop || b.clientTop);
+            
+            }
+            if (this.type() != 'mousemove') {
+                m.button = {};
+                m.button.left = false;
+                m.button.right = false;
+                m.button.middle = false;
 
-    if (this.type() && (
-        this.type().indexOf('mouse') === 0 ||
-        this.type().indexOf('click') != -1 ||
-        this.type() == 'contextmenu')) {
+                /* we could check this._event.button, but which is more consistent */
+                if (this._event.which) {
+                    m.button.left = (this._event.which == 1);
+                    m.button.middle = (this._event.which == 2);
+                    m.button.right = (this._event.which == 3);
 
-        str += ', mouse(): {page: ' + repr(this.mouse().page) + 
-            ', client: ' + repr(this.mouse().client);
-
-        if (this.type() != 'mousemove') {
-            str += ', button: {left: ' + repr(this.mouse().button.left) +
-                ', middle: ' + repr(this.mouse().button.middle) +
-                ', right: ' + repr(this.mouse().button.right) + '}}';
-        } else {
-            str += '}';
+                    /*
+                
+    					Mac browsers and right click:
+					
+    						- Safari doesn't fire any click events on a right
+    						  click:
+    						  http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
+						  
+    						- Firefox fires the event, and sets ctrlKey = true
+						  
+    						- Opera fires the event, and sets metaKey = true
+					
+    					oncontextmenu is fired on right clicks between browsers 
+    					and across platforms.
+					
+                    */
+                
+                } else {
+                    m.button.left = !!(this._event.button & 1);
+                    m.button.right = !!(this._event.button & 2);
+                    m.button.middle = !!(this._event.button & 4);
+                }
+            }
+            return m;
         }
-    }
-    if (this.type() == 'mouseover' || this.type() == 'mouseout') {
-        str += ', relatedTarget(): ' + repr(this.relatedTarget());
-    }
-    str += '}';
-    return str;
-};
+        throw new Error('This is not a mouse event');
+    },
 
-MochiKit.Signal.Event.prototype.toString = function() {
-    return this.__repr__();
-};
+    stop: function () {
+        this.stopPropagation();
+        this.preventDefault();
+    },
+
+    stopPropagation: function () {
+        if (this._event.stopPropagation) {
+            this._event.stopPropagation();
+        } else {
+            this._event.cancelBubble = true;
+        }
+    },
+
+    preventDefault: function () {
+        if (this._event.preventDefault) {
+            this._event.preventDefault();
+        } else {
+            this._event.returnValue = false;
+        }
+    },
+
+    toString: function() {
+        return this.__repr__();
+    }
+});
 
 /* Safari sets keyCode to these special values onkeypress. */
 MochiKit.Signal._specialMacKeys = {
@@ -441,10 +406,6 @@ MochiKit.Base.update(MochiKit.Signal, {
         return '[' + this.NAME + ' ' + this.VERSION + ']';
     },
 
-    toString: function () {
-        return this.__repr__();
-    },
-
     _getSlot: function (slot, func) {
         if (typeof(func) == 'string' || typeof(func) == 'function') {
             if (typeof(func) == 'string' && 
@@ -501,39 +462,6 @@ MochiKit.Base.update(MochiKit.Signal, {
     },
 
     connect: function (src, sig, slot, /* optional */func) {
-        /***
-
-			Connects a signal to a slot.
-
-			'src' is the object that has the signal. You may pass in a string,
-			in which case, it is interpreted as an id for an HTML Element.
-
-			'signal' is a string that represents a signal name. If 'src' is an
-			HTML Element, Window, or the Document, then it can be one of the
-			'on-XYZ' events. Note that you must include the 'on' prefix, and
-			it must be all lower-case. If 'src' is another kind of object, the
-			signal must be previously registered with 'registerSignals()'.
-
-			'dest' and 'func' describe the slot, or the action to take when
-			the signal is triggered.
-
-			-   If 'dest' is an object and 'func' is a string, then
-				'dest[func](...)' will be called when the signal is signalled.
-
-			-   If 'dest' is an object and 'func' is a function, then
-				'func.apply(dest, ...)' will be called when the signal is
-				signalled.
-
-			-   If 'func' is undefined and 'dest' is a function, then
-				'func.apply(src, ...)' will be called when the signal is
-				signalled.
-
-			No other combinations are allowed and should raise and exception.
-
-			You may call 'connect()' multiple times with the same connection
-			paramters. However, only a single connection will be made.
-
-        ***/
         if (typeof(src) == 'string') {
             src = MochiKit.DOM.getElement(src);
         }
@@ -543,50 +471,42 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
 
         slot = MochiKit.Signal._getSlot(slot, func);
-
-        /* Find the signal, attach the slot. */
         
-        if (src.addEventListener || src.attachEvent || src[sig]) {
-            /* 
-            
-				Create the _listeners object. This will help us remember which
-				events we are watching.
-				
-            */
-            if (!src._listeners) {
-                src._listeners = {};
+        /* 
+        
+			Create the _listeners object. This will help us remember which
+			events we are watching.
+			
+        */
+        if (!src._listeners) {
+            src._listeners = {};
+        }
+
+        /* Add the signal connector if it hasn't been done already. */
+        if (!src._listeners[sig]) {
+            var listener = function (nativeEvent) {
+                var eventObject = new MochiKit.Signal.Event(nativeEvent);
+                MochiKit.Signal.signal(src, sig, eventObject);
+                return true;
+            };
+            MochiKit.Signal._observers.push([src, sig, listener]);
+
+            if (src.addEventListener) {
+                src.addEventListener(sig.substr(2), listener, false);
+            } else if (src.attachEvent) {
+                src.attachEvent(sig, listener); // useCapture unsupported
+            } else {
+                src[sig] = listener;
             }
 
-            /* Add the signal connector if it hasn't been done already. */
-            if (!src._listeners[sig]) {
-                var listener = function (nativeEvent) {
-                    var eventObject = new MochiKit.Signal.Event(nativeEvent);
-                    MochiKit.Signal.signal(src, sig, eventObject);
-                    return true;
-                };
-                MochiKit.Signal._observers.push([src, sig, listener]);
+            src._listeners[sig] = listener;
+        }
 
-                if (src.addEventListener) {
-                    src.addEventListener(sig.substr(2), listener, false);
-                } else if (src.attachEvent) {
-                    src.attachEvent(sig, listener); // useCapture unsupported
-                } else {
-                    src[sig] = listener;
-                }
-
-                src._listeners[sig] = listener;
-            }
-
-            if (!src._signals) {
-                src._signals = {};
-            }
-            if (!src._signals[sig]) {
-                src._signals[sig] = [];
-            }
-        } else {
-            if (!src._signals || !src._signals[sig]) {
-                throw new Error("No such signal '" + sig + "' registered.");
-            }
+        if (!src._signals) {
+            src._signals = {};
+        }
+        if (!src._signals[sig]) {
+            src._signals[sig] = [];
         }
 
         /* Actually add the slot... if it isn't there already. */
@@ -601,14 +521,6 @@ MochiKit.Base.update(MochiKit.Signal, {
     },
 
     disconnect: function (src, sig, slot, /* optional */func) {
-        /***
-
-			When 'disconnect()' is called, it will disconnect whatever
-            connection was made given the same parameters to 'connect()'. Note
-            that if you want to pass a closure to 'connect()', you'll have to
-            remember it if you want to later 'disconnect()' it.
-
-        ***/
         if (typeof(src) == 'string') {
             src = MochiKit.DOM.getElement(src);
         }
@@ -624,17 +536,21 @@ MochiKit.Base.update(MochiKit.Signal, {
             var origlen = signals.length;
             for (var i = 0; i < signals.length; i++) {
                 var s = signals[i];
-                if (s[0] === slot[0] && s[1] === slot[1] && s[2] === slot[2]) {
+                if (s[0] === slot[0] && 
+                    s[1] === slot[1] && 
+                    s[2] === slot[2]) {
+                        
                     signals.splice(i, 1);
                     break;
+                    
                 }
             }
         } else {
-            throw new Error("Invalid signal to disconnect");
+            throw new Error('Invalid signal to disconnect');
         }
         
         if (src.addEventListener || src.attachEvent || src._signals[sig]) {
-            // Stop listening if there are no connected slots.
+            /* Stop listening if there are no connected slots. */
             if (src._listeners && src._listeners[sig] &&
                 src._signals[sig].length === 0) {
 
@@ -662,13 +578,6 @@ MochiKit.Base.update(MochiKit.Signal, {
     },
 
     signal: function (src, sig) {
-        /***
-
-			This will signal a signal, passing whatever additional parameters
-			on to the connected slots. 'src' and 'signal' are the same as for
-			'connect()'.
-
-        ***/
         if (typeof(src) == 'string') {
             src = MochiKit.DOM.getElement(src);
         }
@@ -716,48 +625,8 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
 
-    registerSignals: function (src, signals) {
-        /***
-
-			This will register signals for the object 'src'. (Note that a
-			string here is not allowed--you don't need to register signals for
-			DOM objects.) 'signals' is an array of strings.
-
-			You may register the same signals multiple times; subsequent
-			register calls with the same signal names will have no effect, and
-			the existing connections, if any, will not be lost.
-
-        ***/
-        if (!src._signals) {
-            src._signals = {
-                /*
-                __repr__: function () {
-                    var m = MochiKit.Base;
-                    var signals = m.items(this);
-                    signals = m.filter(
-                        function (a) { return a[0] != "__repr__"; },
-                        signals
-                    );
-                    signals.sort(m.compare);
-                    return (
-                        '{\n    ' + m.map(
-                            function (a) {
-                                return m.map(m.repr, a).join(": ")
-                            },
-                            signals
-                        ).join(",\n    ") + "\n}"
-                    );
-                }
-                */
-            };
-        }
-
-        for (var i = 0; i < signals.length; i++) {
-            var sig = signals[i];
-            if (!src._signals[sig]) {
-                src._signals[sig] = [];
-            }
-        }
+    toString: function () {
+        return this.__repr__();
     }
 });
 
@@ -766,8 +635,7 @@ MochiKit.Signal.EXPORT_OK = [];
 MochiKit.Signal.EXPORT = [
     'connect',
     'disconnect',
-    'signal',
-    'registerSignals'
+    'signal'
 ];
 
 MochiKit.Signal.__new__ = function (win) {
