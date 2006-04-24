@@ -24,7 +24,7 @@ KeyEvents = {
 KeyEvents.specialKeyMap = {
     'KEY_F1': KeyEvents.handleF1,
     'KEY_ESCAPE': KeyEvents.handleEscape
-}
+};
 
 connect(document, 'onkeydown', 
     function(e) {

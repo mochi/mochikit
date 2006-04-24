@@ -87,18 +87,12 @@ MochiKit.Signal.Event.prototype.key = function () {
 
 			If you're looking for a special key, look for it in keydown or
 			keyup, but never keypress. If you're looking for a Unicode
-			chracter, look for it with keypress, but never kd or ku.
-
-			keyCode will contain the raw key code in a kd/ku event keyString
-			will contain a human-redable keyCode.
-
-			charCode will contain the raw character code in a kp event
-			charString will contain the actual character.
+			chracter, look for it with keypress, but never keyup or keydown.
 	
 			Notes:
 	
 			FF key event behavior:
-			key event       charCode    keyCode
+			key     event   charCode    keyCode
 			DOWN    ku,kd   0           40
 			DOWN    kp      0           40
 			ESC     ku,kd   0           27
@@ -113,6 +107,7 @@ MochiKit.Signal.Event.prototype.key = function () {
 			shift+1 kp      33          0
 	
 			IE key event behavior:
+			(IE doesn't fire keypress events for special keys.)
 			key     event   keyCode
 			DOWN    ku,kd   40
 			DOWN    kp      undefined
@@ -128,6 +123,8 @@ MochiKit.Signal.Event.prototype.key = function () {
 			shift+1 kp      33
 
 			Safari key event behavior:
+			(Safari sets charCode and keyCode to something crazy for
+			special keys.)
 			key     event   charCode    keyCode
 			DOWN    ku,kd   63233       40
 			DOWN    kp      63233       63233
@@ -144,19 +141,25 @@ MochiKit.Signal.Event.prototype.key = function () {
 
         */
 
-        // look for special keys here
+        /* look for special keys here */
         if (this.type() == 'keydown' || this.type() == 'keyup') {
             k.code = this._event.keyCode;
             k.string = (MochiKit.Signal._specialKeys[k.code] ||
                 'KEY_UNKNOWN');
             return k;
         
-        // look for unicode characters here
+        /* look for characters here */
         } else if (this.type() == 'keypress') {
             
-            // IE does not fire keypress events for special keys
-            // FF fires, but sets charCode to 0, and sets the correct keyCode
-            // Safari fires, and sets keyCode and charCode to something stupid
+            /*
+            
+                Special key behavior:
+                
+                IE: does not fire keypress events for special keys
+                FF: sets charCode to 0, and sets the correct keyCode
+                Safari sets keyCode and charCode to something stupid
+            
+            */
             
             k.code = 0;
             k.string = '';
@@ -166,7 +169,8 @@ MochiKit.Signal.Event.prototype.key = function () {
                 !MochiKit.Signal._specialMacKeys[this._event.charCode]) {
                 k.code = this._event.charCode;
                 k.string = String.fromCharCode(k.code);
-            } else if (this._event.keyCode && typeof(this._event.charCode) == 'undefined') { // IE
+            } else if (this._event.keyCode && 
+                typeof(this._event.charCode) == 'undefined') { // IE
                 k.code = this._event.keyCode;
                 k.string = String.fromCharCode(k.code);
             }
@@ -174,11 +178,16 @@ MochiKit.Signal.Event.prototype.key = function () {
             return k;
         }
     }
-    throw new Error('This is not a key event');
+    throw new Error('Signal cannot handle this type of key event');
 };
 
 MochiKit.Signal.Event.prototype._fixPoint = function (point) {
-    // inline this for performance?
+    /* 
+    
+        FIXME: inline this to avoid funciton call overhead? Does JS have
+        function call overhead?
+        
+    */
     if (typeof(point) == 'undefined' || point < 0) {
         return 0;
     }
@@ -186,9 +195,6 @@ MochiKit.Signal.Event.prototype._fixPoint = function (point) {
 };
 
 MochiKit.Signal.Event.prototype.mouse = function () {
-
-    // mouse events
-
     var m = {};
     if (this.type() && (
         this.type().indexOf('mouse') === 0 ||
@@ -208,35 +214,33 @@ MochiKit.Signal.Event.prototype.mouse = function () {
         } else {
             /*
             
-				IE keeps the document offset in
-				document.documentElement.clientTop ||
-				document.body.clientTop
+				IE keeps the document offset in:
+    				document.documentElement.clientTop ||
+    				document.body.clientTop
 				
-				and
-				
-				document.documentElement.clientLeft ||
-				document.body.clientLeft
+				and:
+    				document.documentElement.clientLeft ||
+    				document.body.clientLeft
 
+                see:
 				http://msdn.microsoft.com/workshop/author/dhtml/reference/
 				    methods/getboundingclientrect.asp
 
-				The offset is (2,2) in standards mode and (0,0) in quirks mode.
+				The offset is (2,2) in standards mode and (0,0) in quirks 
+				mode.
 				
             */
             
-            var d = MochiKit.DOM._document;
+            var de = MochiKit.DOM._document.documentElement;
+            var b = MochiKit.DOM._document.body;
             
             m.page.x = this._event.clientX +
-                (d.documentElement.scrollLeft || 
-                d.body.scrollLeft) - 
-                (d.documentElement.clientLeft || 
-                d.body.clientLeft);
+                (de.scrollLeft || b.scrollLeft) - 
+                (de.clientLeft || b.clientLeft);
             
             m.page.y = this._event.clientY +
-                (d.documentElement.scrollTop || 
-                d.body.scrollTop) - 
-                (d.documentElement.clientTop || 
-                d.body.clientTop);
+                (de.scrollTop || b.scrollTop) - 
+                (de.clientTop || b.clientTop);
             
         }
         if (this.type() != 'mousemove') {
@@ -340,8 +344,9 @@ MochiKit.Signal.Event.prototype.__repr__ = function () {
 
 MochiKit.Signal.Event.prototype.toString = function() {
     return this.__repr__();
-}
+};
 
+/* Safari sets keyCode to these special values onkeypress. */
 MochiKit.Signal._specialMacKeys = {
     63289: 'KEY_NUM_PAD_CLEAR',
     63276: 'KEY_PAGE_UP',
@@ -354,17 +359,18 @@ MochiKit.Signal._specialMacKeys = {
     63233: 'KEY_ARROW_DOWN',
     63302: 'KEY_INSERT',
     63272: 'KEY_DELETE'
-}
+};
 
 /* for KEY_F1 - KEY_F12 */
 for (i = 63236; i <= 63242; i++) {
     MochiKit.Signal._specialMacKeys[i] = 'KEY_F' + (i - 63236 + 1); // no F0
 }
 
+/* Standard keyboard key codes. */
 MochiKit.Signal._specialKeys = {
     8: 'KEY_BACKSPACE',
     9: 'KEY_TAB',
-    12: 'KEY_NUM_PAD_CLEAR', // for WebKit and Mac FF anyway -- Safari charCode: 63289
+    12: 'KEY_NUM_PAD_CLEAR', // weird, for Safari and Mac FF only
     13: 'KEY_ENTER',
     16: 'KEY_SHIFT',
     17: 'KEY_CTRL',
@@ -373,18 +379,18 @@ MochiKit.Signal._specialKeys = {
     20: 'KEY_CAPS_LOCK',
     27: 'KEY_ESCAPE',
     32: 'KEY_SPACEBAR',
-    33: 'KEY_PAGE_UP', // Safari charCode: 63276
-    34: 'KEY_PAGE_DOWN', // Safari charCode: 63277
-    35: 'KEY_END', // Safari charCode: 63275
-    36: 'KEY_HOME', // Safari charCode: 63273
-    37: 'KEY_ARROW_LEFT', // Safari charCode: 63234
-    38: 'KEY_ARROW_UP', // Safari charCode: 63232
-    39: 'KEY_ARROW_RIGHT', // Safari charCode: 63235
-    40: 'KEY_ARROW_DOWN', // Safari charCode: 63233
+    33: 'KEY_PAGE_UP',
+    34: 'KEY_PAGE_DOWN',
+    35: 'KEY_END',
+    36: 'KEY_HOME',
+    37: 'KEY_ARROW_LEFT',
+    38: 'KEY_ARROW_UP',
+    39: 'KEY_ARROW_RIGHT',
+    40: 'KEY_ARROW_DOWN',
     44: 'KEY_PRINT_SCREEN', 
-    45: 'KEY_INSERT', // Safari charCode: 63302
-    46: 'KEY_DELETE', // Safari charCode: 63272
-    59: 'KEY_SEMICOLON', // weird, for WebKit and IE
+    45: 'KEY_INSERT',
+    46: 'KEY_DELETE',
+    59: 'KEY_SEMICOLON', // weird, for Safari and IE only
     91: 'KEY_WINDOWS_LEFT', 
     92: 'KEY_WINDOWS_RIGHT', 
     93: 'KEY_SELECT', 
@@ -441,7 +447,8 @@ MochiKit.Base.update(MochiKit.Signal, {
 
     _getSlot: function (slot, func) {
         if (typeof(func) == 'string' || typeof(func) == 'function') {
-            if (typeof(func) == 'string' && typeof(slot[func]) == 'undefined') {
+            if (typeof(func) == 'string' && 
+                typeof(slot[func]) == 'undefined') {
                 throw new Error('Invalid function slot');
             }
             slot = [slot, func];
@@ -537,7 +544,7 @@ MochiKit.Base.update(MochiKit.Signal, {
 
         slot = MochiKit.Signal._getSlot(slot, func);
 
-        // Find the signal, attach the slot.
+        /* Find the signal, attach the slot. */
         
         if (src.addEventListener || src.attachEvent || src[sig]) {
             /* 
@@ -550,7 +557,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                 src._listeners = {};
             }
 
-            // Add the signal connector if it hasn't been done already.
+            /* Add the signal connector if it hasn't been done already. */
             if (!src._listeners[sig]) {
                 var listener = function (nativeEvent) {
                     var eventObject = new MochiKit.Signal.Event(nativeEvent);
@@ -582,7 +589,7 @@ MochiKit.Base.update(MochiKit.Signal, {
             }
         }
 
-        // Actually add the slot... if it isn't there already.
+        /* Actually add the slot... if it isn't there already. */
         var signals = src._signals[sig];
         for (var i = 0; i < signals.length; i++) {
             var s = signals[i];
@@ -597,9 +604,9 @@ MochiKit.Base.update(MochiKit.Signal, {
         /***
 
 			When 'disconnect()' is called, it will disconnect whatever
-			connection was made given the same parameters to 'connect()'. Note
-			that if you want to pass a closure to 'connect()', you'll have to
-			remember it if you want to later 'disconnect()' it.
+            connection was made given the same parameters to 'connect()'. Note
+            that if you want to pass a closure to 'connect()', you'll have to
+            remember it if you want to later 'disconnect()' it.
 
         ***/
         if (typeof(src) == 'string') {
@@ -780,7 +787,6 @@ MochiKit.Signal.__new__ = function (win) {
     };
 
     m.nameFunctions(this);
-
 };
 
 MochiKit.Signal.__new__(this);

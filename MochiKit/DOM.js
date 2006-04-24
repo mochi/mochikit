@@ -230,30 +230,27 @@ MochiKit.Base.update(MochiKit.DOM, {
         var parent = null;
         
         var d = MochiKit.DOM._document;
-                
+        var de = d.documentElement;
+        var b = d.body;            
+    
         if (elem.getBoundingClientRect) { // IE shortcut
             
             /*
             
                 The IE shortcut is off by two:
-                
                 http://msdn.microsoft.com/workshop/author/dhtml/reference/
                     methods/getboundingclientrect.asp
                 
             */
             box = elem.getBoundingClientRect();
-            
+                        
             c.x += box.left + 
-                (d.documentElement.scrollLeft || 
-                d.body.scrollLeft) - 
-                (d.documentElement.clientLeft || 
-                d.body.clientLeft);
+                (de.scrollLeft || b.scrollLeft) - 
+                (de.clientLeft || b.clientLeft);
             
             c.y += box.top + 
-                (d.documentElement.scrollTop || 
-                d.body.scrollTop) - 
-                (d.documentElement.clientTop || 
-                d.body.clientTop);
+                (de.scrollTop || b.scrollTop) - 
+                (de.clientTop || b.clientTop);
             
         } else if (d.getBoxObjectFor) { // Gecko shortcut
             box = d.getBoxObjectFor(elem);
@@ -277,13 +274,13 @@ MochiKit.Base.update(MochiKit.DOM, {
                 Opera & (Safari absolute) incorrectly account for body 
                 offsetTop and offsetLeft.
                 
-            */            
+            */
             var ua = navigator.userAgent.toLowerCase();
             if (ua.indexOf('opera') != -1 || 
                 (ua.indexOf('safari') != -1 && 
                 self.computedStyle(elem, 'position') == 'absolute')) {
-                c.x -= d.body.offsetLeft;
-                c.y -= d.body.offsetTop;
+                c.x -= b.offsetLeft;
+                c.y -= b.offsetTop;
             }
         }
         
@@ -301,7 +298,8 @@ MochiKit.Base.update(MochiKit.DOM, {
             parent = null;
         }
         
-        while (parent && parent.tagName != 'BODY' && parent.tagName != 'HTML') {
+        while (parent && parent.tagName != 'BODY' && 
+            parent.tagName != 'HTML') {
             c.x -= parent.scrollLeft;
             c.y -= parent.scrollTop;        
             if (parent.parentNode) {
@@ -638,7 +636,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         var self = MochiKit.DOM;
         var m = MochiKit.Base;
         if (typeof(attrs) == "string") {
-            var args = m.extend([name, null], arguments, 1)
+            var args = m.extend([name, null], arguments, 1);
             return arguments.callee.apply(this, args);
         }
         if (typeof(name) == 'string') {
