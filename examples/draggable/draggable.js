@@ -4,6 +4,9 @@
     
 */
 Drag = {
+    _move: null,
+    _down: null,
+    
     start: function(e) {
         e.stop();
         
@@ -19,8 +22,8 @@ Drag = {
             e.mouse().page,
             elementPosition(Drag._target));
         
-        connect(document, 'onmousemove', Drag._drag);
-        connect(document, 'onmouseup', Drag._stop);
+        Drag._move = connect(document, 'onmousemove', Drag._drag);
+        Drag._down = connect(document, 'onmouseup', Drag._stop);
     },
 
     _offset: null,
@@ -38,8 +41,8 @@ Drag = {
     },
     
     _stop: function(e) {
-        disconnect(document, 'onmousemove', Drag._drag);
-        disconnect(document, 'onmouseup', Drag._stop);
+        disconnect(Drag._move);
+        disconnect(Drag._down);
     }
 };
 

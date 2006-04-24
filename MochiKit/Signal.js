@@ -49,19 +49,6 @@ MochiKit.Signal.Event = function (e) {
 
 MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
-    _fixPoint: function (point) {
-        /* 
-    
-            FIXME: inline this to avoid funciton call overhead? Does JS have
-            function call overhead? This code needs test coverage.
-        
-        */
-        if (typeof(point) == 'undefined' || point < 0) {
-            return 0;
-        }
-        return point;
-    },
-
     event: function () {
         return this._event;
     },
@@ -89,7 +76,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
         var m = {};
         m.alt = this._event.altKey;
         m.ctrl = this._event.ctrlKey;
-        m.meta = this._event.metaKey || false; // ie and opera punt here
+        m.meta = this._event.metaKey || false; // IE and Opera punt here
         m.shift = this._event.shiftKey;
         return m;
     },
@@ -194,26 +181,30 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                 return k;
             }
         }
-        throw new Error('Signal cannot handle this type of key event');
+        throw new Error('This is not a key event');
     },
 
     mouse: function () {
         var m = {};
+        var e = this._event;
+        
         if (this.type() && (
             this.type().indexOf('mouse') === 0 ||
             this.type().indexOf('click') != -1 ||
             this.type() == 'contextmenu')) {
-
+            
+            
+            
             m.client = new MochiKit.DOM.Coordinates(0, 0);
-            if (this._event.clientX || this._event.clientY) {
-                m.client.x = this._fixPoint(this._event.clientX);
-                m.client.y = this._fixPoint(this._event.clientY);
+            if (e.clientX || e.clientY) {
+                m.client.x = (!e.clientX || e.clientX < 0) ? 0 : e.clientX;
+                m.client.y = (!e.clientY || e.clientY < 0) ? 0 : e.clientY;
             }
 
             m.page = new MochiKit.DOM.Coordinates(0, 0);
-            if (this._event.pageX || this._event.pageY) {
-                m.page.x = this._fixPoint(this._event.pageX);
-                m.page.y = this._fixPoint(this._event.pageY);
+            if (e.pageX || e.pageY) {
+                m.page.x = (!e.pageX || e.pageX < 0) ? 0 : e.pageX;
+                m.page.y = (!e.pageY || e.pageY < 0) ? 0 : e.pageY;
             } else {
                 /*
             
@@ -236,11 +227,11 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                 var de = MochiKit.DOM._document.documentElement;
                 var b = MochiKit.DOM._document.body;
             
-                m.page.x = this._event.clientX +
+                m.page.x = e.clientX +
                     (de.scrollLeft || b.scrollLeft) - 
                     (de.clientLeft || b.clientLeft);
             
-                m.page.y = this._event.clientY +
+                m.page.y = e.clientY +
                     (de.scrollTop || b.scrollTop) - 
                     (de.clientTop || b.clientTop);
             
@@ -251,11 +242,11 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                 m.button.right = false;
                 m.button.middle = false;
 
-                /* we could check this._event.button, but which is more consistent */
-                if (this._event.which) {
-                    m.button.left = (this._event.which == 1);
-                    m.button.middle = (this._event.which == 2);
-                    m.button.right = (this._event.which == 3);
+                /* we could check e.button, but which is more consistent */
+                if (e.which) {
+                    m.button.left = (e.which == 1);
+                    m.button.middle = (e.which == 2);
+                    m.button.right = (e.which == 3);
 
                     /*
                 
@@ -269,15 +260,15 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 						  
     						- Opera fires the event, and sets metaKey = true
 					
-    					oncontextmenu is fired on right clicks between browsers 
-    					and across platforms.
+    					oncontextmenu is fired on right clicks between 
+    					browsers and across platforms.
 					
                     */
                 
                 } else {
-                    m.button.left = !!(this._event.button & 1);
-                    m.button.right = !!(this._event.button & 2);
-                    m.button.middle = !!(this._event.button & 4);
+                    m.button.left = !!(e.button & 1);
+                    m.button.right = !!(e.button & 2);
+                    m.button.middle = !!(e.button & 4);
                 }
             }
             return m;
@@ -406,48 +397,16 @@ MochiKit.Base.update(MochiKit.Signal, {
         return '[' + this.NAME + ' ' + this.VERSION + ']';
     },
 
-    _getSlot: function (slot, func) {
-        if (typeof(func) == 'string' || typeof(func) == 'function') {
-            if (typeof(func) == 'string' && 
-                typeof(slot[func]) == 'undefined') {
-                throw new Error('Invalid function slot');
-            }
-            slot = [slot, func];
-        } else if (!func && typeof(slot) == 'function') {
-            slot = [slot];
-        } else {
-            throw new Error('Invalid slot parameters');
-        }
-
-        return slot;
-    },
-
     _unloadCache: function () {
-        for (var i = 0; i < MochiKit.Signal._observers.length; i++) {
-            var src = MochiKit.Signal._observers[i][0];
-            var sig = MochiKit.Signal._observers[i][1];
-            var listener = MochiKit.Signal._observers[i][2];
-
-            try {
-                if (src.removeEventListener) {
-                    src.removeEventListener(sig.substr(2), listener, false);
-                } else if (src.detachEvent) {
-                    src.detachEvent(sig, listener);
-                } else {
-                    delete(src._signals[sig]);
-                }
-                
-                delete(src._listeners[sig]);
-                delete(src._listeners);
-                delete(src._signals);
-                
-            } catch(e) {
-                // pass
-            }
+        var self = MochiKit.Signal;
+        var observers = self._observers;
+        
+        for (var i = 0; i < observers.length; i++) {
+            self._disconnect(observers[i]);
         }
         
-        MochiKit.Signal._observers = undefined;
-
+        delete self._observers;
+        
         try {
             window.onload = undefined;
         } catch(e) {
@@ -461,168 +420,109 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
 
-    connect: function (src, sig, slot, /* optional */func) {
-        if (typeof(src) == 'string') {
-            src = MochiKit.DOM.getElement(src);
+    _listener: function (func, obj) {
+        return function (nativeEvent) {
+            func.apply(obj, [new MochiKit.Signal.Event(nativeEvent)]);
         }
-
+    },
+    
+    connect: function (src, sig, objOrFunc/* optional */, funcOrStr) {
+        src = MochiKit.DOM.getElement(src);
+        var self = MochiKit.Signal;
+        
         if (typeof(sig) != 'string') {
             throw new Error("'sig' must be a string");
         }
-
-        slot = MochiKit.Signal._getSlot(slot, func);
         
-        /* 
-        
-			Create the _listeners object. This will help us remember which
-			events we are watching.
-			
-        */
-        if (!src._listeners) {
-            src._listeners = {};
-        }
-
-        /* Add the signal connector if it hasn't been done already. */
-        if (!src._listeners[sig]) {
-            var listener = function (nativeEvent) {
-                var eventObject = new MochiKit.Signal.Event(nativeEvent);
-                MochiKit.Signal.signal(src, sig, eventObject);
-                return true;
-            };
-            MochiKit.Signal._observers.push([src, sig, listener]);
-
-            if (src.addEventListener) {
-                src.addEventListener(sig.substr(2), listener, false);
-            } else if (src.attachEvent) {
-                src.attachEvent(sig, listener); // useCapture unsupported
-            } else {
-                src[sig] = listener;
-            }
-
-            src._listeners[sig] = listener;
-        }
-
-        if (!src._signals) {
-            src._signals = {};
-        }
-        if (!src._signals[sig]) {
-            src._signals[sig] = [];
-        }
-
-        /* Actually add the slot... if it isn't there already. */
-        var signals = src._signals[sig];
-        for (var i = 0; i < signals.length; i++) {
-            var s = signals[i];
-            if (slot[0] === s[0] && slot[1] === s[1] && slot[2] === s[2]) {
-                return;
+        if (typeof(funcOrStr) != 'undefined') {
+            if (typeof(funcOrStr) == 'string' && 
+                typeof(objOrFunc[funcOrStr]) == 'undefined') {
+                throw new Error("'funcOrStr' must be a function on 'objOrFunc'");
+            } else if (typeof(funcOrStr) != 'function') {
+                throw new Error("'funcOrStr' must be a function or string");
             }
         }
-        signals.push(slot);
+        
+        var listener = null;
+        
+        var _listener = self._listener;
+        if (typeof(objOrFunc) == 'function') {
+            listener = _listener(objOrFunc, null);
+        } else if (typeof(funcOrStr) == 'function') {
+            listener = _listener(funcOrStr, objOrFunc);
+        } else if (typeof(funcOrStr) == 'string') {
+            listener = _listener(objOrFunc[funcOrStr], objOrFunc);
+        }
+        
+        var ident = [src, sig, listener];
+        self._observers.push(ident);
+        
+        if (src.addEventListener) {
+            src.addEventListener(sig.substr(2), listener, false);
+        } else if (src.attachEvent) {
+            src.attachEvent(sig, listener); // useCapture unsupported
+        } else {
+            throw new Error("'src' must be a DOM element");
+        }
+        
+        return ident;
     },
-
-    disconnect: function (src, sig, slot, /* optional */func) {
-        if (typeof(src) == 'string') {
-            src = MochiKit.DOM.getElement(src);
+    
+    _disconnect: function (ident) {
+        var src = ident[0];
+        var sig = ident[1];
+        var listener = ident[2];
+        if (src.removeEventListener) {
+            src.removeEventListener(sig.substr(2), listener, false);
+        } else if (src.detachEvent) {
+            src.detachEvent(sig, listener); // useCapture unsupported
+        } else {
+            throw new Error("'src' must be a DOM element");
         }
-
-        if (typeof(sig) != 'string') {
-            throw new Error("'signal' must be a string");
+    },
+    
+    disconnect: function (ident) {
+        var self = MochiKit.Signal;
+        var observers = self._observers;
+        var idx = MochiKit.Base.findIdentical(observers, ident);
+        if (idx >= 0) {
+            self._disconnect(observers[idx]);
+            observers.splice(idx, 1);
+            return true;
         }
-
-        slot = MochiKit.Signal._getSlot(slot, func);
-
-        if (src._signals && src._signals[sig]) {
-            var signals = src._signals[sig];
-            var origlen = signals.length;
-            for (var i = 0; i < signals.length; i++) {
-                var s = signals[i];
-                if (s[0] === slot[0] && 
-                    s[1] === slot[1] && 
-                    s[2] === slot[2]) {
-                        
-                    signals.splice(i, 1);
-                    break;
-                    
+        return false;
+    },
+    
+    disconnectAll: function(src/* optional */, sig) {
+        src = MochiKit.DOM.getElement(src);
+        var m = MochiKit.Base;
+        var signals = m.flattenArguments(m.extend(null, arguments, 1));
+        var self = MochiKit.Signal;
+        var disconnect = self._disconnect;
+        var observers = self._observers;
+        if (signals.length == 0) {
+            // disconnect all
+            for (var i = observers.length - 1; i >= 0; i--) {
+                var ident = observers[i];
+                if (ident[0] === src) {
+                    disconnect(ident);
+                    observers.splice(i, 1);
                 }
             }
         } else {
-            throw new Error('Invalid signal to disconnect');
+            var sigs = {};
+            for (var i = 0; i < signals.length; i++) {
+                sigs[signals[i]] = true;
+            }
+            for (var i = observers.length - 1; i >= 0; i--) {
+                var ident = observers[i];
+                if (ident[0] === src && ident[1] in sigs) {
+                    disconnect(ident);
+                    observers.splice(i, 1);
+                }
+            }
         }
         
-        if (src.addEventListener || src.attachEvent || src._signals[sig]) {
-            /* Stop listening if there are no connected slots. */
-            if (src._listeners && src._listeners[sig] &&
-                src._signals[sig].length === 0) {
-
-                var listener = src._listeners[sig];
-
-                if (src.removeEventListener) {
-                    src.removeEventListener(sig.substr(2), listener, false);
-                } else if (src.detachEvent) {
-                    src.detachEvent(sig, listener);
-                } else {
-                    src._signals[sig] = undefined;
-                }
-
-                var observers = MochiKit.Signal._observers;
-                for (var i = 0; i < observers.length; i++) {
-                    var o = observers[i];
-                    if (o[0] === src && o[1] === sig && o[2] === listener) {
-                        observers.splice(i, 1);
-                        break;
-                    }
-                }
-                src._listeners[sig] = undefined;
-            }
-        }
-    },
-
-    signal: function (src, sig) {
-        if (typeof(src) == 'string') {
-            src = MochiKit.DOM.getElement(src);
-        }
-
-        if (typeof(sig) != 'string') {
-            throw new Error("'signal' must be a string");
-        }
-
-        if (!src._signals || !src._signals[sig]) {
-            if (src.addEventListener || src.attachEvent || src[sig]) {
-                // Ignored.
-                return;
-            } else {
-                throw new Error("No such signal '" + sig + "'");
-            }
-        }
-        var slots = src._signals[sig];
-
-        var args = MochiKit.Base.extend(null, arguments, 2);
-
-        var slot;
-        var errors = [];
-        for (var i = 0; i < slots.length; i++) {
-            slot = slots[i];
-            try {
-                if (slot.length == 1) {
-                    slot[0].apply(src, args);
-                } else {
-                    if (typeof(slot[1]) == 'string') {
-                        slot[0][slot[1]].apply(slot[0], args);
-                    } else {
-                        slot[1].apply(slot[0], args);
-                    }
-                }
-            } catch (e) {
-                errors.push(e);
-            }
-        }
-        if (errors.length == 1) {
-            throw errors[0];
-        } else if (errors.length) {
-            var e = new Error("There were errors in handling signal 'sig'.");
-            e.errors = errors;
-            throw e;
-        }
     },
 
     toString: function () {
@@ -635,7 +535,7 @@ MochiKit.Signal.EXPORT_OK = [];
 MochiKit.Signal.EXPORT = [
     'connect',
     'disconnect',
-    'signal'
+    'disconnectAll'
 ];
 
 MochiKit.Signal.__new__ = function (win) {
@@ -662,8 +562,8 @@ MochiKit.Signal.__new__(this);
 //
 // XXX: Internet Explorer blows
 //
-signal = MochiKit.Signal.signal;
 connect = MochiKit.Signal.connect;
 disconnect = MochiKit.Signal.disconnect;
+disconnectAll = MochiKit.Signal.disconnectAll;
 
 MochiKit.Base._exportSymbols(this, MochiKit.Signal);

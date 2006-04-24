@@ -4,12 +4,9 @@ if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_Signal = function (t) {
     
-    var hasNoSignals = {};
-    
-    var hasSignals = {someVar: 1};
-
+    var submit = MochiKit.DOM.getElement('submit');
+    var ident = null;
     var i = 0;
-        
     var aFunction = function() {
         i++;
         if (typeof(this.someVar) != 'undefined') {
@@ -21,171 +18,25 @@ tests.test_Signal = function (t) {
     aObject.aMethod = function() {
         i++;
     };
-    
-    aObject.bMethod = function() {
-        i++;
-    };
-    
-    var bObject = {};
-    bObject.bMethod = function() {
-        i++;
-    };
 
-
-    connect(hasSignals, 'signalOne', aFunction);
-    signal(hasSignals, 'signalOne');
-    t.is(i, 2, 'Connecting function');
-
-    disconnect(hasSignals, 'signalOne', aFunction);
-    signal(hasSignals, 'signalOne');
-    t.is(i, 2, 'Disconnecting function');
-
-
-    connect(hasSignals, 'signalOne', aObject, aObject.aMethod);
-    signal(hasSignals, 'signalOne');
-    t.is(i, 3, 'Connecting obj-function');
-
-    disconnect(hasSignals, 'signalOne', aObject, aObject.aMethod);
-    signal(hasSignals, 'signalOne');
-    t.is(i, 3, 'Disconnecting obj-function');
-
-
-    connect(hasSignals, 'signalTwo', aObject, 'aMethod');
-    signal(hasSignals, 'signalTwo');
-    t.is(i, 4, 'Connecting obj-string');
-
-    disconnect(hasSignals, 'signalTwo', aObject, 'aMethod');
-    signal(hasSignals, 'signalTwo');
-    t.is(i, 4, 'Disconnecting obj-string');
-
-
-    var shouldRaise = function() { return undefined.attr; };
-
-    try {
-        connect(hasSignals, 'signalOne', shouldRaise);
-        signal(hasSignals, 'signalOne');
-        t.ok(false, 'An exception was not raised');
-    } catch (e) {
-        t.ok(true, 'An exception was raised');
-    }
-    disconnect(hasSignals, 'signalOne', shouldRaise);
-
-    
-    connect('submit', 'onclick', aFunction);
+    ident = connect('submit', 'onclick', aFunction);
     MochiKit.DOM.getElement('submit').click();
-    t.is(i, 5, 'HTML onclick event can be connected to a function');
+    t.is(i, 1, 'HTML onclick event can be connected to a function');
 
-    disconnect('submit', 'onclick', aFunction);
+    disconnect(ident);
     MochiKit.DOM.getElement('submit').click();
-    t.is(i, 5, 'HTML onclick can be disconnected from a function');
-
+    t.is(i, 1, 'HTML onclick can be disconnected from a function');
 
     var submit = MochiKit.DOM.getElement('submit');
 
-    connect(submit, 'onclick', aFunction);
+    ident = connect(submit, 'onclick', aFunction);
     submit.click();
-    t.is(i, 6, 'Checking that a DOM element can be connected to a function');
+    t.is(i, 2, 'Checking that a DOM element can be connected to a function');
 
-    disconnect(submit, 'onclick', aFunction);
+    disconnect(ident);
     submit.click();
-    t.is(i, 6, '...and then disconnected');
-
-
-    connect(hasSignals, 'signalOne', aObject, 'aMethod');
-    connect(hasSignals, 'signalOne', aObject, 'bMethod');
-    signal(hasSignals, 'signalOne');
-    t.is(i, 8, 'Connecting one signal to two slots in one object');
+    t.is(i, 2, '...and then disconnected');    
     
-    disconnect(hasSignals, 'signalOne', aObject, 'aMethod');
-    disconnect(hasSignals, 'signalOne', aObject, 'bMethod');
-    signal(hasSignals, 'signalOne');
-    t.is(i, 8, 'Disconnecting one signal from two slots in one object');
-
-
-    connect(hasSignals, 'signalOne', aObject, 'aMethod');
-    connect(hasSignals, 'signalOne', bObject, 'bMethod');
-    signal(hasSignals, 'signalOne');
-    t.is(i, 10, 'Connecting one signal to two slots in two objects');
-
-    disconnect(hasSignals, 'signalOne', aObject, 'aMethod');
-    disconnect(hasSignals, 'signalOne', bObject, 'bMethod');
-    signal(hasSignals, 'signalOne');
-    t.is(i, 10, 'Disconnecting one signal from two slots in two objects');
-    
-
-    try {
-        connect('submit', 'onclick', null);
-        submit.click();
-        t.ok(false, 'An exception was not raised when connecting null');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when connecting null');
-    }
-    try {
-        disconnect('submit', 'onclick', null);
-        t.ok(false, 'An exception was not raised when disconnecting null');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when disconnecting null');
-    }
-    
-    
-    try {
-        connect(nothing, 'signalOne', aObject, 'aMethod');
-        signal(nothing, 'signalOne');
-        t.ok(false, 'An exception was not raised when connecting undefined');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when connecting undefined');
-    }
-    try {
-        disconnect(nothing, 'signalOne', aObject, 'aMethod');
-        t.ok(false, 'An exception was not raised when disconnecting undefined');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when disconnecting undefined');
-    }
-    
-    
-    try {
-        connect(hasSignals, 'signalOne', nothing);
-        signal(hasSignals, 'signalOne');
-        t.ok(false, 'An exception was not raised when connecting an undefined function');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when connecting an undefined function');
-    }
-    try {
-        disconnect(hasSignals, 'signalOne', nothing);
-        t.ok(false, 'An exception was not raised when disconnecting an undefined function');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when disconnecting an undefined function');
-    }
-    
-    
-    try {
-        connect(hasSignals, 'signalOne', aObject, aObject.nothing);
-        signal(hasSignals, 'signalOne');
-        t.ok(false, 'An exception was not raised when connecting an undefined method');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when connecting an undefined method');
-    }
-    try {
-        disconnect(hasSignals, 'signalOne', aObject, aObject.nothing);
-        t.ok(false, 'An exception was not raised when disconnecting an undefined method');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when disconnecting an undefined method');
-    }
-    
-    try {
-        connect(hasSignals, 'signalOne', aObject, 'nothing');
-        signal(hasSignals, 'signalOne');
-        t.ok(false, 'An exception was not raised when connecting an undefined method (as string)');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when connecting an undefined method (as string)');
-    }
-    try {
-        disconnect(hasSignals, 'signalOne', aObject, 'nothing');
-        t.ok(false, 'An exception was not raised when disconnecting an undefined method (as string)');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when disconnecting an undefined method (as string)');
-    }
-            
     if (MochiKit.DOM.getElement('submit').fireEvent || 
         (document.createEvent && 
         (typeof(document.createEvent('MouseEvents').initMouseEvent) == 'function'))) {
@@ -246,13 +97,13 @@ tests.test_Signal = function (t) {
         };
 
         
-        connect('submit', 'onmousedown', eventTest);
+        ident = connect('submit', 'onmousedown', eventTest);
         triggerMouseEvent('submit', 'mousedown', false);
-        t.is(i, 11, 'Connecting an event to an HTML object and firing a synthetic event');
+        t.is(i, 3, 'Connecting an event to an HTML object and firing a synthetic event');
 
-        disconnect('submit', 'onmousedown', eventTest);
+        disconnect(ident);
         triggerMouseEvent('submit', 'mousedown', false);
-        t.is(i, 11, 'Disconnecting an event to an HTML object and firing a synthetic event');
+        t.is(i, 3, 'Disconnecting an event to an HTML object and firing a synthetic event');
         
     }    
 };
