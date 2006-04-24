@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.3.10: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
 <title>MochiKit.DateTime - &quot;what time is it anyway?&quot;</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -64,7 +64,7 @@ local timezone is used.</p>
 Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to a string in the form of hh:mm:ss</blockquote>
 <p>
 <a name="fn-toisotimestamp"></a>
-<a class="mochidef reference" href="#fn-toisotimestamp">toISOTimestamp(date, realISO)</a>:</p>
+<a class="mochidef reference" href="#fn-toisotimestamp">toISOTimestamp(date, realISO=false)</a>:</p>
 <blockquote>
 <p>Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to something that's ALMOST but not quite an
 ISO 8601 [1]_timestamp.  If it was a proper ISO timestamp it would be:</p>
@@ -83,17 +83,17 @@ you pass <tt class="docutils literal"><span class="pre">true</span></tt> for <tt
 Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an ISO 8601 <a class="footnote-reference" href="#id3" id="id2" name="id2">[1]</a> date string (YYYY-MM-DD)</blockquote>
 <p>
 <a name="fn-americandate"></a>
-<a class="mochidef reference" href="#fn-americandate">americanDate(d)</a>:</p>
+<a class="mochidef reference" href="#fn-americandate">americanDate(str)</a>:</p>
 <blockquote>
 Converts a MM/DD/YYYY date to a <tt class="docutils literal"><span class="pre">Date</span></tt> object</blockquote>
 <p>
 <a name="fn-topaddedamericandate"></a>
-<a class="mochidef reference" href="#fn-topaddedamericandate">toPaddedAmericanDate(d)</a>:</p>
+<a class="mochidef reference" href="#fn-topaddedamericandate">toPaddedAmericanDate(date)</a>:</p>
 <blockquote>
 Converts a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an MM/DD/YYYY date, e.g. 01/01/2001</blockquote>
 <p>
 <a name="fn-toamericandate"></a>
-<a class="mochidef reference" href="#fn-toamericandate">toAmericanDate(d)</a>:</p>
+<a class="mochidef reference" href="#fn-toamericandate">toAmericanDate(date)</a>:</p>
 <blockquote>
 Converts a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an M/D/YYYY date, e.g. 1/1/2001</blockquote>
 </div>
