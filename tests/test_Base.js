@@ -376,10 +376,10 @@ tests.test_Base = function (t) {
     t.is( c(), 2, "counter starts at 2" );
     t.is( c(), 3, "counter increases" );
 
-    t.is( find([1, 2, 3], 4), -1, "find returns -1 on not found");
-    t.is( find([1, 2, 3], 1), 0, "find returns correct index");
-    t.is( find([1, 2, 3], 1, 1), -1, "find honors start");
-    t.is( find([1, 2, 3], 2, 0, 1), -1, "find honors end");
+    t.is( findValue([1, 2, 3], 4), -1, "findValue returns -1 on not found");
+    t.is( findValue([1, 2, 3], 1), 0, "findValue returns correct index");
+    t.is( findValue([1, 2, 3], 1, 1), -1, "findValue honors start");
+    t.is( findValue([1, 2, 3], 2, 0, 1), -1, "findValue honors end");
     t.is( findIdentical([1, 2, 3], 4), -1, "findIdentical returns -1");
     t.is( findIdentical([1, 2, 3], 1), 0, "findIdentical returns correct index");
     t.is( findIdentical([1, 2, 3], 1, 1), -1, "findIdentical honors start");

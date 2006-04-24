@@ -206,7 +206,7 @@ return a&&b;
 return a||b;
 },contains:function(a,b){
 return b in a;
-}},forward:function(_30){
+}},forwardCall:function(_30){
 return function(){
 return this[_30].apply(this,arguments);
 };
@@ -688,7 +688,7 @@ return i;
 }
 }
 return -1;
-},find:function(lst,_101,_102,end){
+},findValue:function(lst,_101,_102,end){
 if(typeof (end)=="undefined"||end==null){
 end=lst.length;
 }
@@ -809,7 +809,7 @@ return true;
 }
 return false;
 }};
-MochiKit.Base.EXPORT=["counter","clone","extend","update","updatetree","setdefault","keys","items","NamedError","operator","forward","itemgetter","typeMatcher","isCallable","isUndefined","isUndefinedOrNull","isNull","isNotEmpty","isArrayLike","isDateLike","xmap","map","xfilter","filter","bind","bindMethods","NotFound","AdapterRegistry","registerComparator","compare","registerRepr","repr","objEqual","arrayEqual","concat","keyComparator","reverseKeyComparator","partial","merge","listMinMax","listMax","listMin","objMax","objMin","nodeWalk","zip","urlEncode","queryString","serializeJSON","registerJSON","evalJSON","parseQueryString","find","findIdentical","flattenArguments"];
+MochiKit.Base.EXPORT=["counter","clone","extend","update","updatetree","setdefault","keys","items","NamedError","operator","forwardCall","itemgetter","typeMatcher","isCallable","isUndefined","isUndefinedOrNull","isNull","isNotEmpty","isArrayLike","isDateLike","xmap","map","xfilter","filter","bind","bindMethods","NotFound","AdapterRegistry","registerComparator","compare","registerRepr","repr","objEqual","arrayEqual","concat","keyComparator","reverseKeyComparator","partial","merge","listMinMax","listMax","listMin","objMax","objMin","nodeWalk","zip","urlEncode","queryString","serializeJSON","registerJSON","evalJSON","parseQueryString","findValue","findIdentical","flattenArguments"];
 MochiKit.Base.EXPORT_OK=["nameFunctions","comparatorRegistry","reprRegistry","jsonRegistry","compareDateLike","compareArrayLike","reprArrayLike","reprString","reprNumber"];
 MochiKit.Base._exportSymbols=function(_124,_125){
 if(typeof (MochiKit.__export__)=="undefined"){
@@ -825,6 +825,8 @@ _124[all[i]]=_125[all[i]];
 };
 MochiKit.Base.__new__=function(){
 var m=this;
+m.forward=m.forwardCall;
+m.find=m.findValue;
 if(typeof (encodeURIComponent)!="undefined"){
 m.urlEncode=function(_127){
 return encodeURIComponent(_127).replace(/\'/g,"%27");
@@ -845,7 +847,7 @@ return this.name+"("+m.repr(this.message)+")";
 }else{
 return this.name+"()";
 }
-},toString:m.forward("repr")});
+},toString:m.forwardCall("repr")});
 m.NotFound=new m.NamedError("MochiKit.Base.NotFound");
 m.listMax=m.partial(m.listMinMax,1);
 m.listMin=m.partial(m.listMinMax,-1);
@@ -925,7 +927,7 @@ n=0;
 var m=MochiKit.Base;
 return {repr:function(){
 return "count("+n+")";
-},toString:m.forward("repr"),next:m.counter(n)};
+},toString:m.forwardCall("repr"),next:m.counter(n)};
 },cycle:function(p){
 var self=MochiKit.Iter;
 var m=MochiKit.Base;
@@ -933,7 +935,7 @@ var lst=[];
 var _136=self.iter(p);
 return {repr:function(){
 return "cycle(...)";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 try{
 var rval=_136.next();
 lst.push(rval);
@@ -962,13 +964,13 @@ var m=MochiKit.Base;
 if(typeof (n)=="undefined"){
 return {repr:function(){
 return "repeat("+m.repr(elem)+")";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 return elem;
 }};
 }
 return {repr:function(){
 return "repeat("+m.repr(elem)+", "+n+")";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 if(n<=0){
 throw MochiKit.Iter.StopIteration;
 }
@@ -983,7 +985,7 @@ var next=MochiKit.Iter.next;
 var _141=m.map(iter,arguments);
 return {repr:function(){
 return "izip(...)";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 return m.map(next,_141);
 }};
 },ifilter:function(pred,seq){
@@ -994,7 +996,7 @@ pred=m.operator.truth;
 }
 return {repr:function(){
 return "ifilter(...)";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 while(true){
 var rval=seq.next();
 if(pred(rval)){
@@ -1011,7 +1013,7 @@ pred=m.operator.truth;
 }
 return {repr:function(){
 return "ifilterfalse(...)";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 while(true){
 var rval=seq.next();
 if(!pred(rval)){
@@ -1042,7 +1044,7 @@ step=arguments[3];
 }
 return {repr:function(){
 return "islice("+["...",_144,stop,step].join(", ")+")";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 var rval;
 while(i<_144){
 rval=seq.next();
@@ -1062,7 +1064,7 @@ var map=m.map;
 var next=self.next;
 return {repr:function(){
 return "imap(...)";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 return fun.apply(this,map(next,_148));
 }};
 },applymap:function(fun,seq,self){
@@ -1070,7 +1072,7 @@ seq=MochiKit.Iter.iter(seq);
 var m=MochiKit.Base;
 return {repr:function(){
 return "applymap(...)";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 return fun.apply(self,seq.next());
 }};
 },chain:function(p,q){
@@ -1082,7 +1084,7 @@ return self.iter(arguments[0]);
 var _150=m.map(self.iter,arguments);
 return {repr:function(){
 return "chain(...)";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 while(_150.length>1){
 try{
 return _150[0].next();
@@ -1106,7 +1108,7 @@ var self=MochiKit.Iter;
 seq=self.iter(seq);
 return {repr:function(){
 return "takewhile(...)";
-},toString:MochiKit.Base.forward("repr"),next:function(){
+},toString:MochiKit.Base.forwardCall("repr"),next:function(){
 var rval=seq.next();
 if(!pred(rval)){
 this.next=function(){
@@ -1122,7 +1124,7 @@ var m=MochiKit.Base;
 var bind=m.bind;
 return {"repr":function(){
 return "dropwhile(...)";
-},"toString":m.forward("repr"),"next":function(){
+},"toString":m.forwardCall("repr"),"next":function(){
 while(true){
 var rval=seq.next();
 if(!pred(rval)){
@@ -1138,7 +1140,7 @@ var m=MochiKit.Base;
 var _155=m.listMin;
 return {repr:function(){
 return "tee("+_152+", ...)";
-},toString:m.forward("repr"),next:function(){
+},toString:m.forwardCall("repr"),next:function(){
 var rval;
 var i=sync.pos[_152];
 if(i==sync.max){
@@ -1253,7 +1255,7 @@ _162+=step;
 return rval;
 },repr:function(){
 return "range("+[_162,stop,step].join(", ")+")";
-},toString:MochiKit.Base.forward("repr")};
+},toString:MochiKit.Base.forwardCall("repr")};
 },sum:function(_163,_164){
 var x=_164||0;
 var self=MochiKit.Iter;
@@ -1432,7 +1434,7 @@ return _180;
 var i=0;
 return {repr:function(){
 return "arrayLikeIter(...)";
-},toString:MochiKit.Base.forward("repr"),next:function(){
+},toString:MochiKit.Base.forwardCall("repr"),next:function(){
 if(i>=_185.length){
 throw MochiKit.Iter.StopIteration;
 }
@@ -1443,7 +1445,7 @@ return (_186&&typeof (_186.iterateNext)=="function");
 },iterateNextIter:function(_187){
 return {repr:function(){
 return "iterateNextIter(...)";
-},toString:MochiKit.Base.forward("repr"),next:function(){
+},toString:MochiKit.Base.forwardCall("repr"),next:function(){
 var rval=_187.iterateNext();
 if(rval===null||rval===undefined){
 throw MochiKit.Iter.StopIteration;
@@ -1502,7 +1504,7 @@ this.timestamp=new Date();
 MochiKit.Logging.LogMessage.prototype={repr:function(){
 var m=MochiKit.Base;
 return "LogMessage("+m.map(m.repr,[this.num,this.level,this.info]).join(", ")+")";
-},toString:MochiKit.Base.forward("repr")};
+},toString:MochiKit.Base.forwardCall("repr")};
 MochiKit.Base.update(MochiKit.Logging,{logLevelAtLeast:function(_191){
 var self=MochiKit.Logging;
 if(typeof (_191)=="string"){
@@ -2071,7 +2073,7 @@ _278="error";
 }
 }
 return "Deferred("+this.id+", "+_278+")";
-},toString:MochiKit.Base.forward("repr"),_nextId:MochiKit.Base.counter(),cancel:function(){
+},toString:MochiKit.Base.forwardCall("repr"),_nextId:MochiKit.Base.counter(),cancel:function(){
 var self=MochiKit.Async;
 if(this.fired==-1){
 if(this.canceller){
@@ -2360,7 +2362,7 @@ _300="locked, "+this.waiting.length+" waiting";
 _300="unlocked";
 }
 return "DeferredLock("+this.id+", "+_300+")";
-},toString:MochiKit.Base.forward("repr")};
+},toString:MochiKit.Base.forwardCall("repr")};
 MochiKit.Async.DeferredList=function(list,_302,_303,_304,_305){
 this.list=list;
 this.resultList=new Array(this.list.length);

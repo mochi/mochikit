@@ -76,7 +76,7 @@ MochiKit.Logging.LogMessage.prototype = {
                 [this.num, this.level, this.info]
             ).join(', ') + ')';
     },
-    toString: MochiKit.Base.forward("repr")
+    toString: MochiKit.Base.forwardCall("repr")
 };
 
 MochiKit.Base.update(MochiKit.Logging, {

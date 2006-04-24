@@ -473,7 +473,7 @@ Functions
     If ``fn`` is ``null``, ``operator.truth`` will be used.
 
 
-:mochidef:`find(lst, value, start=0, end=lst.length)`:
+:mochidef:`findValue(lst, value, start=0, end=lst.length)`:
 
     Finds the index of ``value`` in the ``Array``-like object ``lst`` using
     :mochiref:`compare`.  The search starts at the index ``start``, and ends
@@ -482,8 +482,8 @@ Functions
 
     For example::
     
-        assert( find([1, 2, 3, 2, 1], 2) == 1 )
-        assert( find([1, 2, 3, 2, 1], 2, 2) == 3 )
+        assert( findValue([1, 2, 3, 2, 1], 2) == 1 )
+        assert( findValue([1, 2, 3, 2, 1], 2, 2) == 3 )
 
 
 :mochidef:`findIdentical(lst, value, start=0, end=lst.length)`:
@@ -493,7 +493,7 @@ Functions
     at the index ``end - 1``.  If ``value`` is not found in ``lst``, it will
     return ``-1``.
     
-    You should use this function instead of :mochiref:`find` if ``lst`` may
+    You should use this function instead of :mochiref:`findValue` if ``lst`` may
     be comprised of objects for which no comparator is defined and all you care
     about is finding an identical object (e.g. the same instance), or if
     ``lst`` is comprised of just numbers or strings and performance is
@@ -514,7 +514,7 @@ Functions
         compare(flattenArguments(1, [2, 3, [4, 5]]), [1, 2, 3, 4, 5]) == 0
 
 
-:mochidef:`forward(name)`:
+:mochidef:`forwardCall(name)`:
 
     Returns a function that forwards a method call to ``this.name(...)``
 

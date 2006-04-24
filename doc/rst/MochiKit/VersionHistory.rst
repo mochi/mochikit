@@ -1,5 +1,7 @@
 2006-04-XX      v1.3 "warp zone"
 
+- IMPORTANT: Renamed MochiKit.Base.forward to forwardCall (for export)
+- IMPORTANT: Renamed MochiKit.Base.find to findValue (for export)
 - New MochiKit.Base.flattenArguments for flattening a list of arguments to
   a single Array
 - Refactored MochiRegExp example to use MochiKit.Signal

@@ -125,7 +125,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         var m = MochiKit.Base;
         return {
             repr: function () { return "count(" + n + ")"; },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: m.counter(n)
         };
     },
@@ -142,7 +142,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         var iterator = self.iter(p);
         return {
             repr: function () { return "cycle(...)"; },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: function () {
                 try {
                     var rval = iterator.next();
@@ -182,7 +182,7 @@ MochiKit.Base.update(MochiKit.Iter, {
                 repr: function () {
                     return "repeat(" + m.repr(elem) + ")";
                 },
-                toString: m.forward("repr"),
+                toString: m.forwardCall("repr"),
                 next: function () {
                     return elem;
                 }
@@ -192,7 +192,7 @@ MochiKit.Base.update(MochiKit.Iter, {
             repr: function () {
                 return "repeat(" + m.repr(elem) + ", " + n + ")";
             },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: function () {
                 if (n <= 0) {
                     throw MochiKit.Iter.StopIteration;
@@ -223,7 +223,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         var iterables = m.map(iter, arguments);
         return {
             repr: function () { return "izip(...)"; },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: function () { return m.map(next, iterables); }
         };
     },
@@ -241,7 +241,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         }
         return {
             repr: function () { return "ifilter(...)"; },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: function () {
                 while (true) {
                     var rval = seq.next();
@@ -269,7 +269,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         }
         return {
             repr: function () { return "ifilterfalse(...)"; },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: function () {
                 while (true) {
                     var rval = seq.next();
@@ -311,7 +311,7 @@ MochiKit.Base.update(MochiKit.Iter, {
             repr: function () {
                 return "islice(" + ["...", start, stop, step].join(", ") + ")";
             },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: function () {
                 var rval;
                 while (i < start) {
@@ -340,7 +340,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         var next = self.next;
         return {
             repr: function () { return "imap(...)"; },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: function () {
                 return fun.apply(this, map(next, iterables));
             }
@@ -358,7 +358,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         var m = MochiKit.Base;
         return {
             repr: function () { return "applymap(...)"; },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: function () {
                 return fun.apply(self, seq.next());
             }
@@ -380,7 +380,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         var argiter = m.map(self.iter, arguments);
         return {
             repr: function () { return "chain(...)"; },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: function () {
                 while (argiter.length > 1) {
                     try {
@@ -414,7 +414,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         seq = self.iter(seq);
         return {
             repr: function () { return "takewhile(...)"; },
-            toString: MochiKit.Base.forward("repr"),
+            toString: MochiKit.Base.forwardCall("repr"),
             next: function () {
                 var rval = seq.next();
                 if (!pred(rval)) {
@@ -440,7 +440,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         var bind = m.bind;
         return {
             "repr": function () { return "dropwhile(...)"; },
-            "toString": m.forward("repr"),
+            "toString": m.forwardCall("repr"),
             "next": function () {
                 while (true) {
                     var rval = seq.next();
@@ -460,7 +460,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         var listMin = m.listMin;
         return {
             repr: function () { return "tee(" + ident + ", ...)"; },
-            toString: m.forward("repr"),
+            toString: m.forwardCall("repr"),
             next: function () {
                 var rval;
                 var i = sync.pos[ident];
@@ -638,7 +638,7 @@ MochiKit.Base.update(MochiKit.Iter, {
             repr: function () {
                 return "range(" + [start, stop, step].join(", ") + ")";
             },
-            toString: MochiKit.Base.forward("repr")
+            toString: MochiKit.Base.forwardCall("repr")
         };
     },
             
@@ -907,7 +907,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         var i = 0;
         return {
             repr: function () { return "arrayLikeIter(...)"; },
-            toString: MochiKit.Base.forward("repr"),
+            toString: MochiKit.Base.forwardCall("repr"),
             next: function () {
                 if (i >= iterable.length) {
                     throw MochiKit.Iter.StopIteration;
@@ -924,7 +924,7 @@ MochiKit.Base.update(MochiKit.Iter, {
     iterateNextIter: function (iterable) {
         return {
             repr: function () { return "iterateNextIter(...)"; },
-            toString: MochiKit.Base.forward("repr"),
+            toString: MochiKit.Base.forwardCall("repr"),
             next: function () {
                 var rval = iterable.iterateNext();
                 if (rval === null || rval === undefined) {
