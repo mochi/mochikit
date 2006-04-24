@@ -49,6 +49,49 @@ MochiKit.Signal.Event = function (e) {
 
 MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
+    __repr__: function() {
+        var repr = MochiKit.Base.repr;
+        var str = '{event(): ' + repr(this.event()) +
+            ', type(): ' + repr(this.type()) +
+            ', target(): ' + repr(this.target()) +
+            ', modifier(): ' + '{alt: ' + repr(this.modifier().alt) +
+            ', ctrl: ' + repr(this.modifier().ctrl) +
+            ', meta: ' + repr(this.modifier().meta) +
+            ', shift: ' + repr(this.modifier().shift) + 
+            ', any: ' + repr(this.modifier().any) + '}';
+        
+        if (this.type() && this.type().indexOf('key') === 0) {
+            str += ', key(): {code: ' + repr(this.key().code) +
+                ', string: ' + repr(this.key().string) + '}';
+        }
+
+        if (this.type() && (
+            this.type().indexOf('mouse') === 0 ||
+            this.type().indexOf('click') != -1 ||
+            this.type() == 'contextmenu')) {
+
+            str += ', mouse(): {page: ' + repr(this.mouse().page) +
+                ', client: ' + repr(this.mouse().client);
+
+            if (this.type() != 'mousemove') {
+                str += ', button: {left: ' + repr(this.mouse().button.left) +
+                    ', middle: ' + repr(this.mouse().button.middle) +
+                    ', right: ' + repr(this.mouse().button.right) + '}}';
+            } else {
+                str += '}';
+            }
+        }
+        if (this.type() == 'mouseover' || this.type() == 'mouseout') {
+            str += ', relatedTarget(): ' + repr(this.relatedTarget());
+        }
+        str += '}';
+        return str;
+    },
+
+    toString: function () {
+        return this.__repr__();
+    },
+
     event: function () {
         return this._event;
     },
@@ -78,6 +121,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
         m.ctrl = this._event.ctrlKey;
         m.meta = this._event.metaKey || false; // IE and Opera punt here
         m.shift = this._event.shiftKey;
+        m.any = m.alt || m.ctrl || m.shift || m.meta;
         return m;
     },
 
@@ -193,8 +237,6 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
             this.type().indexOf('click') != -1 ||
             this.type() == 'contextmenu')) {
             
-            
-            
             m.client = new MochiKit.DOM.Coordinates(0, 0);
             if (e.clientX || e.clientY) {
                 m.client.x = (!e.clientX || e.clientX < 0) ? 0 : e.clientX;
@@ -295,11 +337,8 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
         } else {
             this._event.returnValue = false;
         }
-    },
-
-    toString: function() {
-        return this.__repr__();
     }
+
 });
 
 /* Safari sets keyCode to these special values onkeypress. */
@@ -395,6 +434,10 @@ MochiKit.Base.update(MochiKit.Signal, {
 
     __repr__: function () {
         return '[' + this.NAME + ' ' + this.VERSION + ']';
+    },
+
+    toString: function () {
+        return this.__repr__();
     },
 
     _unloadCache: function () {
@@ -574,11 +617,8 @@ MochiKit.Base.update(MochiKit.Signal, {
             e.errors = errors;
             throw e;
         }
-    },
-
-    toString: function () {
-        return this.__repr__();
     }
+
 });
 
 MochiKit.Signal.EXPORT_OK = [];

@@ -4047,7 +4047,28 @@ MochiKit.Signal._observers=[];
 MochiKit.Signal.Event=function(e){
 this._event=e||window.event;
 };
-MochiKit.Base.update(MochiKit.Signal.Event.prototype,{event:function(){
+MochiKit.Base.update(MochiKit.Signal.Event.prototype,{__repr__:function(){
+var repr=MochiKit.Base.repr;
+var str="{event(): "+repr(this.event())+", type(): "+repr(this.type())+", target(): "+repr(this.target())+", modifier(): "+"{alt: "+repr(this.modifier().alt)+", ctrl: "+repr(this.modifier().ctrl)+", meta: "+repr(this.modifier().meta)+", shift: "+repr(this.modifier().shift)+", any: "+repr(this.modifier().any)+"}";
+if(this.type()&&this.type().indexOf("key")===0){
+str+=", key(): {code: "+repr(this.key().code)+", string: "+repr(this.key().string)+"}";
+}
+if(this.type()&&(this.type().indexOf("mouse")===0||this.type().indexOf("click")!=-1||this.type()=="contextmenu")){
+str+=", mouse(): {page: "+repr(this.mouse().page)+", client: "+repr(this.mouse().client);
+if(this.type()!="mousemove"){
+str+=", button: {left: "+repr(this.mouse().button.left)+", middle: "+repr(this.mouse().button.middle)+", right: "+repr(this.mouse().button.right)+"}}";
+}else{
+str+="}";
+}
+}
+if(this.type()=="mouseover"||this.type()=="mouseout"){
+str+=", relatedTarget(): "+repr(this.relatedTarget());
+}
+str+="}";
+return str;
+},toString:function(){
+return this.__repr__();
+},event:function(){
 return this._event;
 },type:function(){
 return this._event.type||undefined;
@@ -4068,6 +4089,7 @@ m.alt=this._event.altKey;
 m.ctrl=this._event.ctrlKey;
 m.meta=this._event.metaKey||false;
 m.shift=this._event.shiftKey;
+m.any=m.alt||m.ctrl||m.shift||m.meta;
 return m;
 },key:function(){
 var k={};
@@ -4146,8 +4168,6 @@ this._event.preventDefault();
 }else{
 this._event.returnValue=false;
 }
-},toString:function(){
-return this.__repr__();
 }});
 MochiKit.Signal._specialMacKeys={63289:"KEY_NUM_PAD_CLEAR",63276:"KEY_PAGE_UP",63277:"KEY_PAGE_DOWN",63275:"KEY_END",63273:"KEY_HOME",63234:"KEY_ARROW_LEFT",63232:"KEY_ARROW_UP",63235:"KEY_ARROW_RIGHT",63233:"KEY_ARROW_DOWN",63302:"KEY_INSERT",63272:"KEY_DELETE"};
 for(i=63236;i<=63242;i++){
@@ -4168,6 +4188,8 @@ MochiKit.Signal._specialKeys[i]="KEY_F"+(i-112+1);
 }
 MochiKit.Base.update(MochiKit.Signal,{__repr__:function(){
 return "["+this.NAME+" "+this.VERSION+"]";
+},toString:function(){
+return this.__repr__();
 },_unloadCache:function(){
 var self=MochiKit.Signal;
 var _549=self._observers;
@@ -4333,8 +4355,6 @@ e.errors=_569;
 throw e;
 }
 }
-},toString:function(){
-return this.__repr__();
 }});
 MochiKit.Signal.EXPORT_OK=[];
 MochiKit.Signal.EXPORT=["connect","disconnect","signal","disconnectAll"];
