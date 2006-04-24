@@ -620,6 +620,17 @@ one of the objects, the last property is used.</p>
 specifically, it is defined as <a class="mochiref reference" href="#fn-partial">partial(update, null)</a>.</p>
 </blockquote>
 <p>
+<a name="fn-method"></a>
+<a class="mochidef reference" href="#fn-method">method(self, func, ...)</a>:</p>
+<blockquote>
+<p>Alternate form of <a class="mochiref reference" href="#fn-bind">bind</a> that takes the object before the
+function.  These two are equivalent:</p>
+<pre class="literal-block">
+bind(&quot;method&quot;, myobject)
+method(myobject, &quot;method&quot;)
+</pre>
+</blockquote>
+<p>
 <a name="fn-namefunctions"></a>
 <a class="mochidef reference" href="#fn-namefunctions">nameFunctions(namespace)</a>:</p>
 <blockquote>
