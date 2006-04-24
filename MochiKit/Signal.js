@@ -420,8 +420,10 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
 
-    _listener: function (func, obj) {
-        if (typeof(func) == "string") {
+    _listener: function (func, obj, isDOM) {
+        if (!isDOM) {
+            return MochiKit.Base.bind(func, obj);
+        } else if (typeof(func) == "string") {
             return function (nativeEvent) {
                 obj[func].apply(obj, [new MochiKit.Signal.Event(nativeEvent)]);
             }
@@ -458,23 +460,25 @@ MochiKit.Base.update(MochiKit.Signal, {
             func = objOrFunc;
         }
         
-        var listener = self._listener(func, obj);
-        
-        var ident = [src, sig, listener, objOrFunc, funcOrStr];
-        self._observers.push(ident);
+        var isDOM = !!(src.addEventListener || src.attachEvent);
+        var listener = self._listener(func, obj, isDOM);
         
         if (src.addEventListener) {
             src.addEventListener(sig.substr(2), listener, false);
         } else if (src.attachEvent) {
             src.attachEvent(sig, listener); // useCapture unsupported
-        } else {
-            throw new Error("'src' must be a DOM element");
         }
+
+        var ident = [src, sig, listener, isDOM, objOrFunc, funcOrStr];
+        self._observers.push(ident);
         
+       
         return ident;
     },
     
     _disconnect: function (ident) {
+        // check isDOM
+        if (!ident[3]) return;
         var src = ident[0];
         var sig = ident[1];
         var listener = ident[2];
@@ -499,7 +503,7 @@ MochiKit.Base.update(MochiKit.Signal, {
             var func = arguments[3];
             for (var i = observers.length - 1; i >= 0; i--) {
                 var o = observers[i];
-                if (o[0] === src && o[1] === sig && o[3] === obj && o[4] === func) {
+                if (o[0] === src && o[1] === sig && o[4] === obj && o[5] === func) {
                     self._disconnect(o);
                     observers.splice(i, 1);
                     return true;
@@ -548,6 +552,30 @@ MochiKit.Base.update(MochiKit.Signal, {
         
     },
 
+    signal: function (src, sig) {
+        var observers = MochiKit.Signal._observers;
+        src = MochiKit.DOM.getElement(src);
+        var args = MochiKit.Base.extend(null, arguments, 2);
+        var exceptions = [];
+        for (var i = 0; i < observers.length; i++) {
+            var ident = observers[i];
+            if (ident[0] === src && ident[1] === sig) {
+                try {
+                    ident[2].apply(src, args);
+                } catch (e) {
+                    exceptions.push(e);
+                }
+            }
+        }
+        if (exceptions.length == 1) {
+            throw exceptions[0];
+        } else if (exceptions.length > 1) {
+            var e = new Error("Multiple exceptions raised in signal, see exceptions attribute");
+            e.exceptions = exceptions;
+            throw e;
+        }
+    },
+
     toString: function () {
         return this.__repr__();
     }
@@ -558,6 +586,7 @@ MochiKit.Signal.EXPORT_OK = [];
 MochiKit.Signal.EXPORT = [
     'connect',
     'disconnect',
+    'signal',
     'disconnectAll'
 ];
 

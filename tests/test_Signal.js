@@ -104,6 +104,213 @@ tests.test_Signal = function (t) {
         disconnect(ident);
         triggerMouseEvent('submit', 'mousedown', false);
         t.is(i, 3, 'Disconnecting an event to an HTML object and firing a synthetic event');
+
+
         
     }    
+
+    // non-DOM tests
+
+    var hasNoSignals = {};
+    
+    var hasSignals = {someVar: 1};
+
+    var i = 0;
+        
+    var aFunction = function() {
+        i++;
+        if (typeof(this.someVar) != 'undefined') {
+            i += this.someVar;
+        }
+    };
+    
+    var aObject = {};
+    aObject.aMethod = function() {
+        i++;
+    };
+    
+    aObject.bMethod = function() {
+        i++;
+    };
+    
+    var bObject = {};
+    bObject.bMethod = function() {
+        i++;
+    };
+
+
+    ident = connect(hasSignals, 'signalOne', aFunction);
+    signal(hasSignals, 'signalOne');
+    t.is(i, 2, 'Connecting function');
+    i = 0;
+
+    disconnect(ident);
+    signal(hasSignals, 'signalOne');
+    t.is(i, 0, 'New style disconnecting function');
+    i = 0;
+
+    connect(hasSignals, 'signalOne', aFunction);
+    signal(hasSignals, 'signalOne');
+    t.is(i, 2, 'Connecting function');
+    i = 0;
+
+    disconnect(hasSignals, 'signalOne', aFunction);
+    signal(hasSignals, 'signalOne');
+    t.is(i, 0, 'Old style disconnecting function');
+    i = 0;
+
+
+    ident = connect(hasSignals, 'signalOne', aObject, aObject.aMethod);
+    signal(hasSignals, 'signalOne');
+    t.is(i, 1, 'Connecting obj-function');
+    i = 0;
+
+    disconnect(ident);
+    signal(hasSignals, 'signalOne');
+    t.is(i, 0, 'New style disconnecting obj-function');
+    i = 0;
+
+    connect(hasSignals, 'signalOne', aObject, aObject.aMethod);
+    signal(hasSignals, 'signalOne');
+    t.is(i, 1, 'Connecting obj-function');
+    i = 0;
+
+    disconnect(hasSignals, 'signalOne', aObject, aObject.aMethod);
+    signal(hasSignals, 'signalOne');
+    t.is(i, 0, 'Disconnecting obj-function');
+    i = 0;
+
+
+    ident = connect(hasSignals, 'signalTwo', aObject, 'aMethod');
+    signal(hasSignals, 'signalTwo');
+    t.is(i, 1, 'Connecting obj-string');
+    i = 0;
+
+    disconnect(ident);
+    signal(hasSignals, 'signalTwo');
+    t.is(i, 0, 'New style disconnecting obj-string');
+    i = 0;
+
+
+    connect(hasSignals, 'signalTwo', aObject, 'aMethod');
+    signal(hasSignals, 'signalTwo');
+    t.is(i, 1, 'Connecting obj-string');
+    i = 0;
+
+    disconnect(hasSignals, 'signalTwo', aObject, 'aMethod');
+    signal(hasSignals, 'signalTwo');
+    t.is(i, 0, 'Old style disconnecting obj-string');
+    i = 0;
+
+
+    var shouldRaise = function() { return undefined.attr; };
+
+    try {
+        connect(hasSignals, 'signalOne', shouldRaise);
+        signal(hasSignals, 'signalOne');
+        t.ok(false, 'An exception was not raised');
+    } catch (e) {
+        t.ok(true, 'An exception was raised');
+    }
+    disconnect(hasSignals, 'signalOne', shouldRaise);
+    t.is(i, 0, 'Exception raised, signal should not have fired');
+    i = 0;
+
+    
+    connect(hasSignals, 'signalOne', aObject, 'aMethod');
+    connect(hasSignals, 'signalOne', aObject, 'bMethod');
+    signal(hasSignals, 'signalOne');
+    t.is(i, 2, 'Connecting one signal to two slots in one object');
+    i = 0;
+    
+    disconnect(hasSignals, 'signalOne', aObject, 'aMethod');
+    disconnect(hasSignals, 'signalOne', aObject, 'bMethod');
+    signal(hasSignals, 'signalOne');
+    t.is(i, 0, 'Disconnecting one signal from two slots in one object');
+    i = 0;
+
+
+    connect(hasSignals, 'signalOne', aObject, 'aMethod');
+    connect(hasSignals, 'signalOne', bObject, 'bMethod');
+    signal(hasSignals, 'signalOne');
+    t.is(i, 2, 'Connecting one signal to two slots in two objects');
+    i = 0;
+
+    disconnect(hasSignals, 'signalOne', aObject, 'aMethod');
+    disconnect(hasSignals, 'signalOne', bObject, 'bMethod');
+    signal(hasSignals, 'signalOne');
+    t.is(i, 0, 'Disconnecting one signal from two slots in two objects');
+    i = 0;
+    
+
+    try {
+        connect(nothing, 'signalOne', aObject, 'aMethod');
+        signal(nothing, 'signalOne');
+        t.ok(false, 'An exception was not raised when connecting undefined');
+    } catch (e) {
+        t.ok(true, 'An exception was raised when connecting undefined');
+    }
+
+    try {
+        disconnect(nothing, 'signalOne', aObject, 'aMethod');
+        t.ok(false, 'An exception was not raised when disconnecting undefined');
+    } catch (e) {
+        t.ok(true, 'An exception was raised when disconnecting undefined');
+    }
+    
+    
+    try {
+        connect(hasSignals, 'signalOne', nothing);
+        signal(hasSignals, 'signalOne');
+        t.ok(false, 'An exception was not raised when connecting an undefined function');
+    } catch (e) {
+        t.ok(true, 'An exception was raised when connecting an undefined function');
+    }
+
+    try {
+        disconnect(hasSignals, 'signalOne', nothing);
+        t.ok(false, 'An exception was not raised when disconnecting an undefined function');
+    } catch (e) {
+        t.ok(true, 'An exception was raised when disconnecting an undefined function');
+    }
+    
+    
+    try {
+        connect(hasSignals, 'signalOne', aObject, aObject.nothing);
+        signal(hasSignals, 'signalOne');
+        t.ok(false, 'An exception was not raised when connecting an undefined method');
+    } catch (e) {
+        t.ok(true, 'An exception was raised when connecting an undefined method');
+    }
+
+    if (0) {
+        // XXX: bob - not sure this warrants an exception
+        try {
+            disconnect(hasSignals, 'signalOne', aObject, aObject.nothing);
+            t.ok(false, 'An exception was not raised when disconnecting an undefined method');
+        } catch (e) {
+            t.ok(true, 'An exception was raised when disconnecting an undefined method');
+        }
+    }
+    
+    try {
+        connect(hasSignals, 'signalOne', aObject, 'nothing');
+        signal(hasSignals, 'signalOne');
+        t.ok(false, 'An exception was not raised when connecting an undefined method (as string)');
+    } catch (e) {
+        t.ok(true, 'An exception was raised when connecting an undefined method (as string)');
+    }
+
+    if (0) {
+        // XXX: bob - not sure this warrants an exception
+        try {
+            disconnect(hasSignals, 'signalOne', aObject, 'nothing');
+            t.ok(false, 'An exception was not raised when disconnecting an undefined method (as string)');
+        } catch (e) {
+            t.ok(true, 'An exception was raised when disconnecting an undefined method (as string)');
+        }
+    }
+
+    t.is(i, 0, 'Signals should not have fired');
+            
 };
