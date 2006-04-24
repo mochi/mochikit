@@ -11,10 +11,6 @@ Synopsis
 
 ::
 
-    // Allow your objects to create events.
-    var myObject = {};
-    registerSignals(myObject, ['flash', 'bang']);
-
     // otherObject.gotFlash() will be called when 'flash' signalled.
     connect(myObject, 'flash', otherObject, 'gotFlash');
 
@@ -75,28 +71,24 @@ Here are the rules for the signal and slot system.
     :mochiref:`MochiKit.DOM.addLoadEvent` can not be used in combination with
     this module.
 
-2.  Objects other than DOM objects (window, document, or any HTMLElement)
-    must have its signals declared via :mochiref:`registerSignals()`
-    before they can be used.
-
-3.  For DOM objects (window, document, or any HTMLElement), the signals
+2.  For DOM objects (window, document, or any HTMLElement), the signals
     already exist and are named 'onclick', 'onkeyup', etc... just like they
     are named already.
 
-4.  The following are acceptable for slots:
+3.  The following are acceptable for slots:
 
     -   A function
     -   An object and a function
     -   An object and a string
     
 
-5.  You may connect or disconnect slots to signals freely using the
+4.  You may connect or disconnect slots to signals freely using the
     :mochiref:`connect()` and :mochiref:`disconnect()` methods.  The
     same parameters to :mochiref:`disconnect` will only remove a previous
     connection made with the same parameters to :mochiref:`connect`.
     Also, connecting multiple times only leaves one connection in place.
 
-6.  Slots that are connected to a signal are called when that signal is
+5.  Slots that are connected to a signal are called when that signal is
     signalled.
 
     -   If the slot was a single function, then it is called with ``this`` set
@@ -110,13 +102,13 @@ Here are the rules for the signal and slot system.
     -   If the slot was an object and a string, then ``object[string]`` is
         called with the parameters to the signal.
 
-7.  Signals are triggered with the :mochiref:`signal(src, 'signal', ...)`
+6.  Signals are triggered with the :mochiref:`signal(src, 'signal', ...)`
     function.  Additional parameters passed to this are passed onto the
     connected slots.
 
-8.  Signals triggered by DOM events are called with a custom event object as a
+7.  Signals triggered by DOM events are called with a custom event object as a
     parameter.  You can grab the native event by accessing
-    ``customObject.event()``. Here is a complete list of this object's methods:
+    ``mochie.event()``. Here is a complete list of this object's methods:
 
     These are always generated:
 
@@ -145,9 +137,14 @@ Here are the rules for the signal and slot system.
         Shortcut that calls ``stopPropagation()`` and ``preventDefault()``.
 
     Note that you should use keydown and keyup to detect control characters,
-    and keypressed to detect "printable" characters.  Some browsers will
-    return control characters for keypressed. These are generated for keydown
-    and keyup events:
+    and keypressed to detect "printable" characters. key().code will be set to
+    0 and key().string will be set to an empty string in a keypress handler if
+    a user presses a control character like F1 or Escape. IE will not fire
+    your keypressed handler when you press a control character like KEY_F1 or
+    KEY_ESCAPE. In your keyup and keydown handlers, Signal will pass the
+    keyboard code and a human-readable string like KEY_A or KEY_ARROW_DOWN or
+    KEY_NUM_PAD_ASTERISK. See ``_specialKeys`` for a comprehensive list. These
+    are generated for keydown and keyup events:
 
     key().code:
         contains the raw key code, such as 8 for backspace.
@@ -221,8 +218,7 @@ Functions
     ``signal`` is a string that represents a signal name. If 'src' is an HTML
     Element, Window, or the Document, then it can be one of the 'on-XYZ'
     events. Note that you must include the 'on' prefix, and it must be all
-    lower-case. If ``src`` is another kind of object, the signal must be
-    previously registered with :mochiref:`registerSignals()`.
+    lower-case.
 
     ``dest`` and ``func`` describe the slot, or the action to take when the
     signal is triggered.
@@ -251,17 +247,6 @@ Functions
     connection was made given the same parameters to :mochiref:`connect()`.
     Note that if you want to pass a closure to :mochiref:`connect()`, you'll
     have to remember it if you want to later :mochiref:`disconnect()` it.
-
-
-:mochidef:`registerSignals(src, signals)`:
-
-    This will register signals for the object ``src``.  Note that a string
-    here is not allowed -- you don't need to register signals for DOM objects.
-    'signals' is an array of strings.
-
-    You may register the same signals multiple times; subsequent
-    registerSignals calls with the same signal names will have no effect,
-    and the existing connections, if any, will not be lost.
 
 
 :mochidef:`signal(src, signal, ...)`:

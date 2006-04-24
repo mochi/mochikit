@@ -7,7 +7,6 @@ tests.test_Signal = function (t) {
     var hasNoSignals = {};
     
     var hasSignals = {someVar: 1};
-    registerSignals(hasSignals, ['signalOne', 'signalTwo']);
 
     var i = 0;
         
@@ -186,31 +185,19 @@ tests.test_Signal = function (t) {
     } catch (e) {
         t.ok(true, 'An exception was raised when disconnecting an undefined method (as string)');
     }
-    
-    
-    try {
-        connect(hasSignals, 'noSuchSignal', aObject, 'aMethod');
-        signal(hasSignals, 'noSuchSignal');
-        t.ok(false, 'An exception was not raised when connecting a non-existant signal');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when connecting a non-existant signal');
-    }    
-
-    try {
-        disconnect(hasSignals, 'noSuchSignal', aObject, 'aMethod');
-        t.ok(false, 'An exception was not raised when disconnecting a non-existant signal');
-    } catch (e) {
-        t.ok(true, 'An exception was raised when disconnecting a non-existant signal');
-    }
-        
+            
     if (MochiKit.DOM.getElement('submit').fireEvent || 
         (document.createEvent && 
         (typeof(document.createEvent('MouseEvents').initMouseEvent) == 'function'))) {
         
-        // adapted from: 
-        // http://www.devdaily.com/java/jwarehouse/jforum/tests/selenium/javascript/htmlutils.js.shtml
-        // license: apache
-        // copyright: Copyright 2004 ThoughtWorks, Inc
+        /* 
+        
+            Adapted from: 
+            http://www.devdaily.com/java/jwarehouse/jforum/tests/selenium/javascript/htmlutils.js.shtml
+            License: Apache
+            Copyright: Copyright 2004 ThoughtWorks, Inc
+            
+        */
         var triggerMouseEvent = function(element, eventType, canBubble) {
             element = MochiKit.DOM.getElement(element);
             canBubble = (typeof(canBubble) == 'undefined') ? true : canBubble;
@@ -253,7 +240,7 @@ tests.test_Signal = function (t) {
             t.ok((typeof(e.mouse().client.x) === 'number'), 'checking that mouse().client.x is a number');
             t.ok((typeof(e.mouse().client.y) === 'number'), 'checking that mouse().client.y is a number');
 
-            // these should not be defined
+            /* these should not be defined */
             t.ok((typeof(e.relatedTarget()) === 'undefined'), 'checking that relatedTarget() is undefined');
             t.ok((typeof(e.key()) === 'undefined'), 'checking that key() is undefined');
         };
