@@ -276,7 +276,7 @@ MochiKit.Base.update(MochiKit.Base, {
         contains: function (a, b) { return b in a; }
     },
 
-    forward: function (func) {
+    forwardCall: function (func) {
         /***
 
         Returns a function that forwards a method call to this.func(...)
@@ -1085,7 +1085,7 @@ MochiKit.Base.update(MochiKit.Base, {
         return -1;
     },
 
-    find: function (lst, value, start/* = 0 */, /* optional */end) {
+    findValue: function (lst, value, start/* = 0 */, /* optional */end) {
         if (typeof(end) == "undefined" || end == null) {
             end = lst.length;
         }
@@ -1288,7 +1288,7 @@ MochiKit.Base.EXPORT = [
     "items",
     "NamedError",
     "operator",
-    "forward",
+    "forwardCall",
     "itemgetter",
     "typeMatcher",
     "isCallable",
@@ -1330,7 +1330,7 @@ MochiKit.Base.EXPORT = [
     "registerJSON",
     "evalJSON",
     "parseQueryString",
-    "find",
+    "findValue",
     "findIdentical",
     "flattenArguments"
 ];
@@ -1365,6 +1365,11 @@ MochiKit.Base._exportSymbols = function (globals, module) {
 MochiKit.Base.__new__ = function () {
     // A singleton raised when no suitable adapter is found
     var m = this;
+
+    // Backwards compat
+    m.forward = m.forwardCall;
+    m.find = m.findValue;
+
     if (typeof(encodeURIComponent) != "undefined") {
         m.urlEncode = function (unencoded) {
             return encodeURIComponent(unencoded).replace(/\'/g, '%27');
@@ -1391,7 +1396,7 @@ MochiKit.Base.__new__ = function () {
                 return this.name + "()";
             }
         },
-        toString: m.forward("repr")
+        toString: m.forwardCall("repr")
     });
 
     m.NotFound = new m.NamedError("MochiKit.Base.NotFound");

@@ -147,7 +147,7 @@ MochiKit.Async.Deferred.prototype = {
         return 'Deferred(' + this.id + ', ' + state + ')';
     },
 
-    toString: MochiKit.Base.forward("repr"),
+    toString: MochiKit.Base.forwardCall("repr"),
 
     _nextId: MochiKit.Base.counter(),
 
@@ -623,7 +623,7 @@ MochiKit.Async.DeferredLock.prototype = {
         }
         return 'DeferredLock(' + this.id + ', ' + state + ')';
     },
-    toString: MochiKit.Base.forward("repr")
+    toString: MochiKit.Base.forwardCall("repr")
 
 };
 
