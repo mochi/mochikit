@@ -126,6 +126,9 @@ Here are the rules for the signal and slot system.
     modifier().alt, modifier().ctrl, modifier().meta, modifier().shift:
         ``true`` if pressed, ``false`` if not.  ``modifier().meta`` will be 
         ``false`` instead of ``undefined`` in IE.
+        
+    modifier().any:
+        ``true`` if any modifier is pressed, ``false`` if not.
 
     stopPropagation():
         Works like W3C's ``stopPropagation()``.
