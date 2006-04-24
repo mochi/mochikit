@@ -60,7 +60,7 @@ Functions
     Convert a ``Date`` object to a string in the form of hh:mm:ss
 
 
-:mochidef:`toISOTimestamp(date, realISO)`:
+:mochidef:`toISOTimestamp(date, realISO=false)`:
 
     Convert a ``Date`` object to something that's ALMOST but not quite an
     ISO 8601 [1]_timestamp.  If it was a proper ISO timestamp it would be:
@@ -80,17 +80,17 @@ Functions
     Convert a ``Date`` object to an ISO 8601 [1]_ date string (YYYY-MM-DD)
 
 
-:mochidef:`americanDate(d)`:
+:mochidef:`americanDate(str)`:
 
     Converts a MM/DD/YYYY date to a ``Date`` object
 
 
-:mochidef:`toPaddedAmericanDate(d)`:
+:mochidef:`toPaddedAmericanDate(date)`:
 
     Converts a ``Date`` object to an MM/DD/YYYY date, e.g. 01/01/2001
 
 
-:mochidef:`toAmericanDate(d)`:
+:mochidef:`toAmericanDate(date)`:
 
     Converts a ``Date`` object to an M/D/YYYY date, e.g. 1/1/2001
 
