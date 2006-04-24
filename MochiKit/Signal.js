@@ -421,8 +421,14 @@ MochiKit.Base.update(MochiKit.Signal, {
     },
 
     _listener: function (func, obj) {
-        return function (nativeEvent) {
-            func.apply(obj, [new MochiKit.Signal.Event(nativeEvent)]);
+        if (typeof(func) == "string") {
+            return function (nativeEvent) {
+                obj[func].apply(obj, [new MochiKit.Signal.Event(nativeEvent)]);
+            }
+        } else {
+            return function (nativeEvent) {
+                func.apply(obj, [new MochiKit.Signal.Event(nativeEvent)]);
+            }
         }
     },
     
@@ -434,27 +440,27 @@ MochiKit.Base.update(MochiKit.Signal, {
             throw new Error("'sig' must be a string");
         }
         
+        var obj = null;
+        var func = null;
         if (typeof(funcOrStr) != 'undefined') {
-            if (typeof(funcOrStr) == 'string' && 
-                typeof(objOrFunc[funcOrStr]) == 'undefined') {
-                throw new Error("'funcOrStr' must be a function on 'objOrFunc'");
+            obj = objOrFunc;
+            func = funcOrStr;
+            if (typeof(funcOrStr) == 'string') {
+                if (typeof(objOrFunc[funcOrStr]) != "function") {
+                    throw new Error("'funcOrStr' must be a function on 'objOrFunc'");
+                }
             } else if (typeof(funcOrStr) != 'function') {
                 throw new Error("'funcOrStr' must be a function or string");
             }
+        } else if (typeof(objOrFunc) != "function") {
+            throw new Error("'objOrFunc' must be a function if 'funcOrStr' is not given");
+        } else {
+            func = objOrFunc;
         }
         
-        var listener = null;
+        var listener = self._listener(func, obj);
         
-        var _listener = self._listener;
-        if (typeof(objOrFunc) == 'function') {
-            listener = _listener(objOrFunc, null);
-        } else if (typeof(funcOrStr) == 'function') {
-            listener = _listener(funcOrStr, objOrFunc);
-        } else if (typeof(funcOrStr) == 'string') {
-            listener = _listener(objOrFunc[funcOrStr], objOrFunc);
-        }
-        
-        var ident = [src, sig, listener];
+        var ident = [src, sig, listener, objOrFunc, funcOrStr];
         self._observers.push(ident);
         
         if (src.addEventListener) {
@@ -484,11 +490,28 @@ MochiKit.Base.update(MochiKit.Signal, {
     disconnect: function (ident) {
         var self = MochiKit.Signal;
         var observers = self._observers;
-        var idx = MochiKit.Base.findIdentical(observers, ident);
-        if (idx >= 0) {
-            self._disconnect(observers[idx]);
-            observers.splice(idx, 1);
-            return true;
+        var m = MochiKit.Base;
+        if (arguments.length > 1) {
+            // compatibility API
+            var src = MochiKit.DOM.getElement(arguments[0]);
+            var sig = arguments[1];
+            var obj = arguments[2];
+            var func = arguments[3];
+            for (var i = observers.length - 1; i >= 0; i--) {
+                var o = observers[i];
+                if (o[0] === src && o[1] === sig && o[3] === obj && o[4] === func) {
+                    self._disconnect(o);
+                    observers.splice(i, 1);
+                    return true;
+                }
+            }
+        } else {
+            var idx = m.findIdentical(observers, ident);
+            if (idx >= 0) {
+                self._disconnect(ident);
+                observers.splice(idx, 1);
+                return true;
+            }
         }
         return false;
     },
