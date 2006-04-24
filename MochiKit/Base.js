@@ -76,6 +76,23 @@ MochiKit.Base.update(MochiKit.Base, {
         }
     },
             
+    flattenArguments: function (lst/* ...*/) {
+        var res = [];
+        var m = MochiKit.Base;
+        var args = m.extend(null, arguments);
+        while (args.length) {
+            var o = args.shift();
+            if (o && typeof(o) == "object" && typeof(o.length) == "number") {
+                for (var i = o.length - 1; i >= 0; i--) {
+                    args.unshift(o[i]);
+                }
+            } else {
+                res.push(o);
+            }
+        }
+        return res;
+    },
+
     extend: function (self, obj, /* optional */skip) {
         /***
 
@@ -1314,7 +1331,8 @@ MochiKit.Base.EXPORT = [
     "evalJSON",
     "parseQueryString",
     "find",
-    "findIdentical"
+    "findIdentical",
+    "flattenArguments"
 ];
 
 MochiKit.Base.EXPORT_OK = [

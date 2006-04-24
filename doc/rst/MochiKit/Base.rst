@@ -505,6 +505,15 @@ Functions
         assert( findIdentical([1, 2, 3, 2, 1], 2, 2) == 3 )
 
 
+:mochidef:`flattenArguments(arg[, ...])`:
+
+    Given a bunch of arguments, return a single ``Array`` containing all
+    of those arguments.  Any ``Array`` argument will be extended in-place,
+    e.g.::
+
+        compare(flattenArguments(1, [2, 3, [4, 5]]), [1, 2, 3, 4, 5]) == 0
+
+
 :mochidef:`forward(name)`:
 
     Returns a function that forwards a method call to ``this.name(...)``
