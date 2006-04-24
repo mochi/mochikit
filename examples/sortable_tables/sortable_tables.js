@@ -123,7 +123,7 @@ update(SortableManager.prototype, {
             Return a sort function for click events
 
         ***/
-        return bind(function () {
+        return method(this, function () {
             log('onSortClick', name);
             var order = this.sortState[name];
             if (order == null) {
@@ -132,7 +132,7 @@ update(SortableManager.prototype, {
                 order = !order;
             }
             this.drawSortedRows(name, order, true);
-        }, this);
+        });
     },
 
     "drawSortedRows": function (key, forward, clicked) {
