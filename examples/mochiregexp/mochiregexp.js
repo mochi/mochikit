@@ -14,19 +14,16 @@ RegExpManager.prototype.initialize = function () {
        The reason we do the sample text here is so that "clear" really does
        clear the fields.
     */
-    updateNodeAttributes("inp_text", {
-        "value": "matched with your pattern",
-        "onkeyup": this.updateSoon,
-        "onchange": this.update
-    });
-    updateNodeAttributes("inp_regexp", {
-        "value": "/(pattern)/",
-        "onkeyup": this.updateSoon,
-        "onchange": this.update
-    });
-    updateNodeAttributes("regexp_form", {
-        "onsubmit": this.submit
-    });
+    setNodeAttribute("inp_text", "value", "matched with your pattern");
+    connect("inp_text", "onkeyup", this, "updateSoon");
+    connect("inp_text", "onchange", this, "update");
+
+    setNodeAttribute("inp_regexp", "value", "/(pattern)/");
+    connect("inp_regexp", "onkeyup", this, "updateSoon");
+    connect("inp_regexp", "onchange", this, "update");
+
+    connect("regexp_form", "onsubmit", this, "submit");
+
     this.update();
 };
 

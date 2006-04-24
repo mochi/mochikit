@@ -1,5 +1,6 @@
 2006-04-XX      v1.3 "warp zone"
 
+- Refactored MochiRegExp example to use MochiKit.Signal
 - New key_events example demonstrating use of MochiKit.Signal's key handling
   capabilities.
 - MochiKit.DOM.createDOM API change for convenience: if attrs is a string,
