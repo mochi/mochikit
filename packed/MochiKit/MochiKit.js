@@ -2895,7 +2895,7 @@ return self.appendChildNodes.apply(this,arguments);
 var elem;
 var self=MochiKit.DOM;
 var m=MochiKit.Base;
-if(typeof (_367)=="string"){
+if(typeof (_367)=="string"||typeof (_367)=="number"){
 var args=m.extend([name,null],arguments,1);
 return arguments.callee.apply(this,args);
 }
