@@ -28,12 +28,12 @@ Description
 ===========
 
 All of the functional programming missing from :mochiref:`MochiKit.Base` lives
-here.  The functionality in this module is largely inspired by Python's iteration
+here. The functionality in this module is largely inspired by Python's iteration
 protocol [1]_, and the itertools module [2]_.
 
 MochiKit.Iter defines a standard way to iterate over anything, that you can
 extend with :mochiref:`registerIterator`, or by implementing the ``.iter()``
-protocol.  Iterators are lazy, so it can potentially be cheaper to build a
+protocol. Iterators are lazy, so it can potentially be cheaper to build a
 filter chain of iterators than to build lots of intermediate arrays.
 Especially when the data set is very large, but the result is not.
 
@@ -225,8 +225,8 @@ Functions
 
     ``range(i, j)`` returns :mochiref:`iter([i, i + 1, i + 2, ..., j - 1])`
 
-    ``start`` (!) defaults to ``0``.  When ``step`` is given, it specifies the
-    increment (or decrement).  The end point is omitted!
+    ``start`` (!) defaults to ``0``. When ``step`` is given, it specifies the
+    increment (or decrement). The end point is omitted!
     
     For example, ``range(4)`` returns :mochiref:`iter([0, 1, 2, 3])`.
     This iterates over exactly the valid indexes for an array of 4 elements.
@@ -273,7 +273,7 @@ Functions
     returns a true value.
 
     If ``override`` is ``true``, then it will be made the
-    highest precedence iterator factory.  Otherwise, the lowest.
+    highest precedence iterator factory. Otherwise, the lowest.
 
 
 :mochidef:`repeat(elem[, n])`:
@@ -300,7 +300,7 @@ Functions
 :mochidef:`sum(iterable, start=0)`:
 
     Returns the sum of a sequence of numbers plus the value
-    of parameter ``start`` (with a default of 0).  When the sequence is
+    of parameter ``start`` (with a default of 0). When the sequence is
     empty, returns start.
 
     Equivalent to::
@@ -337,7 +337,7 @@ Authors
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
+Copyright 2005 Bob Ippolito <bob@redivi.com>. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 `MIT License`_ or the `Academic Free License v2.1`_.
 

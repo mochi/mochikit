@@ -60,8 +60,8 @@ Constructors
 
 :mochidef:`Color()`:
 
-    Represents a color.  Component values should be integers between ``0.0``
-    and ``1.0``.  You should use one of the :mochiref:`Color` factory
+    Represents a color. Component values should be integers between ``0.0``
+    and ``1.0``. You should use one of the :mochiref:`Color` factory
     functions such as :mochiref:`Color.fromRGB`, :mochiref:`Color.fromHSL`,
     etc. instead of constructing :mochiref:`Color` objects directly.
 
@@ -77,7 +77,7 @@ Constructors
 :mochidef:`Color.fromBackground(elem)`:
 
     Returns a :mochiref:`Color` object based on the background of the provided
-    element.  Equivalent to::
+    element. Equivalent to::
 
         c = Color.fromComputedStyle(
             elem, "backgroundColor", "background-color") || Color.whiteColor();
@@ -100,7 +100,7 @@ Constructors
 :mochidef:`Color.fromHSL(hue, saturation, lightness, alpha=1.0)`:
 
     Return a :mochiref:`Color` object from the given ``hue``, ``saturation``,
-    ``lightness`` values.  Values should be numbers between ``0.0`` and
+    ``lightness`` values. Values should be numbers between ``0.0`` and
     ``1.0``.
 
     If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
@@ -119,7 +119,7 @@ Constructors
 :mochidef:`Color.fromHSV(hue, saturation, value, alpha=1.0)`:
 
     Return a :mochiref:`Color` object from the given ``hue``, ``saturation``,
-    ``value`` values.  Values should be numbers between ``0.0`` and
+    ``value`` values. Values should be numbers between ``0.0`` and
     ``1.0``.
 
     If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
@@ -132,14 +132,14 @@ Constructors
 
     Returns a :mochiref:`Color` object corresponding to the given
     SVG 1.0 color keyword name [2]_ as per the W3C CSS3
-    Color Module [3]_.  ``"transparent"`` is also accepted
+    Color Module [3]_. ``"transparent"`` is also accepted
     as a color name, and will return :mochiref:`Color.transparentColor()`.
 
 
 :mochidef:`Color.fromRGB(red, green, blue, alpha=1.0)`:
 
     Return a :mochiref:`Color` object from the given ``red``, ``green``,
-    ``blue``, and ``alpha`` values.  Values should be numbers between ``0``
+    ``blue``, and ``alpha`` values. Values should be numbers between ``0``
     and ``1.0``.
 
     If ``alpha`` is not given, then ``1.0`` (completely opaque) will be used.
@@ -158,7 +158,7 @@ Constructors
 :mochidef:`Color.fromText(elem)`:
 
     Returns a :mochiref:`Color` object based on the text color of the provided
-    element.  Equivalent to::
+    element. Equivalent to::
 
         c = Color.fromComputedStyle(elem, "color") || Color.whiteColor();
 
@@ -177,7 +177,7 @@ Constructors
 :mochidef:`Color.namedColors()`:
 
     Returns an object with properties for each SVG 1.0 color keyword
-    name [2]_ supported by CSS3 [3]_.  Property names are the color keyword
+    name [2]_ supported by CSS3 [3]_. Property names are the color keyword
     name in lowercase, and the value is a string suitable for
     :mochiref:`Color.fromString()`.
 
@@ -221,7 +221,7 @@ Constructors
 :mochidef:`Color.prototype.blendedColor(other, fraction=0.5)`:
 
     Return a new :mochiref:`Color` whose RGBA component values are a weighted sum
-    of this color and ``other``.  Each component of the returned color
+    of this color and ``other``. Each component of the returned color
     is the ``fraction`` of other's value plus ``1 - fraction`` of this
     color's.
 
@@ -429,7 +429,7 @@ Functions
 :mochidef:`toColorPart(num)`:
 
     Convert num to a zero padded hexadecimal digit for use in a hexadecimal
-    color string.  Num should be an integer between ``0`` and ``255``.
+    color string. Num should be an integer between ``0`` and ``255``.
 
     :mochiref:`toColorPart` is not exported by default when using JSAN.
 
@@ -473,7 +473,7 @@ Authors
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
+Copyright 2005 Bob Ippolito <bob@redivi.com>. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 `MIT License`_ or the `Academic Free License v2.1`_.
 

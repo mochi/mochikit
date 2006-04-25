@@ -102,7 +102,7 @@ Programmer Representation
 -------------------------
 
 JavaScript's default representation mechanism, ``toString``, is notorious
-for having terrible default behavior.  It's also very unwise to change that
+for having terrible default behavior. It's also very unwise to change that
 default, as other JavaScript code you may be using may depend on it.
 
 It's also useful to separate the concept of a "string representation" and a
@@ -115,15 +115,15 @@ in a way that doesn't require object prototype hacking: using an
 
 Objects that implement the repr protocol can either implement a ``.repr()``
 or ``.__repr__()`` method, or they can simply have an adapter setup to
-generate programmer representations.  By default, the registry provides
+generate programmer representations. By default, the registry provides
 nice representations for ``null``, ``undefined``, ``Array``, and objects or
-functions with a ``NAME`` attribute that use the default ``toString``.  For
+functions with a ``NAME`` attribute that use the default ``toString``. For
 objects that ``repr`` doesn't already understand, it simply defaults to
 ``toString``, so it will integrate seamlessly with code that implements
 the idiomatic JavaScript ``toString`` method!
 
 To define a programmer representation for your own objects, simply add
-a ``.repr()`` or ``.__repr__()`` method that returns a string.  For
+a ``.repr()`` or ``.__repr__()`` method that returns a string. For
 objects that you didn't create (e.g., from a script you didn't write, or a 
 built-in object), it is instead recommended that you create an adapter
 with :mochiref:`registerRepr`.
@@ -133,14 +133,14 @@ JSON Serialization
 ------------------
 
 JSON [1]_, JavaScript Object Notation, is a widely used serialization format
-in the context of web development.  It's extremely simple, lightweight, and
-fast.  In its essence, JSON is a restricted subset of JavaScript syntax
+in the context of web development. It's extremely simple, lightweight, and
+fast. In its essence, JSON is a restricted subset of JavaScript syntax
 suitable for sending over the wire that can be unserialized with a simple
-eval.  It's often used as an alternative to XML in "AJAX" contexts because it
+eval. It's often used as an alternative to XML in "AJAX" contexts because it
 is compact, fast, and much simpler to use for most purposes.
 
 To create a JSON serialization of any object, simply call
-:mochiref:`serializeJSON()` with that object.  To unserialize a JSON string,
+:mochiref:`serializeJSON()` with that object. To unserialize a JSON string,
 simply call :mochiref:`evalJSON()`
 with the serialization.
 
@@ -150,19 +150,19 @@ into a JSON serialization:
 1. Primitive types are returned as their JSON representation: 
    ``undefined``, ``string``, ``number``, ``boolean``, ``null``.
 2. If the object has a ``__json__`` or ``json`` method, then it is called
-   with no arguments.  If the result of this method is not the object itself,
+   with no arguments. If the result of this method is not the object itself,
    then the new object goes through rule processing again (e.g. it may return
    a string, which is then serialized in JSON format).
 3. If the object is array-like (has a length property that is a number, and
-   is not a function), then it is serialized as a JSON array.  Each element
-   will be processed according to these rules in order.  Elements that can
+   is not a function), then it is serialized as a JSON array. Each element
+   will be processed according to these rules in order. Elements that can
    not be serialized (e.g. functions) will be replaced with ``undefined``.
 4. The ``jsonRegistry`` :mochiref:`AdapterRegistry` is consulted for an adapter
-   for this object.  ``JSON`` adapters take one argument (the object), and are
+   for this object. ``JSON`` adapters take one argument (the object), and are
    expected to behave like a ``__json__`` or ``json`` method (return another
    object to be serialized, or itself).
 5. If no adapter is available, the object is enumerated and serialized as a
-   JSON object (name:value pairs).  All names are expected to be strings.
+   JSON object (name:value pairs). All names are expected to be strings.
    Each value is serialized according to these rules, and if it can not be 
    serialized (e.g. methods), then that name:value pair will be skipped.
 
@@ -172,18 +172,18 @@ Adapter Registries
 
 MochiKit makes extensive use of adapter registries, which enable you to
 implement object-specific behaviors for objects that you do not necessarily
-want to modify, such as built-in objects.  This is especially useful because
+want to modify, such as built-in objects. This is especially useful because
 JavaScript does not provide a method for hiding user-defined properties from
 ``for propName in obj`` enumeration.
 
 :mochiref:`AdapterRegistry` is simply an encapsulation for an ordered list of
-"check" and "wrap" function pairs.  Each :mochiref:`AdapterRegistry` instance
+"check" and "wrap" function pairs. Each :mochiref:`AdapterRegistry` instance
 should perform one function, but may have multiple ways to achieve that
-function based upon the arguments.  One way to think of it is as a poor man's
+function based upon the arguments. One way to think of it is as a poor man's
 generic function, or multiple dispatch (on arbitrary functions, not just type!).
 
 Check functions take one or more arguments, and return ``true`` if the
-argument list is suitable for the wrap function.  Check functions should
+argument list is suitable for the wrap function. Check functions should
 perform "cheap" checks of an object's type or contents, before the
 "expensive" wrap function is called.
 
@@ -205,7 +205,7 @@ update keys that weren't already set?  Look no further than
 
 Want to return a mutable object, but don't want to suffer the consequences
 if the user mutates it?  Just :mochiref:`clone(it)` and you'll get a
-copy-on-write clone.  Cheaper than a copy!
+copy-on-write clone. Cheaper than a copy!
 
 Need to extend an Array with another array?  Or even an array-like object
 such as a ``NodeList`` or the special ``arguments`` object?  Even if you
@@ -228,7 +228,7 @@ Functional Programming
 
 Functional programming constructs such as :mochiref:`map` and
 :mochiref:`filter` can save you a lot of time, because JavaScript iteration is
-error-prone and arduous.  Writing less code is the best way to prevent bugs,
+error-prone and arduous. Writing less code is the best way to prevent bugs,
 and functional programming can help you do that.
 
 :mochiref:`MochiKit.Base` ships with a few simple Array-based functional
@@ -236,9 +236,9 @@ programming constructs, namely :mochiref:`map` and :mochiref:`filter`, and
 their "extended" brethren, :mochiref:`xmap` and :mochiref:`xfilter`.
 
 :mochiref:`map(func, arrayLike[, ...])` takes a function and an array-like
-object, and creates a new ``Array``.  The new ``Array`` is the result of
+object, and creates a new ``Array``. The new ``Array`` is the result of
 ``func(element)`` for every element of ``arrayLike``, much
-like the ``Array.prototype.map`` extension in Mozilla.  However,
+like the ``Array.prototype.map`` extension in Mozilla. However,
 :mochiref:`MochiKit.Base` takes that a step further and gives you the full
 blown Python version of :mochiref:`map`, which will take several array-like
 objects, and calls the function with one argument per given array-like,
@@ -251,13 +251,13 @@ like this::
    assert( objEqual(biggestElements, [5, 5, 3, 4, 5]) );
 
 :mochiref:`filter(func, arrayLike[, self])` takes a function and an array-like
-object, and returns a new ``Array``.  This is basically identical to the
-``Array.prototype.filter`` extension in Mozilla.  self, if given, will be
+object, and returns a new ``Array``. This is basically identical to the
+``Array.prototype.filter`` extension in Mozilla. self, if given, will be
 used as ``this`` in the context of func when called.
 
 :mochiref:`xmap` and :mochiref:`xfilter` are just special forms of
 :mochiref:`map` and :mochiref:`filter` that accept a function as the first
-argument, and use the extra arguments as the array-like.  Not terribly
+argument, and use the extra arguments as the array-like. Not terribly
 interesting, but a definite time-saver in some cases.
 
 If you appreciate the functional programming facilities here,
@@ -272,12 +272,12 @@ Bound and Partial Functions
 
 JavaScript's method-calling special form and lack of bound functions (functions
 that know what ``this`` should be) are one of the first stumbling blocks that
-programmers new to JavaScript face.  The :mochiref:`bind(func, self)` method
+programmers new to JavaScript face. The :mochiref:`bind(func, self)` method
 fixes that right up by returning a new function that calls func with the right
 ``this``.
 
 In order to take real advantage of all this fancy functional programming stuff,
-you're probably going to want partial application.  This allows you to create
+you're probably going to want partial application. This allows you to create
 a new function from an existing function that remembers some of the arguments.
 For example, if you wanted to compare a given object to a slew of other 
 objects, you could do something like this::
@@ -318,7 +318,7 @@ Constructors
     appropriate for the wrap function.
 
     If override is given and true, the check function will be given
-    highest priority.  Otherwise, it will be the lowest priority
+    highest priority. Otherwise, it will be the lowest priority
     adapter.
 
 
@@ -350,10 +350,10 @@ Functions
 
 :mochidef:`bind(func, self[, arg, ...])`:
 
-    Return a copy of ``func`` bound to ``self``.  This means whenever
+    Return a copy of ``func`` bound to ``self``. This means whenever
     and however the returned function is called, ``this`` will always
-    reference the given ``self``.  ``func`` may be either a function
-    object, or a string.  If it is a string, then ``self[func]`` will
+    reference the given ``self``. ``func`` may be either a function
+    object, or a string. If it is a string, then ``self[func]`` will
     be used, making these two statements equivalent::
         
         bind("method", self);
@@ -363,11 +363,11 @@ Functions
     return a new function that is bound to the new ``self``!  If
     ``self`` is ``undefined``, then the previous ``self`` is used.
     If ``self`` is ``null``, then the ``this`` object is used
-    (which may or may not be the global object).  To force binding
+    (which may or may not be the global object). To force binding
     to the global object, you should pass it explicitly.
 
     Additional arguments, if given, will be partially applied to
-    the function.  These three expressions are equivalent and
+    the function. These three expressions are equivalent and
     return equally efficient functions (:mochiref:`bind` and
     :mochiref:`partial` share the same code path):
 
@@ -384,9 +384,9 @@ Functions
 
 :mochidef:`clone(obj)`:
 
-    Return a new object using ``obj`` as its prototype.  Use this
+    Return a new object using ``obj`` as its prototype. Use this
     if you want to return a mutable object (e.g. instance state),
-    but don't want the user to mutate it.  If they do, it won't
+    but don't want the user to mutate it. If they do, it won't
     have any effect on the original ``obj``.
     
     Note that this is a shallow clone, so mutable properties will
@@ -395,13 +395,13 @@ Functions
 
 :mochidef:`compare(a, b)`:
 
-    Compare two objects in a sensible manner.  Currently this is:
+    Compare two objects in a sensible manner. Currently this is:
     
         1. ``undefined`` and ``null`` compare equal to each other
         2. ``undefined`` and ``null`` are less than anything else
         3. If JavaScript says ``a == b``, then we trust it
         4. comparators registered with registerComparator are
-           used to find a good comparator.  Built-in comparators
+           used to find a good comparator. Built-in comparators
            are currently available for ``Array``-like and ``Date``-like
            objects.
         5. Otherwise hope that the built-in comparison operators
@@ -434,7 +434,7 @@ Functions
 :mochidef:`counter(n=1)`:
 
     Returns a function that will return a number one greater than
-    the previous returned value, starting at ``n``.  For example::
+    the previous returned value, starting at ``n``. For example::
 
         nextId = counter()
         assert( nextId() == 1 )
@@ -447,7 +447,7 @@ Functions
 :mochidef:`extend(self, obj[, skip])`:
 
     Mutate an array by extending it with an array-like obj,
-    starting with the "skip" index of obj.  If null is given
+    starting with the "skip" index of obj. If null is given
     as the initial array, a new one will be created.
 
     This mutates *and returns* the given array, be warned.
@@ -461,7 +461,7 @@ Functions
     therefore trusts the contents of ``aJSONString`` to be safe.
     This is acceptable when the JSON and JavaScript application
     originate from the same server, but in other scenarios it may not be the
-    appropriate security model.  Currently, a validating JSON parser is beyond
+    appropriate security model. Currently, a validating JSON parser is beyond
     the scope of MochiKit, but there is one available from json.org [1]_.
 
 
@@ -476,8 +476,8 @@ Functions
 :mochidef:`findValue(lst, value, start=0, end=lst.length)`:
 
     Finds the index of ``value`` in the ``Array``-like object ``lst`` using
-    :mochiref:`compare`.  The search starts at the index ``start``, and ends
-    at the index ``end - 1``.  If ``value`` is not found in ``lst``, it will
+    :mochiref:`compare`. The search starts at the index ``start``, and ends
+    at the index ``end - 1``. If ``value`` is not found in ``lst``, it will
     return ``-1``.
 
     For example::
@@ -489,8 +489,8 @@ Functions
 :mochidef:`findIdentical(lst, value, start=0, end=lst.length)`:
 
     Finds the index of ``value`` in the ``Array``-like object ``lst`` using
-    the ``===`` operator.  The search starts at the index ``start``, and ends
-    at the index ``end - 1``.  If ``value`` is not found in ``lst``, it will
+    the ``===`` operator. The search starts at the index ``start``, and ends
+    at the index ``end - 1``. If ``value`` is not found in ``lst``, it will
     return ``-1``.
     
     You should use this function instead of :mochiref:`findValue` if ``lst`` may
@@ -508,7 +508,7 @@ Functions
 :mochidef:`flattenArguments(arg[, ...])`:
 
     Given a bunch of arguments, return a single ``Array`` containing all
-    of those arguments.  Any ``Array`` argument will be extended in-place,
+    of those arguments. Any ``Array`` argument will be extended in-place,
     e.g.::
 
         compare(flattenArguments(1, [2, 3, [4, 5]]), [1, 2, 3, 4, 5]) == 0
@@ -583,25 +583,25 @@ Functions
 :mochidef:`listMax(lst)`:
 
     Return the largest element of an ``Array``-like object, as determined
-    by :mochiref:`compare`.  This is a special form of :mochiref:`listMinMax`,
+    by :mochiref:`compare`. This is a special form of :mochiref:`listMinMax`,
     specifically :mochiref:`partial(listMinMax, 1)`.
 
 
 :mochidef:`listMin(lst)`:
 
     Return the smallest element of an ``Array``-like object, as determined
-    by :mochiref:`compare`.  This is a special form of :mochiref:`listMinMax`,
+    by :mochiref:`compare`. This is a special form of :mochiref:`listMinMax`,
     specifically :mochiref:`partial(listMinMax, -1)`.
 
 
 :mochidef:`listMinMax(which, lst)`:
 
     If ``which == -1`` then it will return the smallest
-    element of the ``Array``-like ``lst``.  This is also available
+    element of the ``Array``-like ``lst``. This is also available
     as :mochiref:`listMin(lst)`.
 
     If ``which == 1`` then it will return the largest
-    element of the array-like lst.  This is also available
+    element of the array-like lst. This is also available
     as :mochiref:`listMax(list)`.
 
 
@@ -627,7 +627,7 @@ Functions
 :mochidef:`merge(obj[, ...])`:
 
     Create a new instance of ``Object`` that contains every property
-    from all given objects.  If a property is defined on more than
+    from all given objects. If a property is defined on more than
     one of the objects, the last property is used.
 
     This is a special form of :mochiref:`update(self, obj[, ...])`,
@@ -637,7 +637,7 @@ Functions
 :mochidef:`method(self, func, ...)`:
 
     Alternate form of :mochiref:`bind` that takes the object before the
-    function.  These two are equivalent::
+    function. These two are equivalent::
 
         bind("method", myobject)
         method(myobject, "method")
@@ -675,19 +675,19 @@ Functions
     ``visitor``:
         The visitor function, will be called as
         ``visitor(node)``, and should return an ``Array``-like
-        of nodes to be searched next (e.g.  ``node.childNodes``).
+        of nodes to be searched next (e.g. ``node.childNodes``).
 
 
 :mochidef:`objMax(obj[, ...])`:
 
-    Return the maximum object out of the given arguments.  This is similar to
+    Return the maximum object out of the given arguments. This is similar to
     :mochiref:`listMax`, except is uses the arguments instead of a given
     ``Array``-like.
         
 
 :mochidef:`objMin(obj[, ...])`:
 
-    Return the minimum object out of the given arguments.  This is similar
+    Return the minimum object out of the given arguments. This is similar
     to :mochiref:`listMin`, except it uses the arguments instead of a given
     ``Array``-like.
 
@@ -805,14 +805,14 @@ Functions
 :mochidef:`parseQueryString(encodedString[, useArrays=false])`:
 
     Parse a name=value pair URL query string into an object with a property
-    for each pair.  e.g.::
+    for each pair. e.g.::
 
         var args = parseQueryString("foo=value%20one&bar=two");
         assert( args.foo == "value one" && args.bar == "two" );
     
     If you expect that the query string will reuse the
     same name, then give ``true`` as a second argument, which will
-    use arrays to store the values.  e.g.::
+    use arrays to store the values. e.g.::
 
         var args = parseQueryString("foo=one&foo=two", true);
         assert( args.foo[0] == "one" && args.foo[1] == "two" );
@@ -831,7 +831,7 @@ Functions
         assert(addOne(2) == 3);
 
     :mochiref:`partial` is a special form of :mochiref:`bind` that does not
-    alter the bound ``self`` (if any).  It is equivalent to calling::
+    alter the bound ``self`` (if any). It is equivalent to calling::
 
         bind(func, undefined, arg[, ...]);
 
@@ -844,9 +844,9 @@ Functions
 :mochidef:`queryString(names, values)`:
 
     Creates a URL query string from a pair of array-like objects representing
-    ``names`` and ``values``.  Each name=value pair will be URL encoded by
-    :mochiref:`urlEncode`.  name=value pairs with a value of ``undefined`` or
-    ``null`` will be skipped.  e.g.::
+    ``names`` and ``values``. Each name=value pair will be URL encoded by
+    :mochiref:`urlEncode`. name=value pairs with a value of ``undefined`` or
+    ``null`` will be skipped. e.g.::
 
         var keys = ["foo", "bar"];
         var values = ["value one", "two"];
@@ -868,7 +868,7 @@ Functions
     JavaScript implementation handles ``for (..in..)`` property enumeration.
     
     When using the second alternate form, name=value pairs with
-    ``typeof(value) == "function"`` are ignored.  This is a workaround for the
+    ``typeof(value) == "function"`` are ignored. This is a workaround for the
     case where a poorly designed library has modified ``Object.prototype``
     and inserted "convenience functions".
 
@@ -898,7 +898,7 @@ Functions
     returns a ``true`` value.
 
     If ``override`` is ``true``, then it will be made the
-    highest precedence comparator.  Otherwise, the lowest.
+    highest precedence comparator. Otherwise, the lowest.
 
 
 :mochidef:`registerJSON(name, check, simplifier[, override])`:
@@ -911,7 +911,7 @@ Functions
     can be simplified for serialization by ``simplifier``.
 
     ``simplifier`` is a ``function(obj)`` that returns a simpler object that
-    can be further serialized by :mochiref:`serializeJSON`.  For example,
+    can be further serialized by :mochiref:`serializeJSON`. For example,
     you could simplify Date-like objects to ISO 8601 timestamp strings with
     the following simplifier::
 
@@ -924,7 +924,7 @@ Functions
     returns a ``true`` value.
 
     If ``override`` is ``true``, then it will be made the
-    highest precedence comparator.  Otherwise, the lowest.
+    highest precedence comparator. Otherwise, the lowest.
 
 
 :mochidef:`registerRepr(name, check, wrap[, override])`:
@@ -940,7 +940,7 @@ Functions
 
 :mochidef:`repr(o)`:
 
-    Return a programmer representation for an object.  See the
+    Return a programmer representation for an object. See the
     `Programmer Representation`_ overview for more information about this
     function.
 
@@ -958,7 +958,7 @@ Functions
 :mochidef:`serializeJSON(anObject)`:
 
     Serialize any object in the JSON [1]_ format, see `JSON Serialization`_
-    for the coercion rules.  For unserializable objects (functions that do
+    for the coercion rules. For unserializable objects (functions that do
     not have an adapter, ``__json__`` method, or ``json`` method), this will
     return ``undefined``.
 
@@ -987,7 +987,7 @@ Functions
 :mochidef:`update(self, obj[, ...])`:
 
     Mutate an object by replacing its key:value pairs with those
-    from other object(s).  Key:value pairs from later objects will
+    from other object(s). Key:value pairs from later objects will
     overwrite those from earlier objects.
     
     If null is given as the initial object, a new one will be created.
@@ -1001,7 +1001,7 @@ Functions
 :mochidef:`updatetree(self, obj[, ...])`:
 
     Mutate an object by replacing its key:value pairs with those
-    from other object(s).  If a given key has an object value in
+    from other object(s). If a given key has an object value in
     both ``self`` and ``obj``, then this function will be called
     recursively, updating instead of replacing that object.
 
@@ -1050,7 +1050,7 @@ Authors
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
+Copyright 2005 Bob Ippolito <bob@redivi.com>. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 `MIT License`_ or the `Academic Free License v2.1`_.
 

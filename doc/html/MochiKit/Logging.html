@@ -28,7 +28,7 @@ log(&quot;good thing I can pass&quot;, objects, &quot;conveniently&quot;);
 <div class="section">
 <h1><a id="description" name="description">Description</a></h1>
 <p>MochiKit.Logging steals some ideas from Python's logging module <a class="footnote-reference" href="#id6" id="id1" name="id1">[1]</a>, but
-completely forgot about the Java <a class="footnote-reference" href="#id7" id="id2" name="id2">[2]</a> inspiration.  This is a KISS module for
+completely forgot about the Java <a class="footnote-reference" href="#id7" id="id2" name="id2">[2]</a> inspiration. This is a KISS module for
 logging that provides enough flexibility to do just about anything via
 listeners, but without all the cruft.</p>
 </div>
@@ -43,7 +43,7 @@ listeners, but without all the cruft.</p>
 <div class="section">
 <h2><a id="native-console-logging" name="native-console-logging">Native Console Logging</a></h2>
 <p>As of MochiKit 1.3, the default logger will log all messages to your browser's
-native console.  This is currently supported in Safari, Opera 9, and Firefox
+native console. This is currently supported in Safari, Opera 9, and Firefox
 when the <a class="reference" href="http://www.joehewitt.com/software/firebug/">FireBug</a> extension is installed.</p>
 <p>To disable this behavior:</p>
 <pre class="literal-block">
@@ -53,16 +53,16 @@ MochiKit.Logging.logger.useNativeLogging = false;
 <div class="section">
 <h2><a id="bookmarklet-based-debugging" name="bookmarklet-based-debugging">Bookmarklet Based Debugging</a></h2>
 <p>JavaScript is at a serious disadvantage without a standard console for
-&quot;print&quot; statements.  Everything else has one.  The closest thing that
+&quot;print&quot; statements. Everything else has one. The closest thing that
 you get in a browser environment is the <tt class="docutils literal"><span class="pre">alert</span></tt> function, which is
 absolutely evil.</p>
 <p>This leaves you with one reasonable solution: do your logging in the page
-somehow.  The problem here is that you don't want to clutter the page with
-debugging tools.  The solution to that problem is what we call BBD, or
+somehow. The problem here is that you don't want to clutter the page with
+debugging tools. The solution to that problem is what we call BBD, or
 Bookmarklet Based Debugging <a class="footnote-reference" href="#id8" id="id4" name="id4">[3]</a>.</p>
 <p>Simply create a bookmarklet for <a class="reference" href="javascript:MochiKit.Logging.logger.debuggingBookmarklet()">javascript:MochiKit.Logging.logger.debuggingBookmarklet()</a>,
-and whack it whenever you want to see what's in the logger.  Of course, this
-means you must drink the MochiKit.Logging kool-aid.  It's tangy and sweet,
+and whack it whenever you want to see what's in the logger. Of course, this
+means you must drink the MochiKit.Logging kool-aid. It's tangy and sweet,
 don't worry.</p>
 <p>Currently this is an ugly <tt class="docutils literal"><span class="pre">alert</span></tt>, but we'll have something spiffy
 Real Soon Now, and when we do, you only have to upgrade MochiKit.Logging,
@@ -101,7 +101,7 @@ plus a listener dispatch mechanism for &quot;real-time&quot; logging
 of important messages.</p>
 <p><tt class="docutils literal"><span class="pre">maxSize</span></tt> is the maximum number of entries in the log.
 If <tt class="docutils literal"><span class="pre">maxSize</span> <span class="pre">&gt;=</span> <span class="pre">0</span></tt>, then the log will not buffer more than that
-many messages.  So if you don't like logging at all, be sure to
+many messages. So if you don't like logging at all, be sure to
 pass <tt class="docutils literal"><span class="pre">0</span></tt>.</p>
 <p>There is a default logger available named &quot;logger&quot;, and several
 of its methods are also global functions:</p>
@@ -133,7 +133,7 @@ received.</dd>
 true then <tt class="docutils literal"><span class="pre">listener(msg)</span></tt> will be called.</dd>
 </dl>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">listener</span></tt> is a function that takes one argument, a log message.  A log
+<p><tt class="docutils literal"><span class="pre">listener</span></tt> is a function that takes one argument, a log message. A log
 message is an object (<a class="mochiref reference" href="#fn-logmessage">LogMessage</a> instance) that has at least these
 properties:</p>
 <blockquote>
@@ -141,7 +141,7 @@ properties:</p>
 <dt><tt class="docutils literal"><span class="pre">num</span></tt>:</dt>
 <dd>A counter that uniquely identifies a log message (per-logger)</dd>
 <dt><tt class="docutils literal"><span class="pre">level</span></tt>:</dt>
-<dd>A string or number representing the log level.  If string, you
+<dd>A string or number representing the log level. If string, you
 may want to use <tt class="docutils literal"><span class="pre">LogLevel[level]</span></tt> for comparison.</dd>
 <dt><tt class="docutils literal"><span class="pre">info</span></tt>:</dt>
 <dd>An Array of objects passed as additional arguments to the <tt class="docutils literal"><span class="pre">log</span></tt>
@@ -196,7 +196,7 @@ Clear all messages from the message buffer.</blockquote>
 <blockquote>
 <p>Display the contents of the logger in a useful way for browsers.</p>
 <p>Currently, if <a class="mochiref reference" href="LoggingPane.html">MochiKit.LoggingPane</a> is loaded, then a pop-up
-<a class="mochiref reference" href="LoggingPane.html#fn-loggingpane">MochiKit.LoggingPane.LoggingPane</a> will be used.  Otherwise,
+<a class="mochiref reference" href="LoggingPane.html#fn-loggingpane">MochiKit.LoggingPane.LoggingPane</a> will be used. Otherwise,
 it will be an alert with <a class="mochiref reference" href="#fn-logger.prototype.getmessagetext">Logger.prototype.getMessageText()</a>.</p>
 </blockquote>
 <p>
@@ -214,7 +214,7 @@ Return a list of up to <tt class="docutils literal"><span class="pre">howMany</s
 <a class="mochidef reference" href="#fn-logger.prototype.getmessagetext">Logger.prototype.getMessageText(howMany)</a>:</p>
 <blockquote>
 <p>Get a string representing up to the last <tt class="docutils literal"><span class="pre">howMany</span></tt> messages in the
-message buffer.  The default is <tt class="docutils literal"><span class="pre">30</span></tt>.</p>
+message buffer. The default is <tt class="docutils literal"><span class="pre">30</span></tt>.</p>
 <p>The message looks like this:</p>
 <pre class="literal-block">
 LAST {messages.length} MESSAGES:
@@ -300,7 +300,7 @@ Log a WARNING message to the default logger</blockquote>
 </div>
 <div class="section">
 <h1><a id="copyright" name="copyright">Copyright</a></h1>
-<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is dual-licensed
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
 </div>

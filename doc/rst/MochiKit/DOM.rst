@@ -33,21 +33,21 @@ Description
 ===========
 
 As you probably know, the DOM APIs are some of the most painful Java-inspired
-APIs you'll run across from a highly dynamic language.  Don't worry about that
+APIs you'll run across from a highly dynamic language. Don't worry about that
 though, because they provide a reasonable basis to build something that
 sucks a lot less.
 
 MochiKit.DOM takes much of its inspiration from Nevow's [1]_ stan [2]_.
 This means you choose a tag, give it some attributes, then stuff it full
-of *whatever objects you want*.  MochiKit.DOM isn't stupid, it knows that
+of *whatever objects you want*. MochiKit.DOM isn't stupid, it knows that
 a string should be a text node, and that you want functions to be called,
 and that ``Array``-like objects should be expanded, and stupid ``null`` values
 should be skipped.
 
 Hell, it will let you return strings from functions, and use iterators from
-:mochiref:`MochiKit.Iter`.  If that's not enough, just teach it new tricks with
-:mochiref:`registerDOMConverter`.  If you have never used an API like this for
-creating DOM elements, you've been wasting your damn time.  Get with it!
+:mochiref:`MochiKit.Iter`. If that's not enough, just teach it new tricks with
+:mochiref:`registerDOMConverter`. If you have never used an API like this for
+creating DOM elements, you've been wasting your damn time. Get with it!
 
 
 Dependencies
@@ -66,31 +66,31 @@ DOM Coercion Rules
 In order of precedence, :mochiref:`createDOM` coerces given arguments to DOM
 nodes using the following rules:
 
-1.  Functions are called with a ``this`` of the parent
+1. Functions are called with a ``this`` of the parent
     node and their return value is subject to the
     following rules (even this one).
-2.  ``undefined`` and ``null`` are ignored.
-3.  Iterables (see :mochiref:`MochiKit.Iter`) are flattened
+2. ``undefined`` and ``null`` are ignored.
+3. Iterables (see :mochiref:`MochiKit.Iter`) are flattened
     (as if they were passed in-line as nodes) and each
     return value is subject to all of these rules.
-4.  Values that look like DOM nodes (objects with a
+4. Values that look like DOM nodes (objects with a
     ``.nodeType > 0``) are ``.appendChild``'ed to the created
     DOM fragment.
-5.  Strings are wrapped up with ``document.createTextNode``
-6.  Objects that are not strings are run through the ``domConverters``
+5. Strings are wrapped up with ``document.createTextNode``
+6. Objects that are not strings are run through the ``domConverters``
     :mochiref:`MochiKit.Base.AdapterRegistry`
     (see :mochiref:`registerDOMConverter`).
     The value returned by the adapter is subject to these same rules (e.g.
     adapters are allowed to return a string, which will be coerced into a
     text node).
-7.  If no adapter is available, ``.toString()`` is used to create a text node.
+7. If no adapter is available, ``.toString()`` is used to create a text node.
 
 
 Creating DOM Element Trees
 --------------------------
 
 :mochiref:`createDOM` provides you with an excellent facility for creating DOM trees
-that is easy on the wrists.  One of the best ways to understand how to use
+that is easy on the wrists. One of the best ways to understand how to use
 it is to take a look at an example::
 
     var rows = [
@@ -160,7 +160,7 @@ DOM Context
 In order to prevent having to pass a ``window`` and/or ``document``
 variable to every MochiKit.DOM function (e.g. when working with a
 child window), MochiKit.DOM maintains a context variable for each
-of them.  They are managed with the :mochiref:`withWindow` and
+of them. They are managed with the :mochiref:`withWindow` and
 :mochiref:`withDocument` functions, and can be acquired with
 :mochiref:`currentWindow()` and :mochiref:`currentDocument()`
 
@@ -181,9 +181,9 @@ Element Visibility
 
 The :mochiref:`hideElement` and :mochiref:`showElement` functions are
 provided as a convenience, but only work for elements that are
-``display: block``.  For a general solution to showing, hiding, and checking
+``display: block``. For a general solution to showing, hiding, and checking
 the explicit visibility of elements, we recommend using a solution that
-involves a little CSS.  Here's an example::
+involves a little CSS. Here's an example::
 
     <style type="text/css">
         .invisible { display: none; }
@@ -227,7 +227,7 @@ Functions
 :mochidef:`addElementClass(element, className)`:
 
     Ensure that the given ``element`` has ``className`` set as part of its
-    class attribute.  This will not disturb other class names.
+    class attribute. This will not disturb other class names.
     ``element`` is looked up with :mochiref:`getElement`, so string identifiers
     are also acceptable.
 
@@ -247,7 +247,7 @@ Functions
 :mochidef:`addToCallStack(target, path, func[, once])`:
 
     Note that :mochiref:`addToCallStack` is not compatible with 
-    :mochiref:`MochiKit.Signal`.  Once an event is connected with
+    :mochiref:`MochiKit.Signal`. Once an event is connected with
     :mochiref:`MochiKit.Signal`, no other APIs may be used for that same event.
 
     Set the property ``path`` of ``target`` to a function that calls the
@@ -359,7 +359,7 @@ Functions
 :mochidef:`createDOMFunc(tag[, attrs[, node[, ...]]])`:
     
     Convenience function to create a partially applied createDOM
-    function.  You'd want to use this if you add additional convenience
+    function. You'd want to use this if you add additional convenience
     functions for creating tags, or if you find yourself creating
     a lot of tags with a bunch of the same attributes or contents.
 
@@ -381,14 +381,14 @@ Functions
 
 :mochidef:`currentDocument()`:
 
-    Return the current ``document`` `DOM Context`_.  This will always
+    Return the current ``document`` `DOM Context`_. This will always
     be the same as the global ``document`` unless :mochiref:`withDocument` or
     :mochiref:`withWindow` is currently executing.
 
 
 :mochidef:`currentWindow()`:
 
-    Return the current ``window`` `DOM Context`_.  This will always
+    Return the current ``window`` `DOM Context`_. This will always
     be the same as the global ``window`` unless :mochiref:`withWindow` is 
     currently executing.
 
@@ -397,7 +397,7 @@ Functions
 
     Return the absolute pixel width and height of ``element`` as an object with
     ``w`` and ``h`` properties, or ``undefined`` if ``element`` is not in the
-    document.  ``element`` may be specified as a string to be looked up with
+    document. ``element`` may be specified as a string to be looked up with
     :mochiref:`getElement`, a DOM element, or trivially as an object with
     ``w`` and/or ``h`` properties.
 
@@ -406,7 +406,7 @@ Functions
 
     Return the absolute pixel position of ``element`` in the document as an
     object with ``x`` and ``y`` properties, or ``undefined`` if ``element``
-    is not in the document.  ``element`` may be specified as a string to
+    is not in the document. ``element`` may be specified as a string to
     be looked up with :mochiref:`getElement`, a DOM element, or trivially
     as an object with ``x`` and/or ``y`` properties.
 
@@ -445,7 +445,7 @@ Functions
 :mochidef:`formContents(elem)`:
 
     Search the DOM tree, starting at ``elem``, for any elements with a
-    ``name`` and ``value`` attribute.  Return a 2-element ``Array`` of 
+    ``name`` and ``value`` attribute. Return a 2-element ``Array`` of 
     ``names`` and ``values`` suitable for use with
     :mochiref:`MochiKit.Base.queryString`.
 
@@ -453,7 +453,7 @@ Functions
 :mochidef:`getElement(id[, ...])`:
 
     A small quick little function to encapsulate the ``getElementById``
-    method.  It includes a check to ensure we can use that method.
+    method. It includes a check to ensure we can use that method.
 
     If the id isn't a string, it will be returned as-is.
 
@@ -466,7 +466,7 @@ Functions
 :mochidef:`getElementsByTagAndClassName(tagName, className, parent=document)`:
 
     Returns an array of elements in ``parent`` that match the tag name
-    and class name provided.  If ``parent`` is a string, it will be looked
+    and class name provided. If ``parent`` is a string, it will be looked
     up with :mochiref:`getElement`.
     
     If ``tagName`` is ``null`` or ``"*"``, all elements will be searched 
@@ -529,7 +529,7 @@ Functions
 
 :mochidef:`removeElement(node)`:
 
-    Remove and return ``node`` from a DOM tree.  This is technically
+    Remove and return ``node`` from a DOM tree. This is technically
     just a convenience for :mochiref:`swapDOM(node, null)`.
 
     ``node``:
@@ -542,7 +542,7 @@ Functions
 :mochidef:`removeElementClass(element, className)`:
 
     Ensure that the given ``element`` does not have ``className`` set as part
-    of its class attribute.  This will not disturb other class names.
+    of its class attribute. This will not disturb other class names.
     ``element`` is looked up with :mochiref:`getElement`, so string identifiers
     are also acceptable.
 
@@ -572,14 +572,14 @@ Functions
     ``string``.
 
     If ``asArray`` is ``true``, then an ``Array`` will be returned with
-    each individual text node.  These two are equivalent::
+    each individual text node. These two are equivalent::
 
         assert( scrapeText(node) == scrapeText(node, true).join("") );
 
 
 :mochidef:`setDisplayForElement(display, element[, ...])`:
 
-    Change the ``style.display`` for the given element(s).  Usually
+    Change the ``style.display`` for the given element(s). Usually
     used as the partial forms:
 
     - :mochiref:`showElement(element, ...)`
@@ -635,7 +635,7 @@ Functions
 :mochidef:`setNodeAttribute(node, attr, value)`:
 
     Set the value of the given attribute for a DOM element without
-    ever raising an exception (will return null on exception).  If
+    ever raising an exception (will return null on exception). If
     setting more than one attribute, you should use
     :mochiref:`updateNodeAttributes`.
     
@@ -701,7 +701,7 @@ Functions
 :mochidef:`toggleElementClass(className[, element[, ...]])`:
 
     Toggle the presence of a given ``className`` in the class attribute
-    of all given elements.  All elements will be looked up with
+    of all given elements. All elements will be looked up with
     :mochiref:`getElement`, so string identifiers are acceptable.
 
 
@@ -721,7 +721,7 @@ Functions
     ``attrs``:
         An object whose properties will be used to set the attributes
         (e.g. ``{'class': 'invisible'}``), or ``null`` if no
-        attributes need to be set.  If an object is given for the
+        attributes need to be set. If an object is given for the
         attribute value (e.g. ``{'style': {'display': 'block'}}``)
         then :mochiref:`MochiKit.Base.updatetree` will be used to set that
         attribute.
@@ -737,7 +737,7 @@ Functions
 :mochidef:`withWindow(win, func)`:
 
     Call ``func`` with the ``window`` `DOM Context`_ set to ``win`` and
-    the ``document`` `DOM Context`_ set to ``win.document``.  When
+    the ``document`` `DOM Context`_ set to ``win.document``. When
     ``func()`` returns or throws an error, the `DOM Context`_  will be
     restored to its previous state.
     
@@ -760,8 +760,8 @@ See Also
 .. [2] nevow.stan is a domain specific language for Python 
        (read as "crazy getitem/call overloading abuse") that Donovan and I
        schemed up at PyCon 2003 at this super ninja Python/C++ programmer's
-       (David Abrahams) hotel room.  Donovan later inflicted this upon the
-       masses in Nevow.  Check out the Divmod project page for some
+       (David Abrahams) hotel room. Donovan later inflicted this upon the
+       masses in Nevow. Check out the Divmod project page for some
        examples: http://nevow.com/Nevow2004Tutorial.html
 
 
@@ -774,7 +774,7 @@ Authors
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
+Copyright 2005 Bob Ippolito <bob@redivi.com>. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 `MIT License`_ or the `Academic Free License v2.1`_.
 

@@ -100,7 +100,7 @@ by adding an entry to its <a class="mochiref reference" href="#fn-adapterregistr
 <div class="section">
 <h2><a id="programmer-representation" name="programmer-representation">Programmer Representation</a></h2>
 <p>JavaScript's default representation mechanism, <tt class="docutils literal"><span class="pre">toString</span></tt>, is notorious
-for having terrible default behavior.  It's also very unwise to change that
+for having terrible default behavior. It's also very unwise to change that
 default, as other JavaScript code you may be using may depend on it.</p>
 <p>It's also useful to separate the concept of a &quot;string representation&quot; and a
 &quot;string representation for programmers&quot;, much like Python does with its str
@@ -110,14 +110,14 @@ in a way that doesn't require object prototype hacking: using an
 <a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a>.</p>
 <p>Objects that implement the repr protocol can either implement a <tt class="docutils literal"><span class="pre">.repr()</span></tt>
 or <tt class="docutils literal"><span class="pre">.__repr__()</span></tt> method, or they can simply have an adapter setup to
-generate programmer representations.  By default, the registry provides
+generate programmer representations. By default, the registry provides
 nice representations for <tt class="docutils literal"><span class="pre">null</span></tt>, <tt class="docutils literal"><span class="pre">undefined</span></tt>, <tt class="docutils literal"><span class="pre">Array</span></tt>, and objects or
-functions with a <tt class="docutils literal"><span class="pre">NAME</span></tt> attribute that use the default <tt class="docutils literal"><span class="pre">toString</span></tt>.  For
+functions with a <tt class="docutils literal"><span class="pre">NAME</span></tt> attribute that use the default <tt class="docutils literal"><span class="pre">toString</span></tt>. For
 objects that <tt class="docutils literal"><span class="pre">repr</span></tt> doesn't already understand, it simply defaults to
 <tt class="docutils literal"><span class="pre">toString</span></tt>, so it will integrate seamlessly with code that implements
 the idiomatic JavaScript <tt class="docutils literal"><span class="pre">toString</span></tt> method!</p>
 <p>To define a programmer representation for your own objects, simply add
-a <tt class="docutils literal"><span class="pre">.repr()</span></tt> or <tt class="docutils literal"><span class="pre">.__repr__()</span></tt> method that returns a string.  For
+a <tt class="docutils literal"><span class="pre">.repr()</span></tt> or <tt class="docutils literal"><span class="pre">.__repr__()</span></tt> method that returns a string. For
 objects that you didn't create (e.g., from a script you didn't write, or a
 built-in object), it is instead recommended that you create an adapter
 with <a class="mochiref reference" href="#fn-registerrepr">registerRepr</a>.</p>
@@ -125,13 +125,13 @@ with <a class="mochiref reference" href="#fn-registerrepr">registerRepr</a>.</p>
 <div class="section">
 <h2><a id="json-serialization" name="json-serialization">JSON Serialization</a></h2>
 <p>JSON <a class="footnote-reference" href="#id7" id="id2" name="id2">[1]</a>, JavaScript Object Notation, is a widely used serialization format
-in the context of web development.  It's extremely simple, lightweight, and
-fast.  In its essence, JSON is a restricted subset of JavaScript syntax
+in the context of web development. It's extremely simple, lightweight, and
+fast. In its essence, JSON is a restricted subset of JavaScript syntax
 suitable for sending over the wire that can be unserialized with a simple
-eval.  It's often used as an alternative to XML in &quot;AJAX&quot; contexts because it
+eval. It's often used as an alternative to XML in &quot;AJAX&quot; contexts because it
 is compact, fast, and much simpler to use for most purposes.</p>
 <p>To create a JSON serialization of any object, simply call
-<a class="mochiref reference" href="#fn-serializejson">serializeJSON()</a> with that object.  To unserialize a JSON string,
+<a class="mochiref reference" href="#fn-serializejson">serializeJSON()</a> with that object. To unserialize a JSON string,
 simply call <a class="mochiref reference" href="#fn-evaljson">evalJSON()</a>
 with the serialization.</p>
 <p>In order of precedence, <a class="mochiref reference" href="#fn-serializejson">serializeJSON</a> coerces the given argument
@@ -140,19 +140,19 @@ into a JSON serialization:</p>
 <li>Primitive types are returned as their JSON representation:
 <tt class="docutils literal"><span class="pre">undefined</span></tt>, <tt class="docutils literal"><span class="pre">string</span></tt>, <tt class="docutils literal"><span class="pre">number</span></tt>, <tt class="docutils literal"><span class="pre">boolean</span></tt>, <tt class="docutils literal"><span class="pre">null</span></tt>.</li>
 <li>If the object has a <tt class="docutils literal"><span class="pre">__json__</span></tt> or <tt class="docutils literal"><span class="pre">json</span></tt> method, then it is called
-with no arguments.  If the result of this method is not the object itself,
+with no arguments. If the result of this method is not the object itself,
 then the new object goes through rule processing again (e.g. it may return
 a string, which is then serialized in JSON format).</li>
 <li>If the object is array-like (has a length property that is a number, and
-is not a function), then it is serialized as a JSON array.  Each element
-will be processed according to these rules in order.  Elements that can
+is not a function), then it is serialized as a JSON array. Each element
+will be processed according to these rules in order. Elements that can
 not be serialized (e.g. functions) will be replaced with <tt class="docutils literal"><span class="pre">undefined</span></tt>.</li>
 <li>The <tt class="docutils literal"><span class="pre">jsonRegistry</span></tt> <a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a> is consulted for an adapter
-for this object.  <tt class="docutils literal"><span class="pre">JSON</span></tt> adapters take one argument (the object), and are
+for this object. <tt class="docutils literal"><span class="pre">JSON</span></tt> adapters take one argument (the object), and are
 expected to behave like a <tt class="docutils literal"><span class="pre">__json__</span></tt> or <tt class="docutils literal"><span class="pre">json</span></tt> method (return another
 object to be serialized, or itself).</li>
 <li>If no adapter is available, the object is enumerated and serialized as a
-JSON object (name:value pairs).  All names are expected to be strings.
+JSON object (name:value pairs). All names are expected to be strings.
 Each value is serialized according to these rules, and if it can not be
 serialized (e.g. methods), then that name:value pair will be skipped.</li>
 </ol>
@@ -161,16 +161,16 @@ serialized (e.g. methods), then that name:value pair will be skipped.</li>
 <h2><a id="adapter-registries" name="adapter-registries">Adapter Registries</a></h2>
 <p>MochiKit makes extensive use of adapter registries, which enable you to
 implement object-specific behaviors for objects that you do not necessarily
-want to modify, such as built-in objects.  This is especially useful because
+want to modify, such as built-in objects. This is especially useful because
 JavaScript does not provide a method for hiding user-defined properties from
 <tt class="docutils literal"><span class="pre">for</span> <span class="pre">propName</span> <span class="pre">in</span> <span class="pre">obj</span></tt> enumeration.</p>
 <p><a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a> is simply an encapsulation for an ordered list of
-&quot;check&quot; and &quot;wrap&quot; function pairs.  Each <a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a> instance
+&quot;check&quot; and &quot;wrap&quot; function pairs. Each <a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a> instance
 should perform one function, but may have multiple ways to achieve that
-function based upon the arguments.  One way to think of it is as a poor man's
+function based upon the arguments. One way to think of it is as a poor man's
 generic function, or multiple dispatch (on arbitrary functions, not just type!).</p>
 <p>Check functions take one or more arguments, and return <tt class="docutils literal"><span class="pre">true</span></tt> if the
-argument list is suitable for the wrap function.  Check functions should
+argument list is suitable for the wrap function. Check functions should
 perform &quot;cheap&quot; checks of an object's type or contents, before the
 &quot;expensive&quot; wrap function is called.</p>
 <p>Wrap functions take the same arguments as check functions and do some
@@ -187,7 +187,7 @@ update keys that weren't already set?  Look no further than
 <a class="mochiref reference" href="#fn-setdefault">setdefault(dest, src[, ...])</a>.</p>
 <p>Want to return a mutable object, but don't want to suffer the consequences
 if the user mutates it?  Just <a class="mochiref reference" href="#fn-clone">clone(it)</a> and you'll get a
-copy-on-write clone.  Cheaper than a copy!</p>
+copy-on-write clone. Cheaper than a copy!</p>
 <p>Need to extend an Array with another array?  Or even an array-like object
 such as a <tt class="docutils literal"><span class="pre">NodeList</span></tt> or the special <tt class="docutils literal"><span class="pre">arguments</span></tt> object?  Even if you
 need to skip the first few elements of the source array-like object, it's
@@ -204,15 +204,15 @@ A DOM element tree perhaps?  Use <a class="mochiref reference" href="#fn-nodewal
 <h2><a id="functional-programming" name="functional-programming">Functional Programming</a></h2>
 <p>Functional programming constructs such as <a class="mochiref reference" href="#fn-map">map</a> and
 <a class="mochiref reference" href="#fn-filter">filter</a> can save you a lot of time, because JavaScript iteration is
-error-prone and arduous.  Writing less code is the best way to prevent bugs,
+error-prone and arduous. Writing less code is the best way to prevent bugs,
 and functional programming can help you do that.</p>
 <p><a class="mochiref reference" href="Base.html">MochiKit.Base</a> ships with a few simple Array-based functional
 programming constructs, namely <a class="mochiref reference" href="#fn-map">map</a> and <a class="mochiref reference" href="#fn-filter">filter</a>, and
 their &quot;extended&quot; brethren, <a class="mochiref reference" href="#fn-xmap">xmap</a> and <a class="mochiref reference" href="#fn-xfilter">xfilter</a>.</p>
 <p><a class="mochiref reference" href="#fn-map">map(func, arrayLike[, ...])</a> takes a function and an array-like
-object, and creates a new <tt class="docutils literal"><span class="pre">Array</span></tt>.  The new <tt class="docutils literal"><span class="pre">Array</span></tt> is the result of
+object, and creates a new <tt class="docutils literal"><span class="pre">Array</span></tt>. The new <tt class="docutils literal"><span class="pre">Array</span></tt> is the result of
 <tt class="docutils literal"><span class="pre">func(element)</span></tt> for every element of <tt class="docutils literal"><span class="pre">arrayLike</span></tt>, much
-like the <tt class="docutils literal"><span class="pre">Array.prototype.map</span></tt> extension in Mozilla.  However,
+like the <tt class="docutils literal"><span class="pre">Array.prototype.map</span></tt> extension in Mozilla. However,
 <a class="mochiref reference" href="Base.html">MochiKit.Base</a> takes that a step further and gives you the full
 blown Python version of <a class="mochiref reference" href="#fn-map">map</a>, which will take several array-like
 objects, and calls the function with one argument per given array-like,
@@ -225,12 +225,12 @@ var biggestElements = map(objMax, arrayOne, arrayTwo, arrayThree);
 assert( objEqual(biggestElements, [5, 5, 3, 4, 5]) );
 </pre>
 <p><a class="mochiref reference" href="#fn-filter">filter(func, arrayLike[, self])</a> takes a function and an array-like
-object, and returns a new <tt class="docutils literal"><span class="pre">Array</span></tt>.  This is basically identical to the
-<tt class="docutils literal"><span class="pre">Array.prototype.filter</span></tt> extension in Mozilla.  self, if given, will be
+object, and returns a new <tt class="docutils literal"><span class="pre">Array</span></tt>. This is basically identical to the
+<tt class="docutils literal"><span class="pre">Array.prototype.filter</span></tt> extension in Mozilla. self, if given, will be
 used as <tt class="docutils literal"><span class="pre">this</span></tt> in the context of func when called.</p>
 <p><a class="mochiref reference" href="#fn-xmap">xmap</a> and <a class="mochiref reference" href="#fn-xfilter">xfilter</a> are just special forms of
 <a class="mochiref reference" href="#fn-map">map</a> and <a class="mochiref reference" href="#fn-filter">filter</a> that accept a function as the first
-argument, and use the extra arguments as the array-like.  Not terribly
+argument, and use the extra arguments as the array-like. Not terribly
 interesting, but a definite time-saver in some cases.</p>
 <p>If you appreciate the functional programming facilities here,
 you should definitely check out <a class="mochiref reference" href="Iter.html">MochiKit.Iter</a>, which provides
@@ -242,11 +242,11 @@ itertools <a class="footnote-reference" href="#id8" id="id3" name="id3">[2]</a> 
 <h2><a id="bound-and-partial-functions" name="bound-and-partial-functions">Bound and Partial Functions</a></h2>
 <p>JavaScript's method-calling special form and lack of bound functions (functions
 that know what <tt class="docutils literal"><span class="pre">this</span></tt> should be) are one of the first stumbling blocks that
-programmers new to JavaScript face.  The <a class="mochiref reference" href="#fn-bind">bind(func, self)</a> method
+programmers new to JavaScript face. The <a class="mochiref reference" href="#fn-bind">bind(func, self)</a> method
 fixes that right up by returning a new function that calls func with the right
 <tt class="docutils literal"><span class="pre">this</span></tt>.</p>
 <p>In order to take real advantage of all this fancy functional programming stuff,
-you're probably going to want partial application.  This allows you to create
+you're probably going to want partial application. This allows you to create
 a new function from an existing function that remembers some of the arguments.
 For example, if you wanted to compare a given object to a slew of other
 objects, you could do something like this:</p>
@@ -286,7 +286,7 @@ A singleton error raised when no suitable adapter is found</blockquote>
 <p>The check function should return true if the given arguments are
 appropriate for the wrap function.</p>
 <p>If override is given and true, the check function will be given
-highest priority.  Otherwise, it will be the lowest priority
+highest priority. Otherwise, it will be the lowest priority
 adapter.</p>
 </blockquote>
 <p>
@@ -319,10 +319,10 @@ differences.</blockquote>
 <a name="fn-bind"></a>
 <a class="mochidef reference" href="#fn-bind">bind(func, self[, arg, ...])</a>:</p>
 <blockquote>
-<p>Return a copy of <tt class="docutils literal"><span class="pre">func</span></tt> bound to <tt class="docutils literal"><span class="pre">self</span></tt>.  This means whenever
+<p>Return a copy of <tt class="docutils literal"><span class="pre">func</span></tt> bound to <tt class="docutils literal"><span class="pre">self</span></tt>. This means whenever
 and however the returned function is called, <tt class="docutils literal"><span class="pre">this</span></tt> will always
-reference the given <tt class="docutils literal"><span class="pre">self</span></tt>.  <tt class="docutils literal"><span class="pre">func</span></tt> may be either a function
-object, or a string.  If it is a string, then <tt class="docutils literal"><span class="pre">self[func]</span></tt> will
+reference the given <tt class="docutils literal"><span class="pre">self</span></tt>. <tt class="docutils literal"><span class="pre">func</span></tt> may be either a function
+object, or a string. If it is a string, then <tt class="docutils literal"><span class="pre">self[func]</span></tt> will
 be used, making these two statements equivalent:</p>
 <pre class="literal-block">
 bind(&quot;method&quot;, self);
@@ -332,10 +332,10 @@ bind(self.method, self);
 return a new function that is bound to the new <tt class="docutils literal"><span class="pre">self</span></tt>!  If
 <tt class="docutils literal"><span class="pre">self</span></tt> is <tt class="docutils literal"><span class="pre">undefined</span></tt>, then the previous <tt class="docutils literal"><span class="pre">self</span></tt> is used.
 If <tt class="docutils literal"><span class="pre">self</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, then the <tt class="docutils literal"><span class="pre">this</span></tt> object is used
-(which may or may not be the global object).  To force binding
+(which may or may not be the global object). To force binding
 to the global object, you should pass it explicitly.</p>
 <p>Additional arguments, if given, will be partially applied to
-the function.  These three expressions are equivalent and
+the function. These three expressions are equivalent and
 return equally efficient functions (<a class="mochiref reference" href="#fn-bind">bind</a> and
 <a class="mochiref reference" href="#fn-partial">partial</a> share the same code path):</p>
 <ul class="simple">
@@ -354,9 +354,9 @@ which gives you a semi-Pythonic sort of instance.</blockquote>
 <a name="fn-clone"></a>
 <a class="mochidef reference" href="#fn-clone">clone(obj)</a>:</p>
 <blockquote>
-<p>Return a new object using <tt class="docutils literal"><span class="pre">obj</span></tt> as its prototype.  Use this
+<p>Return a new object using <tt class="docutils literal"><span class="pre">obj</span></tt> as its prototype. Use this
 if you want to return a mutable object (e.g. instance state),
-but don't want the user to mutate it.  If they do, it won't
+but don't want the user to mutate it. If they do, it won't
 have any effect on the original <tt class="docutils literal"><span class="pre">obj</span></tt>.</p>
 <p>Note that this is a shallow clone, so mutable properties will
 have to be cloned separately if you want to &quot;protect&quot; them.</p>
@@ -365,14 +365,14 @@ have to be cloned separately if you want to &quot;protect&quot; them.</p>
 <a name="fn-compare"></a>
 <a class="mochidef reference" href="#fn-compare">compare(a, b)</a>:</p>
 <blockquote>
-<p>Compare two objects in a sensible manner.  Currently this is:</p>
+<p>Compare two objects in a sensible manner. Currently this is:</p>
 <blockquote>
 <ol class="arabic simple">
 <li><tt class="docutils literal"><span class="pre">undefined</span></tt> and <tt class="docutils literal"><span class="pre">null</span></tt> compare equal to each other</li>
 <li><tt class="docutils literal"><span class="pre">undefined</span></tt> and <tt class="docutils literal"><span class="pre">null</span></tt> are less than anything else</li>
 <li>If JavaScript says <tt class="docutils literal"><span class="pre">a</span> <span class="pre">==</span> <span class="pre">b</span></tt>, then we trust it</li>
 <li>comparators registered with registerComparator are
-used to find a good comparator.  Built-in comparators
+used to find a good comparator. Built-in comparators
 are currently available for <tt class="docutils literal"><span class="pre">Array</span></tt>-like and <tt class="docutils literal"><span class="pre">Date</span></tt>-like
 objects.</li>
 <li>Otherwise hope that the built-in comparison operators
@@ -419,7 +419,7 @@ assert( lst.toString() == &quot;1,3,5,2,4,6&quot; );
 <a class="mochidef reference" href="#fn-counter">counter(n=1)</a>:</p>
 <blockquote>
 <p>Returns a function that will return a number one greater than
-the previous returned value, starting at <tt class="docutils literal"><span class="pre">n</span></tt>.  For example:</p>
+the previous returned value, starting at <tt class="docutils literal"><span class="pre">n</span></tt>. For example:</p>
 <pre class="literal-block">
 nextId = counter()
 assert( nextId() == 1 )
@@ -433,7 +433,7 @@ assert( nextId() == 2 )
 <a class="mochidef reference" href="#fn-extend">extend(self, obj[, skip])</a>:</p>
 <blockquote>
 <p>Mutate an array by extending it with an array-like obj,
-starting with the &quot;skip&quot; index of obj.  If null is given
+starting with the &quot;skip&quot; index of obj. If null is given
 as the initial array, a new one will be created.</p>
 <p>This mutates <em>and returns</em> the given array, be warned.</p>
 </blockquote>
@@ -446,7 +446,7 @@ as the initial array, a new one will be created.</p>
 therefore trusts the contents of <tt class="docutils literal"><span class="pre">aJSONString</span></tt> to be safe.
 This is acceptable when the JSON and JavaScript application
 originate from the same server, but in other scenarios it may not be the
-appropriate security model.  Currently, a validating JSON parser is beyond
+appropriate security model. Currently, a validating JSON parser is beyond
 the scope of MochiKit, but there is one available from json.org <a class="footnote-reference" href="#id7" id="id5" name="id5">[1]</a>.</p>
 </blockquote>
 <p>
@@ -462,8 +462,8 @@ the scope of MochiKit, but there is one available from json.org <a class="footno
 <a class="mochidef reference" href="#fn-findvalue">findValue(lst, value, start=0, end=lst.length)</a>:</p>
 <blockquote>
 <p>Finds the index of <tt class="docutils literal"><span class="pre">value</span></tt> in the <tt class="docutils literal"><span class="pre">Array</span></tt>-like object <tt class="docutils literal"><span class="pre">lst</span></tt> using
-<a class="mochiref reference" href="#fn-compare">compare</a>.  The search starts at the index <tt class="docutils literal"><span class="pre">start</span></tt>, and ends
-at the index <tt class="docutils literal"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">1</span></tt>.  If <tt class="docutils literal"><span class="pre">value</span></tt> is not found in <tt class="docutils literal"><span class="pre">lst</span></tt>, it will
+<a class="mochiref reference" href="#fn-compare">compare</a>. The search starts at the index <tt class="docutils literal"><span class="pre">start</span></tt>, and ends
+at the index <tt class="docutils literal"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">1</span></tt>. If <tt class="docutils literal"><span class="pre">value</span></tt> is not found in <tt class="docutils literal"><span class="pre">lst</span></tt>, it will
 return <tt class="docutils literal"><span class="pre">-1</span></tt>.</p>
 <p>For example:</p>
 <pre class="literal-block">
@@ -476,8 +476,8 @@ assert( findValue([1, 2, 3, 2, 1], 2, 2) == 3 )
 <a class="mochidef reference" href="#fn-findidentical">findIdentical(lst, value, start=0, end=lst.length)</a>:</p>
 <blockquote>
 <p>Finds the index of <tt class="docutils literal"><span class="pre">value</span></tt> in the <tt class="docutils literal"><span class="pre">Array</span></tt>-like object <tt class="docutils literal"><span class="pre">lst</span></tt> using
-the <tt class="docutils literal"><span class="pre">===</span></tt> operator.  The search starts at the index <tt class="docutils literal"><span class="pre">start</span></tt>, and ends
-at the index <tt class="docutils literal"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">1</span></tt>.  If <tt class="docutils literal"><span class="pre">value</span></tt> is not found in <tt class="docutils literal"><span class="pre">lst</span></tt>, it will
+the <tt class="docutils literal"><span class="pre">===</span></tt> operator. The search starts at the index <tt class="docutils literal"><span class="pre">start</span></tt>, and ends
+at the index <tt class="docutils literal"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">1</span></tt>. If <tt class="docutils literal"><span class="pre">value</span></tt> is not found in <tt class="docutils literal"><span class="pre">lst</span></tt>, it will
 return <tt class="docutils literal"><span class="pre">-1</span></tt>.</p>
 <p>You should use this function instead of <a class="mochiref reference" href="#fn-findvalue">findValue</a> if <tt class="docutils literal"><span class="pre">lst</span></tt> may
 be comprised of objects for which no comparator is defined and all you care
@@ -495,7 +495,7 @@ assert( findIdentical([1, 2, 3, 2, 1], 2, 2) == 3 )
 <a class="mochidef reference" href="#fn-flattenarguments">flattenArguments(arg[, ...])</a>:</p>
 <blockquote>
 <p>Given a bunch of arguments, return a single <tt class="docutils literal"><span class="pre">Array</span></tt> containing all
-of those arguments.  Any <tt class="docutils literal"><span class="pre">Array</span></tt> argument will be extended in-place,
+of those arguments. Any <tt class="docutils literal"><span class="pre">Array</span></tt> argument will be extended in-place,
 e.g.:</p>
 <pre class="literal-block">
 compare(flattenArguments(1, [2, 3, [4, 5]]), [1, 2, 3, 4, 5]) == 0
@@ -574,24 +574,24 @@ Return an <tt class="docutils literal"><span class="pre">Array</span></tt> of th
 <a class="mochidef reference" href="#fn-listmax">listMax(lst)</a>:</p>
 <blockquote>
 Return the largest element of an <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, as determined
-by <a class="mochiref reference" href="#fn-compare">compare</a>.  This is a special form of <a class="mochiref reference" href="#fn-listminmax">listMinMax</a>,
+by <a class="mochiref reference" href="#fn-compare">compare</a>. This is a special form of <a class="mochiref reference" href="#fn-listminmax">listMinMax</a>,
 specifically <a class="mochiref reference" href="#fn-partial">partial(listMinMax, 1)</a>.</blockquote>
 <p>
 <a name="fn-listmin"></a>
 <a class="mochidef reference" href="#fn-listmin">listMin(lst)</a>:</p>
 <blockquote>
 Return the smallest element of an <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, as determined
-by <a class="mochiref reference" href="#fn-compare">compare</a>.  This is a special form of <a class="mochiref reference" href="#fn-listminmax">listMinMax</a>,
+by <a class="mochiref reference" href="#fn-compare">compare</a>. This is a special form of <a class="mochiref reference" href="#fn-listminmax">listMinMax</a>,
 specifically <a class="mochiref reference" href="#fn-partial">partial(listMinMax, -1)</a>.</blockquote>
 <p>
 <a name="fn-listminmax"></a>
 <a class="mochidef reference" href="#fn-listminmax">listMinMax(which, lst)</a>:</p>
 <blockquote>
 <p>If <tt class="docutils literal"><span class="pre">which</span> <span class="pre">==</span> <span class="pre">-1</span></tt> then it will return the smallest
-element of the <tt class="docutils literal"><span class="pre">Array</span></tt>-like <tt class="docutils literal"><span class="pre">lst</span></tt>.  This is also available
+element of the <tt class="docutils literal"><span class="pre">Array</span></tt>-like <tt class="docutils literal"><span class="pre">lst</span></tt>. This is also available
 as <a class="mochiref reference" href="#fn-listmin">listMin(lst)</a>.</p>
 <p>If <tt class="docutils literal"><span class="pre">which</span> <span class="pre">==</span> <span class="pre">1</span></tt> then it will return the largest
-element of the array-like lst.  This is also available
+element of the array-like lst. This is also available
 as <a class="mochiref reference" href="#fn-listmax">listMax(list)</a>.</p>
 </blockquote>
 <p>
@@ -620,7 +620,7 @@ then the <tt class="docutils literal"><span class="pre">Array</span></tt> functi
 <a class="mochidef reference" href="#fn-merge">merge(obj[, ...])</a>:</p>
 <blockquote>
 <p>Create a new instance of <tt class="docutils literal"><span class="pre">Object</span></tt> that contains every property
-from all given objects.  If a property is defined on more than
+from all given objects. If a property is defined on more than
 one of the objects, the last property is used.</p>
 <p>This is a special form of <a class="mochiref reference" href="#fn-update">update(self, obj[, ...])</a>,
 specifically, it is defined as <a class="mochiref reference" href="#fn-partial">partial(update, null)</a>.</p>
@@ -630,7 +630,7 @@ specifically, it is defined as <a class="mochiref reference" href="#fn-partial">
 <a class="mochidef reference" href="#fn-method">method(self, func, ...)</a>:</p>
 <blockquote>
 <p>Alternate form of <a class="mochiref reference" href="#fn-bind">bind</a> that takes the object before the
-function.  These two are equivalent:</p>
+function. These two are equivalent:</p>
 <pre class="literal-block">
 bind(&quot;method&quot;, myobject)
 method(myobject, &quot;method&quot;)
@@ -670,21 +670,21 @@ siblings will be visited before any children.</p>
 <dt><tt class="docutils literal"><span class="pre">visitor</span></tt>:</dt>
 <dd>The visitor function, will be called as
 <tt class="docutils literal"><span class="pre">visitor(node)</span></tt>, and should return an <tt class="docutils literal"><span class="pre">Array</span></tt>-like
-of nodes to be searched next (e.g.  <tt class="docutils literal"><span class="pre">node.childNodes</span></tt>).</dd>
+of nodes to be searched next (e.g. <tt class="docutils literal"><span class="pre">node.childNodes</span></tt>).</dd>
 </dl>
 </blockquote>
 <p>
 <a name="fn-objmax"></a>
 <a class="mochidef reference" href="#fn-objmax">objMax(obj[, ...])</a>:</p>
 <blockquote>
-Return the maximum object out of the given arguments.  This is similar to
+Return the maximum object out of the given arguments. This is similar to
 <a class="mochiref reference" href="#fn-listmax">listMax</a>, except is uses the arguments instead of a given
 <tt class="docutils literal"><span class="pre">Array</span></tt>-like.</blockquote>
 <p>
 <a name="fn-objmin"></a>
 <a class="mochidef reference" href="#fn-objmin">objMin(obj[, ...])</a>:</p>
 <blockquote>
-Return the minimum object out of the given arguments.  This is similar
+Return the minimum object out of the given arguments. This is similar
 to <a class="mochiref reference" href="#fn-listmin">listMin</a>, except it uses the arguments instead of a given
 <tt class="docutils literal"><span class="pre">Array</span></tt>-like.</blockquote>
 <p>
@@ -919,14 +919,14 @@ to <a class="mochiref reference" href="#fn-listmin">listMin</a>, except it uses 
 <a class="mochidef reference" href="#fn-parsequerystring">parseQueryString(encodedString[, useArrays=false])</a>:</p>
 <blockquote>
 <p>Parse a name=value pair URL query string into an object with a property
-for each pair.  e.g.:</p>
+for each pair. e.g.:</p>
 <pre class="literal-block">
 var args = parseQueryString(&quot;foo=value%20one&amp;bar=two&quot;);
 assert( args.foo == &quot;value one&quot; &amp;&amp; args.bar == &quot;two&quot; );
 </pre>
 <p>If you expect that the query string will reuse the
 same name, then give <tt class="docutils literal"><span class="pre">true</span></tt> as a second argument, which will
-use arrays to store the values.  e.g.:</p>
+use arrays to store the values. e.g.:</p>
 <pre class="literal-block">
 var args = parseQueryString(&quot;foo=one&amp;foo=two&quot;, true);
 assert( args.foo[0] == &quot;one&quot; &amp;&amp; args.foo[1] == &quot;two&quot; );
@@ -947,7 +947,7 @@ addOne = partial(addNumbers, 1);
 assert(addOne(2) == 3);
 </pre>
 <p><a class="mochiref reference" href="#fn-partial">partial</a> is a special form of <a class="mochiref reference" href="#fn-bind">bind</a> that does not
-alter the bound <tt class="docutils literal"><span class="pre">self</span></tt> (if any).  It is equivalent to calling:</p>
+alter the bound <tt class="docutils literal"><span class="pre">self</span></tt> (if any). It is equivalent to calling:</p>
 <pre class="literal-block">
 bind(func, undefined, arg[, ...]);
 </pre>
@@ -963,9 +963,9 @@ this facility.</p>
 <a class="mochidef reference" href="#fn-querystring">queryString(names, values)</a>:</p>
 <blockquote>
 <p>Creates a URL query string from a pair of array-like objects representing
-<tt class="docutils literal"><span class="pre">names</span></tt> and <tt class="docutils literal"><span class="pre">values</span></tt>.  Each name=value pair will be URL encoded by
-<a class="mochiref reference" href="#fn-urlencode">urlEncode</a>.  name=value pairs with a value of <tt class="docutils literal"><span class="pre">undefined</span></tt> or
-<tt class="docutils literal"><span class="pre">null</span></tt> will be skipped.  e.g.:</p>
+<tt class="docutils literal"><span class="pre">names</span></tt> and <tt class="docutils literal"><span class="pre">values</span></tt>. Each name=value pair will be URL encoded by
+<a class="mochiref reference" href="#fn-urlencode">urlEncode</a>. name=value pairs with a value of <tt class="docutils literal"><span class="pre">undefined</span></tt> or
+<tt class="docutils literal"><span class="pre">null</span></tt> will be skipped. e.g.:</p>
 <pre class="literal-block">
 var keys = [&quot;foo&quot;, &quot;bar&quot;];
 var values = [&quot;value one&quot;, &quot;two&quot;];
@@ -987,7 +987,7 @@ zero, then <tt class="docutils literal"><span class="pre">names</span></tt> and 
 pairs in the resultant query string is dependent on how the particular
 JavaScript implementation handles <tt class="docutils literal"><span class="pre">for</span> <span class="pre">(..in..)</span></tt> property enumeration.</p>
 <p>When using the second alternate form, name=value pairs with
-<tt class="docutils literal"><span class="pre">typeof(value)</span> <span class="pre">==</span> <span class="pre">&quot;function&quot;</span></tt> are ignored.  This is a workaround for the
+<tt class="docutils literal"><span class="pre">typeof(value)</span> <span class="pre">==</span> <span class="pre">&quot;function&quot;</span></tt> are ignored. This is a workaround for the
 case where a poorly designed library has modified <tt class="docutils literal"><span class="pre">Object.prototype</span></tt>
 and inserted &quot;convenience functions&quot;.</p>
 </blockquote>
@@ -1023,7 +1023,7 @@ can be compared with <tt class="docutils literal"><span class="pre">comparator</
 <p><tt class="docutils literal"><span class="pre">comparator</span></tt> is guaranteed to only be called if <tt class="docutils literal"><span class="pre">check(a,</span> <span class="pre">b)</span></tt>
 returns a <tt class="docutils literal"><span class="pre">true</span></tt> value.</p>
 <p>If <tt class="docutils literal"><span class="pre">override</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then it will be made the
-highest precedence comparator.  Otherwise, the lowest.</p>
+highest precedence comparator. Otherwise, the lowest.</p>
 </blockquote>
 <p>
 <a name="fn-registerjson"></a>
@@ -1034,7 +1034,7 @@ highest precedence comparator.  Otherwise, the lowest.</p>
 <p><tt class="docutils literal"><span class="pre">check</span></tt> is a <tt class="docutils literal"><span class="pre">function(obj)</span></tt> that returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">obj</span></tt> can
 can be simplified for serialization by <tt class="docutils literal"><span class="pre">simplifier</span></tt>.</p>
 <p><tt class="docutils literal"><span class="pre">simplifier</span></tt> is a <tt class="docutils literal"><span class="pre">function(obj)</span></tt> that returns a simpler object that
-can be further serialized by <a class="mochiref reference" href="#fn-serializejson">serializeJSON</a>.  For example,
+can be further serialized by <a class="mochiref reference" href="#fn-serializejson">serializeJSON</a>. For example,
 you could simplify Date-like objects to ISO 8601 timestamp strings with
 the following simplifier:</p>
 <pre class="literal-block">
@@ -1046,7 +1046,7 @@ registerJSON(&quot;DateLike&quot;, isDateLike, simplifyDateAsISO);
 <p><tt class="docutils literal"><span class="pre">simplifier</span></tt> is guaranteed to only be called if <tt class="docutils literal"><span class="pre">check(obj)</span></tt>
 returns a <tt class="docutils literal"><span class="pre">true</span></tt> value.</p>
 <p>If <tt class="docutils literal"><span class="pre">override</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then it will be made the
-highest precedence comparator.  Otherwise, the lowest.</p>
+highest precedence comparator. Otherwise, the lowest.</p>
 </blockquote>
 <p>
 <a name="fn-registerrepr"></a>
@@ -1063,7 +1063,7 @@ repr, otherwise it will be used as the lowest.</p>
 <a name="fn-repr"></a>
 <a class="mochidef reference" href="#fn-repr">repr(o)</a>:</p>
 <blockquote>
-Return a programmer representation for an object.  See the
+Return a programmer representation for an object. See the
 <a class="reference" href="#programmer-representation">Programmer Representation</a> overview for more information about this
 function.</blockquote>
 <p>
@@ -1083,7 +1083,7 @@ assert(lst.toString() == &quot;bbb,cc,a&quot;);
 <a class="mochidef reference" href="#fn-serializejson">serializeJSON(anObject)</a>:</p>
 <blockquote>
 <p>Serialize any object in the JSON <a class="footnote-reference" href="#id7" id="id6" name="id6">[1]</a> format, see <a class="reference" href="#json-serialization">JSON Serialization</a>
-for the coercion rules.  For unserializable objects (functions that do
+for the coercion rules. For unserializable objects (functions that do
 not have an adapter, <tt class="docutils literal"><span class="pre">__json__</span></tt> method, or <tt class="docutils literal"><span class="pre">json</span></tt> method), this will
 return <tt class="docutils literal"><span class="pre">undefined</span></tt>.</p>
 <p>For those familiar with Python, JSON is similar in scope to pickle, but
@@ -1111,7 +1111,7 @@ types of the given arguments are all members of that set.</blockquote>
 <a class="mochidef reference" href="#fn-update">update(self, obj[, ...])</a>:</p>
 <blockquote>
 <p>Mutate an object by replacing its key:value pairs with those
-from other object(s).  Key:value pairs from later objects will
+from other object(s). Key:value pairs from later objects will
 overwrite those from earlier objects.</p>
 <p>If null is given as the initial object, a new one will be created.</p>
 <p>This mutates <em>and returns</em> the given object, be warned.</p>
@@ -1123,7 +1123,7 @@ as <a class="mochiref reference" href="#fn-merge">merge(a, b[, ...])</a></p>
 <a class="mochidef reference" href="#fn-updatetree">updatetree(self, obj[, ...])</a>:</p>
 <blockquote>
 <p>Mutate an object by replacing its key:value pairs with those
-from other object(s).  If a given key has an object value in
+from other object(s). If a given key has an object value in
 both <tt class="docutils literal"><span class="pre">self</span></tt> and <tt class="docutils literal"><span class="pre">obj</span></tt>, then this function will be called
 recursively, updating instead of replacing that object.</p>
 <p>If null is given as the initial object, a new one will be created.</p>
@@ -1181,7 +1181,7 @@ module: <a class="reference" href="http://docs.python.org/lib/module-itertools.h
 </div>
 <div class="section">
 <h1><a id="copyright" name="copyright">Copyright</a></h1>
-<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is dual-licensed
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
 </div>

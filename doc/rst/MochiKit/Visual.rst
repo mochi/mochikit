@@ -52,8 +52,8 @@ Functions
 :mochidef:`roundClass(tagName[, className[, options]])`:
 
     Rounds all of the elements that match the ``tagName`` and ``className``
-    specifiers, using the options provided.  ``tagName`` or ``className`` can
-    be ``null`` to match all tags or classes.  For more information about
+    specifiers, using the options provided. ``tagName`` or ``className`` can
+    be ``null`` to match all tags or classes. For more information about
     the options, see the :mochiref:`roundElement` function.
 
 
@@ -114,7 +114,7 @@ Authors
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
+Copyright 2005 Bob Ippolito <bob@redivi.com>. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 `MIT License`_ or the `Academic Free License v2.1`_.
 

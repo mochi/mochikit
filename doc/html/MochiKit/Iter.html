@@ -35,11 +35,11 @@ assert( theSum == (0 + 0 + 2 + 4 + 6 + 8) );
 <div class="section">
 <h1><a id="description" name="description">Description</a></h1>
 <p>All of the functional programming missing from <a class="mochiref reference" href="Base.html">MochiKit.Base</a> lives
-here.  The functionality in this module is largely inspired by Python's iteration
+here. The functionality in this module is largely inspired by Python's iteration
 protocol <a class="footnote-reference" href="#id4" id="id1" name="id1">[1]</a>, and the itertools module <a class="footnote-reference" href="#id5" id="id2" name="id2">[2]</a>.</p>
 <p>MochiKit.Iter defines a standard way to iterate over anything, that you can
 extend with <a class="mochiref reference" href="#fn-registeriterator">registerIterator</a>, or by implementing the <tt class="docutils literal"><span class="pre">.iter()</span></tt>
-protocol.  Iterators are lazy, so it can potentially be cheaper to build a
+protocol. Iterators are lazy, so it can potentially be cheaper to build a
 filter chain of iterators than to build lots of intermediate arrays.
 Especially when the data set is very large, but the result is not.</p>
 </div>
@@ -240,8 +240,8 @@ Return <tt class="docutils literal"><span class="pre">iterator.next()</span></tt
 <blockquote>
 <p>Return an iterator containing an arithmetic progression of integers.</p>
 <p><tt class="docutils literal"><span class="pre">range(i,</span> <span class="pre">j)</span></tt> returns <a class="mochiref reference" href="#fn-iter">iter([i, i + 1, i + 2, ..., j - 1])</a></p>
-<p><tt class="docutils literal"><span class="pre">start</span></tt> (!) defaults to <tt class="docutils literal"><span class="pre">0</span></tt>.  When <tt class="docutils literal"><span class="pre">step</span></tt> is given, it specifies the
-increment (or decrement).  The end point is omitted!</p>
+<p><tt class="docutils literal"><span class="pre">start</span></tt> (!) defaults to <tt class="docutils literal"><span class="pre">0</span></tt>. When <tt class="docutils literal"><span class="pre">step</span></tt> is given, it specifies the
+increment (or decrement). The end point is omitted!</p>
 <p>For example, <tt class="docutils literal"><span class="pre">range(4)</span></tt> returns <a class="mochiref reference" href="#fn-iter">iter([0, 1, 2, 3])</a>.
 This iterates over exactly the valid indexes for an array of 4 elements.</p>
 </blockquote>
@@ -284,7 +284,7 @@ converted into an iterator with <tt class="docutils literal"><span class="pre">i
 <p><tt class="docutils literal"><span class="pre">iterfactory</span></tt> is guaranteed to only be called if <tt class="docutils literal"><span class="pre">check(a)</span></tt>
 returns a true value.</p>
 <p>If <tt class="docutils literal"><span class="pre">override</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then it will be made the
-highest precedence iterator factory.  Otherwise, the lowest.</p>
+highest precedence iterator factory. Otherwise, the lowest.</p>
 </blockquote>
 <p>
 <a name="fn-repeat"></a>
@@ -312,7 +312,7 @@ Return a sorted array from iterable.</blockquote>
 <a class="mochidef reference" href="#fn-sum">sum(iterable, start=0)</a>:</p>
 <blockquote>
 <p>Returns the sum of a sequence of numbers plus the value
-of parameter <tt class="docutils literal"><span class="pre">start</span></tt> (with a default of 0).  When the sequence is
+of parameter <tt class="docutils literal"><span class="pre">start</span></tt> (with a default of 0). When the sequence is
 empty, returns start.</p>
 <p>Equivalent to:</p>
 <pre class="literal-block">
@@ -362,7 +362,7 @@ module: <a class="reference" href="http://docs.python.org/lib/module-itertools.h
 </div>
 <div class="section">
 <h1><a id="copyright" name="copyright">Copyright</a></h1>
-<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is dual-licensed
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
 </div>

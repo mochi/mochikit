@@ -61,7 +61,7 @@ returns a function that converts Number to string using the given information.
 <tbody valign="top">
 <tr><td><tt class="docutils literal"><span class="pre">-</span></tt></td>
 <td>If given, used as the position of the minus sign
-for negative numbers.  If not given, the position
+for negative numbers. If not given, the position
 to the left of the first number placeholder is used.</td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">#</span></tt></td>
@@ -74,15 +74,15 @@ If it is used to the right of a decimal separator, it
 implies trailing zeros, otherwise leading zeros.</td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">,</span></tt></td>
-<td>The placeholder for a &quot;thousands separator&quot;.  May be used
+<td>The placeholder for a &quot;thousands separator&quot;. May be used
 at most once, and it must be to the left of a decimal
-separator.  Will be replaced by <tt class="docutils literal"><span class="pre">locale.separator</span></tt> in the
+separator. Will be replaced by <tt class="docutils literal"><span class="pre">locale.separator</span></tt> in the
 result (the default is also <tt class="docutils literal"><span class="pre">,</span></tt>).</td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">.</span></tt></td>
-<td>The decimal separator.  The quantity of <tt class="docutils literal"><span class="pre">#</span></tt> or <tt class="docutils literal"><span class="pre">0</span></tt>
+<td>The decimal separator. The quantity of <tt class="docutils literal"><span class="pre">#</span></tt> or <tt class="docutils literal"><span class="pre">0</span></tt>
 after the decimal separator will determine the precision of
-the result.  If no decimal separator is present, the
+the result. If no decimal separator is present, the
 fractional precision is <tt class="docutils literal"><span class="pre">0</span></tt> -- meaning that it will be
 rounded to the nearest integer.</td>
 </tr>
@@ -102,9 +102,9 @@ the <tt class="docutils literal"><span class="pre">%</span></tt> will be replace
 <a name="fn-formatlocale"></a>
 <a class="mochidef reference" href="#fn-formatlocale">formatLocale(locale=&quot;default&quot;)</a>:</p>
 <blockquote>
-Return a locale object for the given locale.  <tt class="docutils literal"><span class="pre">locale</span></tt> may be either a
+Return a locale object for the given locale. <tt class="docutils literal"><span class="pre">locale</span></tt> may be either a
 string, which is looked up in the <tt class="docutils literal"><span class="pre">MochiKit.Format.LOCALE</span></tt> object, or
-a locale object.  If no locale is given, <tt class="docutils literal"><span class="pre">LOCALE.default</span></tt> is used
+a locale object. If no locale is given, <tt class="docutils literal"><span class="pre">LOCALE.default</span></tt> is used
 (equivalent to <tt class="docutils literal"><span class="pre">LOCALE.en_US</span></tt>).</blockquote>
 <p>
 <a name="fn-lstrip"></a>
@@ -112,7 +112,7 @@ a locale object.  If no locale is given, <tt class="docutils literal"><span clas
 <blockquote>
 <p>Returns a string based on <tt class="docutils literal"><span class="pre">str</span></tt> with leading whitespace stripped.</p>
 <p>If <tt class="docutils literal"><span class="pre">chars</span></tt> is given, then that expression will be used instead of
-whitespace.  <tt class="docutils literal"><span class="pre">chars</span></tt> should be a string suitable for use in a <tt class="docutils literal"><span class="pre">RegExp</span></tt>
+whitespace. <tt class="docutils literal"><span class="pre">chars</span></tt> should be a string suitable for use in a <tt class="docutils literal"><span class="pre">RegExp</span></tt>
 <tt class="docutils literal"><span class="pre">[character</span> <span class="pre">set]</span></tt>.</p>
 </blockquote>
 <p>
@@ -156,7 +156,7 @@ an object with the following fields:</p>
 <a class="mochidef reference" href="#fn-roundtofixed">roundToFixed(aNumber, precision)</a>:</p>
 <blockquote>
 <p>Return a string representation of <tt class="docutils literal"><span class="pre">aNumber</span></tt>, rounded to <tt class="docutils literal"><span class="pre">precision</span></tt>
-digits with trailing zeros.  This is similar to
+digits with trailing zeros. This is similar to
 <tt class="docutils literal"><span class="pre">Number.toFixed(aNumber,</span> <span class="pre">precision)</span></tt>, but this has implementation
 consistent rounding behavior (some versions of Safari round 0.5 down!)
 and also includes preceding <tt class="docutils literal"><span class="pre">0</span></tt> for numbers less than <tt class="docutils literal"><span class="pre">1</span></tt> (Safari,
@@ -170,7 +170,7 @@ supported platform, where some return <tt class="docutils literal"><span class="
 <blockquote>
 <p>Returns a string based on <tt class="docutils literal"><span class="pre">str</span></tt> with trailing whitespace stripped.</p>
 <p>If <tt class="docutils literal"><span class="pre">chars</span></tt> is given, then that expression will be used instead of
-whitespace.  <tt class="docutils literal"><span class="pre">chars</span></tt> should be a string suitable for use in a <tt class="docutils literal"><span class="pre">RegExp</span></tt>
+whitespace. <tt class="docutils literal"><span class="pre">chars</span></tt> should be a string suitable for use in a <tt class="docutils literal"><span class="pre">RegExp</span></tt>
 <tt class="docutils literal"><span class="pre">[character</span> <span class="pre">set]</span></tt>.</p>
 </blockquote>
 <p>
@@ -180,7 +180,7 @@ whitespace.  <tt class="docutils literal"><span class="pre">chars</span></tt> sh
 <p>Returns a string based on <tt class="docutils literal"><span class="pre">str</span></tt> with leading and trailing whitespace
 stripped (equivalent to <a class="mochiref reference" href="#fn-lstrip">lstrip(rstrip(str, chars), chars)</a>).</p>
 <p>If <tt class="docutils literal"><span class="pre">chars</span></tt> is given, then that expression will be used instead of
-whitespace.  <tt class="docutils literal"><span class="pre">chars</span></tt> should be a string suitable for use in a <tt class="docutils literal"><span class="pre">RegExp</span></tt>
+whitespace. <tt class="docutils literal"><span class="pre">chars</span></tt> should be a string suitable for use in a <tt class="docutils literal"><span class="pre">RegExp</span></tt>
 <tt class="docutils literal"><span class="pre">[character</span> <span class="pre">set]</span></tt>.</p>
 </blockquote>
 <p>
@@ -188,7 +188,7 @@ whitespace.  <tt class="docutils literal"><span class="pre">chars</span></tt> sh
 <a class="mochidef reference" href="#fn-trunctofixed">truncToFixed(aNumber, precision)</a>:</p>
 <blockquote>
 <p>Return a string representation of <tt class="docutils literal"><span class="pre">aNumber</span></tt>, truncated to <tt class="docutils literal"><span class="pre">precision</span></tt>
-digits with trailing zeros.  This is similar to
+digits with trailing zeros. This is similar to
 <tt class="docutils literal"><span class="pre">aNumber.toFixed(precision)</span></tt>, but this truncates rather than rounds and
 has implementation consistent behavior for numbers less than 1.
 Specifically, <a class="mochiref reference" href="#fn-trunctofixed">truncToFixed(aNumber, precision)</a> will always have a
@@ -231,7 +231,7 @@ it as a string with two digits of precision (e.g. &quot;1.23&quot;).</p>
 </div>
 <div class="section">
 <h1><a id="copyright" name="copyright">Copyright</a></h1>
-<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is dual-licensed
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
 </div>

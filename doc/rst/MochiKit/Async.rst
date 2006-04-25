@@ -56,16 +56,16 @@ Deferred
 --------
 
 The Deferred constructor encapsulates a single value that
-is not available yet.  The most important example of this
+is not available yet. The most important example of this
 in the context of a web browser would be an ``XMLHttpRequest``
-to a server.  The importance of the Deferred is that it
+to a server. The importance of the Deferred is that it
 allows a consistent API to be exposed for all asynchronous
 computations that occur exactly once.
 
 The producer of the Deferred is responsible for doing all
-of the complicated work behind the scenes.  This often
+of the complicated work behind the scenes. This often
 means waiting for a timer to fire, or waiting for an event
-(e.g. ``onreadystatechange`` of ``XMLHttpRequest``).  
+(e.g. ``onreadystatechange`` of ``XMLHttpRequest``). 
 It could also be coordinating several events (e.g.
 ``XMLHttpRequest`` with a timeout, or several Deferreds
 (e.g. fetching a set of XML documents that should be 
@@ -85,13 +85,13 @@ returning to the consumer:
 
 Since the value is not yet ready, the consumer attaches
 a function to the Deferred that will be called when the
-value is ready.  This is not unlike ``setTimeout``, or
+value is ready. This is not unlike ``setTimeout``, or
 other similar facilities you may already be familiar with.
 The consumer can also attach an "errback" to the
 :mochiref:`Deferred`, which is a callback for error handling.
 
 When the value is ready, the producer simply calls
-``myDeferred.callback(theValue)``.  If an error occurred,
+``myDeferred.callback(theValue)``. If an error occurred,
 it should call ``myDeferred.errback(theValue)`` instead.
 As soon as this happens, the callback that the consumer
 attached to the :mochiref:`Deferred` is called with ``theValue``
@@ -117,7 +117,7 @@ Errors
 :mochidef:`BrowserComplianceError`:
 
     Thrown when the JavaScript runtime is not capable of performing
-    the given function.  Currently, this happens if the browser
+    the given function. Currently, this happens if the browser
     does not support ``XMLHttpRequest``.
 
 
@@ -136,7 +136,7 @@ Errors
 :mochidef:`XMLHttpRequestError`:
 
     Thrown when an ``XMLHttpRequest`` does not complete successfully
-    for any reason.  The ``req`` property of the error is the failed
+    for any reason. The ``req`` property of the error is the failed
     ``XMLHttpRequest`` object, and for convenience the ``number``
     property corresponds to ``req.status``.
 
@@ -147,17 +147,17 @@ Constructors
 :mochidef:`Deferred()`:
 
     Encapsulates a sequence of callbacks in response to a value that
-    may not yet be available.  This is modeled after the Deferred class
+    may not yet be available. This is modeled after the Deferred class
     from Twisted [3]_.
 
 .. _`Twisted`: http://twistedmatrix.com/
 
     Why do we want this?  JavaScript has no threads, and even if it did,
-    threads are hard.  Deferreds are a way of abstracting non-blocking
+    threads are hard. Deferreds are a way of abstracting non-blocking
     events, such as the final response to an ``XMLHttpRequest``.
 
     The sequence of callbacks is internally represented as a list
-    of 2-tuples containing the callback/errback pair.  For example,
+    of 2-tuples containing the callback/errback pair. For example,
     the following call sequence::
 
         var d = new Deferred();
@@ -192,11 +192,11 @@ Constructors
     conditions are met:
     
     1. The result given to callback or errback is "``instanceof Error``"
-    2. The callback or errback threw while executing.  If the thrown object
+    2. The callback or errback threw while executing. If the thrown object
        is not ``instanceof Error``, it will be wrapped with
        :mochiref:`GenericError`.
 
-    Otherwise, the :mochiref:`Deferred` will be in the success state.  The state
+    Otherwise, the :mochiref:`Deferred` will be in the success state. The state
     of the :mochiref:`Deferred` determines the next element in the callback
     sequence to run.
 
@@ -219,7 +219,7 @@ Constructors
         }
     
     The result is then stored away in case another step is added to the
-    callback sequence.  Since the :mochiref:`Deferred` already has a value
+    callback sequence. Since the :mochiref:`Deferred` already has a value
     available, any new callbacks added will be called immediately.
 
     There are two other "advanced" details about this implementation that are 
@@ -228,11 +228,11 @@ Constructors
     Callbacks are allowed to return :mochiref:`Deferred` instances,
     so you can build complicated sequences of events with (relative) ease.
 
-    The creator of the :mochiref:`Deferred` may specify a canceller.  The
+    The creator of the :mochiref:`Deferred` may specify a canceller. The
     canceller is a function that will be called if
     :mochiref:`Deferred.prototype.cancel` is called before the
-    :mochiref:`Deferred` fires.  You can use this to allow an
-    ``XMLHttpRequest`` to be cleanly cancelled, for example.  Note that
+    :mochiref:`Deferred` fires. You can use this to allow an
+    ``XMLHttpRequest`` to be cleanly cancelled, for example. Note that
     cancel will fire the :mochiref:`Deferred` with a
     :mochiref:`CancelledError` (unless your canceller throws or returns
     a different ``Error``), so errbacks should be prepared to handle that
@@ -242,16 +242,16 @@ Constructors
 :mochidef:`Deferred.prototype.addBoth(func)`:
 
     Add the same function as both a callback and an errback as the
-    next element on the callback sequence.  This is useful for code
+    next element on the callback sequence. This is useful for code
     that you want to guarantee to run, e.g. a finalizer.
 
     If additional arguments are given, then ``func`` will be replaced
-    with :mochiref:`MochiKit.Base.partial.apply(null, arguments)`.  This
+    with :mochiref:`MochiKit.Base.partial.apply(null, arguments)`. This
     differs from `Twisted`_, because the result of the callback or
     errback will be the *last* argument passed to ``func``.
 
     If ``func`` returns a :mochiref:`Deferred`, then it will be chained
-    (its value or error will be passed to the next callback).  Note that
+    (its value or error will be passed to the next callback). Note that
     once the returned ``Deferred`` is chained, it can no longer accept new
     callbacks.
 
@@ -261,24 +261,24 @@ Constructors
     Add a single callback to the end of the callback sequence.
 
     If additional arguments are given, then ``func`` will be replaced
-    with :mochiref:`MochiKit.Base.partial.apply(null, arguments)`.  This
+    with :mochiref:`MochiKit.Base.partial.apply(null, arguments)`. This
     differs from `Twisted`_, because the result of the callback will
     be the *last* argument passed to ``func``.
 
     If ``func`` returns a :mochiref:`Deferred`, then it will be chained
-    (its value or error will be passed to the next callback).  Note that
+    (its value or error will be passed to the next callback). Note that
     once the returned ``Deferred`` is chained, it can no longer accept new
     callbacks.
 
 :mochidef:`Deferred.prototype.addCallbacks(callback, errback)`:
 
     Add separate callback and errback to the end of the callback
-    sequence.  Either callback or errback may be ``null``,
+    sequence. Either callback or errback may be ``null``,
     but not both.
 
     If ``callback`` or ``errback`` returns a :mochiref:`Deferred`,
     then it will be chained (its value or error will be passed to the
-    next callback).  Note that once the returned ``Deferred`` is chained,
+    next callback). Note that once the returned ``Deferred`` is chained,
     it can no longer accept new callbacks.
 
 :mochidef:`Deferred.prototype.addErrback(func)`:
@@ -286,18 +286,18 @@ Constructors
     Add a single errback to the end of the callback sequence.
 
     If additional arguments are given, then ``func`` will be replaced
-    with :mochiref:`MochiKit.Base.partial.apply(null, arguments)`.  This
+    with :mochiref:`MochiKit.Base.partial.apply(null, arguments)`. This
     differs from `Twisted`_, because the result of the errback will
     be the *last* argument passed to ``func``.
 
     If ``func`` returns a :mochiref:`Deferred`, then it will be chained
-    (its value or error will be passed to the next callback).  Note that
+    (its value or error will be passed to the next callback). Note that
     once the returned ``Deferred`` is chained, it can no longer accept new
     callbacks.
 
 :mochidef:`Deferred.prototype.callback([result])`:
 
-    Begin the callback sequence with a non-``Error`` result.  Result
+    Begin the callback sequence with a non-``Error`` result. Result
     may be any value except for a :mochiref:`Deferred`.
     
 .. note:: Either ``.callback`` or ``.errback`` should
@@ -331,12 +331,12 @@ Constructors
     A lock for asynchronous systems.
 
     The ``locked`` property of a :mochiref:`DeferredLock` will be ``true`` if
-    it locked, ``false`` otherwise.  Do not change this property.
+    it locked, ``false`` otherwise. Do not change this property.
 
 
 :mochidef:`DeferredLock.prototype.acquire()`:
 
-    Attempt to acquire the lock.  Returns a :mochiref:`Deferred` that fires on
+    Attempt to acquire the lock. Returns a :mochiref:`Deferred` that fires on
     lock acquisition with the :mochiref:`DeferredLock` as the value.
     If the lock is locked, then the :mochiref:`Deferred` goes into a waiting
     list.
@@ -344,7 +344,7 @@ Constructors
 
 :mochidef:`DeferredLock.prototype.release()`:
     
-    Release the lock.  If there is a waiting list, then the first
+    Release the lock. If there is a waiting list, then the first
     :mochiref:`Deferred` in that waiting list will be called back.
 
 
@@ -403,7 +403,7 @@ Functions
 :mochidef:`doSimpleXMLHttpRequest(url[, queryArguments...])`:
 
     Perform a simple ``XMLHttpRequest`` and wrap it with a
-    :mochiref:`Deferred` that may be cancelled.  
+    :mochiref:`Deferred` that may be cancelled. 
 
     Note that currently, only ``200`` (OK) and ``304``
     (NOT_MODIFIED) are considered success codes at this time, other
@@ -486,7 +486,7 @@ Functions
         The function to call.
 
     *returns*:
-        A new :mochiref:`Deferred` based on the call to ``func``.  If ``func``
+        A new :mochiref:`Deferred` based on the call to ``func``. If ``func``
         does not naturally return a :mochiref:`Deferred`, its result or error
         value will be wrapped by one.
 
@@ -507,7 +507,7 @@ Functions
 :mochidef:`sendXMLHttpRequest(req[, sendContent])`:
 
     Set an ``onreadystatechange`` handler on an ``XMLHttpRequest`` object
-    and send it off.  Will return a cancellable :mochiref:`Deferred` that will
+    and send it off. Will return a cancellable :mochiref:`Deferred` that will
     callback on success.
     
     Note that currently, only ``200`` (OK) and ``304``
@@ -532,7 +532,7 @@ Functions
 
     This is useful when you're writing synchronous code to an asynchronous
     interface: i.e., some code is calling you expecting a :mochiref:`Deferred`
-    result, but you don't actually need to do anything asynchronous.  Just
+    result, but you don't actually need to do anything asynchronous. Just
     return ``succeed(theResult)``.
 
     See ``fail`` for a version of this function that uses a failing
@@ -569,7 +569,7 @@ Authors
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
+Copyright 2005 Bob Ippolito <bob@redivi.com>. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 `MIT License`_ or the `Academic Free License v2.1`_.
 
