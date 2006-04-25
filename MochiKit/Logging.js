@@ -274,7 +274,8 @@ MochiKit.Logging.__new__ = function () {
 };
 
 if (typeof(printfire) == "undefined" &&
-        typeof(document) != "undefined" && document.createEvent) {
+        typeof(document) != "undefined" && document.createEvent &&
+        typeof(dispatchEvent) != "undefined") {
     // FireBug really should be less lame about this global function
     function printfire () {
         printfire.args = arguments;

@@ -1638,7 +1638,7 @@ this.logger.useNativeConsole=true;
 this.EXPORT_TAGS={":common":this.EXPORT,":all":m.concat(this.EXPORT,this.EXPORT_OK)};
 m.nameFunctions(this);
 };
-if(typeof (printfire)=="undefined"&&typeof (document)!="undefined"&&document.createEvent){
+if(typeof (printfire)=="undefined"&&typeof (document)!="undefined"&&document.createEvent&&typeof (dispatchEvent)!="undefined"){
 function printfire(){
 printfire.args=arguments;
 var ev=document.createEvent("Events");
