@@ -104,6 +104,9 @@ parameter. The custom event object presents a consistent view of the event
 across all supported platforms and browsers, and provides many conveniences
 not available even in a correct W3C implementation.
 
+See the `DOM Custom Event Object Reference`_ for a detailed API description
+of this object.
+
 If you find that you're accessing the native event for any reason, create a
 `new ticket`_ and we'll look into normalizing the behavior you're looking for.
 
@@ -206,8 +209,8 @@ Signal API Reference
     :mochiref:`connect()`.
 
 
-DOM Event API Reference
------------------------
+DOM Custom Event Object Reference
+---------------------------------
 
 :mochidef:`event()`:
 
@@ -295,21 +298,20 @@ DOM Event API Reference
             property is ``true`` if the mouse button was pressed, ``false`` 
             otherwise.
 
-    Mac browsers don't report right click consistently. Firefox fires the
+    Mac browsers don't report right-click consistently. Firefox fires the
     click and sets ``modifier().ctrl`` to true, Opera fires the click and sets
     ``modifier().meta`` to ``true``, and Safari doesn't fire the click
     (`Safari Bug 6595`_).
 
-    If you want a right click, we suggest that instead of looking for a right
-    click, look for a ``'contextmenu'`` event.
+    If you want a right-click, we suggest connecting to ``'oncontextmenu'``.
 
-    Current versions of Safari won't fire a ``'dblclick'`` event when attached
-    via ``connect()`` (`Safari Bug 7790`_).
+    Current versions of Safari won't fire ``'ondblclick'`` when
+    attached via ``connect()`` (`Safari Bug 7790`_).
 
 
 :mochidef:`relatedTarget()`:
 
-    This is generated for ``'mouseover'`` and ``'mouseout'`` events.
+    This is generated for ``'onmouseover'`` and ``'onmouseout'`` events.
     Returns the document element that the mouse has moved to.
 
 
