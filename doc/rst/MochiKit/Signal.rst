@@ -1,4 +1,6 @@
 .. title:: MochiKit.Signal - Simple universal event handling
+.. |---| unicode:: U+2014  .. em dash, trimming surrounding whitespace
+   :trim:
 
 Name
 ====
@@ -63,10 +65,10 @@ Description
 
 Event handling was never so easy!
 
-This module takes care of all the hard work---figuring out which event model
-to use, trying to retrieve the event object, and handling your own internal
-events, as well as cleanup when the page is unloaded to handle IE's nasty
-memory leakage.
+This module takes care of all the hard work |---| figuring out which event
+model to use, trying to retrieve the event object, and handling your own
+internal events, as well as cleanup when the page is unloaded to handle IE's
+nasty memory leakage.
 
 This event system is largely based on Qt's signal/slot system. You should read
 more on how that is handled and also how it is used in model/view programming
