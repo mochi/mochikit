@@ -20,14 +20,14 @@ if (typeof(MochiKit.Base) == 'undefined') {
 }
 
 MochiKit.Base.VERSION = "1.3";
-MochiKit.Base.NAME = "MochiKit.Base"
+MochiKit.Base.NAME = "MochiKit.Base";
 MochiKit.Base.update = function (self, obj/*, ... */) {
-    if (self == null) {
+    if (self === null) {
         self = {};
     }
     for (var i = 1; i < arguments.length; i++) {
         var o = arguments[i];
-        if (typeof(o) != 'undefined' && o != null) {
+        if (typeof(o) != 'undefined' && o !== null) {
             for (var k in o) {
                 self[k] = o[k];
             }
@@ -46,7 +46,7 @@ MochiKit.Base.update(MochiKit.Base, {
     },
 
     counter: function (n/* = 1 */) {
-        if (arguments.length == 0) {
+        if (arguments.length === 0) {
             n = 1;
         }
         return function () {
@@ -112,12 +112,12 @@ MochiKit.Base.update(MochiKit.Base, {
 
 
     updatetree: function (self, obj/*, ...*/) {
-        if (self == null) {
+        if (self === null) {
             self = {};
         }
         for (var i = 1; i < arguments.length; i++) {
             var o = arguments[i];
-            if (typeof(o) != 'undefined' && o != null) {
+            if (typeof(o) != 'undefined' && o !== null) {
                 for (var k in o) {
                     var v = o[k];
                     if (typeof(self[k]) == 'object' && typeof(v) == 'object') {
@@ -132,7 +132,7 @@ MochiKit.Base.update(MochiKit.Base, {
     },
 
     setdefault: function (self, obj/*, ...*/) {
-        if (self == null) {
+        if (self === null) {
             self = {};
         }
         for (var i = 1; i < arguments.length; i++) {
@@ -210,8 +210,8 @@ MochiKit.Base.update(MochiKit.Base, {
         le: function (a, b) { return a <= b; },
 
         // compare comparators
-        ceq: function (a, b) { return MochiKit.Base.compare(a, b) == 0; },
-        cne: function (a, b) { return MochiKit.Base.compare(a, b) != 0; },
+        ceq: function (a, b) { return MochiKit.Base.compare(a, b) === 0; },
+        cne: function (a, b) { return MochiKit.Base.compare(a, b) !== 0; },
         cgt: function (a, b) { return MochiKit.Base.compare(a, b) == 1; },
         cge: function (a, b) { return MochiKit.Base.compare(a, b) != -1; },
         clt: function (a, b) { return MochiKit.Base.compare(a, b) == -1; },
@@ -263,7 +263,7 @@ MochiKit.Base.update(MochiKit.Base, {
     isUndefinedOrNull: function (/* ... */) {
         for (var i = 0; i < arguments.length; i++) {
             var o = arguments[i];
-            if (!(typeof(o) == 'undefined' || o == null)) {
+            if (!(typeof(o) == 'undefined' || o === null)) {
                 return false;
             }
         }
@@ -290,7 +290,7 @@ MochiKit.Base.update(MochiKit.Base, {
             var typ = typeof(o);
             if (
                 (typ != 'object' && !(typ == 'function' && typeof(o.item) == 'function')) ||
-                o == null ||
+                o === null ||
                 typeof(o.length) != 'number'
             ) {
                 return false;
@@ -302,7 +302,7 @@ MochiKit.Base.update(MochiKit.Base, {
     isDateLike: function () {
         for (var i = 0; i < arguments.length; i++) {
             var o = arguments[i];
-            if (typeof(o) != "object" || o == null
+            if (typeof(o) != "object" || o === null
                     || typeof(o.getTime) != 'function') {
                 return false;
             }
@@ -312,7 +312,7 @@ MochiKit.Base.update(MochiKit.Base, {
 
 
     xmap: function (fn/*, obj... */) {
-        if (fn == null) {
+        if (fn === null) {
             return MochiKit.Base.extend(null, arguments, 1);
         }
         var rval = [];
@@ -331,7 +331,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 if (MochiKit.Iter) {
                     // fast path for map(null, iterable)
                     lst = MochiKit.Iter.list(lst);
-                    if (fn == null) {
+                    if (fn === null) {
                         return lst;
                     }
                 } else {
@@ -339,7 +339,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 }
             }
             // fast path for map(null, lst)
-            if (fn == null) {
+            if (fn === null) {
                 return m.extend(null, lst);
             }
             // disabled fast path for map(fn, lst)
@@ -356,7 +356,7 @@ MochiKit.Base.update(MochiKit.Base, {
             return rval;
         } else {
             // default for map(null, ...) is zip(...)
-            if (fn == null) {
+            if (fn === null) {
                 fn = Array;
             }
             var length = null;
@@ -371,7 +371,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 }
                 // find the minimum length
                 var l = arguments[i].length;
-                if (length == null || length > l) {
+                if (length === null || length > l) {
                     length = l;
                 }
             }
@@ -389,7 +389,7 @@ MochiKit.Base.update(MochiKit.Base, {
 
     xfilter: function (fn/*, obj... */) {
         var rval = [];
-        if (fn == null) {
+        if (fn === null) {
             fn = MochiKit.Base.operator.truth;
         }
         for (var i = 1; i < arguments.length; i++) {
@@ -412,13 +412,13 @@ MochiKit.Base.update(MochiKit.Base, {
                 throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
             }
         }
-        if (fn == null) {
+        if (fn === null) {
             fn = m.operator.truth;
         }
         if (typeof(Array.prototype.filter) == 'function') {
             // Mozilla fast-path
             return Array.prototype.filter.call(lst, fn, self);
-        } else if (typeof(self) == 'undefined' || self == null) {
+        } else if (typeof(self) == 'undefined' || self === null) {
             for (var i = 0; i < lst.length; i++) {
                 var o = lst[i];
                 if (fn(o)) {
@@ -523,8 +523,8 @@ MochiKit.Base.update(MochiKit.Base, {
         if (a == b) {
             return 0;
         }
-        var aIsNull = (typeof(a) == 'undefined' || a == null);
-        var bIsNull = (typeof(b) == 'undefined' || b == null);
+        var aIsNull = (typeof(a) == 'undefined' || a === null);
+        var bIsNull = (typeof(b) == 'undefined' || b === null);
         if (aIsNull && bIsNull) {
             return 0;
         } else if (aIsNull) {
@@ -725,14 +725,14 @@ MochiKit.Base.update(MochiKit.Base, {
             
 
     objEqual: function (a, b) {
-        return (MochiKit.Base.compare(a, b) == 0);
+        return (MochiKit.Base.compare(a, b) === 0);
     },
 
     arrayEqual: function (self, arr) {
         if (self.length != arr.length) {
             return false;
         }
-        return (MochiKit.Base.compare(self, arr) == 0);
+        return (MochiKit.Base.compare(self, arr) === 0);
     },
 
     concat: function (/* lst... */) {
@@ -751,14 +751,14 @@ MochiKit.Base.update(MochiKit.Base, {
         if (arguments.length == 1) {
             return function (a, b) {
                 return compare(a[key], b[key]);
-            }
+            };
         }
         var compareKeys = m.extend(null, arguments);
         return function (a, b) {
             var rval = 0;
             // keep comparing until something is inequal or we run out of
             // keys to compare
-            for (var i = 0; (rval == 0) && (i < compareKeys.length); i++) {
+            for (var i = 0; (rval === 0) && (i < compareKeys.length); i++) {
                 var key = compareKeys[i];
                 rval = compare(a[key], b[key]);
             }
@@ -770,7 +770,7 @@ MochiKit.Base.update(MochiKit.Base, {
         var comparator = MochiKit.Base.keyComparator.apply(this, arguments);
         return function (a, b) {
             return comparator(b, a);
-        }
+        };
     },
 
     partial: function (func) {
@@ -779,7 +779,7 @@ MochiKit.Base.update(MochiKit.Base, {
     },
      
     listMinMax: function (which, lst) {
-        if (lst.length == 0) {
+        if (lst.length === 0) {
             return null;
         }
         var cur = lst[0];
@@ -802,7 +802,7 @@ MochiKit.Base.update(MochiKit.Base, {
     },
 
     findIdentical: function (lst, value, start/* = 0 */, /* optional */end) {
-        if (typeof(end) == "undefined" || end == null) {
+        if (typeof(end) == "undefined" || end === null) {
             end = lst.length;
         }
         for (var i = (start || 0); i < end; i++) {
@@ -814,12 +814,12 @@ MochiKit.Base.update(MochiKit.Base, {
     },
 
     findValue: function (lst, value, start/* = 0 */, /* optional */end) {
-        if (typeof(end) == "undefined" || end == null) {
+        if (typeof(end) == "undefined" || end === null) {
             end = lst.length;
         }
         var cmp = MochiKit.Base.compare;
         for (var i = (start || 0); i < end; i++) {
-            if (cmp(lst[i], value) == 0) {
+            if (cmp(lst[i], value) === 0) {
                 return i;
             }
         }
@@ -887,7 +887,7 @@ MochiKit.Base.update(MochiKit.Base, {
         var urlEncode = MochiKit.Base.urlEncode;
         for (var i = 0; i < len; i++) {
             v = values[i];
-            if (typeof(v) != 'undefined' && v != null) {
+            if (typeof(v) != 'undefined' && v !== null) {
                 rval.push(urlEncode(names[i]) + "=" + urlEncode(v));
             }
         }

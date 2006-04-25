@@ -56,7 +56,7 @@ MochiKit.LoggingPane.createLoggingPane = function (inline/* = false */) {
 MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = MochiKit.Logging.logger */) {
     /* Use a div if inline, pop up a window if not */
     /* Create the elements */
-    if (typeof(logger) == "undefined" || logger == null) {
+    if (typeof(logger) == "undefined" || logger === null) {
         logger = MochiKit.Logging.logger;
     }
     this.logger = logger;
@@ -178,7 +178,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
                 infore.test(messageText(msg))
             );
         };
-    }
+    };
 
     var clearMessagePane = function () {
         while (logPane.firstChild) {
@@ -189,7 +189,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     var clearMessages = function () {
         messages = [];
         clearMessagePane();
-    }
+    };
 
     var closePane = bind(function () {
         if (this.closed) {
@@ -215,7 +215,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
 
         for (var i = 0; i < messages.length; i++) {
             var msg = messages[i];
-            if (messageFilter == null || messageFilter(msg)) {
+            if (messageFilter === null || messageFilter(msg)) {
                 addMessageText(msg);
             }
         }

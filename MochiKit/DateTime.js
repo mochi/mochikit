@@ -31,11 +31,11 @@ MochiKit.DateTime.toString = function () {
 
 MochiKit.DateTime.isoDate = function (str) {
     str = str + "";
-    if (typeof(str) != "string" || str.length == 0) {
+    if (typeof(str) != "string" || str.length === 0) {
         return null;
     }
     var iso = str.split('-');
-    if (iso.length == 0) {
+    if (iso.length === 0) {
         return null;
     }
     return new Date(iso[0], iso[1] - 1, iso[2]);
@@ -45,38 +45,38 @@ MochiKit.DateTime._isoRegexp = /(\d{4,})(?:-(\d{1,2})(?:-(\d{1,2})(?:[T ](\d{1,2
 
 MochiKit.DateTime.isoTimestamp = function (str) {
     str = str + "";
-    if (typeof(str) != "string" || str.length == 0) {
+    if (typeof(str) != "string" || str.length === 0) {
         return null;
     }
     var res = str.match(MochiKit.DateTime._isoRegexp);
-    if (typeof(res) == "undefined" || res == null) {
+    if (typeof(res) == "undefined" || res === null) {
         return null;
     }
     var year, month, day, hour, min, sec, msec;
     year = parseInt(res[1], 10);
-    if (typeof(res[2]) == "undefined" || res[2] == "") {
+    if (typeof(res[2]) == "undefined" || res[2] === '') {
         return new Date(year);
     }
     month = parseInt(res[2], 10) - 1;
     day = parseInt(res[3], 10);
-    if (typeof(res[4]) == "undefined" || res[4] == "") {
+    if (typeof(res[4]) == "undefined" || res[4] === '') {
         return new Date(year, month, day);
     }
     hour = parseInt(res[4], 10);
     min = parseInt(res[5], 10);
-    sec = (typeof(res[6]) != "undefined" && res[6] != "") ? parseInt(res[6], 10) : 0;
-    if (typeof(res[7]) != "undefined" && res[7] != "") {
+    sec = (typeof(res[6]) != "undefined" && res[6] !== '') ? parseInt(res[6], 10) : 0;
+    if (typeof(res[7]) != "undefined" && res[7] !== '') {
         msec = Math.round(1000.0 * parseFloat("0." + res[7]));
     } else {
         msec = 0;
     }
-    if ((typeof(res[8]) == "undefined" || res[8] == "") && (typeof(res[9]) == "undefined" || res[9] == "")) {
+    if ((typeof(res[8]) == "undefined" || res[8] === '') && (typeof(res[9]) == "undefined" || res[9] === '')) {
         return new Date(year, month, day, hour, min, sec, msec);
     }
     var ofs;
-    if (typeof(res[9]) != "undefined" && res[9] != "") {
+    if (typeof(res[9]) != "undefined" && res[9] !== '') {
         ofs = parseInt(res[10], 10) * 3600000;
-        if (typeof(res[11]) != "undefined" && res[11] != "") {
+        if (typeof(res[11]) != "undefined" && res[11] !== '') {
             ofs += parseInt(res[11], 10) * 60000;
         }
         if (res[9] == "-") {
@@ -89,7 +89,7 @@ MochiKit.DateTime.isoTimestamp = function (str) {
 };
 
 MochiKit.DateTime.toISOTime = function (date, realISO/* = false */) {
-    if (typeof(date) == "undefined" || date == null) {
+    if (typeof(date) == "undefined" || date === null) {
         return null;
     }
     var hh = date.getHours();
@@ -104,7 +104,7 @@ MochiKit.DateTime.toISOTime = function (date, realISO/* = false */) {
 };
 
 MochiKit.DateTime.toISOTimestamp = function (date, realISO/* = false*/) {
-    if (typeof(date) == "undefined" || date == null) {
+    if (typeof(date) == "undefined" || date === null) {
         return null;
     }
     var sep = realISO ? "T" : " ";
@@ -116,7 +116,7 @@ MochiKit.DateTime.toISOTimestamp = function (date, realISO/* = false*/) {
 };
 
 MochiKit.DateTime.toISODate = function (date) {
-    if (typeof(date) == "undefined" || date == null) {
+    if (typeof(date) == "undefined" || date === null) {
         return null;
     }
     var _padTwo = MochiKit.DateTime._padTwo;
@@ -129,7 +129,7 @@ MochiKit.DateTime.toISODate = function (date) {
 
 MochiKit.DateTime.americanDate = function (d) {
     d = d + "";
-    if (typeof(d) != "string" || d.length == 0) {
+    if (typeof(d) != "string" || d.length === 0) {
         return null;
     }
     var a = d.split('/');
@@ -141,7 +141,7 @@ MochiKit.DateTime._padTwo = function (n) {
 };
 
 MochiKit.DateTime.toPaddedAmericanDate = function (d) {
-    if (typeof(d) == "undefined" || d == null) {
+    if (typeof(d) == "undefined" || d === null) {
         return null;
     }
     var _padTwo = MochiKit.DateTime._padTwo;
@@ -153,7 +153,7 @@ MochiKit.DateTime.toPaddedAmericanDate = function (d) {
 };
 
 MochiKit.DateTime.toAmericanDate = function (d) {
-    if (typeof(d) == "undefined" || d == null) {
+    if (typeof(d) == "undefined" || d === null) {
         return null;
     }
     return [d.getMonth() + 1, d.getDate(), d.getFullYear()].join('/');

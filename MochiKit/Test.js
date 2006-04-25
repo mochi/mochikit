@@ -118,7 +118,7 @@ MochiKit.Test.Suite.prototype = {
         } catch (e) { 
             // pass
         }
-        if (res == 0) {
+        if (res === 0) {
             return this.ok(true, message);
         }
         var gk = m.keys(got);

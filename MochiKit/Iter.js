@@ -95,7 +95,7 @@ MochiKit.Base.update(MochiKit.Iter, {
                     if (e != self.StopIteration) {
                         throw e;
                     }
-                    if (lst.length == 0) {
+                    if (lst.length === 0) {
                         this.next = function () {
                             throw self.StopIteration;
                         };
@@ -104,12 +104,12 @@ MochiKit.Base.update(MochiKit.Iter, {
                         this.next = function () {
                             i = (i + 1) % lst.length;
                             return lst[i];
-                        }
+                        };
                     }
                     return this.next();
                 }
             }
-        }
+        };
     },
 
     repeat: function (elem, /* optional */n) {
@@ -158,7 +158,7 @@ MochiKit.Base.update(MochiKit.Iter, {
     ifilter: function (pred, seq) {
         var m = MochiKit.Base;
         seq = MochiKit.Iter.iter(seq);
-        if (pred == null) {
+        if (pred === null) {
             pred = m.operator.truth;
         }
         return {
@@ -174,13 +174,13 @@ MochiKit.Base.update(MochiKit.Iter, {
                 // mozilla warnings aren't too bright
                 return undefined;
             }
-        }
+        };
     },
 
     ifilterfalse: function (pred, seq) {
         var m = MochiKit.Base;
         seq = MochiKit.Iter.iter(seq);
-        if (pred == null) {
+        if (pred === null) {
             pred = m.operator.truth;
         }
         return {
@@ -196,7 +196,7 @@ MochiKit.Base.update(MochiKit.Iter, {
                 // mozilla warnings aren't too bright
                 return undefined;
             }
-        }
+        };
     },
      
     islice: function (seq/*, [start,] stop[, step] */) {
@@ -456,7 +456,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         } else {
             throw new TypeError("range() takes 1, 2, or 3 arguments!");
         }
-        if (step == 0) {
+        if (step === 0) {
             throw new TypeError("range() step must not be 0");
         }
         return {
