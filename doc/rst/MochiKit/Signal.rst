@@ -270,13 +270,14 @@ DOM Event API Reference
     ``{code: 50, string: 'KEY_2'}`` in ``'onkeydown'`` and ``'onkeyup'``.
     In ``'onkeypress'``, it returns ``{code: 64, string: '@'}``.
         
-    See ``_specialKeys`` for a comprehensive list of control characters.
+    See ``_specialKeys`` in the source code for a comprehensive list of
+    control characters.
 
 
 :mochidef:`mouse()`:
 
     Properties for ``'onmouse*'``, ``'onclick'``, ``'ondblclick'``, and
-    ``'oncontextmenu'`` events. (``contextmenu`` doesn't work in Opera).
+    ``'oncontextmenu'`` events. (``'oncontextmenu'`` doesn't work in Opera).
 
         -   ``page`` is a :mochiref:`MochiKit.DOM.Coordinates` object that
             represents the cursor position relative to the HTML document. 
@@ -288,7 +289,7 @@ DOM Event API Reference
             all browsers.
 
     Properties for ``'onmouseup'``, ``'onmousedown'``, ``'onclick'``, and
-    ``ondblclick``:
+    ``'ondblclick'``:
 
         -   ``mouse().button`` returns {left, right, middle} where each 
             property is ``true`` if the mouse button was pressed, ``false`` 
