@@ -4213,20 +4213,20 @@ window.onunload=undefined;
 }
 catch(e){
 }
-},_listener:function(func,obj,_551){
+},_listener:function(src,func,obj,_551){
 var E=MochiKit.Signal.Event;
 if(!_551){
 return MochiKit.Base.bind(func,obj);
-}else{
+}
+obj=obj||src;
 if(typeof (func)=="string"){
 return function(_553){
-obj[func].apply((obj||this),[new E(this,_553)]);
+obj[func].apply(obj,[new E(src,_553)]);
 };
 }else{
 return function(_554){
-func.apply((obj||this),[new E(this,_554)]);
+func.apply(obj,[new E(src,_554)]);
 };
-}
 }
 },connect:function(src,sig,_556,_557){
 src=MochiKit.DOM.getElement(src);
@@ -4255,13 +4255,11 @@ throw new Error("'objOrFunc' must be a function if 'funcOrStr' is not given");
 func=_556;
 }
 }
-if(0){
 if(typeof (obj)=="undefined"||obj===null){
 obj=src;
 }
-}
 var _558=!!(src.addEventListener||src.attachEvent);
-var _559=self._listener(func,obj,_558);
+var _559=self._listener(src,func,obj,_558);
 if(src.addEventListener){
 src.addEventListener(sig.substr(2),_559,false);
 }else{
