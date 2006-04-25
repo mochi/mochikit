@@ -147,14 +147,6 @@ MochiKit.Format.formatLocale = function (locale) {
 };
 
 MochiKit.Format.twoDigitAverage = function (numerator, denominator) {
-    /***
-
-        Calculate an average from a numerator and a denominator and return
-        it as a string with two digits of precision (e.g. "1.23").
-
-        If the denominator is 0, "0" will be returned instead of NaN.
-
-    ***/
     if (denominator) {
         var res = numerator / denominator;
         if (!isNaN(res)) {
@@ -165,11 +157,6 @@ MochiKit.Format.twoDigitAverage = function (numerator, denominator) {
 };
 
 MochiKit.Format.twoDigitFloat = function (someFloat) {
-    /***
-    
-        Roughly equivalent to: sprintf("%.2f", someFloat)
-
-    ***/
     var sign = (someFloat < 0 ? '-' : '');
     var s = Math.floor(Math.abs(someFloat) * 100).toString();
     if (s == '0') {
@@ -238,11 +225,6 @@ MochiKit.Format.roundToFixed = function (aNumber, precision) {
 };
 
 MochiKit.Format.percentFormat = function (someFloat) {
-    /***
-
-        Roughly equivalent to: sprintf("%.2f%%", someFloat * 100)
-
-    ***/
     return MochiKit.Format.twoDigitFloat(100 * someFloat) + '%';
 };
 
