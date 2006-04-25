@@ -144,7 +144,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         var c = this.colorTable[level];
         var p = doc.createElement("span");
         p.className = "MochiKit-LogMessage MochiKit-LogLevel-" + level;
-        p.style.cssText = "margin: 0px; white-space: -moz-pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; white-space: pre-line; word-wrap: break-word; wrap-option: emergency; color: " + c;
+        p.style.cssText = "margin: 0px; white-space: -moz-pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; white-space: pre-line; word-wrap: break-word; wrap-option: emergency; z-index: 1000; color: " + c;
         p.appendChild(doc.createTextNode(level + ": " + text));
         logPane.appendChild(p);
         logPane.appendChild(doc.createElement("br"));
