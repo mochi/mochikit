@@ -473,17 +473,19 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
 
-    _listener: function (func, obj, isDOM) {
+    _listener: function (src, func, obj, isDOM) {
         var E = MochiKit.Signal.Event;
         if (!isDOM) {
             return MochiKit.Base.bind(func, obj);
-        } else if (typeof(func) == "string") {
+        } 
+        obj = obj || src;
+        if (typeof(func) == "string") {
             return function (nativeEvent) {
-                obj[func].apply((obj || this), [new E(this, nativeEvent)]);
+                obj[func].apply(obj, [new E(src, nativeEvent)]);
             };
         } else {
             return function (nativeEvent) {
-                func.apply((obj || this), [new E(this, nativeEvent)]);
+                func.apply(obj, [new E(src, nativeEvent)]);
             };
         }
     },
@@ -513,16 +515,12 @@ MochiKit.Base.update(MochiKit.Signal, {
         } else {
             func = objOrFunc;
         }
-        if (0) {
-            // XXX: bob -   do we need this, or is "this" sufficient from
-            //              attachEvent?
-            if (typeof(obj) == 'undefined' || obj === null) {
-                obj = src;
-            }
+        if (typeof(obj) == 'undefined' || obj === null) {
+            obj = src;
         }
         
         var isDOM = !!(src.addEventListener || src.attachEvent);
-        var listener = self._listener(func, obj, isDOM);
+        var listener = self._listener(src, func, obj, isDOM);
         
         if (src.addEventListener) {
             src.addEventListener(sig.substr(2), listener, false);
