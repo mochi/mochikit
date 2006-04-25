@@ -92,7 +92,7 @@ at: <a class="reference" href="http://doc.trolltech.com/">http://doc.trolltech.c
 <p>When using MochiKit.Signal, you should not directly use the browser's native
 event handling for the same events.  That means, no <tt class="docutils literal"><span class="pre">onclick=&quot;blah&quot;</span></tt>,
 no <tt class="docutils literal"><span class="pre">elem.attachEvent(...)</span></tt>, and certainly no <tt class="docutils literal"><span class="pre">elem.addEventListener(...)</span></tt>.
-Note that This also means that <a class="mochiref reference" href="DOM.html#fn-addtocallstack">MochiKit.DOM.addToCallStack</a> and
+This also means that <a class="mochiref reference" href="DOM.html#fn-addtocallstack">MochiKit.DOM.addToCallStack</a> and
 <a class="mochiref reference" href="DOM.html#fn-addloadevent">MochiKit.DOM.addLoadEvent</a> should not be used in combination with
 this module.</p>
 <p>Signals for DOM objects are named with the 'on' prefix, e.g.:
@@ -130,7 +130,7 @@ the 'on' prefix.)</dd>
 <dt>stop():</dt>
 <dd>Shortcut that calls <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt> and <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</dd>
 </dl>
-<p>Note that you should use keydown and keyup to detect control characters,
+<p>You should use keydown and keyup to detect control characters,
 and keypressed to detect &quot;printable&quot; characters. key().code will be set to
 0 and key().string will be set to an empty string in a keypress handler if
 a user presses a control character like F1 or Escape. IE will not fire
@@ -147,7 +147,7 @@ are generated for keydown and keyup events:</p>
 The complete list is defined in MochiKit.Signal._specialKeys.</dd>
 </dl>
 <p>These are only generated for mouse*, click, dblclick, and contextmenu
-(note that contextmenu doesn't work in Opera):</p>
+(contextmenu doesn't work in Opera):</p>
 <dl class="docutils">
 <dt>mouse().page.x, mouse().page.y:</dt>
 <dd>represents the cursor position relative to the HTML document.
@@ -225,7 +225,7 @@ used to disconnect that signal.</p>
 which case, it is interpreted as an id for an HTML Element.</p>
 <p><tt class="docutils literal"><span class="pre">signal</span></tt> is a string that represents a signal name. If 'src' is an HTML
 Element, Window, or the Document, then it can be one of the 'on-XYZ'
-events. Note that you must include the 'on' prefix, and it must be all
+events. You must include the 'on' prefix, and it must be all
 lower-case.</p>
 <p><tt class="docutils literal"><span class="pre">dest</span></tt> and <tt class="docutils literal"><span class="pre">func</span></tt> describe the slot, or the action to take when the
 signal is triggered.</p>
@@ -250,8 +250,9 @@ the signal.</p>
 <a name="fn-disconnect"></a>
 <a class="mochidef reference" href="#fn-disconnect">disconnect(ident)</a>:</p>
 <blockquote>
-To disconnect a signal, simply pass the ident returned by <a class="mochiref reference" href="#fn-connect">connect()</a>.
-This is similar to how the browser's <tt class="docutils literal"><span class="pre">setTimeout</span></tt> and <tt class="docutils literal"><span class="pre">clearTimeout</span></tt> works.</blockquote>
+To disconnect a signal, simply pass the ident returned by
+<a class="mochiref reference" href="#fn-connect">connect()</a>. This is similar to how the browser's <tt class="docutils literal"><span class="pre">setTimeout</span></tt>
+and <tt class="docutils literal"><span class="pre">clearTimeout</span></tt> works.</blockquote>
 <p>
 <a name="fn-signal"></a>
 <a class="mochidef reference" href="#fn-signal">signal(src, signal, ...)</a>:</p>
