@@ -72,11 +72,11 @@ signal(myObject, 'bang', 'BANG!');
 <p>Event handling was never so easy!</p>
 <p>This module takes care of all the hard work—figuring out which event
 model to use, trying to retrieve the event object, and handling your own
-internal events, as well as cleanup when the page is unloaded to handle IE's
+internal events, as well as cleanup when the page is unloaded to clean up IE's
 nasty memory leakage.</p>
-<p>This event system is largely based on Qt's signal/slot system. You should read
-more on how that is handled and also how it is used in model/view programming
-at: <a class="reference" href="http://doc.trolltech.com/">http://doc.trolltech.com/</a></p>
+<p>This event system is largely based on Qt's signal/slot system. Read more on
+how that is handled and also how it is used in model/view programming at:
+<a class="reference" href="http://doc.trolltech.com/">http://doc.trolltech.com/</a></p>
 </div>
 <div class="section">
 <h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
@@ -89,16 +89,16 @@ at: <a class="reference" href="http://doc.trolltech.com/">http://doc.trolltech.c
 <h1><a id="overview" name="overview">Overview</a></h1>
 <div class="section">
 <h2><a id="using-signal-for-dom-events" name="using-signal-for-dom-events">Using Signal for DOM Events</a></h2>
-<p>When using MochiKit.Signal, you should not directly use the browser's native
-event handling for the same events. That means, no <tt class="docutils literal"><span class="pre">onclick=&quot;blah&quot;</span></tt>,
-no <tt class="docutils literal"><span class="pre">elem.attachEvent(...)</span></tt>, and certainly no <tt class="docutils literal"><span class="pre">elem.addEventListener(...)</span></tt>.
-This also means that <a class="mochiref reference" href="DOM.html#fn-addtocallstack">MochiKit.DOM.addToCallStack</a> and
+<p>When using MochiKit.Signal, do not use the browser's native event API.
+That means, no <tt class="docutils literal"><span class="pre">onclick=&quot;blah&quot;</span></tt>, no <tt class="docutils literal"><span class="pre">elem.addEventListener(...)</span></tt>, and
+certainly no <tt class="docutils literal"><span class="pre">elem.attachEvent(...)</span></tt>. This also means that
+<a class="mochiref reference" href="DOM.html#fn-addtocallstack">MochiKit.DOM.addToCallStack</a> and
 <a class="mochiref reference" href="DOM.html#fn-addloadevent">MochiKit.DOM.addLoadEvent</a> should not be used in combination with
 this module.</p>
-<p>Signals for DOM objects are named with the 'on' prefix, e.g.:
-'onclick', 'onkeyup', etc.</p>
-<p>When the signal fires, your slot will be called with exactly one parameter,
-the custom event object.</p>
+<p>Signals for DOM objects are named with the <tt class="docutils literal"><span class="pre">on</span></tt> prefix, e.g.: <tt class="docutils literal"><span class="pre">onclick</span></tt>,
+<tt class="docutils literal"><span class="pre">onkeyup</span></tt>, etc.</p>
+<p>When the signal fires, your slot will be called with one parameter, the custom
+event object.</p>
 </div>
 <div class="section">
 <h2><a id="custom-event-objects-for-dom-events" name="custom-event-objects-for-dom-events">Custom Event Objects for DOM events</a></h2>
@@ -106,75 +106,6 @@ the custom event object.</p>
 parameter. The custom event object presents a consistent view of the event
 across all supported platforms and browsers, and provides many conveniences
 not available even in a correct W3C implementation.</p>
-<p>Here is a complete list of this object's methods:</p>
-<blockquote>
-<p>These are always generated:</p>
-<dl class="docutils">
-<dt>event():</dt>
-<dd>The native event produced by the browser. You should not need to
-access this.</dd>
-<dt>type():</dt>
-<dd>The event type: click, mouseover, keypress, etc. (Does not include
-the 'on' prefix.)</dd>
-<dt>target():</dt>
-<dd>The element that triggered the event.</dd>
-<dt>modifier().alt, modifier().ctrl, modifier().meta, modifier().shift:</dt>
-<dd><tt class="docutils literal"><span class="pre">true</span></tt> if pressed, <tt class="docutils literal"><span class="pre">false</span></tt> if not. <tt class="docutils literal"><span class="pre">modifier().meta</span></tt> will be
-<tt class="docutils literal"><span class="pre">false</span></tt> instead of <tt class="docutils literal"><span class="pre">undefined</span></tt> in IE.</dd>
-<dt>modifier().any:</dt>
-<dd><tt class="docutils literal"><span class="pre">true</span></tt> if any modifier is pressed, <tt class="docutils literal"><span class="pre">false</span></tt> if not.</dd>
-<dt>stopPropagation():</dt>
-<dd>Works like W3C's <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt>.</dd>
-<dt>preventDefault():</dt>
-<dd>Works like W3C's <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</dd>
-<dt>stop():</dt>
-<dd>Shortcut that calls <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt> and <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</dd>
-</dl>
-<p>You should use keydown and keyup to detect control characters,
-and keypressed to detect &quot;printable&quot; characters. key().code will be set to
-0 and key().string will be set to an empty string in a keypress handler if
-a user presses a control character like F1 or Escape. IE will not fire
-your keypressed handler when you press a control character like KEY_F1 or
-KEY_ESCAPE. In your keyup and keydown handlers, Signal will pass the
-keyboard code and a human-readable string like KEY_A or KEY_ARROW_DOWN or
-KEY_NUM_PAD_ASTERISK. See <tt class="docutils literal"><span class="pre">_specialKeys</span></tt> for a comprehensive list. These
-are generated for keydown and keyup events:</p>
-<dl class="docutils">
-<dt>key().code:</dt>
-<dd>contains the raw key code, such as 8 for backspace.</dd>
-<dt>key().string:</dt>
-<dd>contains a human readable string, such as 'KEY_BACKSPACE' or '!'.
-The complete list is defined in MochiKit.Signal._specialKeys.</dd>
-</dl>
-<p>These are only generated for mouse*, click, dblclick, and contextmenu
-(contextmenu doesn't work in Opera):</p>
-<dl class="docutils">
-<dt>mouse().page.x, mouse().page.y:</dt>
-<dd>represents the cursor position relative to the HTML document.
-(Equivalent to pageX/Y in Safari, Mozilla, and Opera.)</dd>
-<dt>mouse().client.x, mouse().client.y:</dt>
-<dd>represents the cursor position relative to the visible portion of the
-HTML document. (Equivalent to clientX/Y on all browsers.)</dd>
-</dl>
-<p>These are only generated for mouseup, mousedown, click, and dblclick:</p>
-<dl class="docutils">
-<dt>mouse().button.left, mouse().button.right, mouse().button.middle:</dt>
-<dd><p class="first"><tt class="docutils literal"><span class="pre">true</span></tt> or <tt class="docutils literal"><span class="pre">false</span></tt>. Mac browsers don't report right click
-consistently. Firefox fires the click and sets modifier().ctrl to
-true, Opera fires the click and sets modifier().meta to true, and
-Safari doesn't fire the click (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">Safari Bug 6595</a>).</p>
-<p>If you want a right click, I suggest that instead of looking for
-a right click, look for a contextmenu event.</p>
-<p class="last">Current versions of Safari won't fire a dblclick event when attached
-via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=7790">Safari Bug 7790</a>).</p>
-</dd>
-</dl>
-<p>This is generated on mouseover and mouseout:</p>
-<dl class="docutils">
-<dt>relatedTarget():</dt>
-<dd>the document element that the mouse has moved to.</dd>
-</dl>
-</blockquote>
 <p>If you find that you're accessing the native event for any reason, create a
 <a class="reference" href="http://trac.mochikit.com/newticket">new ticket</a> and we'll look into normalizing the behavior you're looking for.</p>
 </div>
@@ -183,14 +114,13 @@ via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a cla
 <p>Any object that has connected slots (via <a class="mochiref reference" href="#fn-connect">connect()</a>) is referenced
 by the Signal mechanism until it is disconnected via <a class="mochiref reference" href="#fn-disconnect">disconnect()</a>
 or <a class="mochiref reference" href="#fn-disconnectall">disconnectAll()</a>.</p>
-<p>Signal does not leak. It registers an 'onunload' event that disconnects all
+<p>Signal does not leak. It registers an <tt class="docutils literal"><span class="pre">onunload</span></tt> event that disconnects all
 objects on the page when the browser leaves the page. However, memory usage
 will grow during the page view for every connection made until it is
 disconnected. Even if the DOM object is removed from the document, it
 will still be referenced by Signal until it is explicitly disconnected.</p>
-<p>In order to conserve memory during the page view, you should ensure to use
-<a class="mochiref reference" href="#fn-disconnectall">disconnectAll()</a> any DOM elements that are about to be removed
-from the document.</p>
+<p>In order to conserve memory during the page view, <a class="mochiref reference" href="#fn-disconnectall">disconnectAll()</a>
+any DOM elements that are about to be removed from the document.</p>
 </div>
 <div class="section">
 <h2><a id="using-signal-for-non-dom-objects" name="using-signal-for-non-dom-objects">Using Signal for non-DOM objects</a></h2>
@@ -214,7 +144,7 @@ called with the parameters to the signal.</li>
 <div class="section">
 <h1><a id="api-reference" name="api-reference">API Reference</a></h1>
 <div class="section">
-<h2><a id="functions" name="functions">Functions</a></h2>
+<h2><a id="signal-api-reference" name="signal-api-reference">Signal API Reference</a></h2>
 <p>
 <a name="fn-connect"></a>
 <a class="mochidef reference" href="#fn-connect">connect(src, signal, dest[, func])</a>:</p>
@@ -222,10 +152,10 @@ called with the parameters to the signal.</li>
 <p>Connects a signal to a slot, and return a unique identifier that can be
 used to disconnect that signal.</p>
 <p><tt class="docutils literal"><span class="pre">src</span></tt> is the object that has the signal. You may pass in a string, in
-which case, it is interpreted as an id for an HTML Element.</p>
+which case, it is interpreted as an id for an HTML element.</p>
 <p><tt class="docutils literal"><span class="pre">signal</span></tt> is a string that represents a signal name. If 'src' is an HTML
-Element, Window, or the Document, then it can be one of the 'on-XYZ'
-events. You must include the 'on' prefix, and it must be all
+Element, <tt class="docutils literal"><span class="pre">window</span></tt>, or the <tt class="docutils literal"><span class="pre">document</span></tt>, then it can be one of the
+'on-XYZ' events. You must include the 'on' prefix, and it must be all
 lower-case.</p>
 <p><tt class="docutils literal"><span class="pre">dest</span></tt> and <tt class="docutils literal"><span class="pre">func</span></tt> describe the slot, or the action to take when the
 signal is triggered.</p>
@@ -242,7 +172,7 @@ signalled.</li>
 signalled.</li>
 </ul>
 </blockquote>
-<p>No other combinations are allowed and should raise and exception.</p>
+<p>No other combinations are allowed and will raise an exception.</p>
 <p>The return value can be passed to <a class="mochiref reference" href="#fn-disconnect">disconnect</a> to disconnect
 the signal.</p>
 </blockquote>
@@ -260,6 +190,97 @@ and <tt class="docutils literal"><span class="pre">clearTimeout</span></tt> work
 This will signal a signal, passing whatever additional parameters on to
 the connected slots. <tt class="docutils literal"><span class="pre">src</span></tt> and <tt class="docutils literal"><span class="pre">signal</span></tt> are the same as for
 <a class="mochiref reference" href="#fn-connect">connect()</a>.</blockquote>
+</div>
+<div class="section">
+<h2><a id="dom-event-api-reference" name="dom-event-api-reference">DOM Event API Reference</a></h2>
+<dl class="docutils">
+<dt>
+<a name="fn-event"></a>
+<a class="mochidef reference" href="#fn-event">event()</a>:</dt>
+<dd>The native event produced by the browser. You should not need to
+access this.</dd>
+<dt>
+<a name="fn-type"></a>
+<a class="mochidef reference" href="#fn-type">type()</a>:</dt>
+<dd>Returns the event type (<tt class="docutils literal"><span class="pre">click</span></tt>, <tt class="docutils literal"><span class="pre">mouseover</span></tt>, <tt class="docutils literal"><span class="pre">keypress</span></tt>, etc.) as a
+string. Does not include the <tt class="docutils literal"><span class="pre">on</span></tt> prefix.</dd>
+<dt>
+<a name="fn-target"></a>
+<a class="mochidef reference" href="#fn-target">target()</a>:</dt>
+<dd>Returns the element that triggered the event.</dd>
+<dt>
+<a name="fn-modifier"></a>
+<a class="mochidef reference" href="#fn-modifier">modifier()</a>:</dt>
+<dd>Returns <tt class="docutils literal"><span class="pre">{shift,</span> <span class="pre">ctrl,</span> <span class="pre">meta,</span> <span class="pre">alt,</span> <span class="pre">any}</span></tt>, where each property is <tt class="docutils literal"><span class="pre">true</span></tt>
+if its respective modifier key was pressed, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise. <tt class="docutils literal"><span class="pre">any</span></tt>
+is <tt class="docutils literal"><span class="pre">true</span></tt> if any modifier is pressed, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise.</dd>
+<dt>
+<a name="fn-stoppropagation"></a>
+<a class="mochidef reference" href="#fn-stoppropagation">stopPropagation()</a>:</dt>
+<dd>Works like W3C's <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt>.</dd>
+<dt>
+<a name="fn-preventdefault"></a>
+<a class="mochidef reference" href="#fn-preventdefault">preventDefault()</a>:</dt>
+<dd>Works like W3C's <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</dd>
+<dt>
+<a name="fn-stop"></a>
+<a class="mochidef reference" href="#fn-stop">stop()</a>:</dt>
+<dd>Shortcut that calls <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt> and <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</dd>
+<dt>
+<a name="fn-key"></a>
+<a class="mochidef reference" href="#fn-key">key()</a>:</dt>
+<dd><p class="first">Returns {code, string}.</p>
+<p>Use <tt class="docutils literal"><span class="pre">onkeydown</span></tt> and <tt class="docutils literal"><span class="pre">onkeyup</span></tt> handlers to detect control characters
+such as <tt class="docutils literal"><span class="pre">KEY_F1</span></tt>. Use the <tt class="docutils literal"><span class="pre">onkeypressed</span></tt> handler to detect &quot;printable&quot;
+characters, such as <tt class="docutils literal"><span class="pre">é</span></tt>.</p>
+<p>When a user presses F1, in <tt class="docutils literal"><span class="pre">onkeydown</span></tt> and <tt class="docutils literal"><span class="pre">onkeyup</span></tt> this method
+returns <tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">122,</span> <span class="pre">string:</span> <span class="pre">'KEY_F1'}</span></tt>. In <tt class="docutils literal"><span class="pre">onkeypress</span></tt>, it returns
+<tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">0,</span> <span class="pre">string:</span> <span class="pre">''}</span></tt>.</p>
+<p>If a user presses Shift+2 on a US keyboard, this method returns <tt class="docutils literal"><span class="pre">{code:</span>
+<span class="pre">50,</span> <span class="pre">string:</span> <span class="pre">'KEY_2'}</span></tt> in <tt class="docutils literal"><span class="pre">onkeydown</span></tt> and <tt class="docutils literal"><span class="pre">onkeyup</span></tt>. In
+<tt class="docutils literal"><span class="pre">onkeypress</span></tt>, it returns <tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">64,</span> <span class="pre">string:</span> <span class="pre">'&#64;'}</span></tt>.</p>
+<p class="last">See <tt class="docutils literal"><span class="pre">_specialKeys</span></tt> for a comprehensive list of control characters.</p>
+</dd>
+<dt>
+<a name="fn-mouse"></a>
+<a class="mochidef reference" href="#fn-mouse">mouse()</a>:</dt>
+<dd><p class="first">Properties for <tt class="docutils literal"><span class="pre">onmouse*</span></tt>, <tt class="docutils literal"><span class="pre">onclick</span></tt>, <tt class="docutils literal"><span class="pre">ondblclick</span></tt>, and
+<tt class="docutils literal"><span class="pre">oncontextmenu</span></tt> events. (<tt class="docutils literal"><span class="pre">contextmenu</span></tt> doesn't work in Opera).</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">page</span></tt> is a <a class="mochiref reference" href="DOM.html#fn-coordinates">MochiKit.DOM.Coordinates</a> object that
+represents the cursor position relative to the HTML document.
+Equivalent to <tt class="docutils literal"><span class="pre">pageX</span></tt> and <tt class="docutils literal"><span class="pre">pageY</span></tt> in Safari, Mozilla, and Opera.</li>
+<li><tt class="docutils literal"><span class="pre">client</span></tt> is a <a class="mochiref reference" href="DOM.html#fn-coordinates">MochiKit.DOM.Coordinates</a> object that
+represents the cursor position relative to the visible portion of
+the HTML document. Equivalent to <tt class="docutils literal"><span class="pre">clientX</span></tt> and <tt class="docutils literal"><span class="pre">clientY</span></tt> on
+all browsers.</li>
+</ul>
+</blockquote>
+<p>Properties for <tt class="docutils literal"><span class="pre">onmouseup</span></tt>, <tt class="docutils literal"><span class="pre">onmousedown</span></tt>, <tt class="docutils literal"><span class="pre">onclick</span></tt>, and
+<tt class="docutils literal"><span class="pre">ondblclick</span></tt>:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">mouse().button</span></tt> returns {left, right, middle} where each
+property is <tt class="docutils literal"><span class="pre">true</span></tt> if the mouse button was pressed, <tt class="docutils literal"><span class="pre">false</span></tt>
+otherwise.</li>
+</ul>
+</blockquote>
+<p>Mac browsers don't report right click consistently. Firefox fires the
+click and sets <tt class="docutils literal"><span class="pre">modifier().ctrl</span></tt> to true, Opera fires the click and sets
+<tt class="docutils literal"><span class="pre">modifier().meta</span></tt> to <tt class="docutils literal"><span class="pre">true</span></tt>, and Safari doesn't fire the click
+(<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">Safari Bug 6595</a>).</p>
+<p>If you want a right click, we suggest that instead of looking for a right
+click, look for a <tt class="docutils literal"><span class="pre">contextmenu</span></tt> event.</p>
+<p class="last">Current versions of Safari won't fire a <tt class="docutils literal"><span class="pre">dblclick</span></tt> event when attached
+via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=7790">Safari Bug 7790</a>).</p>
+</dd>
+<dt>
+<a name="fn-relatedtarget"></a>
+<a class="mochidef reference" href="#fn-relatedtarget">relatedTarget()</a>:</dt>
+<dd>This is generated on <tt class="docutils literal"><span class="pre">mouseover</span></tt> and <tt class="docutils literal"><span class="pre">mouseout</span></tt>. Returns the document
+element that the mouse has moved to.</dd>
+</dl>
 </div>
 </div>
 <div class="section">

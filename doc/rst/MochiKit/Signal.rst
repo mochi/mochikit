@@ -67,12 +67,12 @@ Event handling was never so easy!
 
 This module takes care of all the hard work |---| figuring out which event
 model to use, trying to retrieve the event object, and handling your own
-internal events, as well as cleanup when the page is unloaded to handle IE's
+internal events, as well as cleanup when the page is unloaded to clean up IE's
 nasty memory leakage.
 
-This event system is largely based on Qt's signal/slot system. You should read
-more on how that is handled and also how it is used in model/view programming
-at: http://doc.trolltech.com/
+This event system is largely based on Qt's signal/slot system. Read more on
+how that is handled and also how it is used in model/view programming at:
+http://doc.trolltech.com/
 
 
 Dependencies
@@ -88,18 +88,18 @@ Overview
 Using Signal for DOM Events
 ---------------------------
 
-When using MochiKit.Signal, you should not directly use the browser's native
-event handling for the same events. That means, no ``onclick="blah"``, 
-no ``elem.attachEvent(...)``, and certainly no ``elem.addEventListener(...)``.
-This also means that :mochiref:`MochiKit.DOM.addToCallStack` and
+When using MochiKit.Signal, do not use the browser's native event API.
+That means, no ``onclick="blah"``, no ``elem.addEventListener(...)``, and
+certainly no ``elem.attachEvent(...)``. This also means that
+:mochiref:`MochiKit.DOM.addToCallStack` and
 :mochiref:`MochiKit.DOM.addLoadEvent` should not be used in combination with
 this module.
 
-Signals for DOM objects are named with the 'on' prefix, e.g.:
-'onclick', 'onkeyup', etc.
+Signals for DOM objects are named with the ``on`` prefix, e.g.: ``onclick``,
+``onkeyup``, etc.
 
-When the signal fires, your slot will be called with exactly one parameter,
-the custom event object.
+When the signal fires, your slot will be called with one parameter, the custom
+event object.
 
 
 Custom Event Objects for DOM events
@@ -109,84 +109,6 @@ Signals triggered by DOM events are called with a custom event object as a
 parameter. The custom event object presents a consistent view of the event
 across all supported platforms and browsers, and provides many conveniences
 not available even in a correct W3C implementation.
-
-Here is a complete list of this object's methods:
-
-    These are always generated:
-
-    event():
-        The native event produced by the browser. You should not need to
-        access this.
-
-    type():
-        The event type: click, mouseover, keypress, etc. (Does not include
-        the 'on' prefix.)
-
-    target():
-        The element that triggered the event.
-
-    modifier().alt, modifier().ctrl, modifier().meta, modifier().shift:
-        ``true`` if pressed, ``false`` if not. ``modifier().meta`` will be 
-        ``false`` instead of ``undefined`` in IE.
-        
-    modifier().any:
-        ``true`` if any modifier is pressed, ``false`` if not.
-
-    stopPropagation():
-        Works like W3C's ``stopPropagation()``.
-        
-    preventDefault():
-        Works like W3C's ``preventDefault()``.
-        
-    stop():
-        Shortcut that calls ``stopPropagation()`` and ``preventDefault()``.
-
-    You should use keydown and keyup to detect control characters,
-    and keypressed to detect "printable" characters. key().code will be set to
-    0 and key().string will be set to an empty string in a keypress handler if
-    a user presses a control character like F1 or Escape. IE will not fire
-    your keypressed handler when you press a control character like KEY_F1 or
-    KEY_ESCAPE. In your keyup and keydown handlers, Signal will pass the
-    keyboard code and a human-readable string like KEY_A or KEY_ARROW_DOWN or
-    KEY_NUM_PAD_ASTERISK. See ``_specialKeys`` for a comprehensive list. These
-    are generated for keydown and keyup events:
-
-    key().code:
-        contains the raw key code, such as 8 for backspace.
-
-    key().string:
-        contains a human readable string, such as 'KEY_BACKSPACE' or '!'.
-        The complete list is defined in MochiKit.Signal._specialKeys.
-
-    These are only generated for mouse*, click, dblclick, and contextmenu
-    (contextmenu doesn't work in Opera):
-
-    mouse().page.x, mouse().page.y:
-        represents the cursor position relative to the HTML document. 
-        (Equivalent to pageX/Y in Safari, Mozilla, and Opera.)
-        
-    mouse().client.x, mouse().client.y:
-        represents the cursor position relative to the visible portion of the
-        HTML document. (Equivalent to clientX/Y on all browsers.)
-    
-    These are only generated for mouseup, mousedown, click, and dblclick:
-
-    mouse().button.left, mouse().button.right, mouse().button.middle:
-        ``true`` or ``false``. Mac browsers don't report right click
-        consistently. Firefox fires the click and sets modifier().ctrl to
-        true, Opera fires the click and sets modifier().meta to true, and
-        Safari doesn't fire the click (`Safari Bug 6595`_).
-
-        If you want a right click, I suggest that instead of looking for
-        a right click, look for a contextmenu event.
-        
-        Current versions of Safari won't fire a dblclick event when attached
-        via ``connect()`` (`Safari Bug 7790`_).
-
-    This is generated on mouseover and mouseout:
-
-    relatedTarget():
-        the document element that the mouse has moved to.
 
 If you find that you're accessing the native event for any reason, create a
 `new ticket`_ and we'll look into normalizing the behavior you're looking for.
@@ -203,15 +125,14 @@ Any object that has connected slots (via :mochiref:`connect()`) is referenced
 by the Signal mechanism until it is disconnected via :mochiref:`disconnect()`
 or :mochiref:`disconnectAll()`.
 
-Signal does not leak. It registers an 'onunload' event that disconnects all
+Signal does not leak. It registers an ``onunload`` event that disconnects all
 objects on the page when the browser leaves the page. However, memory usage
 will grow during the page view for every connection made until it is
 disconnected. Even if the DOM object is removed from the document, it
 will still be referenced by Signal until it is explicitly disconnected.
 
-In order to conserve memory during the page view, you should ensure to use
-:mochiref:`disconnectAll()` any DOM elements that are about to be removed
-from the document.
+In order to conserve memory during the page view, :mochiref:`disconnectAll()`
+any DOM elements that are about to be removed from the document.
 
 
 Using Signal for non-DOM objects
@@ -239,8 +160,9 @@ when that signal is signalled:
 API Reference
 =============
 
-Functions
----------
+
+Signal API Reference
+--------------------
 
 :mochidef:`connect(src, signal, dest[, func])`:
 
@@ -248,11 +170,11 @@ Functions
     used to disconnect that signal.
 
     ``src`` is the object that has the signal. You may pass in a string, in
-    which case, it is interpreted as an id for an HTML Element.
+    which case, it is interpreted as an id for an HTML element.
 
     ``signal`` is a string that represents a signal name. If 'src' is an HTML
-    Element, Window, or the Document, then it can be one of the 'on-XYZ'
-    events. You must include the 'on' prefix, and it must be all
+    Element, ``window``, or the ``document``, then it can be one of the
+    'on-XYZ' events. You must include the 'on' prefix, and it must be all
     lower-case.
 
     ``dest`` and ``func`` describe the slot, or the action to take when the
@@ -270,7 +192,7 @@ Functions
             ``func.apply(src, ...)`` will be called when the signal is
             signalled.
 
-    No other combinations are allowed and should raise and exception.
+    No other combinations are allowed and will raise an exception.
 
     The return value can be passed to :mochiref:`disconnect` to disconnect
     the signal.
@@ -288,6 +210,88 @@ Functions
     This will signal a signal, passing whatever additional parameters on to
     the connected slots. ``src`` and ``signal`` are the same as for
     :mochiref:`connect()`.
+
+
+DOM Event API Reference
+-----------------------
+
+:mochidef:`event()`:
+    The native event produced by the browser. You should not need to
+    access this.
+
+:mochidef:`type()`:
+    Returns the event type (``click``, ``mouseover``, ``keypress``, etc.) as a
+    string. Does not include the ``on`` prefix.
+
+:mochidef:`target()`:
+    Returns the element that triggered the event.
+
+:mochidef:`modifier()`:
+    Returns ``{shift, ctrl, meta, alt, any}``, where each property is ``true``
+    if its respective modifier key was pressed, ``false`` otherwise. ``any``
+    is ``true`` if any modifier is pressed, ``false`` otherwise.
+    
+:mochidef:`stopPropagation()`:
+    Works like W3C's ``stopPropagation()``.
+    
+:mochidef:`preventDefault()`:
+    Works like W3C's ``preventDefault()``.
+    
+:mochidef:`stop()`:
+    Shortcut that calls ``stopPropagation()`` and ``preventDefault()``.
+
+:mochidef:`key()`:
+    Returns {code, string}.
+    
+    Use ``onkeydown`` and ``onkeyup`` handlers to detect control characters
+    such as ``KEY_F1``. Use the ``onkeypressed`` handler to detect "printable"
+    characters, such as ``é``.
+    
+    When a user presses F1, in ``onkeydown`` and ``onkeyup`` this method
+    returns ``{code: 122, string: 'KEY_F1'}``. In ``onkeypress``, it returns
+    ``{code: 0, string: ''}``.
+    
+    If a user presses Shift+2 on a US keyboard, this method returns ``{code:
+    50, string: 'KEY_2'}`` in ``onkeydown`` and ``onkeyup``. In
+    ``onkeypress``, it returns ``{code: 64, string: '@'}``.
+        
+    See ``_specialKeys`` for a comprehensive list of control characters.
+
+:mochidef:`mouse()`:
+    Properties for ``onmouse*``, ``onclick``, ``ondblclick``, and
+    ``oncontextmenu`` events. (``contextmenu`` doesn't work in Opera).
+
+        -   ``page`` is a :mochiref:`MochiKit.DOM.Coordinates` object that
+            represents the cursor position relative to the HTML document. 
+            Equivalent to ``pageX`` and ``pageY`` in Safari, Mozilla, and Opera.
+
+        -   ``client`` is a :mochiref:`MochiKit.DOM.Coordinates` object that
+            represents the cursor position relative to the visible portion of 
+            the HTML document. Equivalent to ``clientX`` and ``clientY`` on 
+            all browsers.
+
+    Properties for ``onmouseup``, ``onmousedown``, ``onclick``, and
+    ``ondblclick``:
+
+        -   ``mouse().button`` returns {left, right, middle} where each 
+            property is ``true`` if the mouse button was pressed, ``false`` 
+            otherwise.
+
+    Mac browsers don't report right click consistently. Firefox fires the
+    click and sets ``modifier().ctrl`` to true, Opera fires the click and sets
+    ``modifier().meta`` to ``true``, and Safari doesn't fire the click
+    (`Safari Bug 6595`_).
+
+    If you want a right click, we suggest that instead of looking for a right
+    click, look for a ``contextmenu`` event.
+
+    Current versions of Safari won't fire a ``dblclick`` event when attached
+    via ``connect()`` (`Safari Bug 7790`_).
+
+
+:mochidef:`relatedTarget()`:
+    This is generated on ``mouseover`` and ``mouseout``. Returns the document
+    element that the mouse has moved to.
 
 
 Authors
