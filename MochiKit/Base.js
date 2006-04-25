@@ -324,13 +324,14 @@ MochiKit.Base.update(MochiKit.Base, {
 
     map: function (fn, lst/*, lst... */) {
         var m = MochiKit.Base;
+        var itr = MochiKit.Iter;
         var isArrayLike = m.isArrayLike;
         if (arguments.length <= 2) {
             // allow an iterable to be passed
             if (!isArrayLike(lst)) {
-                if (MochiKit.Iter) {
+                if (itr) {
                     // fast path for map(null, iterable)
-                    lst = MochiKit.Iter.list(lst);
+                    lst = itr.list(lst);
                     if (fn === null) {
                         return lst;
                     }
@@ -363,8 +364,8 @@ MochiKit.Base.update(MochiKit.Base, {
             for (i = 1; i < arguments.length; i++) {
                 // allow iterables to be passed
                 if (!isArrayLike(arguments[i])) {
-                    if (MochiKit.Iter) {
-                        arguments[i] = MochiKit.Iter.list(arguments[i]);
+                    if (itr) {
+                        return itr.list(itr.imap.apply(null, arguments));
                     } else {
                         throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
                     }
