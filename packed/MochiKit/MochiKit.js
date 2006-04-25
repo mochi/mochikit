@@ -4085,7 +4085,7 @@ if(this.type()=="mouseout"){
 return (this._event.relatedTarget||this._event.toElement);
 }
 }
-throw new Error("No related target");
+return undefined;
 },modifier:function(){
 var m={};
 m.alt=this._event.altKey;
@@ -4118,7 +4118,7 @@ return k;
 }
 }
 }
-throw new Error("This is not a key event");
+return undefined;
 },mouse:function(){
 var m={};
 var e=this._event;
@@ -4155,7 +4155,7 @@ m.button.middle=!!(e.button&4);
 }
 return m;
 }
-throw new Error("This is not a mouse event");
+return undefined;
 },stop:function(){
 this.stopPropagation();
 this.preventDefault();
@@ -4216,11 +4216,11 @@ return MochiKit.Base.bind(func,obj);
 }else{
 if(typeof (func)=="string"){
 return function(_552){
-obj[func].apply(obj,[new MochiKit.Signal.Event(_552)]);
+obj[func].apply((obj||this),[new MochiKit.Signal.Event(_552)]);
 };
 }else{
 return function(_553){
-func.apply(obj,[new MochiKit.Signal.Event(_553)]);
+func.apply((obj||this),[new MochiKit.Signal.Event(_553)]);
 };
 }
 }
@@ -4249,6 +4249,11 @@ if(typeof (_555)!="function"){
 throw new Error("'objOrFunc' must be a function if 'funcOrStr' is not given");
 }else{
 func=_555;
+}
+}
+if(0){
+if(typeof (obj)=="undefined"||obj===null){
+obj=src;
 }
 }
 var _557=!!(src.addEventListener||src.attachEvent);
