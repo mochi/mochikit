@@ -351,6 +351,10 @@ MochiKit.Base.update(MochiKit.Base, {
         return true;
     },
 
+    isEmpty: function (obj) {
+        return !MochiKit.Base.isNotEmpty.apply(this, arguments);
+    },
+
     isNotEmpty: function (obj) {
         /***
 
@@ -1300,6 +1304,7 @@ MochiKit.Base.EXPORT = [
     "isUndefined",
     "isUndefinedOrNull",
     "isNull",
+    "isEmpty",
     "isNotEmpty",
     "isArrayLike",
     "isDateLike",

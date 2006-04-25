@@ -10,6 +10,16 @@ tests.test_Base = function (t) {
     var boundFunc = bind(func, self);
     not_self.boundFunc = boundFunc;
 
+    t.is( isEmpty([], [], ""), true, "isEmpty true" )
+    t.is( isEmpty([], [1], ""), true, "isEmpty true" )
+    t.is( isNotEmpty([], [], ""), false, "isNotEmpty false" )
+    t.is( isNotEmpty([], [1], ""), false, "isNotEmpty false" )
+
+    t.is( isEmpty([1], [1], "1"), false, "isEmpty false" )
+    t.is( isEmpty([1], [1], "1"), false, "isEmpty false" )
+    t.is( isNotEmpty([1], [1], "1"), true, "isNotEmpty true" )
+    t.is( isNotEmpty([1], [1], "1"), true, "isNotEmpty true" )
+
     t.is( boundFunc("foo"), "self foo", "boundFunc bound to self properly" );
     t.is( not_self.boundFunc("foo"), "self foo", "boundFunc bound to self on another obj" );
     t.is( bind(boundFunc, not_self)("foo"), "not self foo", "boundFunc successfully rebound!" );

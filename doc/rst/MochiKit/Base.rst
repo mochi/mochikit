@@ -531,6 +531,12 @@ Functions
     ``.getTime()`` method)
 
 
+:mochidef:`isEmpty(obj[, ...])`:
+
+    Returns ``true`` if all the given ``Array``-like or string arguments
+    are empty ``(obj.length == 0)``
+
+
 :mochidef:`isNotEmpty(obj[, ...])`:
 
     Returns ``true`` if all the given ``Array``-like or string arguments
