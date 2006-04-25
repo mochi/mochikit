@@ -625,7 +625,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         var elem;
         var self = MochiKit.DOM;
         var m = MochiKit.Base;
-        if (typeof(attrs) == "string") {
+        if (typeof(attrs) == "string" || typeof(attrs) == "number") {
             var args = m.extend([name, null], arguments, 1);
             return arguments.callee.apply(this, args);
         }
