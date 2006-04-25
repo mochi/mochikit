@@ -112,7 +112,8 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
             return (this._event.relatedTarget ||
                 this._event.toElement);
         }
-        throw new Error('No related target');
+        // throw new Error("relatedTarget only available for 'mouseover' and 'mouseout'");
+        return undefined;
     },
 
     modifier: function () {
@@ -225,7 +226,8 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                 return k;
             }
         }
-        throw new Error('This is not a key event');
+        // throw new Error('This is not a key event');
+        return undefined;
     },
 
     mouse: function () {
@@ -315,7 +317,8 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
             }
             return m;
         }
-        throw new Error('This is not a mouse event');
+        // throw new Error('This is not a mouse event');
+        return undefined;
     },
 
     stop: function () {
@@ -469,11 +472,13 @@ MochiKit.Base.update(MochiKit.Signal, {
             return MochiKit.Base.bind(func, obj);
         } else if (typeof(func) == "string") {
             return function (nativeEvent) {
-                obj[func].apply(obj, [new MochiKit.Signal.Event(nativeEvent)]);
+                obj[func].apply((obj || this),
+                    [new MochiKit.Signal.Event(nativeEvent)]);
             };
         } else {
             return function (nativeEvent) {
-                func.apply(obj, [new MochiKit.Signal.Event(nativeEvent)]);
+                func.apply((obj || this),
+                    [new MochiKit.Signal.Event(nativeEvent)]);
             };
         }
     },
@@ -502,6 +507,13 @@ MochiKit.Base.update(MochiKit.Signal, {
             throw new Error("'objOrFunc' must be a function if 'funcOrStr' is not given");
         } else {
             func = objOrFunc;
+        }
+        if (0) {
+            // XXX: bob -   do we need this, or is "this" sufficient from
+            //              attachEvent?
+            if (typeof(obj) == 'undefined' || obj === null) {
+                obj = src;
+            }
         }
         
         var isDOM = !!(src.addEventListener || src.attachEvent);

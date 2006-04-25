@@ -8,6 +8,7 @@ tests.test_Signal = function (t) {
     var ident = null;
     var i = 0;
     var aFunction = function() {
+        t.ok(this === submit, "aFunction should have 'this' as submit");
         i++;
         if (typeof(this.someVar) != 'undefined') {
             i += this.someVar;
@@ -16,6 +17,7 @@ tests.test_Signal = function (t) {
     
     var aObject = {};
     aObject.aMethod = function() {
+        t.ok(this === aObject, "aMethod should have 'this' as aObject");
         i++;
     };
 
