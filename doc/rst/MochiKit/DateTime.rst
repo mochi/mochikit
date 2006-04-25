@@ -20,7 +20,7 @@ Description
 
 Remote servers don't give you JavaScript Date objects, and they certainly
 don't want them from you, so you need to deal with string representations
-of dates and timestamps.  MochiKit.Date does that.
+of dates and timestamps. MochiKit.Date does that.
 
 
 Dependencies
@@ -43,7 +43,7 @@ Functions
 :mochidef:`isoTimestamp(str)`:
 
     Convert any ISO 8601 [1]_ timestamp (or something reasonably close to it)
-    to a ``Date`` object.  Will accept the "de facto" form:
+    to a ``Date`` object. Will accept the "de facto" form:
 
         YYYY-MM-DD hh:mm:ss
 
@@ -63,7 +63,7 @@ Functions
 :mochidef:`toISOTimestamp(date, realISO=false)`:
 
     Convert a ``Date`` object to something that's ALMOST but not quite an
-    ISO 8601 [1]_timestamp.  If it was a proper ISO timestamp it would be:
+    ISO 8601 [1]_timestamp. If it was a proper ISO timestamp it would be:
 
         YYYY-MM-DDThh:mm:ssZ
 
@@ -110,7 +110,7 @@ Authors
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
+Copyright 2005 Bob Ippolito <bob@redivi.com>. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 `MIT License`_ or the `Academic Free License v2.1`_.
 

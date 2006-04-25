@@ -21,7 +21,7 @@ Description
 ===========
 
 MochiKit.Logging does not have any browser dependencies and is completely
-unobtrusive.  MochiKit.LoggingPane is a browser-based colored viewing pane
+unobtrusive. MochiKit.LoggingPane is a browser-based colored viewing pane
 for your :mochiref:`MochiKit.Logging` output that can be used as a pop-up or
 inline.
 
@@ -49,13 +49,13 @@ Constructors
     DOM representation.
 
     If ``inline`` is ``true``, then the ``LoggingPane`` will be a ``DIV``
-    at the bottom of the document.  Otherwise, it will be in a pop-up
-    window with a name based on the calling page's URL.  If there is an
+    at the bottom of the document. Otherwise, it will be in a pop-up
+    window with a name based on the calling page's URL. If there is an
     element in the document with an id of ``_MochiKit_LoggingPane``,
     it will be used instead of appending a new ``DIV`` to the body. 
 
     ``logger`` is the reference to the :mochiref:`MochiKit.Logging.Logger` to
-    listen to.  If not specified, the global default logger is used.
+    listen to. If not specified, the global default logger is used.
     
     Properties:
 
@@ -67,8 +67,8 @@ Constructors
 
         ``colorTable``:
             An object with property->value mappings for each log level
-            and its color.  May also be mutated on ``LoggingPane.prototype``
-            to affect all instances.  For example::
+            and its color. May also be mutated on ``LoggingPane.prototype``
+            to affect all instances. For example::
 
                 MochiKit.LoggingPane.LoggingPane.prototype.colorTable = {
                     DEBUG: "green",
@@ -92,7 +92,7 @@ Functions
 :mochidef:`createLoggingPane(inline=false)`:
 
     Create or return an existing :mochiref:`LoggingPane` for this document
-    with the given inline setting.  This is preferred over using
+    with the given inline setting. This is preferred over using
     :mochiref:`LoggingPane` directly, as only one :mochiref:`LoggingPane`
     should be present in a given document.
 
@@ -106,7 +106,7 @@ Authors
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
+Copyright 2005 Bob Ippolito <bob@redivi.com>. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 `MIT License`_ or the `Academic Free License v2.1`_.
 

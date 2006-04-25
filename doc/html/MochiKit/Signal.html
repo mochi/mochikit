@@ -90,7 +90,7 @@ at: <a class="reference" href="http://doc.trolltech.com/">http://doc.trolltech.c
 <div class="section">
 <h2><a id="using-signal-for-dom-events" name="using-signal-for-dom-events">Using Signal for DOM Events</a></h2>
 <p>When using MochiKit.Signal, you should not directly use the browser's native
-event handling for the same events.  That means, no <tt class="docutils literal"><span class="pre">onclick=&quot;blah&quot;</span></tt>,
+event handling for the same events. That means, no <tt class="docutils literal"><span class="pre">onclick=&quot;blah&quot;</span></tt>,
 no <tt class="docutils literal"><span class="pre">elem.attachEvent(...)</span></tt>, and certainly no <tt class="docutils literal"><span class="pre">elem.addEventListener(...)</span></tt>.
 This also means that <a class="mochiref reference" href="DOM.html#fn-addtocallstack">MochiKit.DOM.addToCallStack</a> and
 <a class="mochiref reference" href="DOM.html#fn-addloadevent">MochiKit.DOM.addLoadEvent</a> should not be used in combination with
@@ -103,7 +103,7 @@ the custom event object.</p>
 <div class="section">
 <h2><a id="custom-event-objects-for-dom-events" name="custom-event-objects-for-dom-events">Custom Event Objects for DOM events</a></h2>
 <p>Signals triggered by DOM events are called with a custom event object as a
-parameter.  The custom event object presents a consistent view of the event
+parameter. The custom event object presents a consistent view of the event
 across all supported platforms and browsers, and provides many conveniences
 not available even in a correct W3C implementation.</p>
 <p>Here is a complete list of this object's methods:</p>
@@ -111,7 +111,7 @@ not available even in a correct W3C implementation.</p>
 <p>These are always generated:</p>
 <dl class="docutils">
 <dt>event():</dt>
-<dd>The native event produced by the browser.  You should not need to
+<dd>The native event produced by the browser. You should not need to
 access this.</dd>
 <dt>type():</dt>
 <dd>The event type: click, mouseover, keypress, etc. (Does not include
@@ -119,7 +119,7 @@ the 'on' prefix.)</dd>
 <dt>target():</dt>
 <dd>The element that triggered the event.</dd>
 <dt>modifier().alt, modifier().ctrl, modifier().meta, modifier().shift:</dt>
-<dd><tt class="docutils literal"><span class="pre">true</span></tt> if pressed, <tt class="docutils literal"><span class="pre">false</span></tt> if not.  <tt class="docutils literal"><span class="pre">modifier().meta</span></tt> will be
+<dd><tt class="docutils literal"><span class="pre">true</span></tt> if pressed, <tt class="docutils literal"><span class="pre">false</span></tt> if not. <tt class="docutils literal"><span class="pre">modifier().meta</span></tt> will be
 <tt class="docutils literal"><span class="pre">false</span></tt> instead of <tt class="docutils literal"><span class="pre">undefined</span></tt> in IE.</dd>
 <dt>modifier().any:</dt>
 <dd><tt class="docutils literal"><span class="pre">true</span></tt> if any modifier is pressed, <tt class="docutils literal"><span class="pre">false</span></tt> if not.</dd>
@@ -159,8 +159,8 @@ HTML document. (Equivalent to clientX/Y on all browsers.)</dd>
 <p>These are only generated for mouseup, mousedown, click, and dblclick:</p>
 <dl class="docutils">
 <dt>mouse().button.left, mouse().button.right, mouse().button.middle:</dt>
-<dd><p class="first"><tt class="docutils literal"><span class="pre">true</span></tt> or <tt class="docutils literal"><span class="pre">false</span></tt>.  Mac browsers don't report right click
-consistently.  Firefox fires the click and sets modifier().ctrl to
+<dd><p class="first"><tt class="docutils literal"><span class="pre">true</span></tt> or <tt class="docutils literal"><span class="pre">false</span></tt>. Mac browsers don't report right click
+consistently. Firefox fires the click and sets modifier().ctrl to
 true, Opera fires the click and sets modifier().meta to true, and
 Safari doesn't fire the click (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">Safari Bug 6595</a>).</p>
 <p>If you want a right click, I suggest that instead of looking for
@@ -183,10 +183,10 @@ via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a cla
 <p>Any object that has connected slots (via <a class="mochiref reference" href="#fn-connect">connect()</a>) is referenced
 by the Signal mechanism until it is disconnected via <a class="mochiref reference" href="#fn-disconnect">disconnect()</a>
 or <a class="mochiref reference" href="#fn-disconnectall">disconnectAll()</a>.</p>
-<p>Signal does not leak.  It registers an 'onunload' event that disconnects all
-objects on the page when the browser leaves the page.  However, memory usage
+<p>Signal does not leak. It registers an 'onunload' event that disconnects all
+objects on the page when the browser leaves the page. However, memory usage
 will grow during the page view for every connection made until it is
-disconnected.  Even if the DOM object is removed from the document, it
+disconnected. Even if the DOM object is removed from the document, it
 will still be referenced by Signal until it is explicitly disconnected.</p>
 <p>In order to conserve memory during the page view, you should ensure to use
 <a class="mochiref reference" href="#fn-disconnectall">disconnectAll()</a> any DOM elements that are about to be removed
@@ -195,8 +195,8 @@ from the document.</p>
 <div class="section">
 <h2><a id="using-signal-for-non-dom-objects" name="using-signal-for-non-dom-objects">Using Signal for non-DOM objects</a></h2>
 <p>Signals are triggered with the <a class="mochiref reference" href="#fn-signal">signal(src, 'signal', ...)</a>
-function.  Additional parameters passed to this are passed onto the
-connected slots.  Explicit signals are not required for DOM events.</p>
+function. Additional parameters passed to this are passed onto the
+connected slots. Explicit signals are not required for DOM events.</p>
 <p>Slots that are connected to a signal are called in the following manner
 when that signal is signalled:</p>
 <ul class="simple">
@@ -221,7 +221,7 @@ called with the parameters to the signal.</li>
 <blockquote>
 <p>Connects a signal to a slot, and return a unique identifier that can be
 used to disconnect that signal.</p>
-<p><tt class="docutils literal"><span class="pre">src</span></tt> is the object that has the signal.  You may pass in a string, in
+<p><tt class="docutils literal"><span class="pre">src</span></tt> is the object that has the signal. You may pass in a string, in
 which case, it is interpreted as an id for an HTML Element.</p>
 <p><tt class="docutils literal"><span class="pre">signal</span></tt> is a string that represents a signal name. If 'src' is an HTML
 Element, Window, or the Document, then it can be one of the 'on-XYZ'

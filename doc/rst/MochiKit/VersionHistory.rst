@@ -10,7 +10,7 @@
 - New key_events example demonstrating use of MochiKit.Signal's key handling
   capabilities.
 - MochiKit.DOM.createDOM API change for convenience: if attrs is a string,
-  null is used and the string will be considered the first node.  This
+  null is used and the string will be considered the first node. This
   allows for the more natural P("foo") rather than P(null, "foo").
 - MochiKit Interpreter example refactored to use MochiKit.Signal and now
   provides multi-line input.
@@ -42,9 +42,9 @@
 
 - Fixed MochiKit.Color.Color.lighterColorWithLevel
 - Added new MochiKit.Base.findIdentical function to find the index of an
-  element in an Array-like object.  Uses === for identity comparison.
+  element in an Array-like object. Uses === for identity comparison.
 - Added new MochiKit.Base.find function to find the index of an element in
-  an Array-like object.  Uses compare for rich comparison.
+  an Array-like object. Uses compare for rich comparison.
 - MochiKit.Base.bind will accept a string for func, which will be immediately
   looked up as self[func].
 - MochiKit.DOM.formContents no longer skips empty form elements for Zope
@@ -90,14 +90,14 @@
   a given URL will get the same LoggingPane window after a reload
   (at the same position, etc.)
 - MochiKit.DOM now has currentWindow() and currentDocument() context
-  variables that are set with withWindow() and withDocument().  These
+  variables that are set with withWindow() and withDocument(). These
   context variables affect all MochiKit.DOM functionality (getElement,
   createDOM, etc.)
 - MochiKit.Base.items will now catch and ignore exceptions for properties
   that are enumerable but not accessible (e.g. permission denied)
 - MochiKit.Async.Deferred's addCallback/addErrback/addBoth
   now accept additional arguments that are used to create a partially
-  applied function.  This differs from Twisted in that the callback/errback
+  applied function. This differs from Twisted in that the callback/errback
   result becomes the *last* argument, not the first when this feature
   is used.
 - MochiKit.Async's doSimpleXMLHttpRequest will now accept additional
@@ -156,7 +156,7 @@
 - Added missing operator.sub
 - Placated Mozilla's strict warnings a bit
 - Added JSON serialization and unserialization support to MochiKit.Base:
-  serializeJSON, evalJSON, registerJSON.  This is very similar to the repr
+  serializeJSON, evalJSON, registerJSON. This is very similar to the repr
   API.
 - Fixed a bug in the script loader that failed in some scenarios when a script
   tag did not have a "src" attribute (thanks Ian!)
@@ -201,15 +201,15 @@
   ignore requests with status == 0, which seems to happen for cached or local
   requests
 - Added sendXMLHttpRequest to MochiKit.Async.EXPORT, d'oh.
-- Changed scrapeText API to return a string by default.  This is API-breaking!
+- Changed scrapeText API to return a string by default. This is API-breaking!
   It was dumb to have the default return value be the form you almost never
-  want.  Sorry.
-- Added special form to swapDOM(dest, src).  If src is null, dest is removed
+  want. Sorry.
+- Added special form to swapDOM(dest, src). If src is null, dest is removed
   (where previously you'd likely get a DOM exception).
 - Added three new functions to MochiKit.Base for dealing with URL query
   strings: urlEncode, queryString, parseQueryString
 - MochiKit.DOM.createDOM will now use attr[k] = v for all browsers if the name
-  starts with "on" (e.g. "onclick").  If v is a string, it will set it to
+  starts with "on" (e.g. "onclick"). If v is a string, it will set it to
   new Function(v).
 - Another workaround for Internet "worst browser ever" Explorer's setAttribute
   usage in MochiKit.DOM.createDOM (checked -> defaultChecked).
@@ -228,7 +228,7 @@
 - Changed build script to rewrite the URLs in tests to account for the
   JSAN-required reorganization
 - MochiKit.Compat to potentially work around IE 5.5 issues
-  (5.0 still not supported).  Test.Simple doesn't seem to work there,
+  (5.0 still not supported). Test.Simple doesn't seem to work there,
   though.
 - Several minor documentation corrections
 

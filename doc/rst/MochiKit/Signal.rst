@@ -89,7 +89,7 @@ Using Signal for DOM Events
 ---------------------------
 
 When using MochiKit.Signal, you should not directly use the browser's native
-event handling for the same events.  That means, no ``onclick="blah"``, 
+event handling for the same events. That means, no ``onclick="blah"``, 
 no ``elem.attachEvent(...)``, and certainly no ``elem.addEventListener(...)``.
 This also means that :mochiref:`MochiKit.DOM.addToCallStack` and
 :mochiref:`MochiKit.DOM.addLoadEvent` should not be used in combination with
@@ -106,7 +106,7 @@ Custom Event Objects for DOM events
 -----------------------------------
 
 Signals triggered by DOM events are called with a custom event object as a
-parameter.  The custom event object presents a consistent view of the event
+parameter. The custom event object presents a consistent view of the event
 across all supported platforms and browsers, and provides many conveniences
 not available even in a correct W3C implementation.
 
@@ -115,7 +115,7 @@ Here is a complete list of this object's methods:
     These are always generated:
 
     event():
-        The native event produced by the browser.  You should not need to
+        The native event produced by the browser. You should not need to
         access this.
 
     type():
@@ -126,7 +126,7 @@ Here is a complete list of this object's methods:
         The element that triggered the event.
 
     modifier().alt, modifier().ctrl, modifier().meta, modifier().shift:
-        ``true`` if pressed, ``false`` if not.  ``modifier().meta`` will be 
+        ``true`` if pressed, ``false`` if not. ``modifier().meta`` will be 
         ``false`` instead of ``undefined`` in IE.
         
     modifier().any:
@@ -172,8 +172,8 @@ Here is a complete list of this object's methods:
     These are only generated for mouseup, mousedown, click, and dblclick:
 
     mouse().button.left, mouse().button.right, mouse().button.middle:
-        ``true`` or ``false``.  Mac browsers don't report right click
-        consistently.  Firefox fires the click and sets modifier().ctrl to
+        ``true`` or ``false``. Mac browsers don't report right click
+        consistently. Firefox fires the click and sets modifier().ctrl to
         true, Opera fires the click and sets modifier().meta to true, and
         Safari doesn't fire the click (`Safari Bug 6595`_).
 
@@ -203,10 +203,10 @@ Any object that has connected slots (via :mochiref:`connect()`) is referenced
 by the Signal mechanism until it is disconnected via :mochiref:`disconnect()`
 or :mochiref:`disconnectAll()`.
 
-Signal does not leak.  It registers an 'onunload' event that disconnects all
-objects on the page when the browser leaves the page.  However, memory usage
+Signal does not leak. It registers an 'onunload' event that disconnects all
+objects on the page when the browser leaves the page. However, memory usage
 will grow during the page view for every connection made until it is
-disconnected.  Even if the DOM object is removed from the document, it
+disconnected. Even if the DOM object is removed from the document, it
 will still be referenced by Signal until it is explicitly disconnected.
 
 In order to conserve memory during the page view, you should ensure to use
@@ -218,8 +218,8 @@ Using Signal for non-DOM objects
 --------------------------------
 
 Signals are triggered with the :mochiref:`signal(src, 'signal', ...)`
-function.  Additional parameters passed to this are passed onto the
-connected slots.  Explicit signals are not required for DOM events.
+function. Additional parameters passed to this are passed onto the
+connected slots. Explicit signals are not required for DOM events.
 
 Slots that are connected to a signal are called in the following manner
 when that signal is signalled:
@@ -247,7 +247,7 @@ Functions
     Connects a signal to a slot, and return a unique identifier that can be
     used to disconnect that signal.
 
-    ``src`` is the object that has the signal.  You may pass in a string, in
+    ``src`` is the object that has the signal. You may pass in a string, in
     which case, it is interpreted as an id for an HTML Element.
 
     ``signal`` is a string that represents a signal name. If 'src' is an HTML

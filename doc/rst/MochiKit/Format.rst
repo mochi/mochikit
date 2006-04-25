@@ -50,7 +50,7 @@ returns a function that converts Number to string using the given information.
 | Symbol    |   Meaning                                                     |
 +===========+===============================================================+
 | ``-``     |   If given, used as the position of the minus sign            |
-|           |   for negative numbers.  If not given, the position           |
+|           |   for negative numbers. If not given, the position            |
 |           |   to the left of the first number placeholder is used.        |
 +-----------+---------------------------------------------------------------+
 | ``#``     |   The placeholder for a number that does not imply zero       |
@@ -60,14 +60,14 @@ returns a function that converts Number to string using the given information.
 |           |   If it is used to the right of a decimal separator, it       |
 |           |   implies trailing zeros, otherwise leading zeros.            |
 +-----------+---------------------------------------------------------------+
-| ``,``     |   The placeholder for a "thousands separator".  May be used   |
+| ``,``     |   The placeholder for a "thousands separator". May be used    |
 |           |   at most once, and it must be to the left of a decimal       |
-|           |   separator.  Will be replaced by ``locale.separator`` in the |
+|           |   separator. Will be replaced by ``locale.separator`` in the  |
 |           |   result (the default is also ``,``).                         |
 +-----------+---------------------------------------------------------------+
-| ``.``     |   The decimal separator.  The quantity of ``#`` or ``0``      |
+| ``.``     |   The decimal separator. The quantity of ``#`` or ``0``       |
 |           |   after the decimal separator will determine the precision of |
-|           |   the result.  If no decimal separator is present, the        |
+|           |   the result. If no decimal separator is present, the         |
 |           |   fractional precision is ``0`` -- meaning that it will be    |
 |           |   rounded to the nearest integer.                             |
 +-----------+---------------------------------------------------------------+
@@ -84,9 +84,9 @@ Functions
 
 :mochidef:`formatLocale(locale="default")`:
 
-    Return a locale object for the given locale.  ``locale`` may be either a
+    Return a locale object for the given locale. ``locale`` may be either a
     string, which is looked up in the ``MochiKit.Format.LOCALE`` object, or
-    a locale object.  If no locale is given, ``LOCALE.default`` is used
+    a locale object. If no locale is given, ``LOCALE.default`` is used
     (equivalent to ``LOCALE.en_US``).
 
 
@@ -95,7 +95,7 @@ Functions
     Returns a string based on ``str`` with leading whitespace stripped.
 
     If ``chars`` is given, then that expression will be used instead of
-    whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
+    whitespace. ``chars`` should be a string suitable for use in a ``RegExp``
     ``[character set]``.
 
 
@@ -130,7 +130,7 @@ Functions
 :mochidef:`roundToFixed(aNumber, precision)`:
 
     Return a string representation of ``aNumber``, rounded to ``precision``
-    digits with trailing zeros.  This is similar to
+    digits with trailing zeros. This is similar to
     ``Number.toFixed(aNumber, precision)``, but this has implementation
     consistent rounding behavior (some versions of Safari round 0.5 down!)
     and also includes preceding ``0`` for numbers less than ``1`` (Safari,
@@ -145,7 +145,7 @@ Functions
     Returns a string based on ``str`` with trailing whitespace stripped.
 
     If ``chars`` is given, then that expression will be used instead of
-    whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
+    whitespace. ``chars`` should be a string suitable for use in a ``RegExp``
     ``[character set]``.
 
 
@@ -155,14 +155,14 @@ Functions
     stripped (equivalent to :mochiref:`lstrip(rstrip(str, chars), chars)`).
 
     If ``chars`` is given, then that expression will be used instead of
-    whitespace.  ``chars`` should be a string suitable for use in a ``RegExp``
+    whitespace. ``chars`` should be a string suitable for use in a ``RegExp``
     ``[character set]``.
 
 
 :mochidef:`truncToFixed(aNumber, precision)`:
 
     Return a string representation of ``aNumber``, truncated to ``precision``
-    digits with trailing zeros.  This is similar to
+    digits with trailing zeros. This is similar to
     ``aNumber.toFixed(precision)``, but this truncates rather than rounds and
     has implementation consistent behavior for numbers less than 1.
     Specifically, :mochiref:`truncToFixed(aNumber, precision)` will always have a
@@ -203,7 +203,7 @@ Authors
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
+Copyright 2005 Bob Ippolito <bob@redivi.com>. This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 `MIT License`_ or the `Academic Free License v2.1`_.
 
