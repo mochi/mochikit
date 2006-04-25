@@ -2612,7 +2612,7 @@ _330=_330.offsetParent;
 }
 }
 var ua=navigator.userAgent.toLowerCase();
-if(ua.indexOf("opera")!=-1||(ua.indexOf("safari")!=-1&&self.computedStyle(elem,"position")=="absolute")){
+if((typeof (opera)!="undefined"&&parseFloat(opera.version())<9)||(ua.indexOf("safari")!=-1&&self.computedStyle(elem,"position")=="absolute")){
 c.x-=b.offsetLeft;
 c.y-=b.offsetTop;
 }
@@ -4376,6 +4376,7 @@ MochiKit.Signal.__new__(this);
 connect=MochiKit.Signal.connect;
 disconnect=MochiKit.Signal.disconnect;
 disconnectAll=MochiKit.Signal.disconnectAll;
+signal=MochiKit.Signal.signal;
 MochiKit.Base._exportSymbols(this,MochiKit.Signal);
 if(typeof (dojo)!="undefined"){
 dojo.provide("MochiKit.Visual");

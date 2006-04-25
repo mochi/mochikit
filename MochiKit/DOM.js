@@ -272,16 +272,19 @@ MochiKit.Base.update(MochiKit.DOM, {
 
             /*
                 
-                Opera & (Safari absolute) incorrectly account for body 
-                offsetTop and offsetLeft.
+                Opera < 9 and old Safari (absolute) incorrectly account for 
+                body offsetTop and offsetLeft.
                 
-            */
+            */            
             var ua = navigator.userAgent.toLowerCase();
-            if (ua.indexOf('opera') != -1 || 
+            if ((typeof(opera) != "undefined" && 
+                parseFloat(opera.version()) < 9) || 
                 (ua.indexOf('safari') != -1 && 
                 self.computedStyle(elem, 'position') == 'absolute')) {
+                                
                 c.x -= b.offsetLeft;
                 c.y -= b.offsetTop;
+                
             }
         }
         
