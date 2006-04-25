@@ -100,6 +100,8 @@ event object.</p>
 parameter. The custom event object presents a consistent view of the event
 across all supported platforms and browsers, and provides many conveniences
 not available even in a correct W3C implementation.</p>
+<p>See the <a class="reference" href="#dom-custom-event-object-reference">DOM Custom Event Object Reference</a> for a detailed API description
+of this object.</p>
 <p>If you find that you're accessing the native event for any reason, create a
 <a class="reference" href="http://trac.mochikit.com/newticket">new ticket</a> and we'll look into normalizing the behavior you're looking for.</p>
 </div>
@@ -186,7 +188,7 @@ the connected slots. <tt class="docutils literal"><span class="pre">src</span></
 <a class="mochiref reference" href="#fn-connect">connect()</a>.</blockquote>
 </div>
 <div class="section">
-<h2><a id="dom-event-api-reference" name="dom-event-api-reference">DOM Event API Reference</a></h2>
+<h2><a id="dom-custom-event-object-reference" name="dom-custom-event-object-reference">DOM Custom Event Object Reference</a></h2>
 <p>
 <a name="fn-event"></a>
 <a class="mochidef reference" href="#fn-event">event()</a>:</p>
@@ -275,20 +277,19 @@ property is <tt class="docutils literal"><span class="pre">true</span></tt> if t
 otherwise.</li>
 </ul>
 </blockquote>
-<p>Mac browsers don't report right click consistently. Firefox fires the
+<p>Mac browsers don't report right-click consistently. Firefox fires the
 click and sets <tt class="docutils literal"><span class="pre">modifier().ctrl</span></tt> to true, Opera fires the click and sets
 <tt class="docutils literal"><span class="pre">modifier().meta</span></tt> to <tt class="docutils literal"><span class="pre">true</span></tt>, and Safari doesn't fire the click
 (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">Safari Bug 6595</a>).</p>
-<p>If you want a right click, we suggest that instead of looking for a right
-click, look for a <tt class="docutils literal"><span class="pre">'contextmenu'</span></tt> event.</p>
-<p>Current versions of Safari won't fire a <tt class="docutils literal"><span class="pre">'dblclick'</span></tt> event when attached
-via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=7790">Safari Bug 7790</a>).</p>
+<p>If you want a right-click, we suggest connecting to <tt class="docutils literal"><span class="pre">'oncontextmenu'</span></tt>.</p>
+<p>Current versions of Safari won't fire <tt class="docutils literal"><span class="pre">'ondblclick'</span></tt> when
+attached via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=7790">Safari Bug 7790</a>).</p>
 </blockquote>
 <p>
 <a name="fn-relatedtarget"></a>
 <a class="mochidef reference" href="#fn-relatedtarget">relatedTarget()</a>:</p>
 <blockquote>
-This is generated for <tt class="docutils literal"><span class="pre">'mouseover'</span></tt> and <tt class="docutils literal"><span class="pre">'mouseout'</span></tt> events.
+This is generated for <tt class="docutils literal"><span class="pre">'onmouseover'</span></tt> and <tt class="docutils literal"><span class="pre">'onmouseout'</span></tt> events.
 Returns the document element that the mouse has moved to.</blockquote>
 </div>
 </div>
