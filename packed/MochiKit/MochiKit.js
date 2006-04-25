@@ -3369,7 +3369,7 @@ var text=_451(msg);
 var c=this.colorTable[_453];
 var p=doc.createElement("span");
 p.className="MochiKit-LogMessage MochiKit-LogLevel-"+_453;
-p.style.cssText="margin: 0px; white-space: -moz-pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; white-space: pre-line; word-wrap: break-word; wrap-option: emergency; z-index: 1000; color: "+c;
+p.style.cssText="margin: 0px; white-space: -moz-pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; white-space: pre-line; word-wrap: break-word; wrap-option: emergency; color: "+c;
 p.appendChild(doc.createTextNode(_453+": "+text));
 _445.appendChild(p);
 _445.appendChild(doc.createElement("br"));
@@ -3448,7 +3448,7 @@ if(key==13){
 this.buildAndApplyFilter();
 }
 },this);
-var _465="display: block; left: 0px; bottom: 0px; position: fixed; width: 100%; background-color: white; font: "+this.logFont;
+var _465="display: block; z-index: 1000; left: 0px; bottom: 0px; position: fixed; width: 100%; background-color: white; font: "+this.logFont;
 if(_428){
 _465+="; height: 10em; border-top: 2px solid black";
 }else{
