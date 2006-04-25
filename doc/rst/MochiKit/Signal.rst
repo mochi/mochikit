@@ -173,15 +173,13 @@ Here is a complete list of this object's methods:
         ``true`` or ``false``.  Mac browsers don't report right click
         consistently.  Firefox fires the click and sets modifier().ctrl to
         true, Opera fires the click and sets modifier().meta to true, and
-        Safari doesn't fire the click. (Bugzilla:
-        http://bugzilla.opendarwin.org/show_bug.cgi?id=6595.)
+        Safari doesn't fire the click (`Safari Bug 6595`_).
 
         If you want a right click, I suggest that instead of looking for
         a right click, look for a contextmenu event.
         
         Current versions of Safari won't fire a dblclick event when attached
-        via ``connect()``. (Bugzilla:
-        http://bugzilla.opendarwin.org/show_bug.cgi?id=7790.)
+        via ``connect()`` (`Safari Bug 7790`_).
 
     This is generated on mouseover and mouseout:
 
@@ -192,6 +190,8 @@ If you find that you're accessing the native event for any reason, create a
 `new ticket`_ and we'll look into normalizing the behavior you're looking for.
 
 .. _`new ticket`: http://trac.mochikit.com/newticket
+.. _`Safari bug 6595`: http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
+.. _`Safari bug 7790`: http://bugzilla.opendarwin.org/show_bug.cgi?id=7790
 
 
 Memory Usage

@@ -162,13 +162,11 @@ HTML document. (Equivalent to clientX/Y on all browsers.)</dd>
 <dd><p class="first"><tt class="docutils literal"><span class="pre">true</span></tt> or <tt class="docutils literal"><span class="pre">false</span></tt>.  Mac browsers don't report right click
 consistently.  Firefox fires the click and sets modifier().ctrl to
 true, Opera fires the click and sets modifier().meta to true, and
-Safari doesn't fire the click. (Bugzilla:
-<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">http://bugzilla.opendarwin.org/show_bug.cgi?id=6595</a>.)</p>
+Safari doesn't fire the click (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">Safari Bug 6595</a>).</p>
 <p>If you want a right click, I suggest that instead of looking for
 a right click, look for a contextmenu event.</p>
 <p class="last">Current versions of Safari won't fire a dblclick event when attached
-via <tt class="docutils literal"><span class="pre">connect()</span></tt>. (Bugzilla:
-<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=7790">http://bugzilla.opendarwin.org/show_bug.cgi?id=7790</a>.)</p>
+via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=7790">Safari Bug 7790</a>).</p>
 </dd>
 </dl>
 <p>This is generated on mouseover and mouseout:</p>
