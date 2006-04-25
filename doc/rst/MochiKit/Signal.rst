@@ -89,7 +89,7 @@ Using Signal for DOM Events
 When using MochiKit.Signal, you should not directly use the browser's native
 event handling for the same events.  That means, no ``onclick="blah"``, 
 no ``elem.attachEvent(...)``, and certainly no ``elem.addEventListener(...)``.
-Note that This also means that :mochiref:`MochiKit.DOM.addToCallStack` and
+This also means that :mochiref:`MochiKit.DOM.addToCallStack` and
 :mochiref:`MochiKit.DOM.addLoadEvent` should not be used in combination with
 this module.
 
@@ -139,7 +139,7 @@ Here is a complete list of this object's methods:
     stop():
         Shortcut that calls ``stopPropagation()`` and ``preventDefault()``.
 
-    Note that you should use keydown and keyup to detect control characters,
+    You should use keydown and keyup to detect control characters,
     and keypressed to detect "printable" characters. key().code will be set to
     0 and key().string will be set to an empty string in a keypress handler if
     a user presses a control character like F1 or Escape. IE will not fire
@@ -157,7 +157,7 @@ Here is a complete list of this object's methods:
         The complete list is defined in MochiKit.Signal._specialKeys.
 
     These are only generated for mouse*, click, dblclick, and contextmenu
-    (note that contextmenu doesn't work in Opera):
+    (contextmenu doesn't work in Opera):
 
     mouse().page.x, mouse().page.y:
         represents the cursor position relative to the HTML document. 
@@ -250,7 +250,7 @@ Functions
 
     ``signal`` is a string that represents a signal name. If 'src' is an HTML
     Element, Window, or the Document, then it can be one of the 'on-XYZ'
-    events. Note that you must include the 'on' prefix, and it must be all
+    events. You must include the 'on' prefix, and it must be all
     lower-case.
 
     ``dest`` and ``func`` describe the slot, or the action to take when the
@@ -276,8 +276,9 @@ Functions
 
 :mochidef:`disconnect(ident)`:
 
-    To disconnect a signal, simply pass the ident returned by :mochiref:`connect()`.
-    This is similar to how the browser's ``setTimeout`` and ``clearTimeout`` works.
+    To disconnect a signal, simply pass the ident returned by
+    :mochiref:`connect()`. This is similar to how the browser's ``setTimeout``
+    and ``clearTimeout`` works.
 
 
 :mochidef:`signal(src, signal, ...)`:

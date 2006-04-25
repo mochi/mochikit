@@ -343,6 +343,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
 /* Safari sets keyCode to these special values onkeypress. */
 MochiKit.Signal._specialMacKeys = {
+    3: 'KEY_ENTER',
     63289: 'KEY_NUM_PAD_CLEAR',
     63276: 'KEY_PAGE_UP',
     63277: 'KEY_PAGE_DOWN',
