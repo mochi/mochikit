@@ -312,5 +312,53 @@ tests.test_Signal = function (t) {
     }
 
     t.is(i, 0, 'Signals should not have fired');
-            
+
+    connect(hasSignals, 'signalOne', aFunction);
+    connect(hasSignals, 'signalOne', aObject, 'aMethod');
+    disconnectAll(hasSignals, 'signalOne');
+    signal(hasSignals, 'signalOne');
+    t.is(i, 0, 'disconnectAll works with single explicit signal');
+    i = 0;
+
+    connect(hasSignals, 'signalOne', aFunction);
+    connect(hasSignals, 'signalOne', aObject, 'aMethod');
+    connect(hasSignals, 'signalTwo', aFunction);
+    connect(hasSignals, 'signalTwo', aObject, 'aMethod');
+    disconnectAll(hasSignals, 'signalOne');
+    signal(hasSignals, 'signalOne');
+    t.is(i, 0, 'disconnectAll works with single explicit signal');
+    signal(hasSignals, 'signalTwo');
+    t.is(i, 3, 'disconnectAll does not disconnect unrelated signals');
+    i = 0;
+
+    connect(hasSignals, 'signalOne', aFunction);
+    connect(hasSignals, 'signalOne', aObject, 'aMethod');
+    connect(hasSignals, 'signalTwo', aFunction);
+    connect(hasSignals, 'signalTwo', aObject, 'aMethod');
+    disconnectAll(hasSignals, 'signalOne', 'signalTwo');
+    signal(hasSignals, 'signalOne');
+    signal(hasSignals, 'signalTwo');
+    t.is(i, 0, 'disconnectAll works with two explicit signals');
+    i = 0;
+
+    connect(hasSignals, 'signalOne', aFunction);
+    connect(hasSignals, 'signalOne', aObject, 'aMethod');
+    connect(hasSignals, 'signalTwo', aFunction);
+    connect(hasSignals, 'signalTwo', aObject, 'aMethod');
+    disconnectAll(hasSignals, ['signalOne', 'signalTwo']);
+    signal(hasSignals, 'signalOne');
+    signal(hasSignals, 'signalTwo');
+    t.is(i, 0, 'disconnectAll works with two explicit signals as a list');
+    i = 0;
+
+    connect(hasSignals, 'signalOne', aFunction);
+    connect(hasSignals, 'signalOne', aObject, 'aMethod');
+    connect(hasSignals, 'signalTwo', aFunction);
+    connect(hasSignals, 'signalTwo', aObject, 'aMethod');
+    disconnectAll(hasSignals);
+    signal(hasSignals, 'signalOne');
+    signal(hasSignals, 'signalTwo');
+    t.is(i, 0, 'disconnectAll works with implicit signals');
+    i = 0;
+          
 };
