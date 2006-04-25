@@ -91,7 +91,7 @@ MochiKit.Base.update(MochiKit.Logging, {
                 msgLevel = self.LogLevel[msgLevel];
             }
             return msgLevel >= minLevel;
-        }
+        };
     },
 
     isLogMessage: function (/* ... */) {
@@ -120,7 +120,7 @@ MochiKit.Base.update(MochiKit.Logging, {
 
 MochiKit.Logging.Logger = function (/* optional */maxSize) {
     this.counter = 0;
-    if (typeof(maxSize) == 'undefined' || maxSize == null) {
+    if (typeof(maxSize) == 'undefined' || maxSize === null) {
         maxSize = -1;
     }
     this.maxSize = maxSize;
@@ -190,14 +190,14 @@ MochiKit.Logging.Logger.prototype = {
 
     getMessages: function (howMany) {
         var firstMsg = 0;
-        if (!(typeof(howMany) == 'undefined' || howMany == null)) {
+        if (!(typeof(howMany) == 'undefined' || howMany === null)) {
             firstMsg = Math.max(0, this._messages.length - howMany);
         }
         return this._messages.slice(firstMsg);
     },
 
     getMessageText: function (howMany) {
-        if (typeof(howMany) == 'undefined' || howMany == null) {
+        if (typeof(howMany) == 'undefined' || howMany === null) {
             howMany = 30;
         }
         var messages = this.getMessages(howMany);
@@ -253,7 +253,7 @@ MochiKit.Logging.__new__ = function () {
     var connectLog = function (name) {
         return function () {
             self.logger[name].apply(self.logger, arguments);
-        }
+        };
     };
 
     this.log = connectLog('log');

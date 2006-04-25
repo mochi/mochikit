@@ -469,11 +469,11 @@ MochiKit.Base.update(MochiKit.Signal, {
         } else if (typeof(func) == "string") {
             return function (nativeEvent) {
                 obj[func].apply(obj, [new MochiKit.Signal.Event(nativeEvent)]);
-            }
+            };
         } else {
             return function (nativeEvent) {
                 func.apply(obj, [new MochiKit.Signal.Event(nativeEvent)]);
-            }
+            };
         }
     },
     
@@ -521,7 +521,7 @@ MochiKit.Base.update(MochiKit.Signal, {
     
     _disconnect: function (ident) {
         // check isDOM
-        if (!ident[3]) return;
+        if (!ident[3]) { return; }
         var src = ident[0];
         var sig = ident[1];
         var listener = ident[2];
@@ -570,7 +570,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         var self = MochiKit.Signal;
         var disconnect = self._disconnect;
         var observers = self._observers;
-        if (signals.length == 0) {
+        if (signals.length === 0) {
             // disconnect all
             for (var i = observers.length - 1; i >= 0; i--) {
                 var ident = observers[i];

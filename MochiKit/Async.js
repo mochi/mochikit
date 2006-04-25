@@ -53,7 +53,7 @@ MochiKit.Async.Deferred.prototype = {
         var state;
         if (this.fired == -1) {
             state = 'unfired';
-        } else if (this.fired == 0) {
+        } else if (this.fired === 0) {
             state = 'success';
         } else {
             state = 'error';
@@ -76,7 +76,7 @@ MochiKit.Async.Deferred.prototype = {
             if (this.fired == -1) {
                 this.errback(new self.CancelledError(this));
             }
-        } else if ((this.fired == 0) && (this.results[0] instanceof self.Deferred)) {
+        } else if ((this.fired === 0) && (this.results[0] instanceof self.Deferred)) {
             this.results[0].cancel();
         }
     },
@@ -99,7 +99,7 @@ MochiKit.Async.Deferred.prototype = {
 
         ***/
         this.paused--;
-        if ((this.paused == 0) && (this.fired >= 0)) {
+        if ((this.paused === 0) && (this.fired >= 0)) {
             this._fire();
         }
     },
@@ -180,7 +180,7 @@ MochiKit.Async.Deferred.prototype = {
         if (this.chained) {
             throw new Error("Chained Deferreds can not be re-used");
         }
-        this.chain.push([cb, eb])
+        this.chain.push([cb, eb]);
         if (this.fired >= 0) {
             this._fire();
         }
@@ -199,11 +199,11 @@ MochiKit.Async.Deferred.prototype = {
         var res = this.results[fired];
         var self = this;
         var cb = null;
-        while (chain.length > 0 && this.paused == 0) {
+        while (chain.length > 0 && this.paused === 0) {
             // Array
             var pair = chain.shift();
             var f = pair[fired];
-            if (f == null) {
+            if (f === null) {
                 continue;
             }
             try {
@@ -212,7 +212,7 @@ MochiKit.Async.Deferred.prototype = {
                 if (res instanceof MochiKit.Async.Deferred) {
                     cb = function (res) {
                         self._continue(res);
-                    }
+                    };
                     this._pause();
                 }
             } catch (err) {
@@ -277,7 +277,7 @@ MochiKit.Base.update(MochiKit.Async, {
     },
 
     sendXMLHttpRequest: function (req, /* optional */ sendContent) {
-        if (sendContent == null) {
+        if (sendContent === null) {
             sendContent = "";
         }
 
@@ -334,7 +334,7 @@ MochiKit.Base.update(MochiKit.Async, {
                     }
                 }
             }
-        }
+        };
         try {
             req.onreadystatechange = onreadystatechange;
             req.send(sendContent);
@@ -433,7 +433,7 @@ MochiKit.Async.DeferredLock.prototype = {
     repr: function () {
         var state;
         if (this.locked) {
-            state = 'locked, ' + this.waiting.length + ' waiting'
+            state = 'locked, ' + this.waiting.length + ' waiting';
         } else {
             state = 'unlocked';
         }
@@ -456,11 +456,11 @@ MochiKit.Async.DeferredList = function (list, /* optional */fireOnOneCallback, f
     this.canceller = canceller;
     this.silentlyCancelled = false;
     
-    if (this.list.length == 0 && !fireOnOneCallback) {
+    if (this.list.length === 0 && !fireOnOneCallback) {
         this.callback(this.resultList);
     }
     
-    this.finishedCount = 0
+    this.finishedCount = 0;
     this.fireOnOneCallback = fireOnOneCallback;
     this.fireOnOneErrback = fireOnOneErrback;
     this.consumeErrors = consumeErrors;
@@ -480,7 +480,7 @@ MochiKit.Base.update(MochiKit.Async.DeferredList.prototype, {
     _cbDeferred: function (index, succeeded, result) {
         this.resultList[index] = [succeeded, result];
         this.finishedCount += 1;
-        if (this.fired != 0) {
+        if (this.fired !== 0) {
             if (succeeded && this.fireOnOneCallback) {
                 this.callback([index, result]);
             } else if (!succeeded && this.fireOnOneErrback) {
@@ -499,7 +499,7 @@ MochiKit.Base.update(MochiKit.Async.DeferredList.prototype, {
 MochiKit.Async.gatherResults = function (deferredList) {
     var d = new MochiKit.Async.DeferredList(deferredList, false, true, false);
     d.addCallback(function (results) {
-        var ret = []
+        var ret = [];
         for (var i = 0; i < results.length; i++) {
             ret.push(results[i][1]);
         }

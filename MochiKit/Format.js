@@ -32,7 +32,7 @@ MochiKit.Format.toString = function () {
 MochiKit.Format._numberFormatter = function (placeholder, header, footer, locale, isPercent, precision, leadingZeros, separatorAt, trailingZeros) {
     return function (num) {
         num = parseFloat(num);
-        if (typeof(num) == "undefined" || num == null || isNaN(num)) {
+        if (typeof(num) == "undefined" || num === null || isNaN(num)) {
             return placeholder;
         }
         var curheader = header;
@@ -125,13 +125,13 @@ MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, loca
                 map(m.repr, args).join(", "),
                 ")"
             ].join("");
-        }
+        };
     }
     return rval;
 };
 
 MochiKit.Format.formatLocale = function (locale) {
-    if (typeof(locale) == "undefined" || locale == null) {
+    if (typeof(locale) == "undefined" || locale === null) {
         locale = "default";
     }
     if (typeof(locale) == "string") {

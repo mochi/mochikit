@@ -78,11 +78,11 @@ MochiKit.Visual._RoundCorners.prototype = {
         var parent = e.parentNode;
         var doc = MochiKit.DOM.currentDocument();
         if (typeof(doc.defaultView) == "undefined"
-            || doc.defaultView == null) {
+            || doc.defaultView === null) {
             return e;
         }
         var style = doc.defaultView.getComputedStyle(e, null);
-        if (typeof(style) == "undefined" || style == null) {
+        if (typeof(style) == "undefined" || style === null) {
             return e;
         }
         var wrapper = MochiKit.DOM.DIV({"style": {
@@ -163,7 +163,7 @@ MochiKit.Visual._RoundCorners.prototype = {
         inStyle.fontSize = "1px";
 
         var borderColor = this._borderColor(color, bgColor);
-        if (this.options.border && n == 0) {
+        if (this.options.border && n === 0) {
             inStyle.borderTopStyle = "solid";
             inStyle.borderTopWidth = "1px";
             inStyle.borderLeftWidth = "0px";

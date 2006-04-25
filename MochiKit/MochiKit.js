@@ -111,7 +111,7 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
                 baseElem = scripts[i];
             }
         }
-        if (base == null) {
+        if (base === null) {
             return;
         }
         var modules = MochiKit.MochiKit.SUBMODULES;
