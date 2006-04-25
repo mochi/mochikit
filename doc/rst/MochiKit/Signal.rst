@@ -1,4 +1,6 @@
 .. title:: MochiKit.Signal - Simple universal event handling
+.. |e-acute| unicode:: U+0233  .. e acute, trimming surrounding whitespace
+   :trim:
 .. |---| unicode:: U+2014  .. em dash, trimming surrounding whitespace
    :trim:
 
@@ -11,11 +13,7 @@ MochiKit.Signal - Simple universal event handling
 Synopsis
 ========
 
-::
-
-    /*
-        Using Signal for DOM events
-    */
+Signal for DOM events::
 
     // DOM events are also signals. Connect freely! The functions will be
     // called with the custom event as a parameter.
@@ -36,9 +34,7 @@ Synopsis
     }
 
 
-    /*
-        Using MochiKit.Signal for non-DOM events
-    */
+Signal for non-DOM events::
 
     // otherObject.gotFlash() will be called when 'flash' signalled.
     connect(myObject, 'flash', otherObject, 'gotFlash');
@@ -95,8 +91,8 @@ certainly no ``elem.attachEvent(...)``. This also means that
 :mochiref:`MochiKit.DOM.addLoadEvent` should not be used in combination with
 this module.
 
-Signals for DOM objects are named with the ``on`` prefix, e.g.: ``onclick``,
-``onkeyup``, etc.
+Signals for DOM objects are named with the ``'on'`` prefix, e.g.:
+``'onclick'``, ``'onkeyup'``, etc.
 
 When the signal fires, your slot will be called with one parameter, the custom
 event object.
@@ -125,7 +121,7 @@ Any object that has connected slots (via :mochiref:`connect()`) is referenced
 by the Signal mechanism until it is disconnected via :mochiref:`disconnect()`
 or :mochiref:`disconnectAll()`.
 
-Signal does not leak. It registers an ``onunload`` event that disconnects all
+Signal does not leak. It registers an ``'onunload'`` event that disconnects all
 objects on the page when the browser leaves the page. However, memory usage
 will grow during the page view for every connection made until it is
 disconnected. Even if the DOM object is removed from the document, it
@@ -216,50 +212,73 @@ DOM Event API Reference
 -----------------------
 
 :mochidef:`event()`:
+
     The native event produced by the browser. You should not need to
-    access this.
+    use this.
+
+
+:mochidef:`src()`:
+
+    The element that this signal is connected to.
+
 
 :mochidef:`type()`:
-    Returns the event type (``click``, ``mouseover``, ``keypress``, etc.) as a
-    string. Does not include the ``on`` prefix.
+
+    Returns the event type (``'click'``, ``'mouseover'``, ``'keypress'``, etc.)
+    as a string. Does not include the ``'on'`` prefix.
+
 
 :mochidef:`target()`:
-    Returns the element that triggered the event.
+
+    Returns the element that triggered the event.  This may be a child of
+    :mochiref:`src()`.
+
 
 :mochidef:`modifier()`:
+
     Returns ``{shift, ctrl, meta, alt, any}``, where each property is ``true``
     if its respective modifier key was pressed, ``false`` otherwise. ``any``
     is ``true`` if any modifier is pressed, ``false`` otherwise.
     
+
 :mochidef:`stopPropagation()`:
+
     Works like W3C's ``stopPropagation()``.
     
+
 :mochidef:`preventDefault()`:
+
     Works like W3C's ``preventDefault()``.
     
+
 :mochidef:`stop()`:
+
     Shortcut that calls ``stopPropagation()`` and ``preventDefault()``.
 
+
 :mochidef:`key()`:
+
     Returns {code, string}.
     
-    Use ``onkeydown`` and ``onkeyup`` handlers to detect control characters
-    such as ``KEY_F1``. Use the ``onkeypressed`` handler to detect "printable"
-    characters, such as ``é``.
+    Use ``'onkeydown'`` and ``'onkeyup'`` handlers to detect control characters
+    such as ``'KEY_F1'``. Use the ``'onkeypressed'`` handler to detect
+    "printable" characters, such as ``' |e-acute| '``.
     
-    When a user presses F1, in ``onkeydown`` and ``onkeyup`` this method
-    returns ``{code: 122, string: 'KEY_F1'}``. In ``onkeypress``, it returns
+    When a user presses F1, in ``'onkeydown'`` and ``'onkeyup'`` this method
+    returns ``{code: 122, string: 'KEY_F1'}``. In ``'onkeypress'``, it returns
     ``{code: 0, string: ''}``.
     
-    If a user presses Shift+2 on a US keyboard, this method returns ``{code:
-    50, string: 'KEY_2'}`` in ``onkeydown`` and ``onkeyup``. In
-    ``onkeypress``, it returns ``{code: 64, string: '@'}``.
+    If a user presses Shift+2 on a US keyboard, this method returns
+    ``{code: 50, string: 'KEY_2'}`` in ``'onkeydown'`` and ``'onkeyup'``.
+    In ``'onkeypress'``, it returns ``{code: 64, string: '@'}``.
         
     See ``_specialKeys`` for a comprehensive list of control characters.
 
+
 :mochidef:`mouse()`:
-    Properties for ``onmouse*``, ``onclick``, ``ondblclick``, and
-    ``oncontextmenu`` events. (``contextmenu`` doesn't work in Opera).
+
+    Properties for ``'onmouse*'``, ``'onclick'``, ``'ondblclick'``, and
+    ``'oncontextmenu'`` events. (``contextmenu`` doesn't work in Opera).
 
         -   ``page`` is a :mochiref:`MochiKit.DOM.Coordinates` object that
             represents the cursor position relative to the HTML document. 
@@ -270,7 +289,7 @@ DOM Event API Reference
             the HTML document. Equivalent to ``clientX`` and ``clientY`` on 
             all browsers.
 
-    Properties for ``onmouseup``, ``onmousedown``, ``onclick``, and
+    Properties for ``'onmouseup'``, ``'onmousedown'``, ``'onclick'``, and
     ``ondblclick``:
 
         -   ``mouse().button`` returns {left, right, middle} where each 
@@ -283,15 +302,16 @@ DOM Event API Reference
     (`Safari Bug 6595`_).
 
     If you want a right click, we suggest that instead of looking for a right
-    click, look for a ``contextmenu`` event.
+    click, look for a ``'contextmenu'`` event.
 
-    Current versions of Safari won't fire a ``dblclick`` event when attached
+    Current versions of Safari won't fire a ``'dblclick'`` event when attached
     via ``connect()`` (`Safari Bug 7790`_).
 
 
 :mochidef:`relatedTarget()`:
-    This is generated on ``mouseover`` and ``mouseout``. Returns the document
-    element that the mouse has moved to.
+
+    This is generated for ``'mouseover'`` and ``'mouseout'`` events.
+    Returns the document element that the mouse has moved to.
 
 
 Authors
