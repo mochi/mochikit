@@ -657,5 +657,6 @@ MochiKit.Signal.__new__(this);
 connect = MochiKit.Signal.connect;
 disconnect = MochiKit.Signal.disconnect;
 disconnectAll = MochiKit.Signal.disconnectAll;
+signal = MochiKit.Signal.signal;
 
 MochiKit.Base._exportSymbols(this, MochiKit.Signal);
