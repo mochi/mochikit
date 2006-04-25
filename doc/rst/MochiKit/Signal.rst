@@ -11,6 +11,33 @@ Synopsis
 
 ::
 
+    /*
+        Using Signal for DOM events
+    */
+
+    // DOM events are also signals. Connect freely! The functions will be
+    // called with the custom event as a parameter.
+
+    // calls myClicked.apply(getElement('myID'), event)
+    connect('myID', 'onclick', myClicked);
+
+    // calls wasClicked.apply(myObject, event)
+    connect('myID', 'onclick', myObject, wasClicked);
+
+    // calls myObject.wasClicked(event)
+    connect('myID', 'onclick', myObject, 'wasClicked');    
+
+    // the event is normalized, no more e = e || window.event!
+    myObject.wasClicked = function(e) {
+        var crossBrowserCoordinates = e.mouse().page;
+        // e.mouse().page is a MochiKit.DOM.Coordinates object
+    }
+
+
+    /*
+        Using MochiKit.Signal for non-DOM events
+    */
+
     // otherObject.gotFlash() will be called when 'flash' signalled.
     connect(myObject, 'flash', otherObject, 'gotFlash');
 
@@ -30,24 +57,6 @@ Synopsis
     signal(myObject, 'flash');
     signal(myObject, 'bang', 'BANG!');
 
-    // DOM events are also signals. Connect freely! The functions will be
-    // called with the event as a parameter.
-
-    // calls myClicked.apply(getElement('myID'), event)
-    connect('myID', 'onclick', myClicked);
-
-    // calls wasClicked.apply(myObject, event)
-    connect('myID', 'onclick', myObject, wasClicked);
-
-    // calls myObject.wasClicked(event)
-    connect('myID', 'onclick', myObject, 'wasClicked');    
-
-    // the event is normalized, no more e = e || window.event!
-    myObject.wasClicked = function(e) {
-        var crossBrowserCoordinates = e.mouse().page;
-        // e.mouse().page is a MochiKit.DOM.Coordinates object
-    }
-
 
 Description
 ===========
@@ -63,52 +72,43 @@ This event system is largely based on Qt's signal/slot system. You should read
 more on how that is handled and also how it is used in model/view programming
 at: http://doc.trolltech.com/
 
-Here are the rules for the signal and slot system.
 
-1.  Don't use the browser event handling.  That means, no ``onclick="blah"``,
-    no ``elem.attachEvent(...)``, and certainly no
-    ``elem.addEventListener(...)``.  This also means that
-    :mochiref:`MochiKit.DOM.addToCallStack` and
-    :mochiref:`MochiKit.DOM.addLoadEvent` can not be used in combination with
-    this module.
+Dependencies
+============
 
-2.  For DOM objects (window, document, or any HTMLElement), the signals
-    already exist and are named 'onclick', 'onkeyup', etc... just like they
-    are named already.
+- :mochiref:`MochiKit.Base`
+- :mochiref:`MochiKit.DOM`
 
-3.  The following are acceptable for slots:
 
-    -   A function
-    -   An object and a function
-    -   An object and a string
-    
+Overview
+========
 
-4.  You may connect or disconnect slots to signals freely using the
-    :mochiref:`connect()` and :mochiref:`disconnect()` methods.  The
-    return value from :mochiref:`connect()` should be passed to
-    :mochiref:`disconnect()` to remove a connection.
+Using Signal for DOM Events
+---------------------------
 
-5.  Slots that are connected to a signal are called when that signal is
-    signalled.
+When using MochiKit.Signal, you should not directly use the browser's native
+event handling for the same events.  That means, no ``onclick="blah"``, 
+no ``elem.attachEvent(...)``, and certainly no ``elem.addEventListener(...)``.
+Note that This also means that :mochiref:`MochiKit.DOM.addToCallStack` and
+:mochiref:`MochiKit.DOM.addLoadEvent` should not be used in combination with
+this module.
 
-    -   If the slot was a single function, then it is called with ``this`` set
-        to the object originating the signal with whatever parameters it was
-        signalled with.
+Signals for DOM objects are named with the 'on' prefix, e.g.:
+'onclick', 'onkeyup', etc.
 
-    -   If the slot was an object and a function, then it is called with
-        ``this`` set to the object, and with whatever parameters it was
-        signalled with.
+When the signal fires, your slot will be called with exactly one parameter,
+the custom event object.
 
-    -   If the slot was an object and a string, then ``object[string]`` is
-        called with the parameters to the signal.
 
-6.  Signals are triggered with the :mochiref:`signal(src, 'signal', ...)`
-    function.  Additional parameters passed to this are passed onto the
-    connected slots.  Explicit signals are not required for DOM events.
+Custom Event Objects for DOM events
+-----------------------------------
 
-7.  Signals triggered by DOM events are called with a custom event object as a
-    parameter.  You can grab the native event by accessing
-    ``mochie.event()``. Here is a complete list of this object's methods:
+Signals triggered by DOM events are called with a custom event object as a
+parameter.  The custom event object presents a consistent view of the event
+across all supported platforms and browsers, and provides many conveniences
+not available even in a correct W3C implementation.
+
+Here is a complete list of this object's methods:
 
     These are always generated:
 
@@ -194,15 +194,44 @@ If you find that you're accessing the native event for any reason, create a
 .. _`new ticket`: http://trac.mochikit.com/newticket
 
 
-Dependencies
-============
+Memory Usage
+------------
 
-- :mochiref:`MochiKit.Base`
-- :mochiref:`MochiKit.DOM`
+Any object that has connected slots (via :mochiref:`connect()`) is referenced
+by the Signal mechanism until it is disconnected via :mochiref:`disconnect()`
+or :mochiref:`disconnectAll()`.
+
+Signal does not leak.  It registers an 'onunload' event that disconnects all
+objects on the page when the browser leaves the page.  However, memory usage
+will grow during the page view for every connection made until it is
+disconnected.  Even if the DOM object is removed from the document, it
+will still be referenced by Signal until it is explicitly disconnected.
+
+In order to conserve memory during the page view, you should ensure to use
+:mochiref:`disconnectAll()` any DOM elements that are about to be removed
+from the document.
 
 
-Overview
-========
+Using Signal for non-DOM objects
+--------------------------------
+
+Signals are triggered with the :mochiref:`signal(src, 'signal', ...)`
+function.  Additional parameters passed to this are passed onto the
+connected slots.  Explicit signals are not required for DOM events.
+
+Slots that are connected to a signal are called in the following manner
+when that signal is signalled:
+
+-   If the slot was a single function, then it is called with ``this`` set
+    to the object originating the signal with whatever parameters it was
+    signalled with.
+
+-   If the slot was an object and a function, then it is called with
+    ``this`` set to the object, and with whatever parameters it was
+    signalled with.
+
+-   If the slot was an object and a string, then ``object[string]`` is
+    called with the parameters to the signal.
 
 
 API Reference
