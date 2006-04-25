@@ -246,14 +246,15 @@ returns <tt class="docutils literal"><span class="pre">{code:</span> <span class
 <p>If a user presses Shift+2 on a US keyboard, this method returns
 <tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">50,</span> <span class="pre">string:</span> <span class="pre">'KEY_2'}</span></tt> in <tt class="docutils literal"><span class="pre">'onkeydown'</span></tt> and <tt class="docutils literal"><span class="pre">'onkeyup'</span></tt>.
 In <tt class="docutils literal"><span class="pre">'onkeypress'</span></tt>, it returns <tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">64,</span> <span class="pre">string:</span> <span class="pre">'&#64;'}</span></tt>.</p>
-<p>See <tt class="docutils literal"><span class="pre">_specialKeys</span></tt> for a comprehensive list of control characters.</p>
+<p>See <tt class="docutils literal"><span class="pre">_specialKeys</span></tt> in the source code for a comprehensive list of
+control characters.</p>
 </blockquote>
 <p>
 <a name="fn-mouse"></a>
 <a class="mochidef reference" href="#fn-mouse">mouse()</a>:</p>
 <blockquote>
 <p>Properties for <tt class="docutils literal"><span class="pre">'onmouse*'</span></tt>, <tt class="docutils literal"><span class="pre">'onclick'</span></tt>, <tt class="docutils literal"><span class="pre">'ondblclick'</span></tt>, and
-<tt class="docutils literal"><span class="pre">'oncontextmenu'</span></tt> events. (<tt class="docutils literal"><span class="pre">contextmenu</span></tt> doesn't work in Opera).</p>
+<tt class="docutils literal"><span class="pre">'oncontextmenu'</span></tt> events. (<tt class="docutils literal"><span class="pre">'oncontextmenu'</span></tt> doesn't work in Opera).</p>
 <blockquote>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">page</span></tt> is a <a class="mochiref reference" href="DOM.html#fn-coordinates">MochiKit.DOM.Coordinates</a> object that
@@ -266,7 +267,7 @@ all browsers.</li>
 </ul>
 </blockquote>
 <p>Properties for <tt class="docutils literal"><span class="pre">'onmouseup'</span></tt>, <tt class="docutils literal"><span class="pre">'onmousedown'</span></tt>, <tt class="docutils literal"><span class="pre">'onclick'</span></tt>, and
-<tt class="docutils literal"><span class="pre">ondblclick</span></tt>:</p>
+<tt class="docutils literal"><span class="pre">'ondblclick'</span></tt>:</p>
 <blockquote>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">mouse().button</span></tt> returns {left, right, middle} where each
