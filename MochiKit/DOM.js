@@ -424,24 +424,10 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     registerDOMConverter: function (name, check, wrap, /* optional */override) {
-        /***
-
-            Register an adapter to convert objects that match check(obj, ctx)
-            to a DOM element, or something that can be converted to a DOM
-            element (i.e. number, bool, string, function, iterable).
-
-        ***/
         MochiKit.DOM.domConverters.register(name, check, wrap, override);
     },
 
     coerceToDOM: function (node, ctx) {
-        /***
-
-            Used internally by createDOM, coerces a node to null, a DOM object,
-            or an iterable.
-
-        ***/
-
         var im = MochiKit.Iter;
         var self = MochiKit.DOM;
         var iter = im.iter;
@@ -663,19 +649,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     createDOMFunc: function (/* tag, attrs, *nodes */) {
-        /***
-
-            Convenience function to create a partially applied createDOM
-
-            @param tag: The name of the tag
-
-            @param attrs: Optionally specify the attributes to apply
-
-            @param *notes: Optionally specify any children nodes it should have
-
-            @rtype: function
-
-        ***/
         var m = MochiKit.Base;
         return m.partial.apply(
             this,
@@ -684,18 +657,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     swapDOM: function (dest, src) {
-        /***
-
-            Replace dest in a DOM tree with src, returning src
-
-            @param dest: a DOM element to be replaced
-
-            @param src: the DOM element to replace it with
-                        or null if the DOM element should be removed
-
-            @rtype: a DOM element (src)
-
-        ***/
         var self = MochiKit.DOM;
         dest = self.getElement(dest);
         var parent = dest.parentNode;
@@ -709,17 +670,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     getElement: function (id) {
-        /***
-
-            A small quick little function to encapsulate the getElementById
-            method.  It includes a check to ensure we can use that method.
-
-            If the id isn't a string, it will be returned as-is.
-
-            Also available as $(...) for compatibility/convenience with "other"
-            js frameworks (bah).
-
-        ***/
         var self = MochiKit.DOM;
         if (arguments.length == 1) {
             return ((typeof(id) == "string") ?
@@ -823,13 +773,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     addLoadEvent: function (func) {
-        /***
-
-            This will stack load functions on top of each other.
-            Each function added will be called after onload in the
-            order that they were added.
-
-        ***/
         var self = MochiKit.DOM;
         self.addToCallStack(self._window, "onload", func, true);
         
@@ -846,11 +789,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
             
     setElementClass: function (element, className) {
-        /***
-
-            Set the entire class attribute of an element to className.
-        
-        ***/
         var self = MochiKit.DOM;
         var obj = self.getElement(element);
         if (self.attributeArray.compliant) {
@@ -861,12 +799,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
             
     toggleElementClass: function (className/*, element... */) {
-        /***
-        
-            Toggle the presence of a given className in the class attribute
-            of all given elements.
-
-        ***/
         var self = MochiKit.DOM;
         for (var i = 1; i < arguments.length; i++) {
             var obj = self.getElement(arguments[i]);
@@ -877,12 +809,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     addElementClass: function (element, className) {
-        /***
-
-            Ensure that the given element has className set as part of its
-            class attribute.  This will not disturb other class names.
-
-        ***/
         var self = MochiKit.DOM;
         var obj = self.getElement(element);
         var cls = obj.className;
@@ -908,12 +834,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     removeElementClass: function (element, className) {
-        /***
-
-            Ensure that the given element does not have className set as part
-            of its class attribute.  This will not disturb other class names.
-
-        ***/
         var self = MochiKit.DOM;
         var obj = self.getElement(element);
         var cls = obj.className;
@@ -941,12 +861,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     swapElementClass: function (element, fromClass, toClass) {
-        /***
-
-            If fromClass is set on element, replace it with toClass.  This
-            will not disturb other classes on that element.
-
-        ***/
         var obj = MochiKit.DOM.getElement(element);
         var res = MochiKit.DOM.removeElementClass(obj, fromClass);
         if (res) {
@@ -956,11 +870,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     hasElementClass: function (element, className/*...*/) {
-        /***
-          
-          Return true if className is found in the element
-
-        ***/
         var obj = MochiKit.DOM.getElement(element);
         var classes = obj.className.split(" ");
         for (var i = 1; i < arguments.length; i++) {
@@ -979,12 +888,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     escapeHTML: function (s) {
-        /***
-
-            Make a string safe for HTML, converting the usual suspects (lt,
-            gt, quot, amp)
-
-        ***/
         return s.replace(/&/g, "&amp;"
             ).replace(/"/g, "&quot;"
             ).replace(/</g, "&lt;"
@@ -992,23 +895,10 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     toHTML: function (dom) {
-        /***
-
-            Convert a DOM tree to a HTML string using emitHTML
-
-        ***/
         return MochiKit.DOM.emitHTML(dom).join("");
     },
 
     emitHTML: function (dom, /* optional */lst) {
-        /***
-
-            Convert a DOM tree to a list of HTML string fragments
-
-            You probably want to use toHTML instead.
-
-        ***/
-
         if (typeof(lst) == 'undefined' || lst === null) {
             lst = [];
         }
@@ -1067,15 +957,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     setDisplayForElement: function (display, element/*, ...*/) {
-        /***
-
-            Change the style.display for the given element(s).  Usually
-            used as the partial forms:
-
-                showElement(element, ...);
-                hideElement(element, ...);
-
-        ***/
         var m = MochiKit.Base;
         var elements = m.extend(null, arguments, 1);
         MochiKit.Iter.forEach(
@@ -1087,12 +968,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     scrapeText: function (node, /* optional */asArray) {
-        /***
-        
-            Walk a DOM tree in-order and scrape all of the text out of it as a
-            string or an Array
-
-        ***/
         var rval = [];
         (function (node) {
             var cn = node.childNodes;

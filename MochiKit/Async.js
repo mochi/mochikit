@@ -38,92 +38,6 @@ MochiKit.Async.toString = function () {
 };
 
 MochiKit.Async.Deferred = function (/* optional */ canceller) {
-    /***
-
-    Encapsulates a sequence of callbacks in response to a value that
-    may not yet be available.  This is modeled after the Deferred class
-    from Twisted <http://twistedmatrix.com>.
-
-    Why do we want this?  JavaScript has no threads, and even if it did,
-    threads are hard.  Deferreds are a way of abstracting non-blocking
-    events, such as the final response to an XMLHttpRequest.
-
-    The sequence of callbacks is internally represented as a list
-    of 2-tuples containing the callback/errback pair.  For example,
-    the following call sequence::
-
-        var d = new Deferred();
-        d.addCallback(myCallback);
-        d.addErrback(myErrback);
-        d.addBoth(myBoth);
-        d.addCallbacks(myCallback, myErrback);
-
-    is translated into a Deferred with the following internal
-    representation::
-
-        [
-            [myCallback, null],
-            [null, myErrback],
-            [myBoth, myBoth],
-            [myCallback, myErrback]
-        ]
-
-    The Deferred also keeps track of its current status (fired).
-    Its status may be one of three things:
-    
-        -1: no value yet (initial condition)
-         0: success
-         1: error
-    
-    A Deferred will be in the error state if one of the following
-    three conditions are met:
-    
-    1. The result given to callback or errback is "instanceof" Error
-    2. The previous callback or errback raised an exception while executing
-    3. The previous callback or errback returned a value "instanceof" Error
-
-    Otherwise, the Deferred will be in the success state.  The state of the
-    Deferred determines the next element in the callback sequence to run.
-
-    When a callback or errback occurs with the example deferred chain, something
-    equivalent to the following will happen (imagine that exceptions are caught
-    and returned)::
-
-        // d.callback(result) or d.errback(result)
-        if (!(result instanceof Error)) {
-            result = myCallback(result);
-        }
-        if (result instanceof Error) {
-            result = myErrback(result);
-        }
-        result = myBoth(result);
-        if (result instanceof Error) {
-            result = myErrback(result);
-        } else {
-            result = myCallback(result);
-        }
-    
-    The result is then stored away in case another step is added to the
-    callback sequence.  Since the Deferred already has a value available,
-    any new callbacks added will be called immediately.
-
-    There are two other "advanced" details about this implementation that are 
-    useful:
-
-    Callbacks are allowed to return Deferred instances themselves, so
-    you can build complicated sequences of events with ease.
-
-    The creator of the Deferred may specify a canceller.  The canceller
-    is a function that will be called if Deferred.cancel is called before
-    the Deferred fires.  You can use this to implement clean aborting of an
-    XMLHttpRequest, etc.  Note that cancel will fire the deferred with a
-    CancelledError (unless your canceller returns another kind of error),
-    so the errbacks should be prepared to handle that error for cancellable
-    Deferreds.
-    
-    ***/
-
-    
     this.chain = [];
     this.id = this._nextId();
     this.fired = -1;
@@ -152,17 +66,6 @@ MochiKit.Async.Deferred.prototype = {
     _nextId: MochiKit.Base.counter(),
 
     cancel: function () {
-        /***
-
-        Cancels a Deferred that has not yet received a value,
-        or is waiting on another Deferred as its value.
-
-        If a canceller is defined, the canceller is called.
-        If the canceller did not return an error, or there
-        was no canceller, then the errback chain is started
-        with CancelledError.
-
-        ***/
         var self = MochiKit.Async;
         if (this.fired == -1) {
             if (this.canceller) {
@@ -233,14 +136,6 @@ MochiKit.Async.Deferred.prototype = {
     },
 
     callback: function (res) {
-        /***
-
-        Begin the callback sequence with a non-error value.
-        
-        callback or errback should only be called once
-        on a given Deferred.
-
-        ***/
         this._check();
         if (res instanceof MochiKit.Async.Deferred) {
             throw new Error("Deferred instances can only be chained if they are the result of a callback");
@@ -249,14 +144,6 @@ MochiKit.Async.Deferred.prototype = {
     },
 
     errback: function (res) {
-        /***
-
-        Begin the callback sequence with an error result.
-
-        callback or errback should only be called once
-        on a given Deferred.
-
-        ***/
         this._check();
         var self = MochiKit.Async;
         if (res instanceof self.Deferred) {
@@ -269,13 +156,6 @@ MochiKit.Async.Deferred.prototype = {
     },
 
     addBoth: function (fn) {
-        /***
-
-        Add the same function as both a callback and an errback as the
-        next element on the callback sequence.  This is useful for code
-        that you want to guarantee to run, e.g. a finalizer.
-
-        ***/
         if (arguments.length > 1) {
             fn = MochiKit.Base.partial.apply(null, arguments);
         }
@@ -283,11 +163,6 @@ MochiKit.Async.Deferred.prototype = {
     },
 
     addCallback: function (fn) {
-        /***
-
-        Add a single callback to the end of the callback sequence.
-
-        ***/
         if (arguments.length > 1) {
             fn = MochiKit.Base.partial.apply(null, arguments);
         }
@@ -295,11 +170,6 @@ MochiKit.Async.Deferred.prototype = {
     },
 
     addErrback: function (fn) {
-        /***
-
-        Add a single errback to the end of the callback sequence.
-
-        ***/
         if (arguments.length > 1) {
             fn = MochiKit.Base.partial.apply(null, arguments);
         }
@@ -307,12 +177,6 @@ MochiKit.Async.Deferred.prototype = {
     },
 
     addCallbacks: function (cb, eb) {
-        /***
-
-        Add separate callback and errback to the end of the callback
-        sequence.
-
-        ***/
         if (this.chained) {
             throw new Error("Chained Deferreds can not be re-used");
         }
@@ -372,53 +236,16 @@ MochiKit.Async.Deferred.prototype = {
 
 MochiKit.Base.update(MochiKit.Async, {
     evalJSONRequest: function (/* req */) {
-        /***
-
-        Evaluate a JSON (JavaScript Object Notation) XMLHttpRequest
-
-        @param req: The request whose responseText is to be evaluated
-
-        @rtype: L{Object}
-
-        ***/
         return eval('(' + arguments[0].responseText + ')');
     },
 
     succeed: function (/* optional */result) {
-        /***
-
-        Return a Deferred that has already had '.callback(result)' called.
-
-        This is useful when you're writing synchronous code to an asynchronous
-        interface: i.e., some code is calling you expecting a Deferred result,
-        but you don't actually need to do anything asynchronous.  Just return
-        succeed(theResult).
-
-        See L{fail} for a version of this function that uses a failing Deferred
-        rather than a successful one.
-
-        @param result: The result to give to the Deferred's 'callback' method.
-
-        @rtype: L{Deferred}
-
-        ***/
         var d = new MochiKit.Async.Deferred();
         d.callback.apply(d, arguments);
         return d;
     },
 
     fail: function (/* optional */result) {
-        /***
-
-        Return a Deferred that has already had '.errback(result)' called.
-
-        See L{succeed}'s docstring for rationale.
-
-        @param result: The same argument that L{Deferred.errback} takes.
-
-        @rtype: L{Deferred}
-
-        ***/
         var d = new MochiKit.Async.Deferred();
         d.errback.apply(d, arguments);
         return d;
@@ -539,17 +366,6 @@ MochiKit.Base.update(MochiKit.Async, {
     },
 
     loadJSONDoc: function (url) {
-        /***
-
-        Do a simple XMLHttpRequest to a URL and get the response
-        as a JSON document.
-
-        @param url: The URL to GET
-
-        @rtype: L{Deferred} returning the evaluated JSON response
-
-        ***/
-
         var self = MochiKit.Async;
         var d = self.doSimpleXMLHttpRequest.apply(self, arguments);
         d = d.addCallback(self.evalJSONRequest);
@@ -681,15 +497,6 @@ MochiKit.Base.update(MochiKit.Async.DeferredList.prototype, {
 });
 
 MochiKit.Async.gatherResults = function (deferredList) {
-    /***
-
-    Return list of results of given deferreds.
-
-    @type deferredList: C{Array} of L{MochiKit.Async.Deferred}s
-
-    @rtype: L{Deferred} returning the list of results.
-
-    ***/
     var d = new MochiKit.Async.DeferredList(deferredList, false, true, false);
     d.addCallback(function (results) {
         var ret = []
@@ -702,17 +509,6 @@ MochiKit.Async.gatherResults = function (deferredList) {
 };
 
 MochiKit.Async.maybeDeferred = function (func) {
-    /***
-
-    Call a function and wrap the result in a Deferred if the function
-    does not return one.
-
-    @param func: the function to call. Additional arguments are passed
-    as parameters to that function.
-
-    @rtype: L{Deferred} returning the return value of func.
-
-    ***/
     var self = MochiKit.Async;
     var result;
     try {

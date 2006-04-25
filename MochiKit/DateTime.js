@@ -30,11 +30,6 @@ MochiKit.DateTime.toString = function () {
 };
 
 MochiKit.DateTime.isoDate = function (str) {
-    /***
-
-        Convert an ISO 8601 date (YYYY-MM-DD) to a Date object.
-
-    ***/
     str = str + "";
     if (typeof(str) != "string" || str.length == 0) {
         return null;
@@ -49,18 +44,6 @@ MochiKit.DateTime.isoDate = function (str) {
 MochiKit.DateTime._isoRegexp = /(\d{4,})(?:-(\d{1,2})(?:-(\d{1,2})(?:[T ](\d{1,2}):(\d{1,2})(?::(\d{1,2})(?:\.(\d+))?)?(?:(Z)|([+-])(\d{1,2})(?::(\d{1,2}))?)?)?)?)?/;
 
 MochiKit.DateTime.isoTimestamp = function (str) {
-    /***
-
-        Convert an ISO 8601 timestamp (or something close to it) to
-        a Date object.  Will accept the "de facto" form:
-
-            YYYY-MM-DD hh:mm:ss
-
-        or (the proper form):
-
-            YYYY-MM-DDThh:mm:ss
-
-    ***/
     str = str + "";
     if (typeof(str) != "string" || str.length == 0) {
         return null;
@@ -106,11 +89,6 @@ MochiKit.DateTime.isoTimestamp = function (str) {
 };
 
 MochiKit.DateTime.toISOTime = function (date, realISO/* = false */) {
-    /***
-
-        Get the hh:mm:ss from the given Date object.
-
-    ***/
     if (typeof(date) == "undefined" || date == null) {
         return null;
     }
@@ -126,21 +104,6 @@ MochiKit.DateTime.toISOTime = function (date, realISO/* = false */) {
 };
 
 MochiKit.DateTime.toISOTimestamp = function (date, realISO/* = false*/) {
-    /***
-
-        Convert a Date object to something that's ALMOST but not quite an
-        ISO 8601 timestamp.  If it was a proper ISO timestamp it would be:
-
-            YYYY-MM-DDThh:mm:ssZ
-
-        However, we see junk in SQL and other places that looks like this:
-
-            YYYY-MM-DD hh:mm:ss
-
-        So, this function returns the latter form, despite its name, unless
-        you pass true for realISO.
-
-    ***/
     if (typeof(date) == "undefined" || date == null) {
         return null;
     }
@@ -153,11 +116,6 @@ MochiKit.DateTime.toISOTimestamp = function (date, realISO/* = false*/) {
 };
 
 MochiKit.DateTime.toISODate = function (date) {
-    /***
-
-        Convert a Date object to an ISO 8601 date string (YYYY-MM-DD)
-
-    ***/
     if (typeof(date) == "undefined" || date == null) {
         return null;
     }
@@ -170,11 +128,6 @@ MochiKit.DateTime.toISODate = function (date) {
 };
 
 MochiKit.DateTime.americanDate = function (d) {
-    /***
-
-        Converts a MM/DD/YYYY date to a Date object
-
-    ***/
     d = d + "";
     if (typeof(d) != "string" || d.length == 0) {
         return null;
@@ -188,11 +141,6 @@ MochiKit.DateTime._padTwo = function (n) {
 };
 
 MochiKit.DateTime.toPaddedAmericanDate = function (d) {
-    /***
-
-        Converts a Date object to an MM/DD/YYYY date, e.g. 01/01/2001
-
-    ***/
     if (typeof(d) == "undefined" || d == null) {
         return null;
     }
@@ -205,11 +153,6 @@ MochiKit.DateTime.toPaddedAmericanDate = function (d) {
 };
 
 MochiKit.DateTime.toAmericanDate = function (d) {
-    /***
-
-        Converts a Date object to an M/D/YYYY date, e.g. 1/1/2001
-
-    ***/
     if (typeof(d) == "undefined" || d == null) {
         return null;
     }
