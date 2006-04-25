@@ -1,6 +1,4 @@
 .. title:: MochiKit.Signal - Simple universal event handling
-.. |e-acute| unicode:: U+0233  .. e acute, trimming surrounding whitespace
-   :trim:
 .. |---| unicode:: U+2014  .. em dash, trimming surrounding whitespace
    :trim:
 
@@ -262,7 +260,7 @@ DOM Event API Reference
     
     Use ``'onkeydown'`` and ``'onkeyup'`` handlers to detect control characters
     such as ``'KEY_F1'``. Use the ``'onkeypressed'`` handler to detect
-    "printable" characters, such as ``' |e-acute| '``.
+    "printable" characters, such as ``'é'``.
     
     When a user presses F1, in ``'onkeydown'`` and ``'onkeyup'`` this method
     returns ``{code: 122, string: 'KEY_F1'}``. In ``'onkeypress'``, it returns
