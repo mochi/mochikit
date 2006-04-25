@@ -19,11 +19,8 @@
 </div>
 <div class="section">
 <h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
+<p>Signal for DOM events:</p>
 <pre class="literal-block">
-/*
-    Using Signal for DOM events
-*/
-
 // DOM events are also signals. Connect freely! The functions will be
 // called with the custom event as a parameter.
 
@@ -41,12 +38,9 @@ myObject.wasClicked = function(e) {
     var crossBrowserCoordinates = e.mouse().page;
     // e.mouse().page is a MochiKit.DOM.Coordinates object
 }
-
-
-/*
-    Using MochiKit.Signal for non-DOM events
-*/
-
+</pre>
+<p>Signal for non-DOM events:</p>
+<pre class="literal-block">
 // otherObject.gotFlash() will be called when 'flash' signalled.
 connect(myObject, 'flash', otherObject, 'gotFlash');
 
@@ -95,8 +89,8 @@ certainly no <tt class="docutils literal"><span class="pre">elem.attachEvent(...
 <a class="mochiref reference" href="DOM.html#fn-addtocallstack">MochiKit.DOM.addToCallStack</a> and
 <a class="mochiref reference" href="DOM.html#fn-addloadevent">MochiKit.DOM.addLoadEvent</a> should not be used in combination with
 this module.</p>
-<p>Signals for DOM objects are named with the <tt class="docutils literal"><span class="pre">on</span></tt> prefix, e.g.: <tt class="docutils literal"><span class="pre">onclick</span></tt>,
-<tt class="docutils literal"><span class="pre">onkeyup</span></tt>, etc.</p>
+<p>Signals for DOM objects are named with the <tt class="docutils literal"><span class="pre">'on'</span></tt> prefix, e.g.:
+<tt class="docutils literal"><span class="pre">'onclick'</span></tt>, <tt class="docutils literal"><span class="pre">'onkeyup'</span></tt>, etc.</p>
 <p>When the signal fires, your slot will be called with one parameter, the custom
 event object.</p>
 </div>
@@ -114,7 +108,7 @@ not available even in a correct W3C implementation.</p>
 <p>Any object that has connected slots (via <a class="mochiref reference" href="#fn-connect">connect()</a>) is referenced
 by the Signal mechanism until it is disconnected via <a class="mochiref reference" href="#fn-disconnect">disconnect()</a>
 or <a class="mochiref reference" href="#fn-disconnectall">disconnectAll()</a>.</p>
-<p>Signal does not leak. It registers an <tt class="docutils literal"><span class="pre">onunload</span></tt> event that disconnects all
+<p>Signal does not leak. It registers an <tt class="docutils literal"><span class="pre">'onunload'</span></tt> event that disconnects all
 objects on the page when the browser leaves the page. However, memory usage
 will grow during the page view for every connection made until it is
 disconnected. Even if the DOM object is removed from the document, it
@@ -193,59 +187,73 @@ the connected slots. <tt class="docutils literal"><span class="pre">src</span></
 </div>
 <div class="section">
 <h2><a id="dom-event-api-reference" name="dom-event-api-reference">DOM Event API Reference</a></h2>
-<dl class="docutils">
-<dt>
+<p>
 <a name="fn-event"></a>
-<a class="mochidef reference" href="#fn-event">event()</a>:</dt>
-<dd>The native event produced by the browser. You should not need to
-access this.</dd>
-<dt>
+<a class="mochidef reference" href="#fn-event">event()</a>:</p>
+<blockquote>
+The native event produced by the browser. You should not need to
+use this.</blockquote>
+<p>
+<a name="fn-src"></a>
+<a class="mochidef reference" href="#fn-src">src()</a>:</p>
+<blockquote>
+The element that this signal is connected to.</blockquote>
+<p>
 <a name="fn-type"></a>
-<a class="mochidef reference" href="#fn-type">type()</a>:</dt>
-<dd>Returns the event type (<tt class="docutils literal"><span class="pre">click</span></tt>, <tt class="docutils literal"><span class="pre">mouseover</span></tt>, <tt class="docutils literal"><span class="pre">keypress</span></tt>, etc.) as a
-string. Does not include the <tt class="docutils literal"><span class="pre">on</span></tt> prefix.</dd>
-<dt>
+<a class="mochidef reference" href="#fn-type">type()</a>:</p>
+<blockquote>
+Returns the event type (<tt class="docutils literal"><span class="pre">'click'</span></tt>, <tt class="docutils literal"><span class="pre">'mouseover'</span></tt>, <tt class="docutils literal"><span class="pre">'keypress'</span></tt>, etc.)
+as a string. Does not include the <tt class="docutils literal"><span class="pre">'on'</span></tt> prefix.</blockquote>
+<p>
 <a name="fn-target"></a>
-<a class="mochidef reference" href="#fn-target">target()</a>:</dt>
-<dd>Returns the element that triggered the event.</dd>
-<dt>
+<a class="mochidef reference" href="#fn-target">target()</a>:</p>
+<blockquote>
+Returns the element that triggered the event.  This may be a child of
+<a class="mochiref reference" href="#fn-src">src()</a>.</blockquote>
+<p>
 <a name="fn-modifier"></a>
-<a class="mochidef reference" href="#fn-modifier">modifier()</a>:</dt>
-<dd>Returns <tt class="docutils literal"><span class="pre">{shift,</span> <span class="pre">ctrl,</span> <span class="pre">meta,</span> <span class="pre">alt,</span> <span class="pre">any}</span></tt>, where each property is <tt class="docutils literal"><span class="pre">true</span></tt>
+<a class="mochidef reference" href="#fn-modifier">modifier()</a>:</p>
+<blockquote>
+Returns <tt class="docutils literal"><span class="pre">{shift,</span> <span class="pre">ctrl,</span> <span class="pre">meta,</span> <span class="pre">alt,</span> <span class="pre">any}</span></tt>, where each property is <tt class="docutils literal"><span class="pre">true</span></tt>
 if its respective modifier key was pressed, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise. <tt class="docutils literal"><span class="pre">any</span></tt>
-is <tt class="docutils literal"><span class="pre">true</span></tt> if any modifier is pressed, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise.</dd>
-<dt>
+is <tt class="docutils literal"><span class="pre">true</span></tt> if any modifier is pressed, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise.</blockquote>
+<p>
 <a name="fn-stoppropagation"></a>
-<a class="mochidef reference" href="#fn-stoppropagation">stopPropagation()</a>:</dt>
-<dd>Works like W3C's <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt>.</dd>
-<dt>
+<a class="mochidef reference" href="#fn-stoppropagation">stopPropagation()</a>:</p>
+<blockquote>
+Works like W3C's <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt>.</blockquote>
+<p>
 <a name="fn-preventdefault"></a>
-<a class="mochidef reference" href="#fn-preventdefault">preventDefault()</a>:</dt>
-<dd>Works like W3C's <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</dd>
-<dt>
+<a class="mochidef reference" href="#fn-preventdefault">preventDefault()</a>:</p>
+<blockquote>
+Works like W3C's <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</blockquote>
+<p>
 <a name="fn-stop"></a>
-<a class="mochidef reference" href="#fn-stop">stop()</a>:</dt>
-<dd>Shortcut that calls <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt> and <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</dd>
-<dt>
+<a class="mochidef reference" href="#fn-stop">stop()</a>:</p>
+<blockquote>
+Shortcut that calls <tt class="docutils literal"><span class="pre">stopPropagation()</span></tt> and <tt class="docutils literal"><span class="pre">preventDefault()</span></tt>.</blockquote>
+<p>
 <a name="fn-key"></a>
-<a class="mochidef reference" href="#fn-key">key()</a>:</dt>
-<dd><p class="first">Returns {code, string}.</p>
-<p>Use <tt class="docutils literal"><span class="pre">onkeydown</span></tt> and <tt class="docutils literal"><span class="pre">onkeyup</span></tt> handlers to detect control characters
-such as <tt class="docutils literal"><span class="pre">KEY_F1</span></tt>. Use the <tt class="docutils literal"><span class="pre">onkeypressed</span></tt> handler to detect &quot;printable&quot;
-characters, such as <tt class="docutils literal"><span class="pre">é</span></tt>.</p>
-<p>When a user presses F1, in <tt class="docutils literal"><span class="pre">onkeydown</span></tt> and <tt class="docutils literal"><span class="pre">onkeyup</span></tt> this method
-returns <tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">122,</span> <span class="pre">string:</span> <span class="pre">'KEY_F1'}</span></tt>. In <tt class="docutils literal"><span class="pre">onkeypress</span></tt>, it returns
+<a class="mochidef reference" href="#fn-key">key()</a>:</p>
+<blockquote>
+<p>Returns {code, string}.</p>
+<p>Use <tt class="docutils literal"><span class="pre">'onkeydown'</span></tt> and <tt class="docutils literal"><span class="pre">'onkeyup'</span></tt> handlers to detect control characters
+such as <tt class="docutils literal"><span class="pre">'KEY_F1'</span></tt>. Use the <tt class="docutils literal"><span class="pre">'onkeypressed'</span></tt> handler to detect
+&quot;printable&quot; characters, such as <tt class="docutils literal"><span class="pre">'</span> <span class="pre">|e-acute|</span> <span class="pre">'</span></tt>.</p>
+<p>When a user presses F1, in <tt class="docutils literal"><span class="pre">'onkeydown'</span></tt> and <tt class="docutils literal"><span class="pre">'onkeyup'</span></tt> this method
+returns <tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">122,</span> <span class="pre">string:</span> <span class="pre">'KEY_F1'}</span></tt>. In <tt class="docutils literal"><span class="pre">'onkeypress'</span></tt>, it returns
 <tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">0,</span> <span class="pre">string:</span> <span class="pre">''}</span></tt>.</p>
-<p>If a user presses Shift+2 on a US keyboard, this method returns <tt class="docutils literal"><span class="pre">{code:</span>
-<span class="pre">50,</span> <span class="pre">string:</span> <span class="pre">'KEY_2'}</span></tt> in <tt class="docutils literal"><span class="pre">onkeydown</span></tt> and <tt class="docutils literal"><span class="pre">onkeyup</span></tt>. In
-<tt class="docutils literal"><span class="pre">onkeypress</span></tt>, it returns <tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">64,</span> <span class="pre">string:</span> <span class="pre">'&#64;'}</span></tt>.</p>
-<p class="last">See <tt class="docutils literal"><span class="pre">_specialKeys</span></tt> for a comprehensive list of control characters.</p>
-</dd>
-<dt>
+<p>If a user presses Shift+2 on a US keyboard, this method returns
+<tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">50,</span> <span class="pre">string:</span> <span class="pre">'KEY_2'}</span></tt> in <tt class="docutils literal"><span class="pre">'onkeydown'</span></tt> and <tt class="docutils literal"><span class="pre">'onkeyup'</span></tt>.
+In <tt class="docutils literal"><span class="pre">'onkeypress'</span></tt>, it returns <tt class="docutils literal"><span class="pre">{code:</span> <span class="pre">64,</span> <span class="pre">string:</span> <span class="pre">'&#64;'}</span></tt>.</p>
+<p>See <tt class="docutils literal"><span class="pre">_specialKeys</span></tt> for a comprehensive list of control characters.</p>
+</blockquote>
+<p>
 <a name="fn-mouse"></a>
-<a class="mochidef reference" href="#fn-mouse">mouse()</a>:</dt>
-<dd><p class="first">Properties for <tt class="docutils literal"><span class="pre">onmouse*</span></tt>, <tt class="docutils literal"><span class="pre">onclick</span></tt>, <tt class="docutils literal"><span class="pre">ondblclick</span></tt>, and
-<tt class="docutils literal"><span class="pre">oncontextmenu</span></tt> events. (<tt class="docutils literal"><span class="pre">contextmenu</span></tt> doesn't work in Opera).</p>
+<a class="mochidef reference" href="#fn-mouse">mouse()</a>:</p>
+<blockquote>
+<p>Properties for <tt class="docutils literal"><span class="pre">'onmouse*'</span></tt>, <tt class="docutils literal"><span class="pre">'onclick'</span></tt>, <tt class="docutils literal"><span class="pre">'ondblclick'</span></tt>, and
+<tt class="docutils literal"><span class="pre">'oncontextmenu'</span></tt> events. (<tt class="docutils literal"><span class="pre">contextmenu</span></tt> doesn't work in Opera).</p>
 <blockquote>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">page</span></tt> is a <a class="mochiref reference" href="DOM.html#fn-coordinates">MochiKit.DOM.Coordinates</a> object that
@@ -257,7 +265,7 @@ the HTML document. Equivalent to <tt class="docutils literal"><span class="pre">
 all browsers.</li>
 </ul>
 </blockquote>
-<p>Properties for <tt class="docutils literal"><span class="pre">onmouseup</span></tt>, <tt class="docutils literal"><span class="pre">onmousedown</span></tt>, <tt class="docutils literal"><span class="pre">onclick</span></tt>, and
+<p>Properties for <tt class="docutils literal"><span class="pre">'onmouseup'</span></tt>, <tt class="docutils literal"><span class="pre">'onmousedown'</span></tt>, <tt class="docutils literal"><span class="pre">'onclick'</span></tt>, and
 <tt class="docutils literal"><span class="pre">ondblclick</span></tt>:</p>
 <blockquote>
 <ul class="simple">
@@ -271,16 +279,16 @@ click and sets <tt class="docutils literal"><span class="pre">modifier().ctrl</s
 <tt class="docutils literal"><span class="pre">modifier().meta</span></tt> to <tt class="docutils literal"><span class="pre">true</span></tt>, and Safari doesn't fire the click
 (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">Safari Bug 6595</a>).</p>
 <p>If you want a right click, we suggest that instead of looking for a right
-click, look for a <tt class="docutils literal"><span class="pre">contextmenu</span></tt> event.</p>
-<p class="last">Current versions of Safari won't fire a <tt class="docutils literal"><span class="pre">dblclick</span></tt> event when attached
+click, look for a <tt class="docutils literal"><span class="pre">'contextmenu'</span></tt> event.</p>
+<p>Current versions of Safari won't fire a <tt class="docutils literal"><span class="pre">'dblclick'</span></tt> event when attached
 via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=7790">Safari Bug 7790</a>).</p>
-</dd>
-<dt>
+</blockquote>
+<p>
 <a name="fn-relatedtarget"></a>
-<a class="mochidef reference" href="#fn-relatedtarget">relatedTarget()</a>:</dt>
-<dd>This is generated on <tt class="docutils literal"><span class="pre">mouseover</span></tt> and <tt class="docutils literal"><span class="pre">mouseout</span></tt>. Returns the document
-element that the mouse has moved to.</dd>
-</dl>
+<a class="mochidef reference" href="#fn-relatedtarget">relatedTarget()</a>:</p>
+<blockquote>
+This is generated for <tt class="docutils literal"><span class="pre">'mouseover'</span></tt> and <tt class="docutils literal"><span class="pre">'mouseout'</span></tt> events.
+Returns the document element that the mouse has moved to.</blockquote>
 </div>
 </div>
 <div class="section">

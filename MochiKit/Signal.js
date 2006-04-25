@@ -43,8 +43,9 @@ MochiKit.Signal.VERSION = '1.3';
 
 MochiKit.Signal._observers = [];
 
-MochiKit.Signal.Event = function (e) {
+MochiKit.Signal.Event = function (src, e) {
     this._event = e || window.event;
+    this._src = src;
 };
 
 MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
@@ -52,6 +53,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
     __repr__: function() {
         var repr = MochiKit.Base.repr;
         var str = '{event(): ' + repr(this.event()) +
+            ', src(): ' + repr(this.src()) + 
             ', type(): ' + repr(this.type()) +
             ', target(): ' + repr(this.target()) +
             ', modifier(): ' + '{alt: ' + repr(this.modifier().alt) +
@@ -90,6 +92,10 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
     toString: function () {
         return this.__repr__();
+    },
+
+    src: function () {
+        return this._src;
     },
 
     event: function () {
@@ -468,17 +474,16 @@ MochiKit.Base.update(MochiKit.Signal, {
     },
 
     _listener: function (func, obj, isDOM) {
+        var E = MochiKit.Signal.Event;
         if (!isDOM) {
             return MochiKit.Base.bind(func, obj);
         } else if (typeof(func) == "string") {
             return function (nativeEvent) {
-                obj[func].apply((obj || this),
-                    [new MochiKit.Signal.Event(nativeEvent)]);
+                obj[func].apply((obj || this), [new E(this, nativeEvent)]);
             };
         } else {
             return function (nativeEvent) {
-                func.apply((obj || this),
-                    [new MochiKit.Signal.Event(nativeEvent)]);
+                func.apply((obj || this), [new E(this, nativeEvent)]);
             };
         }
     },
