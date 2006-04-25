@@ -39,7 +39,7 @@ tests.test_Signal = function (t) {
     
     if (MochiKit.DOM.getElement('submit').fireEvent || 
         (document.createEvent && 
-        (typeof(document.createEvent('MouseEvents').initMouseEvent) == 'function'))) {
+        typeof(document.createEvent('MouseEvents').initMouseEvent) == 'function')) {
         
         /* 
         
@@ -124,6 +124,11 @@ tests.test_Signal = function (t) {
         }
     };
     
+    var bFunction = function(someArg, someOtherArg) {
+        i += someArg + someOtherArg;
+    };
+
+    
     var aObject = {};
     aObject.aMethod = function() {
         i++;
@@ -148,6 +153,18 @@ tests.test_Signal = function (t) {
     signal(hasSignals, 'signalOne');
     t.is(i, 0, 'New style disconnecting function');
     i = 0;
+
+
+    ident = connect(hasSignals, 'signalOne', bFunction);
+    signal(hasSignals, 'signalOne', 1, 2);
+    t.is(i, 3, 'Connecting function');
+    i = 0;
+
+    disconnect(ident);
+    signal(hasSignals, 'signalOne', 1, 2);
+    t.is(i, 0, 'New style disconnecting function');
+    i = 0;
+
 
     connect(hasSignals, 'signalOne', aFunction);
     signal(hasSignals, 'signalOne');
@@ -282,16 +299,6 @@ tests.test_Signal = function (t) {
     } catch (e) {
         t.ok(true, 'An exception was raised when connecting an undefined method');
     }
-
-    if (0) {
-        // XXX: bob - not sure this warrants an exception
-        try {
-            disconnect(hasSignals, 'signalOne', aObject, aObject.nothing);
-            t.ok(false, 'An exception was not raised when disconnecting an undefined method');
-        } catch (e) {
-            t.ok(true, 'An exception was raised when disconnecting an undefined method');
-        }
-    }
     
     try {
         connect(hasSignals, 'signalOne', aObject, 'nothing');
@@ -299,16 +306,6 @@ tests.test_Signal = function (t) {
         t.ok(false, 'An exception was not raised when connecting an undefined method (as string)');
     } catch (e) {
         t.ok(true, 'An exception was raised when connecting an undefined method (as string)');
-    }
-
-    if (0) {
-        // XXX: bob - not sure this warrants an exception
-        try {
-            disconnect(hasSignals, 'signalOne', aObject, 'nothing');
-            t.ok(false, 'An exception was not raised when disconnecting an undefined method (as string)');
-        } catch (e) {
-            t.ok(true, 'An exception was raised when disconnecting an undefined method (as string)');
-        }
     }
 
     t.is(i, 0, 'Signals should not have fired');
