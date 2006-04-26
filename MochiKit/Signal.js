@@ -4,7 +4,7 @@ MochiKit.Signal 1.3
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
-(c) 2006 Jonathan Gardner, Beau Hartshorne.  All rights Reserved.
+(c) 2006 Jonathan Gardner, Beau Hartshorne, Bob Ippolito.  All rights Reserved.
 
 ***/
 
