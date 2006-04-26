@@ -1124,6 +1124,8 @@ MochiKit.Base.__new__();
 //
 // XXX: Internet Explorer blows
 //
-compare = MochiKit.Base.compare;
+if (!MochiKit.__compat__) {
+    compare = MochiKit.Base.compare;
+}
 
 MochiKit.Base._exportSymbols(this, MochiKit.Base);
