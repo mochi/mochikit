@@ -25,6 +25,8 @@ InterpreterManager.prototype.initialize = function () {
             return eval(arguments[0]);
         }
     }
+    window.help = this.help;
+    this.help.NAME = 'type help(func) for help on a MochiKit function';
 };
 
 InterpreterManager.prototype.banner = function () {
@@ -38,7 +40,8 @@ InterpreterManager.prototype.banner = function () {
         SPAN({"class": "banner"},
             "MochiKit v" + MochiKit.Base.VERSION + " [" + ua + "]",
             BR(),
-            "Type your expression in the input box below and press return, or see the notes below for more information."
+            "Type your expression in the input box below and press return, or see the notes below for more information.",
+            BR()
         ),
         BR()
     );
@@ -57,6 +60,42 @@ InterpreterManager.prototype.submit = function (event) {
     this.doScroll();
     event.stop();
 };
+
+InterpreterManager.prototype.help = function (fn) {
+    if (fn.NAME) {
+        fn = fn.NAME;
+    }
+    if (typeof(fn) != "string" || fn.length == 0) {
+        writeln("help(func) on any MochiKit function for help");
+        return;
+    }
+    var comps = fn.split('.');
+    var base = comps.splice(0, 2);
+    var shortfn = comps.join('.');
+    var url = '../../doc/html/' + base.join('/') + '.html';
+    var xhr = getXMLHttpRequest();
+    xhr.open('GET', url);
+    if (xhr.overrideMimeType) {
+        xhr.overrideMimeType('text/xml');
+    }
+    var d = sendXMLHttpRequest(xhr);
+    d.addCallback(function (req) {
+        var els = getElementsByTagAndClassName(
+            'a', 'mochidef', req.responseXML);
+        var match = '#fn-' + shortfn.toLowerCase();
+        for (var i = 0; i < els.length; i++) {
+            var elem = els[i];
+            if (elem.href == match) {
+                writeln(A({href: url + match, target: '_blank'},
+                    scrapeText(elem)));
+                return;
+            }
+        }
+        writeln('documentation for ' + fn + ' not found');
+    });
+    blockOn(d);
+};
+
 
 InterpreterManager.prototype.doScroll = function () {
     var p = getElement("interpreter_output").lastChild;
