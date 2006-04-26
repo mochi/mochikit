@@ -670,9 +670,11 @@ MochiKit.Signal.__new__(this);
 //
 // XXX: Internet Explorer blows
 //
-connect = MochiKit.Signal.connect;
-disconnect = MochiKit.Signal.disconnect;
-disconnectAll = MochiKit.Signal.disconnectAll;
-signal = MochiKit.Signal.signal;
+if (!MochiKit.__compat__) {
+    connect = MochiKit.Signal.connect;
+    disconnect = MochiKit.Signal.disconnect;
+    disconnectAll = MochiKit.Signal.disconnectAll;
+    signal = MochiKit.Signal.signal;
+}
 
 MochiKit.Base._exportSymbols(this, MochiKit.Signal);

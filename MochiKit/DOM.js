@@ -1098,7 +1098,9 @@ MochiKit.DOM.__new__(((typeof(window) == "undefined") ? this : window));
 //
 // XXX: Internet Explorer blows
 //
-withWindow = MochiKit.DOM.withWindow;
-withDocument = MochiKit.DOM.withDocument;
+if (!MochiKit.__compat__) {
+    withWindow = MochiKit.DOM.withWindow;
+    withDocument = MochiKit.DOM.withDocument;
+}
 
 MochiKit.Base._exportSymbols(this, MochiKit.DOM);

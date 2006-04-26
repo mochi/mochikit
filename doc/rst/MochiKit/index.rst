@@ -19,7 +19,18 @@ MochiKit - makes JavaScript suck a bit less
 - :mochiref:`MochiKit.Signal` - simple universal event handling
 - :mochiref:`MochiKit.Visual` - visual effects
 
-    
+
+Notes
+=====
+
+To turn on MochiKit's compatibility mode, do this before loading MochiKit::
+
+    <script type="text/javascript">MochiKit = {__compat__: true};</script>
+
+When compatibility mode is on, you must use fully qualified names for all
+MochiKit functions (e.g. ``MochiKit.Base.map(...)``).
+
+
 Screencasts
 ===========
 

@@ -782,6 +782,8 @@ MochiKit.Iter.__new__();
 //
 // XXX: Internet Explorer blows
 //
-reduce = MochiKit.Iter.reduce;
+if (!MochiKit.__compat__) {
+    reduce = MochiKit.Iter.reduce;
+}
 
 MochiKit.Base._exportSymbols(this, MochiKit.Iter);
