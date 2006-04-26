@@ -82,9 +82,9 @@ Overview
 Using Signal for DOM Events
 ---------------------------
 
-When using MochiKit.Signal, do not use the browser's native event API.
-That means, no ``onclick="blah"``, no ``elem.addEventListener(...)``, and
-certainly no ``elem.attachEvent(...)``. This also means that
+When using MochiKit.Signal, do not use the browser's native event API. That
+means, no ``onclick="blah"``, no ``elem.addEventListener(...)``, and certainly
+no ``elem.attachEvent(...)``. This also means that
 :mochiref:`MochiKit.DOM.addToCallStack` and
 :mochiref:`MochiKit.DOM.addLoadEvent` should not be used in combination with
 this module.
@@ -197,9 +197,9 @@ Signal API Reference
 
 :mochidef:`disconnect(ident)`:
 
-    To disconnect a signal, simply pass the ident returned by
-    :mochiref:`connect()`. This is similar to how the browser's ``setTimeout``
-    and ``clearTimeout`` works.
+    To disconnect a signal, pass its ident returned by :mochiref:`connect()`.
+    This is similar to how the browser's ``setTimeout`` and ``clearTimeout``
+    works.
 
 
 :mochidef:`signal(src, signal, ...)`:
@@ -214,8 +214,7 @@ DOM Custom Event Object Reference
 
 :mochidef:`event()`:
 
-    The native event produced by the browser. You should not need to
-    use this.
+    The native event produced by the browser. You should not need to use this.
 
 
 :mochidef:`src()`:
@@ -225,13 +224,13 @@ DOM Custom Event Object Reference
 
 :mochidef:`type()`:
 
-    Returns the event type (``'click'``, ``'mouseover'``, ``'keypress'``, etc.)
-    as a string. Does not include the ``'on'`` prefix.
+    The event type (``'click'``, ``'mouseover'``, ``'keypress'``, etc.) as a
+    string. Does not include the ``'on'`` prefix.
 
 
 :mochidef:`target()`:
 
-    Returns the element that triggered the event.  This may be a child of
+    The element that triggered the event. This may be a child of
     :mochiref:`src()`.
 
 
@@ -261,9 +260,9 @@ DOM Custom Event Object Reference
 
     Returns {code, string}.
     
-    Use ``'onkeydown'`` and ``'onkeyup'`` handlers to detect control characters
-    such as ``'KEY_F1'``. Use the ``'onkeypressed'`` handler to detect
-    "printable" characters, such as ``'é'``.
+    Use ``'onkeydown'`` and ``'onkeyup'`` handlers to detect control
+    characters such as ``'KEY_F1'``. Use the ``'onkeypressed'`` handler to
+    detect "printable" characters, such as ``'é'``.
     
     When a user presses F1, in ``'onkeydown'`` and ``'onkeyup'`` this method
     returns ``{code: 122, string: 'KEY_F1'}``. In ``'onkeypress'``, it returns
@@ -280,11 +279,12 @@ DOM Custom Event Object Reference
 :mochidef:`mouse()`:
 
     Properties for ``'onmouse*'``, ``'onclick'``, ``'ondblclick'``, and
-    ``'oncontextmenu'`` events. (``'oncontextmenu'`` doesn't work in Opera).
+    ``'oncontextmenu'``:
 
         -   ``page`` is a :mochiref:`MochiKit.DOM.Coordinates` object that
             represents the cursor position relative to the HTML document. 
-            Equivalent to ``pageX`` and ``pageY`` in Safari, Mozilla, and Opera.
+            Equivalent to ``pageX`` and ``pageY`` in Safari, Mozilla, and 
+            Opera.
 
         -   ``client`` is a :mochiref:`MochiKit.DOM.Coordinates` object that
             represents the cursor position relative to the visible portion of 
@@ -298,21 +298,25 @@ DOM Custom Event Object Reference
             property is ``true`` if the mouse button was pressed, ``false`` 
             otherwise.
 
-    Mac browsers don't report right-click consistently. Firefox fires the
-    click and sets ``modifier().ctrl`` to true, Opera fires the click and sets
-    ``modifier().meta`` to ``true``, and Safari doesn't fire the click
-    (`Safari Bug 6595`_).
+    Known browser bugs:
 
-    If you want a right-click, we suggest connecting to ``'oncontextmenu'``.
+        -   Current versions of Safari won't signal ``'ondblclick'`` when
+            attached via ``connect()`` (`Safari Bug 7790`_).
 
-    Current versions of Safari won't fire ``'ondblclick'`` when
-    attached via ``connect()`` (`Safari Bug 7790`_).
+        -   Mac browsers don't report right-click consistently. Firefox
+            signals the slot and sets ``modifier().ctrl`` to true, Opera
+            signals the slot and sets ``modifier().meta`` to ``true``, and
+            Safari doesn't signal the slot at all (`Safari Bug 6595`_).
+            
+            To find a right-click in Safari, Firefox, and IE, you can connect
+            an element to ``'oncontextmenu'``. This doesn't work in Opera.
 
 
 :mochidef:`relatedTarget()`:
 
-    This is generated for ``'onmouseover'`` and ``'onmouseout'`` events.
-    Returns the document element that the mouse has moved to.
+    Returns the document element that the mouse has moved to. This is
+    generated for ``'onmouseover'`` and ``'onmouseout'`` events.
+    
 
 
 Authors
