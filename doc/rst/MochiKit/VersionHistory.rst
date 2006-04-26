@@ -13,7 +13,8 @@
   null is used and the string will be considered the first node. This
   allows for the more natural P("foo") rather than P(null, "foo").
 - MochiKit Interpreter example refactored to use MochiKit.Signal and now
-  provides multi-line input.
+  provides multi-line input and a help() function to get MochiKit function
+  signature from the documentation.
 - Native Console Logging for the default MochiKit.Logging logger
 - New MochiKit.Async.DeferredList, gatherResults, maybeDeferred
 - New MochiKit.Signal example: draggable
