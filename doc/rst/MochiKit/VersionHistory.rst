@@ -1,4 +1,4 @@
-2006-04-XX      v1.3 "warp zone"
+2006-04-26      v1.3 "warp zone"
 
 - IMPORTANT: Renamed MochiKit.Base.forward to forwardCall (for export)
 - IMPORTANT: Renamed MochiKit.Base.find to findValue (for export)
