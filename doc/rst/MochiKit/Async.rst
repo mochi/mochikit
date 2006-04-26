@@ -300,8 +300,8 @@ Constructors
     Begin the callback sequence with a non-``Error`` result. Result
     may be any value except for a :mochiref:`Deferred`.
     
-.. note:: Either ``.callback`` or ``.errback`` should
-          be called exactly once on a :mochiref:`Deferred`.
+    Either ``.callback`` or ``.errback`` should
+    be called exactly once on a :mochiref:`Deferred`.
 
 
 :mochidef:`Deferred.prototype.cancel()`:
@@ -322,8 +322,8 @@ Constructors
     but if ``!(result instanceof Error)``, it will be wrapped
     with :mochiref:`GenericError`.
 
-.. note:: Either ``.callback`` or ``.errback`` should
-          be called exactly once on a :mochidef:`Deferred`.
+    Either ``.callback`` or ``.errback`` should
+    be called exactly once on a :mochidef:`Deferred`.
 
 
 :mochidef:`DeferredLock()`:

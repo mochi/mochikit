@@ -66,24 +66,24 @@ DOM Coercion Rules
 In order of precedence, :mochiref:`createDOM` coerces given arguments to DOM
 nodes using the following rules:
 
-1. Functions are called with a ``this`` of the parent
+1.  Functions are called with a ``this`` of the parent
     node and their return value is subject to the
     following rules (even this one).
-2. ``undefined`` and ``null`` are ignored.
-3. Iterables (see :mochiref:`MochiKit.Iter`) are flattened
+2.  ``undefined`` and ``null`` are ignored.
+3.  Iterables (see :mochiref:`MochiKit.Iter`) are flattened
     (as if they were passed in-line as nodes) and each
     return value is subject to all of these rules.
-4. Values that look like DOM nodes (objects with a
+4.  Values that look like DOM nodes (objects with a
     ``.nodeType > 0``) are ``.appendChild``'ed to the created
     DOM fragment.
-5. Strings are wrapped up with ``document.createTextNode``
-6. Objects that are not strings are run through the ``domConverters``
+5.  Strings are wrapped up with ``document.createTextNode``
+6.  Objects that are not strings are run through the ``domConverters``
     :mochiref:`MochiKit.Base.AdapterRegistry`
     (see :mochiref:`registerDOMConverter`).
     The value returned by the adapter is subject to these same rules (e.g.
     adapters are allowed to return a string, which will be coerced into a
     text node).
-7. If no adapter is available, ``.toString()`` is used to create a text node.
+7.  If no adapter is available, ``.toString()`` is used to create a text node.
 
 
 Creating DOM Element Trees

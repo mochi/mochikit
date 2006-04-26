@@ -56,14 +56,20 @@ Description
 :mochiref:`MochiKit.Base` is the foundation for the MochiKit suite.
 It provides:
 
-- An extensible comparison facility (``compare``, ``registerComparator``)
-- An extensible programmer representation facility (``repr``, ``registerRepr``)
-- An extensible JSON [1]_ serialization and evaluation facility 
-  (``serializeJSON``, ``evalJSON``, ``registerJSON``)
-- A simple adaptation facility (``AdapterRegistry``)
-- Convenience functions for manipulating objects (``update``, ``extend``, etc.)
-- Array-based functional programming (``map``, ``filter``, ``setdefault``, etc.)
-- Bound and partially applied functions (``bind``, ``partial``)
+-   An extensible comparison facility
+    (:mochiref:`compare`, :mochiref:`registerComparator`)
+-   An extensible programmer representation facility
+    (:mochiref:`repr`, :mochiref:`registerRepr`)
+-   An extensible JSON [1]_ serialization and evaluation facility 
+    (:mochiref:`serializeJSON`, :mochiref:`evalJSON`,
+    :mochiref:`registerJSON`)
+-   A simple adaptation facility (:mochiref:`AdapterRegistry`)
+-   Convenience functions for manipulating objects and Arrays
+    (:mochiref:`update`, :mochiref:`setdefault`, :mochiref:`extend`, etc.)
+-   Array-based functional programming
+    (:mochiref:`map`, :mochiref:`filter`, etc.)
+-   Bound and partially applied functions
+    (:mochiref:`bind`, :mochiref:`method`, :mochiref:`partial`)
 
 Python users will feel at home with :mochiref:`MochiKit.Base`, as the
 facilities are quite similar to those available as part of Python and the 
@@ -147,24 +153,25 @@ with the serialization.
 In order of precedence, :mochiref:`serializeJSON` coerces the given argument
 into a JSON serialization:
 
-1. Primitive types are returned as their JSON representation: 
-   ``undefined``, ``string``, ``number``, ``boolean``, ``null``.
-2. If the object has a ``__json__`` or ``json`` method, then it is called
-   with no arguments. If the result of this method is not the object itself,
-   then the new object goes through rule processing again (e.g. it may return
-   a string, which is then serialized in JSON format).
-3. If the object is array-like (has a length property that is a number, and
-   is not a function), then it is serialized as a JSON array. Each element
-   will be processed according to these rules in order. Elements that can
-   not be serialized (e.g. functions) will be replaced with ``undefined``.
-4. The ``jsonRegistry`` :mochiref:`AdapterRegistry` is consulted for an adapter
-   for this object. ``JSON`` adapters take one argument (the object), and are
-   expected to behave like a ``__json__`` or ``json`` method (return another
-   object to be serialized, or itself).
-5. If no adapter is available, the object is enumerated and serialized as a
-   JSON object (name:value pairs). All names are expected to be strings.
-   Each value is serialized according to these rules, and if it can not be 
-   serialized (e.g. methods), then that name:value pair will be skipped.
+1.  Primitive types are returned as their JSON representation: 
+    ``undefined``, ``string``, ``number``, ``boolean``, ``null``.
+2.  If the object has a ``__json__`` or ``json`` method, then it is called
+    with no arguments. If the result of this method is not the object itself,
+    then the new object goes through rule processing again (e.g. it may return
+    a string, which is then serialized in JSON format).
+3.  If the object is ``Array``-like (has a ``length`` property that is a
+    number, and is not a function), then it is serialized as a JSON array.
+    Each element will be processed according to these rules in order.
+    Elements that can not be serialized (e.g. functions) will be replaced with
+    ``undefined``.
+4.  The ``jsonRegistry`` :mochiref:`AdapterRegistry` is consulted for an
+    adapter for this object. JSON adapters take one argument (the object),
+    and are expected to behave like a ``__json__`` or ``json`` method
+    (return another object to be serialized, or itself).
+5.  If no adapter is available, the object is enumerated and serialized as a
+    JSON object (name:value pairs). All names are expected to be strings.
+    Each value is serialized according to these rules, and if it can not be 
+    serialized (e.g. methods), then that name:value pair will be skipped.
 
 
 Adapter Registries
@@ -198,27 +205,27 @@ Convenience Functions
 Much of :mochiref:`MochiKit.Base` is there to simply remove the grunt work of
 doing generic JavaScript programming.
 
-Need to take every property from one object and set them on another?  No
-problem, just call :mochiref:`update(dest, src)`!  What if you just wanted to
-update keys that weren't already set?  Look no further than
+Need to take every property from one object and set them on another? No
+problem, just call :mochiref:`update(dest, src)`! What if you just wanted to
+update keys that weren't already set? Look no further than
 :mochiref:`setdefault(dest, src[, ...])`.
 
 Want to return a mutable object, but don't want to suffer the consequences
-if the user mutates it?  Just :mochiref:`clone(it)` and you'll get a
+if the user mutates it? Just :mochiref:`clone(it)` and you'll get a
 copy-on-write clone. Cheaper than a copy!
 
-Need to extend an Array with another array?  Or even an array-like object
-such as a ``NodeList`` or the special ``arguments`` object?  Even if you
-need to skip the first few elements of the source array-like object, it's
+Need to extend an ``Array`` with another array? Or even an ``Array``-like
+object such as a ``NodeList`` or the special ``arguments`` object? Even if you
+need to skip the first few elements of the source ``Array``-like object, it's
 no problem with :mochiref:`extend(dstArray, srcArrayLike[, skip])`!
 
 Wouldn't it be convenient to have all of the JavaScript operators were
-available as functions somewhere?  That's what the :mochiref:`operators` table
+available as functions somewhere? That's what the :mochiref:`operators` table
 is for, and it even comes with additional operators based on the
 :mochiref:`compare` function.
 
 Need to walk some tree of objects and manipulate or find something in it?
-A DOM element tree perhaps?  Use :mochiref:`nodeWalk(node, visitor)`!
+A DOM element tree perhaps? Use :mochiref:`nodeWalk(node, visitor)`!
 
 There's plenty more, so check out the `API Reference`_ below.
 
@@ -235,14 +242,14 @@ and functional programming can help you do that.
 programming constructs, namely :mochiref:`map` and :mochiref:`filter`, and
 their "extended" brethren, :mochiref:`xmap` and :mochiref:`xfilter`.
 
-:mochiref:`map(func, arrayLike[, ...])` takes a function and an array-like
+:mochiref:`map(func, arrayLike[, ...])` takes a function and an ``Array``-like
 object, and creates a new ``Array``. The new ``Array`` is the result of
 ``func(element)`` for every element of ``arrayLike``, much
 like the ``Array.prototype.map`` extension in Mozilla. However,
 :mochiref:`MochiKit.Base` takes that a step further and gives you the full
-blown Python version of :mochiref:`map`, which will take several array-like
-objects, and calls the function with one argument per given array-like,
-like this::
+blown Python version of :mochiref:`map`, which will take several
+``Array``-like objects, and calls the function with one argument per given
+``Array``-like, e.g.::
 
    var arrayOne = [1, 2, 3, 4, 5];
    var arrayTwo = [1, 5, 2, 4, 3];
@@ -250,14 +257,15 @@ like this::
    var biggestElements = map(objMax, arrayOne, arrayTwo, arrayThree);
    assert( objEqual(biggestElements, [5, 5, 3, 4, 5]) );
 
-:mochiref:`filter(func, arrayLike[, self])` takes a function and an array-like
-object, and returns a new ``Array``. This is basically identical to the
-``Array.prototype.filter`` extension in Mozilla. self, if given, will be
+:mochiref:`filter(func, arrayLike[, self])` takes a function and an
+``Array``-like object, and returns a new ``Array``.
+This is basically identical to the ``Array.prototype.filter``
+extension in Mozilla. self, if given, will be
 used as ``this`` in the context of func when called.
 
 :mochiref:`xmap` and :mochiref:`xfilter` are just special forms of
 :mochiref:`map` and :mochiref:`filter` that accept a function as the first
-argument, and use the extra arguments as the array-like. Not terribly
+argument, and use the extra arguments as the ``Array``-like. Not terribly
 interesting, but a definite time-saver in some cases.
 
 If you appreciate the functional programming facilities here,
@@ -309,22 +317,34 @@ Constructors
     
     A registry to facilitate adaptation.
 
-    All check/wrap functions in this registry should be of the same arity.
+    All ``check``/``wrap`` function pairs in a given registry
+    should take the same number of arguments.
 
 
 :mochidef:`AdapterRegistry.prototype.register(name, check, wrap[, override])`:
 
-    The check function should return true if the given arguments are
-    appropriate for the wrap function.
+    ``name``:
+        a unique identifier used to identify this adapter so that it
+        may be unregistered.
 
-    If override is given and true, the check function will be given
-    highest priority. Otherwise, it will be the lowest priority
-    adapter.
+    ``check``:
+        function that should return ``true`` if the given arguments are
+        appropriate for the ``wrap`` function.
+        
+    ``wrap``:
+        function that takes the same parameters as ``check`` and does
+        the adaptation.  Every ``wrap``/``check`` function pair in the
+        registry should have the same number of arguments.
+
+    ``override``:
+        if ``true``, the ``check`` function will be
+        given highest priority. Otherwise, the lowest.
 
 
 :mochidef:`AdapterRegistry.prototype.match(obj[, ...])`:
 
-    Find an adapter for the given arguments.
+    Find an adapter for the given arguments by calling every
+    ``check`` function until one returns ``true``.
     
     If no suitable adapter is found, throws :mochiref:`NotFound`.
 
@@ -344,8 +364,8 @@ Functions
 
 :mochidef:`arrayEqual(self, arr)`:
 
-    Compare two arrays for equality, with a fast-path for length
-    differences.
+    Compare the arrays ``self`` and ``arr`` for equality using ``compare``
+    on each element. Uses a fast-path for length differences.
 
 
 :mochidef:`bind(func, self[, arg, ...])`:
@@ -360,7 +380,7 @@ Functions
         bind(self.method, self);
 
     Calling :mochiref:`bind(func, self)` on an already bound function will
-    return a new function that is bound to the new ``self``!  If
+    return a new function that is bound to the new ``self``! If
     ``self`` is ``undefined``, then the previous ``self`` is used.
     If ``self`` is ``null``, then the ``this`` object is used
     (which may or may not be the global object). To force binding
@@ -378,8 +398,11 @@ Functions
 
 :mochidef:`bindMethods(self)`:
 
-    Bind all methods of ``self`` present on self to ``self``,
-    which gives you a semi-Pythonic sort of instance.
+    Replace all functions ``meth`` on ``self`` with 
+    :mochiref:`bind(meth, self)`.  This emulates
+    Python's bound instance methods, where there is no
+    need to worry about preserving ``this`` when the
+    method is used as a callback.
 
 
 :mochidef:`clone(obj)`:
@@ -397,34 +420,34 @@ Functions
 
     Compare two objects in a sensible manner. Currently this is:
     
-        1. ``undefined`` and ``null`` compare equal to each other
-        2. ``undefined`` and ``null`` are less than anything else
-        3. If JavaScript says ``a == b``, then we trust it
-        4. comparators registered with registerComparator are
-           used to find a good comparator. Built-in comparators
-           are currently available for ``Array``-like and ``Date``-like
-           objects.
-        5. Otherwise hope that the built-in comparison operators
-           do something useful, which should work for numbers
-           and strings.
-        6. If neither ``a < b`` or ``a > b``, then throw a ``TypeError``
+    1.  ``undefined`` and ``null`` compare equal to each other
+    2.  ``undefined`` and ``null`` are less than anything else
+    3.  If JavaScript says ``a == b``, then we trust it
+    4.  comparators registered with registerComparator are
+        used to find a good comparator. Built-in comparators
+        are currently available for ``Array``-like and ``Date``-like
+        objects.
+    5.  Otherwise hope that the built-in comparison operators
+        do something useful, which should work for numbers
+        and strings.
+    6.  If neither ``a < b`` or ``a > b``, then throw a ``TypeError``
 
     Returns what one would expect from a comparison function:
 
-    +-------+-----------+
-    | Value | Condition |
-    +-------+-----------+
-    | 0     | a == b    |
-    +-------+-----------+
-    | 1     | a > b     |
-    +-------+-----------+
-    | -1    | a < b     |
-    +-------+-----------+
+    +-----------+---------------+
+    | Value     | Condition     |
+    +-----------+---------------+
+    | ``0``     | ``a == b``    |
+    +-----------+---------------+
+    | ``1``     | ``a > b``     |
+    +-----------+---------------+
+    | ``-1``    | ``a < b``     |
+    +-----------+---------------+
 
 
 :mochidef:`concat(lst[, ...])`:
 
-    Concatenates all given array-like arguments and returns
+    Concatenates all given ``Array``-like arguments and returns
     a new ``Array``::
 
         var lst = concat(["1","3","5"], ["2","4","6"]);
@@ -444,13 +467,13 @@ Functions
     :mochiref:`MochiKit.Iter.count`.
 
 
-:mochidef:`extend(self, obj[, skip])`:
+:mochidef:`extend(self, obj, skip=0)`:
 
-    Mutate an array by extending it with an array-like obj,
-    starting with the "skip" index of obj. If null is given
+    Mutate the array ``self`` by extending it with an ``Array``-like
+    ``obj``, starting from index ``skip``. If ``null`` is given
     as the initial array, a new one will be created.
 
-    This mutates *and returns* the given array, be warned.
+    This mutates *and returns* ``self``, be warned.
 
 
 :mochidef:`evalJSON(aJSONString)`:
@@ -578,7 +601,7 @@ Functions
 
     Return an ``Array`` of the property names of an object
     (in the order determined by ``for propName in obj``).
-    
+
 
 :mochidef:`listMax(lst)`:
 
@@ -601,17 +624,17 @@ Functions
     as :mochiref:`listMin(lst)`.
 
     If ``which == 1`` then it will return the largest
-    element of the array-like lst. This is also available
+    element of the ``Array``-like ``lst``. This is also available
     as :mochiref:`listMax(list)`.
 
 
 :mochidef:`map(fn, lst[, ...])`:
 
-    Return a new array composed of the results of ``fn(x)`` for every ``x`` in
-    ``lst``.
+    Return a new array composed of the results of ``fn(x)`` for every ``x``
+    in ``lst``.
 
-    If fn is ``null``, and only one sequence argument is given the identity
-    function is used.
+    If ``fn`` is ``null``, and only one sequence argument is given the
+    identity function is used.
     
         :mochiref:`map(null, lst)` -> ``lst.slice()``;
 
@@ -637,7 +660,7 @@ Functions
 :mochidef:`method(self, func, ...)`:
 
     Alternate form of :mochiref:`bind` that takes the object before the
-    function. These two are equivalent::
+    function. These two calls are equivalent::
 
         bind("method", myobject)
         method(myobject, "method")
@@ -645,9 +668,9 @@ Functions
 
 :mochidef:`nameFunctions(namespace)`:
 
-    Given a namespace with a ``NAME`` property, find all functions in it and
-    give them nice ``NAME`` properties too (for use with :mochiref:`repr`).
-    e.g.::
+    Given a ``namespace`` (object or function) with a ``NAME`` property,
+    find all methods in it and give them nice ``NAME`` properties too
+    (for use with :mochiref:`repr`). e.g.::
 
         namespace = {
             NAME: "Awesome",
@@ -659,8 +682,8 @@ Functions
 
 :mochidef:`objEqual(a, b)`:
 
-    Compare the equality of two objects.
-
+    Return ``true`` if ``compare(a, b) == 0``
+    
 
 :mochidef:`nodeWalk(node, visitor)`:
 
@@ -676,20 +699,22 @@ Functions
         The visitor function, will be called as
         ``visitor(node)``, and should return an ``Array``-like
         of nodes to be searched next (e.g. ``node.childNodes``).
+        Leaf nodes may return ``null`` or ``undefined``.
 
 
 :mochidef:`objMax(obj[, ...])`:
 
-    Return the maximum object out of the given arguments. This is similar to
-    :mochiref:`listMax`, except is uses the arguments instead of a given
-    ``Array``-like.
+    Return the maximum object according to :mochiref:`compare` out
+    of the given arguments. This is similar to :mochiref:`listMax`,
+    except is uses the arguments instead of a given ``Array``-like.
         
 
 :mochidef:`objMin(obj[, ...])`:
 
-    Return the minimum object out of the given arguments. This is similar
-    to :mochiref:`listMin`, except it uses the arguments instead of a given
-    ``Array``-like.
+    Return the minimum object according to :mochiref:`compare`
+    out of the given arguments. This is similar to
+    :mochiref:`listMin`, except it uses the arguments instead of a
+    given ``Array``-like.
 
 
 :mochidef:`operator`:
@@ -700,106 +725,111 @@ Functions
 
     Unary Logic Operators:
 
-    +----------------+----------------------+-------------------------------+
-    | Operator       | Implementation       | Description                   |
-    +================+======================+===============================+
-    | truth(a)       | !!a                  | Logical truth                 |
-    +----------------+----------------------+-------------------------------+
-    | lognot(a)      | !a                   | Logical not                   |
-    +----------------+----------------------+-------------------------------+
-    | identity(a)    | a                    | Logical identity              |
-    +----------------+----------------------+-------------------------------+
+        +--------------------+--------------------------+-------------------+
+        | Operator           | Implementation           | Description       |
+        +====================+==========================+===================+
+        | ``truth(a)``       | ``!!a``                  | Logical truth     |
+        +--------------------+--------------------------+-------------------+
+        | ``lognot(a)``      | ``!a``                   | Logical not       |
+        +--------------------+--------------------------+-------------------+
+        | ``identity(a)``    | ``a``                    | Logical identity  |
+        +--------------------+--------------------------+-------------------+
+
 
 
     Unary Math Operators: 
 
-    +----------------+----------------------+-------------------------------+
-    | Operator       | Implementation       | Description                   |
-    +================+======================+===============================+
-    | not(a)         | ~a                   | Bitwise not                   |
-    +----------------+----------------------+-------------------------------+
-    | neg(a)         | -a                   | Negation                      |
-    +----------------+----------------------+-------------------------------+
+        +--------------------+--------------------------+---------------+
+        | Operator           | Implementation           | Description   |
+        +====================+==========================+===============+
+        | ``not(a)``         | ``~a``                   | Bitwise not   |
+        +--------------------+--------------------------+---------------+
+        | ``neg(a)``         | ``-a``                   | Negation      |
+        +--------------------+--------------------------+---------------+
+
 
 
     Binary Operators:
 
-    +----------------+----------------------+-------------------------------+
-    | Operator       | Implementation       | Description                   |
-    +================+======================+===============================+
-    | add(a, b)      | a + b                | Addition                      |
-    +----------------+----------------------+-------------------------------+
-    | sub(a, b)      | a - b                | Subtraction                   |
-    +----------------+----------------------+-------------------------------+
-    | div(a, b)      | a / b                | Division                      |
-    +----------------+----------------------+-------------------------------+
-    | mod(a, b)      | a % b                | Modulus                       |
-    +----------------+----------------------+-------------------------------+
-    | mul(a, b)      | a * b                | Multiplication                |
-    +----------------+----------------------+-------------------------------+
-    | and(a, b)      | a & b                | Bitwise and                   |
-    +----------------+----------------------+-------------------------------+
-    | or(a, b)       | a | b                | Bitwise or                    |
-    +----------------+----------------------+-------------------------------+
-    | xor(a, b)      | a ^ b                | Bitwise exclusive or          |
-    +----------------+----------------------+-------------------------------+
-    | lshift(a, b)   | a << b               | Bitwise left shift            |
-    +----------------+----------------------+-------------------------------+
-    | rshift(a, b)   | a >> b               | Bitwise signed right shift    |
-    +----------------+----------------------+-------------------------------+
-    | zrshfit(a, b)  | a >>> b              | Bitwise unsigned right shift  |
-    +----------------+----------------------+-------------------------------+
+        +-------------------+-------------------+-------------------------------+
+        | Operator          | Implementation    | Description                   |
+        +===================+===================+===============================+
+        | ``add(a, b)``     | ``a + b``         | Addition                      |
+        +-------------------+-------------------+-------------------------------+
+        | ``sub(a, b)``     | ``a - b``         | Subtraction                   |
+        +-------------------+-------------------+-------------------------------+
+        | ``div(a, b)``     | ``a / b``         | Division                      |
+        +-------------------+-------------------+-------------------------------+
+        | ``mod(a, b)``     | ``a % b``         | Modulus                       |
+        +-------------------+-------------------+-------------------------------+
+        | ``mul(a, b)``     | ``a * b``         | Multiplication                |
+        +-------------------+-------------------+-------------------------------+
+        | ``and(a, b)``     | ``a & b``         | Bitwise and                   |
+        +-------------------+-------------------+-------------------------------+
+        | ``or(a, b)``      | ``a | b``         | Bitwise or                    |
+        +-------------------+-------------------+-------------------------------+
+        | ``xor(a, b)``     | ``a ^ b``         | Bitwise exclusive or          |
+        +-------------------+-------------------+-------------------------------+
+        | ``lshift(a, b)``  | ``a << b``        | Bitwise left shift            |
+        +-------------------+-------------------+-------------------------------+
+        | ``rshift(a, b)``  | ``a >> b``        | Bitwise signed right shift    |
+        +-------------------+-------------------+-------------------------------+
+        | ``zrshfit(a, b)`` | ``a >>> b``       | Bitwise unsigned right shift  |
+        +-------------------+-------------------+-------------------------------+
+
 
 
     Built-in Comparators:
 
-    +----------------+----------------------+-------------------------------+
-    | Operator       | Implementation       | Description                   |
-    +================+======================+===============================+
-    | eq(a, b)       | a == b               | Equals                        |
-    +----------------+----------------------+-------------------------------+
-    | ne(a, b)       | a != b               | Not equals                    |
-    +----------------+----------------------+-------------------------------+
-    | gt(a, b)       | a > b                | Greater than                  |
-    +----------------+----------------------+-------------------------------+
-    | ge(a, b)       | a >= b               | Greater than or equal to      |
-    +----------------+----------------------+-------------------------------+
-    | lt(a, b)       | a < b                | Less than                     |
-    +----------------+----------------------+-------------------------------+
-    | le(a, b)       | a <= b               | Less than or equal to         |
-    +----------------+----------------------+-------------------------------+
+        +---------------+-------------------+---------------------------+
+        | Operator      | Implementation    | Description               |
+        +===============+===================+===========================+
+        | ``eq(a, b)``  | ``a == b``        | Equals                    |
+        +---------------+-------------------+---------------------------+
+        | ``ne(a, b)``  | ``a != b``        | Not equals                |
+        +---------------+-------------------+---------------------------+
+        | ``gt(a, b)``  | ``a > b``         | Greater than              |
+        +---------------+-------------------+---------------------------+
+        | ``ge(a, b)``  | ``a >= b``        | Greater than or equal to  |
+        +---------------+-------------------+---------------------------+
+        | ``lt(a, b)``  | ``a < b``         | Less than                 |
+        +---------------+-------------------+---------------------------+
+        | ``le(a, b)``  | ``a <= b``        | Less than or equal to     |
+        +---------------+-------------------+---------------------------+
+
 
 
     Extended Comparators (uses :mochiref:`compare`):
 
-    +----------------+----------------------+-------------------------------+
-    | Operator       | Implementation       | Description                   |
-    +================+======================+===============================+
-    | ceq(a, b)      | compare(a, b) == 0   | Equals                        |
-    +----------------+----------------------+-------------------------------+
-    | cne(a, b)      | compare(a, b) != 0   | Not equals                    |
-    +----------------+----------------------+-------------------------------+
-    | cgt(a, b)      | compare(a, b) == 1   | Greater than                  |
-    +----------------+----------------------+-------------------------------+
-    | cge(a, b)      | compare(a, b) != -1  | Greater than or equal to      |
-    +----------------+----------------------+-------------------------------+
-    | clt(a, b)      | compare(a, b) == -1  | Less than                     |
-    +----------------+----------------------+-------------------------------+
-    | cle(a, b)      | compare(a, b) != 1   | Less than or equal to         |
-    +----------------+----------------------+-------------------------------+
+        +---------------+---------------------------+---------------------------+
+        | Operator      | Implementation            | Description               |
+        +===============+===========================+===========================+
+        | ``ceq(a, b)`` | ``compare(a, b) == 0``    | Equals                    |
+        +---------------+---------------------------+---------------------------+
+        | ``cne(a, b)`` | ``compare(a, b) != 0``    | Not equals                |
+        +---------------+---------------------------+---------------------------+
+        | ``cgt(a, b)`` | ``compare(a, b) == 1``    | Greater than              |
+        +---------------+---------------------------+---------------------------+
+        | ``cge(a, b)`` | ``compare(a, b) != -1``   | Greater than or equal to  |
+        +---------------+---------------------------+---------------------------+
+        | ``clt(a, b)`` | ``compare(a, b) == -1``   | Less than                 |
+        +---------------+---------------------------+---------------------------+
+        | ``cle(a, b)`` | ``compare(a, b) != 1``    | Less than or equal to     |
+        +---------------+---------------------------+---------------------------+
+
 
 
     Binary Logical Operators:
 
-    +----------------+----------------------+-------------------------------+
-    | Operator       | Implementation       | Description                   |
-    +================+======================+===============================+
-    | logand(a, b)   | a && b               | Logical and                   |
-    +----------------+----------------------+-------------------------------+
-    | logor(a, b)    | a || b               | Logical or                    |
-    +----------------+----------------------+-------------------------------+
-    | contains(a, b) | b in a               | Has property (note order)     |
-    +----------------+----------------------+-------------------------------+
+        +-----------------------+-------------------+---------------------------+
+        | Operator              | Implementation    | Description               |
+        +=======================+===================+===========================+
+        | ``logand(a, b)``      | ``a && b``        | Logical and               |
+        +-----------------------+-------------------+---------------------------+
+        | ``logor(a, b)``       | ``a || b``        | Logical or                |
+        +-----------------------+-------------------+---------------------------+
+        | ``contains(a, b)``    | ``b in a``        | Has property (note order) |
+        +-----------------------+-------------------+---------------------------+
 
 
 :mochidef:`parseQueryString(encodedString[, useArrays=false])`:
@@ -838,15 +868,15 @@ Functions
     See the documentation for :mochiref:`bind` for more details about
     this facility.
     
-.. note:: This could be used to implement, but is NOT currying.
+    This could be used to implement, but is NOT currying.
  
 
 :mochidef:`queryString(names, values)`:
 
-    Creates a URL query string from a pair of array-like objects representing
-    ``names`` and ``values``. Each name=value pair will be URL encoded by
-    :mochiref:`urlEncode`. name=value pairs with a value of ``undefined`` or
-    ``null`` will be skipped. e.g.::
+    Creates a URL query string from a pair of ``Array``-like objects
+    representing ``names`` and ``values``. Each name=value pair will
+    be URL encoded by :mochiref:`urlEncode`. name=value pairs with a
+    value of ``undefined`` or ``null`` will be skipped. e.g.::
 
         var keys = ["foo", "bar"];
         var values = ["value one", "two"];
@@ -877,54 +907,62 @@ Functions
 
     Register a comparator for use with :mochiref:`compare`.
 
-    ``name`` should be a unique identifier describing the comparator.
+    ``name``:
+        unique identifier describing the comparator.
 
-    ``check`` is a ``function(a, b)`` that returns ``true`` if ``a`` and ``b``
-    can be compared with ``comparator``.
+    ``check``:
+        ``function(a, b)`` that returns ``true`` if ``a`` and ``b``
+        can be compared with ``comparator``.
 
-    ``comparator`` is a ``function(a, b)`` that returns:
+    ``comparator``:
+        ``function(a, b)`` that returns:
 
-    +-------+-----------+
-    | Value | Condition |
-    +-------+-----------+
-    | 0     | a == b    |
-    +-------+-----------+
-    | 1     | a > b     |
-    +-------+-----------+
-    | -1    | a < b     |
-    +-------+-----------+
+        +-------+-----------+
+        | Value | Condition |
+        +-------+-----------+
+        | 0     | a == b    |
+        +-------+-----------+
+        | 1     | a > b     |
+        +-------+-----------+
+        | -1    | a < b     |
+        +-------+-----------+
 
-    ``comparator`` is guaranteed to only be called if ``check(a, b)``
-    returns a ``true`` value.
+        ``comparator`` is guaranteed to only be called if ``check(a, b)``
+        returns a ``true`` value.
 
-    If ``override`` is ``true``, then it will be made the
-    highest precedence comparator. Otherwise, the lowest.
+    ``override``:
+        if ``true``, then this will be made the highest precedence comparator.
+        Otherwise, the lowest.
 
 
 :mochidef:`registerJSON(name, check, simplifier[, override])`:
 
     Register a simplifier function for use with :mochiref:`serializeJSON`.
 
-    ``name`` should be a unique identifier describing the serialization.
+    ``name``:
+        unique identifier describing the serialization.
 
-    ``check`` is a ``function(obj)`` that returns ``true`` if ``obj`` can
-    can be simplified for serialization by ``simplifier``.
+    ``check``:
+        ``function(obj)`` that returns ``true`` if ``obj`` can
+        can be simplified for serialization by ``simplifier``.
 
-    ``simplifier`` is a ``function(obj)`` that returns a simpler object that
-    can be further serialized by :mochiref:`serializeJSON`. For example,
-    you could simplify Date-like objects to ISO 8601 timestamp strings with
-    the following simplifier::
+    ``simplifier``:
+        ``function(obj)`` that returns a simpler object that
+        can be further serialized by :mochiref:`serializeJSON`. For example,
+        you could simplify ``Date``-like objects to ISO 8601 timestamp
+        strings with the following simplifier::
 
-        var simplifyDateAsISO = function (obj) {
-            return toISOTimestamp(obj, true);
-        };
-        registerJSON("DateLike", isDateLike, simplifyDateAsISO);
+            var simplifyDateAsISO = function (obj) {
+                return toISOTimestamp(obj, true);
+            };
+            registerJSON("DateLike", isDateLike, simplifyDateAsISO);
         
-    ``simplifier`` is guaranteed to only be called if ``check(obj)``
-    returns a ``true`` value.
+        ``simplifier`` is guaranteed to only be called if ``check(obj)``
+        returns a ``true`` value.
 
-    If ``override`` is ``true``, then it will be made the
-    highest precedence comparator. Otherwise, the lowest.
+    ``override``:
+        if ``true``, then this will be made the highest precedence comparator.
+        Otherwise, the lowest.
 
 
 :mochidef:`registerRepr(name, check, wrap[, override])`:
@@ -938,9 +976,9 @@ Functions
     repr, otherwise it will be used as the lowest.
 
 
-:mochidef:`repr(o)`:
+:mochidef:`repr(obj)`:
 
-    Return a programmer representation for an object. See the
+    Return a programmer representation for ``obj``. See the
     `Programmer Representation`_ overview for more information about this
     function.
 
@@ -957,7 +995,7 @@ Functions
 
 :mochidef:`serializeJSON(anObject)`:
 
-    Serialize any object in the JSON [1]_ format, see `JSON Serialization`_
+    Serialize ``anObject`` in the JSON [1]_ format, see `JSON Serialization`_
     for the coercion rules. For unserializable objects (functions that do
     not have an adapter, ``__json__`` method, or ``json`` method), this will
     return ``undefined``.
@@ -968,13 +1006,13 @@ Functions
 
 :mochidef:`setdefault(self, obj[, ...])`:
 
-    Mutate an object by adding all properties from other object(s)
+    Mutate ``self`` by adding all properties from other object(s)
     that it does not already have set.
     
     If ``self`` is ``null``, a new ``Object`` instance will be created
     and returned.
 
-    This mutates *and returns* the given ``self``, be warned.
+    This mutates *and returns* ``self``, be warned.
 
 
 :mochidef:`typeMatcher(typ[, ...])`:
@@ -986,13 +1024,14 @@ Functions
 
 :mochidef:`update(self, obj[, ...])`:
 
-    Mutate an object by replacing its key:value pairs with those
+    Mutate ``self`` by replacing its key:value pairs with those
     from other object(s). Key:value pairs from later objects will
     overwrite those from earlier objects.
     
-    If null is given as the initial object, a new one will be created.
+    If ``self`` is ``null``, a new ``Object`` instance will be created
+    and returned.
 
-    This mutates *and returns* the given object, be warned.
+    This mutates *and returns* ``self``, be warned.
 
     A version of this function that creates a new object is available
     as :mochiref:`merge(a, b[, ...])`
@@ -1000,19 +1039,20 @@ Functions
 
 :mochidef:`updatetree(self, obj[, ...])`:
 
-    Mutate an object by replacing its key:value pairs with those
+    Mutate ``self`` by replacing its key:value pairs with those
     from other object(s). If a given key has an object value in
     both ``self`` and ``obj``, then this function will be called
     recursively, updating instead of replacing that object.
 
-    If null is given as the initial object, a new one will be created.
+    If ``self`` is ``null``, a new ``Object`` instance will be created
+    and returned.
 
-    This mutates *and returns* the given object, be warned.
+    This mutates *and returns* ``self``, be warned.
     
 
 :mochidef:`urlEncode(unencoded)`:
 
-    Converts a string into a URL-encoded string. Note that, in this
+    Converts ``unencoded`` into a URL-encoded string. In this
     implementation, spaces are converted to %20 instead of "+". e.g.::
  
         assert( URLencode("1+2=2") == "1%2B2%3D2");

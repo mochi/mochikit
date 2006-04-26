@@ -307,13 +307,11 @@ callbacks.</p>
 <a name="fn-deferred.prototype.callback"></a>
 <a class="mochidef reference" href="#fn-deferred.prototype.callback">Deferred.prototype.callback([result])</a>:</p>
 <blockquote>
-Begin the callback sequence with a non-<tt class="docutils literal"><span class="pre">Error</span></tt> result. Result
-may be any value except for a <a class="mochiref reference" href="#fn-deferred">Deferred</a>.</blockquote>
-<div class="note">
-<p class="first admonition-title">Note</p>
-<p class="last">Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
+<p>Begin the callback sequence with a non-<tt class="docutils literal"><span class="pre">Error</span></tt> result. Result
+may be any value except for a <a class="mochiref reference" href="#fn-deferred">Deferred</a>.</p>
+<p>Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
 be called exactly once on a <a class="mochiref reference" href="#fn-deferred">Deferred</a>.</p>
-</div>
+</blockquote>
 <p>
 <a name="fn-deferred.prototype.cancel"></a>
 <a class="mochidef reference" href="#fn-deferred.prototype.cancel">Deferred.prototype.cancel()</a>:</p>
@@ -329,17 +327,15 @@ with <a class="mochiref reference" href="#fn-cancellederror">CancelledError</a>.
 <a name="fn-deferred.prototype.errback"></a>
 <a class="mochidef reference" href="#fn-deferred.prototype.errback">Deferred.prototype.errback([result])</a>:</p>
 <blockquote>
-Begin the callback sequence with an error result.
+<p>Begin the callback sequence with an error result.
 Result may be any value except for a <a class="mochiref reference" href="#fn-deferred">Deferred</a>,
 but if <tt class="docutils literal"><span class="pre">!(result</span> <span class="pre">instanceof</span> <span class="pre">Error)</span></tt>, it will be wrapped
-with <a class="mochiref reference" href="#fn-genericerror">GenericError</a>.</blockquote>
-<div class="note">
-<p class="first admonition-title">Note</p>
-<p class="last">Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
+with <a class="mochiref reference" href="#fn-genericerror">GenericError</a>.</p>
+<p>Either <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt> should
 be called exactly once on a 
 <a name="fn-deferred"></a>
 <a class="mochidef reference" href="#fn-deferred">Deferred</a>.</p>
-</div>
+</blockquote>
 <p>
 <a name="fn-deferredlock"></a>
 <a class="mochidef reference" href="#fn-deferredlock">DeferredLock()</a>:</p>

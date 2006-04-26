@@ -68,44 +68,25 @@ creating DOM elements, you've been wasting your damn time. Get with it!</p>
 <h2><a id="dom-coercion-rules" name="dom-coercion-rules">DOM Coercion Rules</a></h2>
 <p>In order of precedence, <a class="mochiref reference" href="#fn-createdom">createDOM</a> coerces given arguments to DOM
 nodes using the following rules:</p>
-<ol class="arabic">
-<li><dl class="first docutils">
-<dt>Functions are called with a <tt class="docutils literal"><span class="pre">this</span></tt> of the parent</dt>
-<dd><p class="first last">node and their return value is subject to the
-following rules (even this one).</p>
-</dd>
-</dl>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">undefined</span></tt> and <tt class="docutils literal"><span class="pre">null</span></tt> are ignored.</p>
-</li>
-<li><dl class="first docutils">
-<dt>Iterables (see <a class="mochiref reference" href="Iter.html">MochiKit.Iter</a>) are flattened</dt>
-<dd><p class="first last">(as if they were passed in-line as nodes) and each
-return value is subject to all of these rules.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>Values that look like DOM nodes (objects with a</dt>
-<dd><p class="first last"><tt class="docutils literal"><span class="pre">.nodeType</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt>) are <tt class="docutils literal"><span class="pre">.appendChild</span></tt>'ed to the created
-DOM fragment.</p>
-</dd>
-</dl>
-</li>
-<li><p class="first">Strings are wrapped up with <tt class="docutils literal"><span class="pre">document.createTextNode</span></tt></p>
-</li>
-<li><dl class="first docutils">
-<dt>Objects that are not strings are run through the <tt class="docutils literal"><span class="pre">domConverters</span></tt></dt>
-<dd><p class="first last"><a class="mochiref reference" href="Base.html#fn-adapterregistry">MochiKit.Base.AdapterRegistry</a>
+<ol class="arabic simple">
+<li>Functions are called with a <tt class="docutils literal"><span class="pre">this</span></tt> of the parent
+node and their return value is subject to the
+following rules (even this one).</li>
+<li><tt class="docutils literal"><span class="pre">undefined</span></tt> and <tt class="docutils literal"><span class="pre">null</span></tt> are ignored.</li>
+<li>Iterables (see <a class="mochiref reference" href="Iter.html">MochiKit.Iter</a>) are flattened
+(as if they were passed in-line as nodes) and each
+return value is subject to all of these rules.</li>
+<li>Values that look like DOM nodes (objects with a
+<tt class="docutils literal"><span class="pre">.nodeType</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt>) are <tt class="docutils literal"><span class="pre">.appendChild</span></tt>'ed to the created
+DOM fragment.</li>
+<li>Strings are wrapped up with <tt class="docutils literal"><span class="pre">document.createTextNode</span></tt></li>
+<li>Objects that are not strings are run through the <tt class="docutils literal"><span class="pre">domConverters</span></tt>
+<a class="mochiref reference" href="Base.html#fn-adapterregistry">MochiKit.Base.AdapterRegistry</a>
 (see <a class="mochiref reference" href="#fn-registerdomconverter">registerDOMConverter</a>).
 The value returned by the adapter is subject to these same rules (e.g.
 adapters are allowed to return a string, which will be coerced into a
-text node).</p>
-</dd>
-</dl>
-</li>
-<li><p class="first">If no adapter is available, <tt class="docutils literal"><span class="pre">.toString()</span></tt> is used to create a text node.</p>
-</li>
+text node).</li>
+<li>If no adapter is available, <tt class="docutils literal"><span class="pre">.toString()</span></tt> is used to create a text node.</li>
 </ol>
 </div>
 <div class="section">
