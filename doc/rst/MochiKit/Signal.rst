@@ -303,12 +303,12 @@ DOM Custom Event Object Reference
     Properties for ``'onmouseup'``, ``'onmousedown'``, ``'onclick'``, and
     ``'ondblclick'``:
 
-        -   ``mouse().button`` returns {left, right, middle} where each 
+        -   ``mouse().button`` returns ``{left, right, middle}`` where each 
             property is ``true`` if the mouse button was pressed, ``false`` 
             otherwise.
 
     Known browser bugs:
-
+    
         -   Current versions of Safari won't signal ``'ondblclick'`` when
             attached via ``connect()`` (`Safari Bug 7790`_).
 
