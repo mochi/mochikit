@@ -279,14 +279,10 @@ MochiKit.DragAndDrop.Draggables = {
 
     register: function (draggable) {
         if (this.drags.length === 0) {
-            var bind = MochiKit.Base.bind;
             var conn = MochiKit.Signal.connect;
-            this.eventMouseUp = bind(this.endDrag, this); 
-            this.eventMouseMove = bind(this.updateDrag, this); 
-            this.eventKeypress = bind(this.keyPress, this); 
-            conn(document, 'onmouseup', this.eventMouseUp); 
-            conn(document, 'onmousemove', this.eventMouseMove); 
-            conn(document, 'onkeypress', this.eventKeypress); 
+            this.eventMouseUp = conn(document, 'onmouseup', this, this.endDrag); 
+            this.eventMouseMove = conn(document, 'onmousemove', this, this.updateDrag); 
+            this.eventKeypress = conn(document, 'onkeypress', this, this.keyPress); 
         }
         this.drags.push(draggable);
     },
@@ -297,9 +293,9 @@ MochiKit.DragAndDrop.Draggables = {
         }, this.drags);
         if (this.drags.length === 0) {
             var disc = MochiKit.Signal.disconnect
-            disc(document, 'onmouseup', this.eventMouseUp); 
-            disc(document, 'onmousemove', this.eventMouseMove); 
-            disc(document, 'onkeypress', this.eventKeypress);
+            disc(this.eventMouseUp); 
+            disc(this.eventMouseMove); 
+            disc(this.eventKeypress);
         }
     },
 
@@ -443,14 +439,13 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         this.options = options;
         this.dragging = false;
 
-        this.eventMouseDown = MochiKit.Base.bind(this.initDrag, this); 
-        MochiKit.Signal.connect(this.handle, 'onmousedown', this.eventMouseDown); 
+        this.eventMouseDown = MochiKit.Signal.connect(this.handle,
+                              'onmousedown', this, this.initDrag); 
         MochiKit.DragAndDrop.Draggables.register(this);
     },
 
     destroy: function () {
-        MochiKit.Signal.disconnect(this.handle, 'onmousedown',
-                                   this.eventMouseDown);
+        MochiKit.Signal.disconnect(this.eventMouseDown);
         MochiKit.DragAndDrop.Draggables.unregister(this);
     },
 
