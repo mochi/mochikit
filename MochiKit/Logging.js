@@ -277,16 +277,12 @@ if (typeof(printfire) == "undefined" &&
         typeof(document) != "undefined" && document.createEvent &&
         typeof(dispatchEvent) != "undefined") {
     // FireBug really should be less lame about this global function
-    function printfire () {
-        try {
-            printfire.args = arguments;
-            var ev = document.createEvent("Events");
-            ev.initEvent("printfire", false, true);
-            dispatchEvent(ev);
-        } catch (e) {
-            delete printfire;
-        }
-    }
+    printfire  = function () {
+        printfire.args = arguments;
+        var ev = document.createEvent("Events");
+        ev.initEvent("printfire", false, true);
+        dispatchEvent(ev);
+    };
 }
 
 MochiKit.Logging.__new__();
