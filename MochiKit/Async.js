@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Async 1.3
+MochiKit.Async 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -29,7 +29,7 @@ if (typeof(MochiKit.Async) == 'undefined') {
 }
 
 MochiKit.Async.NAME = "MochiKit.Async";
-MochiKit.Async.VERSION = "1.3";
+MochiKit.Async.VERSION = "1.4";
 MochiKit.Async.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
@@ -276,67 +276,72 @@ MochiKit.Base.update(MochiKit.Async, {
         return self.XMLHttpRequest();
     },
 
+    _nothing: function () {},
+
+    _xhr_onreadystatechange: function (d) {
+        // MochiKit.Logging.logDebug('this.readyState', this.readyState);
+        if (this.readyState == 4) {
+            // IE SUCKS
+            try {
+                this.onreadystatechange = null;
+            } catch (e) {
+                try {
+                    this.onreadystatechange = MochiKit.Async._nothing;
+                } catch (e) {
+                }
+            }
+            var status = null;
+            try {
+                status = this.status;
+                if (!status && MochiKit.Base.isNotEmpty(this.responseText)) {
+                    // 0 or undefined seems to mean cached or local
+                    status = 304;
+                }
+            } catch (e) {
+                // pass
+                // MochiKit.Logging.logDebug('error getting status?', repr(items(e)));
+            }
+            //  200 is OK, 304 is NOT_MODIFIED
+            if (status == 200 || status == 304) { // OK
+                d.callback(this);
+            } else {
+                var err = new self.XMLHttpRequestError(this, "Request failed");
+                if (err.number) {
+                    // XXX: This seems to happen on page change
+                    d.errback(err);
+                } else {
+                    // XXX: this seems to happen when the server is unreachable
+                    d.errback(err);
+                }
+            }
+        }
+    },
+
+    _xhr_canceller: function (req) {
+        // IE SUCKS
+        try {
+            req.onreadystatechange = null;
+        } catch (e) {
+            try {
+                req.onreadystatechange = MochiKit.Async._nothing;
+            } catch (e) {
+            }
+        }
+        req.abort();
+    },
+
+    
     sendXMLHttpRequest: function (req, /* optional */ sendContent) {
         if (sendContent === null) {
             sendContent = "";
         }
 
-        var canceller = function () {
-            // IE SUCKS
-            try {
-                req.onreadystatechange = null;
-            } catch (e) {
-                try {
-                    req.onreadystatechange = function () {};
-                } catch (e) {
-                }
-            }
-            req.abort();
-        };
-
+        var m = MochiKit.Base;
         var self = MochiKit.Async;
-        var d = new self.Deferred(canceller);
+        var d = new self.Deferred(m.partial(self._xhr_canceller, req));
         
-        var onreadystatechange = function () {
-            // MochiKit.Logging.logDebug('req.readyState', req.readyState);
-            if (req.readyState == 4) {
-                // IE SUCKS
-                try {
-                    req.onreadystatechange = null;
-                } catch (e) {
-                    try {
-                        req.onreadystatechange = function () {};
-                    } catch (e) {
-                    }
-                }
-                var status = null;
-                try {
-                    status = req.status;
-                    if (!status && MochiKit.Base.isNotEmpty(req.responseText)) {
-                        // 0 or undefined seems to mean cached or local
-                        status = 304;
-                    }
-                } catch (e) {
-                    // pass
-                    // MochiKit.Logging.logDebug('error getting status?', repr(items(e)));
-                }
-                //  200 is OK, 304 is NOT_MODIFIED
-                if (status == 200 || status == 304) { // OK
-                    d.callback(req);
-                } else {
-                    var err = new self.XMLHttpRequestError(req, "Request failed");
-                    if (err.number) {
-                        // XXX: This seems to happen on page change
-                        d.errback(err);
-                    } else {
-                        // XXX: this seems to happen when the server is unreachable
-                        d.errback(err);
-                    }
-                }
-            }
-        };
         try {
-            req.onreadystatechange = onreadystatechange;
+            req.onreadystatechange = m.partial(self._xhr_onreadystatechange, d);
             req.send(sendContent);
         } catch (e) {
             try {

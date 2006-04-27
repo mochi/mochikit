@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Signal 1.3
+MochiKit.Signal 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -39,7 +39,7 @@ if (typeof(MochiKit.Signal) == 'undefined') {
 }
 
 MochiKit.Signal.NAME = 'MochiKit.Signal';
-MochiKit.Signal.VERSION = '1.3';
+MochiKit.Signal.VERSION = '1.4';
 
 MochiKit.Signal._observers = [];
 

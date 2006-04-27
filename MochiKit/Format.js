@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Format 1.3
+MochiKit.Format 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -21,7 +21,7 @@ if (typeof(MochiKit.Format) == 'undefined') {
 }
 
 MochiKit.Format.NAME = "MochiKit.Format";
-MochiKit.Format.VERSION = "1.3";
+MochiKit.Format.VERSION = "1.4";
 MochiKit.Format.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
