@@ -50,19 +50,34 @@ function load_request(href, div, doc) {
         showLink,
         functionIndex
     );
+    return [showLink, toggleFunc];
 };
 
 function global_index() {
     var distList = getElementsByTagAndClassName("ul")[0];
     var bullets = getElementsByTagAndClassName("li", null, distList);
+    var lst = [];
     for (var i = 0; i < bullets.length; i++) {
         var tag = bullets[i];
         var firstLink = getElementsByTagAndClassName("a", "mochiref", tag)[0];
         var href = getNodeAttribute(firstLink, "href");
         var div = DIV(null, "[\u2026]");
         appendChildNodes(tag, BR(), div);
-        var d = doXHTMLRequest(href).addCallback(load_request, href, div);
+        lst.push(doXHTMLRequest(href).addCallback(load_request, href, div));
     }
+    var dl = new gatherResults(lst).addCallback(function (res) {
+        var toggleFunc = function (e) {
+            for (var i = 0; i < res.length; i++) {
+                var item = res[i];
+                if (!hasElementClass(item[0], "invisible")) {
+                    item[1]();
+                }
+            }
+        };
+        var node = A({"class": "force-pointer"}, "[click to expand all]");
+        distList.parentNode.insertBefore(P(null, node), distList);
+        connect(node, "onclick", toggleFunc);
+    });
 };
 
 function spider_doc() {

@@ -452,16 +452,12 @@ Functions
         A ``new`` :mochiref:`Deferred()`
 
 
-:mochidef:`gatherResults(deferredList)`:
+:mochidef:`gatherResults(deferreds)`:
 
-    Return an Array of only results from the given :mochiref:`DeferredList`
-    callback result.
-
-    ``deferredList``:
-        The callback result of a :mochiref:`DeferredList`
-
-    *returns*:
-        An Array of results
+    A convenience function that returns a :mochiref:`DeferredList`
+    from the given ``Array`` of :mochiref:`Deferred` instances
+    that will callback with an ``Array`` of just results when
+    they're available, or errback on the first array.
 
 
 :mochidef:`getXMLHttpRequest()`:
