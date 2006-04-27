@@ -1,6 +1,6 @@
 /***
     
-MochiKit.MockDOM 1.3
+MochiKit.MockDOM 1.3.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
     
@@ -16,7 +16,7 @@ if (typeof(MochiKit.MockDOM) == "undefined") {
 }
 
 MochiKit.MockDOM.NAME = "MochiKit.MockDOM";
-MochiKit.MockDOM.VERSION = "1.3";
+MochiKit.MockDOM.VERSION = "1.3.1";
 
 MochiKit.MockDOM.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
