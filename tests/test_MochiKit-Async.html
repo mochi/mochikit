@@ -344,18 +344,43 @@ try {
     ok( true, "synchronous test suite finished!");
 
     var t = (new Date().getTime());
-    var endtest = 0;
+    SimpleTest.waitForExplicitFinish();
     checkCallLater = function (originalTime) {
         is(originalTime, t, "argument passed in OK");
         is(arguments.length, 1, "argument count right");
-        if (endtest) {
-            SimpleTest.finish();
-        }
-        endtest++;
     };
-    SimpleTest.waitForExplicitFinish();
-    callLater(0.25, checkCallLater, t);
-    wait(0.25, t).addCallback(checkCallLater);
+    var lock = new DeferredLock();
+    withLock = function (msg) {
+        var cb = partial.apply(null, extend(null, arguments, 1));
+        var d = lock.acquire().addCallback(cb);
+        d.addErrback(ok, false, msg);
+        d.addCallback(function () {
+            ok(true, msg);
+            lock.release();
+        });
+        return d;
+    }
+    withLock("callLater", function () {
+        return callLater(0.05, checkCallLater, t);
+    });
+    withLock("wait", function () {
+        return wait(0.05, t).addCallback(checkCallLater);
+    });
+    withLock("loadJSONDoc", function () {
+        var d = loadJSONDoc("test_MochiKit-Async.json");
+        d.addCallback(function (doc) {
+            is(doc.passed,  true, "loadJSONDoc passed");
+        });
+        d.addErrback(function (doc) {
+            ok(false, "loadJSONDoc failed");
+        });
+        return d;
+    });
+    lock.acquire().addCallback(function () {
+        ok(true, "async suite finished");
+        SimpleTest.finish();
+    });
+            
     
 } catch (err) {
     
@@ -370,6 +395,7 @@ try {
         }
     }
     ok ( false, s );
+    SimpleTest.finish();
 
 }
 </script>
