@@ -1,5 +1,6 @@
 2006-XX-XX      v1.3.1 (bug fix release)
 
+- Internet Explorer fix in MochiKit.Logging (printfire exception)
 - Internet Explorer XMLHttpRequest object leak fixed in MochiKit.Async
 
 2006-04-26      v1.3 "warp zone"
