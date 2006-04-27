@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<title>MochiKit.DragAndDrop - drag and drop elements with MochiKit</title>
+
+<link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
+<script type="text/javascript" src="../../../packed/MochiKit/MochiKit.js"></script>
+<script type="text/javascript" src="../../js/toc.js"></script>
+</head>
+<body>
+<div class="document">
+<div class="section">
+<h1><a id="name" name="name">Name</a></h1>
+<p>MochiKit.DragAndDrop - drag and drop elements with MochiKit</p>
+</div>
+<div class="section">
+<h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
+<pre class="literal-block">
+// Create a draggable
+new Draggable('mydrag');
+
+// Create a corresponding droppable
+new Droppable('mydrop', {
+    accept: 'drag-class',
+    ondrop: function (element) {
+        alert('You dropped on me ' + element.id);
+    }
+});
+</pre>
+</div>
+<div class="section">
+<h1><a id="description" name="description">Description</a></h1>
+<p>MochiKit.DragAndDrop enables you the power of dragging elements through your
+pages, for richer interfaces.</p>
+</div>
+<div class="section">
+<h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
+<ul class="simple">
+<li><a class="mochiref reference" href="Base.html">MochiKit.Base</a></li>
+<li><a class="mochiref reference" href="Iter.html">MochiKit.Iter</a></li>
+<li><a class="mochiref reference" href="DOM.html">MochiKit.DOM</a></li>
+<li><a class="mochiref reference" href="Color.html">MochiKit.Color</a></li>
+<li><a class="mochiref reference" href="Effect.html">MochiKit.Effect</a></li>
+<li><a class="mochiref reference" href="Signal.html">MochiKit.Signal</a></li>
+</ul>
+</div>
+<div class="section">
+<h1><a id="overview" name="overview">Overview</a></h1>
+<p>The implementation was adapted from <a class="reference" href="http://script.aculo.us">Scriptaculous</a>.</p>
+</div>
+<div class="section">
+<h1><a id="api-reference" name="api-reference">API Reference</a></h1>
+<div class="section">
+<h2><a id="functions" name="functions">Functions</a></h2>
+<p>
+<a name="fn-draggable"></a>
+<a class="mochidef reference" href="#fn-draggable">Draggable(element[, options])</a>:</p>
+<blockquote>
+<p>A object that can be drag with the mouse.</p>
+<p>You have the following options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>handle</td>
+<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
+</tr>
+<tr><td>starteffect</td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.Effect.Opacity</span></tt></td>
+</tr>
+<tr><td>reverteffect</td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.Effect.Move</span></tt></td>
+</tr>
+<tr><td>endeffect</td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.Effect.Opacity</span></tt></td>
+</tr>
+<tr><td>zindex</td>
+<td><tt class="docutils literal"><span class="pre">1000</span></tt></td>
+</tr>
+<tr><td>revert</td>
+<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
+</tr>
+<tr><td>snap</td>
+<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
+</tr>
+<tr><td>selectclass</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>onselect</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>ondeselect</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>ghosting</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>change</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>
+<a name="fn-droppable"></a>
+<a class="mochidef reference" href="#fn-droppable">Droppable(element[, options])</a>:</p>
+<blockquote>
+<p>A object where you can drop a draggable.</p>
+<p>You have the following options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>greedy</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
+</tr>
+<tr><td>hoverclass</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>activeclass</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>containment</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>accept</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>hoverfunc</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>onhover</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>onactive</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+<tr><td>ondrop</td>
+<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+</div>
+</div>
+<div class="section">
+<h1><a id="authors" name="authors">Authors</a></h1>
+<ul class="simple">
+<li>Thomas Herve &lt;<a class="reference" href="mailto:therve&#64;gmail.com">therve&#64;gmail.com</a>&gt;</li>
+<li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
+<li>Originally adapted from Script.aculo.us &lt;<a class="reference" href="http://script.aculo.us/">http://script.aculo.us/</a>&gt;</li>
+</ul>
+</div>
+<div class="section">
+<h1><a id="copyright" name="copyright">Copyright</a></h1>
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is dual-licensed
+free software; you can redistribute it and/or modify it under the terms of the
+<a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
+<p>Portions adapted from <a class="reference" href="http://script.aculo.us">Scriptaculous</a> are available under the terms of the
+<a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
+</div>
+</div>
+
+</body>
+</html>

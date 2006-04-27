@@ -17,6 +17,12 @@ MochiKit - makes JavaScript suck a bit less
 - :mochiref:`MochiKit.LoggingPane` - interactive :mochiref:`MochiKit.Logging`
   pane
 - :mochiref:`MochiKit.Signal` - simple universal event handling
+- :mochiref:`MochiKit.Visual` - visual effects (only roundClass, roundElement in 1.3)
+
+In development for MochiKit 1.4:
+
+- :mochiref:`MochiKit.DragAndDrop` - drag and drop
+- :mochiref:`MochiKit.Sortable` - sortable
 - :mochiref:`MochiKit.Visual` - visual effects
 
 
