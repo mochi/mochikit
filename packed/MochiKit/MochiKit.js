@@ -2258,7 +2258,7 @@ catch(e){
 if(_290==200||_290==304){
 d.callback(this);
 }else{
-var err=new self.XMLHttpRequestError(this,"Request failed");
+var err=new MochiKit.Async.XMLHttpRequestError(this,"Request failed");
 if(err.number){
 d.errback(err);
 }else{
