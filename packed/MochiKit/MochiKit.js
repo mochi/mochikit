@@ -2286,7 +2286,7 @@ var m=MochiKit.Base;
 var self=MochiKit.Async;
 var d=new self.Deferred(m.partial(self._xhr_canceller,req));
 try{
-req.onreadystatechange=m.partial(self._xhr_onreadystatechange,d);
+req.onreadystatechange=m.bind(self._xhr_onreadystatechange,req,d);
 req.send(_293);
 }
 catch(e){
