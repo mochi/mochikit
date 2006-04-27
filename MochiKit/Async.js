@@ -305,7 +305,7 @@ MochiKit.Base.update(MochiKit.Async, {
             if (status == 200 || status == 304) { // OK
                 d.callback(this);
             } else {
-                var err = new self.XMLHttpRequestError(this, "Request failed");
+                var err = new MochiKit.Async.XMLHttpRequestError(this, "Request failed");
                 if (err.number) {
                     // XXX: This seems to happen on page change
                     d.errback(err);
