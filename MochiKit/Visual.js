@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Visual 1.3
+MochiKit.Visual 1.3.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -36,7 +36,7 @@ if (typeof(MochiKit.Visual) == "undefined") {
 }
 
 MochiKit.Visual.NAME = "MochiKit.Visual";
-MochiKit.Visual.VERSION = "1.3";
+MochiKit.Visual.VERSION = "1.3.1";
 
 MochiKit.Visual.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
