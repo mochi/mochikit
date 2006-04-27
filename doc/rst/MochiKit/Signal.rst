@@ -207,7 +207,7 @@ Signal API Reference
     ``disconnectAll(src)`` removes all signals from src.
     
     ``disconnectAll(src, 'onmousedown', 'mySignal')`` will remove all
-    ``'onmousedown'`` and 'mySignal' signals from src.
+    ``'onmousedown'`` and ``'mySignal'`` signals from src.
 
 
 
