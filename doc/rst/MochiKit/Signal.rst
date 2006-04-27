@@ -267,7 +267,7 @@ DOM Custom Event Object Reference
 
 :mochidef:`key()`:
 
-    Returns {code, string}.
+    Returns ``{code, string}``.
     
     Use ``'onkeydown'`` and ``'onkeyup'`` handlers to detect control
     characters such as ``'KEY_F1'``. Use the ``'onkeypressed'`` handler to
