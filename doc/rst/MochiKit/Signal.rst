@@ -202,6 +202,15 @@ Signal API Reference
     works.
 
 
+:mochidef:`disconnectAll(src[, signal, ...])`:
+
+    ``disconnectAll(src)`` removes all signals from src.
+    
+    ``disconnectAll(src, 'onmousedown', 'mySignal')`` will remove all
+    ``'onmousedown'`` and 'mySignal' signals from src.
+
+
+
 :mochidef:`signal(src, signal, ...)`:
 
     This will signal a signal, passing whatever additional parameters on to
