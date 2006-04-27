@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- Added expand all link to the documentation index
 - Resolved potential XMLHttpRequest leak in IE
 
 2006-04-26      v1.3 "warp zone"
