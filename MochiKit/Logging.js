@@ -278,10 +278,14 @@ if (typeof(printfire) == "undefined" &&
         typeof(dispatchEvent) != "undefined") {
     // FireBug really should be less lame about this global function
     function printfire () {
-        printfire.args = arguments;
-        var ev = document.createEvent("Events");
-        ev.initEvent("printfire", false, true);
-        dispatchEvent(ev);
+        try {
+            printfire.args = arguments;
+            var ev = document.createEvent("Events");
+            ev.initEvent("printfire", false, true);
+            dispatchEvent(ev);
+        } catch (e) {
+            delete printfire;
+        }
     }
 }
 

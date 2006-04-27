@@ -1644,10 +1644,15 @@ m.nameFunctions(this);
 };
 if(typeof (printfire)=="undefined"&&typeof (document)!="undefined"&&document.createEvent&&typeof (dispatchEvent)!="undefined"){
 function printfire(){
+try{
 printfire.args=arguments;
 var ev=document.createEvent("Events");
 ev.initEvent("printfire",false,true);
 dispatchEvent(ev);
+}
+catch(e){
+delete printfire;
+}
 }
 }
 MochiKit.Logging.__new__();
