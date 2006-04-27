@@ -202,6 +202,15 @@ Signal API Reference
     works.
 
 
+:mochidef:`disconnectAll(src[, signal, ...])`:
+
+    ``disconnectAll(src)`` removes all signals from src.
+    
+    ``disconnectAll(src, 'onmousedown', 'mySignal')`` will remove all
+    ``'onmousedown'`` and ``'mySignal'`` signals from src.
+
+
+
 :mochidef:`signal(src, signal, ...)`:
 
     This will signal a signal, passing whatever additional parameters on to
@@ -258,7 +267,7 @@ DOM Custom Event Object Reference
 
 :mochidef:`key()`:
 
-    Returns {code, string}.
+    Returns ``{code, string}``.
     
     Use ``'onkeydown'`` and ``'onkeyup'`` handlers to detect control
     characters such as ``'KEY_F1'``. Use the ``'onkeypressed'`` handler to
@@ -294,12 +303,12 @@ DOM Custom Event Object Reference
     Properties for ``'onmouseup'``, ``'onmousedown'``, ``'onclick'``, and
     ``'ondblclick'``:
 
-        -   ``mouse().button`` returns {left, right, middle} where each 
+        -   ``mouse().button`` returns ``{left, right, middle}`` where each 
             property is ``true`` if the mouse button was pressed, ``false`` 
             otherwise.
 
     Known browser bugs:
-
+    
         -   Current versions of Safari won't signal ``'ondblclick'`` when
             attached via ``connect()`` (`Safari Bug 7790`_).
 
