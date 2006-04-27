@@ -25,6 +25,9 @@ roundClass(&quot;h1&quot;, null);
 
 // round the top left corner of the element with the id &quot;title&quot;
 roundElement(&quot;title&quot;, {corners: &quot;tl&quot;});
+
+// Add an fade effect to an element
+fade('myelement');
 </pre>
 </div>
 <div class="section">
@@ -42,10 +45,11 @@ roundElement(&quot;title&quot;, {corners: &quot;tl&quot;});
 </div>
 <div class="section">
 <h1><a id="overview" name="overview">Overview</a></h1>
-<p>At this time, MochiKit.Visual provides one visual effect: rounded corners
-for your HTML elements. These rounded corners are created completely
+<p>MochiKit.Visual provides different visual effect: rounded corners and
+animations for your HTML elements. Rounded corners are created completely
 through CSS manipulations and require no external images or style sheets.
-This implementation was adapted from <a class="reference" href="http://www.openrico.org">Rico</a>.</p>
+This implementation was adapted from <a class="reference" href="http://www.openrico.org">Rico</a>. Dynamic effects are ported from
+<a class="reference" href="http://script.aculo.us">Scriptaculous</a>.</p>
 </div>
 <div class="section">
 <h1><a id="api-reference" name="api-reference">API Reference</a></h1>
@@ -56,8 +60,8 @@ This implementation was adapted from <a class="reference" href="http://www.openr
 <a class="mochidef reference" href="#fn-roundclass">roundClass(tagName[, className[, options]])</a>:</p>
 <blockquote>
 Rounds all of the elements that match the <tt class="docutils literal"><span class="pre">tagName</span></tt> and <tt class="docutils literal"><span class="pre">className</span></tt>
-specifiers, using the options provided. <tt class="docutils literal"><span class="pre">tagName</span></tt> or <tt class="docutils literal"><span class="pre">className</span></tt> can
-be <tt class="docutils literal"><span class="pre">null</span></tt> to match all tags or classes. For more information about
+specifiers, using the options provided.  <tt class="docutils literal"><span class="pre">tagName</span></tt> or <tt class="docutils literal"><span class="pre">className</span></tt> can
+be <tt class="docutils literal"><span class="pre">null</span></tt> to match all tags or classes.  For more information about
 the options, see the <a class="mochiref reference" href="#fn-roundelement">roundElement</a> function.</blockquote>
 <p>
 <a name="fn-roundelement"></a>
@@ -117,6 +121,303 @@ Choices are:</p>
 together to produce the border color.</dd>
 </dl>
 </blockquote>
+<p>
+<a name="fn-toggle"></a>
+<a class="mochidef reference" href="#fn-toggle">toggle(element[, effect[, options]])</a>:</p>
+<blockquote>
+<p>Toggle an element between visible and invisible state using an effect.</p>
+<p>effect:</p>
+<blockquote>
+One of the visual pairs to use, between 'slide', 'blind', 'appear',
+and 'size'.</blockquote>
+</blockquote>
+<p>
+<a name="fn-tagifytext"></a>
+<a class="mochidef reference" href="#fn-tagifytext">tagifyText(element[, tagifyStyle])</a>:</p>
+<blockquote>
+<p>Transform a node text into nodes containing one letter by tag.</p>
+<p>tagifyStyle:</p>
+<blockquote>
+style to apply to character nodes, default to 'position: relative'.</blockquote>
+</blockquote>
+<p>
+<a name="fn-multiple"></a>
+<a class="mochidef reference" href="#fn-multiple">multiple(elements, effect[, options])</a>:</p>
+<blockquote>
+Launch the same effect on a list of elements.</blockquote>
+</div>
+<div class="section">
+<h2><a id="basic-effects-classes" name="basic-effects-classes">Basic Effects classes</a></h2>
+<p>
+<a name="fn-defaultoptions"></a>
+<a class="mochidef reference" href="#fn-defaultoptions">DefaultOptions</a>:</p>
+<blockquote>
+<p>Default options for all Effect creation.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>transition</td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.Visual.Transitions.sinoidal</span></tt></td>
+</tr>
+<tr><td>duration</td>
+<td><tt class="docutils literal"><span class="pre">1.0</span></tt></td>
+</tr>
+<tr><td>fps</td>
+<td><tt class="docutils literal"><span class="pre">25.0</span></tt></td>
+</tr>
+<tr><td>sync</td>
+<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
+</tr>
+<tr><td>from</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+</tr>
+<tr><td>to</td>
+<td><tt class="docutils literal"><span class="pre">1.0</span></tt></td>
+</tr>
+<tr><td>delay</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+</tr>
+<tr><td>queue</td>
+<td><tt class="docutils literal"><span class="pre">'parallel'</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>
+<a name="fn-base"></a>
+<a class="mochidef reference" href="#fn-base">Base()</a>:</p>
+<blockquote>
+<p>Base class to all effects. Define a basic looping service, use it for
+creating new effects.</p>
+<p>You can override the methods <tt class="docutils literal"><span class="pre">setup</span></tt>, <tt class="docutils literal"><span class="pre">update</span></tt> and <tt class="docutils literal"><span class="pre">finish`</span></tt>.</p>
+</blockquote>
+<p>
+<a name="fn-parallel"></a>
+<a class="mochidef reference" href="#fn-parallel">Parallel(effects [, options])</a>:</p>
+<blockquote>
+Launch effects in parallel.</blockquote>
+<p>
+<a name="fn-opacity"></a>
+<a class="mochidef reference" href="#fn-opacity">Opacity(element [, options])</a>:</p>
+<blockquote>
+<p>Change the opacity of an element progressively.</p>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="57%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>from</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+</tr>
+<tr><td>to</td>
+<td><tt class="docutils literal"><span class="pre">1.0</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>
+<a name="fn-move"></a>
+<a class="mochidef reference" href="#fn-move">Move(element [, options])</a>:</p>
+<blockquote>
+<p>Change the position of an element in small steps, creating a moving effect.</p>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>x</td>
+<td><tt class="docutils literal"><span class="pre">0</span></tt></td>
+</tr>
+<tr><td>y</td>
+<td><tt class="docutils literal"><span class="pre">0</span></tt></td>
+</tr>
+<tr><td>position</td>
+<td><tt class="docutils literal"><span class="pre">'relative'</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>
+<a name="fn-scale"></a>
+<a class="mochidef reference" href="#fn-scale">Scale(element, percent [, options])</a>:</p>
+<blockquote>
+<p>Change the size of an element.</p>
+<p>percent:</p>
+<blockquote>
+Final wanted size in percent of current size. The size will be reduced
+if the value is between 0 and 1, and raised if the value is above 1.</blockquote>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="43%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>scaleX</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
+</tr>
+<tr><td>scaleY</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
+</tr>
+<tr><td>scaleContent</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
+</tr>
+<tr><td>scaleFromCenter</td>
+<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
+</tr>
+<tr><td>scaleMode</td>
+<td><tt class="docutils literal"><span class="pre">'box'</span></tt></td>
+</tr>
+<tr><td>scaleFrom</td>
+<td><tt class="docutils literal"><span class="pre">100.0</span></tt></td>
+</tr>
+<tr><td>scaleTo</td>
+<td><tt class="docutils literal"><span class="pre">percent</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>
+<a name="fn-highlight"></a>
+<a class="mochidef reference" href="#fn-highlight">Highlight(element [, options])</a>:</p>
+<blockquote>
+<p>Highlight an element, flashing with one color.</p>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>startcolor</td>
+<td><tt class="docutils literal"><span class="pre">'#ffff99'</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>
+<a name="fn-scrollto"></a>
+<a class="mochidef reference" href="#fn-scrollto">ScrollTo(element [, options])</a>:</p>
+<blockquote>
+Scroll the window to the position of the given element.</blockquote>
+</div>
+<div class="section">
+<h2><a id="combination-effects" name="combination-effects">Combination Effects</a></h2>
+<p>
+<a name="fn-fade"></a>
+<a class="mochidef reference" href="#fn-fade">fade(element [, options])</a>:</p>
+<blockquote>
+<p>Change the opacity of an element until making it disappear.</p>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>from</td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.DOM.getOpacity(element)</span> <span class="pre">||</span> <span class="pre">1.0</span></tt></td>
+</tr>
+<tr><td>to</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>
+<a name="fn-appear"></a>
+<a class="mochidef reference" href="#fn-appear">appear(element [, options])</a>:</p>
+<blockquote>
+<p>Slowly show an invisible element.</p>
+<p>options:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>from</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+</tr>
+<tr><td>to</td>
+<td><tt class="docutils literal"><span class="pre">1.0</span></tt></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>
+<a name="fn-puff"></a>
+<a class="mochidef reference" href="#fn-puff">puff(element [, options])</a>:</p>
+<blockquote>
+Make an element double size, and then make it disappear.</blockquote>
+<p>
+<a name="fn-blindup"></a>
+<a class="mochidef reference" href="#fn-blindup">blindUp(element [, options])</a>:</p>
+<blockquote>
+Blind an element up, changing its vertical size to 0.</blockquote>
+<p>
+<a name="fn-blinddown"></a>
+<a class="mochidef reference" href="#fn-blinddown">blindDown(element [, options])</a>:</p>
+<blockquote>
+Blind an element down, restoring its vertical size.</blockquote>
+<p>
+<a name="fn-switchoff"></a>
+<a class="mochidef reference" href="#fn-switchoff">switchOff(element [, options])</a>:</p>
+<blockquote>
+A switch-off like effect, making the element disappear.</blockquote>
+<p>
+<a name="fn-dropout"></a>
+<a class="mochidef reference" href="#fn-dropout">dropOut(element [, options])</a>:</p>
+<blockquote>
+Make the element fall and fade.</blockquote>
+<p>
+<a name="fn-shake"></a>
+<a class="mochidef reference" href="#fn-shake">shake(element [, options])</a>:</p>
+<blockquote>
+Shake an element from left to right.</blockquote>
+<p>
+<a name="fn-slidedown"></a>
+<a class="mochidef reference" href="#fn-slidedown">slideDown(element [, options])</a>:</p>
+<blockquote>
+Slide an element down.</blockquote>
+<p>
+<a name="fn-slideup"></a>
+<a class="mochidef reference" href="#fn-slideup">slideUp(element [, options])</a>:</p>
+<blockquote>
+Slide an element up.</blockquote>
+<p>
+<a name="fn-squish"></a>
+<a class="mochidef reference" href="#fn-squish">squish(element [, options])</a>:</p>
+<blockquote>
+Reduce the horizontal and vertical sizes at the same time, using the
+top left corner.</blockquote>
+<p>
+<a name="fn-grow"></a>
+<a class="mochidef reference" href="#fn-grow">grow(element [, options])</a>:</p>
+<blockquote>
+Restore the size of an element.</blockquote>
+<p>
+<a name="fn-shrink"></a>
+<a class="mochidef reference" href="#fn-shrink">shrink(element [, options])</a>:</p>
+<blockquote>
+Shrink an element to its center.</blockquote>
+<p>
+<a name="fn-pulsate"></a>
+<a class="mochidef reference" href="#fn-pulsate">pulsate(element [, options])</a>:</p>
+<blockquote>
+Switch an element between appear and fade.</blockquote>
+<p>
+<a name="fn-fold"></a>
+<a class="mochidef reference" href="#fn-fold">fold(element [, options])</a>:</p>
+<blockquote>
+Reduce first the vertical size, and then the horizontal size.</blockquote>
 </div>
 </div>
 <div class="section">
@@ -145,16 +446,20 @@ together to produce the border color.</dd>
 <ul class="simple">
 <li>Kevin Dangoor &lt;<a class="reference" href="mailto:dangoor&#64;gmail.com">dangoor&#64;gmail.com</a>&gt;</li>
 <li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
-<li>Originally adapted from Rico &lt;<a class="reference" href="http://openrico.org/">http://openrico.org/</a>&gt; (though little remains)</li>
+<li>Thomas Herve &lt;<a class="reference" href="mailto:therve&#64;gmail.com">therve&#64;gmail.com</a>&gt;</li>
+<li>Round corners originally adapted from Rico &lt;<a class="reference" href="http://openrico.org/">http://openrico.org/</a>&gt; (though little remains)</li>
+<li>Effects originally adapted from Script.aculo.us &lt;<a class="reference" href="http://script.aculo.us/">http://script.aculo.us/</a>&gt;</li>
 </ul>
 </div>
 <div class="section">
 <h1><a id="copyright" name="copyright">Copyright</a></h1>
-<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;. This program is dual-licensed
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is dual-licensed
 free software; you can redistribute it and/or modify it under the terms of the
 <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
 <p>Portions adapted from <a class="reference" href="http://www.openrico.org">Rico</a> are available under the terms of the
 <a class="reference" href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License, Version 2.0</a>.</p>
+<p>Portions adapted from <a class="reference" href="http://script.aculo.us">Scriptaculous</a> are available under the terms of the
+<a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
 </div>
 </div>
 
