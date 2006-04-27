@@ -248,10 +248,7 @@ try {
         Test DeferredList 
     */ 
      
-    var callList = new Array(3); 
-    callList[0] = new Deferred(); 
-    callList[1] = new Deferred(); 
-    callList[2] = new Deferred(); 
+    var callList = [new Deferred(), new Deferred(), new Deferred()];
     callList[0].addCallback(increment); 
     callList[1].addCallback(increment); 
     callList[2].addCallback(increment); 
@@ -269,10 +266,7 @@ try {
         Test fireOnOneCallback 
     */ 
     
-    var callList2 = new Array(3); 
-    callList2[0] = new Deferred(); 
-    callList2[1] = new Deferred(); 
-    callList2[2] = new Deferred(); 
+    var callList2 = [new Deferred(), new Deferred(), new Deferred()];
     callList2[0].addCallback(increment); 
     callList2[1].addCallback(increment); 
     callList2[2].addCallback(increment); 
@@ -289,10 +283,7 @@ try {
         Test fireOnOneErrback 
     */ 
   
-    var callList3 = new Array(3); 
-    callList3[0] = new Deferred(); 
-    callList3[1] = new Deferred(); 
-    callList3[2] = new Deferred(); 
+    var callList3 = [new Deferred(), new Deferred(), new Deferred()];
     callList3[0].addCallback(increment); 
     callList3[1].addCallback(throwStuff); 
     callList3[2].addCallback(increment); 
@@ -309,10 +300,7 @@ try {
         Test consumeErrors 
     */ 
  
-    var callList4 = new Array(3); 
-    callList4[0] = new Deferred(); 
-    callList4[1] = new Deferred(); 
-    callList4[2] = new Deferred(); 
+    var callList4 = [new Deferred(), new Deferred(), new Deferred()];
     callList4[0].addCallback(increment); 
     callList4[1].addCallback(throwStuff); 
     callList4[2].addCallback(increment); 
@@ -329,10 +317,7 @@ try {
         Test gatherResults
     */
 
-    var callList5 = new Array(3); 
-    callList5[0] = new Deferred(); 
-    callList5[1] = new Deferred(); 
-    callList5[2] = new Deferred(); 
+    var callList5 = [new Deferred(), new Deferred(), new Deferred()];
     callList5[0].addCallback(increment); 
     callList5[1].addCallback(increment); 
     callList5[2].addCallback(increment); 
