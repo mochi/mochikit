@@ -1,3 +1,7 @@
+2006-XX-XX      v1.4
+
+- Resolved potential XMLHttpRequest leak in IE
+
 2006-04-26      v1.3 "warp zone"
 
 - IMPORTANT: Renamed MochiKit.Base.forward to forwardCall (for export)
