@@ -180,6 +180,14 @@ To disconnect a signal, pass its ident returned by <a class="mochiref reference"
 This is similar to how the browser's <tt class="docutils literal"><span class="pre">setTimeout</span></tt> and <tt class="docutils literal"><span class="pre">clearTimeout</span></tt>
 works.</blockquote>
 <p>
+<a name="fn-disconnectall"></a>
+<a class="mochidef reference" href="#fn-disconnectall">disconnectAll(src[, signal, ...])</a>:</p>
+<blockquote>
+<p><tt class="docutils literal"><span class="pre">disconnectAll(src)</span></tt> removes all signals from src.</p>
+<p><tt class="docutils literal"><span class="pre">disconnectAll(src,</span> <span class="pre">'onmousedown',</span> <span class="pre">'mySignal')</span></tt> will remove all
+<tt class="docutils literal"><span class="pre">'onmousedown'</span></tt> and <tt class="docutils literal"><span class="pre">'mySignal'</span></tt> signals from src.</p>
+</blockquote>
+<p>
 <a name="fn-signal"></a>
 <a class="mochidef reference" href="#fn-signal">signal(src, signal, ...)</a>:</p>
 <blockquote>
@@ -237,7 +245,7 @@ Shortcut that calls <tt class="docutils literal"><span class="pre">stopPropagati
 <a name="fn-key"></a>
 <a class="mochidef reference" href="#fn-key">key()</a>:</p>
 <blockquote>
-<p>Returns {code, string}.</p>
+<p>Returns <tt class="docutils literal"><span class="pre">{code,</span> <span class="pre">string}</span></tt>.</p>
 <p>Use <tt class="docutils literal"><span class="pre">'onkeydown'</span></tt> and <tt class="docutils literal"><span class="pre">'onkeyup'</span></tt> handlers to detect control
 characters such as <tt class="docutils literal"><span class="pre">'KEY_F1'</span></tt>. Use the <tt class="docutils literal"><span class="pre">'onkeypressed'</span></tt> handler to
 detect &quot;printable&quot; characters, such as <tt class="docutils literal"><span class="pre">'é'</span></tt>.</p>
@@ -272,7 +280,7 @@ all browsers.</li>
 <tt class="docutils literal"><span class="pre">'ondblclick'</span></tt>:</p>
 <blockquote>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">mouse().button</span></tt> returns {left, right, middle} where each
+<li><tt class="docutils literal"><span class="pre">mouse().button</span></tt> returns <tt class="docutils literal"><span class="pre">{left,</span> <span class="pre">right,</span> <span class="pre">middle}</span></tt> where each
 property is <tt class="docutils literal"><span class="pre">true</span></tt> if the mouse button was pressed, <tt class="docutils literal"><span class="pre">false</span></tt>
 otherwise.</li>
 </ul>
