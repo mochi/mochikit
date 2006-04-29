@@ -2748,7 +2748,7 @@ return null;
 if(typeof (node.nodeType)!="undefined"&&node.nodeType>0){
 return node;
 }
-if(typeof (node)=="number"||typeof (node)=="bool"){
+if(typeof (node)=="number"||typeof (node)=="boolean"){
 node=node.toString();
 }
 if(typeof (node)=="string"){
