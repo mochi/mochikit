@@ -332,7 +332,7 @@ MochiKit.Base.update(MochiKit.Async, {
 
     
     sendXMLHttpRequest: function (req, /* optional */ sendContent) {
-        if (sendContent === null) {
+        if (typeof(sendContent) == "undefined" || sendContent === null) {
             sendContent = "";
         }
 
