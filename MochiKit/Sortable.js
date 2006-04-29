@@ -86,7 +86,7 @@ MochiKit.Sortable.Sortable = {
     Manage sortables. Mainly use the create function to add a sortable.
 
     ***/
-    sortables: new Array(),
+    sortables: [],
 
     options: function (element){
         var i = MochiKit.Iter;
