@@ -2279,7 +2279,7 @@ catch(e){
 }
 req.abort();
 },sendXMLHttpRequest:function(req,_293){
-if(_293===null){
+if(typeof (_293)=="undefined"||_293===null){
 _293="";
 }
 var m=MochiKit.Base;
