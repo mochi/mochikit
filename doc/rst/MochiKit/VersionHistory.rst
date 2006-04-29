@@ -1,9 +1,12 @@
 2006-XX-XX      v1.4
 
-- Fixed sendXMLHttpRequest sendContent regression
 - Added expand all link to the documentation index
-- Fixed IE exception during native logging
-- Resolved potential XMLHttpRequest leak in IE
+
+2006-04-29      v1.3.1 (bug fix release)
+
+- Fix sendXMLHttpRequest sendContent regression
+- Internet Explorer fix in MochiKit.Logging (printfire exception)
+- Internet Explorer XMLHttpRequest object leak fixed in MochiKit.Async
 
 2006-04-26      v1.3 "warp zone"
 
