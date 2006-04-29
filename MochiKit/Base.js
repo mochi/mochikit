@@ -518,7 +518,7 @@ MochiKit.Base.update(MochiKit.Base, {
         MochiKit.Base.comparatorRegistry.register(name, check, comparator, override);
     },
 
-    _primitives: {'bool': true, 'string': true, 'number': true},
+    _primitives: {'boolean': true, 'string': true, 'number': true},
 
     compare: function (a, b) {
         if (a == b) {
