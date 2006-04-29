@@ -111,9 +111,8 @@ MochiKit.Base.update(MochiKit.DOM, {
             }
             MochiKit.DOM.setStyle(element, {opacity: value});
             if (MochiKit.Base.isIE()) {
-             MochiKit.DOM.setStyle(element,
-                 {filter: MochiKit.DOM.getStyle(element, 'filter').replace(/alpha\([^\)]*\)/gi, '') +
-                                     'alpha(opacity='+value*100+')' });
+                MochiKit.DOM.setStyle(element,
+                    {filter: MochiKit.DOM.getStyle(element, 'filter').replace(/alpha\([^\)]*\)/gi, '') + 'alpha(opacity=' + value * 100 + ')' });
             }
         }
     },

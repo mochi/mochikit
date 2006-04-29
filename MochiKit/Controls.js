@@ -42,7 +42,7 @@ MochiKit.Base.update(MochiKit.Base, {
 
     flatten: function (array) {
         return MochiKit.Base.map(function (item) {
-            if (item.constructor == Array) {
+            if (item instanceof Array) {
                 return MochiKit.Base.flatten(item);
             } else {
                 return item;
@@ -73,7 +73,7 @@ MochiKit.Base.update(MochiKit.Base, {
 MochiKit.Form = {
     serialize: function (form) {
         var elements = MochiKit.Form.getElements(form);
-        var queryComponents = new Array();
+        var queryComponents = [];
 
         for (var i = 0; i < elements.length; i++) {
             var queryComponent = MochiKit.Form.serializeElement(elements[i]);
@@ -87,7 +87,7 @@ MochiKit.Form = {
 
     getElements: function (form) {
         form = MochiKit.DOM.getElement(form);
-        var elements = new Array();
+        var elements = [];
 
         for (tagName in MochiKit.Form.Serializers) {
             var tagElements = form.getElementsByTagName(tagName);
@@ -109,7 +109,7 @@ MochiKit.Form = {
                 return;
             }
 
-            if (parameter[1].constructor != Array) {
+            if (!(parameter[1] instanceof Array)) {
                 parameter[1] = [parameter[1]];
             }
 
@@ -163,7 +163,7 @@ MochiKit.Form.Serializers = {
     },
 
     selectMany: function (element) {
-        var value = new Array();
+        var value = [];
         for (var i = 0; i < element.length; i++) {
             var opt = element.options[i];
             if (opt.selected) {

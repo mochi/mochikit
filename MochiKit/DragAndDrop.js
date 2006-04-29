@@ -368,8 +368,7 @@ MochiKit.DragAndDrop.Draggables = {
         var b = MochiKit.Base;
         var self = MochiKit.DragAndDrop.Draggables;
         b.map(function (eventName) {
-            self[eventName + 'Count'] =
-            b.filter(function (o) {
+            self[eventName + 'Count'] = b.filter(function (o) {
                 return o[eventName];
             }, self.observers).length;
         }, ['onStart', 'onEnd', 'onDrag']);
@@ -463,10 +462,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         // abort on form elements, fixes a Firefox issue
         var src = event.target;
         if (src.tagName && (
-            src.tagName == 'INPUT' ||
-            src.tagName == 'SELECT' ||
-            src.tagName == 'OPTION' ||
-            src.tagName == 'BUTTON' ||
+            src.tagName == 'INPUT' || src.tagName == 'SELECT' ||
+            src.tagName == 'OPTION' || src.tagName == 'BUTTON' ||
             src.tagName == 'TEXTAREA')) {
             return;
         }
@@ -692,7 +689,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     },
 
     startScrolling: function (speed) {
-        this.scrollSpeed = [speed[0] * this.options.scrollSpeed, speed[1] * this.options.scrollSpeed];
+        this.scrollSpeed = [speed[0] * this.options.scrollSpeed,
+                            speed[1] * this.options.scrollSpeed];
         this.lastScrolled = new Date();
         this.scrollInterval = setInterval(MochiKit.Base.bind(this.scroll, this), 10);
     },

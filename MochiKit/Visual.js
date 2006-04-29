@@ -123,7 +123,7 @@ MochiKit.Visual._RoundCorners.prototype = {
         var borderValue = "1px solid " + this._borderColor(bgColor);
         var borderL = "border-left: "  + borderValue;
         var borderR = "border-right: " + borderValue;
-        var style   = "style='" + borderL + ";" + borderR +  "'";
+        var style = "style='" + borderL + ";" + borderR +  "'";
         el.innerHTML = "<div " + style + ">" + el.innerHTML + "</div>";
     },
 
@@ -269,7 +269,7 @@ MochiKit.Visual._RoundCorners.prototype = {
             style.marginRight = "0px";
         } else if (whichSide == "right") {
             style.marginRight = marginSize;
-            style.marginLeft  = "0px";
+            style.marginLeft = "0px";
         } else {
             style.marginLeft = marginSize;
             style.marginRight = marginSize;
@@ -288,7 +288,7 @@ MochiKit.Visual._RoundCorners.prototype = {
             style.borderRightWidth = "0px";
         } else if (whichSide == "right") {
             style.borderRightWidth = borderSize;
-            style.borderLeftWidth  = "0px";
+            style.borderLeftWidth = "0px";
         } else {
             style.borderLeftWidth = borderSize;
             style.borderRightWidth = borderSize;
@@ -418,8 +418,7 @@ MochiKit.Visual.multiple = function (elements, effect, /* optional */options) {
 
     ***/
     options = MochiKit.Base.update({
-        speed: 0.1,
-        delay: 0.0
+        speed: 0.1, delay: 0.0
     }, options || {});
     var masterDelay = options.delay;
     var index = 0;
@@ -544,10 +543,11 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
 
         effect.startOn += timestamp;
         effect.finishOn += timestamp;
-        if (!effect.options.queue.limit || (this.effects.length < effect.options.queue.limit)) {
+        if (!effect.options.queue.limit ||
+            this.effects.length < effect.options.queue.limit) {
             this.effects.push(effect);
         }
-                      
+
         if (!this.interval) {
             this.interval = setInterval(MochiKit.Base.bind(this.loop, this),
                                         40);
@@ -573,7 +573,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
 });
 
 MochiKit.Visual.Queues = {
-    instances: new Array(),
+    instances: {},
 
     get: function (queueName) {
         if (typeof(queueName) != 'string') {
@@ -816,8 +816,8 @@ MochiKit.Base.update(MochiKit.Visual.Move.prototype, {
 
         if (this.options.mode == 'absolute') {
             // absolute movement, so we need to calc deltaX and deltaY
-            this.options.x = this.options.x - this.originalLeft;
-            this.options.y = this.options.y - this.originalTop;
+            this.options.x -= this.originalLeft;
+            this.options.y -= this.originalTop;
         }
         if (originalDisplay == 'none') {
             s.visibility = originalVisibility;
@@ -957,7 +957,8 @@ MochiKit.Visual.Highlight = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, MochiKit.Visual.Base.prototype);
+MochiKit.Base.update(MochiKit.Visual.Highlight.prototype,
+                     MochiKit.Visual.Base.prototype);
 
 MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
     /***
@@ -997,7 +998,8 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
                 MochiKit.Color.Color.fromBackground(this.element).toHexString();
         }
         if(!this.options.restorecolor) {
-            this.options.restorecolor = d.getStyle(this.element, 'background-color');
+            this.options.restorecolor = d.getStyle(this.element,
+                                                   'background-color');
         }
         // init color calculations
         this._base = b.map(b.bind(function (i) {
@@ -1033,7 +1035,8 @@ MochiKit.Visual.ScrollTo = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, MochiKit.Visual.Base.prototype);
+MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype,
+                     MochiKit.Visual.Base.prototype);
 
 MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
     /***
@@ -1675,7 +1678,7 @@ MochiKit.Visual.getElementsComputedStyle = MochiKit.DOM.computedStyle;
 
 /* end of Rico adaptation */
 
-MochiKit.Visual.__new__  = function () {
+MochiKit.Visual.__new__ = function () {
     var m = MochiKit.Base;
 
     m.nameFunctions(this);
