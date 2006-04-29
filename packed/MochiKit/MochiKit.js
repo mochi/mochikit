@@ -445,7 +445,7 @@ _58[k]=_59(_60,_58);
 }
 },registerComparator:function(_61,_62,_63,_64){
 MochiKit.Base.comparatorRegistry.register(_61,_62,_63,_64);
-},_primitives:{"bool":true,"string":true,"number":true},compare:function(a,b){
+},_primitives:{"boolean":true,"string":true,"number":true},compare:function(a,b){
 if(a==b){
 return 0;
 }
