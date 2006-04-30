@@ -200,14 +200,15 @@ MochiKit.Position = {
     includeScrollOffsets: false,
 
     prepare: function () {
-        this.deltaX =  window.pageXOffset
-                    || document.documentElement.scrollLeft
-                    || document.body.scrollLeft
-                    || 0;
-        this.deltaY =  window.pageYOffset
-                    || document.documentElement.scrollTop
-                    || document.body.scrollTop
-                    || 0;
+        var deltaX =  window.pageXOffset
+                   || document.documentElement.scrollLeft
+                   || document.body.scrollLeft
+                   || 0;
+        var deltaY =  window.pageYOffset
+                   || document.documentElement.scrollTop
+                   || document.body.scrollTop
+                   || 0;
+        this.windowOffset = new MochiKit.DOM.Coordinates(deltaX, deltaY);
     },
 
     cumulativeOffset: function (element) {
@@ -218,17 +219,18 @@ MochiKit.Position = {
             valueL += element.offsetLeft || 0;
             element = element.offsetParent;
         } while (element);
-        return [valueL, valueT];
+        return new MochiKit.DOM.Coordinates(valueL, valueT);
     },
 
     realOffset: function (element) {
-        var valueT = 0, valueL = 0;
+        var valueT = 0;
+        var valueL = 0;
         do {
             valueT += element.scrollTop  || 0;
             valueL += element.scrollLeft || 0;
             element = element.parentNode;
         } while (element);
-        return [valueL, valueT];
+        return new MochiKit.DOM.Coordinates(valueL, valueT);
     },
 
     within: function (element, x, y) {
@@ -239,23 +241,23 @@ MochiKit.Position = {
         this.ycomp = y;
         this.offset = this.cumulativeOffset(element);
 
-        return (y >= this.offset[1] &&
-                y <  this.offset[1] + element.offsetHeight &&
-                x >= this.offset[0] &&
-                x <  this.offset[0] + element.offsetWidth);
+        return (y >= this.offset.y &&
+                y <  this.offset.y + element.offsetHeight &&
+                x >= this.offset.x &&
+                x <  this.offset.x + element.offsetWidth);
     },
 
     withinIncludingScrolloffsets: function (element, x, y) {
         var offsetcache = this.realOffset(element);
 
-        this.xcomp = x + offsetcache[0] - this.deltaX;
-        this.ycomp = y + offsetcache[1] - this.deltaY;
+        this.xcomp = x + offsetcache.x - this.windowOffset.x;
+        this.ycomp = y + offsetcache.y - this.windowOffset.y;
         this.offset = this.cumulativeOffset(element);
 
-        return (this.ycomp >= this.offset[1] &&
-                this.ycomp <  this.offset[1] + element.offsetHeight &&
-                this.xcomp >= this.offset[0] &&
-                this.xcomp <  this.offset[0] + element.offsetWidth);
+        return (this.ycomp >= this.offset.y &&
+                this.ycomp <  this.offset.y + element.offsetHeight &&
+                this.xcomp >= this.offset.x &&
+                this.xcomp <  this.offset.x + element.offsetWidth);
     },
 
     // within must be called directly before
@@ -264,11 +266,11 @@ MochiKit.Position = {
             return 0;
         }
         if (mode == 'vertical') {
-          return ((this.offset[1] + element.offsetHeight) - this.ycomp) /
+          return ((this.offset.y + element.offsetHeight) - this.ycomp) /
                  element.offsetHeight;
         }
         if (mode == 'horizontal') {
-          return ((this.offset[0] + element.offsetWidth) - this.xcomp) /
+          return ((this.offset.x + element.offsetWidth) - this.xcomp) /
                  element.offsetWidth;
         }
     },
@@ -281,19 +283,17 @@ MochiKit.Position = {
         MochiKit.Position.prepare();
 
         var offsets = MochiKit.Position.positionedOffset(element);
-        var top = offsets[1];
-        var left = offsets[0];
         var width = element.clientWidth;
         var height = element.clientHeight;
 
-        element._originalLeft = left - parseFloat(element.style.left  || 0);
-        element._originalTop = top - parseFloat(element.style.top || 0);
+        element._originalLeft = offsets.x - parseFloat(element.style.left  || 0);
+        element._originalTop = offsets.y - parseFloat(element.style.top || 0);
         element._originalWidth = element.style.width;
         element._originalHeight = element.style.height;
 
         element.style.position = 'absolute';
-        element.style.top = top + 'px';;
-        element.style.left = left + 'px';;
+        element.style.top = offsets.y + 'px';;
+        element.style.left = offsets.x + 'px';;
         element.style.width = width + 'px';;
         element.style.height = height + 'px';;
     },
@@ -311,7 +311,7 @@ MochiKit.Position = {
                 }
             }
         } while (element);
-        return [valueL, valueT];
+        return new MochiKit.DOM.Coordinates(valueL, valueT);
     },
 
     relativize: function (element) {
@@ -338,8 +338,8 @@ MochiKit.Position = {
         target = MochiKit.DOM.getElement(target);
         target.style.position = 'absolute';
         var offsets = this.cumulativeOffset(source);
-        target.style.top = offsets[1] + 'px';
-        target.style.left = offsets[0] + 'px';
+        target.style.top = offsets.y + 'px';
+        target.style.left = offsets.x + 'px';
         target.style.width = source.offsetWidth + 'px';
         target.style.height = source.offsetHeight + 'px';
     },
@@ -365,7 +365,7 @@ MochiKit.Position = {
             valueL -= element.scrollLeft || 0;
         } while (element = element.parentNode);
 
-        return [valueL, valueT];
+        return new MochiKit.DOM.Coordinates(valueL, valueT);
     }
 };
 
