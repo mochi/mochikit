@@ -280,9 +280,9 @@ MochiKit.DragAndDrop.Draggables = {
     register: function (draggable) {
         if (this.drags.length === 0) {
             var conn = MochiKit.Signal.connect;
-            this.eventMouseUp = conn(document, 'onmouseup', this, this.endDrag); 
-            this.eventMouseMove = conn(document, 'onmousemove', this, this.updateDrag); 
-            this.eventKeypress = conn(document, 'onkeypress', this, this.keyPress); 
+            this.eventMouseUp = conn(document, 'onmouseup', this, this.endDrag);
+            this.eventMouseMove = conn(document, 'onmousemove', this, this.updateDrag);
+            this.eventKeypress = conn(document, 'onkeypress', this, this.keyPress);
         }
         this.drags.push(draggable);
     },
@@ -293,8 +293,8 @@ MochiKit.DragAndDrop.Draggables = {
         }, this.drags);
         if (this.drags.length === 0) {
             var disc = MochiKit.Signal.disconnect
-            disc(this.eventMouseUp); 
-            disc(this.eventMouseMove); 
+            disc(this.eventMouseUp);
+            disc(this.eventMouseMove);
             disc(this.eventKeypress);
         }
     },
@@ -439,7 +439,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         this.dragging = false;
 
         this.eventMouseDown = MochiKit.Signal.connect(this.handle,
-                              'onmousedown', this, this.initDrag); 
+                              'onmousedown', this, this.initDrag);
         MochiKit.DragAndDrop.Draggables.register(this);
     },
 
@@ -475,7 +475,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
         var pointer = event.mouse();
         var pos = MochiKit.Position.cumulativeOffset(this.element);
-        this.offset = [pointer.page.x - pos[0], pointer.page.y - pos[1]]
+        this.offset = [pointer.page.x - pos.x, pointer.page.y - pos.y]
 
         MochiKit.DragAndDrop.Draggables.activate(this);
         event.stop();
@@ -534,29 +534,29 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
         if (this.options.scroll) {
             this.stopScrolling();
-            var p;
-             if (this.options.scroll == window) {
+            var p, q;
+            if (this.options.scroll == window) {
                 var s = this._getWindowScroll(this.options.scroll);
-                p = [s.left, s.top, s.left+s.width, s.top+s.height];
+                p = new MochiKit.DOM.Coordinates(s.left, s.top);
+                q = new MochiKit.DOM.Coordinates(s.left+s.width, s.top+s.height);
             } else {
                 p = MochiKit.Position.page(this.options.scroll);
-                p[0] += this.options.scroll.scrollLeft;
-                p[1] += this.options.scroll.scrollTop;
-                p.push(p[0] + this.options.scroll.offsetWidth);
-                p.push(p[1] + this.options.scroll.offsetHeight);
+                p.x += this.options.scroll.scrollLeft;
+                pY += this.options.scroll.scrollTop;
+                q = new MochiKit.DOM.Coordinates(p.x + this.options.scroll.offsetWidth, p.y + this.options.scroll.offsetHeight);
             }
             var speed = [0, 0];
-            if (pointer.page.x < (p[0] + this.options.scrollSensitivity)) {
-                speed[0] = pointer.page.x - (p[0] + this.options.scrollSensitivity);
+            if (pointer.page.x < (p.x + this.options.scrollSensitivity)) {
+                speed[0] = pointer.page.x - (p.x + this.options.scrollSensitivity);
             }
-            if (pointer.page.y < (p[1] + this.options.scrollSensitivity)) {
-                speed[1] = pointer.page.y - (p[1] + this.options.scrollSensitivity);
+            if (pointer.page.y < (p.y + this.options.scrollSensitivity)) {
+                speed[1] = pointer.page.y - (p.y + this.options.scrollSensitivity);
             }
-            if (pointer.page.x > (p[2] - this.options.scrollSensitivity)) {
-                speed[0] = pointer.page.x - (p[2]-this.options.scrollSensitivity);
+            if (pointer.page.x > (q.x - this.options.scrollSensitivity)) {
+                speed[0] = pointer.page.x - (q.x - this.options.scrollSensitivity);
             }
-            if (pointer.page.y > (p[3] - this.options.scrollSensitivity)) {
-                speed[1] = pointer.page.y - (p[3] - this.options.scrollSensitivity);
+            if (pointer.page.y > (q.y - this.options.scrollSensitivity)) {
+                speed[1] = pointer.page.y - (q.y - this.options.scrollSensitivity);
             }
             this.startScrolling(speed);
         }
@@ -637,16 +637,16 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     draw: function (point) {
         var pos = MochiKit.Position.cumulativeOffset(this.element);
         var d = this.currentDelta();
-        pos[0] -= d[0];
-        pos[1] -= d[1];
+        pos.x -= d[0];
+        pos.y -= d[1];
 
         if (this.options.scroll && !this.options.scroll.scrollTo) {
-            pos[0] -= this.options.scroll.scrollLeft - this.originalScrollLeft;
-            pos[1] -= this.options.scroll.scrollTop - this.originalScrollTop;
+            pos.x -= this.options.scroll.scrollLeft - this.originalScrollLeft;
+            pos.y -= this.options.scroll.scrollTop - this.originalScrollTop;
         }
 
-        var p = [point.page.x - pos[0] - this.offset[0],
-                 point.page.y - pos[1] - this.offset[1]]
+        var p = [point.page.x - pos.x - this.offset[0],
+                 point.page.y - pos.y - this.offset[1]]
 
         if (this.options.snap) {
             if (typeof(this.options.snap) == 'function') {
@@ -699,7 +699,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         var current = new Date();
         var delta = current - this.lastScrolled;
         this.lastScrolled = current;
-        
+
         if (this.options.scroll == window) {
             var s = this._getWindowScroll(this.options.scroll);
             if (this.scrollSpeed[0] || this.scrollSpeed[1]) {
@@ -710,9 +710,9 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             this.options.scroll.scrollLeft += this.scrollSpeed[0] * delta / 1000;
             this.options.scroll.scrollTop += this.scrollSpeed[1] * delta / 1000;
         }
-        
+
         var d = MochiKit.DragAndDrop;
-        
+
         MochiKit.Position.prepare();
         d.Droppables.show(d.Draggables._lastPointer, this.element);
         this.draw(d.Draggables._lastPointer);

@@ -315,14 +315,14 @@ MochiKit.Sortable.Sortable = {
             document.getElementsByTagName('body').item(0).appendChild(s._marker);
         }
         var offsets = MochiKit.Position.cumulativeOffset(dropon);
-        s._marker.style.left = offsets[0] + 'px';
-        s._marker.style.top = offsets[1] + 'px';
+        s._marker.style.left = offsets.x + 'px';
+        s._marker.style.top = offsets.y + 'px';
 
         if (position == 'after') {
             if (sortable.overlap == 'horizontal') {
-                s._marker.style.left = (offsets[0] + dropon.clientWidth) + 'px';
+                s._marker.style.left = (offsets.x + dropon.clientWidth) + 'px';
             } else {
-                s._marker.style.top = (offsets[1] + dropon.clientHeight) + 'px';
+                s._marker.style.top = (offsets.y + dropon.clientHeight) + 'px';
             }
         }
         d.showElement(s._marker);

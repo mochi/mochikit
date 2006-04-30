@@ -1054,7 +1054,7 @@ MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
         p.prepare();
         var offsets = p.cumulativeOffset(this.element);
         if (this.options.offset) {
-            offsets[1] += this.options.offset;
+            offsets.y += this.options.offset;
         }
         var max;
         if (window.innerHeight) {
@@ -1066,14 +1066,14 @@ MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
         } else if (document.body) {
             max = document.body.clientHeight - document.body.scrollHeight;
         }
-        this.scrollStart = p.deltaY;
-        this.delta = (offsets[1] > max ? max : offsets[1]) - this.scrollStart;
+        this.scrollStart = p.windowOffset.y;
+        this.delta = (offsets.y > max ? max : offsets.y) - this.scrollStart;
     },
 
     update: function (position) {
         var p = MochiKit.Position;
         p.prepare();
-        window.scrollTo(p.deltaX, this.scrollStart + (position * this.delta));
+        window.scrollTo(p.windowOffset.x, this.scrollStart + (position * this.delta));
     }
 });
 
