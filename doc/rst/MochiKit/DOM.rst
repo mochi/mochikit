@@ -91,8 +91,8 @@ nodes using the following rules:
 Creating DOM Element Trees
 --------------------------
 
-:mochiref:`createDOM` provides you with an excellent facility for creating DOM trees
-that is easy on the wrists. One of the best ways to understand how to use
+:mochiref:`createDOM` provides you with an excellent facility for creating DOM
+trees that is easy on the wrists. One of the best ways to understand how to use
 it is to take a look at an example::
 
     var rows = [
@@ -176,6 +176,23 @@ could do something like this::
 
 Note that :mochiref:`withWindow(win, ...)` also implies
 :mochiref:`withDocument(win.document, ...)`.
+
+
+DOM Gotchas
+-----------
+
+Performance Tradeoff:
+    DOM is much easier to get correct and more flexible than working directly
+    with markup as strings. Modifying ``innerHTML`` is still
+    the fastest way to make document changes.
+
+Internet Explorer:
+    Internet Explorer's DOM implementation is quite poor in comparison to the
+    other popular implementations. In order to avoid memory leaks due to
+    circular references, you should use :mochiref:`MochiKit.Signal.connect`
+    for all of your event handling needs. Additionally, when creating
+    tables with DOM, it is required to use a ``TBODY`` tag (see
+    `Creating DOM Element Trees`_ for an example of this).
 
 
 Element Visibility

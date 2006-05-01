@@ -93,8 +93,8 @@ if the adapter returns a string, it will be coerced to a text node).</li>
 </div>
 <div class="section">
 <h2><a id="creating-dom-element-trees" name="creating-dom-element-trees">Creating DOM Element Trees</a></h2>
-<p><a class="mochiref reference" href="#fn-createdom">createDOM</a> provides you with an excellent facility for creating DOM trees
-that is easy on the wrists. One of the best ways to understand how to use
+<p><a class="mochiref reference" href="#fn-createdom">createDOM</a> provides you with an excellent facility for creating DOM
+trees that is easy on the wrists. One of the best ways to understand how to use
 it is to take a look at an example:</p>
 <pre class="literal-block">
 var rows = [
@@ -193,6 +193,22 @@ withWindow(child, function () {
 </pre>
 <p>Note that <a class="mochiref reference" href="#fn-withwindow">withWindow(win, ...)</a> also implies
 <a class="mochiref reference" href="#fn-withdocument">withDocument(win.document, ...)</a>.</p>
+</div>
+<div class="section">
+<h2><a id="dom-gotchas" name="dom-gotchas">DOM Gotchas</a></h2>
+<dl class="docutils">
+<dt>Performance Tradeoff:</dt>
+<dd>DOM is much easier to get correct and more flexible than working directly
+with markup as strings. Modifying <tt class="docutils literal"><span class="pre">innerHTML</span></tt> is still
+the fastest way to make document changes.</dd>
+<dt>Internet Explorer:</dt>
+<dd>Internet Explorer's DOM implementation is quite poor in comparison to the
+other popular implementations. In order to avoid memory leaks due to
+circular references, you should use <a class="mochiref reference" href="Signal.html#fn-connect">MochiKit.Signal.connect</a>
+for all of your event handling needs. Additionally, when creating
+tables with DOM, it is required to use a <tt class="docutils literal"><span class="pre">TBODY</span></tt> tag (see
+<a class="reference" href="#creating-dom-element-trees">Creating DOM Element Trees</a> for an example of this).</dd>
+</dl>
 </div>
 <div class="section">
 <h2><a id="element-visibility" name="element-visibility">Element Visibility</a></h2>
