@@ -77,9 +77,27 @@ try {
     isDOM( d, '<span baz="wibble" foo="bar"/>', "createDOM attributes" );
 
     d = createDOM("span", {"foo": "bar", "baz": "wibble"}, "one", "two", "three");
-    toHTML(d);
-
+    is( getNodeAttribute(d, 'foo'), "bar", "createDOM attribute" );
+    is( getNodeAttribute(d, 'baz'), "wibble", "createDOM attribute" );
+    is( scrapeText(d), "onetwothree", "createDOM contents" );
+    
     isDOM( d, '<span baz="wibble" foo="bar">onetwothree</span>', "createDOM contents" );
+
+    d = createDOM("span", null, function (f) {
+            return this.nodeName.toLowerCase() + "hi" + f.nodeName.toLowerCase();});
+    isDOM( d, '<span>spanhispan</span>', 'createDOM function call' );
+
+    d = createDOM("span", null, {msg: "hi", dom: function (f) {
+            return f.nodeName.toLowerCase() + this.msg; }});
+    isDOM( d, '<span>spanhi</span>', 'createDOM this.dom() call' );
+
+    d = createDOM("span", null, {msg: "hi", __dom__: function (f) {
+            return f.nodeName.toLowerCase() + this.msg; }});
+    isDOM( d, '<span>spanhi</span>', 'createDOM this.__dom__() call' );
+
+    d = createDOM("span", null, range(4));
+    isDOM( d, '<span>0123</span>', 'createDOM iterable' );
+
 
     var d = {"taco": "pork"};
     registerDOMConverter("taco",
