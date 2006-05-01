@@ -1554,7 +1554,7 @@ MochiKit.Logging.Logger.prototype={clear:function(){
 this._messages.splice(0,this._messages.length);
 },logToConsole:function(msg){
 if(typeof (window)!="undefined"&&window.console&&window.console.log){
-window.console.log(msg);
+window.console.log(msg.replace(/%/g,"\uff05"));
 }else{
 if(typeof (opera)!="undefined"&&opera.postError){
 opera.postError(msg);
@@ -4798,7 +4798,7 @@ break;
 }
 _642.startOn+=_643;
 _642.finishOn+=_643;
-if(!_642.options.queue.limit||(this.effects.length<_642.options.queue.limit)){
+if(!_642.options.queue.limit||this.effects.length<_642.options.queue.limit){
 this.effects.push(_642);
 }
 if(!this.interval){
@@ -4818,7 +4818,7 @@ MochiKit.Iter.forEach(this.effects,function(_648){
 _648.loop(_647);
 });
 }});
-MochiKit.Visual.Queues={instances:new Array(),get:function(_649){
+MochiKit.Visual.Queues={instances:{},get:function(_649){
 if(typeof (_649)!="string"){
 return _649;
 }
@@ -4957,8 +4957,8 @@ s.display="";
 this.originalLeft=parseFloat(d.getStyle(this.element,"left")||"0");
 this.originalTop=parseFloat(d.getStyle(this.element,"top")||"0");
 if(this.options.mode=="absolute"){
-this.options.x=this.options.x-this.originalLeft;
-this.options.y=this.options.y-this.originalTop;
+this.options.x-=this.originalLeft;
+this.options.y-=this.originalTop;
 }
 if(_672=="none"){
 s.visibility=_671;
@@ -5093,7 +5093,7 @@ var p=MochiKit.Position;
 p.prepare();
 var _698=p.cumulativeOffset(this.element);
 if(this.options.offset){
-_698[1]+=this.options.offset;
+_698.y+=this.options.offset;
 }
 var max;
 if(window.innerHeight){
@@ -5107,12 +5107,12 @@ max=document.body.clientHeight-document.body.scrollHeight;
 }
 }
 }
-this.scrollStart=p.deltaY;
-this.delta=(_698[1]>max?max:_698[1])-this.scrollStart;
+this.scrollStart=p.windowOffset.y;
+this.delta=(_698.y>max?max:_698.y)-this.scrollStart;
 },update:function(_699){
 var p=MochiKit.Position;
 p.prepare();
-window.scrollTo(p.deltaX,this.scrollStart+(_699*this.delta));
+window.scrollTo(p.windowOffset.x,this.scrollStart+(_699*this.delta));
 }});
 MochiKit.Visual.fade=function(_700,_701){
 var d=MochiKit.DOM;

@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- Replace percents for Safari native logging to avoid crashing
 - New MochiKit.DOM.coerceToDOM .dom(node) / .__dom__(node) protocol
 - MochiKit.DOM's MochiKit.Iter dependency is now optional
 - Added expand all link to the documentation index
