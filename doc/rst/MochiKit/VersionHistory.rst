@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- New MochiKit.DOM.coerceToDOM .dom(node) / .__dom__(node) protocol
+- MochiKit.DOM's MochiKit.Iter dependency is now optional
 - Added expand all link to the documentation index
 
 2006-04-29      v1.3.1 (bug fix release)

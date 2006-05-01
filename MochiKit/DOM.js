@@ -10,18 +10,18 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 if (typeof(dojo) != 'undefined') {
     dojo.provide("MochiKit.DOM");
-    dojo.require("MochiKit.Iter");
+    dojo.require("MochiKit.Base");
 }
 if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Iter", []);
+    JSAN.use("MochiKit.Base", []);
 }
 
 try {
-    if (typeof(MochiKit.Iter) == 'undefined') {
+    if (typeof(MochiKit.Base) == 'undefined') {
         throw "";
     }
 } catch (e) {
-    throw "MochiKit.DOM depends on MochiKit.Iter!";
+    throw "MochiKit.DOM depends on MochiKit.Base!";
 }
 
 if (typeof(MochiKit.DOM) == 'undefined') {
@@ -431,14 +431,17 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     coerceToDOM: function (node, ctx) {
+        var m = MochiKit.Base;
         var im = MochiKit.Iter;
         var self = MochiKit.DOM;
-        var iter = im.iter;
-        var repeat = im.repeat;
-        var imap = im.imap;
+        if (im) {
+            var iter = im.iter;
+            var repeat = im.repeat;
+            var map = m.map;
+        }
         var domConverters = self.domConverters;
-        var coerceToDOM = self.coerceToDOM;
-        var NotFound = MochiKit.Base.NotFound;
+        var coerceToDOM = arguments.callee;
+        var NotFound = m.NotFound;
         while (true) {
             if (typeof(node) == 'undefined' || node === null) {
                 return null;
@@ -453,28 +456,30 @@ MochiKit.Base.update(MochiKit.DOM, {
             if (typeof(node) == 'string') {
                 return self._document.createTextNode(node);
             }
-            if (typeof(node.toDOM) == 'function') {
-                node = node.toDOM(ctx);
+            if (typeof(node.__dom__) == 'function') {
+                node = node.__dom__(ctx);
+                continue;
+            }
+            if (typeof(node.dom) == 'function') {
+                node = node.dom(ctx);
                 continue;
             }
             if (typeof(node) == 'function') {
-                node = node(ctx);
+                node = node.apply(ctx, [ctx]);
                 continue;
             }
 
-            // iterable
-            var iterNodes = null;
-            try {
-                iterNodes = iter(node);
-            } catch (e) {
-                // pass
-            }
-            if (iterNodes) {
-                return imap(
-                    coerceToDOM,
-                    iterNodes,
-                    repeat(ctx)
-                );
+            if (im) {
+                // iterable
+                var iterNodes = null;
+                try {
+                    iterNodes = iter(node);
+                } catch (e) {
+                    // pass
+                }
+                if (iterNodes) {
+                    return map(coerceToDOM, iterNodes, repeat(ctx));
+                }
             }
 
             // adapter
@@ -962,12 +967,13 @@ MochiKit.Base.update(MochiKit.DOM, {
     setDisplayForElement: function (display, element/*, ...*/) {
         var m = MochiKit.Base;
         var elements = m.extend(null, arguments, 1);
-        MochiKit.Iter.forEach(
-            m.filter(null, m.map(MochiKit.DOM.getElement, elements)),
-            function (element) {
+        var lst = m.map(MochiKit.DOM.getElement, elements);
+        for (var i = 0; i < lst.length; i++) {
+            var element = elements[i];
+            if (element) {
                 element.style.display = display;
             }
-        );
+        }
     },
 
     scrapeText: function (node, /* optional */asArray) {
@@ -1010,9 +1016,12 @@ MochiKit.Base.update(MochiKit.DOM, {
                 return filter(attributeArray.ignoreAttrFilter, node.attributes);
             };
             attributeArray.ignoreAttr = {};
-            MochiKit.Iter.forEach(__tmpElement.attributes, function (a) {
-                attributeArray.ignoreAttr[a.name] = a.value;
-            });
+            var attrs = __tmpElement.attributes;
+            var ignoreAttr = attributeArray.ignoreAttr;
+            for (var i = 0; i < attrs.length; i++) {
+                var a = attrs[i];
+                ignoreAttr[a.name] = a.value;
+            }
             attributeArray.ignoreAttrFilter = function (a) {
                 return (attributeArray.ignoreAttr[a.name] != a.value);
             };

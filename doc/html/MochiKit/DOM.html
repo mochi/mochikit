@@ -59,7 +59,7 @@ creating DOM elements, you've been wasting your damn time. Get with it!</p>
 <h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
 <ul class="simple">
 <li><a class="mochiref reference" href="Base.html">MochiKit.Base</a></li>
-<li><a class="mochiref reference" href="Iter.html">MochiKit.Iter</a></li>
+<li><a class="mochiref reference" href="Iter.html">MochiKit.Iter</a> (optional since MochiKit 1.4)</li>
 </ul>
 </div>
 <div class="section">
@@ -69,23 +69,25 @@ creating DOM elements, you've been wasting your damn time. Get with it!</p>
 <p>In order of precedence, <a class="mochiref reference" href="#fn-createdom">createDOM</a> coerces given arguments to DOM
 nodes using the following rules:</p>
 <ol class="arabic simple">
-<li>Functions are called with a <tt class="docutils literal"><span class="pre">this</span></tt> of the parent
-node and their return value is subject to the
-following rules (even this one).</li>
+<li>Functions are called with a <tt class="docutils literal"><span class="pre">this</span></tt> and first argument of the parent
+node and their return value is subject to the following rules
+(even this one).</li>
 <li><tt class="docutils literal"><span class="pre">undefined</span></tt> and <tt class="docutils literal"><span class="pre">null</span></tt> are ignored.</li>
-<li>Iterables (see <a class="mochiref reference" href="Iter.html">MochiKit.Iter</a>) are flattened
-(as if they were passed in-line as nodes) and each
-return value is subject to all of these rules.</li>
+<li>If <a class="mochiref reference" href="Iter.html">MochiKit.Iter</a> is loaded, iterables are flattened
+(as if they were passed in-line as nodes) and each return value
+is subject to these rules.</li>
 <li>Values that look like DOM nodes (objects with a
 <tt class="docutils literal"><span class="pre">.nodeType</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt>) are <tt class="docutils literal"><span class="pre">.appendChild</span></tt>'ed to the created
 DOM fragment.</li>
 <li>Strings are wrapped up with <tt class="docutils literal"><span class="pre">document.createTextNode</span></tt></li>
+<li>Objects that have a <tt class="docutils literal"><span class="pre">.dom(node)</span></tt> or <tt class="docutils literal"><span class="pre">.__dom__(node)</span></tt> method are called
+with the parent node and their result is coerced using these rules.
+(MochiKit 1.4+).</li>
 <li>Objects that are not strings are run through the <tt class="docutils literal"><span class="pre">domConverters</span></tt>
 <a class="mochiref reference" href="Base.html#fn-adapterregistry">MochiKit.Base.AdapterRegistry</a>
 (see <a class="mochiref reference" href="#fn-registerdomconverter">registerDOMConverter</a>).
-The value returned by the adapter is subject to these same rules (e.g.
-adapters are allowed to return a string, which will be coerced into a
-text node).</li>
+The adapted value is subject to these same rules (e.g.
+if the adapter returns a string, it will be coerced to a text node).</li>
 <li>If no adapter is available, <tt class="docutils literal"><span class="pre">.toString()</span></tt> is used to create a text node.</li>
 </ol>
 </div>
