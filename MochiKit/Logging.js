@@ -137,13 +137,14 @@ MochiKit.Logging.Logger.prototype = {
     logToConsole: function (msg) {
         if (typeof(window) != "undefined" && window.console
                 && window.console.log) {
-            // Safari
-            window.console.log(msg);
+            // Safari and FireBug 0.4
+            // Percent replacement is a workaround for cute Safari crashing bug 
+            window.console.log(msg.replace(/%/g, '\uFF05'));
         } else if (typeof(opera) != "undefined" && opera.postError) {
             // Opera
             opera.postError(msg);
         } else if (typeof(printfire) == "function") {
-            // FireBug
+            // FireBug 0.3 and earlier
             printfire(msg);
         }
     },
