@@ -349,7 +349,7 @@ MochiKit.Base.update(Ajax.Request.prototype, {
             try {
                 (this.options['on' + this.transport.status]
                 || this.options['on' + (this.responseIsSuccess() ? 'Success' : 'Failure')]
-                || MochiKit.Base.emptyFunction)(transport, json);
+                || MochiKit.Base.noop)(transport, json);
             } catch (e) {
                 this.dispatchException(e);
             }
@@ -360,7 +360,7 @@ MochiKit.Base.update(Ajax.Request.prototype, {
         }
 
         try {
-            (this.options['on' + event] || MochiKit.Base.emptyFunction)(transport, json);
+            (this.options['on' + event] || MochiKit.Base.noop)(transport, json);
             Ajax.Responders.dispatch('on' + event, this, transport, json);
         } catch (e) {
             this.dispatchException(e);
@@ -368,12 +368,12 @@ MochiKit.Base.update(Ajax.Request.prototype, {
 
         /* Avoid memory leak in MSIE: clean up the oncomplete event handler */
         if (event == 'Complete') {
-            this.transport.onreadystatechange = MochiKit.Base.emptyFunction;
+            this.transport.onreadystatechange = MochiKit.Base.noop;
         }
     },
 
     dispatchException: function (exception) {
-        (this.options.onException || MochiKit.Base.emptyFunction)(this, exception);
+        (this.options.onException || MochiKit.Base.noop)(this, exception);
         Ajax.Responders.dispatch('onException', this, exception);
     }
 });
@@ -394,7 +394,7 @@ MochiKit.Base.update(Ajax.Updater.prototype, {
         this.transport = MochiKit.Async.getXMLHttpRequest();
         this.setOptions(options);
 
-        var onComplete = this.options.onComplete || MochiKit.Base.emptyFunction;
+        var onComplete = this.options.onComplete || MochiKit.Base.noop;
         this.options.onComplete = MochiKit.Base.bind(function (transport, object) {
             this.updateContent();
             onComplete(transport, object);

@@ -141,8 +141,8 @@ MochiKit.Sortable.Sortable = {
             scrollSensitivity: 20,
             scrollSpeed: 15,
             format: null,
-            onChange: MochiKit.Base.emptyFunction,
-            onUpdate: MochiKit.Base.emptyFunction
+            onChange: MochiKit.Base.noop,
+            onUpdate: MochiKit.Base.noop
         }, options);
 
         // clear any old sortable with same element

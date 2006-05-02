@@ -1,7 +1,5 @@
 
 MochiKit.Base.update(MochiKit.Base, {
-    emptyFunction: function () {},
-
     camelize: function (str) {
         var oStringList = str.split('-');
         if (oStringList.length == 1) {
