@@ -815,7 +815,7 @@ return true;
 }
 return false;
 }};
-MochiKit.Base.EXPORT=["counter","clone","extend","update","updatetree","setdefault","keys","items","NamedError","operator","forwardCall","itemgetter","typeMatcher","isCallable","isUndefined","isUndefinedOrNull","isNull","isEmpty","isNotEmpty","isArrayLike","isDateLike","xmap","map","xfilter","filter","bind","bindMethods","NotFound","AdapterRegistry","registerComparator","compare","registerRepr","repr","objEqual","arrayEqual","concat","keyComparator","reverseKeyComparator","partial","merge","listMinMax","listMax","listMin","objMax","objMin","nodeWalk","zip","urlEncode","queryString","serializeJSON","registerJSON","evalJSON","parseQueryString","findValue","findIdentical","flattenArguments","method"];
+MochiKit.Base.EXPORT=["noop","counter","clone","extend","update","updatetree","setdefault","keys","items","NamedError","operator","forwardCall","itemgetter","typeMatcher","isCallable","isUndefined","isUndefinedOrNull","isNull","isEmpty","isNotEmpty","isArrayLike","isDateLike","xmap","map","xfilter","filter","bind","bindMethods","NotFound","AdapterRegistry","registerComparator","compare","registerRepr","repr","objEqual","arrayEqual","concat","keyComparator","reverseKeyComparator","partial","merge","listMinMax","listMax","listMin","objMax","objMin","nodeWalk","zip","urlEncode","queryString","serializeJSON","registerJSON","evalJSON","parseQueryString","findValue","findIdentical","flattenArguments","method"];
 MochiKit.Base.EXPORT_OK=["nameFunctions","comparatorRegistry","reprRegistry","jsonRegistry","compareDateLike","compareArrayLike","reprArrayLike","reprString","reprNumber"];
 MochiKit.Base._exportSymbols=function(_127,_128){
 if(typeof (MochiKit.__export__)=="undefined"){
@@ -831,6 +831,7 @@ _127[all[i]]=_128[all[i]];
 };
 MochiKit.Base.__new__=function(){
 var m=this;
+m.noop=m.operator.identity;
 m.forward=m.forwardCall;
 m.find=m.findValue;
 if(typeof (encodeURIComponent)!="undefined"){
@@ -2233,15 +2234,15 @@ catch(e){
 }
 }
 return self.XMLHttpRequest();
-},_nothing:function(){
 },_xhr_onreadystatechange:function(d){
+var m=MochiKit.Base;
 if(this.readyState==4){
 try{
 this.onreadystatechange=null;
 }
 catch(e){
 try{
-this.onreadystatechange=MochiKit.Async._nothing;
+this.onreadystatechange=m.noop;
 }
 catch(e){
 }
@@ -2249,7 +2250,7 @@ catch(e){
 var _290=null;
 try{
 _290=this.status;
-if(!_290&&MochiKit.Base.isNotEmpty(this.responseText)){
+if(!_290&&m.isNotEmpty(this.responseText)){
 _290=304;
 }
 }
@@ -2272,7 +2273,7 @@ req.onreadystatechange=null;
 }
 catch(e){
 try{
-req.onreadystatechange=MochiKit.Async._nothing;
+req.onreadystatechange=MochiKit.Base.noop;
 }
 catch(e){
 }

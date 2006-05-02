@@ -276,24 +276,23 @@ MochiKit.Base.update(MochiKit.Async, {
         return self.XMLHttpRequest();
     },
 
-    _nothing: function () {},
-
     _xhr_onreadystatechange: function (d) {
         // MochiKit.Logging.logDebug('this.readyState', this.readyState);
+        var m = MochiKit.Base;
         if (this.readyState == 4) {
             // IE SUCKS
             try {
                 this.onreadystatechange = null;
             } catch (e) {
                 try {
-                    this.onreadystatechange = MochiKit.Async._nothing;
+                    this.onreadystatechange = m.noop;
                 } catch (e) {
                 }
             }
             var status = null;
             try {
                 status = this.status;
-                if (!status && MochiKit.Base.isNotEmpty(this.responseText)) {
+                if (!status && m.isNotEmpty(this.responseText)) {
                     // 0 or undefined seems to mean cached or local
                     status = 304;
                 }
@@ -323,7 +322,7 @@ MochiKit.Base.update(MochiKit.Async, {
             req.onreadystatechange = null;
         } catch (e) {
             try {
-                req.onreadystatechange = MochiKit.Async._nothing;
+                req.onreadystatechange = MochiKit.Base.noop;
             } catch (e) {
             }
         }

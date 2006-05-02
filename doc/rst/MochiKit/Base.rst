@@ -680,6 +680,13 @@ Functions
         assert( namespace.Dude.NAME == 'Awesome.Dude' );
 
 
+:mochidef:`noop()`:
+
+    A function that performs no operation. Use this where you
+    would otherwise use ``(function () {})`` in order to avoid
+    Internet Explorer cyclic garbage leakage.
+
+
 :mochidef:`objEqual(a, b)`:
 
     Return ``true`` if ``compare(a, b) == 0``

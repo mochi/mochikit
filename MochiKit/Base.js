@@ -963,6 +963,7 @@ MochiKit.Base.AdapterRegistry.prototype = {
 
 
 MochiKit.Base.EXPORT = [
+    "noop",
     "counter",
     "clone",
     "extend",
@@ -1053,6 +1054,9 @@ MochiKit.Base.__new__ = function () {
     // A singleton raised when no suitable adapter is found
     var m = this;
 
+    // convenience
+    m.noop = m.operator.identity;
+    
     // Backwards compat
     m.forward = m.forwardCall;
     m.find = m.findValue;
