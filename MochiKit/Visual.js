@@ -891,14 +891,11 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
 
         this.factor = (this.options.scaleTo - this.options.scaleFrom)/100;
 
-        this.dims = null;
-        if (this.options.scaleMode=='box') {
-            this.dims = [this.element.offsetHeight, this.element.offsetWidth];
-        }
         if (/^content/.test(this.options.scaleMode)) {
             this.dims = [this.element.scrollHeight, this.element.scrollWidth];
-        }
-        if (!this.dims) {
+        } else if (this.options.scaleMode == 'box') {
+            this.dims = [this.element.offsetHeight, this.element.offsetWidth];
+        } else {
             this.dims = [this.options.scaleMode.originalHeight,
                          this.options.scaleMode.originalWidth];
         }
