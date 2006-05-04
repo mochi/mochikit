@@ -538,25 +538,25 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             if (this.options.scroll == window) {
                 var s = this._getWindowScroll(this.options.scroll);
                 p = new MochiKit.DOM.Coordinates(s.left, s.top);
-                q = new MochiKit.DOM.Coordinates(s.left+s.width, s.top+s.height);
+                q = new MochiKit.DOM.Coordinates(s.left + s.width,
+                                                 s.top + s.height);
             } else {
                 p = MochiKit.Position.page(this.options.scroll);
                 p.x += this.options.scroll.scrollLeft;
-                pY += this.options.scroll.scrollTop;
-                q = new MochiKit.DOM.Coordinates(p.x + this.options.scroll.offsetWidth, p.y + this.options.scroll.offsetHeight);
+                p.y += this.options.scroll.scrollTop;
+                q = new MochiKit.DOM.Coordinates(p.x + this.options.scroll.offsetWidth,
+                                                 p.y + this.options.scroll.offsetHeight);
             }
             var speed = [0, 0];
-            if (pointer.page.x < (p.x + this.options.scrollSensitivity)) {
-                speed[0] = pointer.page.x - (p.x + this.options.scrollSensitivity);
-            }
-            if (pointer.page.y < (p.y + this.options.scrollSensitivity)) {
-                speed[1] = pointer.page.y - (p.y + this.options.scrollSensitivity);
-            }
             if (pointer.page.x > (q.x - this.options.scrollSensitivity)) {
                 speed[0] = pointer.page.x - (q.x - this.options.scrollSensitivity);
+            } else if (pointer.page.x < (p.x + this.options.scrollSensitivity)) {
+                speed[0] = pointer.page.x - (p.x + this.options.scrollSensitivity);
             }
             if (pointer.page.y > (q.y - this.options.scrollSensitivity)) {
                 speed[1] = pointer.page.y - (q.y - this.options.scrollSensitivity);
+            } else if (pointer.page.y < (p.y + this.options.scrollSensitivity)) {
+                speed[1] = pointer.page.y - (p.y + this.options.scrollSensitivity);
             }
             this.startScrolling(speed);
         }
@@ -704,7 +704,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             var s = this._getWindowScroll(this.options.scroll);
             if (this.scrollSpeed[0] || this.scrollSpeed[1]) {
                 var d = delta / 1000;
-                this.options.scroll.scrollTo(s.left + d*this.scrollSpeed[0], s.top + d*this.scrollSpeed[1]);
+                this.options.scroll.scrollTo(s.left + d * this.scrollSpeed[0],
+                                             s.top + d * this.scrollSpeed[1]);
             }
         } else {
             this.options.scroll.scrollLeft += this.scrollSpeed[0] * delta / 1000;
