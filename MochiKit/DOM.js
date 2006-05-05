@@ -636,10 +636,18 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
         if (typeof(name) == 'string') {
             // Internet Explorer is dumb
-            if (attrs && "name" in attrs && !self.attributeArray.compliant) {
+            if (attrs && !self.attributeArray.compliant) {
                 // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/name_2.asp
-                name = ('<' + name + ' name="' + self.escapeHTML(attrs.name)
-                    + '">');
+                var contents = "";
+                if ('name' in attrs) {
+                    contents += ' name="' + self.escapeHTML(attrs.name) + '"';
+                }
+                if (name == 'input' && 'type' in attrs) {
+                    contents += ' type="' + self.escapeHTML(attrs.type) + '"';
+                }
+                if (contents) {
+                    name = "<" + name + contents + ">";
+                }
             }
             elem = self._document.createElement(name);
         } else {
