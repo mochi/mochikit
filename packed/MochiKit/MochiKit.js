@@ -3332,7 +3332,7 @@ if(typeof (MochiKit.DOM)!="undefined"){
 win=MochiKit.DOM.currentWindow();
 }
 if(!_428){
-var url=win.location.href.split("?")[0].replace(/[:\/.><&]/g,"_");
+var url=win.location.href.split("?")[0].replace(/[:\/.><&-]/g,"_");
 var name=uid+"_"+url;
 var nwin=win.open("",name,"dependent,resizable,height=200");
 if(!nwin){
@@ -4995,15 +4995,14 @@ this.fontSizeType=_681;
 }
 },this));
 this.factor=(this.options.scaleTo-this.options.scaleFrom)/100;
-this.dims=null;
-if(this.options.scaleMode=="box"){
-this.dims=[this.element.offsetHeight,this.element.offsetWidth];
-}
 if(/^content/.test(this.options.scaleMode)){
 this.dims=[this.element.scrollHeight,this.element.scrollWidth];
-}
-if(!this.dims){
+}else{
+if(this.options.scaleMode=="box"){
+this.dims=[this.element.offsetHeight,this.element.offsetWidth];
+}else{
 this.dims=[this.options.scaleMode.originalHeight,this.options.scaleMode.originalWidth];
+}
 }
 },update:function(_682){
 var _683=(this.options.scaleFrom/100)+(this.factor*_682);
