@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- Workaround IE type="" bug for INPUT elements
 - Allow LoggingPane to work in IE with hyphen-containing URLs
 - Replace percents for Safari native logging to avoid crashing
 - New MochiKit.DOM.coerceToDOM .dom(node) / .__dom__(node) protocol
