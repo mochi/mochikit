@@ -775,13 +775,13 @@ Functions
 See Also
 ========
 
-.. [1] Nevow, a web application construction kit for Python: http://nevow.com/
+.. [1] Nevow, a web application construction kit for Python: http://divmod.org/trac/wiki/DivmodNevow
 .. [2] nevow.stan is a domain specific language for Python 
        (read as "crazy getitem/call overloading abuse") that Donovan and I
        schemed up at PyCon 2003 at this super ninja Python/C++ programmer's
        (David Abrahams) hotel room. Donovan later inflicted this upon the
-       masses in Nevow. Check out the Divmod project page for some
-       examples: http://nevow.com/Nevow2004Tutorial.html
+       masses in Nevow. Check out the Nevow Guide for some
+       examples: http://divmod.org/trac/wiki/DivmodNevow
 
 
 Authors
