@@ -44,7 +44,7 @@ pages, for richer interfaces.</p>
 <li><a class="mochiref reference" href="Iter.html">MochiKit.Iter</a></li>
 <li><a class="mochiref reference" href="DOM.html">MochiKit.DOM</a></li>
 <li><a class="mochiref reference" href="Color.html">MochiKit.Color</a></li>
-<li><a class="mochiref reference" href="Effect.html">MochiKit.Effect</a></li>
+<li><a class="mochiref reference" href="Visual.html">MochiKit.Visual</a></li>
 <li><a class="mochiref reference" href="Signal.html">MochiKit.Signal</a></li>
 </ul>
 </div>
@@ -61,58 +61,50 @@ pages, for richer interfaces.</p>
 <a class="mochidef reference" href="#fn-draggable">Draggable(element[, options])</a>:</p>
 <blockquote>
 <p>A object that can be drag with the mouse.</p>
-<p>You have the following options:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="33%" />
-<col width="68%" />
-</colgroup>
-<tbody valign="top">
-<tr><td>handle</td>
-<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
-</tr>
-<tr><td>starteffect</td>
-<td><tt class="docutils literal"><span class="pre">MochiKit.Effect.Opacity</span></tt></td>
-</tr>
-<tr><td>reverteffect</td>
-<td><tt class="docutils literal"><span class="pre">MochiKit.Effect.Move</span></tt></td>
-</tr>
-<tr><td>endeffect</td>
-<td><tt class="docutils literal"><span class="pre">MochiKit.Effect.Opacity</span></tt></td>
-</tr>
-<tr><td>zindex</td>
-<td><tt class="docutils literal"><span class="pre">1000</span></tt></td>
-</tr>
-<tr><td>revert</td>
-<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
-</tr>
-<tr><td>snap</td>
-<td><tt class="docutils literal"><span class="pre">false</span></tt></td>
-</tr>
-<tr><td>selectclass</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>onselect</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>ondeselect</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>ghosting</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>change</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-</tbody>
-</table>
+<p>You have the following options, with corresponding default values:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">handle</span> <span class="pre">(false)</span></tt>:</dt>
+<dd>Option for giving the element where starting the drag. By default it's
+the element itself, but you can either put a class of a subelement or
+even the id of another element as handle</dd>
+<dt><tt class="docutils literal"><span class="pre">starteffect</span>&nbsp; <span class="pre">(MochiKit.Visual.Opacity)</span></tt>:</dt>
+<dd>Function called once the drag has begun, taking the dragged element as
+argument. It's an effect by default but you can define any callback.</dd>
+<dt><tt class="docutils literal"><span class="pre">reverteffect</span> <span class="pre">(MochiKit.Visual.Move)</span></tt>:</dt>
+<dd>Effect applied when drag is cancelled. You have to define the
+<tt class="docutils literal"><span class="pre">revert</span></tt> option to enable the call. By default it brings the element
+back to its initial position, so you should know what you want when
+you modify this. The function should return an effect that can be
+cancelled.</dd>
+<dt><tt class="docutils literal"><span class="pre">endeffect</span> <span class="pre">(MochiKit.Visual.Opacity)</span></tt>:</dt>
+<dd>Pending part of starteffect. If you have modified your element during
+start, you'd usually want to revert it in the function.</dd>
+<dt><tt class="docutils literal"><span class="pre">zindex</span> <span class="pre">(1000)</span></tt>:</dt>
+<dd>Zindex of the drag element. By default it brings it to front.</dd>
+<dt><tt class="docutils literal"><span class="pre">revert</span> <span class="pre">(false)</span></tt>:</dt>
+<dd>Indicate if the reverteffect function should be called.</dd>
+<dt><tt class="docutils literal"><span class="pre">snap</span> <span class="pre">(false)</span></tt>:</dt>
+<dd>Define the behaviour of the drag element when moving. It can either be
+a function, a value or an array of two values. If it's a function, it
+should take the (x, y) position of the element as arguments, and return
+the position draw in the browser. If its a value, it's used as a modulo
+for each coordinates. If it's an array, each value is applied for the
+corresponding coordinate.</dd>
+<dt><tt class="docutils literal"><span class="pre">selectclass</span> <span class="pre">(null)</span></tt>:</dt>
+<dd>If defined, name of CSS class applied during the drag.</dd>
+<dt><tt class="docutils literal"><span class="pre">ghosting</span> <span class="pre">(null)</span></tt>:</dt>
+<dd>Make a ghost from the draggable: clone it at start, then remove the
+clone at end.</dd>
+<dt><tt class="docutils literal"><span class="pre">onchange</span>&nbsp; <span class="pre">(null)</span></tt>:</dt>
+<dd>Function called when updates are made on the draggable object.</dd>
+</dl>
 </blockquote>
 <p>
 <a name="fn-droppable"></a>
 <a class="mochidef reference" href="#fn-droppable">Droppable(element[, options])</a>:</p>
 <blockquote>
 <p>A object where you can drop a draggable.</p>
-<p>You have the following options:</p>
+<p>You have the following options, with corresponding default values:</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
