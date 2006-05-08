@@ -34,7 +34,7 @@ Dependencies
 - :mochiref:`MochiKit.Iter`
 - :mochiref:`MochiKit.DOM`
 - :mochiref:`MochiKit.Color`
-- :mochiref:`MochiKit.Effect`
+- :mochiref:`MochiKit.Visual`
 - :mochiref:`MochiKit.Signal`
 
 Overview
@@ -54,29 +54,57 @@ Functions
 
     A object that can be drag with the mouse.
 
-    You have the following options:
+    You have the following options, with corresponding default values:
 
-    ============= ===========================
-    handle        ``false``
-    starteffect   ``MochiKit.Effect.Opacity``
-    reverteffect  ``MochiKit.Effect.Move``
-    endeffect     ``MochiKit.Effect.Opacity``
-    zindex        ``1000``
-    revert        ``false``
-    snap          ``false``
-    selectclass   ``null``
-    onselect      ``null``
-    ondeselect    ``null``
-    ghosting      ``null``
-    change        ``null``
-    ============= ===========================
+    ``handle (false)``:
+        Option for giving the element where starting the drag. By default it's
+        the element itself, but you can either put a class of a subelement or
+        even the id of another element as handle
+
+    ``starteffect  (MochiKit.Visual.Opacity)``:
+        Function called once the drag has begun, taking the dragged element as
+        argument. It's an effect by default but you can define any callback.
+        
+    ``reverteffect (MochiKit.Visual.Move)``:
+        Effect applied when drag is cancelled. You have to define the 
+        ``revert`` option to enable the call. By default it brings the element
+        back to its initial position, so you should know what you want when
+        you modify this. The function should return an effect that can be
+        cancelled.
+        
+    ``endeffect (MochiKit.Visual.Opacity)``:
+        Pending part of starteffect. If you have modified your element during
+        start, you'd usually want to revert it in the function.
     
+    ``zindex (1000)``:
+        Zindex of the drag element. By default it brings it to front.
+
+    ``revert (false)``:
+        Indicate if the reverteffect function should be called.
+    
+    ``snap (false)``:
+        Define the behaviour of the drag element when moving. It can either be
+        a function, a value or an array of two values. If it's a function, it
+        should take the (x, y) position of the element as arguments, and return
+        the position draw in the browser. If its a value, it's used as a modulo
+        for each coordinates. If it's an array, each value is applied for the
+        corresponding coordinate.
+    
+    ``selectclass (null)``:
+        If defined, name of CSS class applied during the drag.
+    
+    ``ghosting (null)``:
+        Make a ghost from the draggable: clone it at start, then remove the 
+        clone at end.
+    
+    ``onchange  (null)``:
+        Function called when updates are made on the draggable object.
 
 :mochidef:`Droppable(element[, options])`:
 
     A object where you can drop a draggable.
 
-    You have the following options:
+    You have the following options, with corresponding default values:
 
     ============= ===========================
     greedy        ``true``
