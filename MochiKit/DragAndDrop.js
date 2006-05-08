@@ -399,7 +399,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             reverteffect: function (element, top_offset, left_offset) {
                 var dur = Math.sqrt(Math.abs(top_offset^2) +
                           Math.abs(left_offset^2))*0.02;
-                element._revert = new v.Move(element,
+                return new v.Move(element,
                             {x: -left_offset, y: -top_offset, duration: dur});
             },
             endeffect: function (element) {
@@ -468,9 +468,9 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             return;
         }
 
-        if (this.element._revert) {
-            this.element._revert.cancel();
-            this.element._revert = null;
+        if (this._revert) {
+            this._revert.cancel();
+            this._revert = null;
         }
 
         var pointer = event.mouse();
@@ -599,7 +599,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
         var d = this.currentDelta();
         if (revert && this.options.reverteffect) {
-            this.options.reverteffect(this.element,
+            this._revert = this.options.reverteffect(this.element,
                 d[1] - this.delta[1], d[0] - this.delta[0]);
         } else {
             this.delta = d;
