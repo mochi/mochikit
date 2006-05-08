@@ -238,6 +238,10 @@ MochiKit.Position = {
         this.xcomp = x;
         this.ycomp = y;
         this.offset = this.cumulativeOffset(element);
+        if (element.style.position == "fixed") {
+            this.offset.x += this.windowOffset.x;
+            this.offset.y += this.windowOffset.y;
+        }
 
         return (y >= this.offset.y &&
                 y <  this.offset.y + element.offsetHeight &&
