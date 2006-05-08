@@ -67,7 +67,7 @@ pages, for richer interfaces.</p>
 <dd>Option for giving the element where starting the drag. By default it's
 the element itself, but you can either put a class of a subelement or
 even the id of another element as handle</dd>
-<dt><tt class="docutils literal"><span class="pre">starteffect</span>&nbsp; <span class="pre">(MochiKit.Visual.Opacity)</span></tt>:</dt>
+<dt><tt class="docutils literal"><span class="pre">starteffect</span> <span class="pre">(MochiKit.Visual.Opacity)</span></tt>:</dt>
 <dd>Function called once the drag has begun, taking the dragged element as
 argument. It's an effect by default but you can define any callback.</dd>
 <dt><tt class="docutils literal"><span class="pre">reverteffect</span> <span class="pre">(MochiKit.Visual.Move)</span></tt>:</dt>
@@ -98,6 +98,9 @@ clone at end.</dd>
 <dt><tt class="docutils literal"><span class="pre">onchange</span>&nbsp; <span class="pre">(null)</span></tt>:</dt>
 <dd>Function called when updates are made on the draggable object.</dd>
 </dl>
+<p><tt class="docutils literal"><span class="pre">scroll</span> <span class="pre">(false)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">scrollSensitivity</span> <span class="pre">(20)</span></tt>:</p>
+<p><tt class="docutils literal"><span class="pre">scrollSpeed</span> <span class="pre">(15)</span></tt>:</p>
 </blockquote>
 <p>
 <a name="fn-droppable"></a>
@@ -105,41 +108,32 @@ clone at end.</dd>
 <blockquote>
 <p>A object where you can drop a draggable.</p>
 <p>You have the following options, with corresponding default values:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="33%" />
-<col width="68%" />
-</colgroup>
-<tbody valign="top">
-<tr><td>greedy</td>
-<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
-</tr>
-<tr><td>hoverclass</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>activeclass</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>containment</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>accept</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>hoverfunc</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>onhover</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>onactive</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-<tr><td>ondrop</td>
-<td><tt class="docutils literal"><span class="pre">null</span></tt></td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">greedy</span> <span class="pre">(true)</span></tt>:</dt>
+<dd>Stop on this droppable when a draggable drops over it.</dd>
+<dt><tt class="docutils literal"><span class="pre">hoverclass</span> <span class="pre">(null)</span></tt>:</dt>
+<dd>If defined, name of CSS class applied when a draggable is hover the
+droppable element (hover state).</dd>
+<dt><tt class="docutils literal"><span class="pre">hoverfunc</span> <span class="pre">(null)</span></tt>:</dt>
+<dd>Function called on hover state.</dd>
+<dt><tt class="docutils literal"><span class="pre">accept</span> <span class="pre">(null)</span></tt>:</dt>
+<dd>Array of CSS classes allowed to drop on this.</dd>
+<dt><tt class="docutils literal"><span class="pre">activeclass</span> <span class="pre">(null)</span></tt>:</dt>
+<dd>If defined, name of CSS class applied if a possible draggable begins
+its start (active state).</dd>
+<dt><tt class="docutils literal"><span class="pre">onactive</span> <span class="pre">(null)</span></tt>:</dt>
+<dd>Function called on active state.</dd>
+<dt><tt class="docutils literal"><span class="pre">containment</span> <span class="pre">(null)</span></tt>:</dt>
+<dd>Specify a list of elements to check for active state:
+only the children of the specified elements can be dropped. Mainly
+useful for Sortable.</dd>
+<dt><tt class="docutils literal"><span class="pre">onhover</span> <span class="pre">(null)</span></tt>:</dt>
+<dd>Specific hover function, mainly used for Sortable.</dd>
+<dt><tt class="docutils literal"><span class="pre">ondrop</span> <span class="pre">(null)</span></tt>:</dt>
+<dd>Function called when a draggable is dropped. The function takes three
+arguments: the draggable element, the droppable element, and the event
+that raised the drop.</dd>
+</dl>
 </blockquote>
 </div>
 </div>

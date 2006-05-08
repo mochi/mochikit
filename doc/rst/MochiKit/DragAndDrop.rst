@@ -61,7 +61,7 @@ Functions
         the element itself, but you can either put a class of a subelement or
         even the id of another element as handle
 
-    ``starteffect  (MochiKit.Visual.Opacity)``:
+    ``starteffect (MochiKit.Visual.Opacity)``:
         Function called once the drag has begun, taking the dragged element as
         argument. It's an effect by default but you can define any callback.
         
@@ -100,23 +100,53 @@ Functions
     ``onchange  (null)``:
         Function called when updates are made on the draggable object.
 
+    ``scroll (false)``:
+    
+    
+    ``scrollSensitivity (20)``:
+    
+    
+    ``scrollSpeed (15)``:
+
+
 :mochidef:`Droppable(element[, options])`:
 
     A object where you can drop a draggable.
 
     You have the following options, with corresponding default values:
 
-    ============= ===========================
-    greedy        ``true``
-    hoverclass    ``null``
-    activeclass   ``null``
-    containment   ``null``
-    accept        ``null``
-    hoverfunc     ``null``
-    onhover       ``null``
-    onactive      ``null``
-    ondrop        ``null``
-    ============= ===========================
+    ``greedy (true)``:
+        Stop on this droppable when a draggable drops over it.
+    
+    ``hoverclass (null)``:
+        If defined, name of CSS class applied when a draggable is hover the
+        droppable element (hover state).
+    
+    ``hoverfunc (null)``:
+        Function called on hover state.
+
+    ``accept (null)``:
+        Array of CSS classes allowed to drop on this.
+
+    ``activeclass (null)``:
+        If defined, name of CSS class applied if a possible draggable begins
+        its start (active state).
+    
+    ``onactive (null)``:
+        Function called on active state.
+
+    ``containment (null)``:
+        Specify a list of elements to check for active state:
+        only the children of the specified elements can be dropped. Mainly 
+        useful for Sortable.
+
+    ``onhover (null)``:
+        Specific hover function, mainly used for Sortable.
+    
+    ``ondrop (null)``:
+        Function called when a draggable is dropped. The function takes three
+        arguments: the draggable element, the droppable element, and the event
+        that raised the drop.
 
 Authors
 =======
