@@ -753,7 +753,12 @@ MochiKit.Iter.EXPORT = [
 
 MochiKit.Iter.__new__ = function () {
     var m = MochiKit.Base;
-    this.StopIteration = new m.NamedError("StopIteration");
+    // Re-use StopIteration if exists (e.g. SpiderMonkey)
+    if (typeof(StopIteration) != "undefined") {
+        this.StopIteration = StopIteration;
+    } else {
+        this.StopIteration = new m.NamedError("StopIteration");
+    }
     this.iteratorRegistry = new m.AdapterRegistry();
     // Register the iterator factory for arrays
     this.registerIteratorFactory(
