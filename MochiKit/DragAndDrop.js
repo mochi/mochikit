@@ -487,9 +487,6 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             MochiKit.DOM.addElementClass(this.element,
                                          this.options.selectclass);
         }
-        if (this.options.onselect) {
-            this.options.onselect(this.element);
-        }
         if (this.options.zindex) {
             this.originalZ = parseInt(MochiKit.DOM.getStyle(this.element,
                                       'z-index') || '0');
@@ -574,9 +571,6 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         if (this.options.selectclass) {
             MochiKit.DOM.removeElementClass(this.element,
                                             this.options.selectclass);
-        }
-        if (this.options.ondeselect) {
-            this.options.ondeselect(this.element);
         }
 
         if (this.options.ghosting) {
