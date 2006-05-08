@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- Re-use StopIteration Error if the browser already has it
 - Workaround IE type="" bug for INPUT elements
 - Allow LoggingPane to work in IE with hyphen-containing URLs
 - Replace percents for Safari native logging to avoid crashing

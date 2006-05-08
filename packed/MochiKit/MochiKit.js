@@ -1466,7 +1466,11 @@ MochiKit.Iter.EXPORT_OK=["iteratorRegistry","arrayLikeIter","hasIterateNext","it
 MochiKit.Iter.EXPORT=["StopIteration","registerIteratorFactory","iter","count","cycle","repeat","next","izip","ifilter","ifilterfalse","islice","imap","applymap","chain","takewhile","dropwhile","tee","list","reduce","range","sum","exhaust","forEach","every","sorted","reversed","some","iextend","groupby","groupby_as_array"];
 MochiKit.Iter.__new__=function(){
 var m=MochiKit.Base;
+if(typeof (StopIteration)!="undefined"){
+this.StopIteration=StopIteration;
+}else{
 this.StopIteration=new m.NamedError("StopIteration");
+}
 this.iteratorRegistry=new m.AdapterRegistry();
 this.registerIteratorFactory("arrayLike",m.isArrayLike,this.arrayLikeIter);
 this.registerIteratorFactory("iterateNext",this.hasIterateNext,this.iterateNextIter);
