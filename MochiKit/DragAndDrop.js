@@ -525,8 +525,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         MochiKit.DragAndDrop.Droppables.show(pointer, this.element);
         MochiKit.DragAndDrop.Draggables.notify('onDrag', this, event);
         this.draw(pointer);
-        if (this.options.change) {
-            this.options.change(this);
+        if (this.options.onchange) {
+            this.options.onchange(this);
         }
 
         if (this.options.scroll) {
@@ -575,7 +575,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
         if (this.options.ghosting) {
             // XXX: from a user point of view, it would be better to remove
-            // the node only *after* the MochiKit.Visual.Move end
+            // the node only *after* the MochiKit.Visual.Move end when used
+            // with revert.
             MochiKit.Position.relativize(this.element);
             MochiKit.DOM.removeElement(this._clone);
             this._clone = null;
@@ -711,8 +712,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         MochiKit.Position.prepare();
         d.Droppables.show(d.Draggables._lastPointer, this.element);
         this.draw(d.Draggables._lastPointer);
-        if (this.options.change) {
-            this.options.change(this);
+        if (this.options.onchange) {
+            this.options.onchange(this);
         }
     },
 
