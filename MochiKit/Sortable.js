@@ -132,7 +132,7 @@ MochiKit.Sortable.Sortable = {
             overlap: 'vertical',  // one of 'vertical', 'horizontal'
             constraint: 'vertical',  // one of 'vertical', 'horizontal', false
             // also takes array of elements (or ids); or false
-            containment: element,
+            containment: [element],
             handle: false,  // or a CSS class
             only: false,
             hoverclass: null,

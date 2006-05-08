@@ -184,15 +184,9 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         if (this.options.containment) {
             this.options._containers = [];
             var containment = this.options.containment;
-            if ((typeof(containment) == 'object') &&
-                (containment.constructor == Array)) {
-                b.map(MochiKit.Base.bind(function (c) {
-                    this.options._containers.push(d.getElement(c));
-                }, this), containment);
-            } else {
-                this.options._containers.push(
-                    d.getElement(containment));
-            }
+            b.map(MochiKit.Base.bind(function (c) {
+                this.options._containers.push(d.getElement(c));
+            }, this), containment);
         }
 
         d.makePositioned(this.element); // fix IE
