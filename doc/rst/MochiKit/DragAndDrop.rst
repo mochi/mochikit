@@ -80,7 +80,9 @@ Functions
         Zindex of the drag element. By default it brings it to front.
 
     ``revert (false)``:
-        Indicate if the reverteffect function should be called.
+        Indicate if the reverteffect function should be called. If you define 
+        a function here, this function will be called before reverteffect, with
+        the element as first argument.
     
     ``snap (false)``:
         Define the behaviour of the drag element when moving. It can either be
@@ -101,12 +103,14 @@ Functions
         Function called when updates are made on the draggable object.
 
     ``scroll (false)``:
-    
+        Indicate if you want to use the scroll functionnnality, permitting the
+        draggable to scroll over the page when dragged.
     
     ``scrollSensitivity (20)``:
-    
+        Scroll sensitivity, used when scroll is true.
     
     ``scrollSpeed (15)``:
+        Scroll speed, used when scroll is true.
 
 
 :mochidef:`Droppable(element[, options])`:

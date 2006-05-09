@@ -177,7 +177,13 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         this.options = b.update({
             greedy: true,
             hoverclass: null,
-            activeclass: null
+            activeclass: null,
+            hoverfunc: null,
+            accept: null,
+            onactive: null,
+            onhover: null,
+            ondrop: null,
+            containment: null
         }, options || {});
 
         // cache containers
@@ -195,10 +201,14 @@ MochiKit.DragAndDrop.Droppable.prototype = {
     },
 
     isContained: function (element) {
-        var parentNode = element.parentNode;
-        return MochiKit.Iter.some(this._containers, function (c) {
-            return parentNode == c;
-        });
+        if (this._containers) {
+            var parentNode = element.parentNode;
+            return MochiKit.Iter.some(this._containers, function (c) {
+                return parentNode == c;
+            });
+        } else {
+            return true;
+        }
     },
 
     isAccepted: function (element) {
@@ -208,12 +218,11 @@ MochiKit.DragAndDrop.Droppable.prototype = {
     },
 
     isAffected: function (point, element) {
-        return (
-            (this.element != element) &&
-            ((!this._containers) || this.isContained(element)) &&
-            (this.isAccepted(element)) &&
-            MochiKit.Position.within(this.element, point.page.x,
-                                                   point.page.y));
+        return ((this.element != element) &&
+                this.isContained(element) &&
+                this.isAccepted(element) &&
+                MochiKit.Position.within(this.element, point.page.x,
+                                                       point.page.y));
     },
 
     deactivate: function () {

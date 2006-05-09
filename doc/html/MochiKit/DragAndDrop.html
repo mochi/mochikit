@@ -82,7 +82,9 @@ start, you'd usually want to revert it in the function.</dd>
 <dt><tt class="docutils literal"><span class="pre">zindex</span> <span class="pre">(1000)</span></tt>:</dt>
 <dd>Zindex of the drag element. By default it brings it to front.</dd>
 <dt><tt class="docutils literal"><span class="pre">revert</span> <span class="pre">(false)</span></tt>:</dt>
-<dd>Indicate if the reverteffect function should be called.</dd>
+<dd>Indicate if the reverteffect function should be called. If you define
+a function here, this function will be called before reverteffect, with
+the element as first argument.</dd>
 <dt><tt class="docutils literal"><span class="pre">snap</span> <span class="pre">(false)</span></tt>:</dt>
 <dd>Define the behaviour of the drag element when moving. It can either be
 a function, a value or an array of two values. If it's a function, it
@@ -97,10 +99,14 @@ corresponding coordinate.</dd>
 clone at end.</dd>
 <dt><tt class="docutils literal"><span class="pre">onchange</span>&nbsp; <span class="pre">(null)</span></tt>:</dt>
 <dd>Function called when updates are made on the draggable object.</dd>
+<dt><tt class="docutils literal"><span class="pre">scroll</span> <span class="pre">(false)</span></tt>:</dt>
+<dd>Indicate if you want to use the scroll functionnnality, permitting the
+draggable to scroll over the page when dragged.</dd>
+<dt><tt class="docutils literal"><span class="pre">scrollSensitivity</span> <span class="pre">(20)</span></tt>:</dt>
+<dd>Scroll sensitivity, used when scroll is true.</dd>
+<dt><tt class="docutils literal"><span class="pre">scrollSpeed</span> <span class="pre">(15)</span></tt>:</dt>
+<dd>Scroll speed, used when scroll is true.</dd>
 </dl>
-<p><tt class="docutils literal"><span class="pre">scroll</span> <span class="pre">(false)</span></tt>:</p>
-<p><tt class="docutils literal"><span class="pre">scrollSensitivity</span> <span class="pre">(20)</span></tt>:</p>
-<p><tt class="docutils literal"><span class="pre">scrollSpeed</span> <span class="pre">(15)</span></tt>:</p>
 </blockquote>
 <p>
 <a name="fn-droppable"></a>
