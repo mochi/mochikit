@@ -59,7 +59,7 @@ Functions
     ``handle (false)``:
         Option for giving the element where starting the drag. By default it's
         the element itself, but you can either put a class of a subelement or
-        even the id of another element as handle
+        the id of another element as handle.
 
     ``starteffect (MochiKit.Visual.Opacity)``:
         Function called once the drag has begun, taking the dragged element as
@@ -99,7 +99,7 @@ Functions
         Make a ghost from the draggable: clone it at start, then remove the 
         clone at end.
     
-    ``onchange  (null)``:
+    ``onchange  (MochiKit.Base.noop)``:
         Function called when updates are made on the draggable object.
 
     ``scroll (false)``:
@@ -126,7 +126,7 @@ Functions
         If defined, name of CSS class applied when a draggable is hover the
         droppable element (hover state).
     
-    ``hoverfunc (null)``:
+    ``hoverfunc (MochiKit.Base.noop)``:
         Function called on hover state.
 
     ``accept (null)``:
@@ -136,18 +136,18 @@ Functions
         If defined, name of CSS class applied if a possible draggable begins
         its start (active state).
     
-    ``onactive (null)``:
+    ``onactive (MochiKit.Base.noop)``:
         Function called on active state.
 
-    ``containment (null)``:
+    ``containment ([])``:
         Specify a list of elements to check for active state:
         only the children of the specified elements can be dropped. Mainly 
         useful for Sortable.
 
-    ``onhover (null)``:
+    ``onhover (MochiKit.Base.noop)``:
         Specific hover function, mainly used for Sortable.
     
-    ``ondrop (null)``:
+    ``ondrop (MochiKit.Base.noop)``:
         Function called when a draggable is dropped. The function takes three
         arguments: the draggable element, the droppable element, and the event
         that raised the drop.
