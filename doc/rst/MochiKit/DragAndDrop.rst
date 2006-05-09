@@ -103,14 +103,14 @@ Functions
         Function called when updates are made on the draggable object.
 
     ``scroll (false)``:
-        Indicate if you want to use the scroll functionnnality, permitting the
-        draggable to scroll over the page when dragged.
-    
+        Element to scroll around, if precised. For example, 'window' will 
+        allow the draggable to scroll in the page.
+   
     ``scrollSensitivity (20)``:
-        Scroll sensitivity, used when scroll is true.
+        Scroll sensitivity, used when scroll is used.
     
     ``scrollSpeed (15)``:
-        Scroll speed, used when scroll is true.
+        Scroll speed, used when scroll is used.
 
 
 :mochidef:`Droppable(element[, options])`:
