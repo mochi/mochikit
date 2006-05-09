@@ -66,7 +66,7 @@ pages, for richer interfaces.</p>
 <dt><tt class="docutils literal"><span class="pre">handle</span> <span class="pre">(false)</span></tt>:</dt>
 <dd>Option for giving the element where starting the drag. By default it's
 the element itself, but you can either put a class of a subelement or
-even the id of another element as handle</dd>
+the id of another element as handle.</dd>
 <dt><tt class="docutils literal"><span class="pre">starteffect</span> <span class="pre">(MochiKit.Visual.Opacity)</span></tt>:</dt>
 <dd>Function called once the drag has begun, taking the dragged element as
 argument. It's an effect by default but you can define any callback.</dd>
@@ -97,7 +97,7 @@ corresponding coordinate.</dd>
 <dt><tt class="docutils literal"><span class="pre">ghosting</span> <span class="pre">(null)</span></tt>:</dt>
 <dd>Make a ghost from the draggable: clone it at start, then remove the
 clone at end.</dd>
-<dt><tt class="docutils literal"><span class="pre">onchange</span>&nbsp; <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal"><span class="pre">onchange</span>&nbsp; <span class="pre">(MochiKit.Base.noop)</span></tt>:</dt>
 <dd>Function called when updates are made on the draggable object.</dd>
 <dt><tt class="docutils literal"><span class="pre">scroll</span> <span class="pre">(false)</span></tt>:</dt>
 <dd>Indicate if you want to use the scroll functionnnality, permitting the
@@ -120,22 +120,22 @@ draggable to scroll over the page when dragged.</dd>
 <dt><tt class="docutils literal"><span class="pre">hoverclass</span> <span class="pre">(null)</span></tt>:</dt>
 <dd>If defined, name of CSS class applied when a draggable is hover the
 droppable element (hover state).</dd>
-<dt><tt class="docutils literal"><span class="pre">hoverfunc</span> <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal"><span class="pre">hoverfunc</span> <span class="pre">(MochiKit.Base.noop)</span></tt>:</dt>
 <dd>Function called on hover state.</dd>
 <dt><tt class="docutils literal"><span class="pre">accept</span> <span class="pre">(null)</span></tt>:</dt>
 <dd>Array of CSS classes allowed to drop on this.</dd>
 <dt><tt class="docutils literal"><span class="pre">activeclass</span> <span class="pre">(null)</span></tt>:</dt>
 <dd>If defined, name of CSS class applied if a possible draggable begins
 its start (active state).</dd>
-<dt><tt class="docutils literal"><span class="pre">onactive</span> <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal"><span class="pre">onactive</span> <span class="pre">(MochiKit.Base.noop)</span></tt>:</dt>
 <dd>Function called on active state.</dd>
-<dt><tt class="docutils literal"><span class="pre">containment</span> <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal"><span class="pre">containment</span> <span class="pre">([])</span></tt>:</dt>
 <dd>Specify a list of elements to check for active state:
 only the children of the specified elements can be dropped. Mainly
 useful for Sortable.</dd>
-<dt><tt class="docutils literal"><span class="pre">onhover</span> <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal"><span class="pre">onhover</span> <span class="pre">(MochiKit.Base.noop)</span></tt>:</dt>
 <dd>Specific hover function, mainly used for Sortable.</dd>
-<dt><tt class="docutils literal"><span class="pre">ondrop</span> <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal"><span class="pre">ondrop</span> <span class="pre">(MochiKit.Base.noop)</span></tt>:</dt>
 <dd>Function called when a draggable is dropped. The function takes three
 arguments: the draggable element, the droppable element, and the event
 that raised the drop.</dd>

@@ -93,9 +93,7 @@ MochiKit.DragAndDrop.Droppables = {
                     MochiKit.DOM.addElementClass(drop.element,
                                                  drop.options.activeclass);
                 }
-                if (drop.options.onactive) {
-                    drop.options.onactive(drop.element, element);
-                }
+                drop.options.onactive(drop.element, element);
             }
         }, this.drops);
     },
@@ -110,11 +108,9 @@ MochiKit.DragAndDrop.Droppables = {
         }
         MochiKit.Iter.forEach(this.drops, function (drop) {
             if (drop.isAffected(point, element)) {
-                if (drop.options.onhover) {
-                    drop.options.onhover(element, drop.element,
-                       MochiKit.Position.overlap(drop.options.overlap,
-                                                 drop.element));
-                }
+                drop.options.onhover(element, drop.element,
+                   MochiKit.Position.overlap(drop.options.overlap,
+                                             drop.element));
                 if (drop.options.greedy) {
                     drop.activate();
                     throw MochiKit.Iter.StopIteration;
@@ -130,10 +126,8 @@ MochiKit.DragAndDrop.Droppables = {
         MochiKit.Position.prepare();
 
         if (this.last_active.isAffected(event.mouse(), element)) {
-            if (this.last_active.options.ondrop) {
-                this.last_active.options.ondrop(element,
-                   this.last_active.element, event);
-            }
+            this.last_active.options.ondrop(element,
+               this.last_active.element, event);
         }
     },
 
@@ -143,9 +137,7 @@ MochiKit.DragAndDrop.Droppables = {
                 MochiKit.DOM.removeElementClass(drop.element,
                                                 drop.options.activeclass);
             }
-            if (drop.options.ondesactive) {
-                drop.options.ondesactive(drop.element, element);
-            }
+            drop.options.ondesactive(drop.element, element);
         }, this.drops);
         if (this.last_active) {
             this.last_active.deactivate();
@@ -178,22 +170,20 @@ MochiKit.DragAndDrop.Droppable.prototype = {
             greedy: true,
             hoverclass: null,
             activeclass: null,
-            hoverfunc: null,
+            hoverfunc: b.noop,
             accept: null,
-            onactive: null,
-            onhover: null,
-            ondrop: null,
-            containment: null
+            onactive: b.noop,
+            ondesactive: b.noop,
+            onhover: b.noop,
+            ondrop: b.noop,
+            containment: []
         }, options || {});
 
         // cache containers
-        if (this.options.containment) {
-            this.options._containers = [];
-            var containment = this.options.containment;
-            b.map(MochiKit.Base.bind(function (c) {
-                this.options._containers.push(d.getElement(c));
-            }, this), containment);
-        }
+        this.options._containers = [];
+        b.map(MochiKit.Base.bind(function (c) {
+            this.options._containers.push(d.getElement(c));
+        }, this), this.options.containment);
 
         d.makePositioned(this.element); // fix IE
 
@@ -228,16 +218,14 @@ MochiKit.DragAndDrop.Droppable.prototype = {
     deactivate: function () {
         /***
 
-        A droppable is deactivate when a draggablehas been over it and left.
+        A droppable is deactivate when a draggable has been over it and left.
 
         ***/
         if (this.options.hoverclass) {
             MochiKit.DOM.removeElementClass(this.element,
                                             this.options.hoverclass);
         }
-        if (this.options.hoverfunc) {
-            this.options.hoverfunc(this.element, false);
-        }
+        this.options.hoverfunc(this.element, false);
         MochiKit.DragAndDrop.Droppables.last_active = null;
     },
 
@@ -250,9 +238,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         if (this.options.hoverclass) {
             MochiKit.DOM.addElementClass(this.element, this.options.hoverclass);
         }
-        if (this.options.hoverfunc) {
-            this.options.hoverfunc(this.element, true);
-        }
+        this.options.hoverfunc(this.element, true);
         MochiKit.DragAndDrop.Droppables.last_active = this;
     },
 
@@ -394,7 +380,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
     __init__: function (element, /* optional */options) {
         var v = MochiKit.Visual;
-        options = MochiKit.Base.update({
+        var b = MochiKit.Basel;
+        options = b.update({
             handle: false,
             starteffect: function (element) {
                 new v.Opacity(element, {duration:0.2, from:1.0, to:0.7});
@@ -408,6 +395,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             endeffect: function (element) {
                 new v.Opacity(element, {duration:0.2, from:0.7, to:1.0});
             },
+            onchange: b.noop,
             zindex: 1000,
             revert: false,
             scroll: false,
@@ -528,9 +516,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         MochiKit.DragAndDrop.Droppables.show(pointer, this.element);
         MochiKit.DragAndDrop.Draggables.notify('onDrag', this, event);
         this.draw(pointer);
-        if (this.options.onchange) {
-            this.options.onchange(this);
-        }
+        this.options.onchange(this);
 
         if (this.options.scroll) {
             this.stopScrolling();
@@ -715,9 +701,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         MochiKit.Position.prepare();
         d.Droppables.show(d.Draggables._lastPointer, this.element);
         this.draw(d.Draggables._lastPointer);
-        if (this.options.onchange) {
-            this.options.onchange(this);
-        }
+        this.options.onchange(this);
     },
 
     _getWindowScroll: function (w) {
