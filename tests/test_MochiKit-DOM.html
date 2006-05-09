@@ -18,6 +18,11 @@
             <option value="bar">bar</option>
             <option value="baz">baz</option>
         </select>
+        <select name="selmultiple" multiple="multiple">
+            <option value="bar" selected="selected">bar</option>
+            <option value="baz" selected="selected">baz</option>
+            <option value="foo">foo</option>
+        </select>
         <input type="hidden" name="hidden" value="test" />
         <input type="radio" name="radio_off" value="1" />
         <input type="radio" name="radio_off" value="2" />
@@ -241,9 +246,9 @@ try {
     is( queryString(frm), "foo=bar&foo=bar&baz=bar", "mock queryString hook" );
 
     var kv = formContents("form_test");
-    is( kv[0].join(","), "select,hidden,radio_on", "formContents names" );
-    is( kv[1].join(","), "foo,test,2", "formContents values" );
-    is( queryString("form_test"), "select=foo&hidden=test&radio_on=2", "queryString hook" );
+    is( kv[0].join(","), "select,selmultiple,selmultiple,hidden,radio_on", "formContents names" );
+    is( kv[1].join(","), "foo,bar,baz,test,2", "formContents values" );
+    is( queryString("form_test"), "select=foo&selmultiple=bar&selmultiple=baz&hidden=test&radio_on=2", "queryString hook" );
 
     // initial
     var pos = elementPosition('posTest');

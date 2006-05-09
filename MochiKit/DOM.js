@@ -386,16 +386,34 @@ MochiKit.Base.update(MochiKit.DOM, {
                     return null;
                 }
                 if (tagName == "SELECT") {
-                    if (elem.selectedIndex >= 0) {
-                        var opt = elem.options[elem.selectedIndex];
+                    if (elem.type == "select-one") {
+                        if (elem.selectedIndex >= 0) {
+                            var opt = elem.options[elem.selectedIndex];
+                            names.push(name);
+                            values.push((opt.value) ? opt.value : opt.text);
+                            return null;
+                        }
+                        // no form elements?
                         names.push(name);
-                        values.push((opt.value) ? opt.value : opt.text);
+                        values.push("");
+                        return null;
+                    } else {
+                        var opts = elem.options; 
+                        if (!opts.length) {
+                            names.push(name);
+                            values.push("");
+                            return null;
+                        }
+                        for (var i = 0; i < opts.length; i++) { 
+                            var opt = opts[i];
+                            if (!opt.selected) { 
+                                continue; 
+                            } 
+                            names.push(name); 
+                            values.push((opt.value) ? opt.value : opt.text); 
+                        }
                         return null;
                     }
-                    // no form elements?
-                    names.push(name);
-                    values.push("");
-                    return null;
                 }
                 if (tagName == "FORM" || tagName == "P" || tagName == "SPAN"
                     || tagName == "DIV"
