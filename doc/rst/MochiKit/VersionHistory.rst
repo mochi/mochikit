@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Async.DeferredList is now a proper Deferred
 - MochiKit.DOM.formContents now supports SELECT multiple tags
 - Re-use StopIteration Error if the browser already has it
 - Workaround IE type="" bug for INPUT elements
