@@ -2378,7 +2378,8 @@ return "DeferredLock("+this.id+", "+_301+")";
 },toString:MochiKit.Base.forwardCall("repr")};
 MochiKit.Async.DeferredList=function(list,_303,_304,_305,_306){
 this.list=list;
-this.resultList=new Array(this.list.length);
+var _307=[];
+this.resultList=_307;
 this.chain=[];
 this.id=this._nextId();
 this.fired=-1;
@@ -2386,22 +2387,23 @@ this.paused=0;
 this.results=[null,null];
 this.canceller=_306;
 this.silentlyCancelled=false;
-if(this.list.length===0&&!_303){
-this.callback(this.resultList);
-}
 this.finishedCount=0;
 this.fireOnOneCallback=_303;
 this.fireOnOneErrback=_304;
 this.consumeErrors=_305;
-var _307=0;
-MochiKit.Base.map(MochiKit.Base.bind(function(d){
-d.addCallback(MochiKit.Base.bind(this._cbDeferred,this),_307,true);
-d.addErrback(MochiKit.Base.bind(this._cbDeferred,this),_307,false);
-_307+=1;
-},this),this.list);
+var cb=MochiKit.Base.bind(this._cbDeferred,this);
+for(var i=0;i<list.length;i++){
+var d=list[i];
+_307.push(undefined);
+d.addCallback(cb,i,true);
+d.addErrback(cb,i,false);
+}
+if(list.length===0&&!_303){
+this.callback(this.resultList);
+}
 };
-MochiKit.Base.update(MochiKit.Async.DeferredList.prototype,MochiKit.Async.Deferred.prototype);
-MochiKit.Base.update(MochiKit.Async.DeferredList.prototype,{_cbDeferred:function(_308,_309,_310){
+MochiKit.Async.DeferredList.prototype=new MochiKit.Async.Deferred();
+MochiKit.Async.DeferredList.prototype._cbDeferred=function(_308,_309,_310){
 this.resultList[_308]=[_309,_310];
 this.finishedCount+=1;
 if(this.fired!==0){
@@ -2421,7 +2423,7 @@ if(!_309&&this.consumeErrors){
 _310=null;
 }
 return _310;
-}});
+};
 MochiKit.Async.gatherResults=function(_311){
 var d=new MochiKit.Async.DeferredList(_311,false,true,false);
 d.addCallback(function(_312){

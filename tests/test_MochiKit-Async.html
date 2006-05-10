@@ -253,6 +253,8 @@ try {
     callList[1].addCallback(increment); 
     callList[2].addCallback(increment); 
     var defList = new DeferredList(callList); 
+    ok(defList instanceof Deferred, "DeferredList looks like a Deferred");
+    
     callList[0].callback(3); 
     callList[1].callback(5); 
     callList[2].callback(4); 
