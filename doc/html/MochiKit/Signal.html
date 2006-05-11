@@ -36,7 +36,7 @@ connect('myID', 'onclick', myObject, 'wasClicked');
 // the event is normalized, no more e = e || window.event!
 myObject.wasClicked = function(e) {
     var crossBrowserCoordinates = e.mouse().page;
-    // e.mouse().page is a MochiKit.DOM.Coordinates object
+    // e.mouse().page is a MochiKit.Style.Coordinates object
 }
 </pre>
 <p>Signal for non-DOM events:</p>
@@ -266,11 +266,11 @@ control characters.</p>
 <tt class="docutils literal"><span class="pre">'oncontextmenu'</span></tt>:</p>
 <blockquote>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">page</span></tt> is a <a class="mochiref reference" href="DOM.html#fn-coordinates">MochiKit.DOM.Coordinates</a> object that
+<li><tt class="docutils literal"><span class="pre">page</span></tt> is a <a class="mochiref reference" href="Style.html#fn-coordinates">MochiKit.Style.Coordinates</a> object that
 represents the cursor position relative to the HTML document.
 Equivalent to <tt class="docutils literal"><span class="pre">pageX</span></tt> and <tt class="docutils literal"><span class="pre">pageY</span></tt> in Safari, Mozilla, and
 Opera.</li>
-<li><tt class="docutils literal"><span class="pre">client</span></tt> is a <a class="mochiref reference" href="DOM.html#fn-coordinates">MochiKit.DOM.Coordinates</a> object that
+<li><tt class="docutils literal"><span class="pre">client</span></tt> is a <a class="mochiref reference" href="Style.html#fn-coordinates">MochiKit.Style.Coordinates</a> object that
 represents the cursor position relative to the visible portion of
 the HTML document. Equivalent to <tt class="docutils literal"><span class="pre">clientX</span></tt> and <tt class="docutils literal"><span class="pre">clientY</span></tt> on
 all browsers.</li>

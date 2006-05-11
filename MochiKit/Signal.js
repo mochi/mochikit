@@ -245,13 +245,13 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
             this.type().indexOf('click') != -1 ||
             this.type() == 'contextmenu')) {
             
-            m.client = new MochiKit.DOM.Coordinates(0, 0);
+            m.client = new MochiKit.Style.Coordinates(0, 0);
             if (e.clientX || e.clientY) {
                 m.client.x = (!e.clientX || e.clientX < 0) ? 0 : e.clientX;
                 m.client.y = (!e.clientY || e.clientY < 0) ? 0 : e.clientY;
             }
 
-            m.page = new MochiKit.DOM.Coordinates(0, 0);
+            m.page = new MochiKit.Style.Coordinates(0, 0);
             if (e.pageX || e.pageY) {
                 m.page.x = (!e.pageX || e.pageX < 0) ? 0 : e.pageX;
                 m.page.y = (!e.pageY || e.pageY < 0) ? 0 : e.pageY;

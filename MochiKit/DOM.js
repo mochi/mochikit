@@ -114,7 +114,7 @@ MochiKit.DOM.EXPORT_OK = [
 MochiKit.Base.update(MochiKit.DOM, {
 
     getViewportDimensions: function() {
-        var d = new MochiKit.DOM.Dimensions();
+        var d = new MochiKit.Style.Dimensions();
         
         var w = MochiKit.DOM._window;
         var b = MochiKit.DOM._document.body;

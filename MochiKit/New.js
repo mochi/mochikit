@@ -206,7 +206,7 @@ MochiKit.Position = {
                    || document.documentElement.scrollTop
                    || document.body.scrollTop
                    || 0;
-        this.windowOffset = new MochiKit.DOM.Coordinates(deltaX, deltaY);
+        this.windowOffset = new MochiKit.Style.Coordinates(deltaX, deltaY);
     },
 
     cumulativeOffset: function (element) {
@@ -217,7 +217,7 @@ MochiKit.Position = {
             valueL += element.offsetLeft || 0;
             element = element.offsetParent;
         } while (element);
-        return new MochiKit.DOM.Coordinates(valueL, valueT);
+        return new MochiKit.Style.Coordinates(valueL, valueT);
     },
 
     realOffset: function (element) {
@@ -228,7 +228,7 @@ MochiKit.Position = {
             valueL += element.scrollLeft || 0;
             element = element.parentNode;
         } while (element);
-        return new MochiKit.DOM.Coordinates(valueL, valueT);
+        return new MochiKit.Style.Coordinates(valueL, valueT);
     },
 
     within: function (element, x, y) {
@@ -313,7 +313,7 @@ MochiKit.Position = {
                 }
             }
         } while (element);
-        return new MochiKit.DOM.Coordinates(valueL, valueT);
+        return new MochiKit.Style.Coordinates(valueL, valueT);
     },
 
     relativize: function (element) {
@@ -367,7 +367,7 @@ MochiKit.Position = {
             valueL -= element.scrollLeft || 0;
         } while (element = element.parentNode);
 
-        return new MochiKit.DOM.Coordinates(valueL, valueT);
+        return new MochiKit.Style.Coordinates(valueL, valueT);
     }
 };
 

@@ -30,7 +30,7 @@ Drag = {
     _target: null,
     
     _diff: function(lhs, rhs) {
-        return new MochiKit.DOM.Coordinates(lhs.x - rhs.x, lhs.y - rhs.y);
+        return new MochiKit.Style.Coordinates(lhs.x - rhs.x, lhs.y - rhs.y);
     },
         
     _drag: function(e) {

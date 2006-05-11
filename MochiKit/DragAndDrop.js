@@ -523,14 +523,14 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             var p, q;
             if (this.options.scroll == window) {
                 var s = this._getWindowScroll(this.options.scroll);
-                p = new MochiKit.DOM.Coordinates(s.left, s.top);
-                q = new MochiKit.DOM.Coordinates(s.left + s.width,
+                p = new MochiKit.Style.Coordinates(s.left, s.top);
+                q = new MochiKit.Style.Coordinates(s.left + s.width,
                                                  s.top + s.height);
             } else {
                 p = MochiKit.Position.page(this.options.scroll);
                 p.x += this.options.scroll.scrollLeft;
                 p.y += this.options.scroll.scrollTop;
-                q = new MochiKit.DOM.Coordinates(p.x + this.options.scroll.offsetWidth,
+                q = new MochiKit.Style.Coordinates(p.x + this.options.scroll.offsetWidth,
                                                  p.y + this.options.scroll.offsetHeight);
             }
             var speed = [0, 0];

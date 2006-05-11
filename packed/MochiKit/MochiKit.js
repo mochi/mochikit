@@ -2380,13 +2380,6 @@ MochiKit.Async.DeferredList=function(list,_303,_304,_305,_306){
 this.list=list;
 var _307=[];
 this.resultList=_307;
-this.chain=[];
-this.id=this._nextId();
-this.fired=-1;
-this.paused=0;
-this.results=[null,null];
-this.canceller=_306;
-this.silentlyCancelled=false;
 this.finishedCount=0;
 this.fireOnOneCallback=_303;
 this.fireOnOneErrback=_304;
@@ -2515,7 +2508,7 @@ return this.__repr__();
 MochiKit.DOM.EXPORT=["formContents","currentWindow","currentDocument","withWindow","withDocument","registerDOMConverter","coerceToDOM","createDOM","createDOMFunc","getNodeAttribute","setNodeAttribute","updateNodeAttributes","appendChildNodes","replaceChildNodes","removeElement","swapDOM","BUTTON","TT","PRE","H1","H2","H3","BR","CANVAS","HR","LABEL","TEXTAREA","FORM","STRONG","SELECT","OPTION","OPTGROUP","LEGEND","FIELDSET","P","UL","OL","LI","TD","TR","THEAD","TBODY","TFOOT","TABLE","TH","INPUT","SPAN","A","DIV","IMG","getElement","$","getElementsByTagAndClassName","addToCallStack","addLoadEvent","focusOnLoad","setElementClass","toggleElementClass","addElementClass","removeElementClass","swapElementClass","hasElementClass","escapeHTML","toHTML","emitHTML","scrapeText","getViewportDimensions"];
 MochiKit.DOM.EXPORT_OK=["domConverters"];
 MochiKit.Base.update(MochiKit.DOM,{getViewportDimensions:function(){
-var d=new MochiKit.DOM.Dimensions();
+var d=new MochiKit.Style.Dimensions();
 var w=MochiKit.DOM._window;
 var b=MochiKit.DOM._document.body;
 if(w.innerWidth){
@@ -4251,12 +4244,12 @@ return undefined;
 var m={};
 var e=this._event;
 if(this.type()&&(this.type().indexOf("mouse")===0||this.type().indexOf("click")!=-1||this.type()=="contextmenu")){
-m.client=new MochiKit.DOM.Coordinates(0,0);
+m.client=new MochiKit.Style.Coordinates(0,0);
 if(e.clientX||e.clientY){
 m.client.x=(!e.clientX||e.clientX<0)?0:e.clientX;
 m.client.y=(!e.clientY||e.clientY<0)?0:e.clientY;
 }
-m.page=new MochiKit.DOM.Coordinates(0,0);
+m.page=new MochiKit.Style.Coordinates(0,0);
 if(e.pageX||e.pageY){
 m.page.x=(!e.pageX||e.pageX<0)?0:e.pageX;
 m.page.y=(!e.pageY||e.pageY<0)?0:e.pageY;
@@ -5006,7 +4999,7 @@ return "["+this.__class__.NAME+", options:"+MochiKit.Base.repr(this.options)+"]"
 MochiKit.Visual.Parallel=function(_656,_657){
 this.__init__(_656,_657);
 };
-MochiKit.Base.update(MochiKit.Visual.Parallel.prototype,MochiKit.Visual.Base.prototype);
+MochiKit.Visual.Parallel.prototype=new MochiKit.Visual.Base();
 MochiKit.Base.update(MochiKit.Visual.Parallel.prototype,{__init__:function(_658,_659){
 this.effects=_658||[];
 this.start(_659);
@@ -5028,7 +5021,7 @@ _663.event("afterFinish");
 MochiKit.Visual.Opacity=function(_664,_665){
 this.__init__(_664,_665);
 };
-MochiKit.Base.update(MochiKit.Visual.Opacity.prototype,MochiKit.Visual.Base.prototype);
+MochiKit.Visual.Opacity.prototype=new MochiKit.Visual.Base();
 MochiKit.Base.update(MochiKit.Visual.Opacity.prototype,{__init__:function(_666,_667){
 var b=MochiKit.Base;
 var d=MochiKit.DOM;
@@ -5044,7 +5037,7 @@ MochiKit.DOM.setOpacity(this.element,_668);
 MochiKit.Visual.Move=function(_669,_670){
 this.__init__(_669,_670);
 };
-MochiKit.Base.update(MochiKit.Visual.Move.prototype,MochiKit.Visual.Base.prototype);
+MochiKit.Visual.Move.prototype=new MochiKit.Visual.Base();
 MochiKit.Base.update(MochiKit.Visual.Move.prototype,{__init__:function(_671,_672){
 this.element=MochiKit.DOM.getElement(_671);
 _672=MochiKit.Base.update({x:0,y:0,mode:"relative"},_672||{});
@@ -5075,7 +5068,7 @@ MochiKit.DOM.setStyle(this.element,{left:this.options.x*_675+this.originalLeft+"
 MochiKit.Visual.Scale=function(_676,_677,_678){
 this.__init__(_676,_677,_678);
 };
-MochiKit.Base.update(MochiKit.Visual.Scale.prototype,MochiKit.Visual.Base.prototype);
+MochiKit.Visual.Scale.prototype=new MochiKit.Visual.Base();
 MochiKit.Base.update(MochiKit.Visual.Scale.prototype,{__init__:function(_679,_680,_681){
 this.element=MochiKit.DOM.getElement(_679);
 _681=MochiKit.Base.update({scaleX:true,scaleY:true,scaleContent:true,scaleFromCenter:false,scaleMode:"box",scaleFrom:100,scaleTo:_680},_681||{});
@@ -5150,7 +5143,7 @@ MochiKit.DOM.setStyle(this.element,d);
 MochiKit.Visual.Highlight=function(_691,_692){
 this.__init__(_691,_692);
 };
-MochiKit.Base.update(MochiKit.Visual.Highlight.prototype,MochiKit.Visual.Base.prototype);
+MochiKit.Visual.Highlight.prototype=new MochiKit.Visual.Base();
 MochiKit.Base.update(MochiKit.Visual.Highlight.prototype,{__init__:function(_693,_694){
 this.element=MochiKit.DOM.getElement(_693);
 _694=MochiKit.Base.update({startcolor:"#ffff99"},_694||{});
@@ -5188,7 +5181,7 @@ MochiKit.DOM.setStyle(this.element,MochiKit.Base.update(this.oldStyle,{backgroun
 MochiKit.Visual.ScrollTo=function(_696,_697){
 this.__init__(_696,_697);
 };
-MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype,MochiKit.Visual.Base.prototype);
+MochiKit.Visual.ScrollTo.prototype=new MochiKit.Visual.Base();
 MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype,{__init__:function(_698,_699){
 this.element=MochiKit.DOM.getElement(_698);
 this.start(_699||{});
