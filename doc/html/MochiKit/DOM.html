@@ -59,6 +59,8 @@ creating DOM elements, you've been wasting your damn time. Get with it!</p>
 <h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
 <ul class="simple">
 <li><a class="mochiref reference" href="Base.html">MochiKit.Base</a></li>
+<li><a class="mochiref reference" href="Style.html">MochiKit.Style</a> (optional since MochiKit 1.4 for
+backwards-compatibility)</li>
 <li><a class="mochiref reference" href="Iter.html">MochiKit.Iter</a> (optional since MochiKit 1.4)</li>
 </ul>
 </div>
@@ -210,41 +212,6 @@ tables with DOM, it is required to use a <tt class="docutils literal"><span clas
 <a class="reference" href="#creating-dom-element-trees">Creating DOM Element Trees</a> for an example of this).</dd>
 </dl>
 </div>
-<div class="section">
-<h2><a id="element-visibility" name="element-visibility">Element Visibility</a></h2>
-<p>The <a class="mochiref reference" href="#fn-hideelement">hideElement</a> and <a class="mochiref reference" href="#fn-showelement">showElement</a> functions are
-provided as a convenience, but only work for elements that are
-<tt class="docutils literal"><span class="pre">display:</span> <span class="pre">block</span></tt>. For a general solution to showing, hiding, and checking
-the explicit visibility of elements, we recommend using a solution that
-involves a little CSS. Here's an example:</p>
-<pre class="literal-block">
-&lt;style type=&quot;text/css&quot;&gt;
-    .invisible { display: none; }
-&lt;/style&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-    function toggleVisible(elem) {
-        toggleElementClass(&quot;invisible&quot;, elem);
-    }
-
-    function makeVisible(elem) {
-        removeElementClass(elem, &quot;invisible&quot;);
-    }
-
-    function makeInvisible(elem) {
-        addElementClass(elem, &quot;invisible&quot;);
-    }
-
-    function isVisible(elem) {
-        // you may also want to check for
-        // getElement(elem).style.display == &quot;none&quot;
-        return !hasElementClass(elem, &quot;invisible&quot;);
-    };
-&lt;/script&gt;
-</pre>
-<p>MochiKit doesn't ship with such a solution, because there is no reliable and
-portable method for adding CSS rules on the fly with JavaScript.</p>
-</div>
 </div>
 <div class="section">
 <h1><a id="api-reference" name="api-reference">API Reference</a></h1>
@@ -309,13 +276,6 @@ nodes that are appended as children using the
 <dd>The given DOM element</dd>
 </dl>
 </blockquote>
-<p>
-<a name="fn-computedstyle"></a>
-<a class="mochidef reference" href="#fn-computedstyle">computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)</a>:</p>
-<blockquote>
-Looks up a CSS property for the given element. The element can be
-specified as either a string with the element's ID or the element
-object itself.</blockquote>
 <p>
 <a name="fn-createdom"></a>
 <a class="mochidef reference" href="#fn-createdom">createDOM(name[, attrs[, node[, ...]]])</a>:</p>
@@ -530,18 +490,6 @@ Return <tt class="docutils literal"><span class="pre">true</span></tt> if <tt cl
 <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers
 are also acceptable.</blockquote>
 <p>
-<a name="fn-hideelement"></a>
-<a class="mochidef reference" href="#fn-hideelement">hideElement(element, ...)</a>:</p>
-<blockquote>
-<p>Partial form of <a class="mochiref reference" href="#fn-setdisplayforelement">setDisplayForElement</a>, specifically:</p>
-<pre class="literal-block">
-partial(setDisplayForElement, &quot;none&quot;)
-</pre>
-<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt> based
-show/hide mechanism, and a CSS based alternative, see
-<a class="reference" href="#element-visibility">Element Visibility</a>.</p>
-</blockquote>
-<p>
 <a name="fn-registerdomconverter"></a>
 <a class="mochidef reference" href="#fn-registerdomconverter">registerDOMConverter(name, check, wrap[, override])</a>:</p>
 <blockquote>
@@ -599,22 +547,6 @@ each individual text node. These two are equivalent:</p>
 <pre class="literal-block">
 assert( scrapeText(node) == scrapeText(node, true).join(&quot;&quot;) );
 </pre>
-</blockquote>
-<p>
-<a name="fn-setdisplayforelement"></a>
-<a class="mochidef reference" href="#fn-setdisplayforelement">setDisplayForElement(display, element[, ...])</a>:</p>
-<blockquote>
-<p>Change the <tt class="docutils literal"><span class="pre">style.display</span></tt> for the given element(s). Usually
-used as the partial forms:</p>
-<ul class="simple">
-<li><a class="mochiref reference" href="#fn-showelement">showElement(element, ...)</a></li>
-<li><a class="mochiref reference" href="#fn-hideelement">hideElement(element, ...)</a></li>
-</ul>
-<p>Elements are looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers
-are acceptable.</p>
-<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt> based
-show/hide mechanism, and a CSS based alternative, see
-<a class="reference" href="#element-visibility">Element Visibility</a>.</p>
 </blockquote>
 <p>
 <a name="fn-setelementclass"></a>
@@ -678,25 +610,6 @@ the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt c
 <dt><em>returns</em>:</dt>
 <dd>The given DOM element or <tt class="docutils literal"><span class="pre">null</span></tt> on failure</dd>
 </dl>
-</blockquote>
-<p>
-<a name="fn-setopacity"></a>
-<a class="mochidef reference" href="#fn-setopacity">setOpacity(element, opacity)</a>:</p>
-<blockquote>
-Sets <tt class="docutils literal"><span class="pre">opacity</span></tt> for <tt class="docutils literal"><span class="pre">element</span></tt>. Valid <tt class="docutils literal"><span class="pre">opacity</span></tt> values range from 0
-(invisible) to 1 (opaque). <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with
-<a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers are also acceptable.</blockquote>
-<p>
-<a name="fn-showelement"></a>
-<a class="mochidef reference" href="#fn-showelement">showElement(element, ...)</a>:</p>
-<blockquote>
-<p>Partial form of <a class="mochiref reference" href="#fn-setdisplayforelement">setDisplayForElement</a>, specifically:</p>
-<pre class="literal-block">
-partial(setDisplayForElement, &quot;block&quot;)
-</pre>
-<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt> based
-show/hide mechanism, and a CSS based alternative, see
-<a class="reference" href="#element-visibility">Element Visibility</a>.</p>
 </blockquote>
 <p>
 <a name="fn-swapdom"></a>

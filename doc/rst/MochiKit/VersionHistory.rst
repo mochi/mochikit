@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- Refactored style functions from MochiKit.DOM to MochiKit.Style
 - MochiKit.Async.DeferredList is now a proper Deferred
 - MochiKit.DOM.formContents now supports SELECT multiple tags
 - Re-use StopIteration Error if the browser already has it

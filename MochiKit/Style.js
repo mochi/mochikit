@@ -1,0 +1,342 @@
+/***
+
+MochiKit.Style 1.4
+
+See <http://mochikit.com/> for documentation, downloads, license, etc.
+
+(c) 2005-2006 Bob Ippolito, Beau Hartshorne.  All rights Reserved.
+
+***/
+
+if (typeof(dojo) != 'undefined') {
+    dojo.provide('MochiKit.Style');
+    dojo.require('MochiKit.Base');
+    dojo.require('MochiKit.DOM');
+}
+if (typeof(JSAN) != 'undefined') {
+    JSAN.use('MochiKit.Base', []);
+}
+
+try {
+    if (typeof(MochiKit.Base) == 'undefined') {
+        throw '';
+    }
+} catch (e) {
+    throw 'MochiKit.Style depends on MochiKit.Base!';
+}
+
+try {
+    if (typeof(MochiKit.DOM) == 'undefined') {
+        throw '';
+    }
+} catch (e) {
+    throw 'MochiKit.Style depends on MochiKit.DOM!';
+}
+
+
+if (typeof(MochiKit.Style) == 'undefined') {
+    MochiKit.Style = {};
+}
+
+MochiKit.Style.NAME = 'MochiKit.Style';
+MochiKit.Style.VERSION = '1.4';
+MochiKit.Style.__repr__ = function () {
+    return '[' + this.NAME + ' ' + this.VERSION + ']';
+};
+MochiKit.Style.toString = function () {
+    return this.__repr__();
+};
+
+MochiKit.Style.EXPORT_OK = []
+
+MochiKit.Style.EXPORT = [
+    'setOpacity',
+    'computedStyle',
+    'getElementDimensions',
+    'elementDimensions', // deprecated
+    'setElementDimensions',
+    'getElementPosition',
+    'elementPosition', // deprecated
+    'setElementPosition',
+    'setDisplayForElement',
+    'hideElement',
+    'showElement'
+];
+
+
+/*
+
+    Dimensions
+    
+*/
+MochiKit.Style.Dimensions = function (w, h) {
+    this.w = w;
+    this.h = h;
+};
+
+MochiKit.Style.Dimensions.prototype.__repr__ = function () {
+    var repr = MochiKit.Base.repr;
+    return '{w: '  + repr(this.w) + ', h: ' + repr(this.h) + '}';
+};
+
+MochiKit.Style.Dimensions.prototype.toString = function () {
+    return this.__repr__();
+};
+
+
+/*
+
+    Coordinates
+
+*/
+MochiKit.Style.Coordinates = function (x, y) {
+    this.x = x;
+    this.y = y;
+};
+
+MochiKit.Style.Coordinates.prototype.__repr__ = function () {
+    var repr = MochiKit.Base.repr;
+    return '{x: '  + repr(this.x) + ', y: ' + repr(this.y) + '}';
+};
+
+MochiKit.Style.Coordinates.prototype.toString = function () {
+    return this.__repr__();
+};
+
+
+MochiKit.Base.update(MochiKit.Style, {
+
+    computedStyle: function (htmlElement, cssProperty, mozillaEquivalentCSS) {
+        if (arguments.length == 2) {
+            mozillaEquivalentCSS = cssProperty;
+        }   
+        var dom = MochiKit.DOM;
+        var el = dom.getElement(htmlElement);
+        var document = dom._document;
+        if (!el || el == document) {
+            return undefined;
+        }
+        if (el.currentStyle) {
+            return el.currentStyle[cssProperty];
+        }
+        if (typeof(document.defaultView) == 'undefined') {
+            return undefined;
+        }
+        if (document.defaultView === null) {
+            return undefined;
+        }
+        var style = document.defaultView.getComputedStyle(el, null);
+        if (typeof(style) == 'undefined' || style === null) {
+            return undefined;
+        }
+        return style.getPropertyValue(mozillaEquivalentCSS);
+    },
+
+    setOpacity: function(elem, o) {
+        elem = MochiKit.Style.getElement(elem);
+        MochiKit.DOM.updateNodeAttributes(elem, {'style': {
+                'opacity': o, 
+                '-moz-opacity': o,
+                '-khtml-opacity': o,
+                'filter':' alpha(opacity=' + (o * 100) + ')'
+            }});
+    },
+
+    /* 
+
+        getElementPosition is adapted from YAHOO.util.Dom.getXY v0.9.0.
+        Copyright: Copyright (c) 2006, Yahoo! Inc. All rights reserved.
+        License: BSD, http://developer.yahoo.net/yui/license.txt
+
+    */
+    getElementPosition: function (elem, /* optional */relativeTo) {
+        var self = MochiKit.Style;
+        var dom = MochiKit.DOM;        
+        elem = dom.getElement(elem);
+        
+        if (!elem) { 
+            return undefined;
+        }
+
+        var c = new self.Coordinates(0, 0);
+        
+        if (elem.x && elem.y) {
+            /* it's just a MochiKit.Style.Coordinates object */
+            c.x += elem.x || 0;
+            c.y += elem.y || 0;
+            return c;
+        } else if (elem.parentNode === null || 
+            self.computedStyle(elem, 'display') == 'none') {
+            return undefined;
+        }
+        
+        var box = null;
+        var parent = null;
+        
+        var d = MochiKit.DOM._document;
+        var de = d.documentElement;
+        var b = d.body;            
+    
+        if (elem.getBoundingClientRect) { // IE shortcut
+            
+            /*
+            
+                The IE shortcut is off by two:
+                http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/getboundingclientrect.asp
+                
+            */
+            box = elem.getBoundingClientRect();
+                        
+            c.x += box.left + 
+                (de.scrollLeft || b.scrollLeft) - 
+                (de.clientLeft || b.clientLeft);
+            
+            c.y += box.top + 
+                (de.scrollTop || b.scrollTop) - 
+                (de.clientTop || b.clientTop);
+            
+        } else if (d.getBoxObjectFor) { // Gecko shortcut
+            box = d.getBoxObjectFor(elem);
+            c.x += box.x;
+            c.y += box.y;
+        } else if (elem.offsetParent) {
+            c.x += elem.offsetLeft;
+            c.y += elem.offsetTop;
+            parent = elem.offsetParent;
+            
+            if (parent != elem) {
+                while (parent) {
+                    c.x += parent.offsetLeft;
+                    c.y += parent.offsetTop;
+                    parent = parent.offsetParent;
+                }
+            }
+
+            /*
+                
+                Opera < 9 and old Safari (absolute) incorrectly account for 
+                body offsetTop and offsetLeft.
+                
+            */            
+            var ua = navigator.userAgent.toLowerCase();
+            if ((typeof(opera) != 'undefined' && 
+                parseFloat(opera.version()) < 9) || 
+                (ua.indexOf('safari') != -1 && 
+                self.computedStyle(elem, 'position') == 'absolute')) {
+                                
+                c.x -= b.offsetLeft;
+                c.y -= b.offsetTop;
+                
+            }
+        }
+        
+        if (typeof(relativeTo) != 'undefined') {
+            relativeTo = arguments.callee(relativeTo);
+            if (relativeTo) {
+                c.x -= (relativeTo.x || 0);
+                c.y -= (relativeTo.y || 0);
+            }
+        }
+        
+        if (elem.parentNode) {
+            parent = elem.parentNode;
+        } else {
+            parent = null;
+        }
+        
+        while (parent && parent.tagName != 'BODY' && 
+            parent.tagName != 'HTML') {
+            c.x -= parent.scrollLeft;
+            c.y -= parent.scrollTop;        
+            if (parent.parentNode) {
+                parent = parent.parentNode;
+            } else {
+                parent = null;
+            }
+        }
+        
+        return c;
+    },
+        
+    setElementPosition: function (elem, newPos/* optional */, units) {
+        elem = MochiKit.DOM.getElement(elem);
+        if (typeof(units) == 'undefined') {
+            units = 'px';
+        }
+        MochiKit.DOM.updateNodeAttributes(elem, {'style': {
+            'left': newPos.x + units,
+            'top': newPos.y + units
+        }});
+    },
+
+    getElementDimensions: function (elem) {
+        var self = MochiKit.Style;
+        var dom = MochiKit.DOM;
+        if (typeof(elem.w) == 'number' || typeof(elem.h) == 'number') {
+            return new self.Dimensions(elem.w || 0, elem.h || 0);
+        }
+        elem = dom.getElement(elem);
+        if (!elem) {
+            return undefined;
+        }
+        if (self.computedStyle(elem, 'display') != 'none') {
+            return new self.Dimensions(elem.offsetWidth || 0, 
+                elem.offsetHeight || 0);
+        }
+        var s = elem.style;
+        var originalVisibility = s.visibility;
+        var originalPosition = s.position;
+        s.visibility = 'hidden';
+        s.position = 'absolute';
+        s.display = '';
+        var originalWidth = elem.offsetWidth;
+        var originalHeight = elem.offsetHeight;
+        s.display = 'none';
+        s.position = originalPosition;
+        s.visibility = originalVisibility;
+        return new self.Dimensions(originalWidth, originalHeight);
+    },
+    
+    setElementDimensions: function (elem, newSize/* optional */, units) {
+        elem = MochiKit.DOM.getElement(elem);
+        if (typeof(units) == 'undefined') {
+            units = 'px';
+        }
+        MochiKit.DOM.updateNodeAttributes(elem, {'style': {
+            'width': newSize.w + units, 
+            'height': newSize.h + units
+        }});
+    },
+
+    setDisplayForElement: function (display, element/*, ...*/) {
+        var m = MochiKit.Base;
+        var elements = m.extend(null, arguments, 1);
+        var lst = m.map(MochiKit.DOM.getElement, elements);
+        for (var i = 0; i < lst.length; i++) {
+            var element = elements[i];
+            if (element) {
+                element.style.display = display;
+            }
+        }
+    },
+
+    __new__: function () {
+        var m = MochiKit.Base;
+        
+        this.elementPosition = this.getElementPosition;
+        this.elementDimensions = this.getElementDimensions;
+        
+        this.hideElement = m.partial(this.setDisplayForElement, 'none');
+        this.showElement = m.partial(this.setDisplayForElement, 'block');
+        
+        this.EXPORT_TAGS = {
+            ':common': this.EXPORT,
+            ':all': m.concat(this.EXPORT, this.EXPORT_OK)
+        };
+
+        m.nameFunctions(this);
+    }
+});
+
+MochiKit.Style.__new__();
+MochiKit.Base._exportSymbols(this, MochiKit.Style);

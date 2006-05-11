@@ -38,6 +38,8 @@ Dependencies
 ============
 
 - :mochiref:`MochiKit.Base`
+- :mochiref:`MochiKit.DOM`
+- :mochiref:`MochiKit.Style`
 
 
 Overview

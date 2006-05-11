@@ -11,10 +11,14 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 if (typeof(dojo) != 'undefined') {
     dojo.provide('MochiKit.Color');
     dojo.require('MochiKit.Base');
+    dojo.require('MochiKit.DOM');
+    dojo.require('MochiKit.Style');
 }
 
 if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Base", []);
+    JSAN.use("MochiKit.DOM", []);
+    JSAN.use("MochiKit.Style", []);
 }
 
 try {
@@ -23,6 +27,22 @@ try {
     }
 } catch (e) {
     throw "MochiKit.Color depends on MochiKit.Base";
+}
+
+try {
+    if (typeof(MochiKit.Base) == 'undefined') {
+        throw "";
+    }
+} catch (e) {
+    throw "MochiKit.Color depends on MochiKit.DOM";
+}
+
+try {
+    if (typeof(MochiKit.Base) == 'undefined') {
+        throw "";
+    }
+} catch (e) {
+    throw "MochiKit.Color depends on MochiKit.Style";
 }
 
 if (typeof(MochiKit.Color) == "undefined") {
@@ -345,7 +365,7 @@ MochiKit.Base.update(MochiKit.Color.Color, {
         var d = MochiKit.DOM;
         var cls = MochiKit.Color.Color;
         for (elem = d.getElement(elem); elem; elem = elem.parentNode) {
-            var actualColor = d.computedStyle.apply(d, arguments);
+            var actualColor = MochiKit.Style.computedStyle.apply(d, arguments);
             if (!actualColor) {
                 continue;
             }

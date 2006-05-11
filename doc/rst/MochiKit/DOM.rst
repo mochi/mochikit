@@ -54,6 +54,8 @@ Dependencies
 ============
 
 - :mochiref:`MochiKit.Base`
+- :mochiref:`MochiKit.Style` (optional since MochiKit 1.4 for
+  backwards-compatibility)
 - :mochiref:`MochiKit.Iter` (optional since MochiKit 1.4)
 
 
@@ -195,43 +197,6 @@ Internet Explorer:
     `Creating DOM Element Trees`_ for an example of this).
 
 
-Element Visibility
-------------------
-
-The :mochiref:`hideElement` and :mochiref:`showElement` functions are
-provided as a convenience, but only work for elements that are
-``display: block``. For a general solution to showing, hiding, and checking
-the explicit visibility of elements, we recommend using a solution that
-involves a little CSS. Here's an example::
-
-    <style type="text/css">
-        .invisible { display: none; }
-    </style>
-
-    <script type="text/javascript">
-        function toggleVisible(elem) {
-            toggleElementClass("invisible", elem); 
-        }
-
-        function makeVisible(elem) {
-            removeElementClass(elem, "invisible");
-        }
-
-        function makeInvisible(elem) {
-            addElementClass(elem, "invisible");
-        }
-
-        function isVisible(elem) {
-            // you may also want to check for
-            // getElement(elem).style.display == "none"
-            return !hasElementClass(elem, "invisible");
-        }; 
-    </script>
-
-MochiKit doesn't ship with such a solution, because there is no reliable and
-portable method for adding CSS rules on the fly with JavaScript.
-
-
 API Reference
 =============
 
@@ -298,13 +263,6 @@ Functions
 
     *returns*:
         The given DOM element
-
-
-:mochidef:`computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)`:
-
-    Looks up a CSS property for the given element. The element can be
-    specified as either a string with the element's ID or the element
-    object itself.
 
 
 :mochidef:`createDOM(name[, attrs[, node[, ...]]])`:
@@ -528,16 +486,6 @@ Functions
     are also acceptable.
 
 
-:mochidef:`hideElement(element, ...)`:
-
-    Partial form of :mochiref:`setDisplayForElement`, specifically::
-
-        partial(setDisplayForElement, "none")
-
-    For information about the caveats of using a ``style.display`` based
-    show/hide mechanism, and a CSS based alternative, see
-    `Element Visibility`_.
-
 
 :mochidef:`registerDOMConverter(name, check, wrap[, override])`:
 
@@ -594,22 +542,6 @@ Functions
     each individual text node. These two are equivalent::
 
         assert( scrapeText(node) == scrapeText(node, true).join("") );
-
-
-:mochidef:`setDisplayForElement(display, element[, ...])`:
-
-    Change the ``style.display`` for the given element(s). Usually
-    used as the partial forms:
-
-    - :mochiref:`showElement(element, ...)`
-    - :mochiref:`hideElement(element, ...)`
-
-    Elements are looked up with :mochiref:`getElement`, so string identifiers
-    are acceptable.
-
-    For information about the caveats of using a ``style.display`` based
-    show/hide mechanism, and a CSS based alternative, see
-    `Element Visibility`_.
 
 
 :mochidef:`setElementClass(element, className)`:
@@ -674,24 +606,6 @@ Functions
 
     *returns*:
         The given DOM element or ``null`` on failure
-
-
-:mochidef:`setOpacity(element, opacity)`:
-
-    Sets ``opacity`` for ``element``. Valid ``opacity`` values range from 0
-    (invisible) to 1 (opaque). ``element`` is looked up with
-    :mochiref:`getElement`, so string identifiers are also acceptable.
-
-
-:mochidef:`showElement(element, ...)`:
-
-    Partial form of :mochiref:`setDisplayForElement`, specifically::
-
-        partial(setDisplayForElement, "block")
-
-    For information about the caveats of using a ``style.display`` based
-    show/hide mechanism, and a CSS based alternative, see
-    `Element Visibility`_.
 
 
 :mochidef:`swapDOM(dest, src)`:
