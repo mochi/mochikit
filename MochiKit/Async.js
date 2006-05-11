@@ -453,15 +453,6 @@ MochiKit.Async.DeferredList = function (list, /* optional */fireOnOneCallback, f
     var resultList = [];
     this.resultList = resultList;
 
-    // Deferred init
-    this.chain = [];
-    this.id = this._nextId();
-    this.fired = -1;
-    this.paused = 0;
-    this.results = [null, null];
-    this.canceller = canceller;
-    this.silentlyCancelled = false;
-    
     this.finishedCount = 0;
     this.fireOnOneCallback = fireOnOneCallback;
     this.fireOnOneErrback = fireOnOneErrback;
