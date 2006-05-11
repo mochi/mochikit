@@ -90,7 +90,6 @@ MochiKit.DOM.EXPORT = [
     "IMG",
     "getElement",
     "$",
-    "computedStyle",
     "getElementsByTagAndClassName",
     "addToCallStack",
     "addLoadEvent",
@@ -104,58 +103,16 @@ MochiKit.DOM.EXPORT = [
     "escapeHTML",
     "toHTML",
     "emitHTML",
-    "setDisplayForElement",
-    "hideElement",
-    "showElement",
     "scrapeText",
-    "elementDimensions",
-    "elementPosition",
-    "setElementDimensions",
-    "setElementPosition",
-    "getViewportDimensions",
-    "setOpacity"
+    "getViewportDimensions"
 ];
 
 MochiKit.DOM.EXPORT_OK = [
     "domConverters"
 ];
 
-MochiKit.DOM.Dimensions = function (w, h) {
-    this.w = w;
-    this.h = h;
-};
-
-MochiKit.DOM.Dimensions.prototype.repr = function () {
-    var repr = MochiKit.Base.repr;
-    return "{w: "  + repr(this.w) + ", h: " + repr(this.h) + "}";
-};
-
-MochiKit.DOM.Coordinates = function (x, y) {
-    this.x = x;
-    this.y = y;
-};
-
-MochiKit.DOM.Coordinates.prototype.repr = function () {
-    var repr = MochiKit.Base.repr;
-    return "{x: "  + repr(this.x) + ", y: " + repr(this.y) + "}";
-};
-
-MochiKit.DOM.Coordinates.prototype.toString = function () {
-    return this.repr();
-};
-
 MochiKit.Base.update(MochiKit.DOM, {
 
-    setOpacity: function(elem, o) {
-        elem = MochiKit.DOM.getElement(elem);
-        MochiKit.DOM.updateNodeAttributes(elem, {'style': {
-                'opacity': o, 
-                '-moz-opacity': o,
-                '-khtml-opacity': o,
-                'filter':' alpha(opacity=' + (o * 100) + ')'
-            }});
-    },
-    
     getViewportDimensions: function() {
         var d = new MochiKit.DOM.Dimensions();
         
@@ -173,169 +130,6 @@ MochiKit.Base.update(MochiKit.DOM, {
             d.h = b.clientHeight;
         }
         return d;
-    },
-
-    elementDimensions: function (elem) {
-        var self = MochiKit.DOM;
-        if (typeof(elem.w) == 'number' || typeof(elem.h) == 'number') {
-            return new self.Dimensions(elem.w || 0, elem.h || 0);
-        }
-        elem = self.getElement(elem);
-        if (!elem) {
-            return undefined;
-        }
-        if (self.computedStyle(elem, 'display') != 'none') {
-            return new self.Dimensions(elem.offsetWidth || 0, 
-                elem.offsetHeight || 0);
-        }
-        var s = elem.style;
-        var originalVisibility = s.visibility;
-        var originalPosition = s.position;
-        s.visibility = 'hidden';
-        s.position = 'absolute';
-        s.display = '';
-        var originalWidth = elem.offsetWidth;
-        var originalHeight = elem.offsetHeight;
-        s.display = 'none';
-        s.position = originalPosition;
-        s.visibility = originalVisibility;
-        return new self.Dimensions(originalWidth, originalHeight);
-    },
-
-    /* 
-
-        elementPosition is adapted from YAHOO.util.Dom.getXY, version 0.9.0.
-        Copyright: Copyright (c) 2006, Yahoo! Inc. All rights reserved.
-        License: BSD, http://developer.yahoo.net/yui/license.txt
-
-    */
-    elementPosition: function (elem, /* optional */relativeTo) {
-        var self = MochiKit.DOM;        
-        elem = self.getElement(elem);
-        
-        if (!elem) { 
-            return undefined;
-        }
-
-        var c = new self.Coordinates(0, 0);
-        
-        if (elem.x && elem.y) {
-            /* it's just a MochiKit.DOM.Coordinates object */
-            c.x += elem.x || 0;
-            c.y += elem.y || 0;
-            return c;
-        } else if (elem.parentNode === null || self.computedStyle(elem, 'display') == 'none') {
-            return undefined;
-        }
-        
-        var box = null;
-        var parent = null;
-        
-        var d = MochiKit.DOM._document;
-        var de = d.documentElement;
-        var b = d.body;            
-    
-        if (elem.getBoundingClientRect) { // IE shortcut
-            
-            /*
-            
-                The IE shortcut is off by two:
-                http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/getboundingclientrect.asp
-                
-            */
-            box = elem.getBoundingClientRect();
-                        
-            c.x += box.left + 
-                (de.scrollLeft || b.scrollLeft) - 
-                (de.clientLeft || b.clientLeft);
-            
-            c.y += box.top + 
-                (de.scrollTop || b.scrollTop) - 
-                (de.clientTop || b.clientTop);
-            
-        } else if (d.getBoxObjectFor) { // Gecko shortcut
-            box = d.getBoxObjectFor(elem);
-            c.x += box.x;
-            c.y += box.y;
-        } else if (elem.offsetParent) {
-            c.x += elem.offsetLeft;
-            c.y += elem.offsetTop;
-            parent = elem.offsetParent;
-            
-            if (parent != elem) {
-                while (parent) {
-                    c.x += parent.offsetLeft;
-                    c.y += parent.offsetTop;
-                    parent = parent.offsetParent;
-                }
-            }
-
-            /*
-                
-                Opera < 9 and old Safari (absolute) incorrectly account for 
-                body offsetTop and offsetLeft.
-                
-            */            
-            var ua = navigator.userAgent.toLowerCase();
-            if ((typeof(opera) != "undefined" && 
-                parseFloat(opera.version()) < 9) || 
-                (ua.indexOf('safari') != -1 && 
-                self.computedStyle(elem, 'position') == 'absolute')) {
-                                
-                c.x -= b.offsetLeft;
-                c.y -= b.offsetTop;
-                
-            }
-        }
-        
-        if (typeof(relativeTo) != 'undefined') {
-            relativeTo = arguments.callee(relativeTo);
-            if (relativeTo) {
-                c.x -= (relativeTo.x || 0);
-                c.y -= (relativeTo.y || 0);
-            }
-        }
-        
-        if (elem.parentNode) {
-            parent = elem.parentNode;
-        } else {
-            parent = null;
-        }
-        
-        while (parent && parent.tagName != 'BODY' && 
-            parent.tagName != 'HTML') {
-            c.x -= parent.scrollLeft;
-            c.y -= parent.scrollTop;        
-            if (parent.parentNode) {
-                parent = parent.parentNode;
-            } else {
-                parent = null;
-            }
-        }
-        
-        return c;
-    },
-    
-    setElementDimensions: function (elem, newSize/* optional */, units) {
-        elem = MochiKit.DOM.getElement(elem);
-        if (typeof(units) == 'undefined') {
-            units = 'px';
-        }
-        MochiKit.DOM.updateNodeAttributes(elem, {'style': {
-            'width': newSize.w + units, 
-            'height': newSize.h + units
-        }});
-    },
-    
-    setElementPosition: function (elem, newPos/* optional */, units) {
-        elem = MochiKit.DOM.getElement(elem);
-        if (typeof(units) == 'undefined') {
-            units = 'px';
-        }
-        MochiKit.DOM.updateNodeAttributes(elem, {'style': {
-            'left': newPos.x + units,
-            'top': newPos.y + units
-        }});
     },
     
     currentWindow: function () {
@@ -638,13 +432,6 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     createDOM: function (name, attrs/*, nodes... */) {
-        /*
-
-            Create a DOM fragment in a really convenient manner, much like
-            Nevow's <http://nevow.com> stan.
-
-        */
-
         var elem;
         var self = MochiKit.DOM;
         var m = MochiKit.Base;
@@ -711,32 +498,6 @@ MochiKit.Base.update(MochiKit.DOM, {
         } else {
             return MochiKit.Base.map(self.getElement, arguments);
         }
-    },
-
-    computedStyle: function (htmlElement, cssProperty, mozillaEquivalentCSS) {
-        if (arguments.length == 2) {
-            mozillaEquivalentCSS = cssProperty;
-        }   
-        var self = MochiKit.DOM;
-        var el = self.getElement(htmlElement);
-        var document = self._document;
-        if (!el || el == document) {
-            return undefined;
-        }
-        if (el.currentStyle) {
-            return el.currentStyle[cssProperty];
-        }
-        if (typeof(document.defaultView) == 'undefined') {
-            return undefined;
-        }
-        if (document.defaultView === null) {
-            return undefined;
-        }
-        var style = document.defaultView.getComputedStyle(el, null);
-        if (typeof(style) == "undefined" || style === null) {
-            return undefined;
-        }
-        return style.getPropertyValue(mozillaEquivalentCSS);
     },
 
     getElementsByTagAndClassName: function (tagName, className,
@@ -990,18 +751,6 @@ MochiKit.Base.update(MochiKit.DOM, {
         return lst;
     },
 
-    setDisplayForElement: function (display, element/*, ...*/) {
-        var m = MochiKit.Base;
-        var elements = m.extend(null, arguments, 1);
-        var lst = m.map(MochiKit.DOM.getElement, elements);
-        for (var i = 0; i < lst.length; i++) {
-            var element = elements[i];
-            if (element) {
-                element.style.display = display;
-            }
-        }
-    },
-
     scrapeText: function (node, /* optional */asArray) {
         var rval = [];
         (function (node) {
@@ -1112,8 +861,6 @@ MochiKit.Base.update(MochiKit.DOM, {
         this.STRONG = createDOMFunc("strong");
         this.CANVAS = createDOMFunc("canvas");
 
-        this.hideElement = m.partial(this.setDisplayForElement, "none");
-        this.showElement = m.partial(this.setDisplayForElement, "block");
         this.removeElement = this.swapDOM;
         
         this.$ = this.getElement;
@@ -1127,6 +874,7 @@ MochiKit.Base.update(MochiKit.DOM, {
 
     }
 });
+
 
 MochiKit.DOM.__new__(((typeof(window) == "undefined") ? this : window));
 

@@ -34,6 +34,7 @@ MochiKit.MochiKit.SUBMODULES = [
     "Format",
     "Async",
     "DOM",
+    "Style",
     "LoggingPane",
     "Color",
     "Signal",
@@ -54,6 +55,7 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         JSAN.use("MochiKit.Format", []);
         JSAN.use("MochiKit.Async", []);
         JSAN.use("MochiKit.DOM", []);
+        JSAN.use("MochiKit.Style", []);
         JSAN.use("MochiKit.LoggingPane", []);
         JSAN.use("MochiKit.Color", []);
         JSAN.use("MochiKit.Signal", []);

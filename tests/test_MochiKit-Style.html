@@ -1,0 +1,63 @@
+<html>
+<head>
+    <script type="text/javascript" src="../MochiKit/MockDOM.js"></script>
+    <script type="text/javascript" src="../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../MochiKit/Iter.js"></script>
+    <script type="text/javascript" src="../MochiKit/DOM.js"></script>
+    <script type="text/javascript" src="../MochiKit/Style.js"></script>
+    <script type="text/javascript" src="../MochiKit/Logging.js"></script>
+    <script type="text/javascript" src="SimpleTest/SimpleTest.js"></script>        
+    <link rel="stylesheet" type="text/css" href="SimpleTest/test.css">
+</head>
+<body>
+
+<div id="posTest" style="position: absolute; left: 400px; top: 100px; width: 100px; height: 100px; background: red;">&nbsp;</div>
+
+<pre id="test">
+<script type="text/javascript">
+try {
+
+    // initial
+    var pos = getElementPosition('posTest');
+    is( pos.x, 400, 'initial x position' );
+    is( pos.y, 100, 'initial y position' );
+    
+    // moved
+    var newPos = new MochiKit.Style.Coordinates(500, 200);
+    setElementPosition('posTest', newPos);
+    pos = getElementPosition('posTest');
+    is( pos.x, 500, 'updated x position' );
+    is( pos.y, 200, 'updated y position' );
+
+    // moved with relativeTo
+    anotherPos = new MochiKit.Style.Coordinates(100, 100);
+    pos = getElementPosition('posTest', anotherPos);
+    is( pos.x, 400, 'updated x position (using relativeTo parameter)' );
+    is( pos.y, 100, 'updated y position (using relativeTo parameter)' );
+    
+    pos = getElementPosition('garbage'); 
+    is( typeof(pos), 'undefined', // raise instead?
+        'invalid element should return an undefined position' );
+    
+    ok( true, "test suite finished!");
+    
+    
+} catch (err) {
+    
+    var s = "test suite failure!\n";
+    var o = {};
+    var k = null;
+    for (k in err) {
+        // ensure unique keys?!
+        if (!o[k]) {
+            s +=  k + ": " + err[k] + "\n";
+            o[k] = err[k];
+        }
+    }
+    ok ( false, s );
+
+}
+</script>
+</pre>
+</body>
+</html>
