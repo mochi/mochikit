@@ -28,7 +28,7 @@ Signal for DOM events::
     // the event is normalized, no more e = e || window.event!
     myObject.wasClicked = function(e) {
         var crossBrowserCoordinates = e.mouse().page;
-        // e.mouse().page is a MochiKit.DOM.Coordinates object
+        // e.mouse().page is a MochiKit.Style.Coordinates object
     }
 
 
@@ -290,12 +290,12 @@ DOM Custom Event Object Reference
     Properties for ``'onmouse*'``, ``'onclick'``, ``'ondblclick'``, and
     ``'oncontextmenu'``:
 
-        -   ``page`` is a :mochiref:`MochiKit.DOM.Coordinates` object that
+        -   ``page`` is a :mochiref:`MochiKit.Style.Coordinates` object that
             represents the cursor position relative to the HTML document. 
             Equivalent to ``pageX`` and ``pageY`` in Safari, Mozilla, and 
             Opera.
 
-        -   ``client`` is a :mochiref:`MochiKit.DOM.Coordinates` object that
+        -   ``client`` is a :mochiref:`MochiKit.Style.Coordinates` object that
             represents the cursor position relative to the visible portion of 
             the HTML document. Equivalent to ``clientX`` and ``clientY`` on 
             all browsers.
