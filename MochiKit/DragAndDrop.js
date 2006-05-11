@@ -380,7 +380,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
     __init__: function (element, /* optional */options) {
         var v = MochiKit.Visual;
-        var b = MochiKit.Basel;
+        var b = MochiKit.Base;
         options = b.update({
             handle: false,
             starteffect: function (element) {

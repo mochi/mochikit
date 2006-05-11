@@ -702,8 +702,7 @@ MochiKit.Visual.Parallel = function (effects, options) {
     this.__init__(effects, options);
 };
 
-MochiKit.Base.update(MochiKit.Visual.Parallel.prototype,
-                     MochiKit.Visual.Base.prototype);
+MochiKit.Visual.Parallel.prototype = new MochiKit.Visual.Base();
 
 MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, {
     /***
@@ -739,8 +738,7 @@ MochiKit.Visual.Opacity = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(MochiKit.Visual.Opacity.prototype,
-                     MochiKit.Visual.Base.prototype);
+MochiKit.Visual.Opacity.prototype = new MochiKit.Visual.Base();
 
 MochiKit.Base.update(MochiKit.Visual.Opacity.prototype, {
     /***
@@ -775,7 +773,7 @@ MochiKit.Visual.Move = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(MochiKit.Visual.Move.prototype, MochiKit.Visual.Base.prototype);
+MochiKit.Visual.Move.prototype = new MochiKit.Visual.Base();
 
 MochiKit.Base.update(MochiKit.Visual.Move.prototype, {
     /***
@@ -837,7 +835,7 @@ MochiKit.Visual.Scale = function (element, percent, options) {
     this.__init__(element, percent, options);
 };
 
-MochiKit.Base.update(MochiKit.Visual.Scale.prototype, MochiKit.Visual.Base.prototype);
+MochiKit.Visual.Scale.prototype = new MochiKit.Visual.Base();
 
 MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
     /***
@@ -954,8 +952,7 @@ MochiKit.Visual.Highlight = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(MochiKit.Visual.Highlight.prototype,
-                     MochiKit.Visual.Base.prototype);
+MochiKit.Visual.Highlight.prototype = new MochiKit.Visual.Base();
 
 MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
     /***
@@ -1032,8 +1029,7 @@ MochiKit.Visual.ScrollTo = function (element, options) {
     this.__init__(element, options);
 };
 
-MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype,
-                     MochiKit.Visual.Base.prototype);
+MochiKit.Visual.ScrollTo.prototype = new MochiKit.Visual.Base();
 
 MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
     /***
