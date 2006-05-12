@@ -293,7 +293,7 @@ MochiKit.Sortable.Sortable = {
     unmark: function () {
         var m = MochiKit.Sortable.Sortable._marker;
         if (m) {
-            MochiKit.DOM.hideElement(m);
+            MochiKit.Style.hideElement(m);
         }
     },
 
@@ -309,7 +309,7 @@ MochiKit.Sortable.Sortable = {
         if (!s._marker) {
             s._marker = d.getElement('dropmarker') ||
                         document.createElement('DIV');
-            d.hideElement(s._marker);
+            MochiKit.Style.hideElement(s._marker);
             d.addElementClass(s._marker, 'dropmarker');
             s._marker.style.position = 'absolute';
             document.getElementsByTagName('body').item(0).appendChild(s._marker);
@@ -325,7 +325,7 @@ MochiKit.Sortable.Sortable = {
                 s._marker.style.top = (offsets.y + dropon.clientHeight) + 'px';
             }
         }
-        d.showElement(s._marker);
+        MochiKit.Style.showElement(s._marker);
     },
 
     setSequence: function (element, newSequence) {

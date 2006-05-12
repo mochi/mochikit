@@ -518,7 +518,7 @@ Autocompleter.Base.prototype = {
 
         this.element.setAttribute('autocomplete', 'off');
 
-        MochiKit.DOM.hideElement(this.update);
+        MochiKit.Style.hideElement(this.update);
 
         MochiKit.Signal.connect(this.element, 'onblur',
                                 MochiKit.Base.bind(this.onBlur, this));
@@ -547,7 +547,7 @@ Autocompleter.Base.prototype = {
         MochiKit.Position.clone(this.update, this.iefix);
         this.iefix.style.zIndex = 1;
         this.update.style.zIndex = 2;
-        MochiKit.DOM.showElement(this.iefix);
+        MochiKit.Style.showElement(this.iefix);
     },
 
     hide: function () {
@@ -556,19 +556,19 @@ Autocompleter.Base.prototype = {
             this.options.onHide(this.element, this.update);
         }
         if (this.iefix) {
-            MochiKit.DOM.hideElement(this.iefix);
+            MochiKit.Style.hideElement(this.iefix);
         }
     },
 
     startIndicator: function () {
         if (this.options.indicator) {
-            MochiKit.DOM.showElement(this.options.indicator);
+            MochiKit.Style.showElement(this.options.indicator);
         }
     },
 
     stopIndicator: function () {
         if (this.options.indicator) {
-            MochiKit.DOM.hideElement(this.options.indicator);
+            MochiKit.Style.hideElement(this.options.indicator);
         }
     },
 
@@ -1038,9 +1038,9 @@ Ajax.InPlaceEditor.prototype = {
         this.editing = true;
         this.onEnterEditMode();
         if (this.options.externalControl) {
-            MochiKit.DOM.hideElement(this.options.externalControl);
+            MochiKit.Style.hideElement(this.options.externalControl);
         }
-        MochiKit.DOM.hideElement(this.element);
+        MochiKit.Style.hideElement(this.element);
         this.createForm();
         this.element.parentNode.insertBefore(this.form, this.element);
         Field.scrollFreeActivate(this.editField);
@@ -1217,7 +1217,7 @@ Ajax.InPlaceEditor.prototype = {
         this.element.innerHTML = this.options.savingText;
         MochiKit.DOM.addElementClass(this.element, this.options.savingClassName);
         this.element.style.backgroundColor = this.originalBackground;
-        MochiKit.DOM.showElement(this.element);
+        MochiKit.Style.showElement(this.element);
     },
 
     removeForm: function () {
@@ -1260,9 +1260,9 @@ Ajax.InPlaceEditor.prototype = {
         this.removeForm();
         this.leaveHover();
         this.element.style.backgroundColor = this.originalBackground;
-        MochiKit.DOM.showElement(this.element);
+        MochiKit.Style.showElement(this.element);
         if (this.options.externalControl) {
-            MochiKit.DOM.showElement(this.options.externalControl);
+            MochiKit.Style.showElement(this.options.externalControl);
         }
         this.editing = false;
         this.saving = false;
