@@ -486,7 +486,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
         if (this.options.ghosting) {
             this._clone = this.element.cloneNode(true);
-            MochiKit.Position.absolutize(this.element);
+            this.ghostPosition = MochiKit.Position.absolutize(this.element);
             this.element.parentNode.insertBefore(this._clone, this.element);
         }
 
@@ -566,7 +566,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             // XXX: from a user point of view, it would be better to remove
             // the node only *after* the MochiKit.Visual.Move end when used
             // with revert.
-            MochiKit.Position.relativize(this.element);
+            MochiKit.Position.relativize(this.element, this.ghostPosition);
             MochiKit.DOM.removeElement(this._clone);
             this._clone = null;
         }

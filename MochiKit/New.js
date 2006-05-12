@@ -288,16 +288,21 @@ MochiKit.Position = {
         var width = element.clientWidth;
         var height = element.clientHeight;
 
-        element._originalLeft = offsets.x - parseFloat(element.style.left  || 0);
-        element._originalTop = offsets.y - parseFloat(element.style.top || 0);
-        element._originalWidth = element.style.width;
-        element._originalHeight = element.style.height;
+        var oldStyle = {
+            'position': element.style.position,
+            'left': offsets.x - parseFloat(element.style.left  || 0),
+            'top': offsets.y - parseFloat(element.style.top || 0),
+            'width': element.style.width,
+            'height': element.style.height
+        };
 
         element.style.position = 'absolute';
-        element.style.top = offsets.y + 'px';;
-        element.style.left = offsets.x + 'px';;
-        element.style.width = width + 'px';;
-        element.style.height = height + 'px';;
+        element.style.top = offsets.y + 'px';
+        element.style.left = offsets.x + 'px';
+        element.style.width = width + 'px';
+        element.style.height = height + 'px';
+
+        return oldStyle;
     },
 
     positionedOffset: function (element) {
@@ -316,23 +321,23 @@ MochiKit.Position = {
         return new MochiKit.Style.Coordinates(valueL, valueT);
     },
 
-    relativize: function (element) {
+    relativize: function (element, oldPos) {
         element = MochiKit.DOM.getElement(element);
         if (element.style.position == 'relative') {
             return;
         }
         MochiKit.Position.prepare();
 
-        element.style.position = 'relative';
         var top = parseFloat(element.style.top || 0) -
-                  (element._originalTop || 0);
+                  (oldPos['top'] || 0);
         var left = parseFloat(element.style.left || 0) -
-                   (element._originalLeft || 0);
+                   (oldPos['left'] || 0);
 
+        element.style.position = oldPos['position'];
         element.style.top = top + 'px';
         element.style.left = left + 'px';
-        element.style.height = element._originalHeight;
-        element.style.width = element._originalWidth;
+        element.style.width = oldPos['width'];
+        element.style.height = oldPos['height'];
     },
 
     clone: function (source, target) {
