@@ -449,6 +449,10 @@ MochiKit.Async.DeferredLock.prototype = {
 };
 
 MochiKit.Async.DeferredList = function (list, /* optional */fireOnOneCallback, fireOnOneErrback, consumeErrors, canceller) {
+
+    // call parent constructor
+    MochiKit.Async.Deferred.apply(this, [canceller]);
+    
     this.list = list;
     var resultList = [];
     this.resultList = resultList;
