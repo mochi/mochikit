@@ -2377,6 +2377,7 @@ _301="unlocked";
 return "DeferredLock("+this.id+", "+_301+")";
 },toString:MochiKit.Base.forwardCall("repr")};
 MochiKit.Async.DeferredList=function(list,_303,_304,_305,_306){
+MochiKit.Async.Deferred.apply(this,[_306]);
 this.list=list;
 var _307=[];
 this.resultList=_307;
