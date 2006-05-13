@@ -198,6 +198,13 @@ Functions
     `Element Visibility`_.
 
 
+:mochidef:`getViewportDimensions()`:
+
+    Return the pixel width and height of the viewport as an object with ``w``
+    and ``h`` properties. ``element`` is looked up with
+    :mochiref:`getElement`, so string identifiers are also acceptable.
+
+
 Authors
 =======
 
