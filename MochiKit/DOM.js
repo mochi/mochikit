@@ -103,8 +103,7 @@ MochiKit.DOM.EXPORT = [
     "escapeHTML",
     "toHTML",
     "emitHTML",
-    "scrapeText",
-    "getViewportDimensions"
+    "scrapeText"
 ];
 
 MochiKit.DOM.EXPORT_OK = [
@@ -113,25 +112,6 @@ MochiKit.DOM.EXPORT_OK = [
 
 MochiKit.Base.update(MochiKit.DOM, {
 
-    getViewportDimensions: function() {
-        var d = new MochiKit.Style.Dimensions();
-        
-        var w = MochiKit.DOM._window;
-        var b = MochiKit.DOM._document.body;
-        
-        if (w.innerWidth) {
-            d.w = w.innerWidth;
-            d.h = w.innerHeight;
-        } else if (b.parentElement.clientWidth) {
-            d.w = b.parentElement.clientWidth;
-            d.h = b.parentElement.clientHeight;
-        } else if (b && b.clientWidth) {
-            d.w = b.clientWidth;
-            d.h = b.clientHeight;
-        }
-        return d;
-    },
-    
     currentWindow: function () {
         return MochiKit.DOM._window;
     },

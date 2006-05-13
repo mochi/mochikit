@@ -472,19 +472,11 @@ Functions
         The attribute's value, or ``null``
 
 
-:mochidef:`getViewportDimensions()`:
-
-    Return the pixel width and height of the viewport as an object with ``w``
-    and ``h`` properties. ``element`` is looked up with
-    :mochiref:`getElement`, so string identifiers are also acceptable.
-
-
 :mochidef:`hasElementClass(element, className[, ...])`:
 
     Return ``true`` if ``className`` is found on the ``element``.
     ``element`` is looked up with :mochiref:`getElement`, so string identifiers
     are also acceptable.
-
 
 
 :mochidef:`registerDOMConverter(name, check, wrap[, override])`:

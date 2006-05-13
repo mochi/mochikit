@@ -60,7 +60,8 @@ MochiKit.Style.EXPORT = [
     'setElementPosition',
     'setDisplayForElement',
     'hideElement',
-    'showElement'
+    'showElement',
+    'getViewportDimensions'
 ];
 
 
@@ -320,6 +321,25 @@ MochiKit.Base.update(MochiKit.Style, {
         }
     },
 
+    getViewportDimensions: function() {
+        var d = new MochiKit.Style.Dimensions();
+        
+        var w = MochiKit.DOM._window;
+        var b = MochiKit.DOM._document.body;
+        
+        if (w.innerWidth) {
+            d.w = w.innerWidth;
+            d.h = w.innerHeight;
+        } else if (b.parentElement.clientWidth) {
+            d.w = b.parentElement.clientWidth;
+            d.h = b.parentElement.clientHeight;
+        } else if (b && b.clientWidth) {
+            d.w = b.clientWidth;
+            d.h = b.clientHeight;
+        }
+        return d;
+    },
+    
     __new__: function () {
         var m = MochiKit.Base;
         
