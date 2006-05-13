@@ -39,9 +39,12 @@ Native Console Logging
 
 As of MochiKit 1.3, the default logger will log all messages to your browser's
 native console. This is currently supported in Safari, Opera 9, and Firefox
-when the FireBug__ extension is installed.
+when the `FireBug`_ extension is installed. MochiKit 1.4 adds support for the
+relevant APIs for Internet Explorer (the Debugger and the Atlas framework,
+see `here`__).
 
-.. __: http://www.joehewitt.com/software/firebug/
+.. __: http://www.nikhilk.net/Entry.aspx?id=93
+.. _`FireBug`: http://www.joehewitt.com/software/firebug/
 
 To disable this behavior::
 

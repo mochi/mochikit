@@ -44,7 +44,9 @@ listeners, but without all the cruft.</p>
 <h2><a id="native-console-logging" name="native-console-logging">Native Console Logging</a></h2>
 <p>As of MochiKit 1.3, the default logger will log all messages to your browser's
 native console. This is currently supported in Safari, Opera 9, and Firefox
-when the <a class="reference" href="http://www.joehewitt.com/software/firebug/">FireBug</a> extension is installed.</p>
+when the <a class="reference" href="http://www.joehewitt.com/software/firebug/">FireBug</a> extension is installed. MochiKit 1.4 adds support for the
+relevant APIs for Internet Explorer (the Debugger and the Atlas framework,
+see <a class="reference" href="http://www.nikhilk.net/Entry.aspx?id=93">here</a>).</p>
 <p>To disable this behavior:</p>
 <pre class="literal-block">
 MochiKit.Logging.logger.useNativeLogging = false;

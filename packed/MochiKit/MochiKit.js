@@ -1566,6 +1566,14 @@ opera.postError(msg);
 }else{
 if(typeof (printfire)=="function"){
 printfire(msg);
+}else{
+if(typeof (Debug)!="undefined"&&Debug.writeln){
+Debug.writeln(msg);
+}else{
+if(typeof (debug)!="undefined"&&debug.trace){
+debug.trace(msg);
+}
+}
 }
 }
 }
