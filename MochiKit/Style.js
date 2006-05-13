@@ -310,11 +310,10 @@ MochiKit.Base.update(MochiKit.Style, {
     },
 
     setDisplayForElement: function (display, element/*, ...*/) {
-        var m = MochiKit.Base;
-        var elements = m.extend(null, arguments, 1);
-        var lst = m.map(MochiKit.DOM.getElement, elements);
-        for (var i = 0; i < lst.length; i++) {
-            var element = elements[i];
+        var elements = MochiKit.Base.extend(null, arguments, 1);
+        var getElement = MochiKit.DOM.getElement;
+        for (var i = 0; i < elements.length; i++) {
+            var element = getElement(elements[i]);
             if (element) {
                 element.style.display = display;
             }
