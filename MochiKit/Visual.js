@@ -635,9 +635,7 @@ MochiKit.Visual.Base.prototype = {
                 this.render(1.0);
                 this.cancel();
                 this.event('beforeFinish');
-                if (this.finish) {
-                    this.finish();
-                }
+                this.finish();
                 this.event('afterFinish');
                 return;
             }
@@ -655,9 +653,7 @@ MochiKit.Visual.Base.prototype = {
         if (this.state == 'idle') {
             this.state = 'running';
             this.event('beforeSetup');
-            if (this.setup) {
-                this.setup();
-            }
+            this.setup();
             this.event('afterSetup');
         }
         if (this.state == 'running') {
@@ -668,9 +664,7 @@ MochiKit.Visual.Base.prototype = {
             pos += this.options.from;
             this.position = pos;
             this.event('beforeUpdate');
-            if (this.update) {
-                this.update(pos);
-            }
+            this.update(pos);
             this.event('afterUpdate');
         }
     },
@@ -681,6 +675,15 @@ MochiKit.Visual.Base.prototype = {
                 'global' : this.options.queue.scope).remove(this);
         }
         this.state = 'finished';
+    },
+
+    setup: function () {
+    },
+
+    finish: function () {
+    },
+    
+    update: function (position) {
     },
 
     event: function (eventName) {
