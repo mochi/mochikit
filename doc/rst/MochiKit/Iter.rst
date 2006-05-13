@@ -70,7 +70,7 @@ Functions
 :mochidef:`applymap(fun, seq[, self])`:
     
     ``applymap(fun, seq)`` -->
-        fun.apply(self, seq0), fun.apply(self, seq1), ...
+    fun.apply(self, seq0), fun.apply(self, seq1), ...
 
 
 :mochidef:`chain(p, q[, ...])`:
@@ -91,7 +91,7 @@ Functions
 :mochidef:`dropwhile(pred, seq)`:
 
     ``dropwhile(pred, seq)`` --> seq[n], seq[n + 1], starting when
-        pred(seq[n]) fails
+    pred(seq[n]) fails
 
 
 :mochidef:`every(iterable, func)`:
@@ -154,8 +154,8 @@ Functions
 
 :mochidef:`ifilterfalse(pred, seq)`:
 
-    ``ifilterfalse(pred, seq)`` --> elements of seq where ``pred(elem)`` is
-        ``false``
+    ``ifilterfalse(pred, seq)`` --> elements of seq where ``pred(elem)`` is 
+    ``false``
  
 
 :mochidef:`imap(fun, p, q[, ...])`:
@@ -166,7 +166,7 @@ Functions
 :mochidef:`islice(seq, [start,] stop[, step])`:
 
     ``islice(seq, [start,] stop[, step])`` --> elements from 
-        seq[start:stop:step] (in Python slice syntax)
+    seq[start:stop:step] (in Python slice syntax)
 
 
 :mochidef:`iter(iterable[, sentinel])`:
