@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 if (typeof(MochiKit) == "undefined") {
-    var MochiKit = {};
+    MochiKit = {};
 }
 
 if (typeof(MochiKit.MockDOM) == "undefined") {

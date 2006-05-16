@@ -62,7 +62,7 @@ InterpreterManager.prototype.submit = function (event) {
 };
 
 InterpreterManager.prototype.help = function (fn) {
-    if (fn.NAME) {
+    if (fn && fn.NAME) {
         fn = fn.NAME;
     }
     if (typeof(fn) != "string" || fn.length == 0) {
