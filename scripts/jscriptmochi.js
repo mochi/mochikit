@@ -11,6 +11,9 @@ var MochiKit = {__export__:true};
 var JSAN = {
     global: this,
     use: function (module, symbols) {
+        if (this !== JSAN.global) { 
+            return arguments.callee.apply(JSAN.global, arguments);
+        }
         var components = module.split(/\./);
         var fn = components.join('\\') + '.js';
         var o = JSAN.global;
