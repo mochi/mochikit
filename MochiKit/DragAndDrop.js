@@ -162,10 +162,11 @@ MochiKit.DragAndDrop.Droppable.prototype = {
     ***/
     __class__: MochiKit.DragAndDrop.Droppable,
 
-    __init__: function (element, /* optional */options) {
+    // named _element as a workaround for #110
+    __init__: function (_element, /* optional */options) {
         var d = MochiKit.DOM;
         var b = MochiKit.Base;
-        this.element = d.getElement(element);
+        this.element = d.getElement(_element);
         this.options = b.update({
             greedy: true,
             hoverclass: null,
