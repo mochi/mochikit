@@ -134,7 +134,7 @@ MochiKit.Base.update(MochiKit.Style, {
     },
 
     setOpacity: function(elem, o) {
-        elem = MochiKit.Style.getElement(elem);
+        elem = MochiKit.DOM.getElement(elem);
         MochiKit.DOM.updateNodeAttributes(elem, {'style': {
                 'opacity': o, 
                 '-moz-opacity': o,
