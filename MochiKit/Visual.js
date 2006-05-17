@@ -422,9 +422,9 @@ MochiKit.Visual.multiple = function (elements, effect, /* optional */options) {
     }, options || {});
     var masterDelay = options.delay;
     var index = 0;
-    MochiKit.Iter.forEach(elements, function (element) {
+    MochiKit.Iter.forEach(elements, function (innerelement) {
         options.delay = index * options.speed + masterDelay;
-        new effect(element, options);
+        new effect(innerelement, options);
         index += 1;
     });
 };

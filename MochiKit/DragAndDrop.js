@@ -384,17 +384,17 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         var b = MochiKit.Base;
         options = b.update({
             handle: false,
-            starteffect: function (element) {
-                new v.Opacity(element, {duration:0.2, from:1.0, to:0.7});
+            starteffect: function (innerelement) {
+                new v.Opacity(innerelement, {duration:0.2, from:1.0, to:0.7});
             },
-            reverteffect: function (element, top_offset, left_offset) {
+            reverteffect: function (innerelement, top_offset, left_offset) {
                 var dur = Math.sqrt(Math.abs(top_offset^2) +
                           Math.abs(left_offset^2))*0.02;
-                return new v.Move(element,
+                return new v.Move(innerelement,
                             {x: -left_offset, y: -top_offset, duration: dur});
             },
-            endeffect: function (element) {
-                new v.Opacity(element, {duration:0.2, from:0.7, to:1.0});
+            endeffect: function (innerelement) {
+                new v.Opacity(innerelement, {duration:0.2, from:0.7, to:1.0});
             },
             onchange: b.noop,
             zindex: 1000,
