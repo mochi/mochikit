@@ -166,9 +166,9 @@ MochiKit.Sortable.Sortable = {
         if (options.reverteffect) {
             options_for_draggable.reverteffect = options.reverteffect;
         } else if (options.ghosting) {
-            options_for_draggable.reverteffect = function (element) {
-                element.style.top = 0;
-                element.style.left = 0;
+            options_for_draggable.reverteffect = function (innerelement) {
+                innerelement.style.top = 0;
+                innerelement.style.left = 0;
             };
         }
 
