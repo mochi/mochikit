@@ -55,6 +55,10 @@ MochiKit.Base.update(MochiKit.Base, {
         return str.replace(new RegExp(MochiKit.Base.ScriptFragment, 'img'), '');
     },
 
+    stripTags: function(str) {
+        return str.replace(/<\/?[^>]+>/gi, '');
+    },
+
     extractScripts: function (str) {
         var matchAll = new RegExp(MochiKit.Base.ScriptFragment, 'img');
         var matchOne = new RegExp(MochiKit.Base.ScriptFragment, 'im');
@@ -197,7 +201,7 @@ Ajax.Responders = {
 
     dispatch: function (callback, request, transport, json) {
         MochiKit.Iter.forEach(this.responders, function (responder) {
-            if (responder[callback] && 
+            if (responder[callback] &&
                 typeof(responder[callback]) == 'function') {
                 try {
                     responder[callback].apply(responder, [request, transport, json]);
@@ -463,7 +467,7 @@ var Field = {
             element.select();
         }
     },
-    
+
     scrollFreeActivate: function (field) {
         setTimeout(function () {
             Field.activate(field);
@@ -520,10 +524,8 @@ Autocompleter.Base.prototype = {
 
         MochiKit.Style.hideElement(this.update);
 
-        MochiKit.Signal.connect(this.element, 'onblur',
-                                MochiKit.Base.bind(this.onBlur, this));
-        MochiKit.Signal.connect(this.element, 'onkeypress',
-                                MochiKit.Base.bind(this.onKeyPress, this));
+        MochiKit.Signal.connect(this.element, 'onblur', this, this.onBlur);
+        MochiKit.Signal.connect(this.element, 'onkeypress', this, this.onKeyPress, this);
     },
 
     show: function () {
@@ -584,7 +586,6 @@ Autocompleter.Base.prototype = {
                  return;
             } else if (event.keyString == "KEY_LEFT" || event.keyString == "KEY_RIGHT") {
                  return;
-            }
             } else if (event.keyString == "KEY_UP") {
                  this.markPrevious();
                  this.render();
@@ -592,7 +593,6 @@ Autocompleter.Base.prototype = {
                      event.stop();
                  }
                  return;
-            }
             } else if (event.keyString == "KEY_DOWN") {
                  this.markNext();
                  this.render();
@@ -624,7 +624,7 @@ Autocompleter.Base.prototype = {
             element = element.parentNode;
         }
         return element;
-    }
+    },
 
     onHover: function (event) {
         var element = this.findElement(event, 'LI');
@@ -763,10 +763,8 @@ Autocompleter.Base.prototype = {
     },
 
     addObservers: function (element) {
-        MochiKit.Signal.connect(element, 'onmouseover',
-                                MochiKit.Base.bind(this.onHover, this));
-        MochiKit.Signal.connect(element, 'onclick',
-                                MochiKit.Base.bind(this.onClick, this));
+        MochiKit.Signal.connect(element, 'onmouseover', this, this.onHover);
+        MochiKit.Signal.connect(element, 'onclick', this, this.onClick);
     },
 
     onObserverEvent: function () {
@@ -819,7 +817,7 @@ MochiKit.Base.update(Ajax.Autocompleter.prototype, {
     },
 
     getUpdatedChoices: function () {
-        entry = encodeURIComponent(this.options.paramName) + '=' +
+        var entry = encodeURIComponent(this.options.paramName) + '=' +
             encodeURIComponent(this.getToken());
 
         this.options.parameters = this.options.callback ?
@@ -834,7 +832,6 @@ MochiKit.Base.update(Ajax.Autocompleter.prototype, {
     onComplete: function (request) {
         this.updateChoices(request.responseText);
     }
-
 });
 
 /***
@@ -979,10 +976,10 @@ Ajax.InPlaceEditor.prototype = {
                 new MochiKit.Visual.Highlight(element, {startcolor: this.options.highlightcolor});
             },
             onFailure: function (transport) {
-                alert('Error communicating with the server: ' + transport.responseText.stripTags());
+                alert('Error communicating with the server: ' + MochiKit.Base.stripTags(transport.responseText));
             },
             callback: function (form) {
-                return MochiKit.Form.serialize(form);
+                return MochiKit.DOM.formContents(form);
             },
             handleLineBreaks: true,
             loadingText: 'Loading...',
@@ -1015,16 +1012,16 @@ Ajax.InPlaceEditor.prototype = {
 
         this.element.title = this.options.clickToEditText;
 
-        this.onclickListener = MochiKit.Base.bind(this.enterEditMode, this);
-        this.mouseoverListener = MochiKit.Base.bind(this.enterHover, this);
-        this.mouseoutListener = MochiKit.Base.bind(this.leaveHover, this);
-        MochiKit.Signal.connect(this.element, 'click', this.onclickListener);
-        MochiKit.Signal.connect(this.element, 'mouseover', this.mouseoverListener);
-        MochiKit.Signal.connect(this.element, 'mouseout', this.mouseoutListener);
+        this.onclickListener = MochiKit.Signal.connect(this.element, 'onclick', this, this.enterEditMode);
+        this.mouseoverListener = MochiKit.Signal.connect(this.element, 'onmouseover', this, this.enterHover);
+        this.mouseoutListener = MochiKit.Signal.connect(this.element, 'onmouseout', this, this.leaveHover);
         if (this.options.externalControl) {
-            MochiKit.Signal.connect(this.options.externalControl, 'click', this.onclickListener);
-            MochiKit.Signal.connect(this.options.externalControl, 'mouseover', this.mouseoverListener);
-            MochiKit.Signal.connect(this.options.externalControl, 'mouseout', this.mouseoutListener);
+            this.onclickListenerExternal = MochiKit.Signal.connect(this.options.externalControl,
+                'onclick', this, this.enterEditMode);
+            this.mouseoverListenerExternal = MochiKit.Signal.connect(this.options.externalControl,
+                'onmouseover', this, this.enterHover);
+            this.mouseoutListenerExternal = MochiKit.Signal.connect(this.options.externalControl,
+                'onmouseout', this, this.leaveHover);
         }
     },
 
@@ -1156,7 +1153,7 @@ Ajax.InPlaceEditor.prototype = {
     onLoadedExternalText: function (transport) {
         MochiKit.DOM.removeElementClass(this.form, this.options.loadingClassName);
         this.editField.disabled = false;
-        this.editField.value = transport.responseText.stripTags();
+        this.editField.value = MochiKit.Base.stripTags(transport);
     },
 
     onclickCancel: function () {
@@ -1284,13 +1281,13 @@ Ajax.InPlaceEditor.prototype = {
             this.element.innerHTML = this.oldInnerHTML;
         }
         this.leaveEditMode();
-        MochiKit.Signal.disconnect(this.element, 'click', this.onclickListener);
-        MochiKit.Signal.disconnect(this.element, 'mouseover', this.mouseoverListener);
-        MochiKit.Signal.disconnect(this.element, 'mouseout', this.mouseoutListener);
+        MochiKit.Signal.disconnect(this.onclickListener);
+        MochiKit.Signal.disconnect(this.mouseoverListener);
+        MochiKit.Signal.disconnect(this.mouseoutListener);
         if (this.options.externalControl) {
-            MochiKit.Signal.disconnect(this.options.externalControl, 'click', this.onclickListener);
-            MochiKit.Signal.disconnect(this.options.externalControl, 'mouseover', this.mouseoverListener);
-            MochiKit.Signal.disconnect(this.options.externalControl, 'mouseout', this.mouseoutListener);
+            MochiKit.Signal.disconnect(this.onclickListenerExternal);
+            MochiKit.Signal.disconnect(this.mouseoverListenerExternal);
+            MochiKit.Signal.disconnect(this.mouseoutListenerExternal);
         }
     }
 };
