@@ -425,7 +425,8 @@ Functions
     properties.
 
     *Availability*:
-        Available in MochiKit 1.3.1+
+        Available in MochiKit 1.3.1, deprecated in favor of
+        :mochiref:`MochiKit.Style.getElementDimensions`_, present in 1.4+
 
 
 :mochidef:`elementPosition(element[, relativeTo={x: 0, y: 0}])`:
@@ -451,7 +452,8 @@ Functions
     with ``x`` and/or ``y`` properties.
 
     *Availability*:
-        Available in MochiKit 1.3.1+
+        Available in MochiKit 1.3.1, deprecated in favor of
+        :mochiref:`MochiKit.Style.getElementPosition`_, present in 1.4+
 
 
 :mochidef:`emitHTML(dom[, lst])`:
