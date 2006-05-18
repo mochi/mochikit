@@ -218,6 +218,28 @@ relative'.</dd>
 <p>Base class to all effects. Define a basic looping service, use it
 for creating new effects.</p>
 <p>You can override the methods <tt class="docutils literal"><span class="pre">setup</span></tt>, <tt class="docutils literal"><span class="pre">update</span></tt> and <tt class="docutils literal"><span class="pre">finish`</span></tt>.</p>
+<p>The class defines a number of events that will be called during effect
+life. The events are:</p>
+<ul class="simple">
+<li>beforeStart</li>
+<li>beforeSetup</li>
+<li>beforeUpdate</li>
+<li>afterUpdate</li>
+<li>beforeFinish</li>
+<li>afterFinish</li>
+</ul>
+<p>If you want to define your own callbacks, define it in the options
+parameter of the effect. Example:</p>
+<pre class="literal-block">
+// I slide it up and then down again
+slideUp('myelement', {afterFinish: function () {
+    slideDown('myelement');
+});
+</pre>
+<p>Specific <tt class="docutils literal"><span class="pre">internal</span></tt> events are also available: for each one abone the
+same exists with 'Internal' (example: 'beforeStartInternal'). Their purpose
+is mainly for creating your own effect and let the user having event
+callback (so not overriding the library ones).</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
