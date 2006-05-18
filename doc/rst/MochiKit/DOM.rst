@@ -427,7 +427,7 @@ Functions
 
     *Availability*:
         Available in MochiKit 1.3.1, deprecated in favor of
-        :mochiref:`MochiKit.Style.getElementDimensions`_, present in 1.4+
+        :mochiref:`MochiKit.Style.getElementDimensions`, present in 1.4+
 
 
 :mochidef:`elementPosition(element[, relativeTo={x: 0, y: 0}])`:
