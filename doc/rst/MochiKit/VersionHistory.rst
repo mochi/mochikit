@@ -1,6 +1,5 @@
 2006-XX-XX      v1.4
 
-- Support and implement JavaScript 1.7 __iterator__ protocol in MochiKit.Iter
 - API version compatibility notes added
 - New MochiKit.Base functions methodcaller and compose
 - Support IE-based native console logging (Debugger, Atlas)
