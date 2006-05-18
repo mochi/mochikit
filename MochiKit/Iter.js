@@ -54,7 +54,10 @@ MochiKit.Base.update(MochiKit.Iter, {
             return iterable;
         } else if (typeof(iterable.iter) == 'function') {
             return iterable.iter();
+        } else if (typeof(iterable.__iterator__) == 'function') {
+            return iterable.__iterator__();
         }
+
         try {
             return self.iteratorRegistry.match(iterable);
         } catch (e) {
@@ -146,8 +149,9 @@ MochiKit.Base.update(MochiKit.Iter, {
 
     izip: function (p, q/*, ...*/) {
         var m = MochiKit.Base;
-        var next = MochiKit.Iter.next;
-        var iterables = m.map(iter, arguments);
+        var self = MochiKit.Iter;
+        var next = self.next;
+        var iterables = m.map(self.iter, arguments);
         return {
             repr: function () { return "izip(...)"; },
             toString: m.forwardCall("repr"),
