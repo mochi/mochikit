@@ -518,7 +518,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
             effect.options.queue : effect.options.queue.position;
 
         var fe = MochiKit.Iter.forEach;
-        switch(position) {
+        switch (position) {
             case 'front':
                 // move unstarted effects after this effect
                 fe(this.effects, function (e) {
@@ -612,8 +612,6 @@ MochiKit.Visual.Base.prototype = {
 
     __class__ : MochiKit.Visual.Base,
 
-    position: null,
-
     start: function (options) {
         var v = MochiKit.Visual;
         this.options = MochiKit.Base.setdefault(options || {},
@@ -662,7 +660,6 @@ MochiKit.Visual.Base.prototype = {
             }
             pos *= (this.options.to - this.options.from);
             pos += this.options.from;
-            this.position = pos;
             this.event('beforeUpdate');
             this.update(pos);
             this.event('afterUpdate');
@@ -1119,7 +1116,7 @@ MochiKit.Visual.appear = function (element, options) {
         afterFinishInternal: function (effect) {
             v.forceRerendering(effect.element);
         },
-        beforeSetup: function (effect) {
+        beforeSetupInternal: function (effect) {
             d.setOpacity(effect.element, effect.options.from);
             MochiKit.Style.showElement(effect.element);
         }
@@ -1196,7 +1193,7 @@ MochiKit.Visual.blindDown = function (element, options) {
         scaleMode: {originalHeight: elementDimensions.h,
                     originalWidth: elementDimensions.w},
         restoreAfterFinish: true,
-        afterSetup: function (effect) {
+        afterSetupInternal: function (effect) {
             d.makeClipping(effect.element);
             d.setStyle(effect.element, {height: '0px'});
             MochiKit.Style.showElement(effect.element);
@@ -1223,7 +1220,7 @@ MochiKit.Visual.switchOff = function (element) {
         scaleX: false,
         scaleContent: false,
         restoreAfterFinish: true,
-        beforeSetup: function (effect) {
+        beforeSetupInternal: function (effect) {
             d.makePositioned(effect.element);
             d.makeClipping(effect.element);
         },
@@ -1261,7 +1258,7 @@ MochiKit.Visual.dropOut = function (element, options) {
 
     options = MochiKit.Base.update({
         duration: 0.5,
-        beforeSetup: function (effect) {
+        beforeSetupInternal: function (effect) {
             d.makePositioned(effect.effects[0].element);
         },
         afterFinishInternal: function (effect) {
@@ -1327,7 +1324,7 @@ MochiKit.Visual.slideDown = function (element, options) {
         scaleMode: {originalHeight: elementDimensions.h,
                     originalWidth: elementDimensions.w},
         restoreAfterFinish: true,
-        afterSetup: function (effect) {
+        afterSetupInternal: function (effect) {
             d.makePositioned(effect.element);
             d.makePositioned(effect.element.firstChild);
             if (b.isOpera()) {
@@ -1414,7 +1411,7 @@ MochiKit.Visual.squish = function (element, options) {
     var b = MochiKit.Base;
     options = b.update({
         restoreAfterFinish: true,
-        beforeSetup: function (effect) {
+        beforeSetupInternal: function (effect) {
              d.makeClipping(effect.element);
         },
         afterFinishInternal: function (effect) {
@@ -1483,7 +1480,7 @@ MochiKit.Visual.grow = function (element, options) {
     }
 
     var optionsParallel = MochiKit.Base.update({
-        beforeSetup: function (effect) {
+        beforeSetupInternal: function (effect) {
             d.setStyle(effect.effects[0].element, {height: '0px'});
             MochiKit.Style.showElement(effect.effects[0].element);
         },
@@ -1498,7 +1495,7 @@ MochiKit.Visual.grow = function (element, options) {
         x: initialMoveX,
         y: initialMoveY,
         duration: 0.01,
-        beforeSetup: function (effect) {
+        beforeSetupInternal: function (effect) {
             MochiKit.Style.hideElement(effect.element);
             d.makeClipping(effect.element);
             d.makePositioned(effect.element);
