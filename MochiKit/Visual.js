@@ -682,7 +682,7 @@ MochiKit.Visual.Base.prototype = {
 
     finish: function () {
     },
-    
+
     update: function (position) {
     },
 
@@ -724,14 +724,12 @@ MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, {
         });
     },
 
-    finish: function (position) {
+    finish: function () {
         MochiKit.Iter.forEach(this.effects, function (effect) {
             effect.render(1.0);
             effect.cancel();
             effect.event('beforeFinish');
-            if (effect.finish) {
-                effect.finish(position);
-            }
+            effect.finish();
             effect.event('afterFinish');
         });
     }
@@ -914,7 +912,7 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
                            this.dims[1] * currentScale);
     },
 
-    finish: function (position) {
+    finish: function () {
         if (this.restoreAfterFinish) {
             MochiKit.DOM.setStyle(this.element, this.originalStyle);
         }
@@ -994,7 +992,7 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
             this.options.endcolor =
                 MochiKit.Color.Color.fromBackground(this.element).toHexString();
         }
-        if(!this.options.restorecolor) {
+        if (!this.options.restorecolor) {
             this.options.restorecolor = d.getStyle(this.element,
                                                    'background-color');
         }
@@ -1118,7 +1116,7 @@ MochiKit.Visual.appear = function (element, options) {
                d.getOpacity(element) || 0.0),
         to: 1.0,
         // force Safari to render floated elements properly
-        afterFinishInternal: function(effect) {
+        afterFinishInternal: function (effect) {
             v.forceRerendering(effect.element);
         },
         beforeSetup: function (effect) {
@@ -1346,7 +1344,7 @@ MochiKit.Visual.slideDown = function (element, options) {
         afterFinishInternal: function (effect) {
             d.undoClipping(effect.element);
             // IE will crash if child is undoPositioned first
-            if (b.isIE()){
+            if (b.isIE()) {
                 d.undoPositioned(effect.element);
                 d.undoPositioned(effect.element.firstChild);
             } else {
