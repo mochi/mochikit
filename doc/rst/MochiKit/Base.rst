@@ -494,7 +494,7 @@ Functions
 :mochidef:`compose(f1, f2, ..., fN)`:
 
     Return a new function as the combination of the given function
-    arguments, equivalent to ``f2(f1(arguments))``.
+    arguments, equivalent to ``f1(f2(arguments))``.
 
     *Availability*:
         Available in MochiKit 1.4+

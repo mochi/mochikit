@@ -425,9 +425,9 @@ tests.test_Base = function (t) {
     var f1 = function (x) { return [1, x]; };
     var f2 = function (x) { return [2, x]; };
     var f3 = function (x) { return [3, x]; };
-    t.is( repr(f3(f2(f1(0)))), "[3, [2, [1, 0]]]", "test the compose test" );
-    t.is( repr(compose(f1,f2,f3)(0)), "[3, [2, [1, 0]]]", "three fn composition works" );
-    t.is( repr(compose(compose(f1,f2),f3)(0)), "[3, [2, [1, 0]]]", "associative left" );
-    t.is( repr(compose(f1,compose(f2,f3))(0)), "[3, [2, [1, 0]]]", "associative right" );
+    t.is( repr(f1(f2(f3(4)))), "[1, [2, [3, 4]]]", "test the compose test" );
+    t.is( repr(compose(f1,f2,f3)(4)), "[1, [2, [3, 4]]]", "three fn composition works" );
+    t.is( repr(compose(compose(f1,f2),f3)(4)), "[1, [2, [3, 4]]]", "associative left" );
+    t.is( repr(compose(f1,compose(f2,f3))(4)), "[1, [2, [3, 4]]]", "associative right" );
     
 };
