@@ -44,8 +44,8 @@ swapDOM(oldTable, newTable);
 Java-inspired APIs you'll run across from a highly dynamic
 language. Don't worry about that though, because they provide a
 reasonable basis to build something that sucks a lot less.</p>
-<p>MochiKit.DOM takes much of its inspiration from Nevow's <a class="footnote-reference" href="#id7" id="id1" name="id1">[1]</a> stan
-<a class="footnote-reference" href="#id8" id="id2" name="id2">[2]</a>.  This means you choose a tag, give it some attributes, then
+<p>MochiKit.DOM takes much of its inspiration from Nevow's <a class="footnote-reference" href="#id5" id="id1" name="id1">[1]</a> stan
+<a class="footnote-reference" href="#id6" id="id2" name="id2">[2]</a>.  This means you choose a tag, give it some attributes, then
 stuff it full of <em>whatever objects you want</em>. MochiKit.DOM isn't
 stupid, it knows that a string should be a text node, and that you
 want functions to be called, and that <tt class="docutils literal"><span class="pre">Array</span></tt>-like objects should be
@@ -319,7 +319,7 @@ object itself.</p>
 <a class="mochidef reference" href="#fn-createdom">createDOM(name[, attrs[, node[, ...]]])</a>:</p>
 <blockquote>
 <p>Create a DOM fragment in a really convenient manner, much like
-Nevow`s <a class="footnote-reference" href="#id7" id="id3" name="id3">[1]</a> stan <a class="footnote-reference" href="#id8" id="id4" name="id4">[2]</a>.</p>
+Nevow`s <a class="footnote-reference" href="#id5" id="id3" name="id3">[1]</a> stan <a class="footnote-reference" href="#id6" id="id4" name="id4">[2]</a>.</p>
 <p>Partially applied versions of this function for common tags are
 available as aliases:</p>
 <ul class="simple">
@@ -442,12 +442,8 @@ element, or trivially as an object with <tt class="docutils literal"><span class
 properties.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
-<dd><p class="first">Available in MochiKit 1.3.1, deprecated in favor of
-<a href="#id5" name="id6"><span class="problematic" id="id6">:mochiref:`MochiKit.Style.getElementDimensions`_</span></a>, present in 1.4+</p>
-<div class="last system-message" id="id5">
-<p class="system-message-title">System Message: <a name="id5">WARNING/2</a> (<tt class="docutils">doc/rst/MochiKit/DOM.rst</tt>, line 429); <em><a href="#id6">backlink</a></em></p>
-Mismatch: both interpreted text role prefix and reference suffix.</div>
-</dd>
+<dd>Available in MochiKit 1.3.1, deprecated in favor of
+<a class="mochiref reference" href="Style.html#fn-getelementdimensions">MochiKit.Style.getElementDimensions</a>, present in 1.4+</dd>
 </dl>
 </blockquote>
 <p>
@@ -936,17 +932,17 @@ will be restored to its previous state.</p>
 </div>
 <div class="section">
 <h1><a id="see-also" name="see-also">See Also</a></h1>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
+<table class="docutils footnote" frame="void" id="id5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a name="id7">[1]</a></td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Nevow, a web application construction kit for Python:
+<tr><td class="label"><a name="id5">[1]</a></td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Nevow, a web application construction kit for Python:
 <a class="reference" href="http://divmod.org/trac/wiki/DivmodNevow">http://divmod.org/trac/wiki/DivmodNevow</a></td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
+<table class="docutils footnote" frame="void" id="id6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a name="id8">[2]</a></td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> nevow.stan is a domain specific language for Python (read as
+<tr><td class="label"><a name="id6">[2]</a></td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> nevow.stan is a domain specific language for Python (read as
 &quot;crazy getitem/call overloading abuse&quot;) that Donovan and I
 schemed up at PyCon 2003 at this super ninja Python/C++
 programmer's (David Abrahams) hotel room. Donovan later
