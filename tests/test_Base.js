@@ -347,7 +347,7 @@ tests.test_Base = function (t) {
     t.is( repr(MochiKit.Base.nameFunctions), "MochiKit.Base.nameFunctions", "test nameFunctions" );
     // Done!
 
-    t.is( urlEncode("1+2=2"), "1%2B2%3D2", "urlEncode" );
+    t.is( urlEncode("1+2=2").toUpperCase(), "1%2B2%3D2", "urlEncode" );
     t.is( queryString(["a", "b"], [1, "two"]), "a=1&b=two", "queryString");
     t.is( queryString({"a": 1}), "a=1", "one item alternate form queryString" );
     var o = {"a": 1, "b": 2, "c": function() {}};

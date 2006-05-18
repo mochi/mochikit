@@ -373,7 +373,7 @@ MochiKit.Base.update(MochiKit.Iter, {
             "max": -1,
             "min": -1
         };
-        if (arguments.length == 1) {
+        if (arguments.length == 1 || typeof(n) == "undefined" || n === null) {
             n = 2;
         }
         var self = MochiKit.Iter;
@@ -476,7 +476,10 @@ MochiKit.Base.update(MochiKit.Iter, {
     },
             
     sum: function (iterable, start/* = 0 */) {
-        var x = start || 0;
+        if (typeof(start) == "undefined" || start === null) {
+            start = 0;
+        }
+        var x = start;
         var self = MochiKit.Iter;
         iterable = self.iter(iterable);
         try {

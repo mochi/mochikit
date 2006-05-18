@@ -841,7 +841,10 @@ MochiKit.Base.update(MochiKit.Base, {
         if (typeof(end) == "undefined" || end === null) {
             end = lst.length;
         }
-        for (var i = (start || 0); i < end; i++) {
+        if (typeof(start) == "undefined" || start === null) {
+            start = 0;
+        }
+        for (var i = start; i < end; i++) {
             if (lst[i] === value) {
                 return i;
             }
@@ -853,8 +856,11 @@ MochiKit.Base.update(MochiKit.Base, {
         if (typeof(end) == "undefined" || end === null) {
             end = lst.length;
         }
+        if (typeof(start) == "undefined" || start === null) {
+            start = 0;
+        }
         var cmp = MochiKit.Base.compare;
-        for (var i = (start || 0); i < end; i++) {
+        for (var i = start; i < end; i++) {
             if (cmp(lst[i], value) === 0) {
                 return i;
             }
