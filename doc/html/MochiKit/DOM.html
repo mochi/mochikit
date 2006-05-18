@@ -302,19 +302,6 @@ Rules</a>.</dd>
 </dl>
 </blockquote>
 <p>
-<a name="fn-computedstyle"></a>
-<a class="mochidef reference" href="#fn-computedstyle">computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)</a>:</p>
-<blockquote>
-<p>Looks up a CSS property for the given element. The element can be
-specified as either a string with the element's ID or the element
-object itself.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1, moved to
-<a class="mochiref reference" href="Style.html#fn-computedstyle">MochiKit.Style.computedStyle</a> in MochiKit 1.4+</dd>
-</dl>
-</blockquote>
-<p>
 <a name="fn-createdom"></a>
 <a class="mochidef reference" href="#fn-createdom">createDOM(name[, attrs[, node[, ...]]])</a>:</p>
 <blockquote>
@@ -431,50 +418,6 @@ currently executing.</p>
 </dl>
 </blockquote>
 <p>
-<a name="fn-elementdimensions"></a>
-<a class="mochidef reference" href="#fn-elementdimensions">elementDimensions(element)</a>:</p>
-<blockquote>
-<p>Return the absolute pixel width and height of <tt class="docutils literal"><span class="pre">element</span></tt> as an
-object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if
-<tt class="docutils literal"><span class="pre">element</span></tt> is not in the document. <tt class="docutils literal"><span class="pre">element</span></tt> may be specified
-as a string to be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, a DOM
-element, or trivially as an object with <tt class="docutils literal"><span class="pre">w</span></tt> and/or <tt class="docutils literal"><span class="pre">h</span></tt>
-properties.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1, deprecated in favor of
-<a class="mochiref reference" href="Style.html#fn-getelementdimensions">MochiKit.Style.getElementDimensions</a>, present in 1.4+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-elementposition"></a>
-<a class="mochidef reference" href="#fn-elementposition">elementPosition(element[, relativeTo={x: 0, y: 0}])</a>:</p>
-<blockquote>
-<p>Return the absolute pixel position of <tt class="docutils literal"><span class="pre">element</span></tt> in the document
-as an object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if
-<tt class="docutils literal"><span class="pre">element</span></tt> is not in the document. <tt class="docutils literal"><span class="pre">element</span></tt> may be specified
-as a string to be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, a DOM
-element, or trivially as an object with <tt class="docutils literal"><span class="pre">x</span></tt> and/or <tt class="docutils literal"><span class="pre">y</span></tt>
-properties.</p>
-<p>If <tt class="docutils literal"><span class="pre">relativeTo</span></tt> is given, then its coordinates are subtracted from
-the absolute position of <tt class="docutils literal"><span class="pre">element</span></tt>, e.g.:</p>
-<pre class="literal-block">
-var elemPos = elementPosition(elem);
-var anotherElemPos = elementPosition(anotherElem);
-var relPos = elementPosition(elem, anotherElem);
-assert( relPos.x == (elemPos.x - anotherElemPos.x) );
-assert( relPos.y == (elemPos.y - anotherElemPos.y) );
-</pre>
-<p><tt class="docutils literal"><span class="pre">relativeTo</span></tt> may be specified as a string to be looked up with
-<a class="mochiref reference" href="#fn-getelement">getElement</a>, a DOM element, or trivially as an object
-with <tt class="docutils literal"><span class="pre">x</span></tt> and/or <tt class="docutils literal"><span class="pre">y</span></tt> properties.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1, deprecated in favor of
-<a class="mochiref reference" href="Style.html#fn-getelementposition">MochiKit.Style.getElementPosition</a>, present in 1.4+</dd>
-</dl>
-</blockquote>
-<p>
 <a name="fn-emithtml"></a>
 <a class="mochidef reference" href="#fn-emithtml">emitHTML(dom[, lst])</a>:</p>
 <blockquote>
@@ -574,19 +517,6 @@ the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt c
 </dl>
 </blockquote>
 <p>
-<a name="fn-getviewportdimensions"></a>
-<a class="mochidef reference" href="#fn-getviewportdimensions">getViewportDimensions()</a>:</p>
-<blockquote>
-<p>Return the pixel width and height of the viewport as an object
-with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties. <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with
-<a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers are also acceptable.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1, moved to
-<a class="mochiref reference" href="Style.html#fn-getviewportdimensions">MochiKit.Style.getViewportDimensions</a> in 1.4+</dd>
-</dl>
-</blockquote>
-<p>
 <a name="fn-haselementclass"></a>
 <a class="mochidef reference" href="#fn-haselementclass">hasElementClass(element, className[, ...])</a>:</p>
 <blockquote>
@@ -596,25 +526,6 @@ identifiers are also acceptable.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-hideelement"></a>
-<a class="mochidef reference" href="#fn-hideelement">hideElement(element, ...)</a>:</p>
-<blockquote>
-<p>Partial form of <a class="mochiref reference" href="#fn-setdisplayforelement">setDisplayForElement</a>, specifically:</p>
-<pre class="literal-block">
-partial(setDisplayForElement, &quot;none&quot;)
-</pre>
-<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt>
-based show/hide mechanism, and a CSS based alternative, see
-<a class="reference" href="Style.html#element-visibility">Element Visibility</a>.</p>
-</blockquote>
-<blockquote>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1, moved to
-<a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> in 1.4+</dd>
 </dl>
 </blockquote>
 <p>
@@ -695,27 +606,6 @@ assert( scrapeText(node) == scrapeText(node, true).join(&quot;&quot;) );
 </dl>
 </blockquote>
 <p>
-<a name="fn-setdisplayforelement"></a>
-<a class="mochidef reference" href="#fn-setdisplayforelement">setDisplayForElement(display, element[, ...])</a>:</p>
-<blockquote>
-<p>Change the <tt class="docutils literal"><span class="pre">style.display</span></tt> for the given element(s). Usually
-used as the partial forms:</p>
-<ul class="simple">
-<li><a class="mochiref reference" href="#fn-showelement">showElement(element, ...)</a></li>
-<li><a class="mochiref reference" href="#fn-hideelement">hideElement(element, ...)</a></li>
-</ul>
-<p>Elements are looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, so string
-identifiers are acceptable.</p>
-<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt>
-based show/hide mechanism, and a CSS based alternative, see
-<a class="reference" href="Style.html#element-visibility">Element Visibility</a>.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1, moved to
-<a class="mochiref reference" href="Style.html#fn-setdisplayforelement">MochiKit.Style.setDisplayForElement</a> in 1.4+</dd>
-</dl>
-</blockquote>
-<p>
 <a name="fn-setelementclass"></a>
 <a class="mochidef reference" href="#fn-setelementclass">setElementClass(element, className)</a>:</p>
 <blockquote>
@@ -723,44 +613,6 @@ based show/hide mechanism, and a CSS based alternative, see
 <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, so string
 identifiers are also acceptable.</p>
 <dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-setelementdimensions"></a>
-<a class="mochidef reference" href="#fn-setelementdimensions">setElementDimensions(element, dimensions[, units='px'])</a>:</p>
-<blockquote>
-<p>Sets the dimensions of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an object
-with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties.</p>
-<dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
-<dd>A reference to the DOM element to update (if a string is
-given, <a class="mochiref reference" href="#fn-getelement">getElement(node)</a> will be used to locate the
-node)</dd>
-<dt><tt class="docutils literal"><span class="pre">dimensions</span></tt>:</dt>
-<dd>An object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties</dd>
-<dt><tt class="docutils literal"><span class="pre">units</span></tt>:</dt>
-<dd>Optionally set the units to use, default is <tt class="docutils literal"><span class="pre">px</span></tt></dd>
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-setelementposition"></a>
-<a class="mochidef reference" href="#fn-setelementposition">setElementPosition(element, position[, units='px'])</a>:</p>
-<blockquote>
-<p>Sets the absolute position of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an
-object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties.</p>
-<dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
-<dd>A reference to the DOM element to update (if a string is
-given, <a class="mochiref reference" href="#fn-getelement">getElement(node)</a> will be used to locate the
-node)</dd>
-<dt><tt class="docutils literal"><span class="pre">position</span></tt>:</dt>
-<dd>An object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties</dd>
-<dt><tt class="docutils literal"><span class="pre">units</span></tt>:</dt>
-<dd>Optionally set the units to use, default is <tt class="docutils literal"><span class="pre">px</span></tt></dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
 </dl>
@@ -790,36 +642,6 @@ node)</dd>
 <dd>The given DOM element or <tt class="docutils literal"><span class="pre">null</span></tt> on failure</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-setopacity"></a>
-<a class="mochidef reference" href="#fn-setopacity">setOpacity(element, opacity)</a>:</p>
-<blockquote>
-<p>Sets <tt class="docutils literal"><span class="pre">opacity</span></tt> for <tt class="docutils literal"><span class="pre">element</span></tt>. Valid <tt class="docutils literal"><span class="pre">opacity</span></tt> values range
-from 0 (invisible) to 1 (opaque). <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with
-<a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers are also acceptable.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1, moved to
-<a class="mochiref reference" href="Style.html#fn-setopacity">MochiKit.Style.setOpacity</a> in 1.4+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-showelement"></a>
-<a class="mochidef reference" href="#fn-showelement">showElement(element, ...)</a>:</p>
-<blockquote>
-<p>Partial form of <a class="mochiref reference" href="#fn-setdisplayforelement">setDisplayForElement</a>, specifically:</p>
-<pre class="literal-block">
-partial(setDisplayForElement, &quot;block&quot;)
-</pre>
-<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt>
-based show/hide mechanism, and a CSS based alternative, see
-<a class="reference" href="Style.html#element-visibility">Element Visibility</a>.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1, moved to
-<a class="mochiref reference" href="Style.html#fn-showelement">MochiKit.Style.showElement</a> in 1.4+</dd>
 </dl>
 </blockquote>
 <p>
@@ -926,6 +748,191 @@ will be restored to its previous state.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
+</dl>
+</blockquote>
+</div>
+<div class="section">
+<h2><a id="style-functions" name="style-functions">Style Functions</a></h2>
+<p>These functions are available in MochiKit 1.3.1, but have been moved to
+<a class="mochiref reference" href="Style.html">MochiKit.Style</a> in 1.4+.</p>
+<p>
+<a name="fn-computedstyle"></a>
+<a class="mochidef reference" href="#fn-computedstyle">computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)</a>:</p>
+<blockquote>
+<p>Looks up a CSS property for the given element. The element can be
+specified as either a string with the element's ID or the element
+object itself.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1, moved to
+<a class="mochiref reference" href="Style.html#fn-computedstyle">MochiKit.Style.computedStyle</a> in 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-elementdimensions"></a>
+<a class="mochidef reference" href="#fn-elementdimensions">elementDimensions(element)</a>:</p>
+<blockquote>
+<p>Return the absolute pixel width and height of <tt class="docutils literal"><span class="pre">element</span></tt> as an
+object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if
+<tt class="docutils literal"><span class="pre">element</span></tt> is not in the document. <tt class="docutils literal"><span class="pre">element</span></tt> may be specified
+as a string to be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, a DOM
+element, or trivially as an object with <tt class="docutils literal"><span class="pre">w</span></tt> and/or <tt class="docutils literal"><span class="pre">h</span></tt>
+properties.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1, deprecated in favor of
+<a class="mochiref reference" href="Style.html#fn-getelementdimensions">MochiKit.Style.getElementDimensions</a> in 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-elementposition"></a>
+<a class="mochidef reference" href="#fn-elementposition">elementPosition(element[, relativeTo={x: 0, y: 0}])</a>:</p>
+<blockquote>
+<p>Return the absolute pixel position of <tt class="docutils literal"><span class="pre">element</span></tt> in the document
+as an object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if
+<tt class="docutils literal"><span class="pre">element</span></tt> is not in the document. <tt class="docutils literal"><span class="pre">element</span></tt> may be specified
+as a string to be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, a DOM
+element, or trivially as an object with <tt class="docutils literal"><span class="pre">x</span></tt> and/or <tt class="docutils literal"><span class="pre">y</span></tt>
+properties.</p>
+<p>If <tt class="docutils literal"><span class="pre">relativeTo</span></tt> is given, then its coordinates are subtracted from
+the absolute position of <tt class="docutils literal"><span class="pre">element</span></tt>, e.g.:</p>
+<pre class="literal-block">
+var elemPos = elementPosition(elem);
+var anotherElemPos = elementPosition(anotherElem);
+var relPos = elementPosition(elem, anotherElem);
+assert( relPos.x == (elemPos.x - anotherElemPos.x) );
+assert( relPos.y == (elemPos.y - anotherElemPos.y) );
+</pre>
+<p><tt class="docutils literal"><span class="pre">relativeTo</span></tt> may be specified as a string to be looked up with
+<a class="mochiref reference" href="#fn-getelement">getElement</a>, a DOM element, or trivially as an object
+with <tt class="docutils literal"><span class="pre">x</span></tt> and/or <tt class="docutils literal"><span class="pre">y</span></tt> properties.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1, deprecated in favor of
+<a class="mochiref reference" href="Style.html#fn-getelementposition">MochiKit.Style.getElementPosition</a> in 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-getviewportdimensions"></a>
+<a class="mochidef reference" href="#fn-getviewportdimensions">getViewportDimensions()</a>:</p>
+<blockquote>
+<p>Return the pixel width and height of the viewport as an object
+with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties. <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with
+<a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers are also acceptable.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1, moved to
+<a class="mochiref reference" href="Style.html#fn-getviewportdimensions">MochiKit.Style.getViewportDimensions</a> in 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-hideelement"></a>
+<a class="mochidef reference" href="#fn-hideelement">hideElement(element, ...)</a>:</p>
+<blockquote>
+<p>Partial form of <a class="mochiref reference" href="#fn-setdisplayforelement">setDisplayForElement</a>, specifically:</p>
+<pre class="literal-block">
+partial(setDisplayForElement, &quot;none&quot;)
+</pre>
+<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt>
+based show/hide mechanism, and a CSS based alternative, see
+<a class="reference" href="Style.html#element-visibility">Element Visibility</a>.</p>
+</blockquote>
+<blockquote>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1, moved to
+<a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> in 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-setelementdimensions"></a>
+<a class="mochidef reference" href="#fn-setelementdimensions">setElementDimensions(element, dimensions[, units='px'])</a>:</p>
+<blockquote>
+<p>Sets the dimensions of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an object
+with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element to update (if a string is
+given, <a class="mochiref reference" href="#fn-getelement">getElement(node)</a> will be used to locate the
+node)</dd>
+<dt><tt class="docutils literal"><span class="pre">dimensions</span></tt>:</dt>
+<dd>An object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties</dd>
+<dt><tt class="docutils literal"><span class="pre">units</span></tt>:</dt>
+<dd>Optionally set the units to use, default is <tt class="docutils literal"><span class="pre">px</span></tt></dd>
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1, moved to
+<a class="mochiref reference" href="Style.html#fn-setelementdimensions">MochiKit.Style.setElementDimensions</a> in 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-setelementposition"></a>
+<a class="mochidef reference" href="#fn-setelementposition">setElementPosition(element, position[, units='px'])</a>:</p>
+<blockquote>
+<p>Sets the absolute position of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an
+object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element to update (if a string is
+given, <a class="mochiref reference" href="#fn-getelement">getElement(node)</a> will be used to locate the
+node)</dd>
+<dt><tt class="docutils literal"><span class="pre">position</span></tt>:</dt>
+<dd>An object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties</dd>
+<dt><tt class="docutils literal"><span class="pre">units</span></tt>:</dt>
+<dd>Optionally set the units to use, default is <tt class="docutils literal"><span class="pre">px</span></tt></dd>
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1, moved to
+<a class="mochiref reference" href="Style.html#fn-setelementposition">MochiKit.Style.setElementPosition</a> in 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-setdisplayforelement"></a>
+<a class="mochidef reference" href="#fn-setdisplayforelement">setDisplayForElement(display, element[, ...])</a>:</p>
+<blockquote>
+<p>Change the <tt class="docutils literal"><span class="pre">style.display</span></tt> for the given element(s). Usually
+used as the partial forms:</p>
+<ul class="simple">
+<li><a class="mochiref reference" href="#fn-showelement">showElement(element, ...)</a></li>
+<li><a class="mochiref reference" href="#fn-hideelement">hideElement(element, ...)</a></li>
+</ul>
+<p>Elements are looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, so string
+identifiers are acceptable.</p>
+<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt>
+based show/hide mechanism, and a CSS based alternative, see
+<a class="reference" href="Style.html#element-visibility">Element Visibility</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1, moved to
+<a class="mochiref reference" href="Style.html#fn-setdisplayforelement">MochiKit.Style.setDisplayForElement</a> in 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-setopacity"></a>
+<a class="mochidef reference" href="#fn-setopacity">setOpacity(element, opacity)</a>:</p>
+<blockquote>
+<p>Sets <tt class="docutils literal"><span class="pre">opacity</span></tt> for <tt class="docutils literal"><span class="pre">element</span></tt>. Valid <tt class="docutils literal"><span class="pre">opacity</span></tt> values range
+from 0 (invisible) to 1 (opaque). <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with
+<a class="mochiref reference" href="#fn-getelement">getElement</a>, so string identifiers are also acceptable.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1, moved to
+<a class="mochiref reference" href="Style.html#fn-setopacity">MochiKit.Style.setOpacity</a> in 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-showelement"></a>
+<a class="mochidef reference" href="#fn-showelement">showElement(element, ...)</a>:</p>
+<blockquote>
+<p>Partial form of <a class="mochiref reference" href="#fn-setdisplayforelement">setDisplayForElement</a>, specifically:</p>
+<pre class="literal-block">
+partial(setDisplayForElement, &quot;block&quot;)
+</pre>
+<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt>
+based show/hide mechanism, and a CSS based alternative, see
+<a class="reference" href="Style.html#element-visibility">Element Visibility</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1, moved to
+<a class="mochiref reference" href="Style.html#fn-showelement">MochiKit.Style.showElement</a> in 1.4+</dd>
 </dl>
 </blockquote>
 </div>

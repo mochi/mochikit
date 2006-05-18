@@ -285,18 +285,6 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)`:
-
-    Looks up a CSS property for the given element. The element can be
-    specified as either a string with the element's ID or the element
-    object itself.
-
-
-    *Availability*:
-        Available in MochiKit 1.3.1, moved to 
-        :mochiref:`MochiKit.Style.computedStyle` in MochiKit 1.4+
-
-
 :mochidef:`createDOM(name[, attrs[, node[, ...]]])`:
 
     Create a DOM fragment in a really convenient manner, much like
@@ -416,47 +404,6 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`elementDimensions(element)`:
-
-    Return the absolute pixel width and height of ``element`` as an
-    object with ``w`` and ``h`` properties, or ``undefined`` if
-    ``element`` is not in the document. ``element`` may be specified
-    as a string to be looked up with :mochiref:`getElement`, a DOM
-    element, or trivially as an object with ``w`` and/or ``h``
-    properties.
-
-    *Availability*:
-        Available in MochiKit 1.3.1, deprecated in favor of
-        :mochiref:`MochiKit.Style.getElementDimensions`, present in 1.4+
-
-
-:mochidef:`elementPosition(element[, relativeTo={x: 0, y: 0}])`:
-
-    Return the absolute pixel position of ``element`` in the document
-    as an object with ``x`` and ``y`` properties, or ``undefined`` if
-    ``element`` is not in the document. ``element`` may be specified
-    as a string to be looked up with :mochiref:`getElement`, a DOM
-    element, or trivially as an object with ``x`` and/or ``y``
-    properties.
-
-    If ``relativeTo`` is given, then its coordinates are subtracted from
-    the absolute position of ``element``, e.g.::
-
-        var elemPos = elementPosition(elem);
-        var anotherElemPos = elementPosition(anotherElem);
-        var relPos = elementPosition(elem, anotherElem);
-        assert( relPos.x == (elemPos.x - anotherElemPos.x) );
-        assert( relPos.y == (elemPos.y - anotherElemPos.y) );
-
-    ``relativeTo`` may be specified as a string to be looked up with
-    :mochiref:`getElement`, a DOM element, or trivially as an object
-    with ``x`` and/or ``y`` properties.
-
-    *Availability*:
-        Available in MochiKit 1.3.1, deprecated in favor of
-        :mochiref:`MochiKit.Style.getElementPosition`, present in 1.4+
-
-
 :mochidef:`emitHTML(dom[, lst])`:
 
     Convert a DOM tree to an ``Array`` of HTML string fragments
@@ -551,17 +498,6 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`getViewportDimensions()`:
-
-    Return the pixel width and height of the viewport as an object
-    with ``w`` and ``h`` properties. ``element`` is looked up with
-    :mochiref:`getElement`, so string identifiers are also acceptable.
-
-    *Availability*:
-        Available in MochiKit 1.3.1, moved to
-        :mochiref:`MochiKit.Style.getViewportDimensions` in 1.4+
-
-
 :mochidef:`hasElementClass(element, className[, ...])`:
 
     Return ``true`` if ``className`` is found on the ``element``.
@@ -570,23 +506,6 @@ Functions
 
     *Availability*:
         Available in MochiKit 1.3.1+
-
-
-:mochidef:`hideElement(element, ...)`:
-
-    Partial form of :mochiref:`setDisplayForElement`, specifically::
-
-        partial(setDisplayForElement, "none")
-
-    For information about the caveats of using a ``style.display``
-    based show/hide mechanism, and a CSS based alternative, see
-    `Element Visibility`_.
-
-.. _`Element Visibility`: Style.html#element-visibility
-
-    *Availability*:
-        Available in MochiKit 1.3.1, moved to 
-        :mochiref:`MochiKit.Style.hideElement` in 1.4+
 
 
 :mochidef:`registerDOMConverter(name, check, wrap[, override])`:
@@ -661,71 +580,11 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`setDisplayForElement(display, element[, ...])`:
-
-    Change the ``style.display`` for the given element(s). Usually
-    used as the partial forms:
-
-    - :mochiref:`showElement(element, ...)`
-    - :mochiref:`hideElement(element, ...)`
-
-    Elements are looked up with :mochiref:`getElement`, so string
-    identifiers are acceptable.
-
-    For information about the caveats of using a ``style.display``
-    based show/hide mechanism, and a CSS based alternative, see
-    `Element Visibility`_.
-
-    *Availability*:
-        Available in MochiKit 1.3.1, moved to 
-        :mochiref:`MochiKit.Style.setDisplayForElement` in 1.4+
-
-
 :mochidef:`setElementClass(element, className)`:
 
     Set the entire class attribute of ``element`` to ``className``.
     ``element`` is looked up with :mochiref:`getElement`, so string
     identifiers are also acceptable.
-
-    *Availability*:
-        Available in MochiKit 1.3.1+
-
-
-:mochidef:`setElementDimensions(element, dimensions[, units='px'])`:
-
-    Sets the dimensions of ``element`` in the document from an object
-    with ``w`` and ``h`` properties.
-
-    ``node``:
-        A reference to the DOM element to update (if a string is
-        given, :mochiref:`getElement(node)` will be used to locate the
-        node)
-
-    ``dimensions``:
-        An object with ``w`` and ``h`` properties
-
-    ``units``:
-        Optionally set the units to use, default is ``px``
-
-    *Availability*:
-        Available in MochiKit 1.3.1+
-
-
-:mochidef:`setElementPosition(element, position[, units='px'])`:
-
-    Sets the absolute position of ``element`` in the document from an
-    object with ``x`` and ``y`` properties.
-
-    ``node``:
-        A reference to the DOM element to update (if a string is
-        given, :mochiref:`getElement(node)` will be used to locate the
-        node)
-
-    ``position``:
-        An object with ``x`` and ``y`` properties
-
-    ``units``:
-        Optionally set the units to use, default is ``px``
 
     *Availability*:
         Available in MochiKit 1.3.1+
@@ -758,32 +617,6 @@ Functions
 
     *Availability*:
         Available in MochiKit 1.3.1+
-
-
-:mochidef:`setOpacity(element, opacity)`:
-
-    Sets ``opacity`` for ``element``. Valid ``opacity`` values range
-    from 0 (invisible) to 1 (opaque). ``element`` is looked up with
-    :mochiref:`getElement`, so string identifiers are also acceptable.
-
-    *Availability*:
-        Available in MochiKit 1.3.1, moved to 
-        :mochiref:`MochiKit.Style.setOpacity` in 1.4+
-
-
-:mochidef:`showElement(element, ...)`:
-
-    Partial form of :mochiref:`setDisplayForElement`, specifically::
-
-        partial(setDisplayForElement, "block")
-
-    For information about the caveats of using a ``style.display``
-    based show/hide mechanism, and a CSS based alternative, see
-    `Element Visibility`_.
-
-    *Availability*:
-        Available in MochiKit 1.3.1, moved to 
-        :mochiref:`MochiKit.Style.showElement` in 1.4+
 
 
 :mochidef:`swapDOM(dest, src)`:
@@ -884,6 +717,181 @@ Functions
 
     *Availability*:
         Available in MochiKit 1.3.1+
+
+
+Style Functions
+---------------
+
+These functions are available in MochiKit 1.3.1, but have been moved to 
+:mochiref:`MochiKit.Style` in 1.4+.
+
+
+:mochidef:`computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)`:
+
+    Looks up a CSS property for the given element. The element can be
+    specified as either a string with the element's ID or the element
+    object itself.
+
+    *Availability*:
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.computedStyle` in 1.4+
+
+
+:mochidef:`elementDimensions(element)`:
+
+    Return the absolute pixel width and height of ``element`` as an
+    object with ``w`` and ``h`` properties, or ``undefined`` if
+    ``element`` is not in the document. ``element`` may be specified
+    as a string to be looked up with :mochiref:`getElement`, a DOM
+    element, or trivially as an object with ``w`` and/or ``h``
+    properties.
+
+    *Availability*:
+        Available in MochiKit 1.3.1, deprecated in favor of
+        :mochiref:`MochiKit.Style.getElementDimensions` in 1.4+
+
+
+:mochidef:`elementPosition(element[, relativeTo={x: 0, y: 0}])`:
+
+    Return the absolute pixel position of ``element`` in the document
+    as an object with ``x`` and ``y`` properties, or ``undefined`` if
+    ``element`` is not in the document. ``element`` may be specified
+    as a string to be looked up with :mochiref:`getElement`, a DOM
+    element, or trivially as an object with ``x`` and/or ``y``
+    properties.
+
+    If ``relativeTo`` is given, then its coordinates are subtracted from
+    the absolute position of ``element``, e.g.::
+
+        var elemPos = elementPosition(elem);
+        var anotherElemPos = elementPosition(anotherElem);
+        var relPos = elementPosition(elem, anotherElem);
+        assert( relPos.x == (elemPos.x - anotherElemPos.x) );
+        assert( relPos.y == (elemPos.y - anotherElemPos.y) );
+
+    ``relativeTo`` may be specified as a string to be looked up with
+    :mochiref:`getElement`, a DOM element, or trivially as an object
+    with ``x`` and/or ``y`` properties.
+
+    *Availability*:
+        Available in MochiKit 1.3.1, deprecated in favor of
+        :mochiref:`MochiKit.Style.getElementPosition` in 1.4+
+
+
+:mochidef:`getViewportDimensions()`:
+
+    Return the pixel width and height of the viewport as an object
+    with ``w`` and ``h`` properties. ``element`` is looked up with
+    :mochiref:`getElement`, so string identifiers are also acceptable.
+
+    *Availability*:
+        Available in MochiKit 1.3.1, moved to
+        :mochiref:`MochiKit.Style.getViewportDimensions` in 1.4+
+
+
+:mochidef:`hideElement(element, ...)`:
+
+    Partial form of :mochiref:`setDisplayForElement`, specifically::
+
+        partial(setDisplayForElement, "none")
+
+    For information about the caveats of using a ``style.display``
+    based show/hide mechanism, and a CSS based alternative, see
+    `Element Visibility`_.
+
+.. _`Element Visibility`: Style.html#element-visibility
+
+    *Availability*:
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.hideElement` in 1.4+
+
+
+:mochidef:`setElementDimensions(element, dimensions[, units='px'])`:
+
+    Sets the dimensions of ``element`` in the document from an object
+    with ``w`` and ``h`` properties.
+
+    ``node``:
+        A reference to the DOM element to update (if a string is
+        given, :mochiref:`getElement(node)` will be used to locate the
+        node)
+
+    ``dimensions``:
+        An object with ``w`` and ``h`` properties
+
+    ``units``:
+        Optionally set the units to use, default is ``px``
+
+    *Availability*:
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.setElementDimensions` in 1.4+
+
+
+:mochidef:`setElementPosition(element, position[, units='px'])`:
+
+    Sets the absolute position of ``element`` in the document from an
+    object with ``x`` and ``y`` properties.
+
+    ``node``:
+        A reference to the DOM element to update (if a string is
+        given, :mochiref:`getElement(node)` will be used to locate the
+        node)
+
+    ``position``:
+        An object with ``x`` and ``y`` properties
+
+    ``units``:
+        Optionally set the units to use, default is ``px``
+
+    *Availability*:
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.setElementPosition` in 1.4+
+
+
+:mochidef:`setDisplayForElement(display, element[, ...])`:
+
+    Change the ``style.display`` for the given element(s). Usually
+    used as the partial forms:
+
+    - :mochiref:`showElement(element, ...)`
+    - :mochiref:`hideElement(element, ...)`
+
+    Elements are looked up with :mochiref:`getElement`, so string
+    identifiers are acceptable.
+
+    For information about the caveats of using a ``style.display``
+    based show/hide mechanism, and a CSS based alternative, see
+    `Element Visibility`_.
+
+    *Availability*:
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.setDisplayForElement` in 1.4+
+
+
+:mochidef:`setOpacity(element, opacity)`:
+
+    Sets ``opacity`` for ``element``. Valid ``opacity`` values range
+    from 0 (invisible) to 1 (opaque). ``element`` is looked up with
+    :mochiref:`getElement`, so string identifiers are also acceptable.
+
+    *Availability*:
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.setOpacity` in 1.4+
+
+
+:mochidef:`showElement(element, ...)`:
+
+    Partial form of :mochiref:`setDisplayForElement`, specifically::
+
+        partial(setDisplayForElement, "block")
+
+    For information about the caveats of using a ``style.display``
+    based show/hide mechanism, and a CSS based alternative, see
+    `Element Visibility`_.
+
+    *Availability*:
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.showElement` in 1.4+
 
 
 See Also
