@@ -425,6 +425,12 @@ and strings.</li>
 </table>
 </blockquote>
 <p>
+<a name="fn-compose"></a>
+<a class="mochidef reference" href="#fn-compose">compose(f1, f2, ..., fN)</a>:</p>
+<blockquote>
+Return a new function as the combination of the given function
+arguments, equivalent to <tt class="docutils literal"><span class="pre">f2(f1(arguments))</span></tt>.</blockquote>
+<p>
 <a name="fn-concat"></a>
 <a class="mochidef reference" href="#fn-concat">concat(lst[, ...])</a>:</p>
 <blockquote>
@@ -655,6 +661,17 @@ function. These two calls are equivalent:</p>
 <pre class="literal-block">
 bind(&quot;method&quot;, myobject)
 method(myobject, &quot;method&quot;)
+</pre>
+</blockquote>
+<p>
+<a name="fn-methodcaller"></a>
+<a class="mochidef reference" href="#fn-methodcaller">methodcaller(name[, args...])</a>:</p>
+<blockquote>
+<p>Return a new function that calls a method on its argument,
+for example:</p>
+<pre class="literal-block">
+lst = map(methodcaller(&quot;toLowerCase&quot;), [&quot;THIS&quot;, &quot;is&quot;, &quot;LoWeRCaSe&quot;]);
+assert( lst.join(&quot; &quot;) == &quot;this is lowercase&quot; );
 </pre>
 </blockquote>
 <p>

@@ -455,11 +455,46 @@ MochiKit.Base.update(MochiKit.Base, {
         };
     },
             
+    methodcaller: function (func/*, args... */) {
+        var args = MochiKit.Base.extend(null, arguments, 1);
+        if (typeof(func) == "function") {
+            return function (obj) {
+                return func.apply(obj, args);
+            };
+        } else {
+            return function (obj) {
+                return obj[func].apply(obj, args);
+            };
+        }
+    },
+    
     method: function (self, func) {
         var m = MochiKit.Base;
         return m.bind.apply(this, m.extend([func, self], arguments, 2));
     },
 
+    compose: function (f1, f2/*, f3, ... fN */) {
+        var fnlist = [];
+        var m = MochiKit.Base;
+        if (arguments.length === 0) {
+            throw new TypeError("compose() requires at least one argument");
+        }
+        for (var i = 0; i < arguments.length; i++) {
+            var fn = arguments[i];
+            if (typeof(fn) != "function") {
+                throw new TypeError(repr(fn) + " is not a function");
+            }
+            fnlist.push(fn);
+        }
+        return function () {
+            var args = arguments;
+            for (var i = 0; i < fnlist.length; i++) {
+                args = [fnlist[i].apply(this, args)];
+            }
+            return args[0];
+        };
+    },
+        
     bind: function (func, self/* args... */) {
         if (typeof(func) == "string") {
             func = self[func];
@@ -989,6 +1024,8 @@ MochiKit.Base.EXPORT = [
     "map",
     "xfilter",
     "filter",
+    "methodcaller",
+    "compose",
     "bind",
     "bindMethods",
     "NotFound",
