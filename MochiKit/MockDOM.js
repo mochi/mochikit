@@ -71,3 +71,16 @@ MochiKit.MockDOM.MockElement.prototype = {
         return "MockElement(" + this.nodeName + ")";
     }
 };
+
+MochiKit.MockDOM.EXPORT_OK = [
+    "mockElement",
+    "createDocument"
+];
+
+MochiKit.MockDOM.EXPORT = [
+    "document"
+];
+
+MochiKit.MockDOM.__new__ = function () {
+    this.document = this.createDocument();
+};

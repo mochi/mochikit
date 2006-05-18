@@ -47,19 +47,11 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         dojo.require("MochiKit.*");
     }
     if (typeof(JSAN) != 'undefined') {
-        // hopefully this makes it easier for static analysis?
-        JSAN.use("MochiKit.Base", []);
-        JSAN.use("MochiKit.Iter", []);
-        JSAN.use("MochiKit.Logging", []);
-        JSAN.use("MochiKit.DateTime", []);
-        JSAN.use("MochiKit.Format", []);
-        JSAN.use("MochiKit.Async", []);
-        JSAN.use("MochiKit.DOM", []);
-        JSAN.use("MochiKit.Style", []);
-        JSAN.use("MochiKit.LoggingPane", []);
-        JSAN.use("MochiKit.Color", []);
-        JSAN.use("MochiKit.Signal", []);
-        JSAN.use("MochiKit.Visual", []);
+        (function (lst) {
+            for (var i = 0; i < lst.length; i++) {
+                JSAN.use("MochiKit." + lst[i], []);
+            }
+        })(MochiKit.MochiKit.SUBMODULES);
     }
     (function () {
         var extend = MochiKit.Base.extend;
@@ -96,6 +88,9 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         MochiKit.__compat__ = true;
     }
     (function () {
+        if (typeof(document) == "undefined") {
+            return;
+        }
         var scripts = document.getElementsByTagName("script");
         var kXULNSURI = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
         var base = null;
