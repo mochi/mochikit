@@ -84,3 +84,5 @@ MochiKit.MockDOM.EXPORT = [
 MochiKit.MockDOM.__new__ = function () {
     this.document = this.createDocument();
 };
+
+MochiKit.MockDOM.__new__();
