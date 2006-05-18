@@ -35,7 +35,8 @@ itertools module [2]_.
 
 MochiKit.Iter defines a standard way to iterate over anything, that
 you can extend with :mochiref:`registerIterator`, or by implementing
-the ``.iter()`` protocol. Iterators are lazy, so it can potentially be
+the ``.iter()`` or ``.__iterator__()`` (in MochiKit 1.4+) protocol.
+Iterators are lazy, so it can potentially be
 cheaper to build a filter chain of iterators than to build lots of
 intermediate arrays.  Especially when the data set is very large, but
 the result is not.
@@ -235,10 +236,13 @@ Functions
     2. If ``iterable`` is an iterator factory (implements
        ``.iter()``), then the result of ``iterable.iter()`` will be
        returned.
-    3. Otherwise, the iterator factory
+    3. If ``iterable`` is a JavaScript 1.7 iterator factory (implements
+       ``.__iterable__()``), then the result of ``iterable.__iterable__()``
+       will be returned (MochiKit 1.4+). 
+    4. Otherwise, the iterator factory
        :mochiref:`MochiKit.Base.AdapterRegistry` is used to find a
        match.
-    4. If no factory is found, it will throw ``TypeError``
+    5. If no factory is found, it will throw ``TypeError``
 
     Built-in iterator factories are present for Array-like objects,
     and objects that implement the ``iterateNext`` protocol (e.g. the
