@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- API version compatibility notes added
 - New MochiKit.Base functions methodcaller and compose
 - Support IE-based native console logging (Debugger, Atlas)
 - Refactored style functions from MochiKit.DOM to MochiKit.Style

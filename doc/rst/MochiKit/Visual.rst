@@ -13,18 +13,19 @@ Synopsis
 
     // round the corners of all h1 elements
     roundClass("h1", null);
-    
+
     // round the top left corner of the element with the id "title"
     roundElement("title", {corners: "tl"});
 
     // Add an fade effect to an element
     fade('myelement');
-    
+
 
 Description
 ===========
 
-MochiKit.Visual provides visual effects and support functions for visuals.
+MochiKit.Visual provides visual effects and support functions for
+visuals.
 
 
 Dependencies
@@ -39,10 +40,10 @@ Overview
 ========
 
 MochiKit.Visual provides different visual effect: rounded corners and
-animations for your HTML elements. Rounded corners are created completely
-through CSS manipulations and require no external images or style sheets.
-This implementation was adapted from Rico_. Dynamic effects are ported from
-Scriptaculous_.
+animations for your HTML elements. Rounded corners are created
+completely through CSS manipulations and require no external images or
+style sheets.  This implementation was adapted from Rico_. Dynamic
+effects are ported from Scriptaculous_.
 
 .. _Rico: http://www.openrico.org
 
@@ -57,18 +58,22 @@ Functions
 
 :mochidef:`roundClass(tagName[, className[, options]])`:
 
-    Rounds all of the elements that match the ``tagName`` and ``className``
-    specifiers, using the options provided.  ``tagName`` or ``className`` can
-    be ``null`` to match all tags or classes.  For more information about
-    the options, see the :mochiref:`roundElement` function.
+    Rounds all of the elements that match the ``tagName`` and
+    ``className`` specifiers, using the options provided.  ``tagName``
+    or ``className`` can be ``null`` to match all tags or classes.
+    For more information about the options, see the
+    :mochiref:`roundElement` function.
+
+    *Availability*:
+        Available in MochiKit 1.3.1+
 
 
 :mochidef:`roundElement(element[, options])`:
 
-    Immediately round the corners of the specified element.
-    The element can be given as either a string 
-    with the element ID, or as an element object.
-    
+    Immediately round the corners of the specified element.  The
+    element can be given as either a string with the element ID, or as
+    an element object.
+
     The options mapping has the following defaults:
 
     ========= =================
@@ -79,12 +84,12 @@ Functions
     border    ``false``
     compact   ``false``
     ========= =================
-    
+
     corners:
 
         specifies which corners of the element should be rounded.
         Choices are:
-        
+
         - all
         - top
         - bottom
@@ -95,31 +100,46 @@ Functions
 
         Example:
             ``"tl br"``: top-left and bottom-right corners are rounded
-    
+
     blend:
-        specifies whether the color and background color should be blended
-        together to produce the border color.
-    
+        specifies whether the color and background color should be
+        blended together to produce the border color.
+
+    *Availability*:
+        Available in MochiKit 1.3.1+
+
+
 :mochidef:`toggle(element[, effect[, options]])`:
 
     Toggle an element between visible and invisible state using an effect.
 
     effect:
-        
-        One of the visual pairs to use, between 'slide', 'blind', 'appear', 
-        and 'size'.
+        One of the visual pairs to use, between 'slide', 'blind',
+        'appear', and 'size'.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`tagifyText(element[, tagifyStyle])`:
 
     Transform a node text into nodes containing one letter by tag.
 
     tagifyStyle:
+        style to apply to character nodes, default to 'position:
+        relative'.
 
-        style to apply to character nodes, default to 'position: relative'.
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`multiple(elements, effect[, options])`:
 
     Launch the same effect on a list of elements.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 Basic Effects classes
 ---------------------
@@ -139,16 +159,28 @@ Basic Effects classes
     queue       ``'parallel'``
     =========== ========================================
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`Base()`:
 
-    Base class to all effects. Define a basic looping service, use it for
-    creating new effects.
+    Base class to all effects. Define a basic looping service, use it
+    for creating new effects.
 
     You can override the methods ``setup``, ``update`` and ``finish```.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`Parallel(effects [, options])`:
 
     Launch effects in parallel.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`Opacity(element [, options])`:
 
@@ -161,9 +193,14 @@ Basic Effects classes
     to     ``1.0``
     ====== ========
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`Move(element [, options])`:
 
-    Change the position of an element in small steps, creating a moving effect.
+    Change the position of an element in small steps, creating a
+    moving effect.
 
     options:
 
@@ -173,14 +210,18 @@ Basic Effects classes
     position  ``'relative'``
     ========= ================
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`Scale(element, percent [, options])`:
 
     Change the size of an element.
 
     percent:
-    
-        Final wanted size in percent of current size. The size will be reduced
-        if the value is between 0 and 1, and raised if the value is above 1.
+        Final wanted size in percent of current size. The size will be
+        reduced if the value is between 0 and 1, and raised if the
+        value is above 1.
 
     options:
 
@@ -194,6 +235,9 @@ Basic Effects classes
     scaleTo          ``percent``
     ================ ============
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`Highlight(element [, options])`:
 
@@ -205,9 +249,17 @@ Basic Effects classes
     startcolor  ``'#ffff99'``
     =========== ==============
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`ScrollTo(element [, options])`:
 
     Scroll the window to the position of the given element.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 Combination Effects
 -------------------
@@ -223,6 +275,10 @@ Combination Effects
     to     ``0.0``
     ====== =============================================
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`appear(element [, options])`:
 
     Slowly show an invisible element.
@@ -234,58 +290,114 @@ Combination Effects
     to    ``1.0``
     ===== =========
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`puff(element [, options])`:
 
     Make an element double size, and then make it disappear.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`blindUp(element [, options])`:
 
     Blind an element up, changing its vertical size to 0.
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`blindDown(element [, options])`:
 
     Blind an element down, restoring its vertical size.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`switchOff(element [, options])`:
 
     A switch-off like effect, making the element disappear.
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`dropOut(element [, options])`:
 
     Make the element fall and fade.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`shake(element [, options])`:
 
     Shake an element from left to right.
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`slideDown(element [, options])`:
 
     Slide an element down.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`slideUp(element [, options])`:
 
     Slide an element up.
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`squish(element [, options])`:
 
-    Reduce the horizontal and vertical sizes at the same time, using the
-    top left corner.
+    Reduce the horizontal and vertical sizes at the same time, using
+    the top left corner.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`grow(element [, options])`:
 
     Restore the size of an element.
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`shrink(element [, options])`:
 
     Shrink an element to its center.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`pulsate(element [, options])`:
 
     Switch an element between appear and fade.
 
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`fold(element [, options])`:
 
     Reduce first the vertical size, and then the horizontal size.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 See Also
 ========
@@ -301,16 +413,19 @@ Authors
 - Kevin Dangoor <dangoor@gmail.com>
 - Bob Ippolito <bob@redivi.com>
 - Thomas Herve <therve@gmail.com>
-- Round corners originally adapted from Rico <http://openrico.org/> (though little remains)
-- Effects originally adapted from Script.aculo.us <http://script.aculo.us/>
+- Round corners originally adapted from Rico <http://openrico.org/>
+  (though little remains)
+- Effects originally adapted from Script.aculo.us
+  <http://script.aculo.us/>
 
 
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is dual-licensed
-free software; you can redistribute it and/or modify it under the terms of the
-`MIT License`_ or the `Academic Free License v2.1`_.
+Copyright 2005 Bob Ippolito <bob@redivi.com>.  This program is
+dual-licensed free software; you can redistribute it and/or modify it
+under the terms of the `MIT License`_ or the `Academic Free License
+v2.1`_.
 
 .. _`MIT License`: http://www.opensource.org/licenses/mit-license.php
 .. _`Academic Free License v2.1`: http://www.opensource.org/licenses/afl-2.1.php
@@ -318,7 +433,7 @@ free software; you can redistribute it and/or modify it under the terms of the
 Portions adapted from `Rico`_ are available under the terms of the
 `Apache License, Version 2.0`_.
 
-Portions adapted from `Scriptaculous`_ are available under the terms of the
-`MIT License`_.
+Portions adapted from `Scriptaculous`_ are available under the terms
+of the `MIT License`_.
 
 .. _`Apache License, Version 2.0`: http://www.apache.org/licenses/LICENSE-2.0.html
