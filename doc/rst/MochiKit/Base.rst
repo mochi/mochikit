@@ -445,6 +445,12 @@ Functions
     +-----------+---------------+
 
 
+:mochidef:`compose(f1, f2, ..., fN)`:
+
+    Return a new function as the combination of the given function
+    arguments, equivalent to ``f2(f1(arguments))``.
+
+
 :mochidef:`concat(lst[, ...])`:
 
     Concatenates all given ``Array``-like arguments and returns
@@ -664,6 +670,15 @@ Functions
 
         bind("method", myobject)
         method(myobject, "method")
+
+
+:mochidef:`methodcaller(name[, args...])`:
+
+    Return a new function that calls a method on its argument,
+    for example::
+
+        lst = map(methodcaller("toLowerCase"), ["THIS", "is", "LoWeRCaSe"]);
+        assert( lst.join(" ") == "this is lowercase" );
 
 
 :mochidef:`nameFunctions(namespace)`:

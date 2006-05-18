@@ -415,5 +415,19 @@ tests.test_Base = function (t) {
     var flat = flattenArguments(1, "2", 3, [4, [5, [6, 7], 8, [], 9]]);
     var expect = [1, "2", 3, 4, 5, 6, 7, 8, 9];
     t.is( repr(flat), repr(expect), "flattenArguments" );
+
+    var fn = function () {
+        return [this, concat(arguments)];
+    }
+    t.is( methodcaller("toLowerCase")("FOO"), "foo", "methodcaller with a method name" );
+    t.is( repr(methodcaller(fn, 2, 3)(1)), "[1, [2, 3]]", "methodcaller with a function" );
+
+    var f1 = function (x) { return [1, x]; };
+    var f2 = function (x) { return [2, x]; };
+    var f3 = function (x) { return [3, x]; };
+    t.is( repr(f3(f2(f1(0)))), "[3, [2, [1, 0]]]", "test the compose test" );
+    t.is( repr(compose(f1,f2,f3)(0)), "[3, [2, [1, 0]]]", "three fn composition works" );
+    t.is( repr(compose(compose(f1,f2),f3)(0)), "[3, [2, [1, 0]]]", "associative left" );
+    t.is( repr(compose(f1,compose(f2,f3))(0)), "[3, [2, [1, 0]]]", "associative right" );
     
 };

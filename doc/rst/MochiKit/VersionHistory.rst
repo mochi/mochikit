@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- New MochiKit.Base functions methodcaller and compose
 - Support IE-based native console logging (Debugger, Atlas)
 - Refactored style functions from MochiKit.DOM to MochiKit.Style
 - MochiKit.Async.DeferredList is now a proper Deferred
