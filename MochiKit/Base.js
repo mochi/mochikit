@@ -488,7 +488,7 @@ MochiKit.Base.update(MochiKit.Base, {
         }
         return function () {
             var args = arguments;
-            for (var i = 0; i < fnlist.length; i++) {
+            for (var i = fnlist.length - 1; i >= 0; i--) {
                 args = [fnlist[i].apply(this, args)];
             }
             return args[0];
