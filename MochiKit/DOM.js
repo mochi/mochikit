@@ -756,7 +756,11 @@ MochiKit.Base.update(MochiKit.DOM, {
     __new__: function (win) {
 
         var m = MochiKit.Base;
-        this._document = document;
+        if (typeof(document) != "undefined") {
+            this._document = document;
+        } else if (MochiKit.MockDOM) {
+            this._document = MochiKit.MockDOM.document;
+        }
         this._window = win;
 
         this.domConverters = new m.AdapterRegistry(); 

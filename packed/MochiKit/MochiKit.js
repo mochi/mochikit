@@ -3091,7 +3091,13 @@ return rval.join("");
 }
 },__new__:function(win){
 var m=MochiKit.Base;
+if(typeof (document)!="undefined"){
 this._document=document;
+}else{
+if(MochiKit.MockDOM){
+this._document=MochiKit.MockDOM.document;
+}
+}
 this._window=win;
 this.domConverters=new m.AdapterRegistry();
 var _400=this._document.createElement("span");
@@ -5587,18 +5593,11 @@ dojo.provide("MochiKit.MochiKit");
 dojo.require("MochiKit.*");
 }
 if(typeof (JSAN)!="undefined"){
-JSAN.use("MochiKit.Base",[]);
-JSAN.use("MochiKit.Iter",[]);
-JSAN.use("MochiKit.Logging",[]);
-JSAN.use("MochiKit.DateTime",[]);
-JSAN.use("MochiKit.Format",[]);
-JSAN.use("MochiKit.Async",[]);
-JSAN.use("MochiKit.DOM",[]);
-JSAN.use("MochiKit.Style",[]);
-JSAN.use("MochiKit.LoggingPane",[]);
-JSAN.use("MochiKit.Color",[]);
-JSAN.use("MochiKit.Signal",[]);
-JSAN.use("MochiKit.Visual",[]);
+(function(lst){
+for(var i=0;i<lst.length;i++){
+JSAN.use("MochiKit."+lst[i],[]);
+}
+})(MochiKit.MochiKit.SUBMODULES);
 }
 (function(){
 var _786=MochiKit.Base.extend;
@@ -5634,6 +5633,9 @@ if(typeof (MochiKit.__compat__)=="undefined"){
 MochiKit.__compat__=true;
 }
 (function(){
+if(typeof (document)=="undefined"){
+return;
+}
 var _791=document.getElementsByTagName("script");
 var _792="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 var base=null;
