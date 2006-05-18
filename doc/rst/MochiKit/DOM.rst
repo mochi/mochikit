@@ -293,7 +293,8 @@ Functions
 
 
     *Availability*:
-        Available in MochiKit 1.3.1, moved to Style.js in MochiKit 1.4+
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.computedStyle` in MochiKit 1.4+
 
 
 :mochidef:`createDOM(name[, attrs[, node[, ...]]])`:
@@ -453,7 +454,7 @@ Functions
 
     *Availability*:
         Available in MochiKit 1.3.1, deprecated in favor of
-        :mochiref:`MochiKit.Style.getElementPosition`_, present in 1.4+
+        :mochiref:`MochiKit.Style.getElementPosition`, present in 1.4+
 
 
 :mochidef:`emitHTML(dom[, lst])`:
@@ -557,7 +558,8 @@ Functions
     :mochiref:`getElement`, so string identifiers are also acceptable.
 
     *Availability*:
-        Available in MochiKit 1.3.1, moved to Style.js in 1.4+
+        Available in MochiKit 1.3.1, moved to
+        :mochiref:`MochiKit.Style.getViewportDimensions` in 1.4+
 
 
 :mochidef:`hasElementClass(element, className[, ...])`:
@@ -583,7 +585,8 @@ Functions
 .. _`Element Visibility`: Style.html#element-visibility
 
     *Availability*:
-        Available in MochiKit 1.3.1, moved to Style.js in 1.4+
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.hideElement` in 1.4+
 
 
 :mochidef:`registerDOMConverter(name, check, wrap[, override])`:
@@ -674,7 +677,8 @@ Functions
     `Element Visibility`_.
 
     *Availability*:
-        Available in MochiKit 1.3.1, moved to Style.js in 1.4+
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.setDisplayForElement` in 1.4+
 
 
 :mochidef:`setElementClass(element, className)`:
@@ -763,7 +767,8 @@ Functions
     :mochiref:`getElement`, so string identifiers are also acceptable.
 
     *Availability*:
-        Available in MochiKit 1.3.1, moved to Style.js in 1.4+
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.setOpacity` in 1.4+
 
 
 :mochidef:`showElement(element, ...)`:
@@ -777,7 +782,8 @@ Functions
     `Element Visibility`_.
 
     *Availability*:
-        Available in MochiKit 1.3.1, moved to Style.js in 1.4+
+        Available in MochiKit 1.3.1, moved to 
+        :mochiref:`MochiKit.Style.showElement` in 1.4+
 
 
 :mochidef:`swapDOM(dest, src)`:
