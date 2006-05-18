@@ -1,8 +1,4 @@
-MochiKit = {__export__: true};
-JSAN.use('MochiKit.MockDOM');
-var window = this;
-var document = MochiKit.MockDOM.createDocument();
-JSAN.use('MochiKit.MochiKit');
+load('tests/cli.js');
 
 JSAN.use('MochiKit.Test');
 

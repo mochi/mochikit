@@ -10,12 +10,15 @@ if (typeof(print) == "undefined" && typeof(WScript) != "undefined") {
     var load = function (fn) {
         var fso = new ActiveXObject("Scripting.FileSystemObject");
         var textStream = fso.OpenTextFile(fn, 1);
-        arguments.callee.do_eval.apply(JSAN.global, [textStream.ReadAll()]);
+        var namespace = undefined;
+        if (typeof(JSAN) != "undefined") {
+            namespace = JSAN.global;
+        }
+        arguments.callee.do_eval.apply(namespace, [textStream.ReadAll()]);
     };
     load.do_eval = function () {
         eval(arguments[0]);
     };
 }
 
-load('tests/FakeJSAN.js');
 load('tests/standalone.js');
