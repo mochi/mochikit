@@ -54,8 +54,14 @@ MochiKit.Base.update(MochiKit.Iter, {
             return iterable;
         } else if (typeof(iterable.iter) == 'function') {
             return iterable.iter();
-        } else if (typeof(iterable.__iterator__) == 'function') {
+        /*
+        }  else if (typeof(iterable.__iterator__) == 'function') {
+            //
+            // XXX: We can't support JavaScript 1.7 __iterator__ directly
+            //      because of Object.prototype.__iterator__
+            //
             return iterable.__iterator__();
+        */
         }
 
         try {

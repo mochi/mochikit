@@ -954,10 +954,6 @@ return _140;
 }else{
 if(typeof (_140.iter)=="function"){
 return _140.iter();
-}else{
-if(typeof (_140.__iterator__)=="function"){
-return _140.__iterator__();
-}
 }
 }
 try{
