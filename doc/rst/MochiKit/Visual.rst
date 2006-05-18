@@ -170,6 +170,29 @@ Basic Effects classes
 
     You can override the methods ``setup``, ``update`` and ``finish```.
 
+    The class defines a number of events that will be called during effect
+    life. The events are:
+
+    - beforeStart
+    - beforeSetup
+    - beforeUpdate
+    - afterUpdate
+    - beforeFinish
+    - afterFinish
+
+    If you want to define your own callbacks, define it in the options
+    parameter of the effect. Example::
+
+        // I slide it up and then down again
+        slideUp('myelement', {afterFinish: function () {
+            slideDown('myelement');
+        });
+ 
+    Specific ``internal`` events are also available: for each one abone the
+    same exists with 'Internal' (example: 'beforeStartInternal'). Their purpose
+    is mainly for creating your own effect and keep the user access to event
+    callbacks (not overriding the library ones).
+
     *Availability*:
         Available in MochiKit 1.4+
 
