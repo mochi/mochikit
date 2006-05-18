@@ -719,7 +719,10 @@ return MochiKit.Base.listMinMax(-1,arguments);
 if(typeof (end)=="undefined"||end===null){
 end=lst.length;
 }
-for(var i=(_108||0);i<end;i++){
+if(typeof (_108)=="undefined"||_108===null){
+_108=0;
+}
+for(var i=_108;i<end;i++){
 if(lst[i]===_107){
 return i;
 }
@@ -729,8 +732,11 @@ return -1;
 if(typeof (end)=="undefined"||end===null){
 end=lst.length;
 }
+if(typeof (_111)=="undefined"||_111===null){
+_111=0;
+}
 var cmp=MochiKit.Base.compare;
-for(var i=(_111||0);i<end;i++){
+for(var i=_111;i<end;i++){
 if(cmp(lst[i],_110)===0){
 return i;
 }
@@ -1201,7 +1207,7 @@ return rval;
 },tee:function(_164,n){
 var rval=[];
 var sync={"pos":[],"deque":[],"max":-1,"min":-1};
-if(arguments.length==1){
+if(arguments.length==1||typeof (n)=="undefined"||n===null){
 n=2;
 }
 var self=MochiKit.Iter;
@@ -1297,7 +1303,10 @@ return rval;
 return "range("+[_170,stop,step].join(", ")+")";
 },toString:MochiKit.Base.forwardCall("repr")};
 },sum:function(_171,_172){
-var x=_172||0;
+if(typeof (_172)=="undefined"||_172===null){
+_172=0;
+}
+var x=_172;
 var self=MochiKit.Iter;
 _171=self.iter(_171);
 try{
