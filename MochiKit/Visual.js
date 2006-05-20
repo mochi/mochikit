@@ -1074,7 +1074,7 @@ Combination effects.
 
 ***/
 
-MochiKit.Visual.fade = function (element, options) {
+MochiKit.Visual.fade = function (element, /* optional */ options) {
     /***
 
     Fade a given element: change its opacity and hide it in the end.
@@ -1098,7 +1098,7 @@ MochiKit.Visual.fade = function (element, options) {
     return new MochiKit.Visual.Opacity(element, options);
 };
 
-MochiKit.Visual.appear = function (element, options) {
+MochiKit.Visual.appear = function (element, /* optional */ options) {
     /***
 
     Make an element appear.
@@ -1124,7 +1124,7 @@ MochiKit.Visual.appear = function (element, options) {
     return new v.Opacity(element, options);
 };
 
-MochiKit.Visual.puff = function (element, options) {
+MochiKit.Visual.puff = function (element, /* optional */ options) {
     /***
 
     'Puff' an element: grow it to double size, fading it and make it hidden.
@@ -1155,7 +1155,7 @@ MochiKit.Visual.puff = function (element, options) {
         options);
 };
 
-MochiKit.Visual.blindUp = function (element, options) {
+MochiKit.Visual.blindUp = function (element, /* optional */ options) {
     /***
 
     Blind an element up: change its vertical size to 0.
@@ -1177,7 +1177,7 @@ MochiKit.Visual.blindUp = function (element, options) {
     return new MochiKit.Visual.Scale(element, 0, options);
 };
 
-MochiKit.Visual.blindDown = function (element, options) {
+MochiKit.Visual.blindDown = function (element, /* optional */ options) {
     /***
 
     Blind an element down: restore its vertical size.
@@ -1205,7 +1205,7 @@ MochiKit.Visual.blindDown = function (element, options) {
     return new MochiKit.Visual.Scale(element, 100, options);
 };
 
-MochiKit.Visual.switchOff = function (element) {
+MochiKit.Visual.switchOff = function (element, /* optional */ options) {
     /***
 
     Apply a switch-off-like effect.
@@ -1214,7 +1214,7 @@ MochiKit.Visual.switchOff = function (element) {
     var d = MochiKit.DOM;
     element = d.getElement(element);
     var oldOpacity = d.getInlineOpacity(element);
-    var optionsScale = {
+    var options = MochiKit.Base.update({
         duration: 0.3,
         scaleFromCenter: true,
         scaleX: false,
@@ -1230,19 +1230,19 @@ MochiKit.Visual.switchOff = function (element) {
             d.undoPositioned(effect.element);
             d.setStyle(effect.element, {opacity: oldOpacity});
         }
-    };
+    }, options || {});
     var v = MochiKit.Visual;
     return new v.appear(element, {
         duration: 0.4,
         from: 0,
         transition: v.Transitions.flicker,
         afterFinishInternal: function (effect) {
-            new v.Scale(effect.element, 1, optionsScale)
+            new v.Scale(effect.element, 1, options)
         }
     });
 };
 
-MochiKit.Visual.dropOut = function (element, options) {
+MochiKit.Visual.dropOut = function (element, /* optional */ options) {
     /***
 
     Make an element fall and disappear.
@@ -1274,7 +1274,7 @@ MochiKit.Visual.dropOut = function (element, options) {
         options);
 };
 
-MochiKit.Visual.shake = function (element) {
+MochiKit.Visual.shake = function (element, /* optional */ options) {
     /***
 
     Move an element from left to right several times.
@@ -1283,6 +1283,15 @@ MochiKit.Visual.shake = function (element) {
     var d = MochiKit.DOM;
     var v = MochiKit.Visual;
     element = d.getElement(element);
+    options = MochiKit.Base.update({
+        x: -20,
+        y: 0,
+        duration: 0.05,
+        afterFinishInternal: function (effect) {
+            d.undoPositioned(effect.element);
+            d.setStyle(effect.element, oldStyle);
+        }
+    }, options || {});
     var oldStyle = {
         top: d.getStyle(element, 'top'),
         left: d.getStyle(element, 'left') };
@@ -1296,14 +1305,11 @@ MochiKit.Visual.shake = function (element) {
           {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
         new v.Move(effect.element,
            {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new v.Move(effect.element,
-         {x: -20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
-                d.undoPositioned(effect.element);
-                d.setStyle(effect.element, oldStyle);
-    }}) }}) }}) }}) }}) }});
+        new v.Move(effect.element, options
+        ) }}) }}) }}) }}) }});
 };
 
-MochiKit.Visual.slideDown = function (element, options) {
+MochiKit.Visual.slideDown = function (element, /* optional */ options) {
     /***
 
     Slide an element down.
@@ -1356,7 +1362,7 @@ MochiKit.Visual.slideDown = function (element, options) {
     return new MochiKit.Visual.Scale(element, 100, options);
 };
 
-MochiKit.Visual.slideUp = function (element, options) {
+MochiKit.Visual.slideUp = function (element, /* optional */ options) {
     /***
 
     Slide an element up.
@@ -1401,7 +1407,7 @@ MochiKit.Visual.slideUp = function (element, options) {
 
 // Bug in opera makes the TD containing this element expand for a instance
 // after finish
-MochiKit.Visual.squish = function (element, options) {
+MochiKit.Visual.squish = function (element, /* optional */ options) {
     /***
 
     Reduce an element and make it disappear.
@@ -1423,7 +1429,7 @@ MochiKit.Visual.squish = function (element, options) {
     return new MochiKit.Visual.Scale(element, b.isOpera() ? 1 : 0, options);
 };
 
-MochiKit.Visual.grow = function (element, options) {
+MochiKit.Visual.grow = function (element, /* optional */ options) {
     /***
 
     Grow an element to its original size. Make it zero-sized before
@@ -1524,7 +1530,7 @@ MochiKit.Visual.grow = function (element, options) {
     });
 };
 
-MochiKit.Visual.shrink = function (element, options) {
+MochiKit.Visual.shrink = function (element, /* optional */ options) {
     /***
 
     Shrink an element and make it disappear.
@@ -1601,7 +1607,7 @@ MochiKit.Visual.shrink = function (element, options) {
     );
 };
 
-MochiKit.Visual.pulsate = function (element, options) {
+MochiKit.Visual.pulsate = function (element, /* optional */ options) {
     /***
 
     Pulse an element between appear/fade.
@@ -1628,7 +1634,7 @@ MochiKit.Visual.pulsate = function (element, options) {
         transition: reverser}, options));
 };
 
-MochiKit.Visual.fold = function (element, options) {
+MochiKit.Visual.fold = function (element, /* optional */ options) {
     /***
 
     Fold an element, first vertically, then horizontally.
