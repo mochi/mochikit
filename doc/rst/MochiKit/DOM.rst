@@ -520,8 +520,7 @@ Functions
 
 :mochidef:`removeElement(node)`:
 
-    Remove and return ``node`` from a DOM tree. This is technically
-    just a convenience for :mochiref:`swapDOM(node, null)`.
+    Remove and return ``node`` from a DOM tree.
 
     ``node``:
         the DOM element (or string id of one) to be removed
@@ -530,7 +529,7 @@ Functions
         The removed element
 
     *Availability*:
-        Available in MochiKit 1.3.1+
+        Available in MochiKit 1.4+
 
 
 :mochidef:`removeElementClass(element, className)`:
