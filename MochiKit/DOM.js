@@ -457,6 +457,12 @@ MochiKit.Base.update(MochiKit.DOM, {
         );
     },
 
+    removeElement: function (elem) {
+        var e = MochiKit.DOM.getElement(elem);
+        e.parentNode.removeChild(e);
+        return e;
+    },
+
     swapDOM: function (dest, src) {
         var self = MochiKit.DOM;
         dest = self.getElement(dest);
@@ -845,8 +851,6 @@ MochiKit.Base.update(MochiKit.DOM, {
         this.STRONG = createDOMFunc("strong");
         this.CANVAS = createDOMFunc("canvas");
 
-        this.removeElement = this.swapDOM;
-        
         this.$ = this.getElement;
 
         this.EXPORT_TAGS = {
