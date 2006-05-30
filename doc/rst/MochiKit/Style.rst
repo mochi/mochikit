@@ -240,6 +240,26 @@ Functions
         Available in MochiKit 1.4+
 
 
+Objects
+-------
+
+:mochidef:`Coordinates(x, y)`:
+
+    Constructs an object with ``x`` and ``y`` properties. ``obj.toString()`` 
+    returns something like ``{x: 0, y: 42}`` for debugging.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+        
+:mochidef:`Dimensions(w, h)`:
+
+    Constructs an object with ``w`` and ``h`` properties. ``obj.toString()`` 
+    returns something like ``{w: 0, h: 42}`` for debugging.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 Authors
 =======
 

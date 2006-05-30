@@ -425,7 +425,13 @@ Functions
 
 :mochidef:`focusOnLoad(element)`:
 
-    Add an onload event to focus the given element
+    Note that :mochiref:`focusOnLoad` can not be used in combination
+    with :mochiref:`MochiKit.Signal` if the ``onload`` event is
+    connected.  Once an event is connected with
+    :mochiref:`MochiKit.Signal`, no other APIs may be used for that
+    same event.
+
+    This adds an onload event to focus the given element.
 
     *Availability*:
         Available in MochiKit 1.3.1+
@@ -891,6 +897,32 @@ These functions are available in MochiKit 1.3.1, but have been moved to
     *Availability*:
         Available in MochiKit 1.3.1, moved to 
         :mochiref:`MochiKit.Style.showElement` in 1.4+
+
+
+Style Objects
+-------------
+
+These objects are available in MochiKit 1.3.1, but have been moved to 
+:mochiref:`MochiKit.Style` in 1.4+.
+
+:mochidef:`Coordinates(x, y)`:
+
+    Constructs an object with ``x`` and ``y`` properties. ``obj.toString()`` 
+    returns something like ``{x: 0, y: 42}`` for debugging.
+
+    *Availability*:
+    Available in MochiKit 1.3.1, moved to 
+    :mochiref:`MochiKit.Style.Coordinates` in 1.4+
+
+:mochidef:`Dimensions(w, y)`:
+
+    Constructs an object with ``w`` and ``h`` properties. ``obj.toString()`` 
+    returns something like ``{w: 0, h: 42}`` for debugging.
+
+    *Availability*:
+    Available in MochiKit 1.3.1, moved to 
+    :mochiref:`MochiKit.Style.Dimensions` in 1.4+
+
 
 
 See Also

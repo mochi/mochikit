@@ -3267,24 +3267,20 @@ MochiKit.DOM.updateNodeAttributes(elem,{"style":{"opacity":o,"-moz-opacity":o,"-
 var self=MochiKit.Style;
 var dom=MochiKit.DOM;
 elem=dom.getElement(elem);
-if(!elem){
+if(!elem||(!(elem.x&&elem.y)&&(!elem.parentNode==null||self.computedStyle(elem,"display")=="none"))){
 return undefined;
 }
 var c=new self.Coordinates(0,0);
-if(elem.x&&elem.y){
-c.x+=elem.x||0;
-c.y+=elem.y||0;
-return c;
-}else{
-if(elem.parentNode===null||self.computedStyle(elem,"display")=="none"){
-return undefined;
-}
-}
 var box=null;
 var _419=null;
 var d=MochiKit.DOM._document;
 var de=d.documentElement;
 var b=d.body;
+if(!elem.parentNode&&elem.x&&elem.y){
+c.x+=elem.x||0;
+c.y+=elem.y||0;
+return c;
+}else{
 if(elem.getBoundingClientRect){
 box=elem.getBoundingClientRect();
 c.x+=box.left+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||b.clientLeft);
@@ -3310,6 +3306,7 @@ var ua=navigator.userAgent.toLowerCase();
 if((typeof (opera)!="undefined"&&parseFloat(opera.version())<9)||(ua.indexOf("safari")!=-1&&self.computedStyle(elem,"position")=="absolute")){
 c.x-=b.offsetLeft;
 c.y-=b.offsetTop;
+}
 }
 }
 }
