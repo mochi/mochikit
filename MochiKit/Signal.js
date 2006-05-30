@@ -110,29 +110,48 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
         return this._event.target || this._event.srcElement;
     },
 
+    _relatedTarget: null,
     relatedTarget: function () {
+        if (this._relatedTarget !== null) {
+            return this._relatedTarget;
+        }
+
+        var elem = null;
         if (this.type() == 'mouseover') {
-            return (this._event.relatedTarget ||
+            elem = (this._event.relatedTarget ||
                 this._event.fromElement);
         } else if (this.type() == 'mouseout') {
-            return (this._event.relatedTarget ||
+            elem = (this._event.relatedTarget ||
                 this._event.toElement);
         }
-        // throw new Error("relatedTarget only available for 'mouseover' and 'mouseout'");
+        if (elem !== null) {
+            this._relatedTarget = elem;
+            return elem;
+        }
+        
         return undefined;
     },
 
+    _modifier: null,
     modifier: function () {
+        if (this._modifier !== null) {
+            return this._modifier;
+        }
         var m = {};
         m.alt = this._event.altKey;
         m.ctrl = this._event.ctrlKey;
         m.meta = this._event.metaKey || false; // IE and Opera punt here
         m.shift = this._event.shiftKey;
         m.any = m.alt || m.ctrl || m.shift || m.meta;
+        this._modifier = m;
         return m;
     },
 
+    _key: null,
     key: function () {
+        if (this._key !== null) {
+            return this._key;
+        }        
         var k = {};
         if (this.type() && this.type().indexOf('key') === 0) {
 
@@ -200,6 +219,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                 k.code = this._event.keyCode;
                 k.string = (MochiKit.Signal._specialKeys[k.code] ||
                     'KEY_UNKNOWN');
+                this._key = k;
                 return k;
         
             /* look for characters here */
@@ -228,7 +248,8 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                     k.code = this._event.keyCode;
                     k.string = String.fromCharCode(k.code);
                 }
-            
+                
+                this._key = k;
                 return k;
             }
         }
@@ -236,7 +257,12 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
         return undefined;
     },
 
+    _mouse: null,
     mouse: function () {
+        if (this._mouse !== null) {
+            return this._mouse;
+        }
+        
         var m = {};
         var e = this._event;
         
@@ -321,6 +347,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                     m.button.middle = !!(e.button & 4);
                 }
             }
+            this._mouse = m;
             return m;
         }
         // throw new Error('This is not a mouse event');
