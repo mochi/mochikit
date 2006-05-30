@@ -47,7 +47,7 @@ MochiKit.Style.toString = function () {
     return this.__repr__();
 };
 
-MochiKit.Style.EXPORT_OK = []
+MochiKit.Style.EXPORT_OK = [];
 
 MochiKit.Style.EXPORT = [
     'setOpacity',
@@ -155,22 +155,14 @@ MochiKit.Base.update(MochiKit.Style, {
         var dom = MochiKit.DOM;        
         elem = dom.getElement(elem);
         
-        if (!elem) { 
+        if (!elem || 
+            (!(elem.x && elem.y) && 
+            (!elem.parentNode == null || 
+            self.computedStyle(elem, 'display') == 'none'))) {
             return undefined;
         }
 
-        var c = new self.Coordinates(0, 0);
-        
-        if (elem.x && elem.y) {
-            /* it's just a MochiKit.Style.Coordinates object */
-            c.x += elem.x || 0;
-            c.y += elem.y || 0;
-            return c;
-        } else if (elem.parentNode === null || 
-            self.computedStyle(elem, 'display') == 'none') {
-            return undefined;
-        }
-        
+        var c = new self.Coordinates(0, 0);        
         var box = null;
         var parent = null;
         
@@ -178,8 +170,13 @@ MochiKit.Base.update(MochiKit.Style, {
         var de = d.documentElement;
         var b = d.body;            
     
-        if (elem.getBoundingClientRect) { // IE shortcut
-            
+        if (!elem.parentNode && elem.x && elem.y) {
+            /* it's just a MochiKit.Style.Coordinates object */
+            c.x += elem.x || 0;
+            c.y += elem.y || 0;
+            return c;
+        } else if (elem.getBoundingClientRect) { // IE shortcut
+               
             /*
             
                 The IE shortcut is off by two:
