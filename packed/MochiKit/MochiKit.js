@@ -3279,7 +3279,6 @@ var b=d.body;
 if(!elem.parentNode&&elem.x&&elem.y){
 c.x+=elem.x||0;
 c.y+=elem.y||0;
-return c;
 }else{
 if(elem.getBoundingClientRect){
 box=elem.getBoundingClientRect();
