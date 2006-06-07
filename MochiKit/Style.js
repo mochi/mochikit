@@ -174,7 +174,6 @@ MochiKit.Base.update(MochiKit.Style, {
             /* it's just a MochiKit.Style.Coordinates object */
             c.x += elem.x || 0;
             c.y += elem.y || 0;
-            return c;
         } else if (elem.getBoundingClientRect) { // IE shortcut
                
             /*
