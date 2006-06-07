@@ -28,6 +28,10 @@ KeyEvents.specialKeyMap = {
 
 connect(document, 'onkeydown', 
     function(e) {
+        if (getElement('stopBox').checked == true) {
+            e.preventDefault();
+        }
+        
         // We're storing a handled flag to work around a Safari bug: 
         // http://bugzilla.opendarwin.org/show_bug.cgi?id=3387
         if (!KeyEvents.handled) {
@@ -45,6 +49,10 @@ connect(document, 'onkeydown',
     
 connect(document, 'onkeyup', 
     function(e) {
+        if (getElement('stopBox').checked == true) {
+            e.preventDefault();
+        }
+        
         KeyEvents.handled = false;
         var key = e.key();
         replaceChildNodes('onkeyup_code', key.code);
@@ -54,6 +62,10 @@ connect(document, 'onkeyup',
 
 connect(document, 'onkeypress', 
     function(e) {
+        if (getElement('stopBox').checked == true) {
+            e.preventDefault();
+        }
+        
         var key = e.key();
         replaceChildNodes('onkeypress_code', key.code);
         replaceChildNodes('onkeypress_string', key.string);
