@@ -192,10 +192,6 @@ MochiKit.Base.update(MochiKit.Style, {
                 (de.scrollTop || b.scrollTop) - 
                 (de.clientTop || b.clientTop);
             
-        } else if (d.getBoxObjectFor) { // Gecko shortcut
-            box = d.getBoxObjectFor(elem);
-            c.x += box.x;
-            c.y += box.y;
         } else if (elem.offsetParent) {
             c.x += elem.offsetLeft;
             c.y += elem.offsetTop;
