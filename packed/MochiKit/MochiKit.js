@@ -3285,11 +3285,6 @@ box=elem.getBoundingClientRect();
 c.x+=box.left+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||b.clientLeft);
 c.y+=box.top+(de.scrollTop||b.scrollTop)-(de.clientTop||b.clientTop);
 }else{
-if(d.getBoxObjectFor){
-box=d.getBoxObjectFor(elem);
-c.x+=box.x;
-c.y+=box.y;
-}else{
 if(elem.offsetParent){
 c.x+=elem.offsetLeft;
 c.y+=elem.offsetTop;
@@ -3305,7 +3300,6 @@ var ua=navigator.userAgent.toLowerCase();
 if((typeof (opera)!="undefined"&&parseFloat(opera.version())<9)||(ua.indexOf("safari")!=-1&&self.computedStyle(elem,"position")=="absolute")){
 c.x-=b.offsetLeft;
 c.y-=b.offsetTop;
-}
 }
 }
 }
