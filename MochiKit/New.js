@@ -17,6 +17,16 @@ MochiKit.Base.update(MochiKit.Base, {
         return camelizedString;
     },
 
+    flatten: function (array) {
+        return MochiKit.Base.map(function (item) {
+            if (item instanceof Array) {
+                return MochiKit.Base.flatten(item);
+            } else {
+                return item;
+            }
+        }, array);
+    },
+
     isIE: function () {
         return /MSIE/.test(navigator.userAgent);
     },
@@ -141,6 +151,9 @@ MochiKit.Base.update(MochiKit.DOM, {
 
     makePositioned: function (element) {
         element = MochiKit.DOM.getElement(element);
+        /*if (!element.style) {
+            alert(element);
+        }*/
         var pos = MochiKit.DOM.getStyle(element, 'position');
         if ((pos == 'static' || !pos) && !element._madePositioned) {
             element._madePositioned = true;
@@ -188,6 +201,18 @@ MochiKit.Base.update(MochiKit.DOM, {
                 }
             }
         }
+    },
+
+    isParent: function (child, element) {
+        if (!child.parentNode || child == element) {
+            return false;
+        }
+
+        if (child.parentNode == element) {
+            return true;
+        }
+
+        return MochiKit.DOM.isParent(child.parentNode, element);
     }
 });
 
