@@ -98,25 +98,37 @@ MochiKit.DragAndDrop.Droppables = {
         }, this.drops);
     },
 
+    findDeepestChild: function (drops) {
+        deepest = drops[0];
+
+        for (i = 1; i < drops.length; ++i) {
+            if (MochiKit.DOM.isParent(drops[i].element, deepest.element)) {
+                deepest = drops[i];
+            }
+        }
+        return deepest;
+    },
+
     show: function (point, element) {
         if (!this.drops.length) {
             return;
         }
+        var affected = [];
 
         if (this.last_active) {
             this.last_active.deactivate();
         }
         MochiKit.Iter.forEach(this.drops, function (drop) {
             if (drop.isAffected(point, element)) {
-                drop.options.onhover(element, drop.element,
-                   MochiKit.Position.overlap(drop.options.overlap,
-                                             drop.element));
-                if (drop.options.greedy) {
-                    drop.activate();
-                    throw MochiKit.Iter.StopIteration;
-                }
+                affected.push(drop);
             }
         });
+        if (affected.length > 0) {
+            drop = this.findDeepestChild(affected);
+            MochiKit.Position.within(drop.element, point[0], point[1]);
+            drop.options.onhover(element, drop.element, MochiKit.Position.overlap(drop.options.overlap, drop.element));
+            drop.activate();
+        }
     },
 
     fire: function (event, element) {
@@ -176,7 +188,8 @@ MochiKit.DragAndDrop.Droppable.prototype = {
             ondesactive: b.noop,
             onhover: b.noop,
             ondrop: b.noop,
-            containment: []
+            containment: [],
+            tree: false
         }, options || {});
 
         // cache containers
@@ -192,9 +205,14 @@ MochiKit.DragAndDrop.Droppable.prototype = {
 
     isContained: function (element) {
         if (this._containers) {
-            var parentNode = element.parentNode;
+            var containmentNode;
+            if (this.options.tree) {
+                containmentNode = element.treeNode;
+            } else {
+                containmentNode = element.parentNode;
+            }
             return MochiKit.Iter.some(this._containers, function (c) {
-                return parentNode == c;
+                return containmentNode == c;
             });
         } else {
             return true;
@@ -384,7 +402,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         options = b.update({
             handle: false,
             starteffect: function (innerelement) {
-                new v.Opacity(innerelement, {duration:0.2, from:1.0, to:0.7});
+                this._savedOpacity = MochiKit.DOM.getOpacity(innerelement) || 1.0;
+                new v.Opacity(innerelement, {duration:0.2, from:this._savedOpacity, to:0.7});
             },
             reverteffect: function (innerelement, top_offset, left_offset) {
                 var dur = Math.sqrt(Math.abs(top_offset^2) +
@@ -393,7 +412,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
                             {x: -left_offset, y: -top_offset, duration: dur});
             },
             endeffect: function (innerelement) {
-                new v.Opacity(innerelement, {duration:0.2, from:0.7, to:1.0});
+                new v.Opacity(innerelement, {duration:0.2, from:0.7, to:this._savedOpacity});
             },
             onchange: b.noop,
             zindex: 1000,
