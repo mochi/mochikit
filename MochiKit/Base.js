@@ -46,21 +46,13 @@ MochiKit.Base.update(MochiKit.Base, {
     },
 
     camelize: function (str) {
-        var strList = str.split('-');
-        if (strList.length == 1) {
-            return strList[0];
-        }
-        
-        var camelizedString = str.indexOf('-') === 0
-          ? strList[0].charAt(0).toUpperCase() + strList[0].substring(1)
-          : strList[0];
-
-        for (var i = 1, len = strList.length; i < len; i++) {
-            var s = strList[i];
-            camelizedString += s.charAt(0).toUpperCase() + s.substring(1);
-        }
-        
-        return camelizedString;
+        /* from dojo.style.toCamelCase */
+		var arr = selector.split('-');
+		var cc = arr[0];
+		for (var i = 1; i < arr.length; i++) {
+			cc += arr[i].charAt(0).toUpperCase() + arr[i].substring(1);
+		}
+		return cc;
     },
 
     counter: function (n/* = 1 */) {
