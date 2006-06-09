@@ -1,22 +1,5 @@
 
 MochiKit.Base.update(MochiKit.Base, {
-    camelize: function (str) {
-        var oStringList = str.split('-');
-        if (oStringList.length == 1) {
-            return oStringList[0];
-        }
-
-        var camelizedString = str.indexOf('-') === 0
-          ? oStringList[0].charAt(0).toUpperCase() + oStringList[0].substring(1)
-          : oStringList[0];
-
-        for (var i = 1, len = oStringList.length; i < len; i++) {
-            var s = oStringList[i];
-            camelizedString += s.charAt(0).toUpperCase() + s.substring(1);
-        }
-        return camelizedString;
-    },
-
     flatten: function (array) {
         return MochiKit.Base.map(function (item) {
             if (item instanceof Array) {

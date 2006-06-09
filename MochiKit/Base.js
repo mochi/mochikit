@@ -45,6 +45,24 @@ MochiKit.Base.update(MochiKit.Base, {
         return this.__repr__();
     },
 
+    camelize: function (str) {
+        var strList = str.split('-');
+        if (strList.length == 1) {
+            return strList[0];
+        }
+        
+        var camelizedString = str.indexOf('-') === 0
+          ? strList[0].charAt(0).toUpperCase() + strList[0].substring(1)
+          : strList[0];
+
+        for (var i = 1, len = strList.length; i < len; i++) {
+            var s = strList[i];
+            camelizedString += s.charAt(0).toUpperCase() + s.substring(1);
+        }
+        
+        return camelizedString;
+    },
+
     counter: function (n/* = 1 */) {
         if (arguments.length === 0) {
             n = 1;
@@ -1005,6 +1023,7 @@ MochiKit.Base.AdapterRegistry.prototype = {
 
 MochiKit.Base.EXPORT = [
     "noop",
+    "camelize",
     "counter",
     "clone",
     "extend",

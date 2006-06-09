@@ -430,4 +430,12 @@ tests.test_Base = function (t) {
     t.is( repr(compose(compose(f1,f2),f3)(4)), "[1, [2, [3, 4]]]", "associative left" );
     t.is( repr(compose(f1,compose(f2,f3))(4)), "[1, [2, [3, 4]]]", "associative right" );
     
+    t.is(camelize('one'), 'one', 'one word');
+    t.is(camelize('one-two'), 'oneTwo', 'two words');
+    t.is(camelize('one-two-three'), 'oneTwoThree', 'three words');
+    t.is(camelize('1-one'), '1One', 'letter and word');
+    t.is(camelize('one-'), 'one', 'trailing hyphen');
+    t.is(camelize('-one'), 'One', 'starting hyphen');
+    t.is(camelize('o-two'), 'oTwo', 'one character and word');
+    
 };
