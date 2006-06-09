@@ -447,6 +447,16 @@ Functions
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`camelize(str)`:
+
+    Converts hyphenated strings to camelCase::
+
+        assert( camelize("border-left") == "borderLeft" );
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`clone(obj)`:
 
     Return a new object using ``obj`` as its prototype. Use this if
