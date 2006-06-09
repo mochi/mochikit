@@ -212,7 +212,6 @@ MochiKit.Sortable.Sortable = {
         }
         MochiKit.Base.map(function (e) {
             // handles are per-draggable
-            //alert("Here " + e);
             var handle = options.handle ?
                 MochiKit.DOM.getFirstElementByTagAndClassName(null,
                     options.handle, e) : e;
@@ -268,22 +267,18 @@ MochiKit.Sortable.Sortable = {
                 e.tagName.toUpperCase() == tagName &&
                (!only ||
                 MochiKit.Iter.some(only, function (c) {
-                    return MochiKit.DOM.hasElementClass(element, c);
+                    return MochiKit.DOM.hasElementClass(e, c);
                 }))) {
                 elements.push(e);
             }
             if (recursive) {
                 var grandchildren = MochiKit.Sortable.Sortable.findChildren(e, only, recursive, tagName);
                 if (grandchildren && grandchildren.length > 0) {
-                    //alert("a " + grandchildren);
-                    //elements.push(grandchildren);
                     elements = elements.concat(grandchildren);
                 }
             }
         }, element.childNodes);
         return elements;
-        //a =  MochiKit.Base.flatten(elements);
-        //return (elements.length > 0 ? a : []);
     },
 
     onHover: function (element, dropon, overlap) {
