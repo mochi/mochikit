@@ -175,22 +175,24 @@ MochiKit.Base.update(MochiKit.Style, {
             c.x += elem.x || 0;
             c.y += elem.y || 0;
         } else if (elem.getBoundingClientRect) { // IE shortcut
-               
             /*
             
-                The IE shortcut is off by two:
+                The IE shortcut can be off by two. We fix it. See:
                 http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/getboundingclientrect.asp
+                
+                This is similar to the method used in 
+                MochiKit.Signal.Event.mouse().
                 
             */
             box = elem.getBoundingClientRect();
                         
             c.x += box.left + 
                 (de.scrollLeft || b.scrollLeft) - 
-                (de.clientLeft || b.clientLeft);
+                (de.clientLeft || 0);
             
             c.y += box.top + 
                 (de.scrollTop || b.scrollTop) - 
-                (de.clientTop || b.clientTop);
+                (de.clientTop || 0);
             
         } else if (elem.offsetParent) {
             c.x += elem.offsetLeft;
@@ -210,7 +212,7 @@ MochiKit.Base.update(MochiKit.Style, {
                 Opera < 9 and old Safari (absolute) incorrectly account for 
                 body offsetTop and offsetLeft.
                 
-            */            
+            */
             var ua = navigator.userAgent.toLowerCase();
             if ((typeof(opera) != 'undefined' && 
                 parseFloat(opera.version()) < 9) || 

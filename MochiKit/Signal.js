@@ -253,7 +253,6 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                 return k;
             }
         }
-        // throw new Error('This is not a key event');
         return undefined;
     },
 
@@ -283,33 +282,24 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                 m.page.y = (!e.pageY || e.pageY < 0) ? 0 : e.pageY;
             } else {
                 /*
-            
-    				IE keeps the document offset in:
-        				document.documentElement.clientTop ||
-        				document.body.clientTop
-				
-    				and:
-        				document.documentElement.clientLeft ||
-        				document.body.clientLeft
 
-                    see:
-    				http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/getboundingclientrect.asp
+                    The IE shortcut can be off by two. We fix it. See:
+                    http://msdn.microsoft.com/workshop/author/dhtml/reference/methods/getboundingclientrect.asp
+                    
+                    This is similar to the method used in 
+                    MochiKit.Style.getElementPosition().
 
-    				The offset is (2,2) in standards mode and (0,0) in quirks 
-    				mode.
-				
                 */
-            
                 var de = MochiKit.DOM._document.documentElement;
                 var b = MochiKit.DOM._document.body;
             
                 m.page.x = e.clientX +
                     (de.scrollLeft || b.scrollLeft) - 
-                    (de.clientLeft || b.clientLeft);
-            
+                    (de.clientLeft || 0);
+                
                 m.page.y = e.clientY +
                     (de.scrollTop || b.scrollTop) - 
-                    (de.clientTop || b.clientTop);
+                    (de.clientTop || 0);
             
             }
             if (this.type() != 'mousemove') {
@@ -350,7 +340,6 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
             this._mouse = m;
             return m;
         }
-        // throw new Error('This is not a mouse event');
         return undefined;
     },
 
