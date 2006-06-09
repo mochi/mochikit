@@ -106,7 +106,7 @@ MochiKit.Sortable.Sortable = {
     },
 
     destroy: function (element){
-        var s = this.options(element);
+        var s = MochiKit.Sortable.Sortable.options(element);
         var b = MochiKit.Base;
         var d = MochiKit.DragAndDrop;
 
@@ -145,7 +145,8 @@ MochiKit.Sortable.Sortable = {
             scrollSpeed: 15,
             format: null,
             onChange: MochiKit.Base.noop,
-            onUpdate: MochiKit.Base.noop
+            onUpdate: MochiKit.Base.noop,
+            accept: null
         }, options);
 
         // clear any old sortable with same element
@@ -189,14 +190,16 @@ MochiKit.Sortable.Sortable = {
             containment: options.containment,
             hoverclass: options.hoverclass,
             onhover: self.onHover,
-            tree: options.tree
+            tree: options.tree,
+            accept: options.accept
         }
 
         var options_for_tree = {
             onhover: self.onEmptyHover,
             overlap: options.overlap,
             containment: options.containment,
-            hoverclass: options.hoverclass
+            hoverclass: options.hoverclass,
+            accept: options.accept
         }
 
         // fix for gecko engine
