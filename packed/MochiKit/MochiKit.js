@@ -3282,8 +3282,8 @@ c.y+=elem.y||0;
 }else{
 if(elem.getBoundingClientRect){
 box=elem.getBoundingClientRect();
-c.x+=box.left+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||b.clientLeft);
-c.y+=box.top+(de.scrollTop||b.scrollTop)-(de.clientTop||b.clientTop);
+c.x+=box.left+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||0);
+c.y+=box.top+(de.scrollTop||b.scrollTop)-(de.clientTop||0);
 }else{
 if(elem.offsetParent){
 c.x+=elem.offsetLeft;
@@ -4324,8 +4324,8 @@ m.page.y=(!e.pageY||e.pageY<0)?0:e.pageY;
 }else{
 var de=MochiKit.DOM._document.documentElement;
 var b=MochiKit.DOM._document.body;
-m.page.x=e.clientX+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||b.clientLeft);
-m.page.y=e.clientY+(de.scrollTop||b.scrollTop)-(de.clientTop||b.clientTop);
+m.page.x=e.clientX+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||0);
+m.page.y=e.clientY+(de.scrollTop||b.scrollTop)-(de.clientTop||0);
 }
 if(this.type()!="mousemove"){
 m.button={};
