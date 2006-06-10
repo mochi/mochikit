@@ -767,8 +767,15 @@ will be restored to its previous state.</p>
 specified as either a string with the element's ID or the element
 object itself.</p>
 <dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">cssProperty</span></tt>:</dt>
+<dd>MochiKit 1.3.1 expects camel case, e.g. <tt class="docutils literal"><span class="pre">backgroundColor</span></tt>.
+MochiKit 1.4+ expects CSS selector case, e.g. <tt class="docutils literal"><span class="pre">background-color</span></tt>,
+but will accept camel case for backwards-compatibility.</dd>
+<dt><tt class="docutils literal"><span class="pre">mozillaEquivalentCSS</span></tt>:</dt>
+<dd>MochiKit 1.3.1 expects selector case.
+MochiKit 1.4+ ignores this argument.</dd>
 <dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1, moved to
+<dd>Available in MochiKit 1.3.1, deprecated in favor of
 <a class="mochiref reference" href="Style.html#fn-computedstyle">MochiKit.Style.computedStyle</a> in 1.4+</dd>
 </dl>
 </blockquote>

@@ -61,7 +61,9 @@ MochiKit.Style.EXPORT = [
     'setDisplayForElement',
     'hideElement',
     'showElement',
-    'getViewportDimensions'
+    'getViewportDimensions',
+    'Dimensions',
+    'Prototype'
 ];
 
 

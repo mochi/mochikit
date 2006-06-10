@@ -51,7 +51,10 @@ try {
         'invalid element should return an undefined position');
         
     is(computedStyle('styleTest', 'background-color'), 'red', 
-        'test computedStyle');
+        'test computedStyle selector case');
+        
+    is(computedStyle('styleTest', 'backgroundColor'), 'red', 
+        'test computedStyle camel case');
     
     ok( true, "test suite finished!");
     

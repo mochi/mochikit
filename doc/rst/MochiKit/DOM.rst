@@ -736,9 +736,18 @@ These functions are available in MochiKit 1.3.1, but have been moved to
     Looks up a CSS property for the given element. The element can be
     specified as either a string with the element's ID or the element
     object itself.
+    
+    ``cssProperty``:
+        MochiKit 1.3.1 expects camel case, e.g. ``backgroundColor``.
+        MochiKit 1.4+ expects CSS selector case, e.g. ``background-color``,
+        but will accept camel case for backwards-compatibility.
+        
+    ``mozillaEquivalentCSS``:
+        MochiKit 1.3.1 expects selector case.
+        MochiKit 1.4+ ignores this argument.
 
     *Availability*:
-        Available in MochiKit 1.3.1, moved to 
+        Available in MochiKit 1.3.1, deprecated in favor of
         :mochiref:`MochiKit.Style.computedStyle` in 1.4+
 
 
