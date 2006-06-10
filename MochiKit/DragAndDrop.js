@@ -125,8 +125,9 @@ MochiKit.DragAndDrop.Droppables = {
         });
         if (affected.length > 0) {
             drop = this.findDeepestChild(affected);
-            MochiKit.Position.within(drop.element, point[0], point[1]);
-            drop.options.onhover(element, drop.element, MochiKit.Position.overlap(drop.options.overlap, drop.element));
+            MochiKit.Position.within(drop.element, point.page.x, point.page.y);
+            drop.options.onhover(element, drop.element,
+                MochiKit.Position.overlap(drop.options.overlap, drop.element));
             drop.activate();
         }
     },
@@ -220,7 +221,8 @@ MochiKit.DragAndDrop.Droppable.prototype = {
     },
 
     isAccepted: function (element) {
-        return ((!this.options.accept) || MochiKit.Iter.some(this.options.accept, function (c) {
+        return ((!this.options.accept) || MochiKit.Iter.some(
+          this.options.accept, function (c) {
             return MochiKit.DOM.hasElementClass(element, c);
         }));
     },
@@ -288,8 +290,10 @@ MochiKit.DragAndDrop.Draggables = {
         if (this.drags.length === 0) {
             var conn = MochiKit.Signal.connect;
             this.eventMouseUp = conn(document, 'onmouseup', this, this.endDrag);
-            this.eventMouseMove = conn(document, 'onmousemove', this, this.updateDrag);
-            this.eventKeypress = conn(document, 'onkeypress', this, this.keyPress);
+            this.eventMouseMove = conn(document, 'onmousemove', this,
+                                       this.updateDrag);
+            this.eventKeypress = conn(document, 'onkeypress', this,
+                                      this.keyPress);
         }
         this.drags.push(draggable);
     },
