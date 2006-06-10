@@ -45,7 +45,7 @@ MochiKit.Base.update(MochiKit.Base, {
         return this.__repr__();
     },
 
-    camelize: function (str) {
+    camelize: function (selector) {
         /* from dojo.style.toCamelCase */
 		var arr = selector.split('-');
 		var cc = arr[0];

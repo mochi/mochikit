@@ -107,30 +107,39 @@ MochiKit.Style.Coordinates.prototype.toString = function () {
 
 MochiKit.Base.update(MochiKit.Style, {
 
-    computedStyle: function (htmlElement, cssProperty, mozillaEquivalentCSS) {
-        if (arguments.length == 2) {
-            mozillaEquivalentCSS = cssProperty;
-        }   
-        var dom = MochiKit.DOM;
-        var el = dom.getElement(htmlElement);
-        var document = dom._document;
-        if (!el || el == document) {
-            return undefined;
+    /* 
+
+        computedStyle is adapted from YAHOO.util.Dom.getStyle v0.10.0.
+        Copyright: Copyright (c) 2006, Yahoo! Inc. All rights reserved.
+        License: BSD, http://developer.yahoo.net/yui/license.txt
+
+    */
+    computedStyle: function (elem, cssProperty) {
+        elem = MochiKit.DOM.getElement(elem);
+        var hyphenCase = cssProperty;
+        cssProperty = MochiKit.Base.camelize(cssProperty);
+        var dv = document.defaultView;
+        if (cssProperty == 'opacity' && elem.filters) { // IE opacity
+            try {
+                return elem.filters.item('DXImageTransform.Microsoft.Alpha'
+                    ).opacity / 100;
+            } catch(e) {
+                try {
+                    return elem.filters.item('alpha').opacity / 100;
+                } catch(e) {}
+            }
+        } else if (elem.style && elem.style[cssProperty]) {
+            return elem.style[cssProperty];
+        } else if (elem.currentStyle && elem.currentStyle[cssProperty]) {
+            return elem.currentStyle[cssProperty];
+        } else if (dv && dv.getComputedStyle) {
+            if (dv.getComputedStyle(elem, '') && 
+                dv.getComputedStyle(elem, '').getPropertyValue(hyphenCase)) {   
+                return dv.getComputedStyle(elem, ''
+                    ).getPropertyValue(hyphenCase);
+            }
         }
-        if (el.currentStyle) {
-            return el.currentStyle[cssProperty];
-        }
-        if (typeof(document.defaultView) == 'undefined') {
-            return undefined;
-        }
-        if (document.defaultView === null) {
-            return undefined;
-        }
-        var style = document.defaultView.getComputedStyle(el, null);
-        if (typeof(style) == 'undefined' || style === null) {
-            return undefined;
-        }
-        return style.getPropertyValue(mozillaEquivalentCSS);
+        return undefined;
     },
 
     setOpacity: function(elem, o) {
