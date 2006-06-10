@@ -3237,7 +3237,7 @@ MochiKit.Style.toString=function(){
 return this.__repr__();
 };
 MochiKit.Style.EXPORT_OK=[];
-MochiKit.Style.EXPORT=["setOpacity","computedStyle","getElementDimensions","elementDimensions","setElementDimensions","getElementPosition","elementPosition","setElementPosition","setDisplayForElement","hideElement","showElement","getViewportDimensions","Dimensions","Prototype"];
+MochiKit.Style.EXPORT=["setOpacity","computedStyle","getElementDimensions","elementDimensions","setElementDimensions","getElementPosition","elementPosition","setElementPosition","setDisplayForElement","hideElement","showElement","getViewportDimensions","Dimensions","Coordinates"];
 MochiKit.Style.Dimensions=function(w,h){
 this.w=w;
 this.h=h;

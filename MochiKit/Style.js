@@ -63,7 +63,7 @@ MochiKit.Style.EXPORT = [
     'showElement',
     'getViewportDimensions',
     'Dimensions',
-    'Prototype'
+    'Coordinates'
 ];
 
 
