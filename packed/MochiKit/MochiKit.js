@@ -3247,7 +3247,7 @@ MochiKit.Base.update(MochiKit.Style,{computedStyle:function(elem,_411){
 elem=MochiKit.DOM.getElement(elem);
 var _412=_411;
 _411=MochiKit.Base.camelize(_411);
-var dv=document.defaultView;
+var dv=MochiKit.DOM._document.defaultView;
 if(_411=="opacity"&&elem.filters){
 try{
 return elem.filters.item("DXImageTransform.Microsoft.Alpha").opacity/100;

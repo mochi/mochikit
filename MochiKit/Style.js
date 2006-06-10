@@ -118,7 +118,7 @@ MochiKit.Base.update(MochiKit.Style, {
         elem = MochiKit.DOM.getElement(elem);
         var hyphenCase = cssProperty;
         cssProperty = MochiKit.Base.camelize(cssProperty);
-        var dv = document.defaultView;
+        var dv = MochiKit.DOM._document.defaultView;
         if (cssProperty == 'opacity' && elem.filters) { // IE opacity
             try {
                 return elem.filters.item('DXImageTransform.Microsoft.Alpha'
