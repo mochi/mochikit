@@ -87,11 +87,12 @@ JavaScript.</p>
 <h2><a id="functions" name="functions">Functions</a></h2>
 <p>
 <a name="fn-computedstyle"></a>
-<a class="mochidef reference" href="#fn-computedstyle">computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)</a>:</p>
+<a class="mochidef reference" href="#fn-computedstyle">computedStyle(element, cssProperty)</a>:</p>
 <blockquote>
 <p>Looks up a CSS property for the given element. The element can be
 specified as either a string with the element's ID or the element
-object itself.</p>
+object itself. cssProperty should be specified as you would with CSS,
+e.g. <tt class="docutils literal"><span class="pre">background-color</span></tt>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
