@@ -116,7 +116,6 @@ MochiKit.Base.update(MochiKit.Style, {
     */
     computedStyle: function (elem, cssProperty) {
         elem = MochiKit.DOM.getElement(elem);
-        var hyphenCase = cssProperty;
         cssProperty = MochiKit.Base.camelize(cssProperty);
         var dv = MochiKit.DOM._document.defaultView;
         if (cssProperty == 'opacity' && elem.filters) { // IE opacity
@@ -133,10 +132,13 @@ MochiKit.Base.update(MochiKit.Style, {
         } else if (elem.currentStyle && elem.currentStyle[cssProperty]) {
             return elem.currentStyle[cssProperty];
         } else if (dv && dv.getComputedStyle) {
+            /* from dojo.style.toSelectorCase */
+            var selectorCase = cssProperty.replace(/([A-Z])/g, '-$1'
+                ).toLowerCase();
             if (dv.getComputedStyle(elem, '') && 
-                dv.getComputedStyle(elem, '').getPropertyValue(hyphenCase)) {   
+                dv.getComputedStyle(elem, '').getPropertyValue(selectorCase)) {   
                 return dv.getComputedStyle(elem, ''
-                    ).getPropertyValue(hyphenCase);
+                    ).getPropertyValue(selectorCase);
             }
         }
         return undefined;

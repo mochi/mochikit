@@ -3245,7 +3245,6 @@ return this.__repr__();
 };
 MochiKit.Base.update(MochiKit.Style,{computedStyle:function(elem,_411){
 elem=MochiKit.DOM.getElement(elem);
-var _412=_411;
 _411=MochiKit.Base.camelize(_411);
 var dv=MochiKit.DOM._document.defaultView;
 if(_411=="opacity"&&elem.filters){
@@ -3267,8 +3266,9 @@ if(elem.currentStyle&&elem.currentStyle[_411]){
 return elem.currentStyle[_411];
 }else{
 if(dv&&dv.getComputedStyle){
-if(dv.getComputedStyle(elem,"")&&dv.getComputedStyle(elem,"").getPropertyValue(_412)){
-return dv.getComputedStyle(elem,"").getPropertyValue(_412);
+var _413=_411.replace(/([A-Z])/g,"-$1").toLowerCase();
+if(dv.getComputedStyle(elem,"")&&dv.getComputedStyle(elem,"").getPropertyValue(_413)){
+return dv.getComputedStyle(elem,"").getPropertyValue(_413);
 }
 }
 }
