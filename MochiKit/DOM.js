@@ -110,6 +110,26 @@ MochiKit.DOM.EXPORT_OK = [
     "domConverters"
 ];
 
+MochiKit.DOM.DEPRECATED = [
+    ['computedStyle', 'MochiKit.Style.computedStyle', '1.4'],
+    ['elementDimensions', 'MochiKit.Style.getElementDimensions', '1.4'],
+    ['elementPosition', 'MochiKit.Style.getElementPosition', '1.4'],
+    ['hideElement', 'MochiKit.Style.hideElement', '1.4'],
+    ['setElementDimensions', 'MochiKit.Style.setElementDimensions', '1.4'],
+    ['setElementPosition', 'MochiKit.Style.setElementPosition', '1.4'],
+    ['setDisplayForElement', 'MochiKit.Style.setDisplayForElement', '1.4'],
+    ['setOpacity', 'MochiKit.Style.setOpacity', '1.4'],
+    ['showElement', 'MochiKit.Style.showElement', '1.4'],
+    ['Coordinates', 'MochiKit.Style.Coordinates', '1.4'], // FIXME: broken
+    ['Dimensions', 'MochiKit.Style.Dimensions', '1.4'] // FIXME: broken
+];
+
+MochiKit.DOM.getViewportDimensions = new Function('' + 
+    'if (!MochiKit["Style"]) {' + 
+    '    throw new Error("This function has been deprecated and depends on MochiKit.Style.");' + 
+    '}' + 
+    'return MochiKit.Style.getViewportDimensions.apply(this, arguments);');
+
 MochiKit.Base.update(MochiKit.DOM, {
 
     currentWindow: function () {
@@ -756,8 +776,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         } else {
             return rval.join("");
         }
-    },
-
+    },    
 
     __new__: function (win) {
 
@@ -813,6 +832,24 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
         this.attributeArray = attributeArray;
 
+        // FIXME: this really belongs in Base, and could probably be cleaner
+        var _deprecated = function(fromModule, arr) {
+            var modules = arr[1].split('.');
+            var str = '';
+            var obj = {};
+            
+            str += 'if (!MochiKit.' + modules[1] + ') { throw new Error("';
+            str += 'This function has been deprecated and depends on MochiKit.';
+            str += modules[1] + '.");}';
+            str += 'return MochiKit.' + modules[1] + '.' + arr[0];
+            str += '.apply(this, arguments);';
+            
+            obj[modules[2]] = new Function(str);
+            MochiKit.Base.update(MochiKit[fromModule], obj);
+        }
+        for (var i; i < MochiKit.DOM.DEPRECATED.length; i++) {
+            _deprecated('DOM', MochiKit.DOM.DEPRECATED[i]);
+        }
 
         // shorthand for createDOM syntax
         var createDOMFunc = this.createDOMFunc;

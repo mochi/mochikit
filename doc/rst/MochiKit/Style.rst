@@ -84,12 +84,14 @@ API Reference
 Functions
 ---------
 
-:mochidef:`computedStyle(element, cssProperty)`:
+:mochidef:`computedStyle(element, cssSelector)`:
 
     Looks up a CSS property for the given element. The element can be
     specified as either a string with the element's ID or the element
-    object itself. cssProperty should be specified as you would with CSS, 
-    e.g. ``background-color``.
+    object itself.
+    
+    ``cssSelector``:
+        The CSS selector, e.g. ``background-color``.
 
     *Availability*:
         Available in MochiKit 1.4+
