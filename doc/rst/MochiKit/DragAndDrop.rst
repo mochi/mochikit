@@ -15,7 +15,7 @@ Synopsis
 
     // Create a corresponding droppable
     new Droppable('mydrop', {
-        accept: 'drag-class',
+        accept: ['drag-class'],
         ondrop: function (element) {
             alert('You dropped on me ' + element.id);
         }
