@@ -105,7 +105,7 @@ Objects defined
         Available in MochiKit 1.4+
 
 
-:mochidef:`Sortable.create(element [, options])`:
+:mochidef:`Sortable.serialize(element [, options])`:
 
     Serialize the content of a Sortable. Useful to send this content
     through a XMLHTTPRequest.
