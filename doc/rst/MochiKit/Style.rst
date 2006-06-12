@@ -152,9 +152,9 @@ Functions
     If ``relativeTo`` is given, then its coordinates are subtracted
     from the absolute position of ``element``, e.g.::
 
-        var elemPos = elementPosition(elem);
-        var anotherElemPos = elementPosition(anotherElem);
-        var relPos = elementPosition(elem, anotherElem);
+        var elemPos = getElementPosition(elem);
+        var anotherElemPos = getElementPosition(anotherElem);
+        var relPos = getElementPosition(elem, anotherElem);
         assert( relPos.x == (elemPos.x - anotherElemPos.x) );
         assert( relPos.y == (elemPos.y - anotherElemPos.y) );
 
