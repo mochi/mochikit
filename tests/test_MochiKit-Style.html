@@ -2,6 +2,7 @@
 <head>
     <script type="text/javascript" src="../MochiKit/MockDOM.js"></script>
     <script type="text/javascript" src="../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../MochiKit/Color.js"></script>
     <script type="text/javascript" src="../MochiKit/Iter.js"></script>
     <script type="text/javascript" src="../MochiKit/DOM.js"></script>
     <script type="text/javascript" src="../MochiKit/Style.js"></script>
@@ -50,16 +51,21 @@ try {
     is(typeof(pos), 'undefined', 
         'invalid element should return an undefined position');
     
-    is(computedStyle('styleTest', 'background-color'), 'rgb(255, 0, 0)', 
+    var mc = MochiKit.Color.Color;
+    var red = mc.fromString('rgb(255,0,0)');
+    var color = null;
+    
+    color = mc.fromString(computedStyle('styleTest', 'background-color'));
+    is(color.asRGB, red.asRGB, 
         'test computedStyle selector case');
-        
-    is(computedStyle('styleTest', 'backgroundColor'), 'rgb(255, 0, 0)', 
+       
+    color = mc.fromString(computedStyle('styleTest', 'backgroundColor'));
+    is(color.asRGB, red.asRGB, 
         'test computedStyle camel case');
     
     is(computedStyle('styleTest', 'opacity'), '0.5', 
         'test computedStyle opacity');
 
-    
     ok( true, "test suite finished!");
     
     

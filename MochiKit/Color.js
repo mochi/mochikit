@@ -361,7 +361,7 @@ MochiKit.Base.update(MochiKit.Color.Color, {
         return this[method].apply(this, colorFloats);
     },
     
-    fromComputedStyle: function (elem, style, mozillaEquivalentCSS) {
+    fromComputedStyle: function (elem, style) {
         var d = MochiKit.DOM;
         var cls = MochiKit.Color.Color;
         for (elem = d.getElement(elem); elem; elem = elem.parentNode) {

@@ -93,11 +93,11 @@ Constructors
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`Color.fromComputedStyle(elem, style, mozillaEquivalentCSS)`:
+:mochidef:`Color.fromComputedStyle(elem, style)`:
 
     Returns a :mochiref:`Color` object based on the result of
-    :mochiref:`MochiKit.Style.computedStyle(elem, style,
-    mozillaEquivalentCSS)` or ``null`` if not found.
+    :mochiref:`MochiKit.Style.computedStyle(elem, style)` or ``null`` if not 
+    found.
 
     *Availability*:
         Available in MochiKit 1.3.1+
