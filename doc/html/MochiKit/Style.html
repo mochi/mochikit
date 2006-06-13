@@ -158,9 +158,9 @@ properties.</p>
 <p>If <tt class="docutils literal"><span class="pre">relativeTo</span></tt> is given, then its coordinates are subtracted
 from the absolute position of <tt class="docutils literal"><span class="pre">element</span></tt>, e.g.:</p>
 <pre class="literal-block">
-var elemPos = elementPosition(elem);
-var anotherElemPos = elementPosition(anotherElem);
-var relPos = elementPosition(elem, anotherElem);
+var elemPos = getElementPosition(elem);
+var anotherElemPos = getElementPosition(anotherElem);
+var relPos = getElementPosition(elem, anotherElem);
 assert( relPos.x == (elemPos.x - anotherElemPos.x) );
 assert( relPos.y == (elemPos.y - anotherElemPos.y) );
 </pre>

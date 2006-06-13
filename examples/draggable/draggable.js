@@ -20,7 +20,7 @@ Drag = {
         */
         Drag._offset = Drag._diff(
             e.mouse().page,
-            elementPosition(Drag._target));
+            getElementPosition(Drag._target));
         
         Drag._move = connect(document, 'onmousemove', Drag._drag);
         Drag._down = connect(document, 'onmouseup', Drag._stop);

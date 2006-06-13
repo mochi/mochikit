@@ -109,17 +109,18 @@ MochiKit.Style.Coordinates.prototype.toString = function () {
 
 MochiKit.Base.update(MochiKit.Style, {
 
-    /* 
-
-        computedStyle is adapted from YAHOO.util.Dom.getStyle v0.10.0.
-        Copyright: Copyright (c) 2006, Yahoo! Inc. All rights reserved.
-        License: BSD, http://developer.yahoo.net/yui/license.txt
-
-    */
     computedStyle: function (elem, cssProperty) {
-        elem = MochiKit.DOM.getElement(elem);
+        var dom = MochiKit.DOM;
+        var d = dom._document;
+        
+        elem = dom.getElement(elem);
         cssProperty = MochiKit.Base.camelize(cssProperty);
-        var dv = MochiKit.DOM._document.defaultView;
+        
+        if (!elem || elem == d) {
+            return undefined;
+        }
+        
+        /* from YUI 0.10.0 */
         if (cssProperty == 'opacity' && elem.filters) { // IE opacity
             try {
                 return elem.filters.item('DXImageTransform.Microsoft.Alpha'
@@ -129,23 +130,28 @@ MochiKit.Base.update(MochiKit.Style, {
                     return elem.filters.item('alpha').opacity / 100;
                 } catch(e) {}
             }
-        } else if (elem.style && elem.style[cssProperty]) {
-            return elem.style[cssProperty];
-        } else if (elem.currentStyle && elem.currentStyle[cssProperty]) {
-            return elem.currentStyle[cssProperty];
-        } else if (dv && dv.getComputedStyle) {
-            /* from dojo.style.toSelectorCase */
-            var selectorCase = cssProperty.replace(/([A-Z])/g, '-$1'
-                ).toLowerCase();
-            if (dv.getComputedStyle(elem, '') && 
-                dv.getComputedStyle(elem, '').getPropertyValue(selectorCase)) {   
-                return dv.getComputedStyle(elem, ''
-                    ).getPropertyValue(selectorCase);
-            }
         }
-        return undefined;
+        
+        if (elem.currentStyle) {
+            return elem.currentStyle[cssProperty];
+        }
+        if (typeof(d.defaultView) == 'undefined') {
+            return undefined;
+        }
+        if (d.defaultView === null) {
+            return undefined;
+        }
+        var style = d.defaultView.getComputedStyle(elem, null);
+        if (typeof(style) == 'undefined' || style === null) {
+            return undefined;
+        }
+        
+        var selectorCase = cssProperty.replace(/([A-Z])/g, '-$1'
+            ).toLowerCase(); // from dojo.style.toSelectorCase
+            
+        return style.getPropertyValue(selectorCase);
     },
-
+    
     setOpacity: function(elem, o) {
         elem = MochiKit.DOM.getElement(elem);
         MochiKit.DOM.updateNodeAttributes(elem, {'style': {

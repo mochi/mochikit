@@ -3261,9 +3261,13 @@ MochiKit.Style.Coordinates.prototype.toString=function(){
 return this.__repr__();
 };
 MochiKit.Base.update(MochiKit.Style,{computedStyle:function(elem,_414){
-elem=MochiKit.DOM.getElement(elem);
+var dom=MochiKit.DOM;
+var d=dom._document;
+elem=dom.getElement(elem);
 _414=MochiKit.Base.camelize(_414);
-var dv=MochiKit.DOM._document.defaultView;
+if(!elem||elem==d){
+return undefined;
+}
 if(_414=="opacity"&&elem.filters){
 try{
 return elem.filters.item("DXImageTransform.Microsoft.Alpha").opacity/100;
@@ -3275,23 +3279,22 @@ return elem.filters.item("alpha").opacity/100;
 catch(e){
 }
 }
-}else{
-if(elem.style&&elem.style[_414]){
-return elem.style[_414];
-}else{
-if(elem.currentStyle&&elem.currentStyle[_414]){
+}
+if(elem.currentStyle){
 return elem.currentStyle[_414];
-}else{
-if(dv&&dv.getComputedStyle){
-var _416=_414.replace(/([A-Z])/g,"-$1").toLowerCase();
-if(dv.getComputedStyle(elem,"")&&dv.getComputedStyle(elem,"").getPropertyValue(_416)){
-return dv.getComputedStyle(elem,"").getPropertyValue(_416);
 }
-}
-}
-}
-}
+if(typeof (d.defaultView)=="undefined"){
 return undefined;
+}
+if(d.defaultView===null){
+return undefined;
+}
+var _415=d.defaultView.getComputedStyle(elem,null);
+if(typeof (_415)=="undefined"||_415===null){
+return undefined;
+}
+var _416=_414.replace(/([A-Z])/g,"-$1").toLowerCase();
+return _415.getPropertyValue(_416);
 },setOpacity:function(elem,o){
 elem=MochiKit.DOM.getElement(elem);
 MochiKit.DOM.updateNodeAttributes(elem,{"style":{"opacity":o,"-moz-opacity":o,"-khtml-opacity":o,"filter":" alpha(opacity="+(o*100)+")"}});
@@ -4611,22 +4614,24 @@ if(typeof (dojo)!="undefined"){
 dojo.provide("MochiKit.Visual");
 dojo.require("MochiKit.Base");
 dojo.require("MochiKit.DOM");
+dojo.require("MochiKit.Style");
 dojo.require("MochiKit.Color");
 dojo.require("MochiKit.Iter");
 }
 if(typeof (JSAN)!="undefined"){
 JSAN.use("MochiKit.Base",[]);
 JSAN.use("MochiKit.DOM",[]);
+JSAN.use("MochiKit.Style",[]);
 JSAN.use("MochiKit.Color",[]);
 JSAN.use("MochiKit.Iter",[]);
 }
 try{
-if(typeof (MochiKit.Base)==="undefined"||typeof (MochiKit.DOM)==="undefined"||typeof (MochiKit.Color)==="undefined"||typeof (MochiKit.Iter)==="undefined"){
+if(typeof (MochiKit.Base)==="undefined"||typeof (MochiKit.DOM)==="undefined"||typeof (MochiKit.Style)==="undefined"||typeof (MochiKit.Color)==="undefined"||typeof (MochiKit.Iter)==="undefined"){
 throw "";
 }
 }
 catch(e){
-throw "MochiKit.Visual depends on MochiKit.Base, MochiKit.DOM, MochiKit.Color and MochiKit.Iter!";
+throw "MochiKit.Visual depends on MochiKit.Base, MochiKit.DOM, MochiKit.Style, MochiKit.Color and MochiKit.Iter!";
 }
 if(typeof (MochiKit.Visual)=="undefined"){
 MochiKit.Visual={};

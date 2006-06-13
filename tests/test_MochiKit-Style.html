@@ -11,7 +11,7 @@
 </head>
 <body style="border: 0; margin: 0; padding: 0;">
 
-<div id="styleTest" style="position: absolute; left: 400px; top: 100px; width: 100px; height: 100px; background: red;">&nbsp;</div>
+<div id="styleTest" style="position: absolute; left: 400px; top: 100px; width: 100px; height: 100px; background: rgb(255, 0, 0); opacity: 0.5; filter: alpha(opacity=50);">&nbsp;</div>
 
 <pre id="test">
 <script type="text/javascript">
@@ -49,12 +49,16 @@ try {
     pos = getElementPosition('garbage'); 
     is(typeof(pos), 'undefined', 
         'invalid element should return an undefined position');
-        
-    is(computedStyle('styleTest', 'background-color'), 'red', 
+    
+    is(computedStyle('styleTest', 'background-color'), 'rgb(255, 0, 0)', 
         'test computedStyle selector case');
         
-    is(computedStyle('styleTest', 'backgroundColor'), 'red', 
+    is(computedStyle('styleTest', 'backgroundColor'), 'rgb(255, 0, 0)', 
         'test computedStyle camel case');
+    
+    is(computedStyle('styleTest', 'opacity'), '0.5', 
+        'test computedStyle opacity');
+
     
     ok( true, "test suite finished!");
     
