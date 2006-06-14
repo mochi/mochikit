@@ -143,7 +143,7 @@ MochiKit.Sortable.Sortable = {
             scroll: false,
             scrollSensitivity: 20,
             scrollSpeed: 15,
-            format: null,
+            format: /^[^_]*_(.*)$/,
             onChange: MochiKit.Base.noop,
             onUpdate: MochiKit.Base.noop,
             accept: null
