@@ -22,16 +22,6 @@ MochiKit.Base.update(MochiKit.Base, {
 });
 
 MochiKit.Base.update(MochiKit.DOM, {
-    cleanWhitespace: function (element) {
-        element = MochiKit.DOM.getElement(element);
-        for (var i = 0; i < element.childNodes.length; i++) {
-            var node = element.childNodes[i];
-            if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {
-                MochiKit.DOM.removeElement(node);
-            }
-        }
-    },
-
     getStyle: function (element, style) {
         element = MochiKit.DOM.getElement(element);
         var value = element.style[MochiKit.Base.camelize(style)];

@@ -730,8 +730,9 @@ Autocompleter.Base.prototype = {
     updateChoices: function (choices) {
         if (!this.changed && this.hasFocus) {
             this.update.innerHTML = choices;
-            MochiKit.DOM.cleanWhitespace(this.update);
-            MochiKit.DOM.cleanWhitespace(this.update.firstChild);
+            var d = MochiKit.DOM;
+            d.removeEmptyTextNodes(this.update);
+            d.removeEmptyTextNodes(this.update.firstChild);
 
             if (this.update.firstChild && this.update.firstChild.childNodes) {
                 this.entryCount = this.update.firstChild.childNodes.length;

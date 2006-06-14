@@ -249,6 +249,11 @@ try {
     is( kv[1].join(","), "foo,bar,baz,test,2", "formContents values" );
     is( queryString("form_test"), "select=foo&selmultiple=bar&selmultiple=baz&hidden=test&radio_on=2", "queryString hook" );
     
+    var d = DIV(null, SPAN(), " \n\t", SPAN(), "foo", SPAN(), " ");
+    is( d.childNodes.length, 6, "removeEmptyNodes test conditions correct" );
+    removeEmptyTextNodes(d);
+    is( d.childNodes.length, 4, "removeEmptyNodes" );
+    
     ok( true, "test suite finished!");
     
     

@@ -203,7 +203,7 @@ MochiKit.Sortable.Sortable = {
         }
 
         // fix for gecko engine
-        MochiKit.DOM.cleanWhitespace(element);
+        MochiKit.DOM.removeEmptyTextNodes(element);
 
         options.draggables = [];
         options.droppables = [];
