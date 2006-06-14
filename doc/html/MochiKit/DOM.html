@@ -573,6 +573,21 @@ string identifiers are also acceptable.</p>
 </dl>
 </blockquote>
 <p>
+<a name="fn-removeemptytextnodes"></a>
+<a class="mochidef reference" href="#fn-removeemptytextnodes">removeEmptyTextNodes(node)</a>:</p>
+<blockquote>
+<p>Remove all text node children that contain only whitespace from
+<tt class="docutils literal"><span class="pre">node</span></tt>. Useful in situations where such empty text nodes can
+interfere with DOM traversal.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>the DOM element (or string id of one) to remove whitespace child
+nodes from.</dd>
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-replacechildnodes"></a>
 <a class="mochidef reference" href="#fn-replacechildnodes">replaceChildNodes(node[, childNode[, ...]])</a>:</p>
 <blockquote>

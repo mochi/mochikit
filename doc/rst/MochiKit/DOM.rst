@@ -549,6 +549,20 @@ Functions
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`removeEmptyTextNodes(node)`:
+
+    Remove all text node children that contain only whitespace from
+    ``node``. Useful in situations where such empty text nodes can
+    interfere with DOM traversal.
+    
+    ``node``:
+        the DOM element (or string id of one) to remove whitespace child
+        nodes from.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`replaceChildNodes(node[, childNode[, ...]])`:
 
     Remove all children from the given DOM element, then append any
