@@ -262,7 +262,7 @@ MochiKit.Sortable.Sortable = {
         }
         tagName = tagName.toUpperCase();
         if (only) {
-            only = MochiKit.Base.flatten([only]);
+            only = MochiKit.Base.flattenArray([only]);
         }
         var elements = [];
         MochiKit.Base.map(function (e) {
@@ -516,7 +516,7 @@ MochiKit.Sortable.Sortable = {
         var name = encodeURIComponent(options.name || element.id);
 
         if (options.tree) {
-            return MochiKit.Base.flatten(MochiKit.Base.map(function (item) {
+            return MochiKit.Base.flattenArray(MochiKit.Base.map(function (item) {
                 return [name + self._constructIndex(item) + "=" +
                 encodeURIComponent(item.id)].concat(item.children.map(arguments.callee));
             }, self.tree(element, options).children)).join('&');

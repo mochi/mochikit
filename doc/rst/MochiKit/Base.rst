@@ -618,13 +618,26 @@ Functions
 :mochidef:`flattenArguments(arg[, ...])`:
 
     Given a bunch of arguments, return a single ``Array`` containing
-    all of those arguments. Any ``Array`` argument will be extended
+    all of those arguments. Any ``Array``-like argument will be extended
     in-place, e.g.::
 
         compare(flattenArguments(1, [2, 3, [4, 5]]), [1, 2, 3, 4, 5]) == 0
 
     *Availability*:
         Available in MochiKit 1.3.1+
+
+
+:mochidef:`flattenArray(lst)`:
+
+    Return a new ``Array`` consisting of every item in lst with ``Array``
+    items expanded in-place recursively. This differs from 
+    :mochiref:`flattenArguments` in that it only takes one argument and
+    it only flattens items that are ``instanceof Array``.
+
+        compare(flattenArray([1, [2, 3, [4, 5]]]), [1, 2, 3, 4, 5]) == 0
+
+    *Availability*:
+        Available in MochiKit 1.4+
 
 
 :mochidef:`forwardCall(name)`:

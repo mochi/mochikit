@@ -72,6 +72,22 @@ MochiKit.Base.update(MochiKit.Base, {
         }
     },
             
+    _flattenArray: function (res, lst) {
+        for (var i = 0; i < lst.length; i++) {
+            var o = lst[i];
+            if (o instanceof Array) {
+                arguments.callee(res, o);
+            } else {
+                res.push(o);
+            }
+        }
+        return res;
+    },
+    
+    flattenArray: function (lst) {
+        return MochiKit.Base._flattenArray([], lst);
+    },
+    
     flattenArguments: function (lst/* ...*/) {
         var res = [];
         var m = MochiKit.Base;
@@ -1014,6 +1030,7 @@ MochiKit.Base.AdapterRegistry.prototype = {
 
 
 MochiKit.Base.EXPORT = [
+    "flattenArray",
     "noop",
     "camelize",
     "counter",

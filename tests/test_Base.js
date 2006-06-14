@@ -437,5 +437,9 @@ tests.test_Base = function (t) {
     t.is(camelize('one-'), 'one', 'trailing hyphen');
     t.is(camelize('-one'), 'One', 'starting hyphen');
     t.is(camelize('o-two'), 'oTwo', 'one character and word');
+
+    var flat = flattenArray([1, "2", 3, [4, [5, [6, 7], 8, [], 9]]]);
+    var expect = [1, "2", 3, 4, 5, 6, 7, 8, 9];
+    t.is( repr(flat), repr(expect), "flattenArray" );
     
 };
