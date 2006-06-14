@@ -1,15 +1,5 @@
 
 MochiKit.Base.update(MochiKit.Base, {
-    flatten: function (array) {
-        return MochiKit.Base.map(function (item) {
-            if (item instanceof Array) {
-                return MochiKit.Base.flatten(item);
-            } else {
-                return item;
-            }
-        }, array);
-    },
-
     isIE: function () {
         return /MSIE/.test(navigator.userAgent);
     },

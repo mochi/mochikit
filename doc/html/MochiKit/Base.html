@@ -629,7 +629,7 @@ assert( findIdentical([1, 2, 3, 2, 1], 2, 2) == 3 )
 <a class="mochidef reference" href="#fn-flattenarguments">flattenArguments(arg[, ...])</a>:</p>
 <blockquote>
 <p>Given a bunch of arguments, return a single <tt class="docutils literal"><span class="pre">Array</span></tt> containing
-all of those arguments. Any <tt class="docutils literal"><span class="pre">Array</span></tt> argument will be extended
+all of those arguments. Any <tt class="docutils literal"><span class="pre">Array</span></tt>-like argument will be extended
 in-place, e.g.:</p>
 <pre class="literal-block">
 compare(flattenArguments(1, [2, 3, [4, 5]]), [1, 2, 3, 4, 5]) == 0
@@ -637,6 +637,21 @@ compare(flattenArguments(1, [2, 3, [4, 5]]), [1, 2, 3, 4, 5]) == 0
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-flattenarray"></a>
+<a class="mochidef reference" href="#fn-flattenarray">flattenArray(lst)</a>:</p>
+<blockquote>
+<p>Return a new <tt class="docutils literal"><span class="pre">Array</span></tt> consisting of every item in lst with <tt class="docutils literal"><span class="pre">Array</span></tt>
+items expanded in-place recursively. This differs from
+<a class="mochiref reference" href="#fn-flattenarguments">flattenArguments</a> in that it only takes one argument and
+it only flattens items that are <tt class="docutils literal"><span class="pre">instanceof</span> <span class="pre">Array</span></tt>.</p>
+<blockquote>
+compare(flattenArray([1, [2, 3, [4, 5]]]), [1, 2, 3, 4, 5]) == 0</blockquote>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
 </dl>
 </blockquote>
 <p>
