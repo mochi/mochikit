@@ -123,16 +123,47 @@ but it can be customized with options to use something else.</p>
 <td>15</td>
 </tr>
 <tr><td>format</td>
-<td>null</td>
+<td>/^[^_]*_(.*)$/</td>
 </tr>
 <tr><td>onChange</td>
-<td>nothing</td>
+<td>MochiKit.Base.noop</td>
 </tr>
 <tr><td>onUpdate</td>
-<td>nothing</td>
+<td>MochiKit.Base.noop</td>
+</tr>
+<tr><td>tree</td>
+<td>false</td>
+</tr>
+<tr><td>treeTag</td>
+<td>'ul'</td>
 </tr>
 </tbody>
 </table>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">tag</span></tt>:</dt>
+<dd>Name of the tag used to make the draggable elements. It matches all
+the childNodes of the Sortable element with this tag.</dd>
+<dt><tt class="docutils literal"><span class="pre">only</span></tt>:</dt>
+<dd>Class or array of classes used to filter the children, combined with
+the tag criteria.</dd>
+<dt><tt class="docutils literal"><span class="pre">format</span></tt>:</dt>
+<dd>Regular expression witch servers as a match filter for serialization,
+on children' ids. For example, with the default value, you'll get
+['1', '2', '3', '4'] with ids ['sort_1', 'sort_2', 'sort_3', 'sort_4'].</dd>
+<dt><tt class="docutils literal"><span class="pre">onChange</span></tt>:</dt>
+<dd>Callback called when an element moves between others in the Sortable.
+It's called for <em>each</em> movements, even if you don't release the mouse.</dd>
+<dt><tt class="docutils literal"><span class="pre">onUpdate</span></tt>:</dt>
+<dd>Callback called when the order changes in the Sortable. It's called
+only if the Sortable is modified, after you dropped an element.</dd>
+<dt><tt class="docutils literal"><span class="pre">tree</span></tt>:</dt>
+<dd>Option for creating a Sortable tree. It's an experimental setting, that
+can be very slow with a few elements. You can customize its behaviour
+with the <tt class="docutils literal"><span class="pre">treeTag</span></tt> option, that defines the node used to make
+branches in your tree (that contains leaves).</dd>
+</dl>
+<p>Other options are passed to the Draggables and Droppables objects created.
+Refer to <a class="mochiref reference" href="DragAndDrop.html">MochiKit.DragAndDrop</a> for more information.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -154,7 +185,8 @@ the Sortable functionnality on the element, unless recreated.</p>
 <a class="mochidef reference" href="#fn-sortable.serialize">Sortable.serialize(element [, options])</a>:</p>
 <blockquote>
 <p>Serialize the content of a Sortable. Useful to send this content
-through a XMLHTTPRequest.</p>
+through a XMLHTTPRequest. The options overrides the ones of the Sortable
+only for the serialization.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="13%" />
@@ -171,7 +203,7 @@ through a XMLHTTPRequest.</p>
 <td>id of the element</td>
 </tr>
 <tr><td>format</td>
-<td>format of the Sortalble or /^[^_]*_(.*)$</td>
+<td>format of the Sortable or /^[^_]*_(.*)$</td>
 </tr>
 </tbody>
 </table>
