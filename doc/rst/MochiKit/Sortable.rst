@@ -87,10 +87,42 @@ Objects defined
     scroll            false
     scrollSensitivity 20
     scrollSpeed       15
-    format            null
-    onChange          nothing
-    onUpdate          nothing
+    format            /^[^_]*_(.*)$/
+    onChange          MochiKit.Base.noop
+    onUpdate          MochiKit.Base.noop
+    tree              false
+    treeTag           'ul'
     ================= ==================
+
+    ``tag``:
+        Name of the tag used to make the draggable elements. It matches all
+        the childNodes of the Sortable element with this tag.
+
+    ``only``:
+        Class or array of classes used to filter the children, combined with
+        the tag criteria.
+
+    ``format``:
+        Regular expression witch servers as a match filter for serialization,
+        on children' ids. For example, with the default value, you'll get
+        ['1', '2', '3', '4'] with ids ['sort_1', 'sort_2', 'sort_3', 'sort_4'].
+    
+    ``onChange``:
+        Callback called when an element moves between others in the Sortable.
+        It's called for *each* movements, even if you don't release the mouse.
+
+    ``onUpdate``:
+        Callback called when the order changes in the Sortable. It's called
+        only if the Sortable is modified, after you dropped an element.
+
+    ``tree``:
+        Option for creating a Sortable tree. It's an experimental setting, that
+        can be very slow with a few elements. You can customize its behaviour
+        with the ``treeTag`` option, that defines the node used to make
+        branches in your tree (that contains leaves).
+
+    Other options are passed to the Draggables and Droppables objects created.
+    Refer to :mochiref:`MochiKit.DragAndDrop` for more information.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -108,13 +140,14 @@ Objects defined
 :mochidef:`Sortable.serialize(element [, options])`:
 
     Serialize the content of a Sortable. Useful to send this content
-    through a XMLHTTPRequest.
+    through a XMLHTTPRequest. The options overrides the ones of the Sortable
+    only for the serialization.
 
     ====== ==========================================
     tag    tag from the Sortable
     only   only from the Sortable
     name   id of the element
-    format format of the Sortalble or /^[^_]*_(.*)$
+    format format of the Sortable or /^[^_]*_(.*)$
     ====== ==========================================
 
     *Availability*:
