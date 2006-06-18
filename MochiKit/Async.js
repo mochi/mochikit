@@ -81,39 +81,6 @@ MochiKit.Async.Deferred.prototype = {
         }
     },
             
-
-    _pause: function () {
-        /***
-
-        Used internally to signal that it's waiting on another Deferred
-
-        ***/
-        this.paused++;
-    },
-
-    _unpause: function () {
-        /***
-
-        Used internally to signal that it's no longer waiting on another
-        Deferred.
-
-        ***/
-        this.paused--;
-        if ((this.paused === 0) && (this.fired >= 0)) {
-            this._fire();
-        }
-    },
-
-    _continue: function (res) {
-        /***
-
-        Used internally when a dependent deferred fires.
-
-        ***/
-        this._resback(res);
-        this._unpause();
-    },
-
     _resback: function (res) {
         /***
 
@@ -211,9 +178,13 @@ MochiKit.Async.Deferred.prototype = {
                 fired = ((res instanceof Error) ? 1 : 0);
                 if (res instanceof MochiKit.Async.Deferred) {
                     cb = function (res) {
-                        self._continue(res);
+                        self._resback(res);
+                        self.paused--;
+                        if ((self.paused === 0) && (self.fired >= 0)) {
+                            self._fire();
+                        }
                     };
-                    this._pause();
+                    this.paused++;
                 }
             } catch (err) {
                 fired = 1;

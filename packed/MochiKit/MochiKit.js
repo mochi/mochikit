@@ -2172,16 +2172,6 @@ if((this.fired===0)&&(this.results[0] instanceof self.Deferred)){
 this.results[0].cancel();
 }
 }
-},_pause:function(){
-this.paused++;
-},_unpause:function(){
-this.paused--;
-if((this.paused===0)&&(this.fired>=0)){
-this._fire();
-}
-},_continue:function(res){
-this._resback(res);
-this._unpause();
 },_resback:function(res){
 this.fired=((res instanceof Error)?1:0);
 this.results[this.fired]=res;
@@ -2251,9 +2241,13 @@ res=f(res);
 _290=((res instanceof Error)?1:0);
 if(res instanceof MochiKit.Async.Deferred){
 cb=function(res){
-self._continue(res);
+self._resback(res);
+self.paused--;
+if((self.paused===0)&&(self.fired>=0)){
+self._fire();
+}
 };
-this._pause();
+this.paused++;
 }
 }
 catch(err){
