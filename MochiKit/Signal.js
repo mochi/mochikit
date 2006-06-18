@@ -157,60 +157,60 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
             /*
 
-    			If you're looking for a special key, look for it in keydown or
+                If you're looking for a special key, look for it in keydown or
                 keyup, but never keypress. If you're looking for a Unicode
                 chracter, look for it with keypress, but never keyup or
                 keydown.
-	
-    			Notes:
-	
-    			FF key event behavior:
-    			key     event   charCode    keyCode
-    			DOWN    ku,kd   0           40
-    			DOWN    kp      0           40
-    			ESC     ku,kd   0           27
-    			ESC     kp      0           27
-    			a       ku,kd   0           65
-    			a       kp      97          0
-    			shift+a ku,kd   0           65
-    			shift+a kp      65          0
-    			1       ku,kd   0           49
-    			1       kp      49          0
-    			shift+1 ku,kd   0           0
-    			shift+1 kp      33          0
-	
-    			IE key event behavior:
-    			(IE doesn't fire keypress events for special keys.)
-    			key     event   keyCode
-    			DOWN    ku,kd   40
-    			DOWN    kp      undefined
-    			ESC     ku,kd   27
-    			ESC     kp      27
-    			a       ku,kd   65
-    			a       kp      97
-    			shift+a ku,kd   65
-    			shift+a kp      65
-    			1       ku,kd   49
-    			1       kp      49
-    			shift+1 ku,kd   49
-    			shift+1 kp      33
+    
+                Notes:
+    
+                FF key event behavior:
+                key     event   charCode    keyCode
+                DOWN    ku,kd   0           40
+                DOWN    kp      0           40
+                ESC     ku,kd   0           27
+                ESC     kp      0           27
+                a       ku,kd   0           65
+                a       kp      97          0
+                shift+a ku,kd   0           65
+                shift+a kp      65          0
+                1       ku,kd   0           49
+                1       kp      49          0
+                shift+1 ku,kd   0           0
+                shift+1 kp      33          0
+    
+                IE key event behavior:
+                (IE doesn't fire keypress events for special keys.)
+                key     event   keyCode
+                DOWN    ku,kd   40
+                DOWN    kp      undefined
+                ESC     ku,kd   27
+                ESC     kp      27
+                a       ku,kd   65
+                a       kp      97
+                shift+a ku,kd   65
+                shift+a kp      65
+                1       ku,kd   49
+                1       kp      49
+                shift+1 ku,kd   49
+                shift+1 kp      33
 
-    			Safari key event behavior:
-    			(Safari sets charCode and keyCode to something crazy for
-    			special keys.)
-    			key     event   charCode    keyCode
-    			DOWN    ku,kd   63233       40
-    			DOWN    kp      63233       63233
-    			ESC     ku,kd   27          27
-    			ESC     kp      27          27
-    			a       ku,kd   97          65
-    			a       kp      97          97
-    			shift+a ku,kd   65          65
-    			shift+a kp      65          65
-    			1       ku,kd   49          49
-    			1       kp      49          49
-    			shift+1 ku,kd   33          49
-    			shift+1 kp      33          33
+                Safari key event behavior:
+                (Safari sets charCode and keyCode to something crazy for
+                special keys.)
+                key     event   charCode    keyCode
+                DOWN    ku,kd   63233       40
+                DOWN    kp      63233       63233
+                ESC     ku,kd   27          27
+                ESC     kp      27          27
+                a       ku,kd   97          65
+                a       kp      97          97
+                shift+a ku,kd   65          65
+                shift+a kp      65          65
+                1       ku,kd   49          49
+                1       kp      49          49
+                shift+1 ku,kd   33          49
+                shift+1 kp      33          33
 
             */
 
@@ -316,19 +316,19 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
                     /*
                 
-    					Mac browsers and right click:
-					
-    						- Safari doesn't fire any click events on a right
-    						  click:
-    						  http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
-						  
-    						- Firefox fires the event, and sets ctrlKey = true
-						  
-    						- Opera fires the event, and sets metaKey = true
-					
-    					oncontextmenu is fired on right clicks between 
-    					browsers and across platforms.
-					
+                        Mac browsers and right click:
+                    
+                            - Safari doesn't fire any click events on a right
+                              click:
+                              http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
+                          
+                            - Firefox fires the event, and sets ctrlKey = true
+                          
+                            - Opera fires the event, and sets metaKey = true
+                    
+                        oncontextmenu is fired on right clicks between 
+                        browsers and across platforms.
+                    
                     */
                 
                 } else {

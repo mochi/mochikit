@@ -47,12 +47,12 @@ MochiKit.Base.update(MochiKit.Base, {
 
     camelize: function (selector) {
         /* from dojo.style.toCamelCase */
-		var arr = selector.split('-');
-		var cc = arr[0];
-		for (var i = 1; i < arr.length; i++) {
-			cc += arr[i].charAt(0).toUpperCase() + arr[i].substring(1);
-		}
-		return cc;
+        var arr = selector.split('-');
+        var cc = arr[0];
+        for (var i = 1; i < arr.length; i++) {
+            cc += arr[i].charAt(0).toUpperCase() + arr[i].substring(1);
+        }
+        return cc;
     },
 
     counter: function (n/* = 1 */) {
