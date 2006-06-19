@@ -5607,10 +5607,10 @@ var d=MochiKit.DOM;
 var v=MochiKit.Visual;
 var b=MochiKit.Base;
 _780=d.getElement(_780);
-_781=b.update({duration:3,from:0,afterFinishInternal:function(_782){
-d.setStyle(_782.element,{opacity:oldOpacity});
+var _782=d.getInlineOpacity(_780);
+_781=b.update({duration:3,from:0,afterFinishInternal:function(_783){
+d.setStyle(_783.element,{opacity:_782});
 }},_781||{});
-var _783=d.getInlineOpacity(_780);
 var _784=_781.transition||v.Transitions.sinoidal;
 var _785=b.bind(function(pos){
 return _784(1-v.Transitions.pulse(pos));
