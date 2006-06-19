@@ -1626,6 +1626,7 @@ MochiKit.Visual.pulsate = function (element, /* optional */ options) {
     var v = MochiKit.Visual;
     var b = MochiKit.Base;
     element = d.getElement(element);
+    var oldOpacity = d.getInlineOpacity(element);
     options = b.update({
         duration: 3.0,
         from: 0,
@@ -1633,7 +1634,6 @@ MochiKit.Visual.pulsate = function (element, /* optional */ options) {
             d.setStyle(effect.element, {opacity: oldOpacity});
         }
     }, options || {});
-    var oldOpacity = d.getInlineOpacity(element);
     var transition = options.transition || v.Transitions.sinoidal;
     var reverser = b.bind(function (pos) {
         return transition(1 - v.Transitions.pulse(pos));
