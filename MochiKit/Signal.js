@@ -359,11 +359,18 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
     preventDefault: function () {
         if (this._event.preventDefault) {
             this._event.preventDefault();
-        } else {
+        } else if (this._confirmUnload === null) {
             this._event.returnValue = false;
         }
+    },
+    
+    _confirmUnload: null,
+    confirmUnload: function (msg) {
+        if (this.type() == 'beforeunload') {
+            this._confirmUnload = msg;
+            this._event.returnValue = msg;
+        }
     }
-
 });
 
 /* Safari sets keyCode to these special values onkeypress. */
