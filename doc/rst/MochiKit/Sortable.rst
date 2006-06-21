@@ -103,10 +103,10 @@ Objects defined
         the tag criteria.
 
     ``format``:
-        Regular expression witch servers as a match filter for serialization,
+        Regular expression which serves as a match filter for serialization,
         on children' ids. For example, with the default value, you'll get
         ['1', '2', '3', '4'] with ids ['sort_1', 'sort_2', 'sort_3', 'sort_4'].
-    
+
     ``onChange``:
         Callback called when an element moves between others in the Sortable.
         It's called for *each* movements, even if you don't release the mouse.
@@ -116,10 +116,11 @@ Objects defined
         only if the Sortable is modified, after you dropped an element.
 
     ``tree``:
-        Option for creating a Sortable tree. It's an experimental setting, that
-        can be very slow with a few elements. You can customize its behaviour
-        with the ``treeTag`` option, that defines the node used to make
-        branches in your tree (that contains leaves).
+        Option for creating a Sortable tree. It's an experimental
+        setting, that can be very slow even with a few elements. You
+        can customize its behaviour with the ``treeTag`` option, that
+        defines the node used to make branches in your tree (that
+        contains leaves).
 
     Other options are passed to the Draggables and Droppables objects created.
     Refer to :mochiref:`MochiKit.DragAndDrop` for more information.
