@@ -382,6 +382,17 @@ DOM Custom Event Object Reference
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`confirmUnload(msg)`:
+
+    In browsers that support the ``'onbeforeunload'`` event (IE and
+    Firefox), calling this in the event handler will show a dialog box
+    that allows the user to confirm or cancel the navigation away from
+    the page.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 Authors
 =======
 

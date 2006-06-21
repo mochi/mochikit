@@ -4408,7 +4408,14 @@ this._event.cancelBubble=true;
 if(this._event.preventDefault){
 this._event.preventDefault();
 }else{
+if(this._confirmUnload===null){
 this._event.returnValue=false;
+}
+}
+},_confirmUnload:null,confirmUnload:function(msg){
+if(this.type()=="beforeunload"){
+this._confirmUnload=msg;
+this._event.returnValue=msg;
 }
 }});
 MochiKit.Signal._specialMacKeys={3:"KEY_ENTER",63289:"KEY_NUM_PAD_CLEAR",63276:"KEY_PAGE_UP",63277:"KEY_PAGE_DOWN",63275:"KEY_END",63273:"KEY_HOME",63234:"KEY_ARROW_LEFT",63232:"KEY_ARROW_UP",63235:"KEY_ARROW_RIGHT",63233:"KEY_ARROW_DOWN",63302:"KEY_INSERT",63272:"KEY_DELETE"};
