@@ -105,4 +105,4 @@ function module_index() {
     ptr.parentNode.insertBefore(ref, ptr);
 };
 
-addLoadEvent(create_toc);
+connect(window, 'onload', create_toc);
