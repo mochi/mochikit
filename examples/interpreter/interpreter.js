@@ -74,7 +74,7 @@ InterpreterManager.prototype.help = function (fn) {
     var shortfn = comps.join('.');
     var url = '../../doc/html/' + base.join('/') + '.html';
     var xhr = getXMLHttpRequest();
-    xhr.open('GET', url);
+    xhr.open('GET', url, true);
     if (xhr.overrideMimeType) {
         xhr.overrideMimeType('text/xml');
     }
@@ -85,7 +85,9 @@ InterpreterManager.prototype.help = function (fn) {
         var match = '#fn-' + shortfn.toLowerCase();
         for (var i = 0; i < els.length; i++) {
             var elem = els[i];
-            if (elem.href == match) {
+            var href = elem.href;
+            var idx = href.indexOf('#');
+            if (idx != -1 && href.substring(idx) == match) {
                 writeln(A({href: url + match, target: '_blank'},
                     scrapeText(elem)));
                 return;
