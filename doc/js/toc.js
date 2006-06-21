@@ -66,7 +66,7 @@ function global_index() {
         lst.push(doXHTMLRequest(href).addCallback(load_request, href, div));
     }
     
-    var loadingNode = DIV(null, "[loading\u2026]");
+    var loadingNode = DIV(null, "[loading index\u2026]");
     distList.parentNode.insertBefore(P(null, loadingNode), distList);
     
     var dl = new gatherResults(lst).addCallback(function (res) {
