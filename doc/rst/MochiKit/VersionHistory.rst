@@ -1,6 +1,7 @@
 2006-XX-XX      v1.4
 
-- New MochiKit.Signal event method: confirmUnload (sets onbeforeunload)
+- New MochiKit.Signal event method: confirmUnload (sets returnValue for 
+  onbeforeunload)
 - Fix interpreter help() function for Firefox and IE
 - API version compatibility notes added
 - New MochiKit.Base functions methodcaller and compose
