@@ -65,6 +65,10 @@ function global_index() {
         appendChildNodes(tag, BR(), div);
         lst.push(doXHTMLRequest(href).addCallback(load_request, href, div));
     }
+    
+    var loadingNode = DIV(null, "[loading\u2026]");
+    distList.parentNode.insertBefore(P(null, loadingNode), distList);
+    
     var dl = new gatherResults(lst).addCallback(function (res) {
         var toggleFunc = function (e) {
             for (var i = 0; i < res.length; i++) {
@@ -75,7 +79,7 @@ function global_index() {
             }
         };
         var node = A({"class": "force-pointer"}, "[click to expand all]");
-        distList.parentNode.insertBefore(P(null, node), distList);
+        swapDOM(loadingNode, node);
         connect(node, "onclick", toggleFunc);
     });
 };
