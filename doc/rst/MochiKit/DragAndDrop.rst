@@ -17,7 +17,7 @@ Synopsis
     new Droppable('mydrop', {
         accept: ['drag-class'],
         ondrop: function (element) {
-            alert('You dropped on me ' + element.id);
+            alert('"' + element.id + '" was dropped on me');
         }
     });
 
