@@ -196,7 +196,7 @@ Functions
     precision)` will always have a preceding ``0`` for numbers less
     than ``1``.
 
-    For example, :mochiref:`toFixed(0.1357, 2)` returns ``0.13``.
+    For example, :mochiref:`truncToFixed(0.1357, 2)` returns ``0.13``.
 
     *Availability*:
         Available in MochiKit 1.3.1+
