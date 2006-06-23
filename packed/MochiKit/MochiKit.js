@@ -4235,6 +4235,7 @@ if(typeof (dojo)!="undefined"){
 dojo.provide("MochiKit.Signal");
 dojo.require("MochiKit.Base");
 dojo.require("MochiKit.DOM");
+dojo.require("MochiKit.Style");
 }
 if(typeof (JSAN)!="undefined"){
 JSAN.use("MochiKit.Base",[]);
@@ -4255,6 +4256,14 @@ throw "";
 }
 catch(e){
 throw "MochiKit.Signal depends on MochiKit.DOM!";
+}
+try{
+if(typeof (MochiKit.Style)=="undefined"){
+throw "";
+}
+}
+catch(e){
+throw "MochiKit.Signal depends on MochiKit.Style!";
 }
 if(typeof (MochiKit.Signal)=="undefined"){
 MochiKit.Signal={};

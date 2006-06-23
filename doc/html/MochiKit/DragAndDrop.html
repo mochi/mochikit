@@ -27,7 +27,7 @@ new Draggable('mydrag');
 new Droppable('mydrop', {
     accept: ['drag-class'],
     ondrop: function (element) {
-        alert('You dropped on me ' + element.id);
+        alert('&quot;' + element.id + '&quot; was dropped on me');
     }
 });
 </pre>
