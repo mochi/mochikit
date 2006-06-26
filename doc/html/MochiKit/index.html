@@ -37,12 +37,13 @@ pane</li>
 </div>
 <div class="section">
 <h1><a id="notes" name="notes">Notes</a></h1>
-<p>To turn on MochiKit's compatibility mode, do this before loading
+<p>To turn off MochiKit's export feature (which may be necessary for
+compatibility with some existing code), do this before loading
 MochiKit:</p>
 <pre class="literal-block">
-&lt;script type=&quot;text/javascript&quot;&gt;MochiKit = {__compat__: true};&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;MochiKit = {__export__: false};&lt;/script&gt;
 </pre>
-<p>When compatibility mode is on, you must use fully qualified names for
+<p>When export mode is off, you must use fully qualified names for
 all MochiKit functions (e.g. <tt class="docutils literal"><span class="pre">MochiKit.Base.map(...)</span></tt>).</p>
 </div>
 <div class="section">

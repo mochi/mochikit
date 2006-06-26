@@ -284,7 +284,7 @@ if (typeof(MochiKit.Base) != "undefined") {
 } else {
     (function (globals, module) {
         if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-            || (typeof(MochiKit.__compat__) == 'boolean' && MochiKit.__compat__)) {
+            || (MochiKit.__export__ === false)) {
             var all = module.EXPORT_TAGS[":all"];
             for (var i = 0; i < all.length; i++) {
                 globals[all[i]] = module[all[i]]; 

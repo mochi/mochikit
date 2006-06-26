@@ -931,7 +931,7 @@ m.EXPORT_TAGS={":common":m.concat(m.EXPORT_OK),":all":all};
 m.nameFunctions(this);
 };
 MochiKit.Base.__new__();
-if(!MochiKit.__compat__){
+if(MochiKit.__export__){
 compare=MochiKit.Base.compare;
 }
 MochiKit.Base._exportSymbols(this,MochiKit.Base);
@@ -1538,7 +1538,7 @@ this.EXPORT_TAGS={":common":this.EXPORT,":all":m.concat(this.EXPORT,this.EXPORT_
 m.nameFunctions(this);
 };
 MochiKit.Iter.__new__();
-if(!MochiKit.__compat__){
+if(MochiKit.__export__){
 reduce=MochiKit.Iter.reduce;
 }
 MochiKit.Base._exportSymbols(this,MochiKit.Iter);
@@ -1871,7 +1871,7 @@ if(typeof (MochiKit.Base)!="undefined"){
 MochiKit.Base._exportSymbols(this,MochiKit.DateTime);
 }else{
 (function(_236,_237){
-if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(typeof (MochiKit.__compat__)=="boolean"&&MochiKit.__compat__)){
+if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(MochiKit.__export__===false)){
 var all=_237.EXPORT_TAGS[":all"];
 for(var i=0;i<all.length;i++){
 _236[all[i]]=_237[all[i]];
@@ -2100,7 +2100,7 @@ if(typeof (MochiKit.Base)!="undefined"){
 MochiKit.Base._exportSymbols(this,MochiKit.Format);
 }else{
 (function(_283,_284){
-if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(typeof (MochiKit.__compat__)=="boolean"&&MochiKit.__compat__)){
+if((typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined")||(MochiKit.__export__===false)){
 var all=_284.EXPORT_TAGS[":all"];
 for(var i=0;i<all.length;i++){
 _283[all[i]]=_284[all[i]];
@@ -3210,7 +3210,7 @@ this.EXPORT_TAGS={":common":this.EXPORT,":all":m.concat(this.EXPORT,this.EXPORT_
 m.nameFunctions(this);
 }});
 MochiKit.DOM.__new__(((typeof (window)=="undefined")?this:window));
-if(!MochiKit.__compat__){
+if(MochiKit.__export__){
 withWindow=MochiKit.DOM.withWindow;
 withDocument=MochiKit.DOM.withDocument;
 }
@@ -4633,7 +4633,7 @@ this.EXPORT_TAGS={":common":this.EXPORT,":all":m.concat(this.EXPORT,this.EXPORT_
 m.nameFunctions(this);
 };
 MochiKit.Signal.__new__(this);
-if(!MochiKit.__compat__){
+if(MochiKit.__export__){
 connect=MochiKit.Signal.connect;
 disconnect=MochiKit.Signal.disconnect;
 disconnectAll=MochiKit.Signal.disconnectAll;

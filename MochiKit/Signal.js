@@ -702,7 +702,7 @@ MochiKit.Signal.__new__(this);
 //
 // XXX: Internet Explorer blows
 //
-if (!MochiKit.__compat__) {
+if (MochiKit.__export__) {
     connect = MochiKit.Signal.connect;
     disconnect = MochiKit.Signal.disconnect;
     disconnectAll = MochiKit.Signal.disconnectAll;
