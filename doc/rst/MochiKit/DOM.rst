@@ -417,7 +417,7 @@ Functions
 :mochidef:`escapeHTML(s)`:
 
     Make a string safe for HTML, converting the usual suspects (lt,
-    gt, quot, apos, amp)
+    gt, quot, amp)
 
     *Availability*:
         Available in MochiKit 1.3.1+
