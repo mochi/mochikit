@@ -26,12 +26,13 @@ MochiKit - makes JavaScript suck a bit less
 Notes
 =====
 
-To turn on MochiKit's compatibility mode, do this before loading
+To turn off MochiKit's export feature (which may be necessary for
+compatibility with some existing code), do this before loading
 MochiKit::
 
-    <script type="text/javascript">MochiKit = {__compat__: true};</script>
+    <script type="text/javascript">MochiKit = {__export__: false};</script>
 
-When compatibility mode is on, you must use fully qualified names for
+When export mode is off, you must use fully qualified names for
 all MochiKit functions (e.g. ``MochiKit.Base.map(...)``).
 
 

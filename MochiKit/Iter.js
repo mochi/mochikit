@@ -800,7 +800,7 @@ MochiKit.Iter.__new__();
 //
 // XXX: Internet Explorer blows
 //
-if (!MochiKit.__compat__) {
+if (MochiKit.__export__) {
     reduce = MochiKit.Iter.reduce;
 }
 

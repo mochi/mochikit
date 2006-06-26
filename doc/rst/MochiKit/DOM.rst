@@ -937,7 +937,7 @@ These objects are available in MochiKit 1.3.1, but have been moved to
     Available in MochiKit 1.3.1, moved to 
     :mochiref:`MochiKit.Style.Coordinates` in 1.4+
 
-:mochidef:`Dimensions(w, y)`:
+:mochidef:`Dimensions(w, h)`:
 
     Constructs an object with ``w`` and ``h`` properties. ``obj.toString()`` 
     returns something like ``{w: 0, h: 42}`` for debugging.

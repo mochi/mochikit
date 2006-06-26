@@ -1199,7 +1199,7 @@ MochiKit.Base.__new__();
 //
 // XXX: Internet Explorer blows
 //
-if (!MochiKit.__compat__) {
+if (MochiKit.__export__) {
     compare = MochiKit.Base.compare;
 }
 
