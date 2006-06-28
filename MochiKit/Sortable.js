@@ -334,7 +334,8 @@ MochiKit.Sortable.Sortable = {
         if (!MochiKit.DOM.isParent(dropon, element)) {
             var index;
 
-            var children = self.findElements(dropon, {tag: droponOptions.tag});
+            var children = self.findElements(dropon, {tag: droponOptions.tag,
+                                                      only: droponOptions.only});
             var child = null;
 
             if (children) {
