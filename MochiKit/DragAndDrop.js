@@ -548,13 +548,13 @@ MochiKit.DragAndDrop.Draggable.prototype = {
                 var s = this._getWindowScroll(this.options.scroll);
                 p = new MochiKit.Style.Coordinates(s.left, s.top);
                 q = new MochiKit.Style.Coordinates(s.left + s.width,
-                                                 s.top + s.height);
+                                                   s.top + s.height);
             } else {
                 p = MochiKit.Position.page(this.options.scroll);
                 p.x += this.options.scroll.scrollLeft;
                 p.y += this.options.scroll.scrollTop;
                 q = new MochiKit.Style.Coordinates(p.x + this.options.scroll.offsetWidth,
-                                                 p.y + this.options.scroll.offsetHeight);
+                                                   p.y + this.options.scroll.offsetHeight);
             }
             var speed = [0, 0];
             if (pointer.page.x > (q.x - this.options.scrollSensitivity)) {
@@ -696,6 +696,9 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     },
 
     startScrolling: function (speed) {
+        if (!speed[0] || !speed[1]) {
+            return;
+        }
         this.scrollSpeed = [speed[0] * this.options.scrollSpeed,
                             speed[1] * this.options.scrollSpeed];
         this.lastScrolled = new Date();

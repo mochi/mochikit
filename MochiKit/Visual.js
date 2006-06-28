@@ -755,7 +755,7 @@ MochiKit.Base.update(MochiKit.Visual.Opacity.prototype, {
         var d = MochiKit.DOM;
         this.element = d.getElement(element);
         // make this work on IE on elements without 'layout'
-        if (b.isIE() && (!this.element.hasLayout)) {
+        if (b.isIE() && (!this.element.currentStyle.hasLayout)) {
             d.setStyle(this.element, {zoom: 1});
         }
         options = b.update({

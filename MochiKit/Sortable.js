@@ -518,7 +518,7 @@ MochiKit.Sortable.Sortable = {
 
         if (options.tree) {
             return MochiKit.Base.flattenArray(MochiKit.Base.map(function (item) {
-                return [name + self._constructIndex(item) + "=" +
+                return [name + self._constructIndex(item) + "[id]=" +
                 encodeURIComponent(item.id)].concat(item.children.map(arguments.callee));
             }, self.tree(element, options).children)).join('&');
         } else {
