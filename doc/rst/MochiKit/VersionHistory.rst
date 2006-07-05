@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- Added readonly-readOnly to the list of DOM renames for Internet Explorer
 - New MochiKit.Signal event method: confirmUnload (sets returnValue for 
   onbeforeunload)
 - Fix interpreter help() function for Firefox and IE
