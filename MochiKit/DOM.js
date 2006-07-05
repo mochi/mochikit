@@ -825,7 +825,8 @@ MochiKit.Base.update(MochiKit.DOM, {
                 "class": "className",
                 "checked": "defaultChecked",
                 "usemap": "useMap",
-                "for": "htmlFor"
+                "for": "htmlFor",
+                "readonly": "readOnly"
             };
         } else {
             attributeArray = function (node) {

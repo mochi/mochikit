@@ -3146,7 +3146,7 @@ _403.ignoreAttrFilter=function(a){
 return (_403.ignoreAttr[a.name]!=a.value);
 };
 _403.compliant=false;
-_403.renames={"class":"className","checked":"defaultChecked","usemap":"useMap","for":"htmlFor"};
+_403.renames={"class":"className","checked":"defaultChecked","usemap":"useMap","for":"htmlFor","readonly":"readOnly"};
 }else{
 _403=function(node){
 return node.attributes;
@@ -5156,7 +5156,7 @@ MochiKit.Base.update(MochiKit.Visual.Opacity.prototype,{__init__:function(_673,_
 var b=MochiKit.Base;
 var d=MochiKit.DOM;
 this.element=d.getElement(_673);
-if(b.isIE()&&(!this.element.hasLayout)){
+if(b.isIE()&&(!this.element.currentStyle.hasLayout)){
 d.setStyle(this.element,{zoom:1});
 }
 _674=b.update({from:d.getOpacity(this.element)||0,to:1},_674||{});
