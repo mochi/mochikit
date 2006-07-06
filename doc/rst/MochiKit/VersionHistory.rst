@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Base.isArrayLike no longer returns true for DOM text nodes
 - Added readonly-readOnly to the list of DOM renames for Internet Explorer
 - New MochiKit.Signal event method: confirmUnload (sets returnValue for 
   onbeforeunload)
