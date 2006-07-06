@@ -826,8 +826,8 @@ MochiKit.Base.update(MochiKit.Visual.Move.prototype, {
 
     update: function (position) {
         MochiKit.DOM.setStyle(this.element, {
-            left: this.options.x * position + this.originalLeft + 'px',
-            top: this.options.y * position + this.originalTop + 'px'
+            left: Math.round(this.options.x * position + this.originalLeft) + 'px',
+            top: Math.round(this.options.y * position + this.originalTop) + 'px'
         });
     }
 });
@@ -921,10 +921,10 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
     setDimensions: function (height, width) {
         var d = {};
         if (this.options.scaleX) {
-            d.width = width + 'px';
+            d.width = Math.round(width) + 'px';
         }
         if (this.options.scaleY) {
-            d.height = height + 'px';
+            d.height = Math.round(height) + 'px';
         }
         if (this.options.scaleFromCenter) {
             var topd = (height - this.dims[0])/2;
