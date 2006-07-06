@@ -317,7 +317,8 @@ MochiKit.Base.update(MochiKit.Base, {
             if (
                 (typ != 'object' && !(typ == 'function' && typeof(o.item) == 'function')) ||
                 o === null ||
-                typeof(o.length) != 'number'
+                typeof(o.length) != 'number' ||
+                o.nodeType === 3
             ) {
                 return false;
             }
