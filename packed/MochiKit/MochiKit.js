@@ -207,6 +207,10 @@ return a>=b;
 return a<b;
 },le:function(a,b){
 return a<=b;
+},seq:function(a,b){
+return a===b;
+},sne:function(a,b){
+return a!==b;
 },ceq:function(a,b){
 return MochiKit.Base.compare(a,b)===0;
 },cne:function(a,b){

@@ -235,6 +235,10 @@ MochiKit.Base.update(MochiKit.Base, {
         lt: function (a, b) { return a < b; },
         le: function (a, b) { return a <= b; },
 
+        // strict built-in comparators
+        seq: function (a, b) { return a === b; },
+        sne: function (a, b) { return a !== b; },
+
         // compare comparators
         ceq: function (a, b) { return MochiKit.Base.compare(a, b) === 0; },
         cne: function (a, b) { return MochiKit.Base.compare(a, b) !== 0; },
