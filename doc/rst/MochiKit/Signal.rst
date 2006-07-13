@@ -16,10 +16,10 @@ Signal for DOM events::
     // DOM events are also signals. Connect freely! The functions will be
     // called with the custom event as a parameter.
 
-    // calls myClicked.apply(getElement('myID'), event)
+    // calls myClicked.apply(getElement('myID'), [event])
     connect('myID', 'onclick', myClicked);
 
-    // calls wasClicked.apply(myObject, event)
+    // calls wasClicked.apply(myObject, [event])
     connect('myID', 'onclick', myObject, wasClicked);
 
     // calls myObject.wasClicked(event)
@@ -37,11 +37,11 @@ Signal for non-DOM events::
     // otherObject.gotFlash() will be called when 'flash' signalled.
     connect(myObject, 'flash', otherObject, 'gotFlash');
 
-    // gotBang.apply(otherObject) will be called when 'bang' signalled.
+    // gotBang.apply(otherObject, [...]) will be called when 'bang' signalled.
     // You can access otherObject from within gotBang as 'this'.
     connect(myObject, 'bang', otherObject, gotBang);
 
-    // myFunc.apply(myObject) will be called when 'flash' signalled.
+    // myFunc.apply(myObject, [...]) will be called when 'flash' signalled.
     // You can access myObject from within myFunc as 'this'.
     var ident = connect(myObject, 'flash', myFunc);
 
@@ -183,15 +183,15 @@ Signal API Reference
     when the signal is triggered.
 
         -   If ``dest`` is an object and ``func`` is a string, then
-            ``dest[func].apply(dest, ...)`` will be called when the
+            ``dest[func].apply(dest, [...])`` will be called when the
             signal is signalled.
 
         -   If ``dest`` is an object and ``func`` is a function, then
-            ``func.apply(dest, ...)`` will be called when the signal
+            ``func.apply(dest, [...])`` will be called when the signal
             is signalled.
 
         -   If ``func`` is undefined and ``dest`` is a function, then
-            ``func.apply(src, ...)`` will be called when the signal is
+            ``func.apply(src, [...])`` will be called when the signal is
             signalled.
 
     No other combinations are allowed and will raise an exception.

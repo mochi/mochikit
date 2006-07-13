@@ -24,10 +24,10 @@
 // DOM events are also signals. Connect freely! The functions will be
 // called with the custom event as a parameter.
 
-// calls myClicked.apply(getElement('myID'), event)
+// calls myClicked.apply(getElement('myID'), [event])
 connect('myID', 'onclick', myClicked);
 
-// calls wasClicked.apply(myObject, event)
+// calls wasClicked.apply(myObject, [event])
 connect('myID', 'onclick', myObject, wasClicked);
 
 // calls myObject.wasClicked(event)
@@ -44,11 +44,11 @@ myObject.wasClicked = function(e) {
 // otherObject.gotFlash() will be called when 'flash' signalled.
 connect(myObject, 'flash', otherObject, 'gotFlash');
 
-// gotBang.apply(otherObject) will be called when 'bang' signalled.
+// gotBang.apply(otherObject, [...]) will be called when 'bang' signalled.
 // You can access otherObject from within gotBang as 'this'.
 connect(myObject, 'bang', otherObject, gotBang);
 
-// myFunc.apply(myObject) will be called when 'flash' signalled.
+// myFunc.apply(myObject, [...]) will be called when 'flash' signalled.
 // You can access myObject from within myFunc as 'this'.
 var ident = connect(myObject, 'flash', myFunc);
 
@@ -163,13 +163,13 @@ when the signal is triggered.</p>
 <blockquote>
 <ul class="simple">
 <li>If <tt class="docutils literal"><span class="pre">dest</span></tt> is an object and <tt class="docutils literal"><span class="pre">func</span></tt> is a string, then
-<tt class="docutils literal"><span class="pre">dest[func].apply(dest,</span> <span class="pre">...)</span></tt> will be called when the
+<tt class="docutils literal"><span class="pre">dest[func].apply(dest,</span> <span class="pre">[...])</span></tt> will be called when the
 signal is signalled.</li>
 <li>If <tt class="docutils literal"><span class="pre">dest</span></tt> is an object and <tt class="docutils literal"><span class="pre">func</span></tt> is a function, then
-<tt class="docutils literal"><span class="pre">func.apply(dest,</span> <span class="pre">...)</span></tt> will be called when the signal
+<tt class="docutils literal"><span class="pre">func.apply(dest,</span> <span class="pre">[...])</span></tt> will be called when the signal
 is signalled.</li>
 <li>If <tt class="docutils literal"><span class="pre">func</span></tt> is undefined and <tt class="docutils literal"><span class="pre">dest</span></tt> is a function, then
-<tt class="docutils literal"><span class="pre">func.apply(src,</span> <span class="pre">...)</span></tt> will be called when the signal is
+<tt class="docutils literal"><span class="pre">func.apply(src,</span> <span class="pre">[...])</span></tt> will be called when the signal is
 signalled.</li>
 </ul>
 </blockquote>
