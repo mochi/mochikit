@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- Fixed an infinite recursion bug in serializeJSON if an adapter
+  returns the object itself.
 - New MochiKit.Base.operator.seq and sne to support strict comparison
 - MochiKit.Base.isArrayLike no longer returns true for DOM text nodes
 - Added readonly-readOnly to the list of DOM renames for Internet Explorer
