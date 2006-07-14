@@ -757,7 +757,9 @@ MochiKit.Base.update(MochiKit.Base, {
         // look in the registry
         try {
             newObj = m.jsonRegistry.match(o);
-            return me(newObj);
+            if (o !== newObj) {
+                return me(newObj);
+            }
         } catch (e) {
             if (e != m.NotFound) {
                 // something really bad happened
