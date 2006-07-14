@@ -603,13 +603,24 @@ result or error value will be wrapped by one.</dd>
 </blockquote>
 <p>
 <a name="fn-loadjsondoc"></a>
-<a class="mochidef reference" href="#fn-loadjsondoc">loadJSONDoc(url)</a>:</p>
+<a class="mochidef reference" href="#fn-loadjsondoc">loadJSONDoc(url[, queryArguments...])</a>:</p>
 <blockquote>
 <p>Do a simple <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> to a URL and get the response as a
 JSON <a class="footnote-reference" href="#id10" id="id5" name="id5">[4]</a> document.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">url</span></tt>:</dt>
 <dd>The URL to GET</dd>
+<dt><tt class="docutils literal"><span class="pre">queryArguments</span></tt>:</dt>
+<dd><p class="first">If this function is called with more than one argument, a
+<tt class="docutils literal"><span class="pre">&quot;?&quot;</span></tt> and the result of
+<a class="mochiref reference" href="Base.html#fn-querystring">MochiKit.Base.queryString</a> with the rest of the
+arguments are appended to the URL.</p>
+<p>For example, this will do a GET request to the URL
+<tt class="docutils literal"><span class="pre">http://example.com?bar=baz</span></tt>:</p>
+<pre class="last literal-block">
+loadJSONDoc(&quot;http://example.com&quot;, {bar: &quot;baz&quot;});
+</pre>
+</dd>
 <dt><em>returns</em>:</dt>
 <dd><a class="mochiref reference" href="#fn-deferred">Deferred</a> that will callback with the evaluated
 JSON <a class="footnote-reference" href="#id10" id="id6" name="id6">[4]</a> response upon successful <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt></dd>

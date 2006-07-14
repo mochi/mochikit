@@ -567,13 +567,24 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`loadJSONDoc(url)`:
+:mochidef:`loadJSONDoc(url[, queryArguments...])`:
 
     Do a simple ``XMLHttpRequest`` to a URL and get the response as a
     JSON [4]_ document.
 
     ``url``:
         The URL to GET
+
+    ``queryArguments``:
+        If this function is called with more than one argument, a
+        ``"?"`` and the result of
+        :mochiref:`MochiKit.Base.queryString` with the rest of the
+        arguments are appended to the URL.
+
+        For example, this will do a GET request to the URL
+        ``http://example.com?bar=baz``::
+
+            loadJSONDoc("http://example.com", {bar: "baz"});
 
     *returns*:
         :mochiref:`Deferred` that will callback with the evaluated
