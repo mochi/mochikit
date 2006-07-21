@@ -885,6 +885,48 @@ MochiKit.Base.update(MochiKit.Base, {
         return -1;
     },
 
+    mean: function(/* lst... */) {
+        /* http://www.nist.gov/dads/HTML/mean.html */
+        var sum = 0;
+
+        var m = MochiKit.Base;
+        var args = m.extend(null, arguments);
+        var count = args.length;
+
+        while (args.length) {
+            var o = args.shift();
+            if (o && typeof(o) == "object" && typeof(o.length) == "number") {
+                count += o.length - 1;
+                for (var i = o.length - 1; i >= 0; i--) {
+                    sum += o[i];
+                }
+            } else {
+                sum += o;
+            }
+        }
+
+        if (count <= 0) {
+            throw new TypeError('mean() requires at least one argument');
+        }
+
+        return sum/count;
+    },
+    
+    median: function(/* lst... */) {
+        /* http://www.nist.gov/dads/HTML/median.html */
+        var data = MochiKit.Base.flattenArguments(arguments);
+        if (data.length === 0) {
+            throw new TypeError('median() requires at least one argument');
+        }
+        data.sort(compare);
+        if (data.length % 2 == 0) {
+            var upper = data.length / 2;
+            return (data[upper] + data[upper - 1]) / 2;
+        } else {
+            return data[(data.length - 1) / 2];
+        }
+    },
+    
     findValue: function (lst, value, start/* = 0 */, /* optional */end) {
         if (typeof(end) == "undefined" || end === null) {
             end = lst.length;
@@ -1098,7 +1140,10 @@ MochiKit.Base.EXPORT = [
     "findValue",
     "findIdentical",
     "flattenArguments",
-    "method"
+    "method",
+    "average",
+    "mean",
+    "median"
 ];
 
 MochiKit.Base.EXPORT_OK = [
@@ -1179,7 +1224,9 @@ MochiKit.Base.__new__ = function () {
 
     m.merge = m.partial(m.update, null);
     m.zip = m.partial(m.map, null);
-
+    
+    m.average = m.mean;
+    
     m.comparatorRegistry = new m.AdapterRegistry();
     m.registerComparator("dateLike", m.isDateLike, m.compareDateLike);
     m.registerComparator("arrayLike", m.isArrayLike, m.compareArrayLike);

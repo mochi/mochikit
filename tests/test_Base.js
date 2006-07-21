@@ -442,4 +442,30 @@ tests.test_Base = function (t) {
     var expect = [1, "2", 3, 4, 5, 6, 7, 8, 9];
     t.is( repr(flat), repr(expect), "flattenArray" );
     
+    /* mean */
+    try {
+        mean();
+        t.ok( false, "no arguments didn't raise!" );
+    } catch (e) {
+        t.is( e.name, 'TypeError', "no arguments raised correctly" );
+    }    
+    t.is( mean(1), 1, 'single argument (arg list)');
+    t.is( mean([1]), 1, 'single argument (array)');
+    t.is( mean(1,2,3), 2, 'three arguments (arg list)');
+    t.is( mean([1,2,3]), 2, 'three arguments (array)');
+    t.is( average(1), 1, 'test the average alias');
+
+    /* median */
+    try {
+        median();
+        t.ok( false, "no arguments didn't raise!" );
+    } catch (e) {
+        t.is( e.name, 'TypeError', "no arguments raised correctly" );
+    }
+    t.is( median(1), 1, 'single argument (arg list)');
+    t.is( median([1]), 1, 'single argument (array)');
+    t.is( median(3,1,2), 2, 'three arguments (arg list)');
+    t.is( median([3,1,2]), 2, 'three arguments (array)');
+    t.is( median(3,1,2,4), 2.5, 'four arguments (arg list)');
+    t.is( median([3,1,2,4]), 2.5, 'four arguments (array)');
 };

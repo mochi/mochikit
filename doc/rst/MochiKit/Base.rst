@@ -405,6 +405,14 @@ Functions
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`average(lst[, ...])`:
+
+    This function is an alias of :mochiref:`mean()`.
+
+    *Availability*:
+        Available in MochiKit 1.3.1+
+
+
 :mochidef:`bind(func, self[, arg, ...])`:
 
     Return a copy of ``func`` bound to ``self``. This means whenever
@@ -797,6 +805,24 @@ Functions
 
     *Availability*:
         Available in MochiKit 1.3.1+
+
+
+:mochidef:`mean(lst[, ...])`:
+
+    Returns the arithmetic mean (average) of the argument list, or an array.
+    This function applies :mochiref:`flattenArguments()` to the argument list.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`median(lst[, ...])`:
+
+    Returns the median of the argument list, or an array. This function
+    applies :mochiref:`flattenArguments()` to the argument list.
+
+    *Availability*:
+        Available in MochiKit 1.4+
 
 
 :mochidef:`merge(obj[, ...])`:
