@@ -115,6 +115,7 @@ you're looking for.
 .. _`new ticket`: http://trac.mochikit.com/newticket
 .. _`Safari bug 6595`: http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
 .. _`Safari bug 7790`: http://bugzilla.opendarwin.org/show_bug.cgi?id=7790
+.. -`Safari bug 8707`: http://bugzilla.opendarwin.org/show_bug.cgi?id=8707
 
 
 Memory Usage
@@ -345,7 +346,9 @@ DOM Custom Event Object Reference
         -   ``client`` is a :mochiref:`MochiKit.Style.Coordinates`
             object that represents the cursor position relative to the
             visible portion of the HTML document. Equivalent to
-            ``clientX`` and ``clientY`` on all browsers.
+            ``clientX`` and ``clientY`` on all browsers. Current versions of
+            Safari incorrectly return clientX as relative to the canvas
+            instead of relative to the viewport (`Safari Bug 8707`_).
 
     Properties for ``'onmouseup'``, ``'onmousedown'``, ``'onclick'``,
     and ``'ondblclick'``:
