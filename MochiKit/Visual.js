@@ -1344,7 +1344,7 @@ MochiKit.Visual.slideDown = function (element, /* optional */ options) {
             }
             d.makeClipping(effect.element);
             d.setStyle(effect.element, {height: '0px'});
-            MochiKit.Style.showElement(element);
+            MochiKit.Style.showElement(effect.element);
         },
         afterUpdateInternal: function (effect) {
             d.setStyle(effect.element.firstChild,
@@ -1397,7 +1397,7 @@ MochiKit.Visual.slideUp = function (element, /* optional */ options) {
                 d.setStyle(effect.element, {top: ''});
             }
             d.makeClipping(effect.element);
-            MochiKit.Style.showElement(element);
+            MochiKit.Style.showElement(effect.element);
         },
         afterUpdateInternal: function (effect) {
             d.setStyle(effect.element.firstChild,
