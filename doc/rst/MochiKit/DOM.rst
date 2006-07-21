@@ -406,9 +406,11 @@ Functions
 
 :mochidef:`emitHTML(dom[, lst])`:
 
-    Convert a DOM tree to an ``Array`` of HTML string fragments
+    Convert a DOM tree to an ``Array`` of HTML string fragments. This should
+    be used for debugging/testing purposes only.
 
-    You probably want to use :mochiref:`toHTML` instead.
+    The DOM property ``innerHTML`` or ``cloneNode(true)`` method should
+    be used for most purposes.
 
     *Availability*:
         Available in MochiKit 1.3.1+
@@ -679,7 +681,11 @@ Functions
 
 :mochidef:`toHTML(dom)`:
 
-    Convert a DOM tree to a HTML string using :mochiref:`emitHTML`
+    Convert a DOM tree to a HTML string using :mochiref:`emitHTML`.
+    This should be used for debugging/testing purposes only.
+
+    The DOM property ``innerHTML`` or ``cloneNode(true)`` method should
+    be used for most purposes.
 
     *Availability*:
         Available in MochiKit 1.3.1+
