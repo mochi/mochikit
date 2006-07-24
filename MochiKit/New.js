@@ -13,11 +13,11 @@ MochiKit.Base.update(MochiKit.Base, {
     },
 
     isSafari: function () {
-        return navigator.appVersion.indexOf('AppleWebKit') > 0;
+        return /AppleWebKit'/.test(navigator.appVersion);
     },
 
     isOpera: function () {
-        return navigator.userAgent.indexOf('Opera') > 0;
+        return /Opera/.test(navigator.userAgent);
     }
 });
 
