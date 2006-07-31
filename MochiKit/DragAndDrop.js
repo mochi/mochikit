@@ -625,7 +625,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     },
 
     keyPress: function (event) {
-        if (event.keyString != "KEY_ESCAPE") {
+        if (event.key().string != "KEY_ESCAPE") {
             return;
         }
         this.finishDrag(event, false);
