@@ -565,24 +565,24 @@ Autocompleter.Base.prototype = {
 
     onKeyPress: function (event) {
         if (this.active) {
-            if (event.keyString == "KEY_TAB" || event.keyString == "KEY_RETURN") {
+            if (event.key().string == "KEY_TAB" || event.key().string == "KEY_RETURN") {
                  this.selectEntry();
                  MochiKit.Event.stop(event);
-            } else if (event.keyString == "KEY_ESCAPE") {
+            } else if (event.key().string == "KEY_ESCAPE") {
                  this.hide();
                  this.active = false;
                  MochiKit.Event.stop(event);
                  return;
-            } else if (event.keyString == "KEY_LEFT" || event.keyString == "KEY_RIGHT") {
+            } else if (event.key().string == "KEY_LEFT" || event.key().string == "KEY_RIGHT") {
                  return;
-            } else if (event.keyString == "KEY_UP") {
+            } else if (event.key().string == "KEY_UP") {
                  this.markPrevious();
                  this.render();
                  if (MochiKit.Base.isSafari()) {
                      event.stop();
                  }
                  return;
-            } else if (event.keyString == "KEY_DOWN") {
+            } else if (event.key().string == "KEY_DOWN") {
                  this.markNext();
                  this.render();
                  if (MochiKit.Base.isSafari()) {
@@ -591,7 +591,7 @@ Autocompleter.Base.prototype = {
                  return;
             }
         } else {
-            if (event.keyString == "KEY_TAB" || event.keyString == "KEY_RETURN") {
+            if (event.key().string == "KEY_TAB" || event.key().string == "KEY_RETURN") {
                 return;
             }
         }
