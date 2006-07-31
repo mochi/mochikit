@@ -314,7 +314,7 @@ DOM Custom Event Object Reference
     Returns ``{code, string}``.
 
     Use ``'onkeydown'`` and ``'onkeyup'`` handlers to detect control
-    characters such as ``'KEY_F1'``. Use the ``'onkeypressed'``
+    characters such as ``'KEY_F1'``. Use the ``'onkeypress'``
     handler to detect "printable" characters, such as ``'é'``.
 
     When a user presses F1, in ``'onkeydown'`` and ``'onkeyup'`` this
