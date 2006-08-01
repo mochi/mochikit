@@ -29,6 +29,7 @@ MochiKit.DateTime.toString = function () {
     return this.__repr__();
 };
 
+/** @id MochiKit.DateTime.isoDate */
 MochiKit.DateTime.isoDate = function (str) {
     str = str + "";
     if (typeof(str) != "string" || str.length === 0) {
@@ -43,6 +44,7 @@ MochiKit.DateTime.isoDate = function (str) {
 
 MochiKit.DateTime._isoRegexp = /(\d{4,})(?:-(\d{1,2})(?:-(\d{1,2})(?:[T ](\d{1,2}):(\d{1,2})(?::(\d{1,2})(?:\.(\d+))?)?(?:(Z)|([+-])(\d{1,2})(?::(\d{1,2}))?)?)?)?)?/;
 
+/** @id MochiKit.DateTime.isoTimestamp */
 MochiKit.DateTime.isoTimestamp = function (str) {
     str = str + "";
     if (typeof(str) != "string" || str.length === 0) {
@@ -88,6 +90,7 @@ MochiKit.DateTime.isoTimestamp = function (str) {
     return new Date(Date.UTC(year, month, day, hour, min, sec, msec) - ofs);
 };
 
+/** @id MochiKit.DateTime.toISOTime */
 MochiKit.DateTime.toISOTime = function (date, realISO/* = false */) {
     if (typeof(date) == "undefined" || date === null) {
         return null;
@@ -103,6 +106,7 @@ MochiKit.DateTime.toISOTime = function (date, realISO/* = false */) {
     return lst.join(":");
 };
 
+/** @id MochiKit.DateTime.toISOTimeStamp */
 MochiKit.DateTime.toISOTimestamp = function (date, realISO/* = false*/) {
     if (typeof(date) == "undefined" || date === null) {
         return null;
@@ -115,6 +119,7 @@ MochiKit.DateTime.toISOTimestamp = function (date, realISO/* = false*/) {
     return MochiKit.DateTime.toISODate(date) + sep + MochiKit.DateTime.toISOTime(date, realISO) + foot;
 };
 
+/** @id MochiKit.DateTime.toISODate */
 MochiKit.DateTime.toISODate = function (date) {
     if (typeof(date) == "undefined" || date === null) {
         return null;
@@ -127,6 +132,7 @@ MochiKit.DateTime.toISODate = function (date) {
     ].join("-");
 };
 
+/** @id MochiKit.DateTime.americanDate */
 MochiKit.DateTime.americanDate = function (d) {
     d = d + "";
     if (typeof(d) != "string" || d.length === 0) {
@@ -140,6 +146,7 @@ MochiKit.DateTime._padTwo = function (n) {
     return (n > 9) ? n : "0" + n;
 };
 
+/** @id MochiKit.DateTime.toPaddedAmericanDate */
 MochiKit.DateTime.toPaddedAmericanDate = function (d) {
     if (typeof(d) == "undefined" || d === null) {
         return null;
@@ -152,6 +159,7 @@ MochiKit.DateTime.toPaddedAmericanDate = function (d) {
     ].join('/');
 };
 
+/** @id MochiKit.DateTime.toAmericanDate */
 MochiKit.DateTime.toAmericanDate = function (d) {
     if (typeof(d) == "undefined" || d === null) {
         return null;

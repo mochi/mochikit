@@ -72,6 +72,7 @@ MochiKit.Style.EXPORT = [
     Dimensions
     
 */
+/** @id MochiKit.Style.Dimensions */
 MochiKit.Style.Dimensions = function (w, h) {
     this.w = w;
     this.h = h;
@@ -92,6 +93,7 @@ MochiKit.Style.Dimensions.prototype.toString = function () {
     Coordinates
 
 */
+/** @id MochiKit.Style.Coordinates */
 MochiKit.Style.Coordinates = function (x, y) {
     this.x = x;
     this.y = y;
@@ -109,6 +111,7 @@ MochiKit.Style.Coordinates.prototype.toString = function () {
 
 MochiKit.Base.update(MochiKit.Style, {
 
+    /** @id MochiKit.Style.computedStyle */
     computedStyle: function (elem, cssProperty) {
         var dom = MochiKit.DOM;
         var d = dom._document;
@@ -152,6 +155,7 @@ MochiKit.Base.update(MochiKit.Style, {
         return style.getPropertyValue(selectorCase);
     },
     
+    /** @id MochiKit.Style.setOpacity */
     setOpacity: function(elem, o) {
         elem = MochiKit.DOM.getElement(elem);
         MochiKit.DOM.updateNodeAttributes(elem, {'style': {
@@ -169,6 +173,8 @@ MochiKit.Base.update(MochiKit.Style, {
         License: BSD, http://developer.yahoo.net/yui/license.txt
 
     */
+    
+    /** @id MochiKit.Style.getElementPosition */    
     getElementPosition: function (elem, /* optional */relativeTo) {
         var self = MochiKit.Style;
         var dom = MochiKit.DOM;        
@@ -272,6 +278,7 @@ MochiKit.Base.update(MochiKit.Style, {
         return c;
     },
         
+    /** @id MochiKit.Style.setElementPosition */    
     setElementPosition: function (elem, newPos/* optional */, units) {
         elem = MochiKit.DOM.getElement(elem);
         if (typeof(units) == 'undefined') {
@@ -283,6 +290,7 @@ MochiKit.Base.update(MochiKit.Style, {
         }});
     },
 
+    /** @id MochiKit.Style.getElementDimensions */
     getElementDimensions: function (elem) {
         var self = MochiKit.Style;
         var dom = MochiKit.DOM;
@@ -310,7 +318,8 @@ MochiKit.Base.update(MochiKit.Style, {
         s.visibility = originalVisibility;
         return new self.Dimensions(originalWidth, originalHeight);
     },
-    
+
+    /** @id MochiKit.Style.setElementDimensions */    
     setElementDimensions: function (elem, newSize/* optional */, units) {
         elem = MochiKit.DOM.getElement(elem);
         if (typeof(units) == 'undefined') {
@@ -322,6 +331,7 @@ MochiKit.Base.update(MochiKit.Style, {
         }});
     },
 
+    /** @id MochiKit.Style.setDisplayForElement */
     setDisplayForElement: function (display, element/*, ...*/) {
         var elements = MochiKit.Base.extend(null, arguments, 1);
         var getElement = MochiKit.DOM.getElement;
@@ -333,6 +343,7 @@ MochiKit.Base.update(MochiKit.Style, {
         }
     },
 
+    /** @id MochiKit.Style.getViewportDimensions */
     getViewportDimensions: function() {
         var d = new MochiKit.Style.Dimensions();
         

@@ -7,6 +7,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 (c) 2005 Bob Ippolito.  All rights Reserved.
 
 ***/
+
 if (typeof(dojo) != 'undefined') {
     dojo.provide('MochiKit.Iter');
     dojo.require('MochiKit.Base');
@@ -38,10 +39,12 @@ MochiKit.Base.update(MochiKit.Iter, {
         return this.__repr__();
     },
 
+    /** @id MochiKit.Iter.registerIteratorFactory  */
     registerIteratorFactory: function (name, check, iterfactory, /* optional */ override) {
         MochiKit.Iter.iteratorRegistry.register(name, check, iterfactory, override);
     },
 
+    /** @id MochiKit.Iter.iter */
     iter: function (iterable, /* optional */ sentinel) {
         var self = MochiKit.Iter;
         if (arguments.length == 2) {
@@ -75,6 +78,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         }
     },
 
+    /** @id MochiKit.Iter.count */
     count: function (n) {
         if (!n) {
             n = 0;
@@ -87,6 +91,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.cycle */
     cycle: function (p) {
         var self = MochiKit.Iter;
         var m = MochiKit.Base;
@@ -121,6 +126,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.repeat */
     repeat: function (elem, /* optional */n) {
         var m = MochiKit.Base;
         if (typeof(n) == 'undefined') {
@@ -149,10 +155,12 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
             
+    /** @id MochiKit.Iter.next */
     next: function (iterator) {
         return iterator.next();
     },
 
+    /** @id MochiKit.Iter.izip */
     izip: function (p, q/*, ...*/) {
         var m = MochiKit.Base;
         var self = MochiKit.Iter;
@@ -165,6 +173,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.ifilter */
     ifilter: function (pred, seq) {
         var m = MochiKit.Base;
         seq = MochiKit.Iter.iter(seq);
@@ -187,6 +196,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.ifilterfalse */
     ifilterfalse: function (pred, seq) {
         var m = MochiKit.Base;
         seq = MochiKit.Iter.iter(seq);
@@ -209,6 +219,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
      
+    /** @id MochiKit.Iter.islice */
     islice: function (seq/*, [start,] stop[, step] */) {
         var self = MochiKit.Iter;
         var m = MochiKit.Base;
@@ -247,6 +258,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.imap */
     imap: function (fun, p, q/*, ...*/) {
         var m = MochiKit.Base;
         var self = MochiKit.Iter;
@@ -262,6 +274,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
         
+    /** @id MochiKit.Iter.applymap */
     applymap: function (fun, seq, self) {
         seq = MochiKit.Iter.iter(seq);
         var m = MochiKit.Base;
@@ -274,6 +287,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.chain */
     chain: function (p, q/*, ...*/) {
         // dumb fast path
         var self = MochiKit.Iter;
@@ -307,6 +321,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.takewhile */
     takewhile: function (pred, seq) {
         var self = MochiKit.Iter;
         seq = self.iter(seq);
@@ -326,6 +341,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.dropwhile */
     dropwhile: function (pred, seq) {
         seq = MochiKit.Iter.iter(seq);
         var m = MochiKit.Base;
@@ -375,6 +391,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.tee */
     tee: function (iterable, n/* = 2 */) {
         var rval = [];
         var sync = {
@@ -395,6 +412,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         return rval;
     },
 
+    /** @id MochiKit.Iter.list */
     list: function (iterable) {
         // Fast-path for Array and Array-like
         var m = MochiKit.Base;
@@ -422,6 +440,7 @@ MochiKit.Base.update(MochiKit.Iter, {
     },
 
         
+    /** @id MochiKit.Iter.reduce */
     reduce: function (fn, iterable, /* optional */initial) {
         var i = 0;
         var x = initial;
@@ -450,6 +469,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         return x;
     },
 
+    /** @id MochiKit.Iter.range */
     range: function (/* [start,] stop[, step] */) {
         var start = 0;
         var stop = 0;
@@ -485,6 +505,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
             
+    /** @id MochiKit.Iter.sum */
     sum: function (iterable, start/* = 0 */) {
         if (typeof(start) == "undefined" || start === null) {
             start = 0;
@@ -504,6 +525,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         return x;
     },
             
+    /** @id MochiKit.Iter.exhaust */
     exhaust: function (iterable) {
         var self = MochiKit.Iter;
         iterable = self.iter(iterable);
@@ -518,6 +540,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         }
     },
 
+    /** @id MochiKit.Iter.forEach */
     forEach: function (iterable, func, /* optional */self) {
         var m = MochiKit.Base;
         if (arguments.length > 2) {
@@ -540,6 +563,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         }
     },
 
+    /** @id MochiKit.Iter.every */
     every: function (iterable, func) {
         var self = MochiKit.Iter;
         try {
@@ -553,6 +577,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         }
     },
 
+    /** @id MochiKit.Iter.sorted */
     sorted: function (iterable, /* optional */cmp) {
         var rval = MochiKit.Iter.list(iterable);
         if (arguments.length == 1) {
@@ -562,12 +587,14 @@ MochiKit.Base.update(MochiKit.Iter, {
         return rval;
     },
 
+    /** @id MochiKit.Iter.reversed */
     reversed: function (iterable) {
         var rval = MochiKit.Iter.list(iterable);
         rval.reverse();
         return rval;
     },
 
+    /** @id MochiKit.Iter.some */
     some: function (iterable, func) {
         var self = MochiKit.Iter;
         try {
@@ -581,6 +608,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         }
     },
 
+    /** @id MochiKit.Iter.iextend */
     iextend: function (lst, iterable) {
         if (MochiKit.Base.isArrayLike(iterable)) {
             // fast-path for array-like
@@ -603,6 +631,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         return lst;
     },
 
+    /** @id MochiKit.Iter.groupby */
     groupby: function(iterable, /* optional */ keyfunc) {
         var m = MochiKit.Base;
         var self = MochiKit.Iter;
@@ -658,6 +687,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.groupby_as_array */
     groupby_as_array: function (iterable, /* optional */ keyfunc) {
         var m = MochiKit.Base;
         var self = MochiKit.Iter;
@@ -690,6 +720,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         return result;
     },
 
+    /** @id MochiKit.Iter.arrayLikeIter */
     arrayLikeIter: function (iterable) {
         var i = 0;
         return {
@@ -704,10 +735,12 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
+    /** @id MochiKit.Iter.hasIterateNext */
     hasIterateNext: function (iterable) {
         return (iterable && typeof(iterable.iterateNext) == "function");
     },
 
+    /** @id MochiKit.Iter.iterateNextIter */
     iterateNextIter: function (iterable) {
         return {
             repr: function () { return "iterateNextIter(...)"; },
@@ -770,6 +803,7 @@ MochiKit.Iter.__new__ = function () {
     if (typeof(StopIteration) != "undefined") {
         this.StopIteration = StopIteration;
     } else {
+        /** @id MochiKit.Iter.StopIteration */
         this.StopIteration = new m.NamedError("StopIteration");
     }
     this.iteratorRegistry = new m.AdapterRegistry();

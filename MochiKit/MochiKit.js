@@ -13,6 +13,7 @@ if (typeof(MochiKit) == 'undefined') {
 }
 
 if (typeof(MochiKit.MochiKit) == 'undefined') {
+    /** @id MochiKit.MochiKit */
     MochiKit.MochiKit = {};
 }
 
@@ -22,10 +23,12 @@ MochiKit.MochiKit.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
 
+/** @id MochiKit.MochiKit.toString */
 MochiKit.MochiKit.toString = function () {
     return this.__repr__();
 };
 
+/** @id MochiKit.MochiKit.SUBMODULES */
 MochiKit.MochiKit.SUBMODULES = [
     "Base",
     "Iter",

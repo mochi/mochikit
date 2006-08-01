@@ -1,21 +1,26 @@
 
 MochiKit.Base.update(MochiKit.Base, {
+    /** @id MochiKit.Base.isIE */
     isIE: function () {
         return /MSIE/.test(navigator.userAgent);
     },
 
+    /** @id MochiKit.Base.isGecko */
     isGecko: function () {
         return /Gecko/.test(navigator.userAgent);
     },
 
+    /** @id MochiKit.Base.KHTML */
     isKHTML: function () {
         return /Konqueror|Safari|KHTML/.test(navigator.userAgent)
     },
 
+    /** @id MochiKit.Base.isSafari */
     isSafari: function () {
         return /AppleWebKit'/.test(navigator.appVersion);
     },
 
+    /** @id MochiKit.Base.isOpera */
     isOpera: function () {
         return /Opera/.test(navigator.userAgent);
     }
@@ -43,6 +48,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return value == 'auto' ? null : value;
     },
 
+    /** @id MochiKit.DOM.setStyle */
     setStyle: function (element, style) {
         element = MochiKit.DOM.getElement(element);
         for (name in style) {
@@ -50,6 +56,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.getOpacity */
     getOpacity: function (element) {
         var opacity;
         if (opacity = MochiKit.DOM.getStyle(element, 'opacity')) {
@@ -63,10 +70,12 @@ MochiKit.Base.update(MochiKit.DOM, {
         return 1.0;
     },
 
+    /** @id MochiKit.DOM.getInlineOpacity */
     getInlineOpacity: function (element) {
         return MochiKit.DOM.getElement(element).style.opacity || '';
     },
 
+    /** @id MochiKit.DOM.setOpacity */
     setOpacity: function (element, value) {
         element = MochiKit.DOM.getElement(element);
         if (value == 1) {
@@ -88,10 +97,12 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.isVisible */
     isVisible: function (element) {
         return MochiKit.DOM.getElement(element).style.display != 'none';
     },
 
+    /** @id MochiKit.DOM.makeClipping */
     makeClipping: function (element) {
         element = MochiKit.DOM.getElement(element);
         if (element._overflow) {
@@ -103,6 +114,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.undoClipping */
     undoClipping: function (element) {
         element = MochiKit.DOM.getElement(element);
         if (!element._overflow) {
@@ -112,6 +124,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         element._overflow = undefined;
     },
 
+    /** @id MochiKit.DOM.makePositioned */
     makePositioned: function (element) {
         element = MochiKit.DOM.getElement(element);
         /*if (!element.style) {
@@ -131,6 +144,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.undoPositioned */
     undoPositioned: function (element) {
         element = MochiKit.DOM.getElement(element);
         if (element._madePositioned) {
@@ -139,6 +153,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.getFirstElementByTagAndClassName */
     getFirstElementByTagAndClassName: function (tagName, className,
             /* optional */parent) {
         var self = MochiKit.DOM;
@@ -166,6 +181,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.isParent */
     isParent: function (child, element) {
         if (!child.parentNode || child == element) {
             return false;
@@ -185,6 +201,7 @@ MochiKit.Position = {
     // scrollable elements
     includeScrollOffsets: false,
 
+    /** @id MochiKit.Position.prepare */
     prepare: function () {
         var deltaX =  window.pageXOffset
                    || document.documentElement.scrollLeft
@@ -197,6 +214,7 @@ MochiKit.Position = {
         this.windowOffset = new MochiKit.Style.Coordinates(deltaX, deltaY);
     },
 
+    /** @id MochiKit.Position.cumulativeOffset */
     cumulativeOffset: function (element) {
         var valueT = 0;
         var valueL = 0;
@@ -208,6 +226,7 @@ MochiKit.Position = {
         return new MochiKit.Style.Coordinates(valueL, valueT);
     },
 
+    /** @id MochiKit.Position.realOffset */
     realOffset: function (element) {
         var valueT = 0;
         var valueL = 0;
@@ -219,6 +238,7 @@ MochiKit.Position = {
         return new MochiKit.Style.Coordinates(valueL, valueT);
     },
 
+    /** @id MochiKit.Position.within */
     within: function (element, x, y) {
         if (this.includeScrollOffsets) {
             return this.withinIncludingScrolloffsets(element, x, y);
@@ -237,6 +257,7 @@ MochiKit.Position = {
                 x <  this.offset.x + element.offsetWidth);
     },
 
+    /** @id MochiKit.Position.withinIncludingScrolloffsets */
     withinIncludingScrolloffsets: function (element, x, y) {
         var offsetcache = this.realOffset(element);
 
@@ -251,6 +272,7 @@ MochiKit.Position = {
     },
 
     // within must be called directly before
+    /** @id MochiKit.Position.overlap */
     overlap: function (mode, element) {
         if (!mode) {
             return 0;
@@ -265,6 +287,7 @@ MochiKit.Position = {
         }
     },
 
+    /** @id MochiKit.Position.absolutize */
     absolutize: function (element) {
         element = MochiKit.DOM.getElement(element);
         if (element.style.position == 'absolute') {
@@ -293,6 +316,7 @@ MochiKit.Position = {
         return oldStyle;
     },
 
+    /** @id MochiKit.Position.positionedOffset */
     positionedOffset: function (element) {
         var valueT = 0, valueL = 0;
         do {
@@ -309,6 +333,7 @@ MochiKit.Position = {
         return new MochiKit.Style.Coordinates(valueL, valueT);
     },
 
+    /** @id MochiKit.Position.relativize */
     relativize: function (element, oldPos) {
         element = MochiKit.DOM.getElement(element);
         if (element.style.position == 'relative') {
@@ -328,6 +353,7 @@ MochiKit.Position = {
         element.style.height = oldPos['height'];
     },
 
+    /** @id MochiKit.Position.clone */
     clone: function (source, target) {
         source = MochiKit.DOM.getElement(source);
         target = MochiKit.DOM.getElement(target);
@@ -339,6 +365,7 @@ MochiKit.Position = {
         target.style.height = source.offsetHeight + 'px';
     },
 
+    /** @id MochiKit.Position.page */
     page: function (forElement) {
         var valueT = 0;
         var valueL = 0;

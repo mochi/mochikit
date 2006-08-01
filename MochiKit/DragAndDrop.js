@@ -158,6 +158,7 @@ MochiKit.DragAndDrop.Droppables = {
     }
 };
 
+/** @id MochiKit.DragAndDrop.Droppable */
 MochiKit.DragAndDrop.Droppable = function (element, options) {
     this.__init__(element, options);
 };
@@ -180,15 +181,35 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         var b = MochiKit.Base;
         this.element = d.getElement(element);
         this.options = b.update({
+            
+            /** @id MochiKit.DragAndDrop.greedy */            
             greedy: true,
+
+            /** @id MochiKit.DragAndDrop.hoverclass */
             hoverclass: null,
+
+            /** @id MochiKit.DragAndDrop.activeclass */
             activeclass: null,
+
+            /** @id MochiKit.DragAndDrop.hoverfunc */
             hoverfunc: b.noop,
+
+            /** @id MochiKit.DragAndDrop.accept */
             accept: null,
+
+            /** @id MochiKit.DragAndDrop.onactive */
             onactive: b.noop,
+
+            /** @id MochiKit.DragAndDrop.ondesactive */
             ondesactive: b.noop,
+
+            /** @id MochiKit.DragAndDrop.onhover */
             onhover: b.noop,
+
+            /** @id MochiKit.DragAndDrop.ondrop */
             ondrop: b.noop,
+
+            /** @id MochiKit.DragAndDrop.containment */
             containment: [],
             tree: false
         }, options || {});
@@ -204,6 +225,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         MochiKit.DragAndDrop.Droppables.register(this);
     },
 
+    /** @id MochiKit.DragAndDrop.isContained */
     isContained: function (element) {
         if (this._containers) {
             var containmentNode;
@@ -220,6 +242,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         }
     },
 
+    /** @id MochiKit.DragAndDrop.isAccepted */
     isAccepted: function (element) {
         return ((!this.options.accept) || MochiKit.Iter.some(
           this.options.accept, function (c) {
@@ -227,6 +250,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         }));
     },
 
+    /** @id MochiKit.DragAndDrop.isAffected */
     isAffected: function (point, element) {
         return ((this.element != element) &&
                 this.isContained(element) &&
@@ -235,6 +259,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
                                                        point.page.y));
     },
 
+    /** @id MochiKit.DragAndDrop.deactivate */
     deactivate: function () {
         /***
 
@@ -249,6 +274,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         MochiKit.DragAndDrop.Droppables.last_active = null;
     },
 
+    /** @id MochiKit.DragAndDrop.activate */
     activate: function () {
         /***
 
@@ -262,6 +288,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         MochiKit.DragAndDrop.Droppables.last_active = this;
     },
 
+    /** @id MochiKit.DragAndDrop.destroy */
     destroy: function () {
         /***
 
@@ -271,6 +298,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         MochiKit.DragAndDrop.Droppables.unregister(this);
     },
 
+    /** @id MochiKit.DragAndDrop.repr */
     repr: function () {
         return '[' + this.__class__.NAME + ", options:" + MochiKit.Base.repr(this.options) + "]";
     }
@@ -386,6 +414,7 @@ MochiKit.DragAndDrop.Draggables = {
     }
 };
 
+/** @id MochiKit.DragAndDrop.Draggable */
 MochiKit.DragAndDrop.Draggable = function (element, options) {
     this.__init__(element, options);
 };
@@ -404,27 +433,48 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         var v = MochiKit.Visual;
         var b = MochiKit.Base;
         options = b.update({
+
+            /** @id MochiKit.DragAndDrop.handle */            
             handle: false,
+            
+            /** @id MochiKit.DragAndDrop.starteffect */            
             starteffect: function (innerelement) {
                 this._savedOpacity = MochiKit.DOM.getOpacity(innerelement) || 1.0;
                 new v.Opacity(innerelement, {duration:0.2, from:this._savedOpacity, to:0.7});
             },
+            /** @id MochiKit.DragAndDrop.reverteffect */            
             reverteffect: function (innerelement, top_offset, left_offset) {
                 var dur = Math.sqrt(Math.abs(top_offset^2) +
                           Math.abs(left_offset^2))*0.02;
                 return new v.Move(innerelement,
                             {x: -left_offset, y: -top_offset, duration: dur});
             },
+            
+            /** @id MochiKit.DragAndDrop.endeffect */            
             endeffect: function (innerelement) {
                 new v.Opacity(innerelement, {duration:0.2, from:0.7, to:this._savedOpacity});
             },
+
+            /** @id MochiKit.DragAndDrop.onchange */
             onchange: b.noop,
+
+            /** @id MochiKit.DragAndDrop.zindex */
             zindex: 1000,
+
+            /** @id MochiKit.DragAndDrop.revert */
             revert: false,
+
+            /** @id MochiKit.DragAndDrop.scroll */
             scroll: false,
+
+            /** @id MochiKit.DragAndDrop.scrollSensitivity */
             scrollSensitivity: 20,
+
+            /** @id MochiKit.DragAndDrop.scrollSpeed */
             scrollSpeed: 15,
             // false, or xy or [x, y] or function (x, y){return [x, y];}
+
+            /** @id MochiKit.DragAndDrop.snap */
             snap: false
         }, options || {});
 
@@ -457,11 +507,13 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         MochiKit.DragAndDrop.Draggables.register(this);
     },
 
+    /** @id MochiKit.DragAndDrop.destroy */
     destroy: function () {
         MochiKit.Signal.disconnect(this.eventMouseDown);
         MochiKit.DragAndDrop.Draggables.unregister(this);
     },
 
+    /** @id MochiKit.DragAndDrop.currentDelta */
     currentDelta: function () {
         var s = MochiKit.DOM.getStyle;
         return [
@@ -469,6 +521,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
           parseInt(s(this.element, 'top') || '0')];
     },
 
+    /** @id MochiKit.DragAndDrop.initDrag */
     initDrag: function (event) {
         if (!event.mouse().button.left) {
             return;
@@ -495,6 +548,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         event.stop();
     },
 
+    /** @id MochiKit.DragAndDrop.startDrag */
     startDrag: function (event) {
         this.dragging = true;
         if (this.options.selectclass) {
@@ -531,6 +585,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
     },
 
+    /** @id MochiKit.DragAndDrop.updateDrag */
     updateDrag: function (event, pointer) {
         if (!this.dragging) {
             this.startDrag(event);
@@ -577,6 +632,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         event.stop();
     },
 
+    /** @id MochiKit.DragAndDrop.finishDrag */
     finishDrag: function (event, success) {
         var dr = MochiKit.DragAndDrop;
         this.dragging = false;
@@ -624,6 +680,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         dr.Droppables.reset(this.element);
     },
 
+    /** @id MochiKit.DragAndDrop.keyPress */
     keyPress: function (event) {
         if (event.key().string != "KEY_ESCAPE") {
             return;
@@ -632,6 +689,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         event.stop();
     },
 
+    /** @id MochiKit.DragAndDrop.endDrag */
     endDrag: function (event) {
         if (!this.dragging) {
             return;
@@ -641,6 +699,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         event.stop();
     },
 
+    /** @id MochiKit.DragAndDrop.draw */
     draw: function (point) {
         var pos = MochiKit.Position.cumulativeOffset(this.element);
         var d = this.currentDelta();
@@ -688,6 +747,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
     },
 
+    /** @id MochiKit.DragAndDrop.stopScrolling */
     stopScrolling: function () {
         if (this.scrollInterval) {
             clearInterval(this.scrollInterval);
@@ -695,6 +755,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
     },
 
+    /** @id MochiKit.DragAndDrop.startScrolling */
     startScrolling: function (speed) {
         if (!speed[0] || !speed[1]) {
             return;
@@ -705,6 +766,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         this.scrollInterval = setInterval(MochiKit.Base.bind(this.scroll, this), 10);
     },
 
+    /** @id MochiKit.DragAndDrop.scroll */
     scroll: function () {
         var current = new Date();
         var delta = current - this.lastScrolled;
@@ -754,6 +816,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         return {top: T, left: L, width: W, height: H};
     },
 
+    /** @id MochiKit.DragAndDrop.repr */
     repr: function () {
         return '[' + this.__class__.NAME + ", options:" + MochiKit.Base.repr(this.options) + "]";
     }

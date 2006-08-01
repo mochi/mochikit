@@ -52,6 +52,7 @@ MochiKit.DragAndDrop.EXPORT_OK = [
     "Sortable"
 ];
 
+/** @id MochiKit.Sortable.SortableObserver */
 MochiKit.Sortable.SortableObserver = function (element, observer) {
     this.__init__(element, observer);
 };
@@ -68,10 +69,12 @@ MochiKit.Sortable.SortableObserver.prototype = {
         this.lastValue = MochiKit.Sortable.Sortable.serialize(this.element);
     },
 
+    /** @id MochiKit.Sortable.onStart */
     onStart: function () {
         this.lastValue = MochiKit.Sortable.Sortable.serialize(this.element);
     },
 
+    /** @id MochiKit.Sortable.onEnd */
     onEnd: function () {
         MochiKit.Sortable.Sortable.unmark();
         if (this.lastValue != MochiKit.Sortable.Sortable.serialize(this.element)) {
@@ -97,6 +100,7 @@ MochiKit.Sortable.Sortable = {
         }
     },
 
+    /** @id MochiKit.Sortable.Sortable.options */
     options: function (element) {
         element = MochiKit.Sortable.Sortable._findRootElement(MochiKit.DOM.getElement(element));
         if (!element) {
@@ -105,6 +109,7 @@ MochiKit.Sortable.Sortable = {
         return MochiKit.Sortable.Sortable.sortables[element.id];
     },
 
+    /** @id MochiKit.Sortable.Sortable.destroy */
     destroy: function (element){
         var s = MochiKit.Sortable.Sortable.options(element);
         var b = MochiKit.Base;
@@ -123,29 +128,70 @@ MochiKit.Sortable.Sortable = {
         }
     },
 
+    /** @id MochiKit.Sortable.Sortable.create */
     create: function (element, options) {
         element = MochiKit.DOM.getElement(element);
         var self = MochiKit.Sortable.Sortable;
+        
+        /** @id MochiKit.Sortable.Sortable.options */
         options = MochiKit.Base.update({
+            
+            /** @id MochiKit.Sortable.Sortable.element */
             element: element,
+            
+            /** @id MochiKit.Sortable.Sortable.tag */
             tag: 'li',  // assumes li children, override with tag: 'tagname'
+            
+            /** @id MochiKit.Sortable.Sortable.dropOnEmpty */
             dropOnEmpty: false,
+            
+            /** @id MochiKit.Sortable.Sortable.tree */
             tree: false,
+            
+            /** @id MochiKit.Sortable.Sortable.treeTag */
             treeTag: 'ul',
+            
+            /** @id MochiKit.Sortable.Sortable.overlap */
             overlap: 'vertical',  // one of 'vertical', 'horizontal'
+            
+            /** @id MochiKit.Sortable.Sortable.constraint */
             constraint: 'vertical',  // one of 'vertical', 'horizontal', false
             // also takes array of elements (or ids); or false
+            
+            /** @id MochiKit.Sortable.Sortable.containment */
             containment: [element],
+            
+            /** @id MochiKit.Sortable.Sortable.handle */
             handle: false,  // or a CSS class
+            
+            /** @id MochiKit.Sortable.Sortable.only */
             only: false,
+            
+            /** @id MochiKit.Sortable.Sortable.hoverclass */
             hoverclass: null,
+            
+            /** @id MochiKit.Sortable.Sortable.ghosting */
             ghosting: false,
+            
+            /** @id MochiKit.Sortable.Sortable.scroll */
             scroll: false,
+            
+            /** @id MochiKit.Sortable.Sortable.scrollSensitivity */
             scrollSensitivity: 20,
+            
+            /** @id MochiKit.Sortable.Sortable.scrollSpeed */
             scrollSpeed: 15,
+            
+            /** @id MochiKit.Sortable.Sortable.format */
             format: /^[^_]*_(.*)$/,
+            
+            /** @id MochiKit.Sortable.Sortable.onChange */
             onChange: MochiKit.Base.noop,
+            
+            /** @id MochiKit.Sortable.Sortable.onUpdate */
             onUpdate: MochiKit.Base.noop,
+            
+            /** @id MochiKit.Sortable.Sortable.accept */
             accept: null
         }, options);
 
@@ -246,16 +292,20 @@ MochiKit.Sortable.Sortable = {
     },
 
     // return all suitable-for-sortable elements in a guaranteed order
+    
+    /** @id MochiKit.Sortable.Sortable.findElements */
     findElements: function (element, options) {
         return MochiKit.Sortable.Sortable.findChildren(
             element, options.only, options.tree ? true : false, options.tag);
     },
 
+    /** @id MochiKit.Sortable.Sortable.findTreeElements */
     findTreeElements: function (element, options) {
         return MochiKit.Sortable.Sortable.findChildren(
             element, options.only, options.tree ? true : false, options.treeTag);
     },
 
+    /** @id MochiKit.Sortable.Sortable.findChildren */
     findChildren: function (element, only, recursive, tagName) {
         if (!element.hasChildNodes()) {
             return null;
@@ -284,6 +334,7 @@ MochiKit.Sortable.Sortable = {
         return elements;
     },
 
+    /** @id MochiKit.Sortable.Sortable.onHover */
     onHover: function (element, dropon, overlap) {
         if (MochiKit.DOM.isParent(dropon, element)) {
             return;
@@ -326,6 +377,7 @@ MochiKit.Sortable.Sortable = {
         }
     },
 
+    /** @id MochiKit.Sortable.Sortable.onEmptyHover */
     onEmptyHover: function (element, dropon, overlap) {
         var oldParentNode = element.parentNode;
         var self = MochiKit.Sortable.Sortable;
@@ -361,6 +413,7 @@ MochiKit.Sortable.Sortable = {
         }
     },
 
+    /** @id MochiKit.Sortable.Sortable.unmark */
     unmark: function () {
         var m = MochiKit.Sortable.Sortable._marker;
         if (m) {
@@ -368,6 +421,7 @@ MochiKit.Sortable.Sortable = {
         }
     },
 
+    /** @id MochiKit.Sortable.Sortable.mark */
     mark: function (dropon, position) {
         // mark on ghosting only
         var d = MochiKit.DOM;
@@ -443,6 +497,7 @@ MochiKit.Sortable.Sortable = {
         return null;
     },
 
+    /** @id MochiKit.Sortable.Sortable.tree */
     tree: function (element, options) {
         element = MochiKit.DOM.getElement(element);
         var sortableOptions = MochiKit.Sortable.Sortable.options(element);
@@ -465,6 +520,12 @@ MochiKit.Sortable.Sortable = {
         return MochiKit.Sortable.Sortable._tree(element, options, root);
     },
 
+    /**
+     * Specifies the sequence for the Sortable.
+     * @param {Node} element    Element to use as the Sortable.
+     * @param {Object} newSequence    New sequence to use.
+     * @param {Object} options    Options to use fro the Sortable.
+     */
     setSequence: function (element, newSequence, options) {
         var self = MochiKit.Sortable.Sortable;
         var b = MochiKit.Base;
@@ -500,6 +561,7 @@ MochiKit.Sortable.Sortable = {
         return index;
     },
 
+    /** @id MochiKit.Sortable.Sortable.sequence */
     sequence: function (element, options) {
         element = MochiKit.DOM.getElement(element);
         var self = MochiKit.Sortable.Sortable;
@@ -510,6 +572,12 @@ MochiKit.Sortable.Sortable = {
         }, MochiKit.DOM.getElement(self.findElements(element, options) || []));
     },
 
+    /**
+     * Serializes the content of a Sortable. Useful to send this content through a XMLHTTPRequest. 
+     * These options override the Sortable options for the serialization only.
+     * @param {Node} element    Element to serialize.
+     * @param {Object} options    Serialization options.
+     */
     serialize: function (element, options) {
         element = MochiKit.DOM.getElement(element);
         var self = MochiKit.Sortable.Sortable;
