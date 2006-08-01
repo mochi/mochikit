@@ -52,6 +52,7 @@ MochiKit.Signal.VERSION = '1.4';
 
 MochiKit.Signal._observers = [];
 
+/** @id MochiKit.Signal.Event */
 MochiKit.Signal.Event = function (src, e) {
     this._event = e || window.event;
     this._src = src;
@@ -99,27 +100,33 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
         return str;
     },
 
+     /** @id MochiKit.Signal.Event.prototype.toString */
     toString: function () {
         return this.__repr__();
     },
 
+    /** @id MochiKit.Signal.Event.prototype.src */
     src: function () {
         return this._src;
     },
 
+    /** @id MochiKit.Signal.Event.prototype.event  */
     event: function () {
         return this._event;
     },
 
+    /** @id MochiKit.Signal.Event.prototype.type */
     type: function () {
         return this._event.type || undefined;
     },
 
+    /** @id MochiKit.Signal.Event.prototype.target */
     target: function () {
         return this._event.target || this._event.srcElement;
     },
 
     _relatedTarget: null,
+    /** @id MochiKit.Signal.Event.prototype.relatedTarget */
     relatedTarget: function () {
         if (this._relatedTarget !== null) {
             return this._relatedTarget;
@@ -142,6 +149,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
     },
 
     _modifier: null,
+    /** @id MochiKit.Signal.Event.prototype.modifier */
     modifier: function () {
         if (this._modifier !== null) {
             return this._modifier;
@@ -157,6 +165,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
     },
 
     _key: null,
+    /** @id MochiKit.Signal.Event.prototype.key */
     key: function () {
         if (this._key !== null) {
             return this._key;
@@ -266,6 +275,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
     },
 
     _mouse: null,
+    /** @id MochiKit.Signal.Event.prototype.mouse */
     mouse: function () {
         if (this._mouse !== null) {
             return this._mouse;
@@ -352,11 +362,13 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
         return undefined;
     },
 
+    /** @id MochiKit.Signal.Event.prototype.stop */
     stop: function () {
         this.stopPropagation();
         this.preventDefault();
     },
 
+    /** @id MochiKit.Signal.Event.prototype.stopPropagation */
     stopPropagation: function () {
         if (this._event.stopPropagation) {
             this._event.stopPropagation();
@@ -365,6 +377,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
         }
     },
 
+    /** @id MochiKit.Signal.Event.prototype.preventDefault */
     preventDefault: function () {
         if (this._event.preventDefault) {
             this._event.preventDefault();
@@ -374,6 +387,8 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
     },
     
     _confirmUnload: null,
+    
+    /** @id MochiKit.Signal.Event.prototype.confirmUnload */
     confirmUnload: function (msg) {
         if (this.type() == 'beforeunload') {
             this._confirmUnload = msg;
@@ -522,6 +537,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
     
+    /** @id MochiKit.Signal.connect */
     connect: function (src, sig, objOrFunc/* optional */, funcOrStr) {
         src = MochiKit.DOM.getElement(src);
         var self = MochiKit.Signal;
@@ -582,6 +598,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
     
+     /** @id MochiKit.Signal.disconnect */
     disconnect: function (ident) {
         var self = MochiKit.Signal;
         var observers = self._observers;
@@ -611,6 +628,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         return false;
     },
     
+    /** @id MochiKit.Signal.disconnectAll */
     disconnectAll: function(src/* optional */, sig) {
         src = MochiKit.DOM.getElement(src);
         var m = MochiKit.Base;
@@ -643,6 +661,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         
     },
 
+    /** @id MochiKit.Signal.signal */
     signal: function (src, sig) {
         var observers = MochiKit.Signal._observers;
         src = MochiKit.DOM.getElement(src);

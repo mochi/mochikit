@@ -7,6 +7,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 (c) 2005 Bob Ippolito.  All rights Reserved.
 
 ***/
+
 if (typeof(dojo) != 'undefined') {
     dojo.provide('MochiKit.LoggingPane');
     dojo.require('MochiKit.Logging');
@@ -40,6 +41,7 @@ MochiKit.LoggingPane.toString = function () {
     return this.__repr__();
 };
 
+/** @id MochiKit.LoggingPane.createLoggingPane */
 MochiKit.LoggingPane.createLoggingPane = function (inline/* = false */) {
     var m = MochiKit.LoggingPane;
     inline = !(!inline);
@@ -53,7 +55,9 @@ MochiKit.LoggingPane.createLoggingPane = function (inline/* = false */) {
     return m._loggingPane;
 };
 
+/** @id MochiKit.LoggingPane.LoggingPane */
 MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = MochiKit.Logging.logger */) {
+        
     /* Use a div if inline, pop up a window if not */
     /* Create the elements */
     if (typeof(logger) == "undefined" || logger === null) {
@@ -126,6 +130,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     var messages = [];
     var messageFilter = null;
 
+    /** @id MochiKit.LoggingPane.messageLevel */
     var messageLevel = function (msg) {
         var level = msg.level;
         if (typeof(level) == "number") {
@@ -134,10 +139,12 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         return level;
     };
 
+    /** @id MochiKit.LoggingPane.messageText */
     var messageText = function (msg) {
         return msg.info.join(" ");
     };
 
+    /** @id MochiKit.LoggingPane.addMessageText */
     var addMessageText = bind(function (msg) {
         var level = messageLevel(msg);
         var text = messageText(msg);
@@ -155,11 +162,13 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         }
     }, this);
 
+    /** @id MochiKit.LoggingPane.addMessage */
     var addMessage = function (msg) {
         messages[messages.length] = msg;
         addMessageText(msg);
     };
 
+    /** @id MochiKit.LoggingPane.buildMessageFilter */
     var buildMessageFilter = function () {
         var levelre, infore;
         try {
@@ -180,17 +189,20 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         };
     };
 
+    /** @id MochiKit.LoggingPane.clearMessagePane */
     var clearMessagePane = function () {
         while (logPane.firstChild) {
             logPane.removeChild(logPane.firstChild);
         }
     };
 
+    /** @id MochiKit.LoggingPane.clearMessages */
     var clearMessages = function () {
         messages = [];
         clearMessagePane();
     };
 
+    /** @id MochiKit.LoggingPane.closePane */
     var closePane = bind(function () {
         if (this.closed) {
             return;
@@ -210,6 +222,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         }
     }, this);
 
+    /** @id MochiKit.LoggingPane.filterMessages */
     var filterMessages = function () {
         clearMessagePane();
 
@@ -231,11 +244,13 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     };
 
 
+    /** @id MochiKit.LoggingPane.loadMessages */
     var loadMessages = bind(function () {
         messages = this.logger.getMessages();
         filterMessages();
     }, this);
 
+    /** @id MochiKit.LoggingPane.filterOnEnter */
     var filterOnEnter = bind(function (event) {
         event = event || window.event;
         key = event.which || event.keyCode;

@@ -7,6 +7,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 (c) 2005 Bob Ippolito.  All rights Reserved.
 
 ***/
+
 if (typeof(MochiKit) == "undefined") {
     MochiKit = {};
 }
@@ -22,10 +23,12 @@ MochiKit.MockDOM.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
 
+/** @id MochiKit.MockDOM.toString */
 MochiKit.MockDOM.toString = function () {
     return this.__repr__();
 };
 
+/** @id MochiKit.MockDOM.createDocument */
 MochiKit.MockDOM.createDocument = function () {
     var doc = new MochiKit.MockDOM.MockElement("DOCUMENT");
     doc.body = doc.createElement("BODY");
@@ -33,6 +36,7 @@ MochiKit.MockDOM.createDocument = function () {
     return doc;
 };
 
+/** @id MochiKit.MockDOM.MockElement */
 MochiKit.MockDOM.MockElement = function (name, data) {
     this.nodeName = name.toUpperCase();
     if (typeof(data) == "string") {
@@ -52,31 +56,39 @@ MochiKit.MockDOM.MockElement = function (name, data) {
 };
 
 MochiKit.MockDOM.MockElement.prototype = {
+    /** @id MochiKit.MockDOM.MockElement.prototype.createElement */
     createElement: function (nodeName) {
         return new MochiKit.MockDOM.MockElement(nodeName);
     },
+    /** @id MochiKit.MockDOM.MockElement.prototype.createTextNode */
     createTextNode: function (text) {
         return new MochiKit.MockDOM.MockElement("text", text);
     },
+    /** @id MochiKit.MockDOM.MockElement.prototype.setAttribute */
     setAttribute: function (name, value) {
         this[name] = value;
     },
+    /** @id MochiKit.MockDOM.MockElement.prototype.getAttribute */
     getAttribute: function (name) {
         return this[name];
     },
+    /** @id MochiKit.MockDOM.MockElement.prototype.appendChild */
     appendChild: function (child) {
         this.childNodes.push(child);
     },
+    /** @id MochiKit.MockDOM.MockElement.prototype.toString */
     toString: function () {
         return "MockElement(" + this.nodeName + ")";
     }
 };
 
+    /** @id MochiKit.MockDOM.EXPORT_OK */
 MochiKit.MockDOM.EXPORT_OK = [
     "mockElement",
     "createDocument"
 ];
 
+    /** @id MochiKit.MockDOM.EXPORT */
 MochiKit.MockDOM.EXPORT = [
     "document"
 ];

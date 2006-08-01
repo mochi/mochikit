@@ -364,10 +364,12 @@ MochiKit.Visual._RoundCorners.prototype = {
     }
 };
 
+/** @id MochiKit.Visual.roundElement */
 MochiKit.Visual.roundElement = function (e, options) {
     new MochiKit.Visual._RoundCorners(e, options);
 };
 
+/** @id MochiKit.Visual.roundClass */
 MochiKit.Visual.roundClass = function (tagName, className, options) {
     var elements = MochiKit.DOM.getElementsByTagAndClassName(
         tagName, className
@@ -377,6 +379,7 @@ MochiKit.Visual.roundClass = function (tagName, className, options) {
     }
 };
 
+/** @id MochiKit.Visual.tagifyText */
 MochiKit.Visual.tagifyText = function (element, /* optional */tagifyStyle) {
     /***
 
@@ -404,6 +407,7 @@ MochiKit.Visual.tagifyText = function (element, /* optional */tagifyStyle) {
     });
 };
 
+/** @id MochiKit.Visual.forceRerendering */
 MochiKit.Visual.forceRerendering = function (element) {
     try {
         element = MochiKit.DOM.getElement(element);
@@ -414,6 +418,7 @@ MochiKit.Visual.forceRerendering = function (element) {
     }
 };
 
+/** @id MochiKit.Visual.multiple */
 MochiKit.Visual.multiple = function (elements, effect, /* optional */options) {
     /***
 
@@ -439,6 +444,7 @@ MochiKit.Visual.PAIRS = {
     'size': ['grow', 'shrink']
 };
 
+/** @id MochiKit.Visual.toggle */
 MochiKit.Visual.toggle = function (element, /* optional */effect, /* optional */options) {
     /***
 
@@ -465,35 +471,43 @@ Transitions: define functions calculating variations depending of a position.
 
 MochiKit.Visual.Transitions = {}
 
+/** @id MochiKit.Visual.Transitions.linear */
 MochiKit.Visual.Transitions.linear = function (pos) {
     return pos;
 };
 
+/** @id MochiKit.Visual.Transitions.sinoidal */
 MochiKit.Visual.Transitions.sinoidal = function (pos) {
     return (-Math.cos(pos*Math.PI)/2) + 0.5;
 };
 
+/** @id MochiKit.Visual.Transitions.reverse */
 MochiKit.Visual.Transitions.reverse = function (pos) {
     return 1 - pos;
 };
 
+/** @id MochiKit.Visual.Transitions.flicker */
 MochiKit.Visual.Transitions.flicker = function (pos) {
     return ((-Math.cos(pos*Math.PI)/4) + 0.75) + Math.random()/4;
 };
 
+/** @id MochiKit.Visual.Transitions.wobble */
 MochiKit.Visual.Transitions.wobble = function (pos) {
     return (-Math.cos(pos*Math.PI*(9*pos))/2) + 0.5;
 };
 
+/** @id MochiKit.Visual.Transitions.pulse */
 MochiKit.Visual.Transitions.pulse = function (pos) {
     return (Math.floor(pos*10) % 2 == 0 ?
         (pos*10 - Math.floor(pos*10)) : 1 - (pos*10 - Math.floor(pos*10)));
 };
 
+/** @id MochiKit.Visual.Transitions.none */
 MochiKit.Visual.Transitions.none = function (pos) {
     return 0;
 };
 
+/** @id MochiKit.Visual.Transitions.full */
 MochiKit.Visual.Transitions.full = function (pos) {
     return 1;
 };
@@ -514,6 +528,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
         this.interval = null;
     },
 
+    /** @id MochiKit.Visual.ScopedQueue.prototype.add */
     add: function (effect) {
         var timestamp = new Date().getTime();
 
@@ -557,6 +572,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
         }
     },
 
+    /** @id MochiKit.Visual.ScopedQueue.prototype.addremove */
     remove: function (effect) {
         this.effects = MochiKit.Base.filter(function (e) {
             return e != effect;
@@ -567,6 +583,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
         }
     },
 
+    /** @id MochiKit.Visual.ScopedQueue.prototype.addloop */
     loop: function () {
         var timePos = new Date().getTime();
         MochiKit.Iter.forEach(this.effects, function (effect) {
@@ -615,6 +632,7 @@ MochiKit.Visual.Base.prototype = {
 
     __class__ : MochiKit.Visual.Base,
 
+    /** @id MochiKit.Visual.Base.prototype.start */
     start: function (options) {
         var v = MochiKit.Visual;
         this.options = MochiKit.Base.setdefault(options || {},
@@ -630,6 +648,7 @@ MochiKit.Visual.Base.prototype = {
         }
     },
 
+    /** @id MochiKit.Visual.Base.prototype.loop */
     loop: function (timePos) {
         if (timePos >= this.startOn) {
             if (timePos >= this.finishOn) {
@@ -650,6 +669,7 @@ MochiKit.Visual.Base.prototype = {
         }
     },
 
+    /** @id MochiKit.Visual.Base.prototype.render */
     render: function (pos) {
         if (this.state == 'idle') {
             this.state = 'running';
@@ -669,6 +689,7 @@ MochiKit.Visual.Base.prototype = {
         }
     },
 
+    /** @id MochiKit.Visual.Base.prototype.cancel */
     cancel: function () {
         if (!this.options.sync) {
             MochiKit.Visual.Queues.get(typeof(this.options.queue) == 'string' ?
@@ -686,6 +707,7 @@ MochiKit.Visual.Base.prototype = {
     update: function (position) {
     },
 
+    /** @id MochiKit.Visual.Base.prototype.event */
     event: function (eventName) {
         if (this.options[eventName + 'Internal']) {
             this.options[eventName + 'Internal'](this);
@@ -695,12 +717,14 @@ MochiKit.Visual.Base.prototype = {
         }
     },
 
+    /** @id MochiKit.Visual.Base.prototype.repr */
     repr: function () {
         return '[' + this.__class__.NAME + ', options:' +
                MochiKit.Base.repr(this.options) + ']';
     }
 }
 
+    /** @id MochiKit.Visual.Parallel */
 MochiKit.Visual.Parallel = function (effects, options) {
     this.__init__(effects, options);
 };
@@ -718,12 +742,14 @@ MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, {
         this.start(options);
     },
 
+    /** @id MochiKit.Visual.Parallel.prototype.update */
     update: function (position) {
         MochiKit.Iter.forEach(this.effects, function (effect) {
             effect.render(position);
         });
     },
 
+    /** @id MochiKit.Visual.Parallel.prototype.finish */
     finish: function () {
         MochiKit.Iter.forEach(this.effects, function (effect) {
             effect.render(1.0);
@@ -735,6 +761,7 @@ MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, {
     }
 });
 
+/** @id MochiKit.Visual.Opacity */
 MochiKit.Visual.Opacity = function (element, options) {
     this.__init__(element, options);
 };
@@ -765,11 +792,13 @@ MochiKit.Base.update(MochiKit.Visual.Opacity.prototype, {
         this.start(options);
     },
 
+    /** @id MochiKit.Visual.Opacity.prototype.update */
     update: function (position) {
         MochiKit.DOM.setOpacity(this.element, position);
     }
 });
 
+/**  @id MochiKit.Visual.Opacity.prototype.Move */
 MochiKit.Visual.Move = function (element, options) {
     this.__init__(element, options);
 };
@@ -794,6 +823,7 @@ MochiKit.Base.update(MochiKit.Visual.Move.prototype, {
         this.start(options);
     },
 
+    /** @id MochiKit.Visual.Move.prototype.setup */
     setup: function () {
         var d = MochiKit.DOM;
         // Bug in Opera: Opera returns the 'real' position of a static element
@@ -824,6 +854,7 @@ MochiKit.Base.update(MochiKit.Visual.Move.prototype, {
         }
     },
 
+    /** @id MochiKit.Visual.Move.prototype.update */
     update: function (position) {
         MochiKit.DOM.setStyle(this.element, {
             left: Math.round(this.options.x * position + this.originalLeft) + 'px',
@@ -832,6 +863,7 @@ MochiKit.Base.update(MochiKit.Visual.Move.prototype, {
     }
 });
 
+/** @id MochiKit.Visual.Scale */
 MochiKit.Visual.Scale = function (element, percent, options) {
     this.__init__(element, percent, options);
 };
@@ -862,6 +894,7 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
         this.start(options);
     },
 
+    /** @id MochiKit.Visual.Scale.prototype.setup */
     setup: function () {
         this.restoreAfterFinish = this.options.restoreAfterFinish || false;
         this.elementPositioning = MochiKit.DOM.getStyle(this.element,
@@ -900,6 +933,7 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
         }
     },
 
+    /** @id MochiKit.Visual.Scale.prototype.update */
     update: function (position) {
         var currentScale = (this.options.scaleFrom/100.0) +
                            (this.factor * position);
@@ -912,12 +946,14 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
                            this.dims[1] * currentScale);
     },
 
+    /** @id MochiKit.Visual.Scale.prototype.finish */
     finish: function () {
         if (this.restoreAfterFinish) {
             MochiKit.DOM.setStyle(this.element, this.originalStyle);
         }
     },
 
+    /** @id MochiKit.Visual.Scale.prototype.setDimensions */
     setDimensions: function (height, width) {
         var d = {};
         if (this.options.scaleX) {
@@ -949,6 +985,7 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
     }
 });
 
+/** @id MochiKit.Visual.Highlight */
 MochiKit.Visual.Highlight = function (element, options) {
     this.__init__(element, options);
 };
@@ -972,6 +1009,7 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
         this.start(options);
     },
 
+    /** @id MochiKit.Visual.Highlight.prototype.setup */
     setup: function () {
         var d = MochiKit.DOM;
         var b = MochiKit.Base;
@@ -1007,6 +1045,7 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
         }, this), [0, 1, 2]);
     },
 
+    /** @id MochiKit.Visual.Highlight.prototype.update */
     update: function (position) {
         var m = '#';
         MochiKit.Iter.forEach([0, 1, 2], MochiKit.Base.bind(function (i) {
@@ -1018,6 +1057,7 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
         });
     },
 
+    /** @id MochiKit.Visual.Highlight.prototype.finish */
     finish: function () {
         MochiKit.DOM.setStyle(this.element,
             MochiKit.Base.update(this.oldStyle, {
@@ -1026,6 +1066,7 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
     }
 });
 
+/** @id MochiKit.Visual.ScrollTo */
 MochiKit.Visual.ScrollTo = function (element, options) {
     this.__init__(element, options);
 };
@@ -1043,6 +1084,7 @@ MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
         this.start(options || {});
     },
 
+    /** @id MochiKit.Visual.ScrollTo.prototype.setup */
     setup: function () {
         var p = MochiKit.Position;
         p.prepare();
@@ -1064,6 +1106,7 @@ MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
         this.delta = (offsets.y > max ? max : offsets.y) - this.scrollStart;
     },
 
+    /** @id MochiKit.Visual.ScrollTo.prototype.update */
     update: function (position) {
         var p = MochiKit.Position;
         p.prepare();
@@ -1077,6 +1120,7 @@ Combination effects.
 
 ***/
 
+/** @id MochiKit.Visual.fade */
 MochiKit.Visual.fade = function (element, /* optional */ options) {
     /***
 
@@ -1101,6 +1145,7 @@ MochiKit.Visual.fade = function (element, /* optional */ options) {
     return new MochiKit.Visual.Opacity(element, options);
 };
 
+/** @id MochiKit.Visual.appear */
 MochiKit.Visual.appear = function (element, /* optional */ options) {
     /***
 
@@ -1127,6 +1172,7 @@ MochiKit.Visual.appear = function (element, /* optional */ options) {
     return new v.Opacity(element, options);
 };
 
+/** @id MochiKit.Visual.puff */
 MochiKit.Visual.puff = function (element, /* optional */ options) {
     /***
 
@@ -1158,6 +1204,7 @@ MochiKit.Visual.puff = function (element, /* optional */ options) {
         options);
 };
 
+/** @id MochiKit.Visual.blindUp */
 MochiKit.Visual.blindUp = function (element, /* optional */ options) {
     /***
 
@@ -1180,6 +1227,7 @@ MochiKit.Visual.blindUp = function (element, /* optional */ options) {
     return new MochiKit.Visual.Scale(element, 0, options);
 };
 
+/** @id MochiKit.Visual.blindDown */
 MochiKit.Visual.blindDown = function (element, /* optional */ options) {
     /***
 
@@ -1208,6 +1256,7 @@ MochiKit.Visual.blindDown = function (element, /* optional */ options) {
     return new MochiKit.Visual.Scale(element, 100, options);
 };
 
+/** @id MochiKit.Visual.switchOff */
 MochiKit.Visual.switchOff = function (element, /* optional */ options) {
     /***
 
@@ -1245,6 +1294,7 @@ MochiKit.Visual.switchOff = function (element, /* optional */ options) {
     });
 };
 
+/** @id MochiKit.Visual.dropOut */
 MochiKit.Visual.dropOut = function (element, /* optional */ options) {
     /***
 
@@ -1277,6 +1327,7 @@ MochiKit.Visual.dropOut = function (element, /* optional */ options) {
         options);
 };
 
+/** @id MochiKit.Visual.shake */
 MochiKit.Visual.shake = function (element, /* optional */ options) {
     /***
 
@@ -1312,6 +1363,7 @@ MochiKit.Visual.shake = function (element, /* optional */ options) {
         ) }}) }}) }}) }}) }});
 };
 
+/** @id MochiKit.Visual.slideDown */
 MochiKit.Visual.slideDown = function (element, /* optional */ options) {
     /***
 
@@ -1368,6 +1420,7 @@ MochiKit.Visual.slideDown = function (element, /* optional */ options) {
     return new MochiKit.Visual.Scale(element, 100, options);
 };
 
+/** @id MochiKit.Visual.slideUp */
 MochiKit.Visual.slideUp = function (element, /* optional */ options) {
     /***
 
@@ -1416,6 +1469,7 @@ MochiKit.Visual.slideUp = function (element, /* optional */ options) {
 
 // Bug in opera makes the TD containing this element expand for a instance
 // after finish
+/** @id MochiKit.Visual.squish */
 MochiKit.Visual.squish = function (element, /* optional */ options) {
     /***
 
@@ -1438,6 +1492,7 @@ MochiKit.Visual.squish = function (element, /* optional */ options) {
     return new MochiKit.Visual.Scale(element, b.isOpera() ? 1 : 0, options);
 };
 
+/** @id MochiKit.Visual.grow */
 MochiKit.Visual.grow = function (element, /* optional */ options) {
     /***
 
@@ -1539,6 +1594,7 @@ MochiKit.Visual.grow = function (element, /* optional */ options) {
     });
 };
 
+/** @id MochiKit.Visual.shrink */
 MochiKit.Visual.shrink = function (element, /* optional */ options) {
     /***
 
@@ -1616,6 +1672,7 @@ MochiKit.Visual.shrink = function (element, /* optional */ options) {
     );
 };
 
+/** @id MochiKit.Visual.pulsate */
 MochiKit.Visual.pulsate = function (element, /* optional */ options) {
     /***
 
@@ -1643,6 +1700,7 @@ MochiKit.Visual.pulsate = function (element, /* optional */ options) {
         transition: reverser}, options));
 };
 
+/** @id MochiKit.Visual.fold */
 MochiKit.Visual.fold = function (element, /* optional */ options) {
     /***
 

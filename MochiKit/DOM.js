@@ -113,18 +113,26 @@ MochiKit.DOM.EXPORT_OK = [
 
 MochiKit.DOM.DEPRECATED = [
     ['computedStyle', 'MochiKit.Style.computedStyle', '1.4'],
+    /** @id MochiKit.DOM.elementDimensions  */
     ['elementDimensions', 'MochiKit.Style.getElementDimensions', '1.4'],
+    /** @id MochiKit.DOM.elementPosition  */
     ['elementPosition', 'MochiKit.Style.getElementPosition', '1.4'],
     ['hideElement', 'MochiKit.Style.hideElement', '1.4'],
+    /** @id MochiKit.DOM.setElementDimensions */
     ['setElementDimensions', 'MochiKit.Style.setElementDimensions', '1.4'],
+    /** @id MochiKit.DOM.setElementPosition */
     ['setElementPosition', 'MochiKit.Style.setElementPosition', '1.4'],
     ['setDisplayForElement', 'MochiKit.Style.setDisplayForElement', '1.4'],
+    /** @id MochiKit.DOM.setOpacity */
     ['setOpacity', 'MochiKit.Style.setOpacity', '1.4'],
     ['showElement', 'MochiKit.Style.showElement', '1.4'],
+    /** @id MochiKit.DOM.Coordinates */
     ['Coordinates', 'MochiKit.Style.Coordinates', '1.4'], // FIXME: broken
+    /** @id MochiKit.DOM.Dimensions */
     ['Dimensions', 'MochiKit.Style.Dimensions', '1.4'] // FIXME: broken
 ];
 
+/** @id MochiKit.DOM.getViewportDimensions */
 MochiKit.DOM.getViewportDimensions = new Function('' + 
     'if (!MochiKit["Style"]) {' + 
     '    throw new Error("This function has been deprecated and depends on MochiKit.Style.");' + 
@@ -133,14 +141,17 @@ MochiKit.DOM.getViewportDimensions = new Function('' +
 
 MochiKit.Base.update(MochiKit.DOM, {
 
+    /** @id MochiKit.DOM.currentWindow */
     currentWindow: function () {
         return MochiKit.DOM._window;
     },
 
+    /** @id MochiKit.DOM.currentDocument */
     currentDocument: function () {
         return MochiKit.DOM._document;
     },
 
+    /** @id MochiKit.DOM.withWindow */
     withWindow: function (win, func) {
         var self = MochiKit.DOM;
         var oldDoc = self._document;
@@ -160,6 +171,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return rval;
     },
 
+    /** @id MochiKit.DOM.formContents  */
     formContents: function (elem/* = document */) {
         var names = [];
         var values = [];
@@ -224,6 +236,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return [names, values];
     },
 
+    /** @id MochiKit.DOM.withDocument */
     withDocument: function (doc, func) {
         var self = MochiKit.DOM;
         var oldDoc = self._document;
@@ -239,10 +252,12 @@ MochiKit.Base.update(MochiKit.DOM, {
         return rval;
     },
 
+    /** @id MochiKit.DOM.registerDOMConverter */
     registerDOMConverter: function (name, check, wrap, /* optional */override) {
         MochiKit.DOM.domConverters.register(name, check, wrap, override);
     },
 
+    /** @id MochiKit.DOM.coerceToDOM */
     coerceToDOM: function (node, ctx) {
         var m = MochiKit.Base;
         var im = MochiKit.Iter;
@@ -312,6 +327,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return undefined;
     },
         
+    /** @id MochiKit.DOM.setNodeAttribute */
     setNodeAttribute: function (node, attr, value) {
         var o = {};
         o[attr] = value;
@@ -323,6 +339,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return null;
     },
 
+    /** @id MochiKit.DOM.getNodeAttribute */
     getNodeAttribute: function (node, attr) {
         var self = MochiKit.DOM;
         var rename = self.attributeArray.renames[attr];
@@ -338,6 +355,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return null;
     },
 
+    /** @id MochiKit.DOM.updateNodeAttributes */
     updateNodeAttributes: function (node, attrs) {
         var elem = node;
         var self = MochiKit.DOM;
@@ -388,6 +406,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return elem;
     },
 
+    /** @id MochiKit.DOM.appendChildNodes */
     appendChildNodes: function (node/*, nodes...*/) {
         var elem = node;
         var self = MochiKit.DOM;
@@ -414,6 +433,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return elem;
     },
 
+    /** @id MochiKit.DOM.replaceChildNodes */
     replaceChildNodes: function (node/*, nodes...*/) {
         var elem = node;
         var self = MochiKit.DOM;
@@ -432,6 +452,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.createDOM */
     createDOM: function (name, attrs/*, nodes... */) {
         var elem;
         var self = MochiKit.DOM;
@@ -470,6 +491,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.createDOMFunc */
     createDOMFunc: function (/* tag, attrs, *nodes */) {
         var m = MochiKit.Base;
         return m.partial.apply(
@@ -478,12 +500,14 @@ MochiKit.Base.update(MochiKit.DOM, {
         );
     },
 
+    /** @id MochiKit.DOM.removeElement */
     removeElement: function (elem) {
         var e = MochiKit.DOM.getElement(elem);
         e.parentNode.removeChild(e);
         return e;
     },
 
+    /** @id MochiKit.DOM.swapDOM */
     swapDOM: function (dest, src) {
         var self = MochiKit.DOM;
         dest = self.getElement(dest);
@@ -497,6 +521,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return src;
     },
 
+    /** @id MochiKit.DOM.getElement */
     getElement: function (id) {
         var self = MochiKit.DOM;
         if (arguments.length == 1) {
@@ -507,6 +532,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.getElementsByTagAndClassName */
     getElementsByTagAndClassName: function (tagName, className,
             /* optional */parent) {
         var self = MochiKit.DOM;
@@ -558,6 +584,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return rval;
     },
 
+    /** @id MochiKit.DOM.addToCallStack */
     addToCallStack: function (target, path, func, once) {
         var self = MochiKit.DOM;
         var existing = target[path];
@@ -574,12 +601,14 @@ MochiKit.Base.update(MochiKit.DOM, {
         regfunc.callStack.push(func);
     },
 
+    /** @id MochiKit.DOM.addLoadEvent */
     addLoadEvent: function (func) {
         var self = MochiKit.DOM;
         self.addToCallStack(self._window, "onload", func, true);
         
     },
 
+    /** @id MochiKit.DOM.focusOnLoad */
     focusOnLoad: function (element) {
         var self = MochiKit.DOM;
         self.addLoadEvent(function () {
@@ -590,6 +619,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         });
     },
             
+    /** @id MochiKit.DOM.setElementClass */
     setElementClass: function (element, className) {
         var self = MochiKit.DOM;
         var obj = self.getElement(element);
@@ -600,6 +630,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
             
+    /** @id MochiKit.DOM.toggleElementClass */
     toggleElementClass: function (className/*, element... */) {
         var self = MochiKit.DOM;
         for (var i = 1; i < arguments.length; i++) {
@@ -610,6 +641,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.addElementClass */
     addElementClass: function (element, className) {
         var self = MochiKit.DOM;
         var obj = self.getElement(element);
@@ -635,6 +667,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return true;
     },
 
+    /** @id MochiKit.DOM.removeElementClass */
     removeElementClass: function (element, className) {
         var self = MochiKit.DOM;
         var obj = self.getElement(element);
@@ -662,6 +695,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return false;
     },
 
+    /** @id MochiKit.DOM.swapElementClass */
     swapElementClass: function (element, fromClass, toClass) {
         var obj = MochiKit.DOM.getElement(element);
         var res = MochiKit.DOM.removeElementClass(obj, fromClass);
@@ -671,6 +705,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return res;
     },
 
+    /** @id MochiKit.DOM.hasElementClass */
     hasElementClass: function (element, className/*...*/) {
         var obj = MochiKit.DOM.getElement(element);
         var classes = obj.className.split(" ");
@@ -689,6 +724,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return true;
     },
 
+    /** @id MochiKit.DOM.escapeHTML */
     escapeHTML: function (s) {
         return s.replace(/&/g, "&amp;"
             ).replace(/"/g, "&quot;"
@@ -696,10 +732,12 @@ MochiKit.Base.update(MochiKit.DOM, {
             ).replace(/>/g, "&gt;");
     },
 
+    /** @id MochiKit.DOM.toHTML */
     toHTML: function (dom) {
         return MochiKit.DOM.emitHTML(dom).join("");
     },
 
+    /** @id MochiKit.DOM.emitHTML */
     emitHTML: function (dom, /* optional */lst) {
         if (typeof(lst) == 'undefined' || lst === null) {
             lst = [];
@@ -758,6 +796,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         return lst;
     },
 
+    /** @id MochiKit.DOM.scrapeText */
     scrapeText: function (node, /* optional */asArray) {
         var rval = [];
         (function (node) {
@@ -779,6 +818,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },    
 
+    /** @id MochiKit.DOM.removeEmptyTextNodes */
     removeEmptyTextNodes: function (element) {
         element = MochiKit.DOM.getElement(element);
         for (var i = 0; i < element.childNodes.length; i++) {
@@ -865,41 +905,76 @@ MochiKit.Base.update(MochiKit.DOM, {
 
         // shorthand for createDOM syntax
         var createDOMFunc = this.createDOMFunc;
+        /** @id MochiKit.DOM.UL */
         this.UL = createDOMFunc("ul");
+        /** @id MochiKit.DOM.OL */
         this.OL = createDOMFunc("ol");
+        /** @id MochiKit.DOM.LI */
         this.LI = createDOMFunc("li");
+        /** @id MochiKit.DOM.TD */
         this.TD = createDOMFunc("td");
+        /** @id MochiKit.DOM.TR */
         this.TR = createDOMFunc("tr");
+        /** @id MochiKit.DOM.TBODY */
         this.TBODY = createDOMFunc("tbody");
+        /** @id MochiKit.DOM.THEAD */
         this.THEAD = createDOMFunc("thead");
+        /** @id MochiKit.DOM.TFOOT */
         this.TFOOT = createDOMFunc("tfoot");
+        /** @id MochiKit.DOM.TABLE */
         this.TABLE = createDOMFunc("table");
+        /** @id MochiKit.DOM.TH */
         this.TH = createDOMFunc("th");
+        /** @id MochiKit.DOM.INPUT */
         this.INPUT = createDOMFunc("input");
+        /** @id MochiKit.DOM.SPAN */
         this.SPAN = createDOMFunc("span");
+        /** @id MochiKit.DOM.A */
         this.A = createDOMFunc("a");
+        /** @id MochiKit.DOM.DIV */
         this.DIV = createDOMFunc("div");
+        /** @id MochiKit.DOM.IMG */
         this.IMG = createDOMFunc("img");
+        /** @id MochiKit.DOM.BUTTON */
         this.BUTTON = createDOMFunc("button");
+        /** @id MochiKit.DOM.TT */
         this.TT = createDOMFunc("tt");
+        /** @id MochiKit.DOM.PRE */
         this.PRE = createDOMFunc("pre");
+        /** @id MochiKit.DOM.H1 */
         this.H1 = createDOMFunc("h1");
+        /** @id MochiKit.DOM.H2 */
         this.H2 = createDOMFunc("h2");
+        /** @id MochiKit.DOM.H3 */
         this.H3 = createDOMFunc("h3");
+        /** @id MochiKit.DOM.BR */
         this.BR = createDOMFunc("br");
+        /** @id MochiKit.DOM.HR */
         this.HR = createDOMFunc("hr");
+        /** @id MochiKit.DOM.LABEL */
         this.LABEL = createDOMFunc("label");
+        /** @id MochiKit.DOM.TEXTAREA */
         this.TEXTAREA = createDOMFunc("textarea");
+        /** @id MochiKit.DOM.FORM */
         this.FORM = createDOMFunc("form");
+        /** @id MochiKit.DOM.P */
         this.P = createDOMFunc("p");
+        /** @id MochiKit.DOM.SELECT */
         this.SELECT = createDOMFunc("select");
+        /** @id MochiKit.DOM.OPTION */
         this.OPTION = createDOMFunc("option");
+        /** @id MochiKit.DOM.OPTGROUP */
         this.OPTGROUP = createDOMFunc("optgroup");
+        /** @id MochiKit.DOM.LEGEND */
         this.LEGEND = createDOMFunc("legend");
+        /** @id MochiKit.DOM.FIELDSET */
         this.FIELDSET = createDOMFunc("fieldset");
+        /** @id MochiKit.DOM.STRONG */
         this.STRONG = createDOMFunc("strong");
+        /** @id MochiKit.DOM.CANVAS */
         this.CANVAS = createDOMFunc("canvas");
 
+        /** @id MochiKit.DOM.$ */
         this.$ = this.getElement;
 
         this.EXPORT_TAGS = {

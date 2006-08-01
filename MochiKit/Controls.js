@@ -40,14 +40,17 @@ allows smart autocompletion after linebreaks.
 MochiKit.Base.update(MochiKit.Base, {
     ScriptFragment: '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)',
 
+/** @id MochiKit.Base.stripScripts */    
     stripScripts: function (str) {
         return str.replace(new RegExp(MochiKit.Base.ScriptFragment, 'img'), '');
     },
 
+/** @id MochiKit.Base.stripTags */
     stripTags: function(str) {
         return str.replace(/<\/?[^>]+>/gi, '');
     },
 
+/** @id MochiKit.Base.extractScripts */
     extractScripts: function (str) {
         var matchAll = new RegExp(MochiKit.Base.ScriptFragment, 'img');
         var matchOne = new RegExp(MochiKit.Base.ScriptFragment, 'im');
@@ -56,6 +59,7 @@ MochiKit.Base.update(MochiKit.Base, {
         }, str.match(matchAll) || []);
     },
 
+/** @id MochiKit.Base.evalScripts */
     evalScripts: function (str) {
         return MochiKit.Base.map(function (scr) {
             eval(scr);
@@ -64,6 +68,8 @@ MochiKit.Base.update(MochiKit.Base, {
 });
 
 MochiKit.Form = {
+
+/** @id MochiKit.Form.serialize */
     serialize: function (form) {
         var elements = MochiKit.Form.getElements(form);
         var queryComponents = [];
@@ -78,6 +84,7 @@ MochiKit.Form = {
         return queryComponents.join('&');
     },
 
+/** @id MochiKit.Form.getElements */
     getElements: function (form) {
         form = MochiKit.DOM.getElement(form);
         var elements = [];
@@ -91,6 +98,7 @@ MochiKit.Form = {
         return elements;
     },
 
+/** @id MochiKit.Form.serializeElement */
     serializeElement: function (element) {
         element = MochiKit.DOM.getElement(element);
         var method = element.tagName.toLowerCase();
@@ -114,6 +122,8 @@ MochiKit.Form = {
 };
 
 MochiKit.Form.Serializers = {
+
+/** @id MochiKit.Form.Serializers.input */
     input: function (element) {
         switch (element.type.toLowerCase()) {
             case 'submit':
@@ -128,21 +138,25 @@ MochiKit.Form.Serializers = {
         return false;
     },
 
+/** @id MochiKit.Form.Serializers.inputSelector */
     inputSelector: function (element) {
         if (element.checked) {
             return [element.name, element.value];
         }
     },
 
+/** @id MochiKit.Form.Serializers.textarea */
     textarea: function (element) {
         return [element.name, element.value];
     },
 
+/** @id MochiKit.Form.Serializers.select */
     select: function (element) {
         return MochiKit.Form.Serializers[element.type == 'select-one' ?
         'selectOne' : 'selectMany'](element);
     },
 
+/** @id MochiKit.Form.Serializers.selectOne */
     selectOne: function (element) {
         var value = '', opt, index = element.selectedIndex;
         if (index >= 0) {
@@ -155,6 +169,7 @@ MochiKit.Form.Serializers = {
         return [element.name, value];
     },
 
+/** @id MochiKit.Form.Serializers.selectMany */
     selectMany: function (element) {
         var value = [];
         for (var i = 0; i < element.length; i++) {
@@ -171,6 +186,7 @@ MochiKit.Form.Serializers = {
     }
 };
 
+/** @id Ajax */
 var Ajax = {
     activeRequestCount: 0
 };
@@ -178,16 +194,19 @@ var Ajax = {
 Ajax.Responders = {
     responders: [],
 
+/** @id Ajax.Responders.register */
     register: function (responderToAdd) {
         if (MochiKit.Base.find(this.responders, responderToAdd) == -1) {
             this.responders.push(responderToAdd);
         }
     },
 
+/** @id Ajax.Responders.unregister */
     unregister: function (responderToRemove) {
         this.responders = this.responders.without(responderToRemove);
     },
 
+/** @id Ajax.Responders.dispatch */
     dispatch: function (callback, request, transport, json) {
         MochiKit.Iter.forEach(this.responders, function (responder) {
             if (responder[callback] &&
@@ -201,18 +220,24 @@ Ajax.Responders = {
 };
 
 Ajax.Responders.register({
+
+/** @id Ajax.Responders.onCreate */
     onCreate: function () {
         Ajax.activeRequestCount++;
     },
 
+/** @id Ajax.Responders.onComplete */
     onComplete: function () {
         Ajax.activeRequestCount--;
     }
 });
 
+/** @id Ajax.Base */
 Ajax.Base = function () {};
 
 Ajax.Base.prototype = {
+
+/** @id Ajax.Base.prototype.setOptions */
     setOptions: function (options) {
         this.options = {
             method: 'post',
@@ -222,21 +247,25 @@ Ajax.Base.prototype = {
         MochiKit.Base.update(this.options, options || {});
     },
 
+/** @id Ajax.Base.prototype.responseIsSuccess */
     responseIsSuccess: function () {
         return this.transport.status == undefined
             || this.transport.status === 0
             || (this.transport.status >= 200 && this.transport.status < 300);
     },
 
+/** @id Ajax.Base.prototype.responseIsFailure */
     responseIsFailure: function () {
         return !this.responseIsSuccess();
     }
 };
 
+/** @id Ajax.Request */
 Ajax.Request = function (url, options) {
     this.__init__(url, options);
 };
 
+/** @id Ajax.Events */
 Ajax.Request.Events = ['Uninitialized', 'Loading', 'Loaded',
                        'Interactive', 'Complete'];
 
@@ -249,6 +278,7 @@ MochiKit.Base.update(Ajax.Request.prototype, {
         this.request(url);
     },
 
+/** @id Ajax.Request.prototype.request */
     request: function (url) {
         var parameters = this.options.parameters || '';
         if (parameters.length > 0){
@@ -282,6 +312,7 @@ MochiKit.Base.update(Ajax.Request.prototype, {
         }
     },
 
+/** @id Ajax.Request.prototype.setRequestHeaders */
     setRequestHeaders: function () {
         var requestHeaders = ['X-Requested-With', 'XMLHttpRequest'];
 
@@ -307,6 +338,7 @@ MochiKit.Base.update(Ajax.Request.prototype, {
         }
     },
 
+/** @id Ajax.Request.prototype.onStateChange */
     onStateChange: function () {
         var readyState = this.transport.readyState;
         if (readyState != 1) {
@@ -314,18 +346,21 @@ MochiKit.Base.update(Ajax.Request.prototype, {
         }
     },
 
+/** @id Ajax.Request.prototype.header */
     header: function (name) {
         try {
           return this.transport.getResponseHeader(name);
         } catch (e) {}
     },
 
+/** @id Ajax.Request.prototype.evalJSON */
     evalJSON: function () {
         try {
           return eval(this.header('X-JSON'));
         } catch (e) {}
     },
 
+/** @id Ajax.Request.prototype.evalResponse */
     evalResponse: function () {
         try {
           return eval(this.transport.responseText);
@@ -334,6 +369,7 @@ MochiKit.Base.update(Ajax.Request.prototype, {
         }
     },
 
+/** @id Ajax.Request.prototype.respondToReadyState */
     respondToReadyState: function (readyState) {
         var event = Ajax.Request.Events[readyState];
         var transport = this.transport, json = this.evalJSON();
@@ -365,12 +401,14 @@ MochiKit.Base.update(Ajax.Request.prototype, {
         }
     },
 
+/** @id Ajax.Request.prototype.dispatchException */
     dispatchException: function (exception) {
         (this.options.onException || MochiKit.Base.noop)(this, exception);
         Ajax.Responders.dispatch('onException', this, exception);
     }
 });
 
+/** @id Ajax.Updater */
 Ajax.Updater = function (container, url, options) {
     this.__init__(container, url, options);
 };
@@ -396,6 +434,7 @@ MochiKit.Base.update(Ajax.Updater.prototype, {
         this.request(url);
     },
 
+/** @id Ajax.Updater.prototype.updateContent */
     updateContent: function () {
         var receiver = this.responseIsSuccess() ?
             this.containers.success : this.containers.failure;
@@ -425,17 +464,22 @@ MochiKit.Base.update(Ajax.Updater.prototype, {
     }
 });
 
+/** @id Field */
 var Field = {
+
+/** @id clear */
     clear: function () {
         for (var i = 0; i < arguments.length; i++) {
             MochiKit.DOM.getElement(arguments[i]).value = '';
         }
     },
 
+/** @id focus */
     focus: function (element) {
         MochiKit.DOM.getElement(element).focus();
     },
 
+/** @id present */
     present: function () {
         for (var i = 0; i < arguments.length; i++) {
             if (MochiKit.DOM.getElement(arguments[i]).value == '') {
@@ -445,10 +489,12 @@ var Field = {
         return true;
     },
 
+/** @id select */
     select: function (element) {
         MochiKit.DOM.getElement(element).select();
     },
 
+/** @id activate */
     activate: function (element) {
         element = MochiKit.DOM.getElement(element);
         element.focus();
@@ -457,6 +503,7 @@ var Field = {
         }
     },
 
+/** @id scrollFreeActivate */
     scrollFreeActivate: function (field) {
         setTimeout(function () {
             Field.activate(field);
@@ -464,11 +511,16 @@ var Field = {
     }
 };
 
+
+/** @id Autocompleter */
 var Autocompleter = {};
 
+/** @id Autocompleter.Base */
 Autocompleter.Base = function () {};
 
 Autocompleter.Base.prototype = {
+
+/** @id Autocompleter.Base.prototype.baseInitialize */
     baseInitialize: function (element, update, options) {
         this.element = MochiKit.DOM.getElement(element);
         this.update = MochiKit.DOM.getElement(update);
@@ -517,6 +569,7 @@ Autocompleter.Base.prototype = {
         MochiKit.Signal.connect(this.element, 'onkeypress', this, this.onKeyPress, this);
     },
 
+/** @id Autocompleter.Base.prototype.show */
     show: function () {
         if (MochiKit.DOM.getStyle(this.update, 'display') == 'none') {
             this.options.onShow(this.element, this.update);
@@ -534,6 +587,7 @@ Autocompleter.Base.prototype = {
         }
     },
 
+/** @id Autocompleter.Base.prototype.fixIEOverlapping */
     fixIEOverlapping: function () {
         MochiKit.Position.clone(this.update, this.iefix);
         this.iefix.style.zIndex = 1;
@@ -541,6 +595,7 @@ Autocompleter.Base.prototype = {
         MochiKit.Style.showElement(this.iefix);
     },
 
+/** @id Autocompleter.Base.prototype.hide */
     hide: function () {
         this.stopIndicator();
         if (MochiKit.DOM.getStyle(this.update, 'display') != 'none') {
@@ -551,18 +606,21 @@ Autocompleter.Base.prototype = {
         }
     },
 
+/** @id Autocompleter.Base.prototype.startIndicator */
     startIndicator: function () {
         if (this.options.indicator) {
             MochiKit.Style.showElement(this.options.indicator);
         }
     },
 
+/** @id Autocompleter.Base.prototype.stopIndicator */
     stopIndicator: function () {
         if (this.options.indicator) {
             MochiKit.Style.hideElement(this.options.indicator);
         }
     },
 
+/** @id Autocompleter.Base.prototype.onKeyPress */
     onKeyPress: function (event) {
         if (this.active) {
             if (event.key().string == "KEY_TAB" || event.key().string == "KEY_RETURN") {
@@ -606,6 +664,7 @@ Autocompleter.Base.prototype = {
                                    this.options.frequency*1000);
     },
 
+/** @id Autocompleter.Base.prototype.findElement */
     findElement: function (event, tagName) {
         var element = event.target;
         while (element.parentNode && (!element.tagName ||
@@ -615,6 +674,7 @@ Autocompleter.Base.prototype = {
         return element;
     },
 
+/** @id Autocompleter.Base.prototype.hover */
     onHover: function (event) {
         var element = this.findElement(event, 'LI');
         if (this.index != element.autocompleteIndex) {
@@ -624,6 +684,7 @@ Autocompleter.Base.prototype = {
         event.stop();
     },
 
+/** @id Autocompleter.Base.prototype.onClick */
     onClick: function (event) {
         var element = this.findElement(event, 'LI');
         this.index = element.autocompleteIndex;
@@ -631,6 +692,7 @@ Autocompleter.Base.prototype = {
         this.hide();
     },
 
+/** @id Autocompleter.Base.prototype.onBlur */
     onBlur: function (event) {
         // needed to make click events working
         setTimeout(MochiKit.Base.bind(this.hide, this), 250);
@@ -638,6 +700,7 @@ Autocompleter.Base.prototype = {
         this.active = false;
     },
 
+/** @id Autocompleter.Base.prototype.render */
     render: function () {
         if (this.entryCount > 0) {
             for (var i = 0; i < this.entryCount; i++) {
@@ -655,6 +718,7 @@ Autocompleter.Base.prototype = {
         }
     },
 
+/** @id Autocompleter.Base.prototype.markPrevious */
     markPrevious: function () {
         if (this.index > 0) {
             this.index--
@@ -663,6 +727,7 @@ Autocompleter.Base.prototype = {
         }
     },
 
+/** @id Autocompleter.Base.prototype.markNext */
     markNext: function () {
         if (this.index < this.entryCount-1) {
             this.index++
@@ -671,19 +736,23 @@ Autocompleter.Base.prototype = {
         }
     },
 
+/** @id Autocompleter.Base.prototype.getEntry */
     getEntry: function (index) {
         return this.update.firstChild.childNodes[index];
     },
 
+/** @id Autocompleter.Base.prototype.getCurrentEntry */
     getCurrentEntry: function () {
         return this.getEntry(this.index);
     },
 
+/** @id Autocompleter.Base.prototype.selectEntry */
     selectEntry: function () {
         this.active = false;
         this.updateElement(this.getCurrentEntry());
     },
 
+/** @id Autocompleter.Base.prototype.collectTextNodesIgnoreClass */
     collectTextNodesIgnoreClass: function (element, className) {
         return MochiKit.Base.flattenArray(MochiKit.Base.map(function (node) {
             if (node.nodeType == 3) {
@@ -695,6 +764,7 @@ Autocompleter.Base.prototype = {
         }, MochiKit.DOM.getElement(element).childNodes)).join('');
     },
 
+/** @id Autocompleter.Base.prototype.updateElement */
     updateElement: function (selectedElement) {
         if (this.options.updateElement) {
             this.options.updateElement(selectedElement);
@@ -727,6 +797,7 @@ Autocompleter.Base.prototype = {
         }
     },
 
+/** @id Autocompleter.Base.prototype.updateChoices */
     updateChoices: function (choices) {
         if (!this.changed && this.hasFocus) {
             this.update.innerHTML = choices;
@@ -752,11 +823,13 @@ Autocompleter.Base.prototype = {
         }
     },
 
+/** @id Autocompleter.Base.prototype.addObservers */
     addObservers: function (element) {
         MochiKit.Signal.connect(element, 'onmouseover', this, this.onHover);
         MochiKit.Signal.connect(element, 'onclick', this, this.onClick);
     },
 
+/** @id Autocompleter.Base.prototype.onObserverEvent */
     onObserverEvent: function () {
         this.changed = false;
         if (this.getToken().length >= this.options.minChars) {
@@ -768,6 +841,7 @@ Autocompleter.Base.prototype = {
         }
     },
 
+/** @id Autocompleter.Base.prototype.getToken */
     getToken: function () {
         var tokenPos = this.findLastToken();
         if (tokenPos != -1) {
@@ -778,6 +852,7 @@ Autocompleter.Base.prototype = {
         return /\n/.test(ret) ? '' : ret;
     },
 
+/** @id Autocompleter.Base.prototype.findLastToken */
     findLastToken: function () {
         var lastTokenPos = -1;
 
@@ -791,6 +866,7 @@ Autocompleter.Base.prototype = {
     }
 }
 
+/** @id Ajax.Autocompleter */
 Ajax.Autocompleter = function (element, update, url, options) {
     this.__init__(element, update, url, options);
 };
@@ -806,6 +882,7 @@ MochiKit.Base.update(Ajax.Autocompleter.prototype, {
         this.url = url;
     },
 
+/** @id Ajax.Autocompleter.prototype.getUpdatedChoices */
     getUpdatedChoices: function () {
         var entry = encodeURIComponent(this.options.paramName) + '=' +
             encodeURIComponent(this.getToken());
@@ -819,6 +896,7 @@ MochiKit.Base.update(Ajax.Autocompleter.prototype, {
         new Ajax.Request(this.url, this.options);
     },
 
+/** @id Ajax.Autocompleter.prototype.onComplete */
     onComplete: function (request) {
         this.updateChoices(request.responseText);
     }
@@ -863,6 +941,7 @@ you support them.
 
 ***/
 
+/** @id Autocompleter.Local */
 Autocompleter.Local = function (element, update, array, options) {
     this.__init__(element, update, array, options);
 };
@@ -875,10 +954,12 @@ MochiKit.Base.update(Autocompleter.Local.prototype, {
         this.options.array = array;
     },
 
+/** @id Autocompleter.Local.prototype.getUpdatedChoices */
     getUpdatedChoices: function () {
         this.updateChoices(this.options.selector(this));
     },
 
+/** @id Autocompleter.Local.prototype.setOptions */
     setOptions: function (options) {
         this.options = MochiKit.Base.update({
             choices: 10,
@@ -942,10 +1023,12 @@ waits 1 ms (with setTimeout) until it does the activation
 
 ***/
 
+/** @id Ajax.InPlaceEditor */
 Ajax.InPlaceEditor = function (element, url, options) {
     this.__init__(element, url, options);
 };
 
+/** @id Ajax.InPlaceEditor.defaultHighlightColor */
 Ajax.InPlaceEditor.defaultHighlightColor = '#FFFF99';
 
 Ajax.InPlaceEditor.prototype = {
@@ -1015,6 +1098,7 @@ Ajax.InPlaceEditor.prototype = {
         }
     },
 
+/** @id Ajax.InPlaceEditor.prototype.enterEditMode */
     enterEditMode: function (evt) {
         if (this.saving) {
             return;
@@ -1038,6 +1122,7 @@ Ajax.InPlaceEditor.prototype = {
         return false;
     },
 
+/** @id Ajax.InPlaceEditor.prototype.createForm */
     createForm: function () {
         this.form = document.createElement('form');
         this.form.id = this.options.formId;
@@ -1067,6 +1152,7 @@ Ajax.InPlaceEditor.prototype = {
         }
     },
 
+/** @id Ajax.InPlaceEditor.prototype.hasHTMLLineBreaks */
     hasHTMLLineBreaks: function (string) {
         if (!this.options.handleLineBreaks) {
             return false;
@@ -1074,10 +1160,12 @@ Ajax.InPlaceEditor.prototype = {
         return string.match(/<br/i) || string.match(/<p>/i);
     },
 
+/** @id Ajax.InPlaceEditor.prototype.convertHTMLLineBreaks */
     convertHTMLLineBreaks: function (string) {
         return string.replace(/<br>/gi, '\n').replace(/<br\/>/gi, '\n').replace(/<\/p>/gi, '\n').replace(/<p>/gi, '');
     },
 
+/** @id Ajax.InPlaceEditor.prototype.createEditField */
     createEditField: function () {
         var text;
         if (this.options.loadTextURL) {
@@ -1124,10 +1212,12 @@ Ajax.InPlaceEditor.prototype = {
         this.form.appendChild(this.editField);
     },
 
+/** @id Ajax.InPlaceEditor.prototype.getText */
     getText: function () {
         return this.element.innerHTML;
     },
 
+/** @id Ajax.InPlaceEditor.prototype.loadExternalText */
     loadExternalText: function () {
         MochiKit.DOM.addElementClass(this.form, this.options.loadingClassName);
         this.editField.disabled = true;
@@ -1140,18 +1230,21 @@ Ajax.InPlaceEditor.prototype = {
         );
     },
 
+/** @id Ajax.InPlaceEditor.prototype.onLoadedExternalText */
     onLoadedExternalText: function (transport) {
         MochiKit.DOM.removeElementClass(this.form, this.options.loadingClassName);
         this.editField.disabled = false;
         this.editField.value = MochiKit.Base.stripTags(transport);
     },
 
+/** @id Ajax.InPlaceEditor.prototype.onclickCancel */
     onclickCancel: function () {
         this.onComplete();
         this.leaveEditMode();
         return false;
     },
 
+/** @id Ajax.InPlaceEditor.prototype.onFailure */
     onFailure: function (transport) {
         this.options.onFailure(transport);
         if (this.oldInnerHTML) {
@@ -1161,6 +1254,7 @@ Ajax.InPlaceEditor.prototype = {
         return false;
     },
 
+/** @id Ajax.InPlaceEditor.prototype.onSubmit */
     onSubmit: function () {
         // onLoading resets these so we need to save them away for the Ajax call
         var form = this.form;
@@ -1192,6 +1286,7 @@ Ajax.InPlaceEditor.prototype = {
         return false;
     },
 
+/** @id Ajax.InPlaceEditor.prototype.onLoading */
     onLoading: function () {
         this.saving = true;
         this.removeForm();
@@ -1199,6 +1294,7 @@ Ajax.InPlaceEditor.prototype = {
         this.showSaving();
     },
 
+/** @id Ajax.InPlaceEditor.prototype.onSaving */
     showSaving: function () {
         this.oldInnerHTML = this.element.innerHTML;
         this.element.innerHTML = this.options.savingText;
@@ -1207,6 +1303,7 @@ Ajax.InPlaceEditor.prototype = {
         MochiKit.Style.showElement(this.element);
     },
 
+/** @id Ajax.InPlaceEditor.prototype.removeForm */
     removeForm: function () {
         if (this.form) {
             if (this.form.parentNode) {
@@ -1216,6 +1313,7 @@ Ajax.InPlaceEditor.prototype = {
         }
     },
 
+/** @id Ajax.InPlaceEditor.prototype.enterHover */
     enterHover: function () {
         if (this.saving) {
             return;
@@ -1227,6 +1325,7 @@ Ajax.InPlaceEditor.prototype = {
         MochiKit.DOM.addElementClass(this.element, this.options.hoverClassName)
     },
 
+/** @id Ajax.InPlaceEditor.prototype.leaveHover */
     leaveHover: function () {
         if (this.options.backgroundColor) {
             this.element.style.backgroundColor = this.oldBackground;
@@ -1242,6 +1341,7 @@ Ajax.InPlaceEditor.prototype = {
         });
     },
 
+/** @id Ajax.InPlaceEditor.prototype.leaveEditMode */
     leaveEditMode: function () {
         MochiKit.DOM.removeElementClass(this.element, this.options.savingClassName);
         this.removeForm();
@@ -1257,15 +1357,19 @@ Ajax.InPlaceEditor.prototype = {
         this.onLeaveEditMode();
     },
 
+/** @id Ajax.InPlaceEditor.prototype.onComplete */
     onComplete: function (transport) {
         this.leaveEditMode();
         MochiKit.Base.bind(this.options.onComplete, this)(transport, this.element);
     },
 
+/** @id Ajax.InPlaceEditor.prototype.onEnterEditMode */
     onEnterEditMode: function () {},
 
+/** @id Ajax.InPlaceEditor.prototype.onLeaveEditMode */
     onLeaveEditMode: function () {},
 
+ /** @id Ajax.InPlaceEditor.prototype.dispose */
     dispose: function () {
         if (this.oldInnerHTML) {
             this.element.innerHTML = this.oldInnerHTML;

@@ -75,6 +75,7 @@ MochiKit.Format._numberFormatter = function (placeholder, header, footer, locale
     };
 };
 
+/** @id MochiKit.Format.numberFormatter */
 MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, locale/* = "default" */) {
     // http://java.sun.com/docs/books/tutorial/i18n/format/numberpattern.html
     // | 0 | leading or trailing zeros
@@ -130,6 +131,7 @@ MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, loca
     return rval;
 };
 
+/** @id MochiKit.Format.formatLocale */
 MochiKit.Format.formatLocale = function (locale) {
     if (typeof(locale) == "undefined" || locale === null) {
         locale = "default";
@@ -146,6 +148,7 @@ MochiKit.Format.formatLocale = function (locale) {
     }
 };
 
+/** @id MochiKit.Format.twoDigitAverage */
 MochiKit.Format.twoDigitAverage = function (numerator, denominator) {
     if (denominator) {
         var res = numerator / denominator;
@@ -156,6 +159,7 @@ MochiKit.Format.twoDigitAverage = function (numerator, denominator) {
     return "0";
 };
 
+/** @id MochiKit.Format.twoDigitFloat */
 MochiKit.Format.twoDigitFloat = function (someFloat) {
     var sign = (someFloat < 0 ? '-' : '');
     var s = Math.floor(Math.abs(someFloat) * 100).toString();
@@ -179,6 +183,7 @@ MochiKit.Format.twoDigitFloat = function (someFloat) {
     }
 };
 
+/** @id MochiKit.Format.lstrip */
 MochiKit.Format.lstrip = function (str, /* optional */chars) {
     str = str + "";
     if (typeof(str) != "string") {
@@ -191,6 +196,7 @@ MochiKit.Format.lstrip = function (str, /* optional */chars) {
     }
 };
 
+/** @id MochiKit.Format.rstrip */
 MochiKit.Format.rstrip = function (str, /* optional */chars) {
     str = str + "";
     if (typeof(str) != "string") {
@@ -203,11 +209,13 @@ MochiKit.Format.rstrip = function (str, /* optional */chars) {
     }
 };
 
+/** @id MochiKit.Format.strip */
 MochiKit.Format.strip = function (str, /* optional */chars) {
     var self = MochiKit.Format;
     return self.rstrip(self.lstrip(str, chars), chars);
 };
 
+/** @id MochiKit.Format.truncToFixed */
 MochiKit.Format.truncToFixed = function (aNumber, precision) {
     aNumber = Math.floor(aNumber * Math.pow(10, precision));
     var res = (aNumber * Math.pow(10, -precision)).toFixed(precision);
@@ -217,6 +225,7 @@ MochiKit.Format.truncToFixed = function (aNumber, precision) {
     return res;
 };
 
+/** @id MochiKit.Format.roundToFixed */
 MochiKit.Format.roundToFixed = function (aNumber, precision) {
     return MochiKit.Format.truncToFixed(
         aNumber + 0.5 * Math.pow(10, -precision),
@@ -224,6 +233,7 @@ MochiKit.Format.roundToFixed = function (aNumber, precision) {
     );
 };
 
+/** @id MochiKit.Format.percentFormat */
 MochiKit.Format.percentFormat = function (someFloat) {
     return MochiKit.Format.twoDigitFloat(100 * someFloat) + '%';
 };
