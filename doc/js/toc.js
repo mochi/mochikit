@@ -23,7 +23,13 @@ function doXHTMLRequest(url) {
     }
     req.open("GET", url, true);
     return sendXMLHttpRequest(req).addCallback(function (res) {
-        return res.responseXML.documentElement;
+        if (res.responseXML.documentElement) {
+            return res.responseXML.documentElement;
+        } else {
+            var container = document.createElement('div');
+            container.innerHTML = res.responseText;
+            return container;
+        }
     });
 };
 
@@ -33,6 +39,8 @@ function load_request(href, div, doc) {
         // fix anchors
         if (func[1].charAt(0) == "#") {
             func[1] = href + func[1];
+        } else if (func[1].lastIndexOf("#") != -1) {
+            func[1] = href + "#" + func[1].split("#")[1];
         }
     });
     var showLink = A({"class": "force-pointer"}, "[+]");
@@ -69,7 +77,7 @@ function global_index() {
     var loadingNode = DIV(null, "[loading index\u2026]");
     distList.parentNode.insertBefore(P(null, loadingNode), distList);
     
-    var dl = new gatherResults(lst).addCallback(function (res) {
+    var dl = gatherResults(lst).addCallback(function (res) {
         var toggleFunc = function (e) {
             for (var i = 0; i < res.length; i++) {
                 var item = res[i];
@@ -106,3 +114,4 @@ function module_index() {
 };
 
 connect(window, 'onload', create_toc);
+
