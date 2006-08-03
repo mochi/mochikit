@@ -610,15 +610,11 @@ MochiKit.Base.jsonRegistry.register(_86,_87,_88,_89);
 return eval("("+arguments[0]+")");
 },serializeJSON:function(o){
 var _90=typeof (o);
-if(_90=="undefined"){
-return "undefined";
-}else{
 if(_90=="number"||_90=="boolean"){
 return o+"";
 }else{
 if(o===null){
 return "null";
-}
 }
 }
 var m=MochiKit.Base;
@@ -661,6 +657,9 @@ catch(e){
 if(e!=m.NotFound){
 throw e;
 }
+}
+if(_90=="undefined"){
+throw new TypeError("undefined can not be serialized as JSON");
 }
 if(_90=="function"){
 return null;

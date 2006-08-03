@@ -786,9 +786,7 @@ MochiKit.Base.update(MochiKit.Base, {
     /** @id MochiKit.Base.serializeJSON */
     serializeJSON: function (o) {
         var objtype = typeof(o);
-        if (objtype == "undefined") {
-            return "undefined";
-        } else if (objtype == "number" || objtype == "boolean") {
+        if (objtype == "number" || objtype == "boolean") {
             return o + "";
         } else if (o === null) {
             return "null";
@@ -838,6 +836,10 @@ MochiKit.Base.update(MochiKit.Base, {
                 // something really bad happened
                 throw e;
             }
+        }
+        // undefined is outside of the spec
+        if (objtype == "undefined") {
+            throw new TypeError("undefined can not be serialized as JSON");
         }
         // it's a function with no adapter, bad
         if (objtype == "function") {
