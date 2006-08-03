@@ -362,7 +362,12 @@ tests.test_Base = function (t) {
 
     t.is( serializeJSON("foo\n\r\b\f\t"), "\"foo\\n\\r\\b\\f\\t\"", "string JSON" );
     t.is( serializeJSON(null), "null", "null JSON");
-    t.is( serializeJSON(undefined), "undefined", "undefined JSON");
+    try {
+        serializeJSON(undefined);
+        t.ok(false, "undefined should not be serializable");
+    } catch (e) {
+        t.ok(e instanceof TypeError, "undefined not serializable");
+    }
     t.is( serializeJSON(1), "1", "1 JSON");
     t.is( serializeJSON(1.23), "1.23", "1.23 JSON");
     t.is( serializeJSON(serializeJSON), null, "function JSON (null, not string)" );

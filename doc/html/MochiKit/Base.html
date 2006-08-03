@@ -148,7 +148,7 @@ string, simply call <a class="mochiref reference" href="#fn-evaljson">evalJSON()
 argument into a JSON serialization:</p>
 <ol class="arabic simple">
 <li>Primitive types are returned as their JSON representation:
-<tt class="docutils literal"><span class="pre">undefined</span></tt>, <tt class="docutils literal"><span class="pre">string</span></tt>, <tt class="docutils literal"><span class="pre">number</span></tt>, <tt class="docutils literal"><span class="pre">boolean</span></tt>, <tt class="docutils literal"><span class="pre">null</span></tt>.</li>
+<tt class="docutils literal"><span class="pre">string</span></tt>, <tt class="docutils literal"><span class="pre">number</span></tt>, <tt class="docutils literal"><span class="pre">boolean</span></tt>, <tt class="docutils literal"><span class="pre">null</span></tt>.</li>
 <li>If the object has a <tt class="docutils literal"><span class="pre">__json__</span></tt> or <tt class="docutils literal"><span class="pre">json</span></tt> method, then it is
 called with no arguments. If the result of this method is not the
 object itself, then the new object goes through rule processing
@@ -164,6 +164,9 @@ an adapter for this object. JSON adapters take one argument (the
 object), and are expected to behave like a <tt class="docutils literal"><span class="pre">__json__</span></tt> or
 <tt class="docutils literal"><span class="pre">json</span></tt> method (return another object to be serialized, or
 itself).</li>
+<li>If the object is <tt class="docutils literal"><span class="pre">undefined</span></tt>, a <tt class="docutils literal"><span class="pre">TypeError</span></tt> is thrown. If you
+wish to serialize <tt class="docutils literal"><span class="pre">undefined</span></tt> as <tt class="docutils literal"><span class="pre">null</span></tt> or some other value, you
+should create an adapter to do so.</li>
 <li>If no adapter is available, the object is enumerated and
 serialized as a JSON object (name:value pairs). All names are
 expected to be strings.  Each value is serialized according to
@@ -1433,7 +1436,7 @@ registerJSON(&quot;DateLike&quot;, isDateLike, simplifyDateAsISO);
 </dd>
 <dt><tt class="docutils literal"><span class="pre">override</span></tt>:</dt>
 <dd>if <tt class="docutils literal"><span class="pre">true</span></tt>, then this will be made the highest precedence
-comparator.  Otherwise, the lowest.</dd>
+serialization. Otherwise, the lowest.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
 </dl>

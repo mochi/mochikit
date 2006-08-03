@@ -158,7 +158,7 @@ In order of precedence, :mochiref:`serializeJSON` coerces the given
 argument into a JSON serialization:
 
 1.  Primitive types are returned as their JSON representation:
-    ``undefined``, ``string``, ``number``, ``boolean``, ``null``.
+    ``string``, ``number``, ``boolean``, ``null``.
 2.  If the object has a ``__json__`` or ``json`` method, then it is
     called with no arguments. If the result of this method is not the
     object itself, then the new object goes through rule processing
@@ -174,7 +174,10 @@ argument into a JSON serialization:
     object), and are expected to behave like a ``__json__`` or
     ``json`` method (return another object to be serialized, or
     itself).
-5.  If no adapter is available, the object is enumerated and
+5.  If the object is ``undefined``, a ``TypeError`` is thrown. If you
+    wish to serialize ``undefined`` as ``null`` or some other value, you
+    should create an adapter to do so.
+6.  If no adapter is available, the object is enumerated and
     serialized as a JSON object (name:value pairs). All names are
     expected to be strings.  Each value is serialized according to
     these rules, and if it can not be serialized (e.g. methods), then
@@ -1212,7 +1215,7 @@ Functions
 
     ``override``:
         if ``true``, then this will be made the highest precedence
-        comparator.  Otherwise, the lowest.
+        serialization. Otherwise, the lowest.
 
     *Availability*:
         Available in MochiKit 1.3.1+
