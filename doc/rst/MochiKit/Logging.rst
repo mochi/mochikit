@@ -48,7 +48,7 @@ Debugger and the Atlas framework, see `here`__).
 
 To disable this behavior::
 
-    MochiKit.Logging.logger.useNativeLogging = false;
+    MochiKit.Logging.logger.useNativeConsole = false;
 
 
 Bookmarklet Based Debugging
