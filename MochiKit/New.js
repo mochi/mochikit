@@ -39,7 +39,7 @@ MochiKit.Base.update(MochiKit.DOM, {
             }
         }
 
-        if (MochiKit.Base.isOpera() && (MochiKit.Base.find(['left', 'top', 'right', 'bottom'], style))) {
+        if (MochiKit.Base.isOpera() && (MochiKit.Base.find(['left', 'top', 'right', 'bottom'], style) != -1)) {
             if (MochiKit.DOM.getStyle(element, 'position') == 'static') {
                 value = 'auto';
             }
