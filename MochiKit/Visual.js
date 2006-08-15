@@ -1030,7 +1030,7 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
             this.options.endcolor =
                 MochiKit.Color.Color.fromBackground(this.element).toHexString();
         }
-        if (!this.options.restorecolor) {
+        if (b.isUndefinedOrNull(this.options.restorecolor)) {
             this.options.restorecolor = d.getStyle(this.element,
                                                    'background-color');
         }
@@ -1061,7 +1061,7 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
     finish: function () {
         MochiKit.DOM.setStyle(this.element,
             MochiKit.Base.update(this.oldStyle, {
-                backgroundColor: this.options.endcolor
+                backgroundColor: this.options.restorecolor
         }));
     }
 });
