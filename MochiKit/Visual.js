@@ -652,12 +652,7 @@ MochiKit.Visual.Base.prototype = {
     loop: function (timePos) {
         if (timePos >= this.startOn) {
             if (timePos >= this.finishOn) {
-                this.render(1.0);
-                this.cancel();
-                this.event('beforeFinish');
-                this.finish();
-                this.event('afterFinish');
-                return;
+                return this.finalize();
             }
             var pos = (timePos - this.startOn) / (this.finishOn - this.startOn);
             var frame =
@@ -696,6 +691,15 @@ MochiKit.Visual.Base.prototype = {
                 'global' : this.options.queue.scope).remove(this);
         }
         this.state = 'finished';
+    },
+
+    /** @id MochiKit.Visual.Base.prototype.finalize */
+    finalize: function () {
+        this.render(1.0);
+        this.cancel();
+        this.event('beforeFinish');
+        this.finish();
+        this.event('afterFinish');
     },
 
     setup: function () {
@@ -752,11 +756,7 @@ MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, {
     /** @id MochiKit.Visual.Parallel.prototype.finish */
     finish: function () {
         MochiKit.Iter.forEach(this.effects, function (effect) {
-            effect.render(1.0);
-            effect.cancel();
-            effect.event('beforeFinish');
-            effect.finish();
-            effect.event('afterFinish');
+            effect.finalize();
         });
     }
 });
