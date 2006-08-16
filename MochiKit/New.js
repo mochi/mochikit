@@ -167,7 +167,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         var children = (parent.getElementsByTagName(tagName)
             || self._document.all);
         if (typeof(className) == 'undefined' || className === null) {
-            return MochiKit.Base.extend(null, children);
+            return children[0];
         }
 
         for (var i = 0; i < children.length; i++) {
