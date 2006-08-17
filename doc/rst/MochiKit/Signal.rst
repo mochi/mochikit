@@ -115,7 +115,7 @@ you're looking for.
 .. _`new ticket`: http://trac.mochikit.com/newticket
 .. _`Safari bug 6595`: http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
 .. _`Safari bug 7790`: http://bugzilla.opendarwin.org/show_bug.cgi?id=7790
-.. -`Safari bug 8707`: http://bugzilla.opendarwin.org/show_bug.cgi?id=8707
+.. _`Safari bug 8707`: http://bugzilla.opendarwin.org/show_bug.cgi?id=8707
 
 
 Memory Usage
