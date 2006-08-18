@@ -657,13 +657,14 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
 
         var first = true;
+        var compare = m.compare;
         return {
             repr: function () { return "groupby(...)"; },
             next: function() {
                 // iterator-next
 
                 // iterate until meet next group
-                while (k == pk) {
+                while (compare(k, pk) === 0) {
                     fetch();
                     if (first) {
                         first = false;
@@ -677,7 +678,7 @@ MochiKit.Base.update(MochiKit.Iter, {
                         if (v == undefined) { // Is there something to eat?
                             fetch();
                         }
-                        if (k != pk) {
+                        if (compare(k, pk) !== 0) {
                             throw self.StopIteration;
                         }
                         return eat();

@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Iter.groupby() now uses compare() to group rather than == and !=
 - serializeJSON no longer serializes undefined, as per the JSON spec
 - Fixed an infinite recursion bug in serializeJSON if an adapter
   returns the object itself.
