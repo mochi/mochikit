@@ -24,6 +24,8 @@
 - New MochiKit.DOM.coerceToDOM .dom(node) / .__dom__(node) protocol
 - MochiKit.DOM's MochiKit.Iter dependency is now optional
 - Added expand all link to the documentation index
+- Added MochiKit.DOM.isChildNode
+- Added synthesizing for onmouseenter/onmouseleave
 
 2006-04-29      v1.3.1 (bug fix release)
 

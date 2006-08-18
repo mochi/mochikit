@@ -48,6 +48,7 @@ MochiKit.DOM.EXPORT = [
     "coerceToDOM",
     "createDOM",
     "createDOMFunc",
+    "isChildNode",
     "getNodeAttribute",
     "setNodeAttribute",
     "updateNodeAttributes",
@@ -327,6 +328,24 @@ MochiKit.Base.update(MochiKit.DOM, {
         return undefined;
     },
         
+    /** @id MochiKit.DOM.isChildNode */
+    isChildNode: function (node, maybeparent) {
+        var self = MochiKit.DOM;
+        if (typeof(node) == "string") {
+            node = self.getElement(node);
+        }
+        if (typeof(maybeparent) == "string") {
+            maybeparent = self.getElement(maybeparent);
+        }
+        while (node && node.nodeName && node.nodeName != "BODY") {
+            node = node.parentNode;
+            if (node == maybeparent) {
+                return true;
+            }
+        }
+        return false;
+    },
+
     /** @id MochiKit.DOM.setNodeAttribute */
     setNodeAttribute: function (node, attr, value) {
         var o = {};

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4.1: http://docutils.sourceforge.net/" />
 <title>MochiKit.Signal - Simple universal event handling</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -121,6 +121,34 @@ it is explicitly disconnected.</p>
 <p>In order to conserve memory during the page view,
 <a class="mochiref reference" href="#fn-disconnectall">disconnectAll()</a> any DOM elements that are about to be
 removed from the document.</p>
+</div>
+<div class="section">
+<h2><a id="synthesized-events" name="synthesized-events">Synthesized Events</a></h2>
+<p>Certain events supported by MochiKit are not generated natively by all
+browsers. MochiKit can synthesize these events even for non-supporting
+browsers, however, by watching for related events and triggering the
+appropriate signals at the right times.</p>
+<p>These events include:</p>
+<p><tt class="docutils literal"><span class="pre">onmouseenter</span></tt></p>
+<blockquote>
+<p>Similar to <tt class="docutils literal"><span class="pre">'onmouseover'</span></tt>, but does not &quot;bubble&quot; up to parent
+nodes. Such bubbling is often a cause of confusion. On an
+<tt class="docutils literal"><span class="pre">'onmouseenter'</span></tt> event, you can be certain that the mouse has
+left the node attached to the event.</p>
+<dl class="docutils">
+<dt><em>Availability:</em></dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">onmouseleave</span></tt></p>
+<blockquote>
+<p>Similar to <tt class="docutils literal"><span class="pre">'onmouseout'</span></tt>, but does not &quot;bubble&quot; up to parent
+nodes. This is the analog to <tt class="docutils literal"><span class="pre">'onmouseenter'</span></tt>.</p>
+<dl class="docutils">
+<dt><em>Availability:</em></dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
 </div>
 <div class="section">
 <h2><a id="using-signal-for-non-dom-objects" name="using-signal-for-non-dom-objects">Using Signal for non-DOM objects</a></h2>

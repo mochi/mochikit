@@ -137,6 +137,35 @@ In order to conserve memory during the page view,
 removed from the document.
 
 
+Synthesized Events
+------------------
+
+Certain events supported by MochiKit are not generated natively by all
+browsers. MochiKit can synthesize these events even for non-supporting
+browsers, however, by watching for related events and triggering the
+appropriate signals at the right times.
+
+These events include:
+
+``onmouseenter``
+
+    Similar to ``'onmouseover'``, but does not "bubble" up to parent
+    nodes. Such bubbling is often a cause of confusion. On an
+    ``'onmouseenter'`` event, you can be certain that the mouse has
+    left the node attached to the event.
+
+    *Availability:*
+        Available in MochiKit 1.4+
+
+``onmouseleave``
+
+    Similar to ``'onmouseout'``, but does not "bubble" up to parent
+    nodes. This is the analog to ``'onmouseenter'``.
+
+    *Availability:*
+        Available in MochiKit 1.4+
+
+
 Using Signal for non-DOM objects
 --------------------------------
 

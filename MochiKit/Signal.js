@@ -537,6 +537,27 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
     },
     
+    _browserAlreadyHasMouseEnterAndLeave: function () {
+        /* Until isIE() gets out of New */
+        return /MSIE/.test(navigator.userAgent);
+    },
+
+    _mouseEnterListener: function (src, sig, func, obj) {
+        var E = MochiKit.Signal.Event;
+        return function (nativeEvent) {
+            var e = new E(src, nativeEvent);
+            if (e.target() != src || MochiKit.DOM.isChildNode(e.relatedTarget(), this)) {
+                return e.stop();
+            }
+            e.type = function () { return sig; };
+            if (typeof(func) == "string") {
+                return obj[func].apply(obj, [e]);
+            } else {
+                return func.apply(obj, [e]);
+            }
+        };
+    },
+
     /** @id MochiKit.Signal.connect */
     connect: function (src, sig, objOrFunc/* optional */, funcOrStr) {
         src = MochiKit.DOM.getElement(src);
@@ -568,7 +589,17 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
         
         var isDOM = !!(src.addEventListener || src.attachEvent);
-        var listener = self._listener(src, func, obj, isDOM);
+        if (isDOM && (sig === "onmouseenter" || sig === "onmouseleave")
+                  && !self._browserAlreadyHasMouseEnterAndLeave()) {
+            var listener = self._mouseEnterListener(src, sig, func, obj);
+            if (sig === "onmouseenter") {
+                sig = "onmouseover";
+            } else {
+                sig = "onmouseout";
+            }
+        } else {
+            var listener = self._listener(src, func, obj, isDOM);
+        }
         
         if (src.addEventListener) {
             src.addEventListener(sig.substr(2), listener, false);
