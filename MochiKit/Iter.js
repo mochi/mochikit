@@ -700,6 +700,7 @@ MochiKit.Base.update(MochiKit.Iter, {
         var result = [];
         var first = true;
         var prev_key;
+        var compare = m.compare;
         while (true) {
             try {
                 var value = iterable.next();
@@ -710,7 +711,7 @@ MochiKit.Base.update(MochiKit.Iter, {
                 }
                 throw e;
             }
-            if (first || key != prev_key) {
+            if (first || compare(key, prev_key) !== 0) {
                 var values = [];
                 result.push([key, values]);
             }
