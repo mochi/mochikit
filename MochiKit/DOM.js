@@ -552,7 +552,11 @@ MochiKit.Base.update(MochiKit.DOM, {
         var elements = [];
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
-            var classNames = child.className.split(' ');
+            var cls = child.className;
+            if (!cls) {
+                continue;
+            }
+            var classNames = cls.split(' ');
             for (var j = 0; j < classNames.length; j++) {
                 if (classNames[j] == className) {
                     elements.push(child);
@@ -647,7 +651,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         var obj = self.getElement(element);
         var cls = obj.className;
         // trivial case, no className yet
-        if (cls.length === 0) {
+        if (cls == undefined || cls.length === 0) {
             self.setElementClass(obj, className);
             return true;
         }
@@ -655,7 +659,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (cls == className) {
             return false;
         }
-        var classes = obj.className.split(" ");
+        var classes = cls.split(" ");
         for (var i = 0; i < classes.length; i++) {
             // already present
             if (classes[i] == className) {
@@ -673,7 +677,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         var obj = self.getElement(element);
         var cls = obj.className;
         // trivial case, no className yet
-        if (cls.length === 0) {
+        if (cls == undefined || cls.length === 0) {
             return false;
         }
         // other trivial case, set only to className
@@ -681,7 +685,7 @@ MochiKit.Base.update(MochiKit.DOM, {
             self.setElementClass(obj, "");
             return true;
         }
-        var classes = obj.className.split(" ");
+        var classes = cls.split(" ");
         for (var i = 0; i < classes.length; i++) {
             // already present
             if (classes[i] == className) {
@@ -708,7 +712,11 @@ MochiKit.Base.update(MochiKit.DOM, {
     /** @id MochiKit.DOM.hasElementClass */
     hasElementClass: function (element, className/*...*/) {
         var obj = MochiKit.DOM.getElement(element);
-        var classes = obj.className.split(" ");
+        var cls = obj.className;
+        if (!cls) {
+            return false;
+        }
+        var classes = cls.split(" ");
         for (var i = 1; i < arguments.length; i++) {
             var good = false;
             for (var j = 0; j < classes.length; j++) {
