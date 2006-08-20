@@ -312,8 +312,6 @@ MochiKit.DragAndDrop.Draggables = {
     ***/
     drags: [],
 
-    observers: [],
-
     register: function (draggable) {
         if (this.drags.length === 0) {
             var conn = MochiKit.Signal.connect;
@@ -379,38 +377,8 @@ MochiKit.DragAndDrop.Draggables = {
         }
     },
 
-    addObserver: function (observer) {
-        this.observers.push(observer);
-        this._cacheObserverCallbacks();
-    },
-
-    removeObserver: function (element) {
-        // element instead of observer fixes mem leaks
-        this.observers = MochiKit.Base.filter(function (o) {
-            return o.element != element;
-        }, this.observers);
-        this._cacheObserverCallbacks();
-    },
-
     notify: function (eventName, draggable, event) {
-        // 'onStart', 'onEnd', 'onDrag'
-        if (this[eventName + 'Count'] > 0) {
-            MochiKit.Base.map(function (o) {
-                if (o[eventName]) {
-                    o[eventName](eventName, draggable, event);
-                }
-            }, this.observers);
-        }
-    },
-
-    _cacheObserverCallbacks: function () {
-        var b = MochiKit.Base;
-        var self = MochiKit.DragAndDrop.Draggables;
-        b.map(function (eventName) {
-            self[eventName + 'Count'] = b.filter(function (o) {
-                return o[eventName];
-            }, self.observers).length;
-        }, ['onStart', 'onEnd', 'onDrag']);
+        MochiKit.Signal.signal(this, eventName, draggable, event);
     }
 };
 
@@ -579,7 +547,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
 
         MochiKit.DragAndDrop.Droppables.prepare(this.element);
-        MochiKit.DragAndDrop.Draggables.notify('onStart', this, event);
+        MochiKit.DragAndDrop.Draggables.notify('start', this, event);
         if (this.options.starteffect) {
             this.options.starteffect(this.element);
         }
@@ -592,7 +560,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
         MochiKit.Position.prepare();
         MochiKit.DragAndDrop.Droppables.show(pointer, this.element);
-        MochiKit.DragAndDrop.Draggables.notify('onDrag', this, event);
+        MochiKit.DragAndDrop.Draggables.notify('drag', this, event);
         this.draw(pointer);
         this.options.onchange(this);
 
@@ -653,7 +621,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         if (success) {
             dr.Droppables.fire(event, this.element);
         }
-        dr.Draggables.notify('onEnd', this, event);
+        dr.Draggables.notify('end', this, event);
 
         var revert = this.options.revert;
         if (revert && typeof(revert) == 'function') {
