@@ -47,8 +47,8 @@ The implementation was adapted from Scriptaculous_.
 API Reference
 =============
 
-Functions
----------
+Constructors
+------------
 
 :mochidef:`Draggable(element[, options])`:
 
@@ -113,6 +113,18 @@ Functions
 
     ``scrollSpeed (15)``:
         Scroll speed, used when scroll is used.
+
+    A draggable generates some signals during its lifetime: start, drag and
+    end. They are available through the Draggables handler, and are called
+    with a draggable as argument. You can register a callback for these events
+    like this::
+        
+        onStart = function (draggable) {
+            // Do some stuff
+        };
+
+        connect(Draggables, 'start', onStart);
+
 
     *Availability*:
         Available in MochiKit 1.4+
