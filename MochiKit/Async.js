@@ -474,7 +474,7 @@ MochiKit.Async.DeferredList.prototype = new MochiKit.Async.Deferred();
 MochiKit.Async.DeferredList.prototype._cbDeferred = function (index, succeeded, result) {
     this.resultList[index] = [succeeded, result];
     this.finishedCount += 1;
-    if (this.fired !== 0) {
+    if (this.fired == -1) {
         if (succeeded && this.fireOnOneCallback) {
             this.callback([index, result]);
         } else if (!succeeded && this.fireOnOneErrback) {

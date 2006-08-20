@@ -291,6 +291,7 @@ try {
     callList3[1].addCallback(throwStuff); 
     callList3[2].addCallback(increment); 
     var defList3 = new DeferredList(callList3, false, true); 
+    defList3.callback = neverHappen;
     callList3[0].callback(3); 
     callList3[1].callback("foo"); 
     callList3[2].callback(4); 
