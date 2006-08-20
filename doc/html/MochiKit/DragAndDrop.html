@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4.1: http://docutils.sourceforge.net/" />
 <title>MochiKit.DragAndDrop - drag and drop elements with MochiKit</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -55,7 +55,7 @@ through your pages, for richer interfaces.</p>
 <div class="section">
 <h1><a id="api-reference" name="api-reference">API Reference</a></h1>
 <div class="section">
-<h2><a id="functions" name="functions">Functions</a></h2>
+<h2><a id="constructors" name="constructors">Constructors</a></h2>
 <p>
 <a name="fn-draggable"></a>
 <a class="mochidef reference" href="#fn-draggable">Draggable(element[, options])</a>:</p>
@@ -108,6 +108,19 @@ will allow the draggable to scroll in the page.</dd>
 <dd>Scroll sensitivity, used when scroll is used.</dd>
 <dt><tt class="docutils literal"><span class="pre">scrollSpeed</span> <span class="pre">(15)</span></tt>:</dt>
 <dd>Scroll speed, used when scroll is used.</dd>
+</dl>
+<p>A draggable generates some signals during its lifetime: start, drag and
+end. They are available through the Draggables handler, and are called
+with a draggable as argument. You can register a callback for these events
+like this:</p>
+<pre class="literal-block">
+onStart = function (draggable) {
+    // Do some stuff
+};
+
+connect(Draggables, 'start', onStart);
+</pre>
+<dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
