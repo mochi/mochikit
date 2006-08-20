@@ -45,43 +45,11 @@ MochiKit.Sortable.toString = function () {
 };
 
 MochiKit.Sortable.EXPORT = [
-    "SortableObserver"
 ];
 
 MochiKit.DragAndDrop.EXPORT_OK = [
     "Sortable"
 ];
-
-/** @id MochiKit.Sortable.SortableObserver */
-MochiKit.Sortable.SortableObserver = function (element, observer) {
-    this.__init__(element, observer);
-};
-
-MochiKit.Sortable.SortableObserver.prototype = {
-    /***
-
-    Observe events of drag and drop sortables.
-
-    ***/
-    __init__: function (element, observer) {
-        this.element = MochiKit.DOM.getElement(element);
-        this.observer = observer;
-        this.lastValue = MochiKit.Sortable.Sortable.serialize(this.element);
-    },
-
-    /** @id MochiKit.Sortable.onStart */
-    onStart: function () {
-        this.lastValue = MochiKit.Sortable.Sortable.serialize(this.element);
-    },
-
-    /** @id MochiKit.Sortable.onEnd */
-    onEnd: function () {
-        MochiKit.Sortable.Sortable.unmark();
-        if (this.lastValue != MochiKit.Sortable.Sortable.serialize(this.element)) {
-            this.observer(this.element)
-        }
-    }
-};
 
 MochiKit.Sortable.Sortable = {
     /***
@@ -116,7 +84,8 @@ MochiKit.Sortable.Sortable = {
         var d = MochiKit.DragAndDrop;
 
         if (s) {
-            d.Draggables.removeObserver(s.element);
+            MochiKit.Signal.disconnect(s.startHandle);
+            MochiKit.Signal.disconnect(s.endHandle);
             b.map(function (dr) {
                 d.Droppables.remove(dr);
             }, s.droppables);
@@ -286,9 +255,28 @@ MochiKit.Sortable.Sortable = {
         // keep reference
         self.sortables[element.id] = options;
 
-        // for onupdate
-        MochiKit.DragAndDrop.Draggables.addObserver(
-            new MochiKit.Sortable.SortableObserver(element, options.onUpdate));
+        options.lastValue = self.serialize(element);
+        options.startHandle = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'start',
+                                MochiKit.Base.partial(self.onStart, element));
+        options.endHandle = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end',
+                                MochiKit.Base.partial(self.onEnd, element));
+    },
+
+    /** @id MochiKit.Sortable.Sortable.onStart */
+    onStart: function (element, draggable) {
+        var self = MochiKit.Sortable.Sortable;
+        var options = self.options(element);
+        options.lastValue = self.serialize(options.element);
+    },
+
+    /** @id MochiKit.Sortable.Sortable.onEnd */
+    onEnd: function (element, draggable) {
+        var self = MochiKit.Sortable.Sortable;
+        self.unmark();
+        var options = self.options(element);
+        if (options.lastValue != self.serialize(options.element)) {
+            options.onUpdate(options.element);
+        }
     },
 
     // return all suitable-for-sortable elements in a guaranteed order
