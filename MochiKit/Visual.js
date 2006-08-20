@@ -557,6 +557,11 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
                 });
                 timestamp = finish || timestamp;
                 break;
+            case 'break':
+                fe(this.effects, function (e) {
+                    e.finalize();
+                });
+                break;
         }
 
         effect.startOn += timestamp;
@@ -572,7 +577,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
         }
     },
 
-    /** @id MochiKit.Visual.ScopedQueue.prototype.addremove */
+    /** @id MochiKit.Visual.ScopedQueue.prototype.remove */
     remove: function (effect) {
         this.effects = MochiKit.Base.filter(function (e) {
             return e != effect;
@@ -583,7 +588,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
         }
     },
 
-    /** @id MochiKit.Visual.ScopedQueue.prototype.addloop */
+    /** @id MochiKit.Visual.ScopedQueue.prototype.loop */
     loop: function () {
         var timePos = new Date().getTime();
         MochiKit.Iter.forEach(this.effects, function (effect) {
