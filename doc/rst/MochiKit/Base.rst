@@ -800,10 +800,10 @@ Functions
 
     If ``fn`` is ``null``, and more than one sequence is given as
     arguments, then the ``Array`` function is used, making it
-    equivalent to :mochiref:`zip`.
+    equivalent to :mochiref:`MochiKit.Iter.zip`.
 
         :mochiref:`map(null, p, q, ...)`
-            -> :mochiref:`zip(p, q, ...)`
+            -> :mochiref:`MochiKit.Iter.zip(p, q, ...)`
             -> ``[[p0, q0, ...], [p1, q1, ...], ...];``
 
     *Availability*:
