@@ -422,6 +422,36 @@ Combination Effects
         Available in MochiKit 1.4+
 
 
+The Effects Queue
+-----------------
+
+When you create effects based on user input (mouse clicks for example), it can
+create conflicts between the effects if multiple effects are running at the
+same time. To manage this problem, the Queue mechanism has been introduced:
+it's responsible for running the effects as you desired.
+
+By default, you have one Queue called 'global', and the effects run in 'parallel'
+(see default options). Every effects have a queue option to customize this.
+It can be a string, the scope is then global:
+    
+- `start`: the effect will be run before any other;
+- `end`: the effect will be run after any other;
+- `break`: every other effects break when the the effect start;
+- `parallel`: the effect run normally with others.
+
+
+But you have even more control if you use an array with the following keys:
+
+- `position` takes a value listed above;
+- `scope` manages how the information has to be taken. If it's `global` 
+  then it's the same information for every effects. Otherwise you can define
+  your own scode. For example, if you add an effect on a specified element,
+  you may use the element id as scode;
+- `limit` defines how many effects can run in the current scode. If an
+  effect is added whereas the limit is reached, it will never be run (it's
+  lost).
+
+
 See Also
 ========
 
