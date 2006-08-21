@@ -109,12 +109,12 @@ Functions
 
 :mochidef:`getElementDimensions(element)`:
 
-    Return the absolute pixel width and height of ``element`` as an
-    object with ``w`` and ``h`` properties, or ``undefined`` if
-    ``element`` is not in the document. ``element`` may be specified
-    as a string to be looked up with :mochiref:`getElement`, a DOM
-    element, or trivially as an object with ``w`` and/or ``h``
-    properties.
+    Return the absolute pixel width and height (including padding and border,
+    but not margins) of ``element`` as an object with ``w`` and ``h``
+    properties, or ``undefined`` if ``element`` is not in the document.
+    ``element`` may be specified as a string to be looked up with
+    :mochiref:`getElement`, a DOM element, or trivially as an object with
+    ``w`` and/or ``h`` properties.
 
     *Availability*:
         Available in MochiKit 1.4+
