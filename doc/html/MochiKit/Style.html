@@ -115,12 +115,12 @@ from 0 (invisible) to 1 (opaque). <tt class="docutils literal"><span class="pre"
 <a name="fn-getelementdimensions"></a>
 <a class="mochidef reference" href="#fn-getelementdimensions">getElementDimensions(element)</a>:</p>
 <blockquote>
-<p>Return the absolute pixel width and height of <tt class="docutils literal"><span class="pre">element</span></tt> as an
-object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if
-<tt class="docutils literal"><span class="pre">element</span></tt> is not in the document. <tt class="docutils literal"><span class="pre">element</span></tt> may be specified
-as a string to be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>, a DOM
-element, or trivially as an object with <tt class="docutils literal"><span class="pre">w</span></tt> and/or <tt class="docutils literal"><span class="pre">h</span></tt>
-properties.</p>
+<p>Return the absolute pixel width and height (including padding and border,
+but not margins) of <tt class="docutils literal"><span class="pre">element</span></tt> as an object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt>
+properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if <tt class="docutils literal"><span class="pre">element</span></tt> is not in the document.
+<tt class="docutils literal"><span class="pre">element</span></tt> may be specified as a string to be looked up with
+<a class="mochiref reference" href="#fn-getelement">getElement</a>, a DOM element, or trivially as an object with
+<tt class="docutils literal"><span class="pre">w</span></tt> and/or <tt class="docutils literal"><span class="pre">h</span></tt> properties.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>

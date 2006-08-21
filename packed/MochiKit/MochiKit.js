@@ -2502,7 +2502,7 @@ MochiKit.Async.DeferredList.prototype=new MochiKit.Async.Deferred();
 MochiKit.Async.DeferredList.prototype._cbDeferred=function(_319,_320,_321){
 this.resultList[_319]=[_320,_321];
 this.finishedCount+=1;
-if(this.fired!==0){
+if(this.fired==-1){
 if(_320&&this.fireOnOneCallback){
 this.callback([_319,_321]);
 }else{
@@ -5118,6 +5118,11 @@ _662=i;
 }
 });
 _660=_662||_660;
+break;
+case "break":
+fe(this.effects,function(e){
+e.finalize();
+});
 break;
 }
 _659.startOn+=_660;
