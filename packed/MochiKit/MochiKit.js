@@ -2774,9 +2774,12 @@ node=self.getElement(node);
 if(typeof (_349)=="string"){
 _349=self.getElement(_349);
 }
-while(node&&node.nodeName&&node.nodeName!="BODY"){
+if(node===_349){
+return true;
+}
+while(node&&node.nodeName!="BODY"){
 node=node.parentNode;
-if(node==_349){
+if(node===_349){
 return true;
 }
 }
