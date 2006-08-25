@@ -546,8 +546,19 @@ MochiKit.Base.update(MochiKit.Signal, {
         var E = MochiKit.Signal.Event;
         return function (nativeEvent) {
             var e = new E(src, nativeEvent);
-            if (e.target() != src || MochiKit.DOM.isChildNode(e.relatedTarget(), this)) {
-                return e.stop();
+            try {
+                e.relatedTarget().nodeName;
+            } catch (err) {
+                /* probably hit a permission denied error; possibly one of
+                 * firefox's screwy anonymous DIVs inside an input element.
+                 * Allow this event to propogate up.
+                 */
+                return;
+            }
+            e.stop();
+            if (MochiKit.DOM.isChildNode(e.relatedTarget(), src)) {
+                /* We've moved between our node and a child. Ignore. */
+                return;
             }
             e.type = function () { return sig; };
             if (typeof(func) == "string") {
