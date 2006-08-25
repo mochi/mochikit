@@ -4603,7 +4603,7 @@ obj=src;
 }
 var _573=!!(src.addEventListener||src.attachEvent);
 if(_573&&(sig==="onmouseenter"||sig==="onmouseleave")&&!self._browserAlreadyHasMouseEnterAndLeave()){
-var _574=self._mouseEnterListener(src,sig,func,obj);
+var _574=self._mouseEnterListener(src,sig.substr(2),func,obj);
 if(sig==="onmouseenter"){
 sig="onmouseover";
 }else{

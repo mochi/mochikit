@@ -602,7 +602,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         var isDOM = !!(src.addEventListener || src.attachEvent);
         if (isDOM && (sig === "onmouseenter" || sig === "onmouseleave")
                   && !self._browserAlreadyHasMouseEnterAndLeave()) {
-            var listener = self._mouseEnterListener(src, sig, func, obj);
+            var listener = self._mouseEnterListener(src, sig.substr(2), func, obj);
             if (sig === "onmouseenter") {
                 sig = "onmouseover";
             } else {
