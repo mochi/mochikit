@@ -576,6 +576,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
                 p = MochiKit.Position.page(this.options.scroll);
                 p.x += this.options.scroll.scrollLeft;
                 p.y += this.options.scroll.scrollTop;
+                p.x += (window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0);
+                p.y += (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0);
                 q = new MochiKit.Style.Coordinates(p.x + this.options.scroll.offsetWidth,
                                                    p.y + this.options.scroll.offsetHeight);
             }
