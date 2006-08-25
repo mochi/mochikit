@@ -462,6 +462,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
         if (options.scroll && !options.scroll.scrollTo && !options.scroll.outerHTML) {
             options.scroll = d.getElement(options.scroll);
+            this._isScrollChild = MochiKit.DOM.isChildNode(this.element, options.scroll);
         }
 
         d.makePositioned(this.element);  // fix IE
@@ -672,11 +673,16 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     /** @id MochiKit.DragAndDrop.draw */
     draw: function (point) {
         var pos = MochiKit.Position.cumulativeOffset(this.element);
+        if (this.options.ghosting) { 
+            var r = MochiKit.Position.realOffset(this.element); 
+            pos.x += r.x - MochiKit.Position.windowOffset.x;
+            pos.y += r.y - MochiKit.Position.windowOffset.y; 
+        } 
         var d = this.currentDelta();
         pos.x -= d[0];
         pos.y -= d[1];
 
-        if (this.options.scroll && !this.options.scroll.scrollTo) {
+        if (this.options.scroll && (this.options.scroll != window && this._isScrollChild)) {
             pos.x -= this.options.scroll.scrollLeft - this.originalScrollLeft;
             pos.y -= this.options.scroll.scrollTop - this.originalScrollTop;
         }
@@ -722,12 +728,13 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         if (this.scrollInterval) {
             clearInterval(this.scrollInterval);
             this.scrollInterval = null;
+            MochiKit.DragAndDrop.Draggables._lastScrollPointer = null;
         }
     },
 
     /** @id MochiKit.DragAndDrop.startScrolling */
     startScrolling: function (speed) {
-        if (!speed[0] || !speed[1]) {
+        if (!speed[0] && !speed[1]) {
             return;
         }
         this.scrollSpeed = [speed[0] * this.options.scrollSpeed,
@@ -758,7 +765,20 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
         MochiKit.Position.prepare();
         d.Droppables.show(d.Draggables._lastPointer, this.element);
-        this.draw(d.Draggables._lastPointer);
+        d.Draggables.notify('drag', this);
+        if (this._isScrollChild) {
+            d.Draggables._lastScrollPointer = d.Draggables._lastScrollPointer || d.Draggables._lastPointer;
+            d.Draggables._lastScrollPointer.x += this.scrollSpeed[0] * delta / 1000;
+            d.Draggables._lastScrollPointer.y += this.scrollSpeed[1] * delta / 1000;
+            if (d.Draggables._lastScrollPointer.x < 0) {
+                d.Draggables._lastScrollPointer.x = 0;
+            }
+            if (d.Draggables._lastScrollPointer.y < 0) {
+                d.Draggables._lastScrollPointer.y = 0;
+            }
+            this.draw(d.Draggables._lastScrollPointer);
+        }
+
         this.options.onchange(this);
     },
 
