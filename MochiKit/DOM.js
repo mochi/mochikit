@@ -337,9 +337,12 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (typeof(maybeparent) == "string") {
             maybeparent = self.getElement(maybeparent);
         }
-        while (node && node.nodeName && node.nodeName != "BODY") {
+        if (node === maybeparent) {
+            return true;
+        }
+        while (node && node.nodeName != "BODY") {
             node = node.parentNode;
-            if (node == maybeparent) {
+            if (node === maybeparent) {
                 return true;
             }
         }
