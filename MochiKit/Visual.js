@@ -1189,12 +1189,15 @@ MochiKit.Visual.puff = function (element, /* optional */ options) {
     element = d.getElement(element);
     var oldStyle = {
         opacity: d.getInlineOpacity(element),
-        position: d.getStyle(element, 'position')
+        position: d.getStyle(element, 'position'),
+        top: element.style.top,
+        left: element.style.left,
+        width: element.style.width,
+        height: element.style.height
     };
     options = MochiKit.Base.update({
         beforeSetupInternal: function (effect) {
-            d.setStyle(effect.effects[0].element,
-                                  {position: 'absolute'});
+            MochiKit.Position.absolutize(effect.effects[0].element)
         },
         afterFinishInternal: function (effect) {
             MochiKit.Style.hideElement(effect.effects[0].element);
