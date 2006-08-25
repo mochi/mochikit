@@ -4549,8 +4549,15 @@ return /MSIE/.test(navigator.userAgent);
 var E=MochiKit.Signal.Event;
 return function(_570){
 var e=new E(src,_570);
-if(e.target()!=src||MochiKit.DOM.isChildNode(e.relatedTarget(),this)){
-return e.stop();
+try{
+e.relatedTarget().nodeName;
+}
+catch(err){
+return;
+}
+e.stop();
+if(MochiKit.DOM.isChildNode(e.relatedTarget(),src)){
+return;
 }
 e.type=function(){
 return sig;
