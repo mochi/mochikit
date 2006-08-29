@@ -435,6 +435,12 @@ tests.test_Base = function (t) {
     t.is( repr(compose(compose(f1,f2),f3)(4)), "[1, [2, [3, 4]]]", "associative left" );
     t.is( repr(compose(f1,compose(f2,f3))(4)), "[1, [2, [3, 4]]]", "associative right" );
     
+    try {
+        compose(f1, "foo");
+    } catch (e) {
+        t.is( e.name, 'TypeError', "wrong compose argument raised correctly" );
+    }
+    
     t.is(camelize('one'), 'one', 'one word');
     t.is(camelize('one-two'), 'oneTwo', 'two words');
     t.is(camelize('one-two-three'), 'oneTwoThree', 'three words');
