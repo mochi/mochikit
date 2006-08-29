@@ -572,7 +572,7 @@ MochiKit.Base.update(MochiKit.Base, {
         for (var i = 0; i < arguments.length; i++) {
             var fn = arguments[i];
             if (typeof(fn) != "function") {
-                throw new TypeError(repr(fn) + " is not a function");
+                throw new TypeError(m.repr(fn) + " is not a function");
             }
             fnlist.push(fn);
         }
