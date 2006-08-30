@@ -116,6 +116,8 @@ you're looking for.
 .. _`Safari bug 6595`: http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
 .. _`Safari bug 7790`: http://bugzilla.opendarwin.org/show_bug.cgi?id=7790
 .. _`Safari bug 8707`: http://bugzilla.opendarwin.org/show_bug.cgi?id=8707
+.. _`stopPropagation()`: http://developer.mozilla.org/en/docs/DOM:event.stopPropagation
+.. _`preventDefault()`: http://developer.mozilla.org/en/docs/DOM:event.preventDefault
 
 
 Memory Usage
@@ -315,7 +317,7 @@ DOM Custom Event Object Reference
 
 :mochidef:`stopPropagation()`:
 
-    Works like W3C's ``stopPropagation()``.
+    Works like W3C's `stopPropagation()`_.
 
     *Availability*:
         Available in MochiKit 1.3.1+
@@ -323,7 +325,7 @@ DOM Custom Event Object Reference
 
 :mochidef:`preventDefault()`:
 
-    Works like W3C's ``preventDefault()``.
+    Works like W3C's `preventDefault()`_.
 
     *Availability*:
         Available in MochiKit 1.3.1+
