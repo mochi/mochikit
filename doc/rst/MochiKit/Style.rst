@@ -125,7 +125,7 @@ Functions
     Sets the dimensions of ``element`` in the document from an object
     with ``w`` and ``h`` properties.
 
-    ``node``:
+    ``element``:
         A reference to the DOM element to update (if a string is
         given, :mochiref:`getElement(node)` will be used to locate the
         node)
@@ -171,7 +171,7 @@ Functions
     Sets the absolute position of ``element`` in the document from an
     object with ``x`` and ``y`` properties.
 
-    ``node``:
+    ``element``:
         A reference to the DOM element to update (if a string is
         given, :mochiref:`getElement(node)` will be used to locate the
         node)
