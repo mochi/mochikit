@@ -66,6 +66,14 @@ try {
     is(computedStyle('styleTest', 'opacity'), '0.5', 
         'test computedStyle opacity');
 
+    var dims = getViewportDimensions();
+    is(dims.w > 0, true, 'test getViewportDimensions w');
+    is(dims.h > 0, true, 'test getViewportDimensions h');
+
+    pos = getViewportPosition();
+    is(pos.x, 0, 'test getViewportPosition x');
+    is(pos.y, 0, 'test getViewportPosition y');
+
     ok( true, "test suite finished!");
     
     
