@@ -51,6 +51,12 @@ try {
     is(typeof(pos), 'undefined', 
         'invalid element should return an undefined position');
     
+    // Only set one coordinate
+    setElementPosition('styleTest', {'x': 300});
+    pos = getElementPosition('styleTest');
+    is(pos.x, 300, 'updated only x position');
+    is(pos.y, 200, 'not updated y position');
+    
     var mc = MochiKit.Color.Color;
     var red = mc.fromString('rgb(255,0,0)');
     var color = null;
@@ -66,7 +72,21 @@ try {
     is(computedStyle('styleTest', 'opacity'), '0.5', 
         'test computedStyle opacity');
 
-    var dims = getViewportDimensions();
+    var dims = getElementDimensions('styleTest');
+    is(dims.w, 100, 'getElementDimensions w ok');
+    is(dims.h, 100, 'getElementDimensions h ok');
+
+    setElementDimensions('styleTest', {'w': 200, 'h': 150});
+    dims = getElementDimensions('styleTest');
+    is(dims.w, 200, 'setElementDimensions w ok');
+    is(dims.h, 150, 'setElementDimensions h ok');
+
+    setElementDimensions('styleTest', {'w': 150});
+    dims = getElementDimensions('styleTest');
+    is(dims.w, 150, 'setElementDimensions only w ok');
+    is(dims.h, 150, 'setElementDimensions h not updated ok');
+
+    dims = getViewportDimensions();
     is(dims.w > 0, true, 'test getViewportDimensions w');
     is(dims.h > 0, true, 'test getViewportDimensions h');
 

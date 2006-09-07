@@ -131,7 +131,8 @@ Functions
         node)
 
     ``dimensions``:
-        An object with ``w`` and ``h`` properties
+        An object with ``w`` and ``h`` properties. You can also specify only
+        one property.
 
     ``units``:
         Optionally set the units to use, default is ``px``
@@ -177,7 +178,8 @@ Functions
         node)
 
     ``position``:
-        An object with ``x`` and ``y`` properties
+        An object with ``x`` and ``y`` properties. You can also specify only
+        one property.
 
     ``units``:
         Optionally set the units to use, default is ``px``
