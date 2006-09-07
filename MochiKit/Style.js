@@ -285,10 +285,15 @@ MochiKit.Base.update(MochiKit.Style, {
         if (typeof(units) == 'undefined') {
             units = 'px';
         }
-        MochiKit.DOM.updateNodeAttributes(elem, {'style': {
-            'left': newPos.x + units,
-            'top': newPos.y + units
-        }});
+        var newStyle = {};
+        var isUndefNull = MochiKit.Base.isUndefinedOrNull;
+        if (!isUndefNull(newPos.x)) {
+            newStyle['left'] = newPos.x + units;
+        }
+        if (!isUndefNull(newPos.y)) {
+            newStyle['top'] = newPos.y + units;
+        }
+        MochiKit.DOM.updateNodeAttributes(elem, {'style': newStyle});
     },
 
     /** @id MochiKit.Style.getElementDimensions */
@@ -326,10 +331,15 @@ MochiKit.Base.update(MochiKit.Style, {
         if (typeof(units) == 'undefined') {
             units = 'px';
         }
-        MochiKit.DOM.updateNodeAttributes(elem, {'style': {
-            'width': newSize.w + units, 
-            'height': newSize.h + units
-        }});
+        var newStyle = {};
+        var isUndefNull = MochiKit.Base.isUndefinedOrNull;
+        if (!isUndefNull(newSize.w)) {
+            newStyle['width'] = newSize.w + units;
+        }
+        if (!isUndefNull(newSize.h)) {
+            newStyle['height'] = newSize.h + units;
+        }
+        MochiKit.DOM.updateNodeAttributes(elem, {'style': newStyle});
     },
 
     /** @id MochiKit.Style.setDisplayForElement */
