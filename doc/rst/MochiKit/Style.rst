@@ -236,8 +236,15 @@ Functions
 :mochidef:`getViewportDimensions()`:
 
     Return the pixel width and height of the viewport as an object
-    with ``w`` and ``h`` properties. ``element`` is looked up with
-    :mochiref:`getElement`, so string identifiers are also acceptable.
+    with ``w`` and ``h`` properties.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+:mochidef:`getViewportPosition()`:
+
+    Return the pixel position of the viewport inside the window, as a
+    :mochiref:`Coordinates` object.
 
     *Availability*:
         Available in MochiKit 1.4+

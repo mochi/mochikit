@@ -62,6 +62,7 @@ MochiKit.Style.EXPORT = [
     'hideElement',
     'showElement',
     'getViewportDimensions',
+    'getViewportPosition',
     'Dimensions',
     'Coordinates'
 ];
@@ -122,7 +123,7 @@ MochiKit.Base.update(MochiKit.Style, {
         if (!elem || elem == d) {
             return undefined;
         }
-        
+
         /* from YUI 0.10.0 */
         if (cssProperty == 'opacity' && elem.filters) { // IE opacity
             try {
@@ -344,7 +345,7 @@ MochiKit.Base.update(MochiKit.Style, {
     },
 
     /** @id MochiKit.Style.getViewportDimensions */
-    getViewportDimensions: function() {
+    getViewportDimensions: function () {
         var d = new MochiKit.Style.Dimensions();
         
         var w = MochiKit.DOM._window;
@@ -362,7 +363,23 @@ MochiKit.Base.update(MochiKit.Style, {
         }
         return d;
     },
-    
+
+    /** @id MochiKit.Style.getViewportPosition */
+    getViewportPosition: function () {
+        var c = new MochiKit.Style.Coordinates(0, 0);
+        var d = MochiKit.DOM._document;
+        var de = d.documentElement;
+        var db = d.body;
+        if (de && (de.scrollTop || de.scrollLeft)) {
+            c.x = de.scrollLeft;
+            c.y = de.scrollTop;
+        } else if (db) {
+            c.x = db.scrollLeft;
+            c.y = db.scrollTop;
+        }
+        return c;
+    },
+
     __new__: function () {
         var m = MochiKit.Base;
         
