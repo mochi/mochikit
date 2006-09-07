@@ -86,6 +86,11 @@ try {
     is(dims.w, 150, 'setElementDimensions only w ok');
     is(dims.h, 150, 'setElementDimensions h not updated ok');
 
+    hideElement('styleTest');
+    dims = getElementDimensions('styleTest');
+    is(dims.w, 150, 'getElementDimensions w ok when display none');
+    is(dims.h, 150, 'getElementDimensions h ok when display none');
+
     dims = getViewportDimensions();
     is(dims.w > 0, true, 'test getViewportDimensions w');
     is(dims.h > 0, true, 'test getViewportDimensions h');
