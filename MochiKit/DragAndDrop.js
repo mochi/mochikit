@@ -783,27 +783,21 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     },
 
     _getWindowScroll: function (w) {
-        var T, L, W, H;
-        with (w.document) {
-            if (w.document.documentElement && documentElement.scrollTop) {
-                T = documentElement.scrollTop;
-                L = documentElement.scrollLeft;
-            } else if (w.document.body) {
-                T = body.scrollTop;
-                L = body.scrollLeft;
-            }
-            if (w.innerWidth) {
-                W = w.innerWidth;
-                H = w.innerHeight;
-            } else if (w.document.documentElement && documentElement.clientWidth) {
-                W = documentElement.clientWidth;
-                H = documentElement.clientHeight;
-            } else {
-                W = body.offsetWidth;
-                H = body.offsetHeight
-            }
+        var vp, w, h;
+        MochiKit.DOM.withWindow(w, function () {
+            vp = MochiKit.Style.getViewportPosition(w.document);
+        });
+        if (w.innerWidth) {
+            w = w.innerWidth;
+            h = w.innerHeight;
+        } else if (w.document.documentElement && w.document.documentElement.clientWidth) {
+            w = w.document.documentElement.clientWidth;
+            h = w.document.documentElement.clientHeight;
+        } else {
+            w = w.document.body.offsetWidth;
+            h = w.document.body.offsetHeight
         }
-        return {top: T, left: L, width: W, height: H};
+        return {top: vp.x, left: vp.y, width: w, height: h};
     },
 
     /** @id MochiKit.DragAndDrop.repr */
