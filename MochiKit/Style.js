@@ -307,7 +307,9 @@ MochiKit.Base.update(MochiKit.Style, {
         if (!elem) {
             return undefined;
         }
-        if (self.computedStyle(elem, 'display') != 'none') {
+        var disp = self.computedStyle(elem, 'display'); 
+        // display can be empty/undefined on WebKit/KHTML
+        if (disp != 'none' && disp != '' && typeof(disp) != 'undefined') { 
             return new self.Dimensions(elem.offsetWidth || 0, 
                 elem.offsetHeight || 0);
         }
@@ -320,7 +322,10 @@ MochiKit.Base.update(MochiKit.Style, {
         var originalWidth = elem.offsetWidth;
         var originalHeight = elem.offsetHeight;
         s.display = 'none';
-        s.position = originalPosition;
+        // If position is empty, don't overwrite it (WebKit/KHTML) 
+        if (originalPosition != '') { 
+           s.position = originalPosition; 
+        }
         s.visibility = originalVisibility;
         return new self.Dimensions(originalWidth, originalHeight);
     },
