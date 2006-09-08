@@ -322,10 +322,7 @@ MochiKit.Base.update(MochiKit.Style, {
         var originalWidth = elem.offsetWidth;
         var originalHeight = elem.offsetHeight;
         s.display = 'none';
-        // If position is empty, don't overwrite it (WebKit/KHTML) 
-        if (originalPosition != '') { 
-           s.position = originalPosition; 
-        }
+        s.position = originalPosition; 
         s.visibility = originalVisibility;
         return new self.Dimensions(originalWidth, originalHeight);
     },
