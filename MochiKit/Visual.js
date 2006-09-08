@@ -961,11 +961,15 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
     /** @id MochiKit.Visual.Scale.prototype.setDimensions */
     setDimensions: function (height, width) {
         var d = {};
+        var r = Math.round;
+        if (MochiKit.Base.isIE()) {
+            r = Math.ceil;
+        }
         if (this.options.scaleX) {
-            d.width = Math.round(width) + 'px';
+            d.width = r(width) + 'px';
         }
         if (this.options.scaleY) {
-            d.height = Math.round(height) + 'px';
+            d.height = r(height) + 'px';
         }
         if (this.options.scaleFromCenter) {
             var topd = (height - this.dims[0])/2;
