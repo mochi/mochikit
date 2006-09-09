@@ -390,7 +390,7 @@ MochiKit.Visual.tagifyText = function (element, /* optional */tagifyStyle) {
 
     ***/
     var tagifyStyle = tagifyStyle || 'position:relative';
-    if (MochiKit.Base.isIE()) {
+    if (/MSIE/.test(navigator.userAgent) {
         tagifyStyle += ';zoom:1';
     }
     element = MochiKit.DOM.getElement(element);
@@ -787,7 +787,8 @@ MochiKit.Base.update(MochiKit.Visual.Opacity.prototype, {
         var d = MochiKit.DOM;
         this.element = d.getElement(element);
         // make this work on IE on elements without 'layout'
-        if (b.isIE() && (!this.element.currentStyle.hasLayout)) {
+        if (this.element.currentStyle &&
+            (!this.element.currentStyle.hasLayout)) {
             d.setStyle(this.element, {zoom: 1});
         }
         options = b.update({
@@ -962,7 +963,7 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
     setDimensions: function (height, width) {
         var d = {};
         var r = Math.round;
-        if (MochiKit.Base.isIE()) {
+        if (/MSIE/.test(navigator.userAgent) {
             r = Math.ceil;
         }
         if (this.options.scaleX) {
@@ -1403,7 +1404,7 @@ MochiKit.Visual.slideDown = function (element, /* optional */ options) {
         afterSetupInternal: function (effect) {
             d.makePositioned(effect.element);
             d.makePositioned(effect.element.firstChild);
-            if (b.isOpera()) {
+            if (/Opera/.test(navigator.userAgent)) {
                 d.setStyle(effect.element, {top: ''});
             }
             d.makeClipping(effect.element);
@@ -1417,7 +1418,7 @@ MochiKit.Visual.slideDown = function (element, /* optional */ options) {
         afterFinishInternal: function (effect) {
             d.undoClipping(effect.element);
             // IE will crash if child is undoPositioned first
-            if (b.isIE()) {
+            if (/MSIE/.test(navigator.userAgent) {
                 d.undoPositioned(effect.element);
                 d.undoPositioned(effect.element.firstChild);
             } else {
@@ -1458,7 +1459,7 @@ MochiKit.Visual.slideUp = function (element, /* optional */ options) {
         beforeStartInternal: function (effect) {
             d.makePositioned(effect.element);
             d.makePositioned(effect.element.firstChild);
-            if (b.isOpera()) {
+            if (/Opera/.test(navigator.userAgent)) {
                 d.setStyle(effect.element, {top: ''});
             }
             d.makeClipping(effect.element);
@@ -1501,7 +1502,7 @@ MochiKit.Visual.squish = function (element, /* optional */ options) {
         }
     }, options || {});
 
-    return new MochiKit.Visual.Scale(element, b.isOpera() ? 1 : 0, options);
+    return new MochiKit.Visual.Scale(element, /Opera/.test(navigator.userAgent) ? 1 : 0, options);
 };
 
 /** @id MochiKit.Visual.grow */
@@ -1596,7 +1597,7 @@ MochiKit.Visual.grow = function (element, /* optional */ options) {
                         scaleMode: {originalHeight: dims.h,
                                     originalWidth: dims.w},
                         sync: true,
-                        scaleFrom: MochiKit.Base.isOpera() ? 1 : 0,
+                        scaleFrom: /Opera/.test(navigator.userAgent) ? 1 : 0,
                         transition: options.scaleTransition,
                         restoreAfterFinish: true
                 })
@@ -1673,7 +1674,7 @@ MochiKit.Visual.shrink = function (element, /* optional */ options) {
             sync: true, to: 0.0, from: 1.0,
             transition: options.opacityTransition
          }),
-         new v.Scale(element, MochiKit.Base.isOpera() ? 1 : 0, {
+         new v.Scale(element, /Opera/.test(navigator.userAgent) ? 1 : 0, {
              sync: true, transition: options.scaleTransition,
              restoreAfterFinish: true
          }),
