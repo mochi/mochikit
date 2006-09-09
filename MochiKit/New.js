@@ -1,21 +1,4 @@
 
-MochiKit.Base.update(MochiKit.Base, {
-    /** @id MochiKit.Base.isGecko */
-    isGecko: function () {
-        return /Gecko/.test(navigator.userAgent);
-    },
-
-    /** @id MochiKit.Base.KHTML */
-    isKHTML: function () {
-        return /Konqueror|Safari|KHTML/.test(navigator.userAgent)
-    },
-
-    /** @id MochiKit.Base.isSafari */
-    isSafari: function () {
-        return /AppleWebKit'/.test(navigator.appVersion);
-    }
-});
-
 MochiKit.Base.update(MochiKit.DOM, {
     getStyle: function (element, style) {
         element = MochiKit.DOM.getElement(element);
