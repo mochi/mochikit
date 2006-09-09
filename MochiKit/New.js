@@ -1,10 +1,5 @@
 
 MochiKit.Base.update(MochiKit.Base, {
-    /** @id MochiKit.Base.isIE */
-    isIE: function () {
-        return /MSIE/.test(navigator.userAgent);
-    },
-
     /** @id MochiKit.Base.isGecko */
     isGecko: function () {
         return /Gecko/.test(navigator.userAgent);
@@ -18,11 +13,6 @@ MochiKit.Base.update(MochiKit.Base, {
     /** @id MochiKit.Base.isSafari */
     isSafari: function () {
         return /AppleWebKit'/.test(navigator.appVersion);
-    },
-
-    /** @id MochiKit.Base.isOpera */
-    isOpera: function () {
-        return /Opera/.test(navigator.userAgent);
     }
 });
 
@@ -79,10 +69,9 @@ MochiKit.Base.update(MochiKit.DOM, {
     setOpacity: function (element, value) {
         element = MochiKit.DOM.getElement(element);
         if (value == 1) {
-            MochiKit.DOM.setStyle(element, {opacity:
-                (MochiKit.Base.isGecko() && !MochiKit.Base.isKHTML()) ?
-                0.999999 : null});
-            if (MochiKit.Base.isIE())
+            var toSet = /Gecko/.test(navigator.userAgent) && !(/Konqueror|Safari|KHTML/.test(navigator.userAgent));
+            MochiKit.DOM.setStyle(element, {opacity: toSet ? 0.999999 : null});
+            if (/MSIE/.test(navigator.userAgent)
                 MochiKit.DOM.setStyle(element, {filter:
                 MochiKit.DOM.getStyle(element, 'filter').replace(/alpha\([^\)]*\)/gi, '')});
         } else {
@@ -90,7 +79,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                 value = 0;
             }
             MochiKit.DOM.setStyle(element, {opacity: value});
-            if (MochiKit.Base.isIE()) {
+            if (/MSIE/.test(navigator.userAgent) {
                 MochiKit.DOM.setStyle(element,
                     {filter: MochiKit.DOM.getStyle(element, 'filter').replace(/alpha\([^\)]*\)/gi, '') + 'alpha(opacity=' + value * 100 + ')' });
             }

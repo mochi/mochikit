@@ -538,7 +538,6 @@ MochiKit.Base.update(MochiKit.Signal, {
     },
     
     _browserAlreadyHasMouseEnterAndLeave: function () {
-        /* Until isIE() gets out of New */
         return /MSIE/.test(navigator.userAgent);
     },
 

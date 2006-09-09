@@ -597,7 +597,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
 
         // fix AppleWebKit rendering
-        if (MochiKit.Base.isSafari()) {
+        if (/AppleWebKit'/.test(navigator.appVersion)) {
             window.scrollBy(0, 0);
         }
         event.stop();

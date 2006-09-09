@@ -574,7 +574,7 @@ Autocompleter.Base.prototype = {
         if (MochiKit.DOM.getStyle(this.update, 'display') == 'none') {
             this.options.onShow(this.element, this.update);
         }
-        if (!this.iefix && MochiKit.Base.isIE() && MochiKit.Base.isOpera() &&
+        if (!this.iefix && /MSIE/.test(navigator.userAgent &&
             (MochiKit.DOM.getStyle(this.update, 'position') == 'absolute')) {
             new Insertion.After(this.update,
              '<iframe id="' + this.update.id + '_iefix" '+
@@ -636,14 +636,14 @@ Autocompleter.Base.prototype = {
             } else if (event.key().string == "KEY_UP") {
                  this.markPrevious();
                  this.render();
-                 if (MochiKit.Base.isSafari()) {
+                 if (/AppleWebKit'/.test(navigator.appVersion)) {
                      event.stop();
                  }
                  return;
             } else if (event.key().string == "KEY_DOWN") {
                  this.markNext();
                  this.render();
-                 if (MochiKit.Base.isSafari()) {
+                 if (/AppleWebKit'/.test(navigator.appVersion)) {
                      event.stop();
                  }
                  return;
