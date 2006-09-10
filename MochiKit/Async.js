@@ -406,7 +406,7 @@ MochiKit.Async.DeferredLock.prototype = {
     __class__: MochiKit.Async.DeferredLock,
     /** @id MochiKit.Async.DeferredLock.prototype.acquire */
     acquire: function () {
-        d = new MochiKit.Async.Deferred();
+        var d = new MochiKit.Async.Deferred();
         if (this.locked) {
             this.waiting.push(d);
         } else {
