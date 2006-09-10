@@ -12,7 +12,7 @@ MochiKit.Base.update(MochiKit.DOM, {
             }
         }
 
-        if (MochiKit.Base.isOpera() && (MochiKit.Base.find(['left', 'top', 'right', 'bottom'], style) != -1)) {
+        if (/Opera/.test(navigator.userAgent) && (MochiKit.Base.find(['left', 'top', 'right', 'bottom'], style) != -1)) {
             if (MochiKit.DOM.getStyle(element, 'position') == 'static') {
                 value = 'auto';
             }
@@ -54,7 +54,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (value == 1) {
             var toSet = /Gecko/.test(navigator.userAgent) && !(/Konqueror|Safari|KHTML/.test(navigator.userAgent));
             MochiKit.DOM.setStyle(element, {opacity: toSet ? 0.999999 : null});
-            if (/MSIE/.test(navigator.userAgent)
+            if (/MSIE/.test(navigator.userAgent))
                 MochiKit.DOM.setStyle(element, {filter:
                 MochiKit.DOM.getStyle(element, 'filter').replace(/alpha\([^\)]*\)/gi, '')});
         } else {
@@ -62,7 +62,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                 value = 0;
             }
             MochiKit.DOM.setStyle(element, {opacity: value});
-            if (/MSIE/.test(navigator.userAgent) {
+            if (/MSIE/.test(navigator.userAgent)) {
                 MochiKit.DOM.setStyle(element,
                     {filter: MochiKit.DOM.getStyle(element, 'filter').replace(/alpha\([^\)]*\)/gi, '') + 'alpha(opacity=' + value * 100 + ')' });
             }
@@ -109,7 +109,7 @@ MochiKit.Base.update(MochiKit.DOM, {
             // Opera returns the offset relative to the positioning context,
             // when an element is position relative but top and left have
             // not been defined
-            if (MochiKit.Base.isOpera()) {
+            if (/Opera/.test(navigator.userAgent)) {
                 element.style.top = 0;
                 element.style.left = 0;
             }
