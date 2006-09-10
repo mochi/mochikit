@@ -390,7 +390,7 @@ MochiKit.Visual.tagifyText = function (element, /* optional */tagifyStyle) {
 
     ***/
     var tagifyStyle = tagifyStyle || 'position:relative';
-    if (/MSIE/.test(navigator.userAgent) {
+    if (/MSIE/.test(navigator.userAgent)) {
         tagifyStyle += ';zoom:1';
     }
     element = MochiKit.DOM.getElement(element);
@@ -963,7 +963,7 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
     setDimensions: function (height, width) {
         var d = {};
         var r = Math.round;
-        if (/MSIE/.test(navigator.userAgent) {
+        if (/MSIE/.test(navigator.userAgent)) {
             r = Math.ceil;
         }
         if (this.options.scaleX) {
@@ -1418,7 +1418,7 @@ MochiKit.Visual.slideDown = function (element, /* optional */ options) {
         afterFinishInternal: function (effect) {
             d.undoClipping(effect.element);
             // IE will crash if child is undoPositioned first
-            if (/MSIE/.test(navigator.userAgent) {
+            if (/MSIE/.test(navigator.userAgent)) {
                 d.undoPositioned(effect.element);
                 d.undoPositioned(effect.element.firstChild);
             } else {
