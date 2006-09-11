@@ -1,74 +1,10 @@
 
 MochiKit.Base.update(MochiKit.DOM, {
-    getStyle: function (element, style) {
-        element = MochiKit.DOM.getElement(element);
-        var value = element.style[MochiKit.Base.camelize(style)];
-        if (!value) {
-            if (document.defaultView && document.defaultView.getComputedStyle) {
-                var css = document.defaultView.getComputedStyle(element, null);
-                value = css ? css.getPropertyValue(style) : null;
-            } else if (element.currentStyle) {
-                value = element.currentStyle[MochiKit.Base.camelize(style)];
-            }
-        }
-
-        if (/Opera/.test(navigator.userAgent) && (MochiKit.Base.find(['left', 'top', 'right', 'bottom'], style) != -1)) {
-            if (MochiKit.DOM.getStyle(element, 'position') == 'static') {
-                value = 'auto';
-            }
-        }
-
-        return value == 'auto' ? null : value;
-    },
-
-    /** @id MochiKit.DOM.setStyle */
-    setStyle: function (element, style) {
-        element = MochiKit.DOM.getElement(element);
-        for (name in style) {
-            element.style[MochiKit.Base.camelize(name)] = style[name];
-        }
-    },
-
-    /** @id MochiKit.DOM.getOpacity */
-    getOpacity: function (element) {
-        var opacity;
-        if (opacity = MochiKit.DOM.getStyle(element, 'opacity')) {
-            return parseFloat(opacity);
-        }
-        if (opacity = (MochiKit.DOM.getStyle(element, 'filter') || '').match(/alpha\(opacity=(.*)\)/)) {
-            if (opacity[1]) {
-                return parseFloat(opacity[1]) / 100;
-            }
-        }
-        return 1.0;
-    },
-
-    /** @id MochiKit.DOM.setOpacity */
-    setOpacity: function (element, value) {
-        element = MochiKit.DOM.getElement(element);
-        if (value == 1) {
-            var toSet = /Gecko/.test(navigator.userAgent) && !(/Konqueror|Safari|KHTML/.test(navigator.userAgent));
-            MochiKit.DOM.setStyle(element, {opacity: toSet ? 0.999999 : null});
-            if (/MSIE/.test(navigator.userAgent))
-                MochiKit.DOM.setStyle(element, {filter:
-                MochiKit.DOM.getStyle(element, 'filter').replace(/alpha\([^\)]*\)/gi, '')});
-        } else {
-            if (value < 0.00001) {
-                value = 0;
-            }
-            MochiKit.DOM.setStyle(element, {opacity: value});
-            if (/MSIE/.test(navigator.userAgent)) {
-                MochiKit.DOM.setStyle(element,
-                    {filter: MochiKit.DOM.getStyle(element, 'filter').replace(/alpha\([^\)]*\)/gi, '') + 'alpha(opacity=' + value * 100 + ')' });
-            }
-        }
-    },
-
     /** @id MochiKit.DOM.makeClipping */
     makeClipping: function (element) {
         element = MochiKit.DOM.getElement(element);
         var oldOverflow = element.style.overflow;
-        if ((MochiKit.DOM.getStyle(element, 'overflow') || 'visible') != 'hidden') {
+        if ((MochiKit.Style.getStyle(element, 'overflow') || 'visible') != 'hidden') {
             element.style.overflow = 'hidden';
         }
         return oldOverflow;
@@ -86,7 +22,7 @@ MochiKit.Base.update(MochiKit.DOM, {
     /** @id MochiKit.DOM.makePositioned */
     makePositioned: function (element) {
         element = MochiKit.DOM.getElement(element);
-        var pos = MochiKit.DOM.getStyle(element, 'position');
+        var pos = MochiKit.Style.getStyle(element, 'position');
         if (pos == 'static' || !pos) {
             element.style.position = 'relative';
             // Opera returns the offset relative to the positioning context,
@@ -278,7 +214,7 @@ MochiKit.Position = {
             valueL += element.offsetLeft || 0;
             element = element.offsetParent;
             if (element) {
-                p = MochiKit.DOM.getStyle(element, 'position');
+                p = MochiKit.Style.getStyle(element, 'position');
                 if (p == 'relative' || p == 'absolute') {
                     break;
                 }
@@ -330,7 +266,7 @@ MochiKit.Position = {
             valueL += element.offsetLeft || 0;
 
             // Safari fix
-            if (element.offsetParent == document.body && MochiKit.DOM.getStyle(element, 'position') == 'absolute') {
+            if (element.offsetParent == document.body && MochiKit.Style.getStyle(element, 'position') == 'absolute') {
                 break;
             }
         } while (element = element.offsetParent);

@@ -571,11 +571,11 @@ Autocompleter.Base.prototype = {
 
 /** @id Autocompleter.Base.prototype.show */
     show: function () {
-        if (MochiKit.DOM.getStyle(this.update, 'display') == 'none') {
+        if (MochiKit.Style.getStyle(this.update, 'display') == 'none') {
             this.options.onShow(this.element, this.update);
         }
         if (!this.iefix && /MSIE/.test(navigator.userAgent &&
-            (MochiKit.DOM.getStyle(this.update, 'position') == 'absolute')) {
+            (MochiKit.Style.getStyle(this.update, 'position') == 'absolute')) {
             new Insertion.After(this.update,
              '<iframe id="' + this.update.id + '_iefix" '+
              'style="display:none;position:absolute;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);" ' +
@@ -598,7 +598,7 @@ Autocompleter.Base.prototype = {
 /** @id Autocompleter.Base.prototype.hide */
     hide: function () {
         this.stopIndicator();
-        if (MochiKit.DOM.getStyle(this.update, 'display') != 'none') {
+        if (MochiKit.Style.getStyle(this.update, 'display') != 'none') {
             this.options.onHide(this.element, this.update);
         }
         if (this.iefix) {
@@ -1078,7 +1078,7 @@ Ajax.InPlaceEditor.prototype = {
             this.options.externalControl = MochiKit.DOM.getElement(this.options.externalControl);
         }
 
-        this.originalBackground = MochiKit.DOM.getStyle(this.element, 'background-color');
+        this.originalBackground = MochiKit.Style.getStyle(this.element, 'background-color');
         if (!this.originalBackground) {
             this.originalBackground = 'transparent';
         }

@@ -51,6 +51,9 @@ MochiKit.Style.EXPORT_OK = [];
 
 MochiKit.Style.EXPORT = [
     'setOpacity',
+    'getOpacity',
+    'setStyle',
+    'getStyle', // temporary
     'computedStyle',
     'getElementDimensions',
     'elementDimensions', // deprecated
@@ -156,15 +159,70 @@ MochiKit.Base.update(MochiKit.Style, {
         return style.getPropertyValue(selectorCase);
     },
     
+    /** @id MochiKit.Style.getStyle */
+    getStyle: function (elem, style) {
+        elem = MochiKit.DOM.getElement(elem);
+        var value = elem.style[MochiKit.Base.camelize(style)];
+        if (!value) {
+            if (document.defaultView && document.defaultView.getComputedStyle) {
+                var css = document.defaultView.getComputedStyle(elem, null);
+                value = css ? css.getPropertyValue(style) : null;
+            } else if (elem.currentStyle) {
+                value = elem.currentStyle[MochiKit.Base.camelize(style)];
+            }
+        }
+
+        if (/Opera/.test(navigator.userAgent) && (MochiKit.Base.find(['left', 'top', 'right', 'bottom'], style) != -1)) {
+            if (MochiKit.Style.getStyle(elem, 'position') == 'static') {
+                value = 'auto';
+            }
+        }
+
+        return value == 'auto' ? null : value;
+    },
+
+    /** @id MochiKit.Style.setStyle */
+    setStyle: function (elem, style) {
+        elem = MochiKit.DOM.getElement(elem);
+        for (name in style) {
+            elem.style[MochiKit.Base.camelize(name)] = style[name];
+        }
+    },
+
+    /** @id MochiKit.Style.getOpacity */
+    getOpacity: function (elem) {
+        var opacity;
+        if (opacity = MochiKit.Style.getStyle(elem, 'opacity')) {
+            return parseFloat(opacity);
+        }
+        if (opacity = (MochiKit.Style.getStyle(elem, 'filter') || '').match(/alpha\(opacity=(.*)\)/)) {
+            if (opacity[1]) {
+                return parseFloat(opacity[1]) / 100;
+            }
+        }
+        return 1.0;
+    },
     /** @id MochiKit.Style.setOpacity */
     setOpacity: function(elem, o) {
         elem = MochiKit.DOM.getElement(elem);
-        MochiKit.DOM.updateNodeAttributes(elem, {'style': {
-                'opacity': o, 
-                '-moz-opacity': o,
-                '-khtml-opacity': o,
-                'filter':' alpha(opacity=' + (o * 100) + ')'
-            }});
+        var self = MochiKit.Style;
+        if (o == 1) {
+            var toSet = /Gecko/.test(navigator.userAgent) && !(/Konqueror|Safari|KHTML/.test(navigator.userAgent));
+            self.setStyle(elem, {opacity: toSet ? 0.999999 : null});
+            if (/MSIE/.test(navigator.userAgent)) {
+                self.setStyle(elem, {filter:
+                    self.getStyle(elem, 'filter').replace(/alpha\([^\)]*\)/gi, '')});
+            }
+        } else {
+            if (o < 0.00001) {
+                o = 0;
+            }
+            self.setStyle(elem, {opacity: o});
+            if (/MSIE/.test(navigator.userAgent)) {
+                self.setStyle(elem,
+                    {filter: self.getStyle(elem, 'filter').replace(/alpha\([^\)]*\)/gi, '') + 'alpha(opacity=' + o * 100 + ')' });
+            }
+        }
     },
 
     /* 
