@@ -1221,14 +1221,14 @@ MochiKit.Visual.blindUp = function (element, /* optional */ options) {
     ***/
     var d = MochiKit.DOM;
     element = d.getElement(element);
-    d.makeClipping(element);
+    var elemClip = d.makeClipping(element);
     options = MochiKit.Base.update({
         scaleContent: false,
         scaleX: false,
         restoreAfterFinish: true,
         afterFinishInternal: function (effect) {
             MochiKit.Style.hideElement(effect.element);
-            d.undoClipping(effect.element);
+            d.undoClipping(effect.element, elemClip);
         }
     }, options || {});
 
@@ -1245,6 +1245,7 @@ MochiKit.Visual.blindDown = function (element, /* optional */ options) {
     var d = MochiKit.DOM;
     element = d.getElement(element);
     var elementDimensions = MochiKit.Style.getElementDimensions(element);
+    var elemClip;
     options = MochiKit.Base.update({
         scaleContent: false,
         scaleX: false,
@@ -1253,12 +1254,13 @@ MochiKit.Visual.blindDown = function (element, /* optional */ options) {
                     originalWidth: elementDimensions.w},
         restoreAfterFinish: true,
         afterSetupInternal: function (effect) {
-            d.makeClipping(effect.element);
+            elemClip = d.makeClipping(effect.element);
             d.setStyle(effect.element, {height: '0px'});
             MochiKit.Style.showElement(effect.element);
         },
         afterFinishInternal: function (effect) {
-            d.undoClipping(effect.element);
+            alert(elemClip);
+            d.undoClipping(effect.element, elemClip);
         }
     }, options || {});
     return new MochiKit.Visual.Scale(element, 100, options);
@@ -1274,6 +1276,7 @@ MochiKit.Visual.switchOff = function (element, /* optional */ options) {
     var d = MochiKit.DOM;
     element = d.getElement(element);
     var oldOpacity = element.style.opacity || '';
+    var elemClip;
     var options = MochiKit.Base.update({
         duration: 0.3,
         scaleFromCenter: true,
@@ -1282,11 +1285,11 @@ MochiKit.Visual.switchOff = function (element, /* optional */ options) {
         restoreAfterFinish: true,
         beforeSetupInternal: function (effect) {
             d.makePositioned(effect.element);
-            d.makeClipping(effect.element);
+            elemClip = d.makeClipping(effect.element);
         },
         afterFinishInternal: function (effect) {
             MochiKit.Style.hideElement(effect.element);
-            d.undoClipping(effect.element);
+            d.undoClipping(effect.element, elemClip);
             d.undoPositioned(effect.element);
             d.setStyle(effect.element, {opacity: oldOpacity});
         }
@@ -1389,6 +1392,7 @@ MochiKit.Visual.slideDown = function (element, /* optional */ options) {
     d.removeEmptyTextNodes(element);
     var oldInnerBottom = d.getStyle(element.firstChild, 'bottom') || 0;
     var elementDimensions = MochiKit.Style.getElementDimensions(element);
+    var elemClip;
     options = b.update({
         scaleContent: false,
         scaleX: false,
@@ -1402,7 +1406,7 @@ MochiKit.Visual.slideDown = function (element, /* optional */ options) {
             if (/Opera/.test(navigator.userAgent)) {
                 d.setStyle(effect.element, {top: ''});
             }
-            d.makeClipping(effect.element);
+            elemClip = d.makeClipping(effect.element);
             d.setStyle(effect.element, {height: '0px'});
             MochiKit.Style.showElement(effect.element);
         },
@@ -1411,7 +1415,7 @@ MochiKit.Visual.slideDown = function (element, /* optional */ options) {
                {bottom: (effect.dims[0] - effect.element.clientHeight) + 'px'})
         },
         afterFinishInternal: function (effect) {
-            d.undoClipping(effect.element);
+            d.undoClipping(effect.element, elemClip);
             // IE will crash if child is undoPositioned first
             if (/MSIE/.test(navigator.userAgent)) {
                 d.undoPositioned(effect.element);
@@ -1445,6 +1449,7 @@ MochiKit.Visual.slideUp = function (element, /* optional */ options) {
     }
     d.removeEmptyTextNodes(element);
     var oldInnerBottom = d.getStyle(element.firstChild, 'bottom');
+    var elemClip;
     options = b.update({
         scaleContent: false,
         scaleX: false,
@@ -1457,7 +1462,7 @@ MochiKit.Visual.slideUp = function (element, /* optional */ options) {
             if (/Opera/.test(navigator.userAgent)) {
                 d.setStyle(effect.element, {top: ''});
             }
-            d.makeClipping(effect.element);
+            elemClip = d.makeClipping(effect.element);
             MochiKit.Style.showElement(effect.element);
         },
         afterUpdateInternal: function (effect) {
@@ -1466,7 +1471,7 @@ MochiKit.Visual.slideUp = function (element, /* optional */ options) {
         },
         afterFinishInternal: function (effect) {
             MochiKit.Style.hideElement(effect.element);
-            d.undoClipping(effect.element);
+            d.undoClipping(effect.element, elemClip);
             d.undoPositioned(effect.element.firstChild);
             d.undoPositioned(effect.element);
             d.setStyle(effect.element.firstChild, {bottom: oldInnerBottom});
@@ -1486,14 +1491,15 @@ MochiKit.Visual.squish = function (element, /* optional */ options) {
     ***/
     var d = MochiKit.DOM;
     var b = MochiKit.Base;
+    var elemClip;
     options = b.update({
         restoreAfterFinish: true,
         beforeSetupInternal: function (effect) {
-             d.makeClipping(effect.element);
+            elemClip = d.makeClipping(effect.element);
         },
         afterFinishInternal: function (effect) {
-              MochiKit.Style.hideElement(effect.element);
-              d.undoClipping(effect.element);
+            MochiKit.Style.hideElement(effect.element);
+            d.undoClipping(effect.element, elemClip);
         }
     }, options || {});
 
@@ -1650,15 +1656,16 @@ MochiKit.Visual.shrink = function (element, /* optional */ options) {
             moveY = dims.h / 2;
             break;
     }
+    var elemClip;
 
     var optionsParallel = MochiKit.Base.update({
         beforeStartInternal: function (effect) {
-            d.makePositioned(effect.effects[0].element);
+            elemClip = d.makePositioned(effect.effects[0].element);
             d.makeClipping(effect.effects[0].element);
         },
         afterFinishInternal: function (effect) {
             MochiKit.Style.hideElement(effect.effects[0].element);
-            d.undoClipping(effect.effects[0].element);
+            d.undoClipping(effect.effects[0].element, elemClip);
             d.undoPositioned(effect.effects[0].element);
             d.setStyle(effect.effects[0].element, oldStyle);
         }
@@ -1723,7 +1730,7 @@ MochiKit.Visual.fold = function (element, /* optional */ options) {
         width: element.style.width,
         height: element.style.height
     };
-    d.makeClipping(element);
+    var elemClip = d.makeClipping(element);
     options = MochiKit.Base.update({
         scaleContent: false,
         scaleX: false,
@@ -1733,7 +1740,7 @@ MochiKit.Visual.fold = function (element, /* optional */ options) {
                 scaleY: false,
                 afterFinishInternal: function (effect) {
                     MochiKit.Style.hideElement(effect.element);
-                    d.undoClipping(effect.element);
+                    d.undoClipping(effect.element, elemClip);
                     d.setStyle(effect.element, oldStyle);
                 }
             });

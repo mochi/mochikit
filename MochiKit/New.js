@@ -67,23 +67,20 @@ MochiKit.Base.update(MochiKit.DOM, {
     /** @id MochiKit.DOM.makeClipping */
     makeClipping: function (element) {
         element = MochiKit.DOM.getElement(element);
-        if (element._overflow) {
-            return;
-        }
-        element._overflow = element.style.overflow;
+        var oldOverflow = element.style.overflow;
         if ((MochiKit.DOM.getStyle(element, 'overflow') || 'visible') != 'hidden') {
             element.style.overflow = 'hidden';
         }
+        return oldOverflow;
     },
 
     /** @id MochiKit.DOM.undoClipping */
-    undoClipping: function (element) {
+    undoClipping: function (element, overflow) {
         element = MochiKit.DOM.getElement(element);
-        if (!element._overflow) {
+        if (!overflow) {
             return;
         }
-        element.style.overflow = element._overflow;
-        element._overflow = undefined;
+        element.style.overflow = overflow;
     },
 
     /** @id MochiKit.DOM.makePositioned */
