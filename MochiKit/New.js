@@ -64,11 +64,6 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
-    /** @id MochiKit.DOM.isVisible */
-    isVisible: function (element) {
-        return MochiKit.DOM.getElement(element).style.display != 'none';
-    },
-
     /** @id MochiKit.DOM.makeClipping */
     makeClipping: function (element) {
         element = MochiKit.DOM.getElement(element);
