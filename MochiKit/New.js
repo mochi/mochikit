@@ -89,12 +89,8 @@ MochiKit.Base.update(MochiKit.DOM, {
     /** @id MochiKit.DOM.makePositioned */
     makePositioned: function (element) {
         element = MochiKit.DOM.getElement(element);
-        /*if (!element.style) {
-            alert(element);
-        }*/
         var pos = MochiKit.DOM.getStyle(element, 'position');
-        if ((pos == 'static' || !pos) && !element._madePositioned) {
-            element._madePositioned = true;
+        if (pos == 'static' || !pos) {
             element.style.position = 'relative';
             // Opera returns the offset relative to the positioning context,
             // when an element is position relative but top and left have
@@ -109,8 +105,7 @@ MochiKit.Base.update(MochiKit.DOM, {
     /** @id MochiKit.DOM.undoPositioned */
     undoPositioned: function (element) {
         element = MochiKit.DOM.getElement(element);
-        if (element._madePositioned) {
-            element._madePositioned = undefined;
+        if (element.style.position == 'relative') {
             element.style.position = element.style.top = element.style.left = element.style.bottom = element.style.right = '';
         }
     },
