@@ -14,7 +14,6 @@ if (typeof(dojo) != 'undefined') {
     dojo.require('MochiKit.DOM');
     dojo.require('MochiKit.Style');
     dojo.require('MochiKit.Color');
-    dojo.require('MochiKit.Iter');
 }
 
 if (typeof(JSAN) != 'undefined') {
@@ -22,19 +21,17 @@ if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.DOM", []);
     JSAN.use("MochiKit.Style", []);
     JSAN.use("MochiKit.Color", []);
-    JSAN.use("MochiKit.Iter", []);
 }
 
 try {
     if (typeof(MochiKit.Base) === 'undefined' ||
         typeof(MochiKit.DOM) === 'undefined' ||
         typeof(MochiKit.Style) === 'undefined' ||
-        typeof(MochiKit.Color) === 'undefined' ||
-        typeof(MochiKit.Iter) === 'undefined') {
+        typeof(MochiKit.Color) === 'undefined') {
         throw "";
     }
 } catch (e) {
-    throw "MochiKit.Visual depends on MochiKit.Base, MochiKit.DOM, MochiKit.Style, MochiKit.Color and MochiKit.Iter!";
+    throw "MochiKit.Visual depends on MochiKit.Base, MochiKit.DOM, MochiKit.Style and MochiKit.Color!";
 }
 
 if (typeof(MochiKit.Visual) == "undefined") {
@@ -394,17 +391,17 @@ MochiKit.Visual.tagifyText = function (element, /* optional */tagifyStyle) {
         tagifyStyle += ';zoom:1';
     }
     element = MochiKit.DOM.getElement(element);
-    var fe = MochiKit.Iter.forEach;
-    fe(element.childNodes, function (child) {
+    var ma = MochiKit.Base.map;
+    ma(function (child) {
         if (child.nodeType == 3) {
-            fe(child.nodeValue.split(''), function (character) {
+            ma(function (character) {
                 element.insertBefore(
                     MochiKit.DOM.SPAN({style: tagifyStyle},
                         character == ' ' ? String.fromCharCode(160) : character), child);
-            });
+            }, child.nodeValue.split(''));
             MochiKit.DOM.removeElement(child);
         }
-    });
+    }, element.childNodes);
 };
 
 /** @id MochiKit.Visual.forceRerendering */
@@ -430,11 +427,11 @@ MochiKit.Visual.multiple = function (elements, effect, /* optional */options) {
     }, options || {});
     var masterDelay = options.delay;
     var index = 0;
-    MochiKit.Iter.forEach(elements, function (innerelement) {
+    MochiKit.Base.map(function (innerelement) {
         options.delay = index * options.speed + masterDelay;
         new effect(innerelement, options);
         index += 1;
-    });
+    }, elements);
 };
 
 MochiKit.Visual.PAIRS = {
@@ -535,32 +532,32 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
         var position = (typeof(effect.options.queue) == 'string') ?
             effect.options.queue : effect.options.queue.position;
 
-        var fe = MochiKit.Iter.forEach;
+        var ma = MochiKit.Base.map;
         switch (position) {
             case 'front':
                 // move unstarted effects after this effect
-                fe(this.effects, function (e) {
+                ma(function (e) {
                     if (e.state == 'idle') {
                         e.startOn += effect.finishOn;
                         e.finishOn += effect.finishOn;
                     }
-                });
+                }, this.effects);
                 break;
             case 'end':
                 var finish;
                 // start effect after last queued effect has finished
-                fe(this.effects, function (e) {
+                ma(function (e) {
                     var i = e.finishOn;
                     if (i >= (finish || i)) {
                         finish = i;
                     }
-                });
+                }, this.effects);
                 timestamp = finish || timestamp;
                 break;
             case 'break':
-                fe(this.effects, function (e) {
+                ma(function (e) {
                     e.finalize();
-                });
+                }, this.effects);
                 break;
         }
 
@@ -591,9 +588,9 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
     /** @id MochiKit.Visual.ScopedQueue.prototype.loop */
     loop: function () {
         var timePos = new Date().getTime();
-        MochiKit.Iter.forEach(this.effects, function (effect) {
+        MochiKit.Base.map(function (effect) {
             effect.loop(timePos);
-        });
+        }, this.effects);
     }
 });
 
@@ -753,16 +750,16 @@ MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, {
 
     /** @id MochiKit.Visual.Parallel.prototype.update */
     update: function (position) {
-        MochiKit.Iter.forEach(this.effects, function (effect) {
+        MochiKit.Base.map(function (effect) {
             effect.render(position);
-        });
+        }, this.effects);
     },
 
     /** @id MochiKit.Visual.Parallel.prototype.finish */
     finish: function () {
-        MochiKit.Iter.forEach(this.effects, function (effect) {
+        MochiKit.Base.map(function (effect) {
             effect.finalize();
-        });
+        }, this.effects);
     }
 });
 
@@ -906,26 +903,24 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
         this.elementPositioning = MochiKit.DOM.getStyle(this.element,
                                                         'position');
 
-        var fe = MochiKit.Iter.forEach;
+        var ma = MochiKit.Base.map;
         var b = MochiKit.Base.bind;
         this.originalStyle = {};
-        fe(['top', 'left', 'width', 'height', 'fontSize'],
-            b(function (k) {
+        ma(b(function (k) {
                 this.originalStyle[k] = this.element.style[k];
-            }, this));
+            }, this), ['top', 'left', 'width', 'height', 'fontSize']);
 
         this.originalTop = this.element.offsetTop;
         this.originalLeft = this.element.offsetLeft;
 
         var fontSize = MochiKit.DOM.getStyle(this.element,
                                              'font-size') || '100%';
-        fe(['em', 'px', '%'],
-            b(function (fontSizeType) {
+        ma(b(function (fontSizeType) {
             if (fontSize.indexOf(fontSizeType) > 0) {
                 this.fontSize = parseFloat(fontSize);
                 this.fontSizeType = fontSizeType;
             }
-        }, this));
+        }, this), ['em', 'px', '%']);
 
         this.factor = (this.options.scaleTo - this.options.scaleFrom)/100;
 
@@ -1058,10 +1053,10 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
     /** @id MochiKit.Visual.Highlight.prototype.update */
     update: function (position) {
         var m = '#';
-        MochiKit.Iter.forEach([0, 1, 2], MochiKit.Base.bind(function (i) {
+        MochiKit.Base.map(MochiKit.Base.bind(function (i) {
             m += MochiKit.Color.toColorPart(Math.round(this._base[i] +
                                             this._delta[i]*position));
-        }, this));
+        }, this), [0, 1, 2]);
         MochiKit.DOM.setStyle(this.element, {
             backgroundColor: m
         });
