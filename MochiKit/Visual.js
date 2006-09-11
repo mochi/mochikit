@@ -1269,7 +1269,6 @@ MochiKit.Visual.blindDown = function (element, /* optional */ options) {
             MochiKit.Style.showElement(effect.element);
         },
         afterFinishInternal: function (effect) {
-            alert(elemClip);
             d.undoClipping(effect.element, elemClip);
         }
     }, options || {});
