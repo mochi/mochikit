@@ -407,7 +407,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             
             /** @id MochiKit.DragAndDrop.starteffect */            
             starteffect: function (innerelement) {
-                this._savedOpacity = MochiKit.DOM.getOpacity(innerelement) || 1.0;
+                this._savedOpacity = MochiKit.Style.getOpacity(innerelement) || 1.0;
                 new v.Opacity(innerelement, {duration:0.2, from:this._savedOpacity, to:0.7});
             },
             /** @id MochiKit.DragAndDrop.reverteffect */            
@@ -484,7 +484,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
     /** @id MochiKit.DragAndDrop.currentDelta */
     currentDelta: function () {
-        var s = MochiKit.DOM.getStyle;
+        var s = MochiKit.Style.getStyle;
         return [
           parseInt(s(this.element, 'left') || '0'),
           parseInt(s(this.element, 'top') || '0')];
@@ -525,7 +525,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
                                          this.options.selectclass);
         }
         if (this.options.zindex) {
-            this.originalZ = parseInt(MochiKit.DOM.getStyle(this.element,
+            this.originalZ = parseInt(MochiKit.Style.getStyle(this.element,
                                       'z-index') || '0');
             this.element.style.zIndex = this.options.zindex;
         }
