@@ -569,9 +569,14 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
         }
 
         if (!this.interval) {
-            this.interval = setInterval(MochiKit.Base.bind(this.loop, this),
+            this.interval = this.startLoop(MochiKit.Base.bind(this.loop, this),
                                         40);
         }
+    },
+
+    /** @id MochiKit.Visual.ScopedQueue.prototype.startLoop */
+    startLoop: function (func, interval) {
+        return setInterval(func, interval)
     },
 
     /** @id MochiKit.Visual.ScopedQueue.prototype.remove */
@@ -580,9 +585,14 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
             return e != effect;
         }, this.effects);
         if (this.effects.length == 0) {
-            clearInterval(this.interval);
+            this.stopLoop(this.interval);
             this.interval = null;
         }
+    },
+
+    /** @id MochiKit.Visual.ScopedQueue.prototype.stopLoop */
+    stopLoop: function (interval) {
+        clearInterval(interval)
     },
 
     /** @id MochiKit.Visual.ScopedQueue.prototype.loop */
