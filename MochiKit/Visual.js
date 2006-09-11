@@ -1140,7 +1140,7 @@ MochiKit.Visual.fade = function (element, /* optional */ options) {
 
     ***/
     var d = MochiKit.DOM;
-    var oldOpacity = d.getInlineOpacity(element);
+    var oldOpacity = d.getElement(element).style.opacity || '';
     options = MochiKit.Base.update({
         from: d.getOpacity(element) || 1.0,
         to: 0.0,
@@ -1193,7 +1193,7 @@ MochiKit.Visual.puff = function (element, /* optional */ options) {
     var v = MochiKit.Visual;
     element = d.getElement(element);
     var oldStyle = {
-        opacity: d.getInlineOpacity(element),
+        opacity: element.style.opacity || '',
         position: d.getStyle(element, 'position'),
         top: element.style.top,
         left: element.style.left,
@@ -1278,7 +1278,7 @@ MochiKit.Visual.switchOff = function (element, /* optional */ options) {
     ***/
     var d = MochiKit.DOM;
     element = d.getElement(element);
-    var oldOpacity = d.getInlineOpacity(element);
+    var oldOpacity = element.style.opacity || '';
     var options = MochiKit.Base.update({
         duration: 0.3,
         scaleFromCenter: true,
@@ -1319,7 +1319,7 @@ MochiKit.Visual.dropOut = function (element, /* optional */ options) {
     var oldStyle = {
         top: d.getStyle(element, 'top'),
         left: d.getStyle(element, 'left'),
-        opacity: d.getInlineOpacity(element)
+        opacity: element.style.opacity || ''
     };
 
     options = MochiKit.Base.update({
@@ -1527,7 +1527,7 @@ MochiKit.Visual.grow = function (element, /* optional */ options) {
         left: element.style.left,
         height: element.style.height,
         width: element.style.width,
-        opacity: d.getInlineOpacity(element)
+        opacity: element.style.opacity || ''
     };
 
     var dims = MochiKit.Style.getElementDimensions(element);
@@ -1628,7 +1628,7 @@ MochiKit.Visual.shrink = function (element, /* optional */ options) {
         left: element.style.left,
         height: element.style.height,
         width: element.style.width,
-        opacity: d.getInlineOpacity(element)
+        opacity: element.style.opacity || ''
     };
 
     var dims = MochiKit.Style.getElementDimensions(element);
@@ -1695,8 +1695,7 @@ MochiKit.Visual.pulsate = function (element, /* optional */ options) {
     var d = MochiKit.DOM;
     var v = MochiKit.Visual;
     var b = MochiKit.Base;
-    element = d.getElement(element);
-    var oldOpacity = d.getInlineOpacity(element);
+    var oldOpacity = d.getElement(element).style.opacity || '';
     options = b.update({
         duration: 3.0,
         from: 0,

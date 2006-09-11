@@ -43,11 +43,6 @@ MochiKit.Base.update(MochiKit.DOM, {
         return 1.0;
     },
 
-    /** @id MochiKit.DOM.getInlineOpacity */
-    getInlineOpacity: function (element) {
-        return MochiKit.DOM.getElement(element).style.opacity || '';
-    },
-
     /** @id MochiKit.DOM.setOpacity */
     setOpacity: function (element, value) {
         element = MochiKit.DOM.getElement(element);
