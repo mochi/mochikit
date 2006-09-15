@@ -223,7 +223,7 @@ Signal API Reference
             is signalled.
 
         -   If ``func`` is undefined and ``dest`` is a function, then
-            ``func.apply(src, [...])`` will be called when the signal is
+            ``dest.apply(src, [...])`` will be called when the signal is
             signalled.
 
     No other combinations are allowed and will raise an exception.
