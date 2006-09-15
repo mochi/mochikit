@@ -227,14 +227,14 @@ MochiKit.DragAndDrop.Droppable.prototype = {
 
     /** @id MochiKit.DragAndDrop.isContained */
     isContained: function (element) {
-        if (this._containers) {
+        if (this.options._containers) {
             var containmentNode;
             if (this.options.tree) {
                 containmentNode = element.treeNode;
             } else {
                 containmentNode = element.parentNode;
             }
-            return MochiKit.Iter.some(this._containers, function (c) {
+            return MochiKit.Iter.some(this.options._containers, function (c) {
                 return containmentNode == c;
             });
         } else {
