@@ -72,6 +72,11 @@ try {
     is(computedStyle('styleTest', 'opacity'), '0.5', 
         'test computedStyle opacity');
 
+    is(getOpacity('styleTest'), 0.5, 'test getOpacity');
+    
+    setOpacity('styleTest', 0.2);
+    is(getOpacity('styleTest'), 0.2, 'test setOpacity');
+
     var dims = getElementDimensions('styleTest');
     is(dims.w, 100, 'getElementDimensions w ok');
     is(dims.h, 100, 'getElementDimensions h ok');
