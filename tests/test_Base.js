@@ -479,4 +479,8 @@ tests.test_Base = function (t) {
     t.is( median([3,1,2]), 2, 'three arguments (array)');
     t.is( median(3,1,2,4), 2.5, 'four arguments (arg list)');
     t.is( median([3,1,2,4]), 2.5, 'four arguments (array)');
+
+    /* #185 */
+    t.is( serializeJSON(parseQueryString("")), "{}", "parseQueryString('')" );
+    t.is( serializeJSON(parseQueryString("", true)), "{}", "parseQueryString('', true)" );
 };

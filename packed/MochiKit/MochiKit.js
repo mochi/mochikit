@@ -865,6 +865,9 @@ _133=unescape;
 if(_131){
 for(var i=0;i<_132.length;i++){
 var pair=_132[i].split("=");
+if(pair.length!==2){
+continue;
+}
 var name=_133(pair[0]);
 var arr=o[name];
 if(!(arr instanceof Array)){
@@ -876,6 +879,9 @@ arr.push(_133(pair[1]));
 }else{
 for(i=0;i<_132.length;i++){
 pair=_132[i].split("=");
+if(pair.length!==2){
+continue;
+}
 o[_133(pair[0])]=_133(pair[1]);
 }
 }
