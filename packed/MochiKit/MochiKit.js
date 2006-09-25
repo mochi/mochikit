@@ -836,9 +836,18 @@ _125=[];
 _126=[];
 for(var k in o){
 var v=o[k];
-if(typeof (v)!="function"){
+if(typeof (v)=="function"){
+continue;
+}else{
+if(typeof (v.length)=="number"){
+for(var i=0;i<v.length;i++){
+_125.push(k);
+_126.push(v[i]);
+}
+}else{
 _125.push(k);
 _126.push(v);
+}
 }
 }
 }
