@@ -186,14 +186,14 @@ MochiKit.Base.update(MochiKit.DOM, {
         m.nodeWalk(elem, function (elem) {
             var name = elem.name;
             if (m.isNotEmpty(name)) {
-                var tagName = elem.nodeName;
-                if (tagName == "INPUT"
+                var tagName = elem.tagName.toUpperCase();
+                if (tagName === "INPUT"
                     && (elem.type == "radio" || elem.type == "checkbox")
                     && !elem.checked
                 ) {
                     return null;
                 }
-                if (tagName == "SELECT") {
+                if (tagName === "SELECT") {
                     if (elem.type == "select-one") {
                         if (elem.selectedIndex >= 0) {
                             var opt = elem.options[elem.selectedIndex];
@@ -223,8 +223,8 @@ MochiKit.Base.update(MochiKit.DOM, {
                         return null;
                     }
                 }
-                if (tagName == "FORM" || tagName == "P" || tagName == "SPAN"
-                    || tagName == "DIV"
+                if (tagName === "FORM" || tagName === "P" || tagName === "SPAN"
+                    || tagName === "DIV"
                 ) {
                     return elem.childNodes;
                 }
@@ -340,7 +340,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (node === maybeparent) {
             return true;
         }
-        while (node && node.nodeName != "BODY") {
+        while (node && node.tagName.toUpperCase() != "BODY") {
             node = node.parentNode;
             if (node === maybeparent) {
                 return true;
@@ -787,7 +787,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                 //
                 // I think it might have something to do with
                 // garbage collection and function calls.
-                lst.push('<' + dom.nodeName.toLowerCase());
+                lst.push('<' + dom.tagName.toLowerCase());
                 var attributes = [];
                 var domAttr = attributeArray(dom);
                 for (var i = 0; i < domAttr.length; i++) {
@@ -811,7 +811,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                     lst.push(">");
                     // queue is the FILO call stack, so we put the close tag
                     // on first
-                    queue.push("</" + dom.nodeName.toLowerCase() + ">");
+                    queue.push("</" + dom.tagName.toLowerCase() + ">");
                     var cnodes = dom.childNodes;
                     for (i = cnodes.length - 1; i >= 0; i--) {
                         queue.push(cnodes[i]);

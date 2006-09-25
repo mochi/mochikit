@@ -497,10 +497,10 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
         // abort on form elements, fixes a Firefox issue
         var src = event.target();
-        if (src.tagName && (
-            src.tagName == 'INPUT' || src.tagName == 'SELECT' ||
-            src.tagName == 'OPTION' || src.tagName == 'BUTTON' ||
-            src.tagName == 'TEXTAREA')) {
+        var tagName = (src.tagName || '').toUpperCase();
+        if (tagName === 'INPUT' || tagName === 'SELECT' ||
+            tagName === 'OPTION' || tagName === 'BUTTON' ||
+            tagName === 'TEXTAREA') {
             return;
         }
 

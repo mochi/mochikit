@@ -323,8 +323,11 @@ MochiKit.Base.update(MochiKit.Style, {
             parent = null;
         }
         
-        while (parent && parent.tagName != 'BODY' && 
-            parent.tagName != 'HTML') {
+        while (parent) {
+            var tagName = parent.tagName.toUpperCase();
+            if (tagName === 'BODY' || tagName === 'HTML') {
+                break;
+            }
             c.x -= parent.scrollLeft;
             c.y -= parent.scrollTop;        
             if (parent.parentNode) {
