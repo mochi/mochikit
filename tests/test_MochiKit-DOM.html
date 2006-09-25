@@ -30,6 +30,14 @@
         <input type="radio" name="radio_on" value="2" checked="checked" />
         <input type="radio" name="radio_on" value="3" />
     </form>
+    <form id="form_test2">
+        <select name="selempty">
+            <option value="" selected="selected">foo</option>
+        </select>
+        <select name="selempty2">
+            <option selected="selected">foo</option>
+        </select>
+    </form>
 </div>
 
 <pre id="test">
@@ -248,6 +256,10 @@ try {
     is( kv[0].join(","), "select,selmultiple,selmultiple,hidden,radio_on", "formContents names" );
     is( kv[1].join(","), "foo,bar,baz,test,2", "formContents values" );
     is( queryString("form_test"), "select=foo&selmultiple=bar&selmultiple=baz&hidden=test&radio_on=2", "queryString hook" );
+    kv = formContents("form_test2");
+    is( kv[0].join(","), "selempty,selempty2", "formContents names empty option values" );
+    is( kv[1].join(","), ",foo", "formContents empty option values" );
+    is( queryString("form_test2"), "selempty=&selempty2=foo", "queryString empty option values" );
     
     var d = DIV(null, SPAN(), " \n\t", SPAN(), "foo", SPAN(), " ");
     is( d.childNodes.length, 6, "removeEmptyNodes test conditions correct" );
