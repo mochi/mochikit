@@ -2656,7 +2656,7 @@ if(elem.type=="select-one"){
 if(elem.selectedIndex>=0){
 var opt=elem.options[elem.selectedIndex];
 _332.push(name);
-_333.push((opt.value)?opt.value:opt.text);
+_333.push(opt.value);
 return null;
 }
 _332.push(name);
@@ -2675,7 +2675,7 @@ if(!opt.selected){
 continue;
 }
 _332.push(name);
-_333.push((opt.value)?opt.value:opt.text);
+_333.push(opt.value);
 }
 return null;
 }

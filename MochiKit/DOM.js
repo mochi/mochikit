@@ -198,7 +198,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                         if (elem.selectedIndex >= 0) {
                             var opt = elem.options[elem.selectedIndex];
                             names.push(name);
-                            values.push((opt.value) ? opt.value : opt.text);
+                            values.push(opt.value);
                             return null;
                         }
                         // no form elements?
@@ -218,7 +218,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                                 continue; 
                             } 
                             names.push(name); 
-                            values.push((opt.value) ? opt.value : opt.text); 
+                            values.push(opt.value); 
                         }
                         return null;
                     }
