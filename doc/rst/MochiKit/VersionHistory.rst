@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Base.parseQueryString now returns {} for empty query string instead
+  of {"": "undefined"}
 - MochiKit.DOM.formContents now handles option value="" correctly.
 - MochiKit.DOM now checks for undefined className.
 - MochiKit.Iter.groupby() now uses compare() to group rather than == and !=

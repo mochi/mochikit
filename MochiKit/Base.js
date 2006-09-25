@@ -1116,6 +1116,9 @@ MochiKit.Base.update(MochiKit.Base, {
         if (useArrays) {
             for (var i = 0; i < pairs.length; i++) {
                 var pair = pairs[i].split("=");
+                if (pair.length !== 2) {
+                    continue;
+                }
                 var name = decode(pair[0]);
                 var arr = o[name];
                 if (!(arr instanceof Array)) {
@@ -1127,6 +1130,9 @@ MochiKit.Base.update(MochiKit.Base, {
         } else {
             for (i = 0; i < pairs.length; i++) {
                 pair = pairs[i].split("=");
+                if (pair.length !== 2) {
+                    continue;
+                }
                 o[decode(pair[0])] = decode(pair[1]);
             }
         }
