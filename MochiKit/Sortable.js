@@ -60,7 +60,7 @@ MochiKit.Sortable.Sortable = {
     sortables: {},
 
     _findRootElement: function (element) {
-        while (element.tagName != "BODY") {
+        while (element.tagName.toUpperCase() != "BODY") {
             if (element.id && MochiKit.Sortable.Sortable.sortables[element.id]) {
                 return element;
             }
@@ -476,8 +476,9 @@ MochiKit.Sortable.Sortable = {
        Used for finding the first LI[ST] within a L[IST]I[TEM].*/
     _findChildrenElement: function (element, containerTag) {
         if (element && element.hasChildNodes) {
+            containerTag = containerTag.toUpperCase();
             for (var i = 0; i < element.childNodes.length; ++i) {
-                if (element.childNodes[i].tagName == containerTag) {
+                if (element.childNodes[i].tagName.toUpperCase() == containerTag) {
                     return element.childNodes[i];
                 }
             }

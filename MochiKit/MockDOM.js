@@ -38,7 +38,7 @@ MochiKit.MockDOM.createDocument = function () {
 
 /** @id MochiKit.MockDOM.MockElement */
 MochiKit.MockDOM.MockElement = function (name, data) {
-    this.nodeName = name.toUpperCase();
+    this.tagName = this.nodeName = name.toUpperCase();
     if (typeof(data) == "string") {
         this.nodeValue = data;
         this.nodeType = 3;
@@ -50,15 +50,15 @@ MochiKit.MockDOM.MockElement = function (name, data) {
         var nameattr = name.substring(
             name.indexOf('"') + 1, name.lastIndexOf('"'));
         name = name.substring(1, name.indexOf(" "));
-        this.nodeName = name.toUpperCase();
+        this.tagName = this.nodeName = name.toUpperCase();
         this.setAttribute("name", nameattr);
     }
 };
 
 MochiKit.MockDOM.MockElement.prototype = {
     /** @id MochiKit.MockDOM.MockElement.prototype.createElement */
-    createElement: function (nodeName) {
-        return new MochiKit.MockDOM.MockElement(nodeName);
+    createElement: function (tagName) {
+        return new MochiKit.MockDOM.MockElement(tagName);
     },
     /** @id MochiKit.MockDOM.MockElement.prototype.createTextNode */
     createTextNode: function (text) {
@@ -78,7 +78,7 @@ MochiKit.MockDOM.MockElement.prototype = {
     },
     /** @id MochiKit.MockDOM.MockElement.prototype.toString */
     toString: function () {
-        return "MockElement(" + this.nodeName + ")";
+        return "MockElement(" + this.tagName + ")";
     }
 };
 

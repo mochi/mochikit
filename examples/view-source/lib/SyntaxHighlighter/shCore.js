@@ -54,11 +54,11 @@ dp.sh.Utils.Expand = function(sender)
 	var span = sender;
 
 	// find the span in which the text label and pipe contained so we can hide it
-	while(span != null && span.tagName != 'SPAN')
+	while(span != null && span.tagName.toUpperCase() != 'SPAN')
 		span = span.parentNode;
 
 	// find the table
-	while(table != null && table.tagName != 'TABLE')
+	while(table != null && table.tagName.toUpperCase() != 'TABLE')
 		table = table.parentNode;
 	
 	// remove the 'expand code' button
