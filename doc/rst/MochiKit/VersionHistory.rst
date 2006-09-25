@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Base.queryString now handles array values in the same way HTML
+  forms handle multiple elements of the same name.
 - MochiKit.Base.parseQueryString now returns {} for empty query string instead
   of {"": "undefined"}
 - MochiKit.DOM.formContents now handles option value="" correctly.

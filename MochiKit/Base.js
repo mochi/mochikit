@@ -1084,7 +1084,14 @@ MochiKit.Base.update(MochiKit.Base, {
             values = [];
             for (var k in o) {
                 var v = o[k];
-                if (typeof(v) != "function") {
+                if (typeof(v) == "function") {
+                    continue;
+                } else if (typeof(v.length) == "number") {
+                    for (var i = 0; i < v.length; i++) {
+                        names.push(k);
+                        values.push(v[i]);
+                    }
+                } else {
                     names.push(k);
                     values.push(v);
                 }

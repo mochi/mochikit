@@ -483,4 +483,7 @@ tests.test_Base = function (t) {
     /* #185 */
     t.is( serializeJSON(parseQueryString("")), "{}", "parseQueryString('')" );
     t.is( serializeJSON(parseQueryString("", true)), "{}", "parseQueryString('', true)" );
+
+    /* #109 */
+    t.is( queryString({ids: [1,2,3]}), "ids=1&ids=2&ids=3", "queryString array value" );
 };

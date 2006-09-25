@@ -1148,6 +1148,11 @@ Functions
     for the case where a poorly designed library has modified
     ``Object.prototype`` and inserted "convenience functions".
 
+    Values that are Array-like will be expanded as if they were multiply
+    defined HTML elements. For example::
+
+        assert( queryString({a: [1,2]}) === "a=1&a=2" );
+    
     *Availability*:
         Available in MochiKit 1.3.1+
 
