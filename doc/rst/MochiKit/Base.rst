@@ -798,6 +798,13 @@ Functions
 
         :mochiref:`map(null, lst)` -> ``lst.slice()``;
 
+    If ``fn`` is not ``null`` and more than one sequence argument is
+    given, then one element from each sequence is used to build the
+    argument list for ``fn``.
+
+        :mochiref:`map(fn, p, q, ...)`
+            ->  ``[fn(p[0], q[0], ..), fn(p[1], q[1], ...), ...]``
+    
     If ``fn`` is ``null``, and more than one sequence is given as
     arguments, then the ``Array`` function is used, making it
     equivalent to :mochiref:`MochiKit.Iter.zip`.

@@ -842,6 +842,15 @@ determined by <a class="mochiref reference" href="#fn-compare">compare</a>. This
 identity function is used.</p>
 <blockquote>
 <a class="mochiref reference" href="#fn-map">map(null, lst)</a> -&gt; <tt class="docutils literal"><span class="pre">lst.slice()</span></tt>;</blockquote>
+<p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is not <tt class="docutils literal"><span class="pre">null</span></tt> and more than one sequence argument is
+given, then one element from each sequence is used to build the
+argument list for <tt class="docutils literal"><span class="pre">fn</span></tt>.</p>
+<blockquote>
+<dl class="docutils">
+<dt><a class="mochiref reference" href="#fn-map">map(fn, p, q, ...)</a></dt>
+<dd>-&gt;  <tt class="docutils literal"><span class="pre">[fn(p[0],</span> <span class="pre">q[0],</span> <span class="pre">..),</span> <span class="pre">fn(p[1],</span> <span class="pre">q[1],</span> <span class="pre">...),</span> <span class="pre">...]</span></tt></dd>
+</dl>
+</blockquote>
 <p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, and more than one sequence is given as
 arguments, then the <tt class="docutils literal"><span class="pre">Array</span></tt> function is used, making it
 equivalent to <a class="mochiref reference" href="Iter.html#fn-zip">MochiKit.Iter.zip</a>.</p>
