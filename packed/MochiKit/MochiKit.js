@@ -20,6 +20,9 @@ MochiKit={};
 if(typeof (MochiKit.Base)=="undefined"){
 MochiKit.Base={};
 }
+if(typeof (MochiKit.__export__)=="undefined"){
+MochiKit.__export__=(MochiKit.__compat__||(typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined"));
+}
 MochiKit.Base.VERSION="1.4";
 MochiKit.Base.NAME="MochiKit.Base";
 MochiKit.Base.update=function(_1,_2){
@@ -926,9 +929,6 @@ return false;
 MochiKit.Base.EXPORT=["flattenArray","noop","camelize","counter","clone","extend","update","updatetree","setdefault","keys","items","NamedError","operator","forwardCall","itemgetter","typeMatcher","isCallable","isUndefined","isUndefinedOrNull","isNull","isEmpty","isNotEmpty","isArrayLike","isDateLike","xmap","map","xfilter","filter","methodcaller","compose","bind","bindMethods","NotFound","AdapterRegistry","registerComparator","compare","registerRepr","repr","objEqual","arrayEqual","concat","keyComparator","reverseKeyComparator","partial","merge","listMinMax","listMax","listMin","objMax","objMin","nodeWalk","zip","urlEncode","queryString","serializeJSON","registerJSON","evalJSON","parseQueryString","findValue","findIdentical","flattenArguments","method","average","mean","median"];
 MochiKit.Base.EXPORT_OK=["nameFunctions","comparatorRegistry","reprRegistry","jsonRegistry","compareDateLike","compareArrayLike","reprArrayLike","reprString","reprNumber"];
 MochiKit.Base._exportSymbols=function(_138,_139){
-if(typeof (MochiKit.__export__)=="undefined"){
-MochiKit.__export__=(MochiKit.__compat__||(typeof (JSAN)=="undefined"&&typeof (dojo)=="undefined"));
-}
 if(!MochiKit.__export__){
 return;
 }

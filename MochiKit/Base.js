@@ -11,12 +11,16 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 if (typeof(dojo) != 'undefined') {
     dojo.provide("MochiKit.Base");
 }
-
 if (typeof(MochiKit) == 'undefined') {
     MochiKit = {};
 }
 if (typeof(MochiKit.Base) == 'undefined') {
     MochiKit.Base = {};
+}
+if (typeof(MochiKit.__export__) == "undefined") {
+    MochiKit.__export__ = (MochiKit.__compat__  ||
+        (typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
+    );
 }
 
 MochiKit.Base.VERSION = "1.4";
@@ -1268,11 +1272,6 @@ MochiKit.Base.EXPORT_OK = [
 ];
 
 MochiKit.Base._exportSymbols = function (globals, module) {
-    if (typeof(MochiKit.__export__) == "undefined") {
-        MochiKit.__export__ = (MochiKit.__compat__  ||
-            (typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-        );
-    }
     if (!MochiKit.__export__) {
         return;
     }
