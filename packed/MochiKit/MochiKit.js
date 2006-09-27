@@ -842,7 +842,7 @@ var v=o[k];
 if(typeof (v)=="function"){
 continue;
 }else{
-if(typeof (v.length)=="number"){
+if(typeof (v)!="string"&&typeof (v.length)=="number"){
 for(var i=0;i<v.length;i++){
 _125.push(k);
 _126.push(v[i]);
