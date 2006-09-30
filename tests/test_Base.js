@@ -437,6 +437,7 @@ tests.test_Base = function (t) {
     
     try {
         compose(f1, "foo");
+        t.ok( false, "wrong compose argument not raised!" );
     } catch (e) {
         t.is( e.name, 'TypeError', "wrong compose argument raised correctly" );
     }
