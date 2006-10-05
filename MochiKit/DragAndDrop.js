@@ -227,7 +227,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
 
     /** @id MochiKit.DragAndDrop.isContained */
     isContained: function (element) {
-        if (this.options._containers) {
+        if (this.options._containers.length) {
             var containmentNode;
             if (this.options.tree) {
                 containmentNode = element.treeNode;
