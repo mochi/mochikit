@@ -359,5 +359,22 @@ tests.test_Signal = function (t) {
     signal(hasSignals, 'signalTwo');
     t.is(i, 0, 'disconnectAll works with implicit signals');
     i = 0;
-          
+    
+	var toggle = function() {
+		disconnectAll(hasSignals, 'signalOne');
+		connect(hasSignals, 'signalOne', aFunction);
+		i++;
+	};
+    
+	connect(hasSignals, 'signalOne', aFunction);
+	connect(hasSignals, 'signalTwo', function() { i++; });
+	connect(hasSignals, 'signalTwo', toggle);
+	connect(hasSignals, 'signalTwo', function() { i++; }); // #147
+	connect(hasSignals, 'signalTwo', function() { i++; });
+	signal(hasSignals, 'signalTwo');
+    t.is(i, 4, 'disconnectAll fired in a signal loop works');
+    i = 0;
+    disconnectAll('signalOne');
+    disconnectAll('signalTwo');
+    
 };
