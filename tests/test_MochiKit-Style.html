@@ -12,7 +12,7 @@
 </head>
 <body style="border: 0; margin: 0; padding: 0;">
 
-<div id="styleTest" style="position: absolute; left: 400px; top: 100px; width: 100px; height: 100px; background: rgb(255, 0, 0); opacity: 0.5; filter: alpha(opacity=50);">&nbsp;</div>
+<div id="styleTest" style="position: absolute; left: 400px; top: 100px; width: 100px; height: 100px; background: rgb(255, 0, 0); opacity: 0.5; filter: alpha(opacity=50);">TEST</div>
 
 <pre id="test">
 <script type="text/javascript">
@@ -76,6 +76,12 @@ try {
     
     setOpacity('styleTest', 0.2);
     is(getOpacity('styleTest'), 0.2, 'test setOpacity');
+
+    setOpacity('styleTest', 0);
+    is(getOpacity('styleTest'), 0, 'test setOpacity');
+
+    setOpacity('styleTest', 1);
+    is(getOpacity('styleTest'), 1, 'test setOpacity');
 
     var dims = getElementDimensions('styleTest');
     is(dims.w, 100, 'getElementDimensions w ok');
