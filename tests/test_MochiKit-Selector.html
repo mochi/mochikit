@@ -35,7 +35,7 @@ try {
 
     var testExpected = function (res, exp, lbl) {
         for (var i=0; i < res.length; i ++) {
-            is( res[i].toString(), exp[i], lbl + ' (' + i + ')');
+            is( res[i].href, exp[i], lbl + ' (' + i + ')');
         }
     };
 
