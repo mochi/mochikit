@@ -83,7 +83,7 @@ MochiKit.Selector.Selector.prototype = {
         var clause;
 
         function childElements(element) {
-            return "filter(function (node){ return node.nodeType == Node.ELEMENT_NODE; }, " + element + ".childNodes)";
+            return "filter(function (node){ return node.nodeType == 1; }, " + element + ".childNodes)";
         }
 
         if (params.wildcard) {
@@ -124,7 +124,7 @@ MochiKit.Selector.Selector.prototype = {
                             a = 2;
                             b = 0;
                         } else {
-                            a = match[2] && parseInt(match);
+                            a = match[2] && parseInt(match) || null;
                             b = parseInt(match[3]);
                         }
                         conditions.push('this.nthChild(element,' + a + ',' + b
@@ -157,10 +157,10 @@ MochiKit.Selector.Selector.prototype = {
                         conditions.push('element.disabled === false');
                         break;
                     case 'disabled':
-                        conditions.push('element.disabled === true');
+                        conditions.push('element.disabled');
                         break;
                     case 'checked':
-                        conditions.push('element.checked === true');
+                        conditions.push('element.checked');
                         break;
                     case 'not':
                         var subselector = new MochiKit.Selector.Selector(pseudoClassArgument);
@@ -171,7 +171,7 @@ MochiKit.Selector.Selector.prototype = {
         }
         if (clause = params.attributes) {
             map(function (attribute) {
-                var value = 'element.getAttribute(' + repr(attribute.name) + ')';
+                var value = 'getNodeAttribute(element, ' + repr(attribute.name) + ')';
                 var splitValueBy = function (delimiter) {
                     return value + ' && ' + value + '.split(' + repr(delimiter) + ')';
                 }
@@ -220,7 +220,7 @@ MochiKit.Selector.Selector.prototype = {
 
     nthChild: function (element, a, b, reverse, sametag){
         var siblings = filter(function (node) {
-            return node.nodeType == Node.ELEMENT_NODE;
+            return node.nodeType == 1;
             }, element.parentNode.childNodes);
         if (sametag) {
             siblings = filter(function (node) {
@@ -273,7 +273,7 @@ MochiKit.Selector.Selector.prototype = {
 
         function nextSiblingElement(node) {
             node = node.nextSibling;
-            while (node && node.nodeType != Node.ELEMENT_NODE) {
+            while (node && node.nodeType != 1) {
                 node = node.nextSibling;
             }
             return node;
@@ -286,7 +286,7 @@ MochiKit.Selector.Selector.prototype = {
                 throw "> combinator not allowed without preceeding expression";
             }
             scope = filter(function (node) {
-                return node.nodeType == Node.ELEMENT_NODE;
+                return node.nodeType == 1;
             }, scope.childNodes);
         } else if (axis == "+") {
             if (!scope) {
@@ -326,18 +326,6 @@ MochiKit.Selector.Selector.prototype = {
 };
 
 MochiKit.Base.update(MochiKit.Selector, {
-    matchElements: function (elements, expression) {
-        var selector = new Selector(expression);
-        return elements.select(selector.match.bind(selector)).collect(Element.extend);
-    },
-
-    findElement: function (elements, expression, index) {
-        if (typeof expression == 'number') {
-            index = expression;
-            expression = false;
-        }
-        return Selector.matchElements(elements, expression || '*')[index || 0];
-    },
 
     findChildElements: function (element, expressions) {
         return flattenArray(map(function (expression) {
