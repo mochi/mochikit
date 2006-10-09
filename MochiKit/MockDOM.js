@@ -66,7 +66,7 @@ MochiKit.MockDOM.MockElement.prototype = {
     },
     /** @id MochiKit.MockDOM.MockElement.prototype.createTextNode */
     createTextNode: function (text) {
-        return new MochiKit.MockDOM.MockElement("text", text);
+        return new MochiKit.MockDOM.MockElement("text", text, this.nodeType == 9 ? this : this.ownerDocument);
     },
     /** @id MochiKit.MockDOM.MockElement.prototype.setAttribute */
     setAttribute: function (name, value) {
