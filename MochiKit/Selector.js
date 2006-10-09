@@ -126,7 +126,7 @@ MochiKit.Selector.Selector.prototype = {
                 var pseudoClassArgument = match[2];
                 switch (pseudoClass) {
                     case 'root':
-                        conditions.push('element === document.documentElement'); break;
+                        conditions.push('element.nodeType == 9 || element === element.ownerDocument.documentElement'); break;
                     case 'nth-child':
                     case 'nth-last-child':
                     case 'nth-of-type':
@@ -284,7 +284,7 @@ MochiKit.Selector.Selector.prototype = {
             }
         }
 
-        if (element = $(this.params.id)) {
+        if (element = MochiKit.DOM.getElement(this.params.id)) {
             if (this.match(element)) {
                 if (!scope || inScope(element, scope)) {
                     return [element];
@@ -301,7 +301,7 @@ MochiKit.Selector.Selector.prototype = {
         }
 
         if (axis == "") {
-            scope = (scope || document).getElementsByTagName(this.params.tagName || '*');
+            scope = (scope || currentDocument()).getElementsByTagName(this.params.tagName || '*');
         } else if (axis == ">") {
             if (!scope) {
                 throw "> combinator not allowed without preceeding expression";
@@ -370,6 +370,6 @@ MochiKit.Base.update(MochiKit.Selector, {
 });
 
 function $$() {
-    return MochiKit.Selector.findChildElements(document, arguments);
+    return MochiKit.Selector.findChildElements(currentDocument(), arguments);
 }
 

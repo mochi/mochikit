@@ -222,6 +222,19 @@ try {
     for (var i=0; i < results.length; i ++) {
         is( results[i], expected[i+4], "'a[href$=outsidep] ~ *' selector" + ' (' + i + ')');
     }
+    
+    expected = [document.documentElement];
+    results = $$(':root');
+    for (var i=0; i < results.length; i ++) {
+        is( results[i], expected[i], "':root' selector" + ' (' + i + ')');
+    }
+    
+    var doc = MochiKit.MockDOM.createDocument();
+    appendChildNodes(doc.body, A({"href": "http://www.example.com/insideAnotherDocument"}, "Inside a document"));
+    withDocument(doc, function(){
+        is( $$(":root")[0], doc, ":root on a different document" );
+        is( $$("a")[0], doc.body.firstChild, "a inside a different document" );
+    });
 
     ok( true, "test suite finished!");
     

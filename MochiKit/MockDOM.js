@@ -37,9 +37,13 @@ MochiKit.MockDOM.createDocument = function () {
 };
 
 /** @id MochiKit.MockDOM.MockElement */
-MochiKit.MockDOM.MockElement = function (name, data) {
+MochiKit.MockDOM.MockElement = function (name, data, ownerDocument) {
     this.tagName = this.nodeName = name.toUpperCase();
-    if (typeof(data) == "string") {
+    this.ownerDocument = ownerDocument || null;
+    if (name == "DOCUMENT") {
+        this.nodeType = 9;
+        this.childNodes = [];
+    } else if (typeof(data) == "string") {
         this.nodeValue = data;
         this.nodeType = 3;
     } else {
@@ -58,7 +62,7 @@ MochiKit.MockDOM.MockElement = function (name, data) {
 MochiKit.MockDOM.MockElement.prototype = {
     /** @id MochiKit.MockDOM.MockElement.prototype.createElement */
     createElement: function (tagName) {
-        return new MochiKit.MockDOM.MockElement(tagName);
+        return new MochiKit.MockDOM.MockElement(tagName, null, this.nodeType == 9 ? this : this.ownerDocument);
     },
     /** @id MochiKit.MockDOM.MockElement.prototype.createTextNode */
     createTextNode: function (text) {
@@ -79,6 +83,17 @@ MochiKit.MockDOM.MockElement.prototype = {
     /** @id MochiKit.MockDOM.MockElement.prototype.toString */
     toString: function () {
         return "MockElement(" + this.tagName + ")";
+    },
+    /** @id MochiKit.MockDOM.MockElement.prototype.getElementsByTagName */
+    getElementsByTagName: function (tagName) {
+        var foundElements = [];
+        MochiKit.Base.nodeWalk(this, function(node){
+            if (tagName == '*' || tagName == node.tagName) {
+                foundElements.push(node);
+                return node.childNodes;
+            }
+        });
+        return foundElements;
     }
 };
 
