@@ -1,3 +1,13 @@
+/***
+
+MochiKit.Selector 1.4
+
+See <http://mochikit.com/> for documentation, downloads, license, etc.
+
+(c) 2005 Bob Ippolito and others.  All rights Reserved.
+
+***/
+
 if (typeof(dojo) != 'undefined') {
     dojo.provide('MochiKit.Selector');
     dojo.require('MochiKit.Base');
@@ -42,9 +52,14 @@ MochiKit.Selector.Selector = function (expression) {
 };
 
 MochiKit.Selector.Selector.prototype = {
+    /***
 
+    Selector class: convenient object to make CSS selections.
+
+    ***/
     __class__: MochiKit.Selector.Selector,
 
+    /** @id MochiKit.Selector.Selector.prototype.parseExpression */
     parseExpression: function () {
         function abort(message) {
             throw 'Parse error in selector: ' + message;
@@ -96,10 +111,11 @@ MochiKit.Selector.Selector.prototype = {
         }
     },
 
+    /** @id MochiKit.Selector.Selector.prototype.buildMatchExpression */
     buildMatchExpression: function () {
         var params = this.params;
         var conditions = [];
-        var clause;
+        var clause, i;
 
         function childElements(element) {
             return "MochiKit.Base.filter(function (node) { return node.nodeType == 1; }, " + element + ".childNodes)";
@@ -115,12 +131,12 @@ MochiKit.Selector.Selector.prototype = {
             conditions.push('element.tagName.toUpperCase() == ' + repr(clause));
         }
         if ((clause = params.classNames).length > 0) {
-            for (var i = 0; i < clause.length; i++) {
+            for (i = 0; i < clause.length; i++) {
                 conditions.push('MochiKit.DOM.hasElementClass(element, ' + repr(clause[i]) + ')');
             }
         }
         if ((clause = params.pseudoClassNames).length > 0) {
-            for (var i = 0; i < clause.length; i++) {
+            for (i = 0; i < clause.length; i++) {
                 var match = clause[i].match(/^([^(]+)(?:\((.*)\))?$/);
                 var pseudoClass = match[1];
                 var pseudoClassArgument = match[2];
@@ -232,11 +248,13 @@ MochiKit.Selector.Selector.prototype = {
         return conditions.join(' && ');
     },
 
+    /** @id MochiKit.Selector.Selector.prototype.compileMatcher */
     compileMatcher: function () {
         this.match = new Function('element', 'if (!element.tagName) return false; \
                 return ' + this.buildMatchExpression());
     },
 
+    /** @id MochiKit.Selector.Selector.prototype.nthChild */
     nthChild: function (element, a, b, reverse, sametag){
         var siblings = MochiKit.Base.filter(function (node) {
             return node.nodeType == 1;
@@ -257,6 +275,7 @@ MochiKit.Selector.Selector.prototype = {
         }
     },
 
+    /** @id MochiKit.Selector.Selector.prototype.findElements */
     findElements: function (scope, axis) {
         var element;
 
@@ -330,24 +349,24 @@ MochiKit.Selector.Selector.prototype = {
             return [];
         }
 
-        var results = [];
-        for (var i = 0; i < scope.length; i++) {
-            if (this.match(element = scope[i])) {
-                results.push(element);
-            }
-        }
+        var results = MochiKit.Base.filter(MochiKit.Base.bind(function (scopeElt) {
+            return this.match(scopeElt);
+        }, this), scope);
 
         return results;
     },
 
-    toString: function () {
-        return this.expression;
-    }
+    /** @id MochiKit.Selector.Selector.prototype.repr */
+    repr: function () {
+        return 'Selector(' + this.expression + ')';
+    },
 
+    toString: MochiKit.Base.forwardCall("repr")
 };
 
 MochiKit.Base.update(MochiKit.Selector, {
 
+    /** @id MochiKit.Selector.findChildElements */
     findChildElements: function (element, expressions) {
         return MochiKit.Base.flattenArray(MochiKit.Base.map(function (expression) {
             var nextScope = "";
