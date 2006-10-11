@@ -1378,6 +1378,8 @@ MochiKit.Base.__new__();
 //
 if (MochiKit.__export__) {
     compare = MochiKit.Base.compare;
+    compose = MochiKit.Base.compose;
+    serializeJSON = MochiKit.Base.serializeJSON;
 }
 
 MochiKit.Base._exportSymbols(this, MochiKit.Base);
