@@ -208,7 +208,7 @@ MochiKit.Base.update(MochiKit.Style, {
         var self = MochiKit.Style;
         if (o == 1) {
             var toSet = /Gecko/.test(navigator.userAgent) && !(/Konqueror|Safari|KHTML/.test(navigator.userAgent));
-            self.setStyle(elem, {opacity: toSet ? 0.999999 : null});
+            self.setStyle(elem, {opacity: toSet ? 0.999999 : 1.0});
             if (/MSIE/.test(navigator.userAgent)) {
                 self.setStyle(elem, {filter:
                     self.getStyle(elem, 'filter').replace(/alpha\([^\)]*\)/gi, '')});
