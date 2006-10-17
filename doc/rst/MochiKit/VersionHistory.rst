@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- parseQueryString now splits on HTML entities equivalent to ampersand as well
 - Better XHTML compatibility (removed obvious cases where uppercase tagName or
   nodeName was assumed)
 - MochiKit.Base.queryString now handles array values in the same way HTML
