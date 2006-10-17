@@ -1117,7 +1117,7 @@ MochiKit.Base.update(MochiKit.Base, {
 
     /** @id MochiKit.Base.parseQueryString */
     parseQueryString: function (encodedString, useArrays) {
-        var pairs = encodedString.replace(/\+/g, "%20").split("&");
+        var pairs = encodedString.replace(/\+/g, "%20").split(/(\&amp\;|\&\#38\;|\&#x26;|\&)/);
         var o = {};
         var decode;
         if (typeof(decodeURIComponent) != "undefined") {
