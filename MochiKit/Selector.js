@@ -189,13 +189,13 @@ MochiKit.Selector.Selector.prototype = {
                         conditions.push('element.childNodes.length == 0');
                         break;
                     case 'enabled':
-                        conditions.push('element.disabled === false');
+                        conditions.push('(this.isUIElement(element) && element.disabled === false)');
                         break;
                     case 'disabled':
-                        conditions.push('element.disabled');
+                        conditions.push('(this.isUIElement(element) && element.disabled === true)');
                         break;
                     case 'checked':
-                        conditions.push('element.checked');
+                        conditions.push('(this.isUIElement(element) && element.checked === true)');
                         break;
                     case 'not':
                         var subselector = new MochiKit.Selector.Selector(pseudoClassArgument);
@@ -275,6 +275,12 @@ MochiKit.Selector.Selector.prototype = {
         }
     },
 
+    /** @id MochiKit.Selector.Selector.prototype.isUIElement */
+    isUIElement: function (element) {
+        return findValue(['input', 'button', 'select', 'option', 'textarea', 'object'], 
+                element.tagName.toLowerCase()) > -1;
+    },
+
     /** @id MochiKit.Selector.Selector.prototype.findElements */
     findElements: function (scope, axis) {
         var element;
@@ -289,13 +295,13 @@ MochiKit.Selector.Selector.prototype = {
             } else if (axis == ">") {
                 return element.parentNode == scope;
             } else if (axis == "+") {
-                return element.previousSibling == scope;
+                return element == nextSiblingElement(scope);
             } else if (axis == "~") {
-                while (element.previousSibling) {
-                    if (element.previousSibling == scope) {
+                var sibling = scope;
+                while (sibling = nextSiblingElement(sibling)) {
+                    if (element == sibling) {
                         return true;
                     }
-                    element = element.previousSibling;
                 }
                 return false;
             } else {
@@ -389,6 +395,6 @@ MochiKit.Base.update(MochiKit.Selector, {
 });
 
 function $$() {
-    return MochiKit.Selector.findChildElements(currentDocument(), arguments);
+    return MochiKit.Selector.findChildElements(MochiKit.DOM.currentDocument(), arguments);
 }
 

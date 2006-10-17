@@ -17,7 +17,7 @@
 <body>
     <p>Test originally from <a href="http://simon.incutio.com/archive/2003/03/25/#getElementsBySelector" rel="bookmark">this blog entry</a>.</p>
 
-    <p>Here are some links in a normal paragraph: <a href="http://www.google.com/" title="Google!">Google</a>, <a href="http://groups.google.com/">Google Groups</a>. This link has <code>class="blog"</code>: <a href="http://diveintomark.org/" class="blog">diveintomark</a></p>
+    <p>Here are some links in a normal paragraph: <a href="http://www.google.com/" title="Google!">Google</a>, <a href="http://groups.google.com/">Google Groups</a>. This link has <code>class="blog"</code>: <a href="http://diveintomark.org/" class="blog" fakeattribute="bla">diveintomark</a></p>
     <div id="foo">
     <p>Everything inside the red border is inside a div with <code>id="foo"</code>.</p>
     <p>This is a normal link: <a href="http://www.yahoo.com/">Yahoo</a></p>
@@ -140,9 +140,15 @@ try {
     results = $$('a[rel="bookmark"]');
     testExpected(results, expected, "'a[rel=bookmark]' selector");
 
+    expected = ['http://diveintomark.org/'];
+    results = $$('a[fakeattribute]');
+    testExpected(results, expected, "'a[fakeattribute]' selector");
+
+    /* This doesn't work in IE due to silly DOM implementation
     expected = ['http://www.google.com/'];
     results = $$('a[title]');
     testExpected(results, expected, "'a[title]' selector");
+    */
 
     results = $$('p[lang|="en"]');
     is( results[0].firstChild.nodeValue, 'Nonninn', "'p[lang|=en]' selector");
