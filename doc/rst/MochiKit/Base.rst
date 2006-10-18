@@ -1353,6 +1353,15 @@ Functions
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`values(obj)`:
+
+    Return an ``Array`` of the property values of an object (in the
+    order determined by ``for propName in obj``).
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`xfilter(fn, obj[, ...])`:
 
     Returns a new ``Array`` composed of the arguments where

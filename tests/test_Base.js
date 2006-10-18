@@ -488,4 +488,11 @@ tests.test_Base = function (t) {
     /* #109 */
     t.is( queryString({ids: [1,2,3]}), "ids=1&ids=2&ids=3", "queryString array value" );
     t.is( queryString({ids: "123"}), "ids=123", "queryString string value" );
+
+    /* test values */
+    var o = {a: 1, b: 2, c: 4, d: -1};
+    var got = values(o);
+    got.sort();
+    t.is( repr(got), repr([-1, 1, 2, 4]), "values()" );
+
 };
