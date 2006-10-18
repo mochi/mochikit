@@ -415,9 +415,13 @@ MochiKit.Signal._specialMacKeys = {
 };
 
 /* for KEY_F1 - KEY_F12 */
-for (i = 63236; i <= 63242; i++) {
-    MochiKit.Signal._specialMacKeys[i] = 'KEY_F' + (i - 63236 + 1); // no F0
-}
+(function () {
+    var _specialMacKeys = MochiKit.Signal._specialMacKeys;
+    for (i = 63236; i <= 63242; i++) {
+        // no F0
+        _specialMacKeys[i] = 'KEY_F' + (i - 63236 + 1);
+    }
+})();
 
 /* Standard keyboard key codes. */
 MochiKit.Signal._specialKeys = {
@@ -468,25 +472,29 @@ MochiKit.Signal._specialKeys = {
     // undefined: 'KEY_UNKNOWN'
 };
 
-/* for KEY_0 - KEY_9 */
-for (var i = 48; i <= 57; i++) {
-    MochiKit.Signal._specialKeys[i] = 'KEY_' + (i - 48);
-}
+(function () {
+    /* for KEY_0 - KEY_9 */
+    var _specialKeys = MochiKit.Signal._specialKeys;
+    for (var i = 48; i <= 57; i++) {
+        _specialKeys[i] = 'KEY_' + (i - 48);
+    }
 
-/* for KEY_A - KEY_Z */
-for (i = 65; i <= 90; i++) {
-    MochiKit.Signal._specialKeys[i] = 'KEY_' + String.fromCharCode(i);
-}
+    /* for KEY_A - KEY_Z */
+    for (i = 65; i <= 90; i++) {
+        _specialKeys[i] = 'KEY_' + String.fromCharCode(i);
+    }
 
-/* for KEY_NUM_PAD_0 - KEY_NUM_PAD_9 */
-for (i = 96; i <= 105; i++) {
-    MochiKit.Signal._specialKeys[i] = 'KEY_NUM_PAD_' + (i - 96);
-}
+    /* for KEY_NUM_PAD_0 - KEY_NUM_PAD_9 */
+    for (i = 96; i <= 105; i++) {
+        _specialKeys[i] = 'KEY_NUM_PAD_' + (i - 96);
+    }
 
-/* for KEY_F1 - KEY_F12 */
-for (i = 112; i <= 123; i++) {
-    MochiKit.Signal._specialKeys[i] = 'KEY_F' + (i - 112 + 1); // no F0
-}
+    /* for KEY_F1 - KEY_F12 */
+    for (i = 112; i <= 123; i++) {
+        // no F0
+        _specialKeys[i] = 'KEY_F' + (i - 112 + 1);
+    }
+})();
 
 MochiKit.Base.update(MochiKit.Signal, {
 
