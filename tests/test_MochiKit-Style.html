@@ -81,7 +81,8 @@ try {
     is(getOpacity('styleTest'), 0, 'test setOpacity');
 
     setOpacity('styleTest', 1);
-    is(getOpacity('styleTest'), 1, 'test setOpacity');
+    var t = getOpacity('styleTest');
+    ok(t > 0.999 && t <= 1, 'test setOpacity');
 
     var dims = getElementDimensions('styleTest');
     is(dims.w, 100, 'getElementDimensions w ok');
