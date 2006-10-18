@@ -530,7 +530,8 @@ MochiKit.Base.update(MochiKit.Signal, {
     },
 
     _listener: function (src, func, obj, isDOM) {
-        var E = MochiKit.Signal.Event;
+        var self = MochiKit.Signal;
+        var E = self.Event;
         if (!isDOM) {
             return MochiKit.Base.bind(func, obj);
         }
@@ -626,7 +627,7 @@ MochiKit.Base.update(MochiKit.Signal, {
             src.attachEvent(sig, listener); // useCapture unsupported
         }
 
-        var ident = [src, sig, listener, isDOM, objOrFunc, funcOrStr];
+        var ident = [src, sig, listener, isDOM, objOrFunc, funcOrStr, true];
         self._observers.push(ident);
 
 
@@ -636,6 +637,9 @@ MochiKit.Base.update(MochiKit.Signal, {
     _disconnect: function (ident) {
         // check isDOM
         if (!ident[3]) { return; }
+        // already disconnected
+        if (!ident[6]) { return; }
+        ident[6] = false;
         var src = ident[0];
         var sig = ident[1];
         var listener = ident[2];
@@ -663,7 +667,11 @@ MochiKit.Base.update(MochiKit.Signal, {
                 var o = observers[i];
                 if (o[0] === src && o[1] === sig && o[4] === obj && o[5] === func) {
                     self._disconnect(o);
-                    observers.splice(i, 1);
+                    if (!self._lock) {
+                        observers.splice(i, 1);
+                    } else {
+                        self._dirty = true;
+                    }
                     return true;
                 }
             }
@@ -671,7 +679,11 @@ MochiKit.Base.update(MochiKit.Signal, {
             var idx = m.findIdentical(observers, ident);
             if (idx >= 0) {
                 self._disconnect(ident);
-                observers.splice(idx, 1);
+                if (!self._lock) {
+                    observers.splice(idx, 1);
+                } else {
+                    self._dirty = true;
+                }
                 return true;
             }
         }
@@ -687,13 +699,19 @@ MochiKit.Base.update(MochiKit.Signal, {
         var disconnect = self._disconnect;
         var observers = self._observers;
         var i, ident;
+        var locked = self._lock;
+        var dirty = self._dirty;
         if (signals.length === 0) {
             // disconnect all
             for (i = observers.length - 1; i >= 0; i--) {
                 ident = observers[i];
                 if (ident[0] === src) {
                     disconnect(ident);
-                    observers.splice(i, 1);
+                    if (!locked) {
+                        observers.splice(i, 1);
+                    } else {
+                        dirty = true;
+                    }
                 }
             }
         } else {
@@ -705,19 +723,25 @@ MochiKit.Base.update(MochiKit.Signal, {
                 ident = observers[i];
                 if (ident[0] === src && ident[1] in sigs) {
                     disconnect(ident);
-                    observers.splice(i, 1);
+                    if (!locked) {
+                        observers.splice(i, 1);
+                    } else {
+                        dirty = true;
+                    }
                 }
             }
         }
-
+        self._dirty = dirty;
     },
 
     /** @id MochiKit.Signal.signal */
     signal: function (src, sig) {
-        var observers = MochiKit.Signal._observers;
+        var self = MochiKit.Signal;
+        var observers = self._observers;
         src = MochiKit.DOM.getElement(src);
         var args = MochiKit.Base.extend(null, arguments, 2);
         var errors = [];
+        self._lock = true;
         for (var i = 0; i < observers.length; i++) {
             var ident = observers[i];
             if (ident[0] === src && ident[1] === sig) {
@@ -725,6 +749,15 @@ MochiKit.Base.update(MochiKit.Signal, {
                     ident[2].apply(src, args);
                 } catch (e) {
                     errors.push(e);
+                }
+            }
+        }
+        self._lock = false;
+        if (self._dirty) {
+            self._dirty = false;
+            for (var i = observers.length - 1; i >= 0; i--) {
+                if (!observers[i][6]) {
+                    observers.splice(i, 1);
                 }
             }
         }
@@ -752,6 +785,8 @@ MochiKit.Signal.__new__ = function (win) {
     var m = MochiKit.Base;
     this._document = document;
     this._window = win;
+    this._lock = false;
+    this._dirty = false;
 
     try {
         this.connect(window, 'onunload', this._unloadCache);

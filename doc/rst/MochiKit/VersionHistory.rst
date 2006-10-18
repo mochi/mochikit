@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- Fixed MochiKit.Signal.disconnect when called from a signal handler invoked
+  by MochiKit.Signal.signal
 - parseQueryString now splits on HTML entities equivalent to ampersand as well
 - Better XHTML compatibility (removed obvious cases where uppercase tagName or
   nodeName was assumed)
