@@ -194,7 +194,16 @@ MochiKit.Base.update(MochiKit.Base, {
         return rval;
     },
         
-    /** @id MochiKit.Base.items */
+    /** @id MochiKit.Base.values */
+    values: function (obj) {
+        var rval = [];
+        for (var prop in obj) {
+            rval.push(obj[prop]);
+        }
+        return rval;
+    },
+
+     /** @id MochiKit.Base.items */
     items: function (obj) {
         var rval = [];
         var e;
@@ -1203,6 +1212,7 @@ MochiKit.Base.EXPORT = [
     "updatetree",
     "setdefault",
     "keys",
+    "values",
     "items",
     "NamedError",
     "operator",
