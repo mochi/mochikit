@@ -13,6 +13,12 @@
 if (typeof(SimpleTest) == "undefined") {
     var SimpleTest = {};
 }
+
+// Check to see if the TestRunner is present and has logging
+if (typeof(parent) != "undefined" && parent.TestRunner) {
+    SimpleTest._logEnabled = parent.TestRunner.logEnabled;
+}
+
 SimpleTest._tests = [];
 SimpleTest._stopOnLoad = true;
 
@@ -20,8 +26,15 @@ SimpleTest._stopOnLoad = true;
  * Something like assert.
 **/
 SimpleTest.ok = function (condition, name, diag) {
-    SimpleTest._tests.push({'result': !!condition, 'name': name, 
-                            'diag': diag || ""});
+    var test = {'result': !!condition, 'name': name, 'diag': diag || ""};
+    if (SimpleTest._logEnabled) {
+        var msg = test.result ? "PASS" : "FAIL";
+        msg += " | " + test.name;
+        if (!test.result) 
+            msg += " | " + test.diag;
+        parent.TestRunner.logger.log(msg);
+    }
+    SimpleTest._tests.push(test);
 };
 
 /**
