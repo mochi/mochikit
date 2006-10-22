@@ -7,6 +7,7 @@
  *
 **/
 var TestRunner = {};
+TestRunner.logEnabled = false;
 TestRunner._iframes = {};
 TestRunner._iframeDocuments = {};
 TestRunner._iframeRows = {};
@@ -27,6 +28,11 @@ TestRunner._summaryDiv = DIV(null,
         TBODY()
     )
 );
+
+/**
+ * If logEnabled is true, this is the logger that will be used.
+**/
+TestRunner.logger = MochiKit.Logging.logger;
 
 /**
  * Toggle element visibility
@@ -64,6 +70,9 @@ TestRunner._makeIframe = function (url) {
  *
 **/
 TestRunner.runTests = function (/*url...*/) {
+    if (TestRunner.logEnabled)
+        TestRunner.logger.log("SimpleTest START");
+  
     var body = document.getElementsByTagName("body")[0];
     appendChildNodes(body,
         TestRunner._testsDiv,
@@ -85,6 +94,10 @@ TestRunner.runNextTest = function() {
         var progress = SPAN(null,
             "Running ", A({href:url}, url), "..."
         );
+        
+        if (TestRunner.logEnabled)
+            TestRunner.logger.log(scrapeText(progress));
+        
         TestRunner._progressDiv.appendChild(progress);
         TestRunner._iframes[url] = TestRunner._makeIframe(url);
     }  else {
@@ -98,6 +111,10 @@ TestRunner.runNextTest = function() {
 TestRunner.testFinished = function (doc) {
     appendChildNodes(TestRunner._progressDiv, SPAN(null, "Done"), BR());
     var finishedURL = TestRunner._urls[TestRunner._currentTest];
+    
+    if (TestRunner.logEnabled)
+        TestRunner.logger.debug("SimpleTest finished " + finishedURL);
+    
     TestRunner._iframeDocuments[finishedURL] = doc;
     // TestRunner._iframes[finishedURL].style.display = "none";
     TestRunner._toggle(TestRunner._iframes[finishedURL]);
@@ -109,6 +126,8 @@ TestRunner.testFinished = function (doc) {
  * Display the summary in the browser
 **/
 TestRunner.makeSummary = function() {
+    if (TestRunner.logEnabled)
+        TestRunner.logger.log("SimpleTest FINISHED");
     var rows = [];
     for (var url in TestRunner._iframeDocuments) {
         var doc = TestRunner._iframeDocuments[url];
