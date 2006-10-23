@@ -30,6 +30,11 @@ TestRunner._summaryDiv = DIV(null,
 );
 
 /**
+ * This function is called after generating the summary.
+**/
+TestRunner.onComplete = null;
+
+/**
  * If logEnabled is true, this is the logger that will be used.
 **/
 TestRunner.logger = MochiKit.Logging.logger;
@@ -102,6 +107,8 @@ TestRunner.runNextTest = function() {
         TestRunner._iframes[url] = TestRunner._makeIframe(url);
     }  else {
         TestRunner.makeSummary();
+        if (TestRunner.onComplete)
+            TestRunner.onComplete();
     }
 };
 
