@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Base.parseQueryString now accepts leading question mark
 - New MochiKit.Base.values function
 - Fixed MochiKit.Signal.disconnect when called from a signal handler invoked
   by MochiKit.Signal.signal
