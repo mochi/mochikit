@@ -359,6 +359,8 @@ tests.test_Base = function (t) {
     t.is( res.b, "3=2", "parseQueryString second name:value pair" );
     var res = parseQueryString("foo=one&foo=two", true);
     t.is( res["foo"].join(" "), "one two", "parseQueryString useArrays" );
+    var res = parseQueryString("?foo=2&bar=1");
+    t.is( res["foo"], "2", "parseQueryString strip leading question mark");
 
     t.is( serializeJSON("foo\n\r\b\f\t"), "\"foo\\n\\r\\b\\f\\t\"", "string JSON" );
     t.is( serializeJSON(null), "null", "null JSON");
