@@ -30,9 +30,12 @@ SimpleTest.ok = function (condition, name, diag) {
     if (SimpleTest._logEnabled) {
         var msg = test.result ? "PASS" : "FAIL";
         msg += " | " + test.name;
-        if (!test.result) 
+        if (test.result) {
+            parent.TestRunner.logger.log(msg);
+        } else {
             msg += " | " + test.diag;
-        parent.TestRunner.logger.log(msg);
+            parent.TestRunner.logger.error(msg);
+        }
     }
     SimpleTest._tests.push(test);
 };
