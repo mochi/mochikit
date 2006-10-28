@@ -376,5 +376,43 @@ tests.test_Signal = function (t) {
     i = 0;
     disconnectAll('signalOne');
     disconnectAll('signalTwo');
+
+    var testfunc = function () { arguments.callee.count++; };
+    testfunc.count = 0;
+    var testObj = {
+        methOne: function () { this.countOne++; }, countOne: 0,
+        methTwo: function () { this.countTwo++; }, countTwo: 0
+    };
+    connect(hasSignals, 'signalOne', testfunc);
+    connect(hasSignals, 'signalTwo', testfunc);
+    signal(hasSignals, 'signalOne');
+    signal(hasSignals, 'signalTwo');
+    t.is(testfunc.count, 2, 'disconnectAllTo func precondition');
+    disconnectAllTo(testfunc);
+    signal(hasSignals, 'signalOne');
+    signal(hasSignals, 'signalTwo');
+    t.is(testfunc.count, 2, 'disconnectAllTo func');
+
+    connect(hasSignals, 'signalOne', testObj, 'methOne');
+    connect(hasSignals, 'signalTwo', testObj, 'methTwo');
+    signal(hasSignals, 'signalOne');
+    signal(hasSignals, 'signalTwo');
+    t.is(testObj.countOne, 1, 'disconnectAllTo obj precondition');
+    t.is(testObj.countTwo, 1, 'disconnectAllTo obj precondition');
+    disconnectAllTo(testObj);
+    signal(hasSignals, 'signalOne');
+    signal(hasSignals, 'signalTwo');
+    t.is(testObj.countOne, 1, 'disconnectAllTo obj');
+    t.is(testObj.countTwo, 1, 'disconnectAllTo obj');
+
+    testObj.countOne = testObj.countTwo = 0;
+    connect(hasSignals, 'signalOne', testObj, 'methOne');
+    connect(hasSignals, 'signalTwo', testObj, 'methTwo');
+    disconnectAllTo(testObj, 'methOne');
+    signal(hasSignals, 'signalOne');
+    signal(hasSignals, 'signalTwo');
+    t.is(testObj.countOne, 0, 'disconnectAllTo obj+str');
+    t.is(testObj.countTwo, 1, 'disconnectAllTo obj+str');
+ 
     
 };
