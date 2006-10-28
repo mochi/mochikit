@@ -639,6 +639,12 @@ MochiKit.Base.update(MochiKit.Signal, {
         self._observers.push(ident);
 
 
+        if (!isDOM && typeof(src.__connect__) == 'function') {
+            var args = MochiKit.Base.extend([ident], arguments, 1);
+            src.__connect__.apply(src, args);
+        }
+
+
         return ident;
     },
 

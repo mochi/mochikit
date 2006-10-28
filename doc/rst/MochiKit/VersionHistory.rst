@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- New __connect__ protocol for MochiKit.Signal.connect source notifications
 - Added colSpan, bgColor to the list of DOM renames for Internet Explorer
 - New MochiKit.Signal.disconnectAllTo function
 - MochiKit.Base.parseQueryString now accepts leading question mark
