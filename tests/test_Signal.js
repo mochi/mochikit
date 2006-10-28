@@ -414,5 +414,17 @@ tests.test_Signal = function (t) {
     t.is(testObj.countOne, 0, 'disconnectAllTo obj+str');
     t.is(testObj.countTwo, 1, 'disconnectAllTo obj+str');
  
+    has__Connect = {
+          count: 0,
+          __connect__: function (ident) {
+              this.count += arguments.length;
+              disconnect(ident);
+          }
+    };
+
+    connect(has__Connect, 'signalOne', aFunction);
+    t.is(has__Connect.count, 3, '__connect__ is called when it exists');
+    signal(has__Connect, 'signalOne');
+    t.is(has__Connect.count, 3, '__connect__ can disconnect the signal');
     
 };

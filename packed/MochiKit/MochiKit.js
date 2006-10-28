@@ -4744,6 +4744,10 @@ src.attachEvent(sig,_595);
 }
 var _596=[src,sig,_595,_594,_591,_592,true];
 self._observers.push(_596);
+if(!_594&&typeof (src.__connect__)=="function"){
+var args=MochiKit.Base.extend([_596],arguments,1);
+src.__connect__.apply(src,args);
+}
 return _596;
 },_disconnect:function(_597){
 if(!_597[3]){

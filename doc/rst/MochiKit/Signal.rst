@@ -231,6 +231,11 @@ Signal API Reference
     The return value can be passed to :mochiref:`disconnect` to
     disconnect the signal.
 
+    In MochiKit 1.4+, if ``src`` is an object that has a ``__connect__``
+    method, then ``src.__connect__(ident, signal, objOrFunc, funcOrStr)``
+    will be called. This method may be used to disconnect the signal.
+    DOM objects can not implement this feature.
+    
     *Availability*:
         Available in MochiKit 1.3.1+
 
