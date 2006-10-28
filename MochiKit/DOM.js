@@ -896,7 +896,9 @@ MochiKit.Base.update(MochiKit.DOM, {
                 "checked": "defaultChecked",
                 "usemap": "useMap",
                 "for": "htmlFor",
-                "readonly": "readOnly"
+                "readonly": "readOnly",
+                "colspan": "colSpan",
+                "bgcolor": "bgColor"
             };
         } else {
             attributeArray = function (node) {

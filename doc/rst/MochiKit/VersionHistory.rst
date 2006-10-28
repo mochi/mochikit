@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- Added colSpan, bgColor to the list of DOM renames for Internet Explorer
+- New MochiKit.Signal.disconnectAllTo function
 - MochiKit.Base.parseQueryString now accepts leading question mark
 - New MochiKit.Base.values function
 - Fixed MochiKit.Signal.disconnect when called from a signal handler invoked

@@ -256,6 +256,17 @@ Signal API Reference
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`disconnectAllTo(dest[, func])`:
+
+    ``disconnectAllTo(dest)`` removes all signals connected to dest.
+
+    ``disconnectAllTo(dest, func)`` will remove all
+    signals connected to dest using func. 
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`signal(src, signal, ...)`:
 
     This will signal a signal, passing whatever additional parameters
