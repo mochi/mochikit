@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- LoggingPane now works on pages with '#' in the URL on IE
 - New MochiKit.Async.doXHR as a convenient method for doing custom
   XMLHttpRequests (e.g. extra headers, overrideMimeType, etc.)
 - New __connect__ protocol for MochiKit.Signal.connect source notifications
