@@ -216,12 +216,11 @@ SortableManager.prototype = {
             this.deferred.cancel();
         }
         if (format == "xml") {
-            var req = getXMLHttpRequest();
-            if (req.overrideMimeType) {
-                req.overrideMimeType("text/xml");
-            }
-            req.open("GET", url, true);
-            d = sendXMLHttpRequest(req).addCallback(datatableFromXMLRequest);
+            var d = doXHR(url, {
+                mimeType: 'text/xml',
+                headers: {Accept: 'text/xml'}
+            });
+            d.addCallback(datatableFromXMLRequest);
         } else if (format == "json") {
             d = loadJSONDoc(url);
         } else {

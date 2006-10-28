@@ -73,12 +73,7 @@ InterpreterManager.prototype.help = function (fn) {
     var base = comps.splice(0, 2);
     var shortfn = comps.join('.');
     var url = '../../doc/html/' + base.join('/') + '.html';
-    var xhr = getXMLHttpRequest();
-    xhr.open('GET', url, true);
-    if (xhr.overrideMimeType) {
-        xhr.overrideMimeType('text/xml');
-    }
-    var d = sendXMLHttpRequest(xhr);
+    var d = doXHR(url, {mimeType: 'text/xml'});
     d.addCallback(function (req) {
         var els = getElementsByTagAndClassName(
             'a', 'mochidef', req.responseXML);

@@ -59,7 +59,7 @@ var syntaxHighlight = function (filename) {
             continue;
         }
         var url = strip(scrapeText(elem))
-        var d = doSimpleXMLHttpRequest(url).addCallback(
+        var d = doXHR(url).addCallback(
             partial(swapContents, elem)
         );
         deferredCount += 1;

@@ -17,12 +17,8 @@ function create_toc() {
 };
 
 function doXHTMLRequest(url) {
-    var req = getXMLHttpRequest();
-    if (req.overrideMimeType) {
-        req.overrideMimeType("text/xml");
-    }
-    req.open("GET", url, true);
-    return sendXMLHttpRequest(req).addCallback(function (res) {
+    var d = doXHR(url, {mimeType: 'text/xml'});
+    return d.addCallback(function (res) {
         if (res.responseXML.documentElement) {
             return res.responseXML.documentElement;
         } else {
