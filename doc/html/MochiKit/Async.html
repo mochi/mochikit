@@ -492,6 +492,48 @@ return wait(seconds).addCallback(function (res) { return func() });
 </dl>
 </blockquote>
 <p>
+<a name="fn-doxhr"></a>
+<a class="mochidef reference" href="#fn-doxhr">doXHR(url[, {option: value, ...}])</a>:</p>
+<blockquote>
+<p>Perform a customized <tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> and wrap it with a
+<a class="mochiref reference" href="#fn-deferred">Deferred</a> that may be cancelled.</p>
+<p>Note that currently, only <tt class="docutils literal"><span class="pre">200</span></tt> (OK) and <tt class="docutils literal"><span class="pre">304</span></tt> (NOT_MODIFIED)
+are considered success codes at this time, other status codes will
+result in an errback with an <tt class="docutils literal"><span class="pre">XMLHttpRequestError</span></tt>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">url</span></tt>:</dt>
+<dd>The URL for this request.</dd>
+</dl>
+<p>The following options are currently accepted:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">method</span></tt>:</dt>
+<dd>The HTTP method. Default is <tt class="docutils literal"><span class="pre">'GET'</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">sendContent</span></tt>:</dt>
+<dd>The content to send (e.g. with POST). Default is no content.</dd>
+<dt><tt class="docutils literal"><span class="pre">queryString</span></tt>:</dt>
+<dd>If present it will be used to build a query string to append to
+the url using <a class="mochiref reference" href="Base.html#fn-querystring">MochiKit.Base.queryString</a>. Default is
+no query string.</dd>
+<dt><tt class="docutils literal"><span class="pre">username</span></tt>:</dt>
+<dd>The username for the request. Default is no username.</dd>
+<dt><tt class="docutils literal"><span class="pre">password</span></tt>:</dt>
+<dd>The password for the request. Default is no password.</dd>
+<dt><tt class="docutils literal"><span class="pre">headers</span></tt>:</dt>
+<dd>Additional headers to set in the request, either as an object
+such as <tt class="docutils literal"><span class="pre">{'Accept':</span> <span class="pre">'text/xml'}</span></tt> or as an Array of 2-Arrays
+<tt class="docutils literal"><span class="pre">[['Accept',</span> <span class="pre">'text/xml']]</span></tt>. Default is no additional headers.</dd>
+<dt><tt class="docutils literal"><span class="pre">mimeType</span></tt>:</dt>
+<dd>An override mime type. The typical use of this is to pass
+'text/xml' to force XMLHttpRequest to attempt to parse responseXML.
+Default is no override.</dd>
+<dt><em>returns</em>:</dt>
+<dd><a class="mochiref reference" href="#fn-deferred">Deferred</a> that will callback with the
+<tt class="docutils literal"><span class="pre">XMLHttpRequest</span></tt> instance on success</dd>
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-dosimplexmlhttprequest"></a>
 <a class="mochidef reference" href="#fn-dosimplexmlhttprequest">doSimpleXMLHttpRequest(url[, queryArguments...])</a>:</p>
 <blockquote>

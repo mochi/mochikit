@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- New MochiKit.Async.doXHR as a convenient method for doing custom
+  XMLHttpRequests (e.g. extra headers, overrideMimeType, etc.)
 - New __connect__ protocol for MochiKit.Signal.connect source notifications
 - Added colSpan, bgColor to the list of DOM renames for Internet Explorer
 - New MochiKit.Signal.disconnectAllTo function

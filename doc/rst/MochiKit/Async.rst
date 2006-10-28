@@ -459,6 +459,55 @@ Functions
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`doXHR(url[, {option: value, ...}])`:
+
+    Perform a customized ``XMLHttpRequest`` and wrap it with a
+    :mochiref:`Deferred` that may be cancelled.
+
+    Note that currently, only ``200`` (OK) and ``304`` (NOT_MODIFIED)
+    are considered success codes at this time, other status codes will
+    result in an errback with an ``XMLHttpRequestError``.
+
+    ``url``:
+        The URL for this request.
+
+    The following options are currently accepted:
+
+    ``method``:
+        The HTTP method. Default is ``'GET'``.
+
+    ``sendContent``:
+        The content to send (e.g. with POST). Default is no content.
+
+    ``queryString``:
+        If present it will be used to build a query string to append to
+        the url using :mochiref:`MochiKit.Base.queryString`. Default is
+        no query string.
+
+    ``username``:
+        The username for the request. Default is no username.
+
+    ``password``:
+        The password for the request. Default is no password.
+
+    ``headers``:
+        Additional headers to set in the request, either as an object
+        such as ``{'Accept': 'text/xml'}`` or as an Array of 2-Arrays
+        ``[['Accept', 'text/xml']]``. Default is no additional headers.
+
+    ``mimeType``:
+        An override mime type. The typical use of this is to pass
+        'text/xml' to force XMLHttpRequest to attempt to parse responseXML.
+        Default is no override.
+
+    *returns*:
+        :mochiref:`Deferred` that will callback with the
+        ``XMLHttpRequest`` instance on success
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`doSimpleXMLHttpRequest(url[, queryArguments...])`:
 
     Perform a simple ``XMLHttpRequest`` and wrap it with a
