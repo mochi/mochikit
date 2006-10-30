@@ -4789,13 +4789,13 @@ src.__connect__.apply(src,args);
 }
 return _601;
 },_disconnect:function(_602){
-if(!_602[3]){
-return;
-}
 if(!_602[6]){
 return;
 }
 _602[6]=false;
+if(!_602[3]){
+return;
+}
 var src=_602[0];
 var sig=_602[1];
 var _603=_602[2];
