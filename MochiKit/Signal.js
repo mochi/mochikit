@@ -649,11 +649,11 @@ MochiKit.Base.update(MochiKit.Signal, {
     },
 
     _disconnect: function (ident) {
-        // check isDOM
-        if (!ident[3]) { return; }
         // already disconnected
         if (!ident[6]) { return; }
         ident[6] = false;
+        // check isDOM
+        if (!ident[3]) { return; }
         var src = ident[0];
         var sig = ident[1];
         var listener = ident[2];
