@@ -575,7 +575,7 @@ Autocompleter.Base.prototype = {
             this.options.onShow(this.element, this.update);
         }
         if (!this.iefix && /MSIE/.test(navigator.userAgent &&
-            (MochiKit.Style.getStyle(this.update, 'position') == 'absolute')) {
+            (MochiKit.Style.getStyle(this.update, 'position') == 'absolute'))) {
             new Insertion.After(this.update,
              '<iframe id="' + this.update.id + '_iefix" '+
              'style="display:none;position:absolute;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);" ' +
