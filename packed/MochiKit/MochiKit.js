@@ -872,7 +872,7 @@ rval.push(_131(_127[i])+"="+_131(v));
 }
 return rval.join("&");
 },parseQueryString:function(_132,_133){
-var qstr=(_132[0]=="?")?_132.substring(1):_132;
+var qstr=(_132.charAt(0)=="?")?_132.substring(1):_132;
 var _135=qstr.replace(/\+/g,"%20").split(/(\&amp\;|\&\#38\;|\&#x26;|\&)/);
 var o={};
 var _136;
