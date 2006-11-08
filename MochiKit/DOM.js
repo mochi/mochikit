@@ -105,7 +105,13 @@ MochiKit.DOM.EXPORT = [
     "escapeHTML",
     "toHTML",
     "emitHTML",
-    "scrapeText"
+    "scrapeText",
+    "isParent",
+    "makeClipping",
+    "undoClipping",
+    "makePositioned",
+    "undoPositioned",
+    "getFirstElementByTagAndClassName"
 ];
 
 MochiKit.DOM.EXPORT_OK = [
@@ -864,6 +870,90 @@ MochiKit.Base.update(MochiKit.DOM, {
                 node.parentNode.removeChild(node);
             }
         }
+    },
+
+    /** @id MochiKit.DOM.makeClipping */
+    makeClipping: function (element) {
+        element = MochiKit.DOM.getElement(element);
+        var oldOverflow = element.style.overflow;
+        if ((MochiKit.Style.getStyle(element, 'overflow') || 'visible') != 'hidden') {
+            element.style.overflow = 'hidden';
+        }
+        return oldOverflow;
+    },
+
+    /** @id MochiKit.DOM.undoClipping */
+    undoClipping: function (element, overflow) {
+        element = MochiKit.DOM.getElement(element);
+        if (!overflow) {
+            return;
+        }
+        element.style.overflow = overflow;
+    },
+
+    /** @id MochiKit.DOM.makePositioned */
+    makePositioned: function (element) {
+        element = MochiKit.DOM.getElement(element);
+        var pos = MochiKit.Style.getStyle(element, 'position');
+        if (pos == 'static' || !pos) {
+            element.style.position = 'relative';
+            // Opera returns the offset relative to the positioning context,
+            // when an element is position relative but top and left have
+            // not been defined
+            if (/Opera/.test(navigator.userAgent)) {
+                element.style.top = 0;
+                element.style.left = 0;
+            }
+        }
+    },
+
+    /** @id MochiKit.DOM.undoPositioned */
+    undoPositioned: function (element) {
+        element = MochiKit.DOM.getElement(element);
+        if (element.style.position == 'relative') {
+            element.style.position = element.style.top = element.style.left = element.style.bottom = element.style.right = '';
+        }
+    },
+
+    /** @id MochiKit.DOM.getFirstElementByTagAndClassName */
+    getFirstElementByTagAndClassName: function (tagName, className,
+            /* optional */parent) {
+        var self = MochiKit.DOM;
+        if (typeof(tagName) == 'undefined' || tagName === null) {
+            tagName = '*';
+        }
+        if (typeof(parent) == 'undefined' || parent === null) {
+            parent = self._document;
+        }
+        parent = self.getElement(parent);
+        var children = (parent.getElementsByTagName(tagName)
+            || self._document.all);
+        if (typeof(className) == 'undefined' || className === null) {
+            return children[0];
+        }
+
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i];
+            var classNames = child.className.split(' ');
+            for (var j = 0; j < classNames.length; j++) {
+                if (classNames[j] == className) {
+                    return child;
+                }
+            }
+        }
+    },
+
+    /** @id MochiKit.DOM.isParent */
+    isParent: function (child, element) {
+        if (!child.parentNode || child == element) {
+            return false;
+        }
+
+        if (child.parentNode == element) {
+            return true;
+        }
+
+        return MochiKit.DOM.isParent(child.parentNode, element);
     },
 
     __new__: function (win) {

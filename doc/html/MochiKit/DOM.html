@@ -502,6 +502,22 @@ tag are returned.</p>
 </dl>
 </blockquote>
 <p>
+<a name="fn-getfirstelementbytagandclassname"></a>
+<a class="mochidef reference" href="#fn-getfirstelementbytagandclassname">getFirstElementByTagAndClassName(tagName, className, parent=document)</a>:</p>
+<blockquote>
+<p>Return the first element in <tt class="docutils literal"><span class="pre">parent</span></tt> that matches the tag name
+and class name provided. If <tt class="docutils literal"><span class="pre">parent</span></tt> is a string, it will be
+looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<p>If <tt class="docutils literal"><span class="pre">tagName</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt> or <tt class="docutils literal"><span class="pre">&quot;*&quot;</span></tt>, all elements will be searched
+for the matching class.</p>
+<p>If <tt class="docutils literal"><span class="pre">className</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, the first element matching the provided
+tag will be returned.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-getnodeattribute"></a>
 <a class="mochidef reference" href="#fn-getnodeattribute">getNodeAttribute(node, attr)</a>:</p>
 <blockquote>
@@ -544,6 +560,46 @@ Returns <tt class="docutils literal"><span class="pre">true</span></tt> if so, a
 a child node of itself for the purposes of this function.</p>
 <p>If either <tt class="docutils literal"><span class="pre">node</span></tt> or <tt class="docutils literal"><span class="pre">maybeParent</span></tt> are strings, the related
 nodes will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-isparent"></a>
+<a class="mochidef reference" href="#fn-isparent">isParent(child, element)</a>:</p>
+<blockquote>
+<p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">element</span></tt> contains <tt class="docutils literal"><span class="pre">child</span></tt>. Returns <tt class="docutils literal"><span class="pre">false</span></tt>
+if <tt class="docutils literal"><span class="pre">element</span> <span class="pre">==</span> <span class="pre">child</span></tt> or <tt class="docutils literal"><span class="pre">child</span></tt> is not contained in <tt class="docutils literal"><span class="pre">element</span></tt>.
+If <tt class="docutils literal"><span class="pre">child</span></tt> or <tt class="docutils literal"><span class="pre">element</span></tt> are strings, they will be looked up with
+<a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-makeclipping"></a>
+<a class="mochidef reference" href="#fn-makeclipping">makeClipping(element)</a>:</p>
+<blockquote>
+<p>Ensure that <tt class="docutils literal"><span class="pre">element.style.overflow</span> <span class="pre">=</span> <span class="pre">'hidden'</span></tt>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a
+string, then it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<p>Returns the original value of <tt class="docutils literal"><span class="pre">element.style.overflow</span></tt>, so that it
+may be restored with <a class="mochiref reference" href="#fn-undoclipping">undoClipping(element, overflow)</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-makepositioned"></a>
+<a class="mochidef reference" href="#fn-makepositioned">makePositioned(element)</a>:</p>
+<blockquote>
+<p>Ensure that <tt class="docutils literal"><span class="pre">element.style.position</span></tt> is set to <tt class="docutils literal"><span class="pre">&quot;relative&quot;</span></tt> if it
+is not set or is <tt class="docutils literal"><span class="pre">&quot;static&quot;</span></tt>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a
+string, then it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<p>Returns the original value of <tt class="docutils literal"><span class="pre">element.style.position</span></tt>, so that it
+may be restored with <a class="mochiref reference" href="#fn-undopositioned">undoPositioned(element, position)</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -732,6 +788,30 @@ be used for most purposes.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-undoclipping"></a>
+<a class="mochidef reference" href="#fn-undoclipping">undoClipping(element, overflow)</a>:</p>
+<blockquote>
+<p>Restore the setting of <tt class="docutils literal"><span class="pre">element.style.overflow</span></tt> set by
+<a class="mochiref reference" href="#fn-makeclipping">makeClipping(element)</a>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a string, then
+it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-undopositioned"></a>
+<a class="mochidef reference" href="#fn-undopositioned">undoPositioned(element, overflow)</a>:</p>
+<blockquote>
+<p>Restore the setting of <tt class="docutils literal"><span class="pre">element.style.position</span></tt> set by
+<a class="mochiref reference" href="#fn-makepositioned">makePositioned(element)</a>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a string, then
+it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
 </dl>
 </blockquote>
 <p>
