@@ -483,6 +483,22 @@ Functions
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`getFirstElementByTagAndClassName(tagName, className, parent=document)`:
+
+    Return the first element in ``parent`` that matches the tag name
+    and class name provided. If ``parent`` is a string, it will be 
+    looked up with :mochiref:`getElement`.
+
+    If ``tagName`` is ``null`` or ``"*"``, all elements will be searched
+    for the matching class.
+
+    If ``className`` is ``null``, the first element matching the provided
+    tag will be returned.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`getNodeAttribute(node, attr)`:
 
     Get the value of the given attribute for a DOM element without
@@ -524,6 +540,42 @@ Functions
 
     If either ``node`` or ``maybeParent`` are strings, the related
     nodes will be looked up with :mochiref:`getElement`.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`isParent(child, element)`:
+
+    Returns ``true`` if ``element`` contains ``child``. Returns ``false``
+    if ``element == child`` or ``child`` is not contained in ``element``.
+    If ``child`` or ``element`` are strings, they will be looked up with
+    :mochiref:`getElement`.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`makeClipping(element)`:
+
+    Ensure that ``element.style.overflow = 'hidden'``. If ``element`` is a
+    string, then it will be looked up with :mochiref:`getElement`.
+
+    Returns the original value of ``element.style.overflow``, so that it
+    may be restored with :mochiref:`undoClipping(element, overflow)`.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`makePositioned(element)`:
+
+    Ensure that ``element.style.position`` is set to ``"relative"`` if it
+    is not set or is ``"static"``. If ``element`` is a
+    string, then it will be looked up with :mochiref:`getElement`.
+
+    Returns the original value of ``element.style.position``, so that it
+    may be restored with :mochiref:`undoPositioned(element, position)`.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -702,6 +754,26 @@ Functions
 
     *Availability*:
         Available in MochiKit 1.3.1+
+
+
+:mochidef:`undoClipping(element, overflow)`:
+
+    Restore the setting of ``element.style.overflow`` set by
+    :mochiref:`makeClipping(element)`. If ``element`` is a string, then
+    it will be looked up with :mochiref:`getElement`.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`undoPositioned(element, overflow)`:
+
+    Restore the setting of ``element.style.position`` set by
+    :mochiref:`makePositioned(element)`. If ``element`` is a string, then
+    it will be looked up with :mochiref:`getElement`.
+
+    *Availability*:
+        Available in MochiKit 1.4+
 
 
 :mochidef:`updateNodeAttributes(node, attrs)`:

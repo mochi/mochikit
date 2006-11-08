@@ -14,6 +14,7 @@ if (typeof(dojo) != 'undefined') {
     dojo.require('MochiKit.DOM');
     dojo.require('MochiKit.Style');
     dojo.require('MochiKit.Color');
+    dojo.require('MochiKit.Position');
 }
 
 if (typeof(JSAN) != 'undefined') {
@@ -21,17 +22,19 @@ if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.DOM", []);
     JSAN.use("MochiKit.Style", []);
     JSAN.use("MochiKit.Color", []);
+    JSAN.use("MochiKit.Position", []);
 }
 
 try {
     if (typeof(MochiKit.Base) === 'undefined' ||
         typeof(MochiKit.DOM) === 'undefined' ||
         typeof(MochiKit.Style) === 'undefined' ||
+        typeof(MochiKit.Position) === 'undefined' ||
         typeof(MochiKit.Color) === 'undefined') {
         throw "";
     }
 } catch (e) {
-    throw "MochiKit.Visual depends on MochiKit.Base, MochiKit.DOM, MochiKit.Style and MochiKit.Color!";
+    throw "MochiKit.Visual depends on MochiKit.Base, MochiKit.DOM, MochiKit.Style, MochiKit.Position and MochiKit.Color!";
 }
 
 if (typeof(MochiKit.Visual) == "undefined") {
