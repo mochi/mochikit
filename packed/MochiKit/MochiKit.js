@@ -5535,6 +5535,10 @@ MochiKit.Visual.Transitions.full=function(pos){
 return 1;
 };
 MochiKit.Visual.ScopedQueue=function(){
+var cls=arguments.callee;
+if(!(this instanceof cls)){
+return new cls();
+}
 this.__init__();
 };
 MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype,{__init__:function(){
@@ -5673,6 +5677,10 @@ this.options[_752](this);
 return "["+this.__class__.NAME+", options:"+MochiKit.Base.repr(this.options)+"]";
 }};
 MochiKit.Visual.Parallel=function(_753,_754){
+var cls=arguments.callee;
+if(!(this instanceof cls)){
+return new cls(_753,_754);
+}
 this.__init__(_753,_754);
 };
 MochiKit.Visual.Parallel.prototype=new MochiKit.Visual.Base();
@@ -5689,6 +5697,10 @@ _759.finalize();
 },this.effects);
 }});
 MochiKit.Visual.Opacity=function(_760,_761){
+var cls=arguments.callee;
+if(!(this instanceof cls)){
+return new cls(_760,_761);
+}
 this.__init__(_760,_761);
 };
 MochiKit.Visual.Opacity.prototype=new MochiKit.Visual.Base();
@@ -5705,6 +5717,10 @@ this.start(_763);
 MochiKit.Style.setOpacity(this.element,_764);
 }});
 MochiKit.Visual.Move=function(_765,_766){
+var cls=arguments.callee;
+if(!(this instanceof cls)){
+return new cls(_765,_766);
+}
 this.__init__(_765,_766);
 };
 MochiKit.Visual.Move.prototype=new MochiKit.Visual.Base();
@@ -5735,6 +5751,10 @@ s.display=_770;
 MochiKit.Style.setStyle(this.element,{left:Math.round(this.options.x*_771+this.originalLeft)+"px",top:Math.round(this.options.y*_771+this.originalTop)+"px"});
 }});
 MochiKit.Visual.Scale=function(_772,_773,_774){
+var cls=arguments.callee;
+if(!(this instanceof cls)){
+return new cls(_772,_773,_774);
+}
 this.__init__(_772,_773,_774);
 };
 MochiKit.Visual.Scale.prototype=new MochiKit.Visual.Base();
@@ -5814,6 +5834,10 @@ d.left=-_785+"px";
 MochiKit.Style.setStyle(this.element,d);
 }});
 MochiKit.Visual.Highlight=function(_786,_787){
+var cls=arguments.callee;
+if(!(this instanceof cls)){
+return new cls(_786,_787);
+}
 this.__init__(_786,_787);
 };
 MochiKit.Visual.Highlight.prototype=new MochiKit.Visual.Base();
@@ -5852,6 +5876,10 @@ MochiKit.Style.setStyle(this.element,{backgroundColor:m});
 MochiKit.Style.setStyle(this.element,MochiKit.Base.update(this.oldStyle,{backgroundColor:this.options.restorecolor}));
 }});
 MochiKit.Visual.ScrollTo=function(_791,_792){
+var cls=arguments.callee;
+if(!(this instanceof cls)){
+return new cls(_791,_792);
+}
 this.__init__(_791,_792);
 };
 MochiKit.Visual.ScrollTo.prototype=new MochiKit.Visual.Base();
@@ -6212,8 +6240,8 @@ var m=MochiKit.Base;
 m.nameFunctions(this);
 this.EXPORT_TAGS={":common":this.EXPORT,":all":m.concat(this.EXPORT,this.EXPORT_OK)};
 };
-MochiKit.Visual.EXPORT=["roundElement","roundClass","tagifyText","multiple","toggle","Base","Parallel","Opacity","Move","Scale","Highlight","ScrollTo","fade","appear","puff","blindUp","blindDown","switchOff","dropOut","shake","slideDown","slideUp","squish","grow","shrink","pulsate","fold"];
-MochiKit.Visual.EXPORT_OK=["PAIRS"];
+MochiKit.Visual.EXPORT=["roundElement","roundClass","tagifyText","multiple","toggle","Parallel","Opacity","Move","Scale","Highlight","ScrollTo","fade","appear","puff","blindUp","blindDown","switchOff","dropOut","shake","slideDown","slideUp","squish","grow","shrink","pulsate","fold"];
+MochiKit.Visual.EXPORT_OK=["Base","PAIRS"];
 MochiKit.Visual.__new__();
 MochiKit.Base._exportSymbols(this,MochiKit.Visual);
 if(typeof (MochiKit)=="undefined"){

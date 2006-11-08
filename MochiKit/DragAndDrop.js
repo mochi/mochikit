@@ -160,6 +160,10 @@ MochiKit.DragAndDrop.Droppables = {
 
 /** @id MochiKit.DragAndDrop.Droppable */
 MochiKit.DragAndDrop.Droppable = function (element, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(element, options);
+    }
     this.__init__(element, options);
 };
 
@@ -384,6 +388,10 @@ MochiKit.DragAndDrop.Draggables = {
 
 /** @id MochiKit.DragAndDrop.Draggable */
 MochiKit.DragAndDrop.Draggable = function (element, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(element, options);
+    }
     this.__init__(element, options);
 };
 

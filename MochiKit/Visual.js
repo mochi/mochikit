@@ -519,6 +519,10 @@ Core effects
 ***/
 
 MochiKit.Visual.ScopedQueue = function () {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls();
+    }
     this.__init__();
 };
 
@@ -745,6 +749,11 @@ MochiKit.Visual.Base.prototype = {
 
     /** @id MochiKit.Visual.Parallel */
 MochiKit.Visual.Parallel = function (effects, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(effects, options);
+    }
+
     this.__init__(effects, options);
 };
 
@@ -778,6 +787,10 @@ MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, {
 
 /** @id MochiKit.Visual.Opacity */
 MochiKit.Visual.Opacity = function (element, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(element, options);
+    }
     this.__init__(element, options);
 };
 
@@ -816,6 +829,10 @@ MochiKit.Base.update(MochiKit.Visual.Opacity.prototype, {
 
 /**  @id MochiKit.Visual.Opacity.prototype.Move */
 MochiKit.Visual.Move = function (element, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(element, options);
+    }
     this.__init__(element, options);
 };
 
@@ -880,6 +897,10 @@ MochiKit.Base.update(MochiKit.Visual.Move.prototype, {
 
 /** @id MochiKit.Visual.Scale */
 MochiKit.Visual.Scale = function (element, percent, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(element, percent, options);
+    }
     this.__init__(element, percent, options);
 };
 
@@ -1004,6 +1025,10 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
 
 /** @id MochiKit.Visual.Highlight */
 MochiKit.Visual.Highlight = function (element, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(element, options);
+    }
     this.__init__(element, options);
 };
 
@@ -1085,6 +1110,10 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
 
 /** @id MochiKit.Visual.ScrollTo */
 MochiKit.Visual.ScrollTo = function (element, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(element, options);
+    }
     this.__init__(element, options);
 };
 
@@ -1793,7 +1822,6 @@ MochiKit.Visual.EXPORT = [
     "tagifyText",
     "multiple",
     "toggle",
-    "Base",
     "Parallel",
     "Opacity",
     "Move",
@@ -1818,6 +1846,7 @@ MochiKit.Visual.EXPORT = [
 ];
 
 MochiKit.Visual.EXPORT_OK = [
+    "Base",
     "PAIRS"
 ];
 
