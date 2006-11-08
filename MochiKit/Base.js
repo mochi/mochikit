@@ -1127,8 +1127,9 @@ MochiKit.Base.update(MochiKit.Base, {
     /** @id MochiKit.Base.parseQueryString */
     parseQueryString: function (encodedString, useArrays) {
         // strip a leading '?' from the encoded string
-        var qstr = (encodedString[0] == "?") ? encodedString.substring(1) : 
-                                               encodedString;
+        var qstr = (encodedString.charAt(0) == "?") 
+            ? encodedString.substring(1)
+            : encodedString;
         var pairs = qstr.replace(/\+/g, "%20").split(/(\&amp\;|\&\#38\;|\&#x26;|\&)/);
         var o = {};
         var decode;
