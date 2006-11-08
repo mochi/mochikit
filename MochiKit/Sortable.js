@@ -7,7 +7,7 @@ See scriptaculous.js for full license.
 ***/
 
 if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.DragAndDrop');
+    dojo.provide('MochiKit.Sortable');
     dojo.require('MochiKit.Base');
     dojo.require('MochiKit.DOM');
     dojo.require('MochiKit.Iter');
