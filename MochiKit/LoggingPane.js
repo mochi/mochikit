@@ -212,14 +212,16 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
             MochiKit.LoggingPane._loggingPane = null;
         }
         this.logger.removeListener(listenerId);
-
-        debugPane.loggingPane = null;
-
-        if (inline) {
-            debugPane.parentNode.removeChild(debugPane);
-        } else {
-            this.win.close();
-        }
+        try {
+            try {
+              debugPane.loggingPane = null;
+            } catch(e) { logFatal("Bookmarklet was closed incorrectly."); }
+            if (inline) {
+                debugPane.parentNode.removeChild(debugPane);
+            } else {
+                this.win.close();
+            }
+        } catch(e) {}
     }, this);
 
     /** @id MochiKit.LoggingPane.filterMessages */
@@ -326,10 +328,12 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         this.win = undefined;
     } else {
         this.win = win;
+        this.win.onunload = closePane;
     }
     this.inline = inline;
     this.closePane = closePane;
     this.closed = false;
+    
 
     return this;
 };

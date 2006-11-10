@@ -3884,11 +3884,20 @@ if(MochiKit.LoggingPane._loggingPane==this){
 MochiKit.LoggingPane._loggingPane=null;
 }
 this.logger.removeListener(_498);
+try{
+try{
 _487.loggingPane=null;
+}
+catch(e){
+logFatal("Bookmarklet was closed incorrectly.");
+}
 if(_480){
 _487.parentNode.removeChild(_487);
 }else{
 this.win.close();
+}
+}
+catch(e){
 }
 },this);
 var _513=function(){
@@ -3959,6 +3968,7 @@ if(_480){
 this.win=undefined;
 }else{
 this.win=win;
+this.win.onunload=_512;
 }
 this.inline=_480;
 this.closePane=_512;
