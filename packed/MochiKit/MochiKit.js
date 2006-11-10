@@ -3968,7 +3968,6 @@ if(_480){
 this.win=undefined;
 }else{
 this.win=win;
-this.win.onunload=_512;
 }
 this.inline=_480;
 this.closePane=_512;
