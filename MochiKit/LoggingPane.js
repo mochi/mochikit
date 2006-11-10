@@ -328,7 +328,6 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
         this.win = undefined;
     } else {
         this.win = win;
-        this.win.onunload = closePane;
     }
     this.inline = inline;
     this.closePane = closePane;
