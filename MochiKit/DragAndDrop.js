@@ -185,8 +185,8 @@ MochiKit.DragAndDrop.Droppable.prototype = {
         var b = MochiKit.Base;
         this.element = d.getElement(element);
         this.options = b.update({
-            
-            /** @id MochiKit.DragAndDrop.greedy */            
+
+            /** @id MochiKit.DragAndDrop.greedy */
             greedy: true,
 
             /** @id MochiKit.DragAndDrop.hoverclass */
@@ -410,23 +410,23 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         var b = MochiKit.Base;
         options = b.update({
 
-            /** @id MochiKit.DragAndDrop.handle */            
+            /** @id MochiKit.DragAndDrop.handle */
             handle: false,
-            
-            /** @id MochiKit.DragAndDrop.starteffect */            
+
+            /** @id MochiKit.DragAndDrop.starteffect */
             starteffect: function (innerelement) {
                 this._savedOpacity = MochiKit.Style.getOpacity(innerelement) || 1.0;
                 new v.Opacity(innerelement, {duration:0.2, from:this._savedOpacity, to:0.7});
             },
-            /** @id MochiKit.DragAndDrop.reverteffect */            
+            /** @id MochiKit.DragAndDrop.reverteffect */
             reverteffect: function (innerelement, top_offset, left_offset) {
                 var dur = Math.sqrt(Math.abs(top_offset^2) +
                           Math.abs(left_offset^2))*0.02;
                 return new v.Move(innerelement,
                             {x: -left_offset, y: -top_offset, duration: dur});
             },
-            
-            /** @id MochiKit.DragAndDrop.endeffect */            
+
+            /** @id MochiKit.DragAndDrop.endeffect */
             endeffect: function (innerelement) {
                 new v.Opacity(innerelement, {duration:0.2, from:0.7, to:this._savedOpacity});
             },
@@ -681,11 +681,6 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     /** @id MochiKit.DragAndDrop.draw */
     draw: function (point) {
         var pos = MochiKit.Position.cumulativeOffset(this.element);
-        if (this.options.ghosting) { 
-            var r = MochiKit.Position.realOffset(this.element); 
-            pos.x += r.x - MochiKit.Position.windowOffset.x;
-            pos.y += r.y - MochiKit.Position.windowOffset.y; 
-        } 
         var d = this.currentDelta();
         pos.x -= d[0];
         pos.y -= d[1];
