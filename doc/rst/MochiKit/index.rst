@@ -17,6 +17,7 @@ MochiKit - makes JavaScript suck a bit less
 - :mochiref:`MochiKit.Logging` - we're all tired of ``alert()``
 - :mochiref:`MochiKit.LoggingPane` - interactive :mochiref:`MochiKit.Logging`
   pane
+- :mochiref:`MochiKit.Selector` - selecting elements by CSS selector syntax
 - :mochiref:`MochiKit.Signal` - simple universal event handling
 - :mochiref:`MochiKit.Style` - painless CSS manipulation API
 - :mochiref:`MochiKit.Sortable` - sortable
