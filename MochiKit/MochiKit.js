@@ -37,6 +37,7 @@ MochiKit.MochiKit.SUBMODULES = [
     "Format",
     "Async",
     "DOM",
+    "Selector",
     "Style",
     "LoggingPane",
     "Color",
