@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- New MochiKit.Selector module
 - MochiKit.LoggingPane fixes for Internet Explorer
 - MochiKit.DOM now creates XHTML nodes in XUL documents.
 - MochiKit.LoggingPane now works on pages with '#' in the URL on IE
