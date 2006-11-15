@@ -439,7 +439,7 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`formContents(elem)`:
+:mochidef:`formContents(elem=document.body)`:
 
     Search the DOM tree, starting at ``elem``, for any elements with a
     ``name`` and ``value`` attribute. Return a 2-element ``Array`` of

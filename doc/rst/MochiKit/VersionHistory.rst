@@ -1,5 +1,9 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Base.queryString now accepts third queryString([names, values])
+  form.
+- MochiKit.DOM.formContents now defaults to document.body if no element is
+  given.
 - New MochiKit.Selector module
 - MochiKit.LoggingPane fixes for Internet Explorer
 - MochiKit.DOM now creates XHTML nodes in XUL documents.

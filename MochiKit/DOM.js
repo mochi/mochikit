@@ -179,13 +179,13 @@ MochiKit.Base.update(MochiKit.DOM, {
     },
 
     /** @id MochiKit.DOM.formContents  */
-    formContents: function (elem/* = document */) {
+    formContents: function (elem/* = document.body */) {
         var names = [];
         var values = [];
         var m = MochiKit.Base;
         var self = MochiKit.DOM;
         if (typeof(elem) == "undefined" || elem === null) {
-            elem = self._document;
+            elem = self._document.body;
         } else {
             elem = self.getElement(elem);
         }

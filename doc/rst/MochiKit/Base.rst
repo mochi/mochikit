@@ -1160,6 +1160,13 @@ Functions
 
         assert( queryString({a: [1,2]}) === "a=1&a=2" );
     
+    Alternate form 2 (MochiKit 1.4+):
+        :mochiref:`queryString([names, values])`
+
+    This form behaves identically to :mochiref:`queryString(names, values)`,
+    except it takes both arguments as a single Array. This mirrors the
+    return value of :mochiref:`MochiKit.DOM.formContents`.
+
     *Availability*:
         Available in MochiKit 1.3.1+
 
