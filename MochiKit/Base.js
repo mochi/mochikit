@@ -1092,6 +1092,10 @@ MochiKit.Base.update(MochiKit.Base, {
             names = kv[0];
             values = kv[1];
         } else if (arguments.length == 1) {
+            // Allow the return value of formContents to be passed directly
+            if (typeof(names.length) == "number" && names.length == 2) {
+                return arguments.callee(names[0], names[1]);
+            }
             var o = names;
             names = [];
             values = [];

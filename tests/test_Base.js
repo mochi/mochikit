@@ -497,4 +497,6 @@ tests.test_Base = function (t) {
     got.sort();
     t.is( repr(got), repr([-1, 1, 2, 4]), "values()" );
 
+    t.is( queryString([["foo", "bar"], ["baz", "wibble"]]), "foo=baz&bar=wibble" );
+
 };
