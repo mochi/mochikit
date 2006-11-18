@@ -284,8 +284,10 @@ MochiKit.Base.update(MochiKit.Async, {
                 // pass
                 // MochiKit.Logging.logDebug('error getting status?', repr(items(e)));
             }
-            //  200 is OK, 304 is NOT_MODIFIED
-            if (status == 200 || status == 304) { // OK
+            // 200 is OK, 201 is CREATED, 204 is NO_CONTENT
+            // 304 is NOT_MODIFIED
+            if (status == 200 || status == 201 || status == 204 ||
+                    status == 304) {
                 d.callback(this);
             } else {
                 var err = new MochiKit.Async.XMLHttpRequestError(this, "Request failed");
