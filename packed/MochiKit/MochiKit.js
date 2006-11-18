@@ -840,6 +840,9 @@ _127=kv[0];
 _128=kv[1];
 }else{
 if(arguments.length==1){
+if(typeof (_127.length)=="number"&&_127.length==2){
+return arguments.callee(_127[0],_127[1]);
+}
 var o=_127;
 _127=[];
 _128=[];
@@ -2694,7 +2697,7 @@ var _340=[];
 var m=MochiKit.Base;
 var self=MochiKit.DOM;
 if(typeof (elem)=="undefined"||elem===null){
-elem=self._document;
+elem=self._document.body;
 }else{
 elem=self.getElement(elem);
 }
@@ -2709,8 +2712,12 @@ if(_341==="SELECT"){
 if(elem.type=="select-one"){
 if(elem.selectedIndex>=0){
 var opt=elem.options[elem.selectedIndex];
+var v=opt.value;
+if(!(v||"value" in opt)){
+v=opt.text;
+}
 _339.push(name);
-_340.push(opt.value);
+_340.push(v);
 return null;
 }
 _339.push(name);
@@ -2728,8 +2735,12 @@ var opt=opts[i];
 if(!opt.selected){
 continue;
 }
+var v=opt.value;
+if(!(v||"value" in opt)){
+v=opt.text;
+}
 _339.push(name);
-_340.push(opt.value);
+_340.push(v);
 }
 return null;
 }
