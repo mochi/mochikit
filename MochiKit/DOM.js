@@ -203,8 +203,12 @@ MochiKit.Base.update(MochiKit.DOM, {
                     if (elem.type == "select-one") {
                         if (elem.selectedIndex >= 0) {
                             var opt = elem.options[elem.selectedIndex];
+                            var v = opt.value;
+                            if (!(v || 'value' in opt)) {
+                                v = opt.text;
+                            }
                             names.push(name);
-                            values.push(opt.value);
+                            values.push(v);
                             return null;
                         }
                         // no form elements?
@@ -223,8 +227,12 @@ MochiKit.Base.update(MochiKit.DOM, {
                             if (!opt.selected) { 
                                 continue; 
                             } 
+                            var v = opt.value;
+                            if (!(v || 'value' in opt)) {
+                                v = opt.text;
+                            }
                             names.push(name); 
-                            values.push(opt.value); 
+                            values.push(v); 
                         }
                         return null;
                     }
