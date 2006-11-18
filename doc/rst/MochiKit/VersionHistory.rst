@@ -1,5 +1,8 @@
 2006-XX-XX      v1.4
 
+- MochiKit.DOM.formContents now treats option tags the same way that
+  form posts do in the case of missing and empty string value attributes,
+  even in IE.
 - MochiKit.Base.queryString now accepts third queryString([names, values])
   form.
 - MochiKit.DOM.formContents now defaults to document.body if no element is
