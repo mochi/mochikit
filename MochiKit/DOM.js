@@ -204,8 +204,12 @@ MochiKit.Base.update(MochiKit.DOM, {
                         if (elem.selectedIndex >= 0) {
                             var opt = elem.options[elem.selectedIndex];
                             var v = opt.value;
-                            if (!(v || 'value' in opt)) {
-                                v = opt.text;
+                            if (!v) {
+                                var h = opt.outerHTML;
+                                // internet explorer sure does suck.
+                                if (h && !h.match(/^[^>]+\svalue\s*=/i)) {
+                                    v = opt.text;
+                                }
                             }
                             names.push(name);
                             values.push(v);
@@ -228,8 +232,12 @@ MochiKit.Base.update(MochiKit.DOM, {
                                 continue; 
                             } 
                             var v = opt.value;
-                            if (!(v || 'value' in opt)) {
-                                v = opt.text;
+                            if (!v) {
+                                var h = opt.outerHTML;
+                                // internet explorer sure does suck.
+                                if (h && !h.match(/^[^>]+\svalue\s*=/i)) {
+                                    v = opt.text;
+                                }
                             }
                             names.push(name); 
                             values.push(v); 
