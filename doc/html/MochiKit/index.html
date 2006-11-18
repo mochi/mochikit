@@ -69,6 +69,13 @@ related to development of and with MochiKit</li>
 <h1><a id="version-history" name="version-history">Version History</a></h1>
 <p>2006-XX-XX      v1.4</p>
 <ul class="simple">
+<li>MochiKit.DOM.formContents now treats option tags the same way that
+form posts do in the case of missing and empty string value attributes,
+even in IE.</li>
+<li>MochiKit.Base.queryString now accepts third queryString([names, values])
+form.</li>
+<li>MochiKit.DOM.formContents now defaults to document.body if no element is
+given.</li>
 <li>New MochiKit.Selector module</li>
 <li>MochiKit.LoggingPane fixes for Internet Explorer</li>
 <li>MochiKit.DOM now creates XHTML nodes in XUL documents.</li>
