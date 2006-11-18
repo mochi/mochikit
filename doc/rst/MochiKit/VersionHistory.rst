@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Async.doXHR and dependent functions now accept 201 CREATED and
+  204 NO CONTENT as valid.
 - MochiKit.DOM.formContents now treats option tags the same way that
   form posts do in the case of missing and empty string value attributes,
   even in IE.
