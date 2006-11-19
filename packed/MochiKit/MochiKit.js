@@ -2389,7 +2389,7 @@ _304=304;
 }
 catch(e){
 }
-if(_304==200||_304==201||_304==204||_304==304){
+if(_304==200||_304==201||_304==204||_304==304||_304==1223){
 d.callback(this);
 }else{
 var err=new MochiKit.Async.XMLHttpRequestError(this,"Request failed");
