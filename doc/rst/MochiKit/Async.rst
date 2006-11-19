@@ -464,8 +464,9 @@ Functions
     Perform a customized ``XMLHttpRequest`` and wrap it with a
     :mochiref:`Deferred` that may be cancelled.
 
-    Note that currently, only ``200`` (OK) and ``304`` (NOT_MODIFIED)
-    are considered success codes at this time, other status codes will
+    Note that only ``200`` (OK), ``201`` (CREATED),
+    ``204`` (NO CONTENT) and ``304`` (NOT MODIFIED) are considered
+    success codes. All other status codes will
     result in an errback with an ``XMLHttpRequestError``.
 
     ``url``:
@@ -505,7 +506,7 @@ Functions
         ``XMLHttpRequest`` instance on success
 
     *Availability*:
-        Available in MochiKit 1.4+
+        Available in MochiKit 1.4+.
 
 
 :mochidef:`doSimpleXMLHttpRequest(url[, queryArguments...])`:
@@ -513,8 +514,9 @@ Functions
     Perform a simple ``XMLHttpRequest`` and wrap it with a
     :mochiref:`Deferred` that may be cancelled.
 
-    Note that currently, only ``200`` (OK) and ``304`` (NOT_MODIFIED)
-    are considered success codes at this time, other status codes will
+    Note that only ``200`` (OK), ``201`` (CREATED),
+    ``204`` (NO CONTENT) and ``304`` (NOT MODIFIED) are considered
+    success codes. All other status codes will
     result in an errback with an ``XMLHttpRequestError``.
 
     ``url``:
@@ -536,7 +538,8 @@ Functions
         ``XMLHttpRequest`` instance on success
 
     *Availability*:
-        Available in MochiKit 1.3.1+
+        Available in MochiKit 1.3.1+. Support for 201 and 204 were added in
+        MochiKit 1.4.
 
 
 :mochidef:`evalJSONRequest(req)`:
@@ -649,8 +652,9 @@ Functions
     object and send it off. Will return a cancellable
     :mochiref:`Deferred` that will callback on success.
 
-    Note that currently, only ``200`` (OK) and ``304`` (NOT_MODIFIED)
-    are considered success codes at this time, other status codes will
+    Note that only ``200`` (OK), ``201`` (CREATED),
+    ``204`` (NO CONTENT) and ``304`` (NOT MODIFIED) are considered
+    success codes. All other status codes will
     result in an errback with an ``XMLHttpRequestError``.
 
     ``req``:
@@ -666,7 +670,8 @@ Functions
         ``XMLHttpRequest`` instance on success.
 
     *Availability*:
-        Available in MochiKit 1.3.1+
+        Available in MochiKit 1.3.1+. Support for 201 and 204 were added in
+        MochiKit 1.4.
 
 
 :mochidef:`succeed([result])`:
