@@ -353,6 +353,12 @@ Combination Effects
 
     Make the element fall and fade.
 
+    options:
+
+    ======== =======
+    distance ``100``
+    ======== =======
+
     *Availability*:
         Available in MochiKit 1.4+
 
