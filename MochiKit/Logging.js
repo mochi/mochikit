@@ -73,7 +73,7 @@ MochiKit.Logging.LogMessage.prototype = {
      /** @id MochiKit.Logging.LogMessage.prototype.repr */
     repr: function () {
         var m = MochiKit.Base;
-        return 'LogMessage(' + 
+        return 'LogMessage(' +
             m.map(
                 m.repr,
                 [this.num, this.level, this.info]
@@ -149,7 +149,7 @@ MochiKit.Logging.Logger.prototype = {
         if (typeof(window) != "undefined" && window.console
                 && window.console.log) {
             // Safari and FireBug 0.4
-            // Percent replacement is a workaround for cute Safari crashing bug 
+            // Percent replacement is a workaround for cute Safari crashing bug
             window.console.log(msg.replace(/%/g, '\uFF05'));
         } else if (typeof(opera) != "undefined" && opera.postError) {
             // Opera
@@ -167,7 +167,7 @@ MochiKit.Logging.Logger.prototype = {
             debug.trace(msg);
         }
     },
-    
+
     /** @id MochiKit.Logging.Logger.prototype.dispatchListeners */
     dispatchListeners: function (msg) {
         for (var k in this.listeners) {
@@ -229,7 +229,7 @@ MochiKit.Logging.Logger.prototype = {
         var messages = this.getMessages(howMany);
         if (messages.length) {
             var lst = map(function (m) {
-                return '\n  [' + m.num + '] ' + m.level + ': ' + m.info.join(' '); 
+                return '\n  [' + m.num + '] ' + m.level + ': ' + m.info.join(' ');
             }, messages);
             lst.unshift('LAST ' + messages.length + ' MESSAGES:');
             return lst.join('');

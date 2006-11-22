@@ -99,7 +99,7 @@ MochiKit.Test.Suite.prototype = {
     testResult: function (pass, msg, failures) {
         this.testIndex += 1;
         if (pass) {
-            this.print("ok " + this.testIndex + " - " + msg); 
+            this.print("ok " + this.testIndex + " - " + msg);
             return;
         }
         this.print("not ok " + this.testIndex + " - " + msg);
@@ -109,13 +109,13 @@ MochiKit.Test.Suite.prototype = {
             }
         }
     },
-            
+
     isDeeply: function (got, expected, /* optional */message) {
         var m = MochiKit.Base;
         var res = 1;
         try {
             res = m.compare(got, expected);
-        } catch (e) { 
+        } catch (e) {
             // pass
         }
         if (res === 0) {
@@ -153,12 +153,12 @@ MochiKit.Test.Suite.prototype = {
 
 
         }
-        
+
         return this.testResult((!res), msg,
             (msg ? [["got:", got], ["expected:", expected]] : undefined)
         );
     },
-    
+
     ok: function (res, message) {
         return this.testResult(res, message);
     }
