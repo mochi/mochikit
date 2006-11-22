@@ -1364,6 +1364,7 @@ MochiKit.Visual.dropOut = function (element, /* optional */ options) {
 
     options = MochiKit.Base.update({
         duration: 0.5,
+        distance: 100,
         beforeSetupInternal: function (effect) {
             d.makePositioned(effect.effects[0].element);
         },
@@ -1375,7 +1376,7 @@ MochiKit.Visual.dropOut = function (element, /* optional */ options) {
     }, options || {});
     var v = MochiKit.Visual;
     return new v.Parallel(
-        [new v.Move(element, {x: 0, y: 100, sync: true}),
+        [new v.Move(element, {x: 0, y: options.distance, sync: true}),
          new v.Opacity(element, {sync: true, to: 0.0})],
         options);
 };
