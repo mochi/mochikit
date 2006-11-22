@@ -270,7 +270,7 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`logDebug(message[, info[, ...]])`:
+:mochidef:`log(message[, info[, ...]])`:
 
     Log an INFO message to the default logger
 
