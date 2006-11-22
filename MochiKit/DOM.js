@@ -430,7 +430,11 @@ MochiKit.Base.update(MochiKit.DOM, {
                 for (var k in attrs) {
                     var v = attrs[k];
                     if (typeof(v) == 'object' && typeof(elem[k]) == 'object') {
-                        updatetree(elem[k], v);
+                        if (k == "style" && MochiKit.Style) {
+                            MochiKit.Style.setStyle(elem, v);
+                        } else {
+                            updatetree(elem[k], v);
+                        }
                     } else if (k.substring(0, 2) == "on") {
                         if (typeof(v) == "string") {
                             v = new Function(v);
@@ -452,7 +456,11 @@ MochiKit.Base.update(MochiKit.DOM, {
                         elem[renamed] = v;
                     } else if (typeof(elem[k]) == 'object'
                             && typeof(v) == 'object') {
-                        updatetree(elem[k], v);
+                        if (k == "style" && MochiKit.Style) {
+                            MochiKit.Style.setStyle(elem, v);
+                        } else {
+                            updatetree(elem[k], v);
+                        }
                     } else if (k.substring(0, 2) == "on") {
                         if (typeof(v) == "string") {
                             v = new Function(v);
