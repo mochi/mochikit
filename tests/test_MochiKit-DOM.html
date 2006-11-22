@@ -88,9 +88,10 @@ try {
     d = createDOM("span", {"foo": "bar", "baz": "wibble"});
     isDOM( d, '<span baz="wibble" foo="bar"/>', "createDOM attributes" );
 
-    d = createDOM("span", {"foo": "bar", "baz": "wibble"}, "one", "two", "three");
+    d = createDOM("span", {"foo": "bar", "baz": "wibble", "spam": "egg"}, "one", "two", "three");
     is( getNodeAttribute(d, 'foo'), "bar", "createDOM attribute" );
     is( getNodeAttribute(d, 'baz'), "wibble", "createDOM attribute" );
+    removeNodeAttribute(d, "spam");
     is( scrapeText(d), "onetwothree", "createDOM contents" );
     
     isDOM( d, '<span baz="wibble" foo="bar">onetwothree</span>', "createDOM contents" );

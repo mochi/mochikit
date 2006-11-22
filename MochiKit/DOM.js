@@ -50,6 +50,7 @@ MochiKit.DOM.EXPORT = [
     "createDOMFunc",
     "isChildNode",
     "getNodeAttribute",
+    "removeNodeAttribute",
     "setNodeAttribute",
     "updateNodeAttributes",
     "appendChildNodes",
@@ -393,6 +394,22 @@ MochiKit.Base.update(MochiKit.DOM, {
                 return node[rename];
             }
             return node.getAttribute(attr);
+        } catch (e) {
+            // pass
+        }
+        return null;
+    },
+
+    /** @id MochiKit.DOM.removeNodeAttribute */
+    removeNodeAttribute: function (node, attr) {
+        var self = MochiKit.DOM;
+        var rename = self.attributeArray.renames[attr];
+        node = self.getElement(node);
+        try {
+            if (rename) {
+                return node[rename];
+            }
+            return node.removeAttribute(attr);
         } catch (e) {
             // pass
         }
