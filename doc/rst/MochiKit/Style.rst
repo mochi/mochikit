@@ -172,6 +172,11 @@ Functions
     Sets the absolute position of ``element`` in the document from an
     object with ``x`` and ``y`` properties.
 
+    Warning: IE in quirks-mode seems to behave strange when you set
+    the height off an element containing text to 0. You can workaround this
+    by setting the value of visibly/display.
+
+
     ``element``:
         A reference to the DOM element to update (if a string is
         given, :mochiref:`getElement(node)` will be used to locate the
