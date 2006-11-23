@@ -266,7 +266,11 @@ try {
     is( d.childNodes.length, 6, "removeEmptyNodes test conditions correct" );
     removeEmptyTextNodes(d);
     is( d.childNodes.length, 4, "removeEmptyNodes" );
-    
+
+    var opts = document.getElementsByTagName("option");
+    var lastopt = opts[opts.length - 1];
+    is( getParentByTag(lastopt, "form"), getElement("form_test2"), "getParentByTag find good parent" );
+
     ok( true, "test suite finished!");
     
     
