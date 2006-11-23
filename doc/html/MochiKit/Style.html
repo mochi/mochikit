@@ -179,6 +179,9 @@ with <tt class="docutils literal"><span class="pre">x</span></tt> and/or <tt cla
 <blockquote>
 <p>Sets the absolute position of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an
 object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties.</p>
+<p>Warning: IE in quirks-mode seems to behave strange when you set
+the height off an element containing text to 0. You can workaround this
+by setting the value of visibly/display.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">element</span></tt>:</dt>
 <dd>A reference to the DOM element to update (if a string is
