@@ -556,6 +556,15 @@ Functions
         Available in MochiKit 1.4+
 
 
+:mochidef:`getParentByTag(node, tagName)`:
+
+    Returns the first parent of ``node`` matching given tag name ``tagName``.
+    ``node`` is looked up using :mochiref:`getElement`.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`makeClipping(element)`:
 
     Ensure that ``element.style.overflow = 'hidden'``. If ``element`` is a

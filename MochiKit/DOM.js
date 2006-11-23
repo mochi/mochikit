@@ -108,6 +108,7 @@ MochiKit.DOM.EXPORT = [
     "emitHTML",
     "scrapeText",
     "isParent",
+    "getParentByTag",
     "makeClipping",
     "undoClipping",
     "makePositioned",
@@ -995,6 +996,20 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
 
         return MochiKit.DOM.isParent(child.parentNode, element);
+    },
+
+    /** @id MochiKit.DOM.getParentByTag */
+    getParentByTag: function (node, tagName) {
+        if (typeof(node) == "string") {
+            node = MochiKit.DOM.getElement(node);
+        }
+        tagName = tagName.toUpperCase();
+        while (node && node.tagName) {
+            node = node.parentNode;
+            if (node.tagName.toUpperCase() === tagName) {
+                return node;
+            }
+        }
     },
 
     __new__: function (win) {
