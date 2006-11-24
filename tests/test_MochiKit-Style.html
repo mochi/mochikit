@@ -69,7 +69,7 @@ try {
     is(color.asRGB, red.asRGB, 
         'test computedStyle camel case');
     
-    is(computedStyle('styleTest', 'opacity'), '0.5', 
+    is(eval(computedStyle('styleTest', 'opacity')), 0.5, 
         'test computedStyle opacity');
 
     is(getOpacity('styleTest'), 0.5, 'test getOpacity');
