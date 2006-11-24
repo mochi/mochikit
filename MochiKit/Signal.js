@@ -66,12 +66,19 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
         var str = '{event(): ' + repr(this.event()) +
             ', src(): ' + repr(this.src()) +
             ', type(): ' + repr(this.type()) +
-            ', target(): ' + repr(this.target()) +
-            ', modifier(): ' + '{alt: ' + repr(this.modifier().alt) +
+            ', target(): ' + repr(this.target());
+
+        if (this.type() && 
+            this.type().indexOf('key') === 0 ||
+            this.type().indexOf('mouse') === 0 ||
+            this.type().indexOf('click') != -1 ||
+            this.type() == 'contextmenu') {
+            str += ', modifier(): ' + '{alt: ' + repr(this.modifier().alt) +
             ', ctrl: ' + repr(this.modifier().ctrl) +
             ', meta: ' + repr(this.modifier().meta) +
             ', shift: ' + repr(this.modifier().shift) +
             ', any: ' + repr(this.modifier().any) + '}';
+        }
 
         if (this.type() && this.type().indexOf('key') === 0) {
             str += ', key(): {code: ' + repr(this.key().code) +
