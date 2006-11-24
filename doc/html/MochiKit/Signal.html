@@ -390,7 +390,7 @@ object that represents the cursor position relative to the
 visible portion of the HTML document. Equivalent to
 <tt class="docutils literal"><span class="pre">clientX</span></tt> and <tt class="docutils literal"><span class="pre">clientY</span></tt> on all browsers. Current versions of
 Safari incorrectly return clientX as relative to the canvas
-instead of relative to the viewport (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=8707">Safari Bug 8707</a>).</li>
+instead of relative to the viewport (<a class="reference" href="http://bugs.webkit.org/show_bug.cgi?id=8707">Safari Bug 8707</a>).</li>
 </ul>
 </blockquote>
 <p>Properties for <tt class="docutils literal"><span class="pre">'onmouseup'</span></tt>, <tt class="docutils literal"><span class="pre">'onmousedown'</span></tt>, <tt class="docutils literal"><span class="pre">'onclick'</span></tt>,
@@ -406,13 +406,13 @@ each property is <tt class="docutils literal"><span class="pre">true</span></tt>
 <blockquote>
 <ul>
 <li><p class="first">Current versions of Safari won't signal <tt class="docutils literal"><span class="pre">'ondblclick'</span></tt>
-when attached via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=7790">Safari Bug 7790</a>).</p>
+when attached via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a class="reference" href="http://bugs.webkit.org/show_bug.cgi?id=7790">Safari Bug 7790</a>).</p>
 </li>
 <li><p class="first">Mac browsers don't report right-click consistently. Firefox
 signals the slot and sets <tt class="docutils literal"><span class="pre">modifier().ctrl</span></tt> to true,
 Opera signals the slot and sets <tt class="docutils literal"><span class="pre">modifier().meta</span></tt> to
 <tt class="docutils literal"><span class="pre">true</span></tt>, and Safari doesn't signal the slot at all
-(<a class="reference" href="http://bugzilla.opendarwin.org/show_bug.cgi?id=6595">Safari Bug 6595</a>).</p>
+(<a class="reference" href="http://bugs.webkit.org/show_bug.cgi?id=6595">Safari Bug 6595</a>).</p>
 <p>To find a right-click in Safari, Firefox, and IE, you can
 connect an element to <tt class="docutils literal"><span class="pre">'oncontextmenu'</span></tt>. This doesn't
 work in Opera.</p>

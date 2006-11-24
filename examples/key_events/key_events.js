@@ -33,7 +33,7 @@ connect(document, 'onkeydown',
         }
         
         // We're storing a handled flag to work around a Safari bug: 
-        // http://bugzilla.opendarwin.org/show_bug.cgi?id=3387
+        // http://bugs.webkit.org/show_bug.cgi?id=3387
         if (!KeyEvents.handled) {
             var key = e.key();
             var fn = KeyEvents.specialKeyMap[key.string];
