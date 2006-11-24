@@ -340,7 +340,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
                             - Safari doesn't fire any click events on a right
                               click:
-                              http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
+                              http://bugs.webkit.org/show_bug.cgi?id=6595
 
                             - Firefox fires the event, and sets ctrlKey = true
 

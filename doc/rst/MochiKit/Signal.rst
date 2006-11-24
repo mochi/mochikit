@@ -113,9 +113,9 @@ create a `new ticket`_ and we'll look into normalizing the behavior
 you're looking for.
 
 .. _`new ticket`: http://trac.mochikit.com/newticket
-.. _`Safari bug 6595`: http://bugzilla.opendarwin.org/show_bug.cgi?id=6595
-.. _`Safari bug 7790`: http://bugzilla.opendarwin.org/show_bug.cgi?id=7790
-.. _`Safari bug 8707`: http://bugzilla.opendarwin.org/show_bug.cgi?id=8707
+.. _`Safari bug 6595`: http://bugs.webkit.org/show_bug.cgi?id=6595
+.. _`Safari bug 7790`: http://bugs.webkit.org/show_bug.cgi?id=7790
+.. _`Safari bug 8707`: http://bugs.webkit.org/show_bug.cgi?id=8707
 .. _`stopPropagation()`: http://developer.mozilla.org/en/docs/DOM:event.stopPropagation
 .. _`preventDefault()`: http://developer.mozilla.org/en/docs/DOM:event.preventDefault
 
