@@ -518,6 +518,22 @@ tag will be returned.</p>
 </dl>
 </blockquote>
 <p>
+<a name="fn-getfirstparentbytagandclassname"></a>
+<a class="mochidef reference" href="#fn-getfirstparentbytagandclassname">getFirstParentByTagAndClassName(elem, tagName='*', className=null)</a>:</p>
+<blockquote>
+<p>Returns the first parent of <tt class="docutils literal"><span class="pre">elem</span></tt> matches the tag name and class name
+provided. If parent is a string, it will be looked up using
+<a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<p>If <tt class="docutils literal"><span class="pre">tagName</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt> or <tt class="docutils literal"><span class="pre">&quot;*&quot;</span></tt>, all elements will be searched
+for the matching class.</p>
+<p>If <tt class="docutils literal"><span class="pre">className</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, the first element matching the provided
+tag will be returned.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-getnodeattribute"></a>
 <a class="mochidef reference" href="#fn-getnodeattribute">getNodeAttribute(node, attr)</a>:</p>
 <blockquote>
@@ -573,17 +589,6 @@ nodes will be looked up with <a class="mochiref reference" href="#fn-getelement"
 if <tt class="docutils literal"><span class="pre">element</span> <span class="pre">==</span> <span class="pre">child</span></tt> or <tt class="docutils literal"><span class="pre">child</span></tt> is not contained in <tt class="docutils literal"><span class="pre">element</span></tt>.
 If <tt class="docutils literal"><span class="pre">child</span></tt> or <tt class="docutils literal"><span class="pre">element</span></tt> are strings, they will be looked up with
 <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.4+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-getparentbytag"></a>
-<a class="mochidef reference" href="#fn-getparentbytag">getParentByTag(node, tagName)</a>:</p>
-<blockquote>
-<p>Returns the first parent of <tt class="docutils literal"><span class="pre">node</span></tt> matching given tag name <tt class="docutils literal"><span class="pre">tagName</span></tt>.
-<tt class="docutils literal"><span class="pre">node</span></tt> is looked up using <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>

@@ -499,6 +499,22 @@ Functions
         Available in MochiKit 1.4+
 
 
+:mochidef:`getFirstParentByTagAndClassName(elem, tagName='*', className=null)`:
+
+    Returns the first parent of ``elem`` matches the tag name and class name
+    provided. If parent is a string, it will be looked up using
+    :mochiref:`getElement`.
+
+    If ``tagName`` is ``null`` or ``"*"``, all elements will be searched
+    for the matching class.
+
+    If ``className`` is ``null``, the first element matching the provided
+    tag will be returned.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`getNodeAttribute(node, attr)`:
 
     Get the value of the given attribute for a DOM element without
@@ -551,15 +567,6 @@ Functions
     if ``element == child`` or ``child`` is not contained in ``element``.
     If ``child`` or ``element`` are strings, they will be looked up with
     :mochiref:`getElement`.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`getParentByTag(node, tagName)`:
-
-    Returns the first parent of ``node`` matching given tag name ``tagName``.
-    ``node`` is looked up using :mochiref:`getElement`.
 
     *Availability*:
         Available in MochiKit 1.4+
