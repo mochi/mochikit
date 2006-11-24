@@ -108,7 +108,7 @@ MochiKit.DOM.EXPORT = [
     "emitHTML",
     "scrapeText",
     "isParent",
-    "getParentByTag",
+    "getFirstParentByTagAndClassName",
     "makeClipping",
     "undoClipping",
     "makePositioned",
@@ -985,6 +985,43 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
     },
 
+    /** @id MochiKit.DOM.getFirstParentByTagAndClassName */
+    getFirstParentByTagAndClassName: function (elem, tagName, className) {
+        var self = MochiKit.DOM;
+        elem = self.getElement(elem);
+        if (typeof(tagName) == 'undefined' || tagName === null) {
+            tagName = '*';
+        } else {
+            tagName = tagName.toUpperCase();
+        }
+        if (typeof(className) == 'undefined' || className === null) {
+            className = null;
+        }
+        
+        var classList = '';
+        var curTagName = '';
+        while (elem && elem.tagName) {
+            elem = elem.parentNode;
+            if (tagName == '*' && className === null) {
+                return elem;
+            }
+            classList = elem.className.split(' ');
+            curTagName = elem.tagName.toUpperCase();
+            if (className === null && tagName == curTagName) {
+                return elem;
+            } else if (className !== null) {
+                for (var i = 0; i < classList.length; i++) {
+                    if (tagName == '*' && classList[i] == className) {
+                        return elem;
+                    } else if (tagName == curTagName && classList[i] == className) {
+                        return elem;
+                    }
+                }
+            }            
+        }
+        return elem;
+    },
+
     /** @id MochiKit.DOM.isParent */
     isParent: function (child, element) {
         if (!child.parentNode || child == element) {
@@ -996,20 +1033,6 @@ MochiKit.Base.update(MochiKit.DOM, {
         }
 
         return MochiKit.DOM.isParent(child.parentNode, element);
-    },
-
-    /** @id MochiKit.DOM.getParentByTag */
-    getParentByTag: function (node, tagName) {
-        if (typeof(node) == "string") {
-            node = MochiKit.DOM.getElement(node);
-        }
-        tagName = tagName.toUpperCase();
-        while (node && node.tagName) {
-            node = node.parentNode;
-            if (node.tagName.toUpperCase() === tagName) {
-                return node;
-            }
-        }
     },
 
     __new__: function (win) {

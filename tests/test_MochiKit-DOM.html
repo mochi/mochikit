@@ -38,6 +38,13 @@
             <option selected="selected">foo</option>
         </select>
     </form>
+    <div id="parentTwo" class="two">
+        <div id="parentOne" class="one">
+            <div id="parentZero" class="zero">
+                <span id="child">child</span>
+            </div>
+        </div>
+    </div>
 </div>
 
 <pre id="test">
@@ -267,9 +274,9 @@ try {
     removeEmptyTextNodes(d);
     is( d.childNodes.length, 4, "removeEmptyNodes" );
 
-    var opts = document.getElementsByTagName("option");
-    var lastopt = opts[opts.length - 1];
-    is( getParentByTag(lastopt, "form"), getElement("form_test2"), "getParentByTag find good parent" );
+    is( getFirstParentByTagAndClassName('child', 'div', 'two'), getElement("parentTwo"), "getFirstParentByTagAndClassName found parent" );
+    is( getFirstParentByTagAndClassName('child', 'div'), getElement("parentZero"), "getFirstParentByTagAndClassName found parent (any class)" );
+    is( getFirstParentByTagAndClassName('child', '*', 'two'), getElement("parentTwo"), "getFirstParentByTagAndClassName found parent (any tag)" );
 
     ok( true, "test suite finished!");
     
