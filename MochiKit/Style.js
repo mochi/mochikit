@@ -50,11 +50,9 @@ MochiKit.Style.toString = function () {
 MochiKit.Style.EXPORT_OK = [];
 
 MochiKit.Style.EXPORT = [
-    'setOpacity',
-    'getOpacity',
     'setStyle',
-    'getStyle', // temporary
-    'computedStyle',
+    'setOpacity',
+    'getStyle',
     'getElementDimensions',
     'elementDimensions', // deprecated
     'setElementDimensions',
@@ -115,61 +113,37 @@ MochiKit.Style.Coordinates.prototype.toString = function () {
 
 MochiKit.Base.update(MochiKit.Style, {
 
-    /** @id MochiKit.Style.computedStyle */
-    computedStyle: function (elem, cssProperty) {
+    /** @id MochiKit.Style.getStyle */
+    getStyle: function (elem, style) {
         var dom = MochiKit.DOM;
         var d = dom._document;
 
         elem = dom.getElement(elem);
-        cssProperty = MochiKit.Base.camelize(cssProperty);
+        style = MochiKit.Base.camelize(style);
 
         if (!elem || elem == d) {
             return undefined;
         }
-
-        /* from YUI 0.10.0 */
-        if (cssProperty == 'opacity' && elem.filters) { // IE opacity
-            try {
-                return elem.filters.item('DXImageTransform.Microsoft.Alpha'
-                    ).opacity / 100;
-            } catch(e) {
-                try {
-                    return elem.filters.item('alpha').opacity / 100;
-                } catch(e) {}
+        if (style == 'opacity' && elem.filters) {
+            var opacity;
+            if (opacity = (MochiKit.Style.getStyle(elem, 'filter') || '').match(/alpha\(opacity=(.*)\)/)) {
+                if (opacity[1]) {
+                    return parseFloat(opacity[1]) / 100;
+                }
             }
+            return 1.0;
         }
-
-        if (elem.currentStyle) {
-            return elem.currentStyle[cssProperty];
-        }
-        if (typeof(d.defaultView) == 'undefined') {
-            return undefined;
-        }
-        if (d.defaultView === null) {
-            return undefined;
-        }
-        var style = d.defaultView.getComputedStyle(elem, null);
-        if (typeof(style) == 'undefined' || style === null) {
-            return undefined;
-        }
-
-        var selectorCase = cssProperty.replace(/([A-Z])/g, '-$1'
-            ).toLowerCase(); // from dojo.style.toSelectorCase
-
-        return style.getPropertyValue(selectorCase);
-    },
-
-    /** @id MochiKit.Style.getStyle */
-    getStyle: function (elem, style) {
-        elem = MochiKit.DOM.getElement(elem);
-        var value = elem.style[MochiKit.Base.camelize(style)];
+        var value = elem.style[style];
         if (!value) {
-            if (document.defaultView && document.defaultView.getComputedStyle) {
-                var css = document.defaultView.getComputedStyle(elem, null);
+            if (d.defaultView && d.defaultView.getComputedStyle) {
+                var css = d.defaultView.getComputedStyle(elem, null);
                 value = css ? css.getPropertyValue(style) : null;
             } else if (elem.currentStyle) {
-                value = elem.currentStyle[MochiKit.Base.camelize(style)];
+                value = elem.currentStyle[style];
             }
+        }
+        if (style == 'opacity') {
+            value = parseFloat(value);
         }
 
         if (/Opera/.test(navigator.userAgent) && (MochiKit.Base.find(['left', 'top', 'right', 'bottom'], style) != -1)) {
@@ -185,42 +159,33 @@ MochiKit.Base.update(MochiKit.Style, {
     setStyle: function (elem, style) {
         elem = MochiKit.DOM.getElement(elem);
         for (name in style) {
-            elem.style[MochiKit.Base.camelize(name)] = style[name];
+            if (name == 'opacity') {
+                MochiKit.Style.setOpacity(elem, style[name]);
+            } else {
+                elem.style[MochiKit.Base.camelize(name)] = style[name];
+            }
         }
     },
 
-    /** @id MochiKit.Style.getOpacity */
-    getOpacity: function (elem) {
-        var opacity;
-        if (opacity = MochiKit.Style.getStyle(elem, 'opacity')) {
-            return parseFloat(opacity);
-        }
-        if (opacity = (MochiKit.Style.getStyle(elem, 'filter') || '').match(/alpha\(opacity=(.*)\)/)) {
-            if (opacity[1]) {
-                return parseFloat(opacity[1]) / 100;
-            }
-        }
-        return 1.0;
-    },
     /** @id MochiKit.Style.setOpacity */
-    setOpacity: function(elem, o) {
+    setOpacity: function (elem, o) {
         elem = MochiKit.DOM.getElement(elem);
         var self = MochiKit.Style;
         if (o == 1) {
             var toSet = /Gecko/.test(navigator.userAgent) && !(/Konqueror|Safari|KHTML/.test(navigator.userAgent));
-            self.setStyle(elem, {opacity: toSet ? 0.999999 : 1.0});
+            elem.style[name] = toSet ? 0.999999 : 1.0;
             if (/MSIE/.test(navigator.userAgent)) {
-                self.setStyle(elem, {filter:
-                    self.getStyle(elem, 'filter').replace(/alpha\([^\)]*\)/gi, '')});
+                elem.style['filter'] =
+                    self.getStyle(elem, 'filter').replace(/alpha\([^\)]*\)/gi, '');
             }
         } else {
             if (o < 0.00001) {
                 o = 0;
             }
-            self.setStyle(elem, {opacity: o});
+            elem.style[name] = o;
             if (/MSIE/.test(navigator.userAgent)) {
-                self.setStyle(elem,
-                    {filter: self.getStyle(elem, 'filter').replace(/alpha\([^\)]*\)/gi, '') + 'alpha(opacity=' + o * 100 + ')' });
+                elem.style['filter'] =
+                    self.getStyle(elem, 'filter').replace(/alpha\([^\)]*\)/gi, '') + 'alpha(opacity=' + o * 100 + ')';
             }
         }
     },
@@ -242,7 +207,7 @@ MochiKit.Base.update(MochiKit.Style, {
         if (!elem ||
             (!(elem.x && elem.y) &&
             (!elem.parentNode == null ||
-            self.computedStyle(elem, 'display') == 'none'))) {
+            self.getStyle(elem, 'display') == 'none'))) {
             return undefined;
         }
 
@@ -301,7 +266,7 @@ MochiKit.Base.update(MochiKit.Style, {
             if ((typeof(opera) != 'undefined' &&
                 parseFloat(opera.version()) < 9) ||
                 (ua.indexOf('safari') != -1 &&
-                self.computedStyle(elem, 'position') == 'absolute')) {
+                self.getStyle(elem, 'position') == 'absolute')) {
 
                 c.x -= b.offsetLeft;
                 c.y -= b.offsetTop;
@@ -368,7 +333,7 @@ MochiKit.Base.update(MochiKit.Style, {
         if (!elem) {
             return undefined;
         }
-        var disp = self.computedStyle(elem, 'display');
+        var disp = self.getStyle(elem, 'display');
         // display can be empty/undefined on WebKit/KHTML
         if (disp != 'none' && disp != '' && typeof(disp) != 'undefined') {
             return new self.Dimensions(elem.offsetWidth || 0,

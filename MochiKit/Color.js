@@ -393,7 +393,7 @@ MochiKit.Base.update(MochiKit.Color.Color, {
         var d = MochiKit.DOM;
         var cls = MochiKit.Color.Color;
         for (elem = d.getElement(elem); elem; elem = elem.parentNode) {
-            var actualColor = MochiKit.Style.computedStyle.apply(d, arguments);
+            var actualColor = MochiKit.Style.getStyle.apply(d, arguments);
             if (!actualColor) {
                 continue;
             }

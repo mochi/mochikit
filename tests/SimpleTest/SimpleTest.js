@@ -85,7 +85,7 @@ SimpleTest.report = function () {
  * Toggle element visibility
 **/
 SimpleTest.toggle = function(el) {
-    if (MochiKit.Style.computedStyle(el, 'display') == 'block') {
+    if (MochiKit.Style.getStyle(el, 'display') == 'block') {
         el.style.display = 'none';
     } else {
         el.style.display = 'block';
