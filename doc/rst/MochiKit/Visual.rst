@@ -294,7 +294,7 @@ Combination Effects
     options:
 
     ====== =============================================
-    from   ``MochiKit.DOM.getOpacity(element) || 1.0``
+    from   ``element.opacity || 1.0``
     to     ``0.0``
     ====== =============================================
 

@@ -415,7 +415,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
             /** @id MochiKit.DragAndDrop.starteffect */
             starteffect: function (innerelement) {
-                this._savedOpacity = MochiKit.Style.getOpacity(innerelement) || 1.0;
+                this._savedOpacity = MochiKit.Style.getStyle(innerelement, 'opacity') || 1.0;
                 new v.Opacity(innerelement, {duration:0.2, from:this._savedOpacity, to:0.7});
             },
             /** @id MochiKit.DragAndDrop.reverteffect */

@@ -123,7 +123,7 @@ MochiKit.DOM.EXPORT_OK = [
 ];
 
 MochiKit.DOM.DEPRECATED = [
-    ['computedStyle', 'MochiKit.Style.computedStyle', '1.4'],
+    ['computedStyle', 'MochiKit.Style.getStyle', '1.4'],
     /** @id MochiKit.DOM.elementDimensions  */
     ['elementDimensions', 'MochiKit.Style.getElementDimensions', '1.4'],
     /** @id MochiKit.DOM.elementPosition  */

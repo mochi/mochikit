@@ -96,7 +96,7 @@ Constructors
 :mochidef:`Color.fromComputedStyle(elem, style)`:
 
     Returns a :mochiref:`Color` object based on the result of
-    :mochiref:`MochiKit.Style.computedStyle(elem, style)` or ``null`` if not 
+    :mochiref:`MochiKit.Style.getStyle(elem, style)` or ``null`` if not 
     found.
 
     *Availability*:

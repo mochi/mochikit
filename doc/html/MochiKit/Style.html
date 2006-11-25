@@ -86,8 +86,8 @@ JavaScript.</p>
 <div class="section">
 <h2><a id="functions" name="functions">Functions</a></h2>
 <p>
-<a name="fn-computedstyle"></a>
-<a class="mochidef reference" href="#fn-computedstyle">computedStyle(element, cssSelector)</a>:</p>
+<a name="fn-getstyle"></a>
+<a class="mochidef reference" href="#fn-getstyle">getStyle(element, cssSelector)</a>:</p>
 <blockquote>
 <p>Looks up a CSS property for the given element. The element can be
 specified as either a string with the element's ID or the element
@@ -95,6 +95,21 @@ object itself.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">cssSelector</span></tt>:</dt>
 <dd>The CSS selector, e.g. <tt class="docutils literal"><span class="pre">background-color</span></tt>.</dd>
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-setstyle"></a>
+<a class="mochidef reference" href="#fn-setstyle">setStyle(element, styles)</a>:</p>
+<blockquote>
+<p>Set CSS properties on a the given element. The element can be
+specified as either a string with the element's ID or the element
+object itself.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">styles</span></tt>:</dt>
+<dd>Dictionnary holding CSS properties to set, e.g.
+<tt class="docutils literal"><span class="pre">{'background-color':</span> <span class="pre">'red',</span> <span class="pre">'opacity':</span> <span class="pre">0.5}</span></tt>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>

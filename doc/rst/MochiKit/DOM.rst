@@ -912,7 +912,7 @@ These functions are available in MochiKit 1.3.1, but have been moved to
 
     *Availability*:
         Available in MochiKit 1.3.1, deprecated in favor of
-        :mochiref:`MochiKit.Style.computedStyle` in 1.4+
+        :mochiref:`MochiKit.Style.getStyle` in 1.4+
 
 
 :mochidef:`elementDimensions(element)`:
