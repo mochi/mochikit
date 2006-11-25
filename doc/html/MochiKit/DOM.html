@@ -302,6 +302,48 @@ Rules</a>.</dd>
 </dl>
 </blockquote>
 <p>
+<a name="fn-insertsiblingnodesbefore"></a>
+<a class="mochidef reference" href="#fn-insertsiblingnodesbefore">insertSiblingNodesBefore(node[, siblingNode[, ...]])</a>:</p>
+<blockquote>
+<p>Insert children into the DOM structure using the <a class="reference" href="#dom-coercion-rules">DOM Coercion
+Rules</a>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element you want to insert children
+before (if a string is given, <a class="mochiref reference" href="#fn-getelement">getElement(node)</a>
+will be used to locate the node)</dd>
+<dt><tt class="docutils literal"><span class="pre">siblingNode</span></tt>...:</dt>
+<dd>All additional arguments, if any, will be coerced into DOM
+nodes that are inserted as siblings using the <a class="reference" href="#dom-coercion-rules">DOM Coercion
+Rules</a>.</dd>
+<dt><em>returns</em>:</dt>
+<dd>The parent of the given DOM element</dd>
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-insertsiblingnodesafter"></a>
+<a class="mochidef reference" href="#fn-insertsiblingnodesafter">insertSiblingNodesAfter(node[, siblingNode[, ...]])</a>:</p>
+<blockquote>
+<p>Insert children into the DOM structure using the <a class="reference" href="#dom-coercion-rules">DOM Coercion
+Rules</a>.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dd>A reference to the DOM element you want to insert children
+after (if a string is given, <a class="mochiref reference" href="#fn-getelement">getElement(node)</a>
+will be used to locate the node)</dd>
+<dt><tt class="docutils literal"><span class="pre">siblingNode</span></tt>...:</dt>
+<dd>All additional arguments, if any, will be coerced into DOM
+nodes that are inserted as siblings using the <a class="reference" href="#dom-coercion-rules">DOM Coercion
+Rules</a>.</dd>
+<dt><em>returns</em>:</dt>
+<dd>The parent of the given DOM element</dd>
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-createdom"></a>
 <a class="mochidef reference" href="#fn-createdom">createDOM(name[, attrs[, node[, ...]]])</a>:</p>
 <blockquote>
