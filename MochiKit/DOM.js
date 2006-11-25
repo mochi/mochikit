@@ -54,6 +54,8 @@ MochiKit.DOM.EXPORT = [
     "setNodeAttribute",
     "updateNodeAttributes",
     "appendChildNodes",
+    "insertSiblingNodesAfter",
+    "insertSiblingNodesBefore",
     "replaceChildNodes",
     "removeElement",
     "swapDOM",
@@ -501,6 +503,58 @@ MochiKit.Base.update(MochiKit.DOM, {
             }
         }
         return elem;
+    },
+
+
+    /** @id MochiKit.DOM.insertSiblingNodesBefore */
+    insertSiblingNodesBefore: function (node/*, nodes...*/) {
+        var elem = node;
+        var self = MochiKit.DOM;
+        if (typeof(node) == 'string') {
+            elem = self.getElement(node);
+        }
+        var nodeStack = [
+            self.coerceToDOM(
+                MochiKit.Base.extend(null, arguments, 1),
+                elem
+            )
+        ];
+        var parentnode = elem.parentNode;
+        var concat = MochiKit.Base.concat;
+        while (nodeStack.length) {
+            var n = nodeStack.shift();
+            if (typeof(n) == 'undefined' || n === null) {
+                // pass
+            } else if (typeof(n.nodeType) == 'number') {
+                parentnode.insertBefore(n, elem);
+            } else {
+                nodeStack = concat(n, nodeStack);
+            }
+        }
+        return parentnode;
+    },
+
+    /** @id MochiKit.DOM.insertSiblingNodesAfter */
+    insertSiblingNodesAfter: function (node/*, nodes...*/) {
+        var elem = node;
+        var self = MochiKit.DOM;
+
+        if (typeof(node) == 'string') {
+            elem = self.getElement(node);
+        }
+        var nodeStack = [
+            self.coerceToDOM(
+                MochiKit.Base.extend(null, arguments, 1),
+                elem
+            )
+        ];
+
+        if (elem.nextSibling) {
+            return self.insertSiblingNodesBefore(elem.nextSibling, nodeStack);
+        }
+        else {
+            return self.appendChildNodes(elem.parentNode, nodeStack);
+        }
     },
 
     /** @id MochiKit.DOM.replaceChildNodes */
@@ -997,7 +1051,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (typeof(className) == 'undefined' || className === null) {
             className = null;
         }
-        
+
         var classList = '';
         var curTagName = '';
         while (elem && elem.tagName) {
@@ -1017,7 +1071,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                         return elem;
                     }
                 }
-            }            
+            }
         }
         return elem;
     },

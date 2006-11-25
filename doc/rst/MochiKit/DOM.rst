@@ -284,6 +284,49 @@ Functions
     *Availability*:
         Available in MochiKit 1.3.1+
 
+:mochidef:`insertSiblingNodesBefore(node[, siblingNode[, ...]])`:
+
+    Insert children into the DOM structure using the `DOM Coercion
+    Rules`_.
+
+    ``node``:
+        A reference to the DOM element you want to insert children
+        before (if a string is given, :mochiref:`getElement(node)`
+        will be used to locate the node)
+
+    ``siblingNode``...:
+        All additional arguments, if any, will be coerced into DOM
+        nodes that are inserted as siblings using the `DOM Coercion
+        Rules`_.
+
+    *returns*:
+        The parent of the given DOM element
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`insertSiblingNodesAfter(node[, siblingNode[, ...]])`:
+
+    Insert children into the DOM structure using the `DOM Coercion
+    Rules`_.
+
+    ``node``:
+        A reference to the DOM element you want to insert children
+        after (if a string is given, :mochiref:`getElement(node)`
+        will be used to locate the node)
+
+    ``siblingNode``...:
+        All additional arguments, if any, will be coerced into DOM
+        nodes that are inserted as siblings using the `DOM Coercion
+        Rules`_.
+
+    *returns*:
+        The parent of the given DOM element
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
 
 :mochidef:`createDOM(name[, attrs[, node[, ...]]])`:
 
