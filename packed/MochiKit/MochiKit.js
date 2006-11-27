@@ -3926,6 +3926,7 @@ var _494=elem.style[_492];
 if(!_494){
 if(d.defaultView&&d.defaultView.getComputedStyle){
 var css=d.defaultView.getComputedStyle(elem,null);
+_492=_492.replace(/([A-Z])/g,"-$1").toLowerCase();
 _494=css?css.getPropertyValue(_492):null;
 }else{
 if(elem.currentStyle){
