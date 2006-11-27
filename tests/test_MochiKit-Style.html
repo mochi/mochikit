@@ -12,7 +12,7 @@
 </head>
 <body style="border: 0; margin: 0; padding: 0;">
 
-<div id="styleTest" style="position: absolute; left: 400px; top: 100px; width: 100px; height: 100px; background: rgb(255, 0, 0); opacity: 0.5; filter: alpha(opacity=50);">TEST</div>
+<div id="styleTest" style="position: absolute; left: 400px; top: 100px; width: 100px; height: 100px; background: rgb(255, 0, 0); opacity: 0.5; filter: alpha(opacity=50); font-size: 10px">TEST<span id="styleSubTest">SUB</span></div>
 
 <pre id="test">
 <script type="text/javascript">
@@ -62,13 +62,19 @@ try {
     var color = null;
     
     color = mc.fromString(getStyle('styleTest', 'background-color'));
-    is(color.asRGB, red.asRGB, 
+    is(color.toHexString(), red.toHexString(), 
         'test getStyle selector case');
        
     color = mc.fromString(getStyle('styleTest', 'backgroundColor'));
-    is(color.asRGB, red.asRGB, 
+    is(color.toHexString(), red.toHexString(), 
         'test getStyle camel case');
-    
+
+    is(getStyle('styleSubTest', 'font-size'), '10px', 
+        'test computed getStyle selector case');
+       
+    is(getStyle('styleSubTest', 'fontSize'), '10px', 
+        'test computed getStyle camel case');
+
     is(eval(getStyle('styleTest', 'opacity')), 0.5, 
         'test getStyle opacity');
 
