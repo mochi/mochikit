@@ -137,6 +137,8 @@ MochiKit.Base.update(MochiKit.Style, {
         if (!value) {
             if (d.defaultView && d.defaultView.getComputedStyle) {
                 var css = d.defaultView.getComputedStyle(elem, null);
+                style = style.replace(/([A-Z])/g, '-$1'
+                    ).toLowerCase(); // from dojo.style.toSelectorCase
                 value = css ? css.getPropertyValue(style) : null;
             } else if (elem.currentStyle) {
                 value = elem.currentStyle[style];
