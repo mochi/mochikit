@@ -114,17 +114,17 @@ MochiKit.Style.Coordinates.prototype.toString = function () {
 MochiKit.Base.update(MochiKit.Style, {
 
     /** @id MochiKit.Style.getStyle */
-    getStyle: function (elem, style) {
+    getStyle: function (elem, cssProperty) {
         var dom = MochiKit.DOM;
         var d = dom._document;
 
         elem = dom.getElement(elem);
-        style = MochiKit.Base.camelize(style);
+        cssProperty = MochiKit.Base.camelize(cssProperty);
 
         if (!elem || elem == d) {
             return undefined;
         }
-        if (style == 'opacity' && elem.filters) {
+        if (cssProperty == 'opacity' && elem.filters) {
             var opacity;
             if (opacity = (MochiKit.Style.getStyle(elem, 'filter') || '').match(/alpha\(opacity=(.*)\)/)) {
                 if (opacity[1]) {
@@ -133,22 +133,22 @@ MochiKit.Base.update(MochiKit.Style, {
             }
             return 1.0;
         }
-        var value = elem.style[style];
+        var value = elem.style ? elem.style[cssProperty] : null;
         if (!value) {
             if (d.defaultView && d.defaultView.getComputedStyle) {
                 var css = d.defaultView.getComputedStyle(elem, null);
-                style = style.replace(/([A-Z])/g, '-$1'
+                cssProperty = cssProperty.replace(/([A-Z])/g, '-$1'
                     ).toLowerCase(); // from dojo.style.toSelectorCase
-                value = css ? css.getPropertyValue(style) : null;
+                value = css ? css.getPropertyValue(cssProperty) : null;
             } else if (elem.currentStyle) {
-                value = elem.currentStyle[style];
+                value = elem.currentStyle[cssProperty];
             }
         }
-        if (style == 'opacity') {
+        if (cssProperty == 'opacity') {
             value = parseFloat(value);
         }
 
-        if (/Opera/.test(navigator.userAgent) && (MochiKit.Base.find(['left', 'top', 'right', 'bottom'], style) != -1)) {
+        if (/Opera/.test(navigator.userAgent) && (MochiKit.Base.find(['left', 'top', 'right', 'bottom'], cssProperty) != -1)) {
             if (MochiKit.Style.getStyle(elem, 'position') == 'static') {
                 value = 'auto';
             }
