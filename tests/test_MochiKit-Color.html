@@ -52,6 +52,12 @@ try {
         "fromComputedStyle indirect style"
     );
 
+    is(
+        Color.fromBackground((SPAN(null, 'test'))).toHexString(),
+        Color.fromName("white").toHexString(),
+        "fromBackground with DOM"
+    );
+
 
     // Done!
 
