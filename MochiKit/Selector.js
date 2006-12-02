@@ -69,6 +69,7 @@ MochiKit.Selector.Selector.prototype = {
             abort('empty expression');
         }
 
+        var repr = MochiKit.Base.repr;
         var params = this.params;
         var expr = this.expression;
         var match, modifier, clause, rest;
@@ -113,6 +114,7 @@ MochiKit.Selector.Selector.prototype = {
 
     /** @id MochiKit.Selector.Selector.prototype.buildMatchExpression */
     buildMatchExpression: function () {
+        var repr = MochiKit.Base.repr;
         var params = this.params;
         var conditions = [];
         var clause, i;
