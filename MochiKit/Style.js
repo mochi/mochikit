@@ -175,7 +175,7 @@ MochiKit.Base.update(MochiKit.Style, {
         var self = MochiKit.Style;
         if (o == 1) {
             var toSet = /Gecko/.test(navigator.userAgent) && !(/Konqueror|Safari|KHTML/.test(navigator.userAgent));
-            elem.style[name] = toSet ? 0.999999 : 1.0;
+            elem.style["opacity"] = toSet ? 0.999999 : 1.0;
             if (/MSIE/.test(navigator.userAgent)) {
                 elem.style['filter'] =
                     self.getStyle(elem, 'filter').replace(/alpha\([^\)]*\)/gi, '');
@@ -184,7 +184,7 @@ MochiKit.Base.update(MochiKit.Style, {
             if (o < 0.00001) {
                 o = 0;
             }
-            elem.style[name] = o;
+            elem.style["opacity"] = o;
             if (/MSIE/.test(navigator.userAgent)) {
                 elem.style['filter'] =
                     self.getStyle(elem, 'filter').replace(/alpha\([^\)]*\)/gi, '') + 'alpha(opacity=' + o * 100 + ')';
