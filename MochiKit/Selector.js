@@ -36,13 +36,26 @@ if (typeof(MochiKit.Selector) == 'undefined') {
 }
 
 MochiKit.Selector.NAME = "MochiKit.Selector";
+
 MochiKit.Selector.VERSION = "1.4";
+
 MochiKit.Selector.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
+
 MochiKit.Selector.toString = function () {
     return this.__repr__();
 };
+
+MochiKit.Selector.EXPORT = [
+    "Selector",
+    "findChildElements",
+    "findDocElements",
+    "$$"
+];
+
+MochiKit.Selector.EXPORT_OK = [
+];
 
 MochiKit.Selector.Selector = function (expression) {
     this.params = {classNames: [], pseudoClassNames: []};
@@ -392,11 +405,27 @@ MochiKit.Base.update(MochiKit.Selector, {
                 }
             }, expression.replace(/(^\s+|\s+$)/g, '').split(/\s+/), [null]);
         }, expressions));
-    }
+    },
 
+    findDocElements: function () {
+        return MochiKit.Selector.findChildElements(MochiKit.DOM.currentDocument(), arguments);
+    },
+
+    __new__: function () {
+        var m = MochiKit.Base;
+
+        this.$$ = this.findDocElements;
+
+        this.EXPORT_TAGS = {
+            ":common": this.EXPORT,
+            ":all": m.concat(this.EXPORT, this.EXPORT_OK)
+        };
+
+        m.nameFunctions(this);
+    }
 });
 
-function $$() {
-    return MochiKit.Selector.findChildElements(MochiKit.DOM.currentDocument(), arguments);
-}
+MochiKit.Selector.__new__();
+
+MochiKit.Base._exportSymbols(this, MochiKit.Selector);
 
