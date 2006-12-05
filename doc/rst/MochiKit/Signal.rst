@@ -410,7 +410,8 @@ DOM Custom Event Object Reference
             when attached via ``connect()`` (`Safari Bug 7790`_).
             
         -   In Safari < 2.0.4, calling ``preventDefault()`` or ``stop()`` 
-            does not prevent it from following links.
+            in ``'onclick'`` events signalled from ``<a>`` tags does not 
+            prevent the browser from following those links.
 
         -   Mac browsers don't report right-click consistently. Firefox
             signals the slot and sets ``modifier().ctrl`` to true,
