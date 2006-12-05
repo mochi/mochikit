@@ -408,6 +408,9 @@ each property is <tt class="docutils literal"><span class="pre">true</span></tt>
 <li><p class="first">Current versions of Safari won't signal <tt class="docutils literal"><span class="pre">'ondblclick'</span></tt>
 when attached via <tt class="docutils literal"><span class="pre">connect()</span></tt> (<a class="reference" href="http://bugs.webkit.org/show_bug.cgi?id=7790">Safari Bug 7790</a>).</p>
 </li>
+<li><p class="first">In Safari &lt; 2.0.4, calling <tt class="docutils literal"><span class="pre">preventDefault()</span></tt> or <tt class="docutils literal"><span class="pre">stop()</span></tt>
+does not prevent it from following links.</p>
+</li>
 <li><p class="first">Mac browsers don't report right-click consistently. Firefox
 signals the slot and sets <tt class="docutils literal"><span class="pre">modifier().ctrl</span></tt> to true,
 Opera signals the slot and sets <tt class="docutils literal"><span class="pre">modifier().meta</span></tt> to
