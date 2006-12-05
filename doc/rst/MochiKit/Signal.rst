@@ -408,6 +408,9 @@ DOM Custom Event Object Reference
 
         -   Current versions of Safari won't signal ``'ondblclick'``
             when attached via ``connect()`` (`Safari Bug 7790`_).
+            
+        -   In Safari < 2.0.4, calling ``preventDefault()`` or ``stop()`` 
+            does not prevent it from following links.
 
         -   Mac browsers don't report right-click consistently. Firefox
             signals the slot and sets ``modifier().ctrl`` to true,
