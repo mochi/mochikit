@@ -15,6 +15,8 @@
     <style type="text/css">
     #elt1, #elt2, #ctn1 {
         visibility: hidden;
+        font-size: 1em;
+        margin: 2px;
     }
     #ctn1 {
         height: 2px;
@@ -70,16 +72,25 @@ try {
         is(getElement('elt1').style.display != 'none', true, "toggle size reverse ok");
     }});
 
+    Morph("elt1", {"style": {"font-size": "2em"}, afterFinish: function () {
+        is(getStyle("elt1", "font-size"), "2em", "Morph OK");
+    }});
+
+    Morph("elt1", {"style": {"font-size": "1em", "margin-left": "4px"}, afterFinish: function () {
+        is(getStyle("elt1", "font-size"), "1em", "Morph multiple (font) OK");
+        is(getStyle("elt1", "margin-left"), "4px", "Morph multiple (margin) OK");
+    }});
+
     switchOff("elt1", {afterFinish: function () {
         is(getElement('elt1').style.display, 'none', "switchOff ok");
     }});
 
     slideUp("ctn1", {afterFinish: function () {
-        is(getElement('elt1').style.display, 'none', "slideUp ok");
+        is(getElement('ctn1').style.display, 'none', "slideUp ok");
     }});
 
     slideDown("ctn1", {afterFinish: function () {
-        is(getElement('elt1').style.display, 'none', "slideDown ok");
+        is(getElement('ctn1').style.display != 'none', true, "slideDown ok");
     }});
 
     ok(true, "visual suite finished");

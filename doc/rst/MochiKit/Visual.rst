@@ -284,6 +284,30 @@ Basic Effects classes
         Available in MochiKit 1.4+
 
 
+:mochidef:`Morph(element [, options])`:
+
+    Make a transformation to the given element. It's called with the option
+    ``style`` with an array holding the styles to change. It works with
+    properties for size (``font-size``, ``border-width``, ...) and properties
+    for color (``color``, ``background-color``, ...). 
+
+    For size, it's better to have defined the original style. You *must*
+    use the same unit in the call to Morph (no translation exists between two
+    different units).
+    
+    Parsed length are postfixed with: em, ex, px, in, cm, mm, pt, pc.
+    
+    Example::
+        
+        <div id="foo" style="font-size: 1em">MyDiv</div>
+        ...
+        Morph("foo", {"style": {"font-size": "2em"}});
+
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 Combination Effects
 -------------------
 
