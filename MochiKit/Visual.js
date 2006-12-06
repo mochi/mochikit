@@ -1160,6 +1160,94 @@ MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
     }
 });
 
+MochiKit.Visual.CSS_LENGTH = /^(([\+\-]?[0-9\.]+)(em|ex|px|in|cm|mm|pt|pc|\%))|0$/;
+
+MochiKit.Visual.Morph = function (element, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(element, options);
+    }
+    this.__init__(element, options);
+};
+
+MochiKit.Visual.Morph.prototype = new MochiKit.Visual.Base();
+
+MochiKit.Base.update(MochiKit.Visual.Morph.prototype, {
+    /***
+
+    Morph effect: make a transformation from current style to the given style,
+    automatically making a transition between the two.
+
+    ***/
+    __init__: function (element, /* optional */options) {
+        this.element = MochiKit.DOM.getElement(element);
+        this.start(options || {});
+    },
+
+    /** @id MochiKit.Visual.Morph.prototype.setup */
+    setup: function () {
+        var b = MochiKit.Base;
+        var style = this.options.style;
+        this.styleStart = {};
+        this.styleEnd = {};
+        this.units = {};
+        var value, unit;
+        for (var s in style) {
+            value = style[s];
+            s = b.camelize(s);
+            if (MochiKit.Visual.CSS_LENGTH.test(value)) {
+                var components = value.match(/^([\+\-]?[0-9\.]+)(.*)$/);
+                value = parseFloat(components[1]);
+                unit = (components.length == 3) ? components[2] : null;
+                this.styleEnd[s] = value;
+                this.units[s] = unit;
+                value = MochiKit.Style.getStyle(this.element, s);
+                components = value.match(/^([\+\-]?[0-9\.]+)(.*)$/);
+                value = parseFloat(components[1]);
+                this.styleStart[s] = value;
+            } else {
+                var c = MochiKit.Color.Color;
+                value = c.fromString(value);
+                if (value) {
+                    this.units[s] = "color";
+                    this.styleEnd[s] = value.toHexString();
+                    value = MochiKit.Style.getStyle(this.element, s);
+                    this.styleStart[s] = c.fromString(value).toHexString();
+
+                    this.styleStart[s] = b.map(b.bind(function (i) {
+                        return parseInt(
+                            this.styleStart[s].slice(i*2 + 1, i*2 + 3), 16);
+                    }, this), [0, 1, 2]);
+                    this.styleEnd[s] = b.map(b.bind(function (i) {
+                        return parseInt(
+                            this.styleEnd[s].slice(i*2 + 1, i*2 + 3), 16);
+                    }, this), [0, 1, 2]);
+                }
+            }
+        }
+    },
+
+    /** @id MochiKit.Visual.Morph.prototype.update */
+    update: function (position) {
+        var value;
+        for (var s in this.styleStart) {
+            if (this.units[s] == "color") {
+                var m = '#';
+                var start = this.styleStart[s];
+                var end = this.styleEnd[s];
+                MochiKit.Base.map(MochiKit.Base.bind(function (i) {
+                    m += MochiKit.Color.toColorPart(Math.round(start[i] +
+                                                    (end[i] - start[i])*position));
+                }, this), [0, 1, 2]);
+                this.element.style[s] = m;
+            } else {
+                value = this.styleStart[s] + Math.round((this.styleEnd[s] - this.styleStart[s]) * position * 1000) / 1000 + this.units[s];
+                this.element.style[s] = value;
+            }
+        }
+    }
+});
+
 /***
 
 Combination effects.
@@ -1829,6 +1917,7 @@ MochiKit.Visual.EXPORT = [
     "Scale",
     "Highlight",
     "ScrollTo",
+    "Morph",
     "fade",
     "appear",
     "puff",

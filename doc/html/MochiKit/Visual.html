@@ -387,6 +387,29 @@ value is above 1.</dd>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
 </blockquote>
+<p>
+<a name="fn-morph"></a>
+<a class="mochidef reference" href="#fn-morph">Morph(element [, options])</a>:</p>
+<blockquote>
+<p>Make a transformation to the given element. It's called with the option
+<tt class="docutils literal"><span class="pre">style</span></tt> with an array holding the styles to change. It works with
+properties for size (<tt class="docutils literal"><span class="pre">font-size</span></tt>, <tt class="docutils literal"><span class="pre">border-width</span></tt>, ...) and properties
+for color (<tt class="docutils literal"><span class="pre">color</span></tt>, <tt class="docutils literal"><span class="pre">background-color</span></tt>, ...).</p>
+<p>For size, it's better to have defined the original style. You <em>must</em>
+use the same unit in the call to Morph (no translation exists between two
+different units).</p>
+<p>Parsed length are postfixed with: em, ex, px, in, cm, mm, pt, pc.</p>
+<p>Example:</p>
+<pre class="literal-block">
+&lt;div id=&quot;foo&quot; style=&quot;font-size: 1em&quot;&gt;MyDiv&lt;/div&gt;
+...
+Morph(&quot;foo&quot;, {&quot;style&quot;: {&quot;font-size&quot;: &quot;2em&quot;}});
+</pre>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
 </div>
 <div class="section">
 <h2><a id="combination-effects" name="combination-effects">Combination Effects</a></h2>
