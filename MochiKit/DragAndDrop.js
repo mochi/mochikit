@@ -72,7 +72,7 @@ MochiKit.DragAndDrop.Droppables = {
 
     remove: function (element) {
         this.drops = MochiKit.Base.filter(function (d) {
-            return d.element != MochiKit.DOM.getElement(element)
+            return d.element != MochiKit.DOM.getElement(element);
         }, this.drops);
     },
 
@@ -333,7 +333,7 @@ MochiKit.DragAndDrop.Draggables = {
             return d != draggable;
         }, this.drags);
         if (this.drags.length === 0) {
-            var disc = MochiKit.Signal.disconnect
+            var disc = MochiKit.Signal.disconnect;
             disc(this.eventMouseUp);
             disc(this.eventMouseMove);
             disc(this.eventKeypress);
@@ -519,7 +519,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
         var pointer = event.mouse();
         var pos = MochiKit.Position.cumulativeOffset(this.element);
-        this.offset = [pointer.page.x - pos.x, pointer.page.y - pos.y]
+        this.offset = [pointer.page.x - pos.x, pointer.page.y - pos.y];
 
         MochiKit.DragAndDrop.Draggables.activate(this);
         event.stop();
@@ -691,7 +691,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
 
         var p = [point.page.x - pos.x - this.offset[0],
-                 point.page.y - pos.y - this.offset[1]]
+                 point.page.y - pos.y - this.offset[1]];
 
         if (this.options.snap) {
             if (typeof(this.options.snap) == 'function') {
@@ -702,13 +702,13 @@ MochiKit.DragAndDrop.Draggable.prototype = {
                     p = MochiKit.Base.map(MochiKit.Base.bind(function (v) {
                             i += 1;
                             return Math.round(v/this.options.snap[i]) *
-                                   this.options.snap[i]
-                        }, this), p)
+                                   this.options.snap[i];
+                        }, this), p);
                 } else {
                     p = MochiKit.Base.map(MochiKit.Base.bind(function (v) {
                         return Math.round(v/this.options.snap) *
-                               this.options.snap
-                        }, this), p)
+                               this.options.snap;
+                        }, this), p);
                 }
             }
         }
@@ -755,9 +755,9 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         if (this.options.scroll == window) {
             var s = this._getWindowScroll(this.options.scroll);
             if (this.scrollSpeed[0] || this.scrollSpeed[1]) {
-                var d = delta / 1000;
-                this.options.scroll.scrollTo(s.left + d * this.scrollSpeed[0],
-                                             s.top + d * this.scrollSpeed[1]);
+                var dm = delta / 1000;
+                this.options.scroll.scrollTo(s.left + dm * this.scrollSpeed[0],
+                                             s.top + dm * this.scrollSpeed[1]);
             }
         } else {
             this.options.scroll.scrollLeft += this.scrollSpeed[0] * delta / 1000;
@@ -785,20 +785,20 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         this.options.onchange(this);
     },
 
-    _getWindowScroll: function (w) {
+    _getWindowScroll: function (win) {
         var vp, w, h;
-        MochiKit.DOM.withWindow(w, function () {
-            vp = MochiKit.Style.getViewportPosition(w.document);
+        MochiKit.DOM.withWindow(win, function () {
+            vp = MochiKit.Style.getViewportPosition(win.document);
         });
-        if (w.innerWidth) {
-            w = w.innerWidth;
-            h = w.innerHeight;
-        } else if (w.document.documentElement && w.document.documentElement.clientWidth) {
-            w = w.document.documentElement.clientWidth;
-            h = w.document.documentElement.clientHeight;
+        if (win.innerWidth) {
+            w = win.innerWidth;
+            h = win.innerHeight;
+        } else if (win.document.documentElement && win.document.documentElement.clientWidth) {
+            w = win.document.documentElement.clientWidth;
+            h = win.document.documentElement.clientHeight;
         } else {
-            w = w.document.body.offsetWidth;
-            h = w.document.body.offsetHeight
+            w = win.document.body.offsetWidth;
+            h = win.document.body.offsetHeight;
         }
         return {top: vp.x, left: vp.y, width: w, height: h};
     },
