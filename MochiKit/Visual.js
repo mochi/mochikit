@@ -389,7 +389,7 @@ MochiKit.Visual.tagifyText = function (element, /* optional */tagifyStyle) {
     'position: relative'.
 
     ***/
-    var tagifyStyle = tagifyStyle || 'position:relative';
+    tagifyStyle = tagifyStyle || 'position:relative';
     if (/MSIE/.test(navigator.userAgent)) {
         tagifyStyle += ';zoom:1';
     }
@@ -469,7 +469,7 @@ Transitions: define functions calculating variations depending of a position.
 
 ***/
 
-MochiKit.Visual.Transitions = {}
+MochiKit.Visual.Transitions = {};
 
 /** @id MochiKit.Visual.Transitions.linear */
 MochiKit.Visual.Transitions.linear = function (pos) {
@@ -498,7 +498,7 @@ MochiKit.Visual.Transitions.wobble = function (pos) {
 
 /** @id MochiKit.Visual.Transitions.pulse */
 MochiKit.Visual.Transitions.pulse = function (pos) {
-    return (Math.floor(pos*10) % 2 == 0 ?
+    return (Math.floor(pos*10) % 2 === 0 ?
         (pos*10 - Math.floor(pos*10)) : 1 - (pos*10 - Math.floor(pos*10)));
 };
 
@@ -583,7 +583,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
 
     /** @id MochiKit.Visual.ScopedQueue.prototype.startLoop */
     startLoop: function (func, interval) {
-        return setInterval(func, interval)
+        return setInterval(func, interval);
     },
 
     /** @id MochiKit.Visual.ScopedQueue.prototype.remove */
@@ -591,7 +591,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
         this.effects = MochiKit.Base.filter(function (e) {
             return e != effect;
         }, this.effects);
-        if (this.effects.length == 0) {
+        if (!this.effects.length) {
             this.stopLoop(this.interval);
             this.interval = null;
         }
@@ -599,7 +599,7 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
 
     /** @id MochiKit.Visual.ScopedQueue.prototype.stopLoop */
     stopLoop: function (interval) {
-        clearInterval(interval)
+        clearInterval(interval);
     },
 
     /** @id MochiKit.Visual.ScopedQueue.prototype.loop */
@@ -745,7 +745,7 @@ MochiKit.Visual.Base.prototype = {
         return '[' + this.__class__.NAME + ', options:' +
                MochiKit.Base.repr(this.options) + ']';
     }
-}
+};
 
     /** @id MochiKit.Visual.Parallel */
 MochiKit.Visual.Parallel = function (effects, options) {
@@ -917,7 +917,7 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
 
     ***/
     __init__: function (element, percent, /* optional */options) {
-        this.element = MochiKit.DOM.getElement(element)
+        this.element = MochiKit.DOM.getElement(element);
         options = MochiKit.Base.update({
             scaleX: true,
             scaleY: true,
@@ -1326,7 +1326,7 @@ MochiKit.Visual.puff = function (element, /* optional */ options) {
     };
     options = MochiKit.Base.update({
         beforeSetupInternal: function (effect) {
-            MochiKit.Position.absolutize(effect.effects[0].element)
+            MochiKit.Position.absolutize(effect.effects[0].element);
         },
         afterFinishInternal: function (effect) {
             s.hideElement(effect.effects[0].element);
@@ -1406,7 +1406,7 @@ MochiKit.Visual.switchOff = function (element, /* optional */ options) {
     element = d.getElement(element);
     var oldOpacity = MochiKit.Style.getStyle(element, 'opacity');
     var elemClip;
-    var options = MochiKit.Base.update({
+    options = MochiKit.Base.update({
         duration: 0.3,
         scaleFromCenter: true,
         scaleX: false,
@@ -1429,7 +1429,7 @@ MochiKit.Visual.switchOff = function (element, /* optional */ options) {
         from: 0,
         transition: v.Transitions.flicker,
         afterFinishInternal: function (effect) {
-            new v.Scale(effect.element, 1, options)
+            new v.Scale(effect.element, 1, options);
         }
     });
 };
@@ -1545,7 +1545,7 @@ MochiKit.Visual.slideDown = function (element, /* optional */ options) {
         },
         afterUpdateInternal: function (effect) {
             s.setStyle(effect.element.firstChild,
-               {bottom: (effect.dims[0] - effect.element.clientHeight) + 'px'})
+               {bottom: (effect.dims[0] - effect.element.clientHeight) + 'px'});
         },
         afterFinishInternal: function (effect) {
             d.undoClipping(effect.element, elemClip);
