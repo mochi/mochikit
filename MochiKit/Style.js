@@ -125,11 +125,9 @@ MochiKit.Base.update(MochiKit.Style, {
             return undefined;
         }
         if (cssProperty == 'opacity' && elem.filters) {
-            var opacity;
-            if (opacity = (MochiKit.Style.getStyle(elem, 'filter') || '').match(/alpha\(opacity=(.*)\)/)) {
-                if (opacity[1]) {
-                    return parseFloat(opacity[1]) / 100;
-                }
+            var opacity = (MochiKit.Style.getStyle(elem, 'filter') || '').match(/alpha\(opacity=(.*)\)/);
+            if (opacity && opacity[1]) {
+                return parseFloat(opacity[1]) / 100;
             }
             return 1.0;
         }
@@ -208,7 +206,7 @@ MochiKit.Base.update(MochiKit.Style, {
 
         if (!elem ||
             (!(elem.x && elem.y) &&
-            (!elem.parentNode == null ||
+            (!elem.parentNode === null ||
             self.getStyle(elem, 'display') == 'none'))) {
             return undefined;
         }
@@ -295,8 +293,12 @@ MochiKit.Base.update(MochiKit.Style, {
             if (tagName === 'BODY' || tagName === 'HTML') {
                 break;
             }
-            c.x -= parent.scrollLeft;
-            c.y -= parent.scrollTop;
+            var disp = self.getStyle(parent, 'display');
+            // Handle strange Opera bug for some display
+            if (disp != 'inline' && disp != 'table-row') {
+                c.x -= parent.scrollLeft;
+                c.y -= parent.scrollTop;
+            }
             if (parent.parentNode) {
                 parent = parent.parentNode;
             } else {
@@ -337,7 +339,7 @@ MochiKit.Base.update(MochiKit.Style, {
         }
         var disp = self.getStyle(elem, 'display');
         // display can be empty/undefined on WebKit/KHTML
-        if (disp != 'none' && disp != '' && typeof(disp) != 'undefined') {
+        if (disp != 'none' && disp !== '' && typeof(disp) != 'undefined') {
             return new self.Dimensions(elem.offsetWidth || 0,
                 elem.offsetHeight || 0);
         }
@@ -377,7 +379,7 @@ MochiKit.Base.update(MochiKit.Style, {
         var elements = MochiKit.Base.extend(null, arguments, 1);
         var getElement = MochiKit.DOM.getElement;
         for (var i = 0; i < elements.length; i++) {
-            var element = getElement(elements[i]);
+            element = getElement(elements[i]);
             if (element) {
                 element.style.display = display;
             }
