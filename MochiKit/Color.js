@@ -30,7 +30,7 @@ try {
 }
 
 try {
-    if (typeof(MochiKit.Base) == 'undefined') {
+    if (typeof(MochiKit.DOM) == 'undefined') {
         throw "";
     }
 } catch (e) {
@@ -38,7 +38,7 @@ try {
 }
 
 try {
-    if (typeof(MochiKit.Base) == 'undefined') {
+    if (typeof(MochiKit.Style) == 'undefined') {
         throw "";
     }
 } catch (e) {
