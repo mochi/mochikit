@@ -4436,7 +4436,7 @@ catch(e){
 throw "MochiKit.Color depends on MochiKit.Base";
 }
 try{
-if(typeof (MochiKit.Base)=="undefined"){
+if(typeof (MochiKit.DOM)=="undefined"){
 throw "";
 }
 }
@@ -4444,7 +4444,7 @@ catch(e){
 throw "MochiKit.Color depends on MochiKit.DOM";
 }
 try{
-if(typeof (MochiKit.Base)=="undefined"){
+if(typeof (MochiKit.Style)=="undefined"){
 throw "";
 }
 }
