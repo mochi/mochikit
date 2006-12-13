@@ -172,7 +172,7 @@ MochiKit.Base.update(MochiKit.Style, {
         elem = MochiKit.DOM.getElement(elem);
         var self = MochiKit.Style;
         if (o == 1) {
-            var toSet = /Gecko/.test(navigator.userAgent) && !(/Konqueror|Safari|KHTML/.test(navigator.userAgent));
+            var toSet = /Gecko/.test(navigator.userAgent) && !(/Konqueror|AppleWebKit|KHTML/.test(navigator.userAgent));
             elem.style["opacity"] = toSet ? 0.999999 : 1.0;
             if (/MSIE/.test(navigator.userAgent)) {
                 elem.style['filter'] =
@@ -265,7 +265,7 @@ MochiKit.Base.update(MochiKit.Style, {
             var ua = navigator.userAgent.toLowerCase();
             if ((typeof(opera) != 'undefined' &&
                 parseFloat(opera.version()) < 9) ||
-                (ua.indexOf('safari') != -1 &&
+                (ua.indexOf('AppleWebKit') != -1 &&
                 self.getStyle(elem, 'position') == 'absolute')) {
 
                 c.x -= b.offsetLeft;

@@ -3964,7 +3964,7 @@ elem.style[MochiKit.Base.camelize(name)]=_496[name];
 elem=MochiKit.DOM.getElement(elem);
 var self=MochiKit.Style;
 if(o==1){
-var _497=/Gecko/.test(navigator.userAgent)&&!(/Konqueror|Safari|KHTML/.test(navigator.userAgent));
+var _497=/Gecko/.test(navigator.userAgent)&&!(/Konqueror|AppleWebKit|KHTML/.test(navigator.userAgent));
 elem.style["opacity"]=_497?0.999999:1;
 if(/MSIE/.test(navigator.userAgent)){
 elem.style["filter"]=self.getStyle(elem,"filter").replace(/alpha\([^\)]*\)/gi,"");
@@ -4012,7 +4012,7 @@ _501=_501.offsetParent;
 }
 }
 var ua=navigator.userAgent.toLowerCase();
-if((typeof (opera)!="undefined"&&parseFloat(opera.version())<9)||(ua.indexOf("safari")!=-1&&self.getStyle(elem,"position")=="absolute")){
+if((typeof (opera)!="undefined"&&parseFloat(opera.version())<9)||(ua.indexOf("AppleWebKit")!=-1&&self.getStyle(elem,"position")=="absolute")){
 c.x-=b.offsetLeft;
 c.y-=b.offsetTop;
 }
