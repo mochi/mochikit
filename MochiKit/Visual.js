@@ -1331,12 +1331,14 @@ MochiKit.Visual.puff = function (element, /* optional */ options) {
         afterFinishInternal: function (effect) {
             s.hideElement(effect.effects[0].element);
             s.setStyle(effect.effects[0].element, oldStyle);
-        }
+        },
+        scaleContent: true,
+        scaleFromCenter: true
     }, options || {});
     return new v.Parallel(
         [new v.Scale(element, 200,
-            {sync: true, scaleFromCenter: true,
-             scaleContent: true, restoreAfterFinish: true}),
+            {sync: true, scaleFromCenter: options.scaleFromCenter,
+             scaleContent: options.scaleContent, restoreAfterFinish: true}),
          new v.Opacity(element, {sync: true, to: 0.0 })],
         options);
 };
@@ -1656,7 +1658,9 @@ MochiKit.Visual.grow = function (element, /* optional */ options) {
         direction: 'center',
         moveTransition: v.Transitions.sinoidal,
         scaleTransition: v.Transitions.sinoidal,
-        opacityTransition: v.Transitions.full
+        opacityTransition: v.Transitions.full,
+        scaleContent: true,
+        scaleFromCenter: false
     }, options || {});
     var oldStyle = {
         top: element.style.top,
@@ -1735,6 +1739,8 @@ MochiKit.Visual.grow = function (element, /* optional */ options) {
                         sync: true,
                         scaleFrom: /Opera/.test(navigator.userAgent) ? 1 : 0,
                         transition: options.scaleTransition,
+                        scaleContent: options.scaleContent,
+                        scaleFromCenter: options.scaleFromCenter,
                         restoreAfterFinish: true
                 })
                 ], optionsParallel
@@ -1758,7 +1764,9 @@ MochiKit.Visual.shrink = function (element, /* optional */ options) {
         direction: 'center',
         moveTransition: v.Transitions.sinoidal,
         scaleTransition: v.Transitions.sinoidal,
-        opacityTransition: v.Transitions.none
+        opacityTransition: v.Transitions.none,
+        scaleContent: true,
+        scaleFromCenter: false
     }, options || {});
     var oldStyle = {
         top: element.style.top,
@@ -1814,6 +1822,8 @@ MochiKit.Visual.shrink = function (element, /* optional */ options) {
          }),
          new v.Scale(element, /Opera/.test(navigator.userAgent) ? 1 : 0, {
              sync: true, transition: options.scaleTransition,
+             scaleContent: options.scaleContent,
+             scaleFromCenter: options.scaleFromCenter,
              restoreAfterFinish: true
          }),
          new v.Move(element, {
