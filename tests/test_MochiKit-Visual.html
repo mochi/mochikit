@@ -54,9 +54,18 @@ try {
     var gl = new TestQueue();
     MochiKit.Visual.Queues.instances['global'] = gl;
     MochiKit.Visual.Queues.instances['elt1'] = gl;
+    MochiKit.Visual.Queues.instances['ctn1'] = gl;
     MochiKit.Visual.Queue = gl;
 
-    fade("elt1", {duration: 0, afterFinish: function () {
+    pulsate("elt1", {afterFinish: function () {
+        is(getElement('elt1').style.display != 'none', true, "pulsate ok");
+    }});
+    
+    shake("elt1", {afterFinish: function () {
+        is(getElement('elt1').style.display != 'none', true, "shake ok");
+    }});
+    
+    fade("elt1", {afterFinish: function () {
         is(getElement('elt1').style.display, 'none', "fade ok");
     }});
 
@@ -85,6 +94,34 @@ try {
         is(getElement('elt1').style.display, 'none', "switchOff ok");
     }});
 
+    grow("elt1", {afterFinish: function () {
+        is(getElement('elt1').style.display != 'none', true, "grow ok");
+    }});
+
+    shrink("elt1", {afterFinish: function () {
+        is(getElement('elt1').style.display, 'none', "shrink ok");
+    }});
+
+    showElement('elt1');
+    dropOut("elt1", {afterFinish: function () {
+        is(getElement('elt1').style.display, 'none', "dropOut ok");
+    }});
+
+    showElement('elt1');
+    puff("elt1", {afterFinish: function () {
+        is(getElement('elt1').style.display, 'none', "puff ok");
+    }});
+
+    showElement('elt1');
+    fold("elt1", {afterFinish: function () {
+        is(getElement('elt1').style.display, 'none', "fold ok");
+    }});
+
+    showElement('elt1');
+    squish("elt1", {afterFinish: function () {
+        is(getElement('elt1').style.display, 'none', "squish ok");
+    }});
+
     slideUp("ctn1", {afterFinish: function () {
         is(getElement('ctn1').style.display, 'none', "slideUp ok");
     }});
@@ -93,6 +130,23 @@ try {
         is(getElement('ctn1').style.display != 'none', true, "slideDown ok");
     }});
 
+    blindDown("ctn1", {afterFinish: function () {
+        is(getElement('ctn1').style.display != 'none', true, "blindDown ok");
+    }});
+
+    blindUp("ctn1", {afterFinish: function () {
+        is(getElement('ctn1').style.display, 'none', "blindUp ok");
+    }});
+
+    multiple(["elt1", "ctn1"], appear, {afterFinish: function (effect) {
+        is(effect.element.style.display != 'none', true, "multiple ok");
+    }});
+
+    var toTests = [roundElement, roundClass, tagifyText, Opacity, Move, Scale, Highlight, ScrollTo, Morph];
+    for (var m in toTests) {
+        toTests[m]("elt1");
+        ok(true, toTests[m].NAME + " doesn't need 'new' keyword");
+    }
     ok(true, "visual suite finished");
 
 } catch (err) {
