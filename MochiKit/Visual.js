@@ -765,6 +765,9 @@ MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, {
     Run multiple effects at the same time.
 
     ***/
+
+    __class__ : MochiKit.Visual.Parallel,
+
     __init__: function (effects, options) {
         this.effects = effects || [];
         this.start(options);
@@ -805,6 +808,9 @@ MochiKit.Base.update(MochiKit.Visual.Opacity.prototype, {
     Must be between 0.0 and 1.0. Default to current opacity and 1.0.
 
     ***/
+
+    __class__ : MochiKit.Visual.Opacity,
+
     __init__: function (element, /* optional */options) {
         var b = MochiKit.Base;
         var s = MochiKit.Style;
@@ -846,6 +852,9 @@ MochiKit.Base.update(MochiKit.Visual.Move.prototype, {
     @param options: 'x' and 'y' for final positions, default to 0, 0.
 
     ***/
+
+    __class__ : MochiKit.Visual.Move,
+
     __init__: function (element, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element);
         options = MochiKit.Base.update({
@@ -916,6 +925,9 @@ MochiKit.Base.update(MochiKit.Visual.Scale.prototype, {
     @param options: several options changing scale behaviour
 
     ***/
+
+    __class__ : MochiKit.Visual.Scale,
+
     __init__: function (element, percent, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element);
         options = MochiKit.Base.update({
@@ -1043,6 +1055,9 @@ MochiKit.Base.update(MochiKit.Visual.Highlight.prototype, {
     to '#ffff99'.
 
     ***/
+
+    __class__ : MochiKit.Visual.Highlight,
+
     __init__: function (element, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element);
         options = MochiKit.Base.update({
@@ -1125,6 +1140,9 @@ MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
     Scroll to an element in the page.
 
     ***/
+
+    __class__ : MochiKit.Visual.ScrollTo,
+
     __init__: function (element, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element);
         this.start(options || {});
@@ -1179,6 +1197,9 @@ MochiKit.Base.update(MochiKit.Visual.Morph.prototype, {
     automatically making a transition between the two.
 
     ***/
+
+    __class__ : MochiKit.Visual.Morph,
+
     __init__: function (element, /* optional */options) {
         this.element = MochiKit.DOM.getElement(element);
         this.start(options || {});
