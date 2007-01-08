@@ -166,7 +166,7 @@ MochiKit.Base.update(MochiKit.DOM, {
     withWindow: function (win, func) {
         var self = MochiKit.DOM;
         var oldDoc = self._document;
-        var oldWin = self._win;
+        var oldWin = self._window;
         var rval;
         try {
             self._window = win;
