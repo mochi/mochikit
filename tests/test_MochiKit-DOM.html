@@ -253,6 +253,13 @@ try {
         ok( true, "threw" );
     }
 
+    var mockWindow = {"foo": "bar"};
+    is (currentWindow(), window, "currentWindow ok");
+    withWindow(mockWindow, function () {
+        is(currentWindow(), mockWindow, "withWindow ok");
+    });
+    is (currentWindow(), window, "currentWindow ok");
+
     doc = MochiKit.MockDOM.createDocument();
     var frm;
     withDocument(doc, function () {
