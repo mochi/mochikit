@@ -35,6 +35,7 @@ Dependencies
 - :mochiref:`MochiKit.Iter`
 - :mochiref:`MochiKit.DOM`
 - :mochiref:`MochiKit.Color`
+- :mochiref:`MochiKit.Position`
 
 Overview
 ========

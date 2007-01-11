@@ -36,7 +36,7 @@ Dependencies
 - :mochiref:`MochiKit.Iter`
 - :mochiref:`MochiKit.DOM`
 - :mochiref:`MochiKit.Color`
-- :mochiref:`MochiKit.Effect`
+- :mochiref:`MochiKit.Visual`
 - :mochiref:`MochiKit.Signal`
 - :mochiref:`MochiKit.DragAndDrop`
 
