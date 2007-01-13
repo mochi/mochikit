@@ -2443,7 +2443,11 @@ if(qs){
 url+="?"+qs;
 }
 }
+if("username" in opts){
 req.open(opts.method,url,true,opts.username,opts.password);
+}else{
+req.open(opts.method,url,true);
+}
 if(req.overrideMimeType&&opts.mimeType){
 req.overrideMimeType(opts.mimeType);
 }
@@ -2676,7 +2680,7 @@ return MochiKit.DOM._document;
 },withWindow:function(win,func){
 var self=MochiKit.DOM;
 var _2dc=self._document;
-var _2dd=self._win;
+var _2dd=self._window;
 var rval;
 try{
 self._window=win;

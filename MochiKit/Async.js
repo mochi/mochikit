@@ -365,7 +365,13 @@ MochiKit.Base.update(MochiKit.Async, {
                 url += "?" + qs;
             }
         }
-        req.open(opts.method, url, true, opts.username, opts.password);
+        // Safari will send undefined:undefined, so we have to check.
+        // We can't use apply, since the function is native.
+        if ('username' in opts) {
+            req.open(opts.method, url, true, opts.username, opts.password);
+        } else {
+            req.open(opts.method, url, true);
+        }
         if (req.overrideMimeType && opts.mimeType) {
             req.overrideMimeType(opts.mimeType);
         }
