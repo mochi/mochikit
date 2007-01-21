@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- Workaround for a Safari DOM crash when using MochiKit.Iter.list.
+  http://bugs.webkit.org/show_bug.cgi?id=12191
 - New removeNodeAttribute function in MochiKit.DOM.
 - MochiKit.Async.doXHR and dependent functions now accept 201 CREATED and
   204 NO CONTENT as valid.

@@ -1303,12 +1303,16 @@ rval.push(_tee(i,sync,_19b));
 }
 return rval;
 },list:function(_1a2){
-var m=MochiKit.Base;
-if(typeof (_1a2.slice)=="function"){
+var rval;
+if(_1a2 instanceof Array){
 return _1a2.slice();
 }else{
-if(m.isArrayLike(_1a2)){
-return m.concat(_1a2);
+if(typeof (_1a2.length)=="number"){
+rval=[];
+for(var i=0;i<_1a2.length;i++){
+rval.push(_1a2[i]);
+}
+return rval;
 }
 }
 var self=MochiKit.Iter;
