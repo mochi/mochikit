@@ -418,7 +418,11 @@ MochiKit.Base.update(MochiKit.Iter, {
         var rval;
         if (iterable instanceof Array) {
             return iterable.slice();
-        } else if (typeof(iterable.length) == 'number') {
+        } 
+        // this is necessary to avoid a Safari crash
+        if (typeof(iterable) == "function" &&
+                !(iterable instanceof Function) &&
+                typeof(iterable.length) == 'number') {
             rval = [];
             for (var i = 0; i < iterable.length; i++) {
                 rval.push(iterable[i]);

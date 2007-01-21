@@ -1306,14 +1306,13 @@ return rval;
 var rval;
 if(_1a2 instanceof Array){
 return _1a2.slice();
-}else{
-if(typeof (_1a2.length)=="number"){
+}
+if(typeof (_1a2)=="function"&&!(_1a2 instanceof Function)&&typeof (_1a2.length)=="number"){
 rval=[];
 for(var i=0;i<_1a2.length;i++){
 rval.push(_1a2[i]);
 }
 return rval;
-}
 }
 var self=MochiKit.Iter;
 _1a2=self.iter(_1a2);
@@ -2800,6 +2799,9 @@ var _2ff=m.NotFound;
 while(true){
 if(typeof (node)=="undefined"||node===null){
 return null;
+}
+if(typeof (node)=="function"&&typeof (node.length)=="number"&&!(node instanceof Function)){
+node=im.list(node);
 }
 if(typeof (node.nodeType)!="undefined"&&node.nodeType>0){
 return node;
