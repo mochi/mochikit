@@ -301,6 +301,13 @@ MochiKit.Base.update(MochiKit.DOM, {
             if (typeof(node) == 'undefined' || node === null) {
                 return null;
             }
+            // this is a safari childNodes object, avoiding crashes w/ attr
+            // lookup
+            if (typeof(node) == "function" &&
+                    typeof(node.length) == "number" &&
+                    !(node instanceof Function)) {
+                node = im.list(node);
+            }
             if (typeof(node.nodeType) != 'undefined' && node.nodeType > 0) {
                 return node;
             }
