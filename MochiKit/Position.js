@@ -244,3 +244,15 @@ MochiKit.Base.update(MochiKit.Position, {
         return new MochiKit.Style.Coordinates(valueL, valueT);
     }
 });
+
+MochiKit.Position.__new__ = function (win) {
+    var m = MochiKit.Base;
+    this.EXPORT_TAGS = {
+        ':common': this.EXPORT,
+        ':all': m.concat(this.EXPORT, this.EXPORT_OK)
+    };
+
+    m.nameFunctions(this);
+};
+
+MochiKit.Position.__new__(this);
