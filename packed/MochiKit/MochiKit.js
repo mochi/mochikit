@@ -3873,6 +3873,7 @@ dojo.require("MochiKit.DOM");
 }
 if(typeof (JSAN)!="undefined"){
 JSAN.use("MochiKit.Base",[]);
+JSAN.use("MochiKit.DOM",[]);
 }
 try{
 if(typeof (MochiKit.Base)=="undefined"){
