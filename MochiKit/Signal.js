@@ -518,25 +518,13 @@ MochiKit.Base.update(MochiKit.Signal, {
         var observers = self._observers;
 
         for (var i = 0; i < observers.length; i++) {
-            self._disconnect(observers[i]);
-        }
-
-        delete self._observers;
-
-        try {
-            window.onload = undefined;
-        } catch(e) {
-            // pass
-        }
-
-        try {
-            window.onunload = undefined;
-        } catch(e) {
-            // pass
+            if (observers[i][1] !== 'onload' && observers[i][1] !== 'onunload') {
+                self._disconnect(observers[i]);
+            }
         }
     },
 
-    _listener: function (src, func, obj, isDOM) {
+    _listener: function (src, sig, func, obj, isDOM) {
         var self = MochiKit.Signal;
         var E = self.Event;
         if (!isDOM) {
@@ -544,13 +532,27 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
         obj = obj || src;
         if (typeof(func) == "string") {
-            return function (nativeEvent) {
-                obj[func].apply(obj, [new E(src, nativeEvent)]);
-            };
+            if (sig === 'onload' || sig === 'onunload') {
+                return function (nativeEvent) {
+                    obj[func].apply(obj, [new E(src, nativeEvent)]);
+                    MochiKit.Signal.disconnect(src, sig, obj, func);
+                };                
+            } else {
+                return function (nativeEvent) {
+                    obj[func].apply(obj, [new E(src, nativeEvent)]);
+                };
+            }
         } else {
-            return function (nativeEvent) {
-                func.apply(obj, [new E(src, nativeEvent)]);
-            };
+            if (sig === 'onload' || sig === 'onunload') {
+                return function (nativeEvent) {
+                    func.apply(obj, [new E(src, nativeEvent)]);
+                    MochiKit.Signal.disconnect(src, sig, func);
+                };                
+            } else {
+                return function (nativeEvent) {
+                    func.apply(obj, [new E(src, nativeEvent)]);
+                };
+            }
         }
     },
 
@@ -633,7 +635,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                 sig = "onmouseout";
             }
         } else {
-            var listener = self._listener(src, func, obj, isDOM);
+            var listener = self._listener(src, sig, func, obj, isDOM);
         }
 
         if (src.addEventListener) {
@@ -664,6 +666,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         var src = ident[0];
         var sig = ident[1];
         var listener = ident[2];
+        
         if (src.removeEventListener) {
             src.removeEventListener(sig.substr(2), listener, false);
         } else if (src.detachEvent) {
