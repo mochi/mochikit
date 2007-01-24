@@ -15,6 +15,7 @@ if (typeof(dojo) != 'undefined') {
 }
 if (typeof(JSAN) != 'undefined') {
     JSAN.use('MochiKit.Base', []);
+    JSAN.use('MochiKit.DOM', []);
 }
 
 try {
