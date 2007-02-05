@@ -159,7 +159,7 @@ MochiKit.Base.update(MochiKit.Style, {
     /** @id MochiKit.Style.setStyle */
     setStyle: function (elem, style) {
         elem = MochiKit.DOM.getElement(elem);
-        for (name in style) {
+        for (var name in style) {
             if (name == 'opacity') {
                 MochiKit.Style.setOpacity(elem, style[name]);
             } else {
