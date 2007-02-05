@@ -89,7 +89,7 @@ MochiKit.Form = {
         form = MochiKit.DOM.getElement(form);
         var elements = [];
 
-        for (tagName in MochiKit.Form.Serializers) {
+        for (var tagName in MochiKit.Form.Serializers) {
             var tagElements = form.getElementsByTagName(tagName);
             for (var j = 0; j < tagElements.length; j++) {
                 elements.push(tagElements[j]);
