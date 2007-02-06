@@ -498,5 +498,10 @@ tests.test_Base = function (t) {
     t.is( repr(got), repr([-1, 1, 2, 4]), "values()" );
 
     t.is( queryString([["foo", "bar"], ["baz", "wibble"]]), "foo=baz&bar=wibble" );
+    o = parseQueryString("foo=1=1=1&bar=2&baz&wibble=");
+    t.is( o.foo, "1=1=1", "parseQueryString multiple = first" );
+    t.is( o.bar, "2", "parseQueryString multiple = second" );
+    t.is( o.baz, "", "parseQueryString multiple = third" );
+    t.is( o.wibble, "", "parseQueryString multiple = fourth" );
 
 };
