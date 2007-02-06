@@ -1145,24 +1145,25 @@ MochiKit.Base.update(MochiKit.Base, {
         if (useArrays) {
             for (var i = 0; i < pairs.length; i++) {
                 var pair = pairs[i].split("=");
-                if (pair.length !== 2) {
+                var name = decode(pair.shift());
+                if (!name) {
                     continue;
                 }
-                var name = decode(pair[0]);
                 var arr = o[name];
                 if (!(arr instanceof Array)) {
                     arr = [];
                     o[name] = arr;
                 }
-                arr.push(decode(pair[1]));
+                arr.push(decode(pair.join("=")));
             }
         } else {
             for (i = 0; i < pairs.length; i++) {
                 pair = pairs[i].split("=");
-                if (pair.length !== 2) {
+                var name = pair.shift();
+                if (!name) {
                     continue;
                 }
-                o[decode(pair[0])] = decode(pair[1]);
+                o[decode(name)] = decode(pair.join("="));
             }
         }
         return o;
