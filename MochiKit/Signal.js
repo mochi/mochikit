@@ -68,7 +68,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
             ', type(): ' + repr(this.type()) +
             ', target(): ' + repr(this.target());
 
-        if (this.type() && 
+        if (this.type() &&
             this.type().indexOf('key') === 0 ||
             this.type().indexOf('mouse') === 0 ||
             this.type().indexOf('click') != -1 ||
@@ -503,6 +503,20 @@ MochiKit.Signal._specialKeys = {
     }
 })();
 
+/* Internal object to keep track of created signals. */
+MochiKit.Signal.SignalIdentifier = function (src, sig, listener, isDOM, objOrFunc, funcOrStr, connected) {
+    this.source = src;
+    this.signal = sig;
+    this.listener = listener;
+    this.isDOM = isDOM;
+    this.objOrFunc = objOrFunc;
+    this.funcOrStr = funcOrStr;
+    this.connected = connected;
+};
+
+MochiKit.Signal.SignalIdentifier.prototype = {
+};
+
 MochiKit.Base.update(MochiKit.Signal, {
 
     __repr__: function () {
@@ -518,7 +532,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         var observers = self._observers;
 
         for (var i = 0; i < observers.length; i++) {
-            if (observers[i][1] !== 'onload' && observers[i][1] !== 'onunload') {
+            if (observers[i].signal !== 'onload' && observers[i].signal !== 'onunload') {
                 self._disconnect(observers[i]);
             }
         }
@@ -536,7 +550,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                 return function (nativeEvent) {
                     obj[func].apply(obj, [new E(src, nativeEvent)]);
                     MochiKit.Signal.disconnect(src, sig, obj, func);
-                };                
+                };
             } else {
                 return function (nativeEvent) {
                     obj[func].apply(obj, [new E(src, nativeEvent)]);
@@ -547,7 +561,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                 return function (nativeEvent) {
                     func.apply(obj, [new E(src, nativeEvent)]);
                     MochiKit.Signal.disconnect(src, sig, func);
-                };                
+                };
             } else {
                 return function (nativeEvent) {
                     func.apply(obj, [new E(src, nativeEvent)]);
@@ -606,7 +620,6 @@ MochiKit.Base.update(MochiKit.Signal, {
             func = objOrFunc;
         }
         return [obj, func];
-
     },
 
     /** @id MochiKit.Signal.connect */
@@ -644,29 +657,31 @@ MochiKit.Base.update(MochiKit.Signal, {
             src.attachEvent(sig, listener); // useCapture unsupported
         }
 
-        var ident = [src, sig, listener, isDOM, objOrFunc, funcOrStr, true];
+        var ident = new MochiKit.Signal.SignalIdentifier(src, sig, listener, isDOM, objOrFunc, funcOrStr, true);
         self._observers.push(ident);
-
 
         if (!isDOM && typeof(src.__connect__) == 'function') {
             var args = MochiKit.Base.extend([ident], arguments, 1);
             src.__connect__.apply(src, args);
         }
 
-
         return ident;
     },
 
     _disconnect: function (ident) {
         // already disconnected
-        if (!ident[6]) { return; }
-        ident[6] = false;
+        if (!ident.connected) {
+            return;
+        }
+        ident.connected = false;
         // check isDOM
-        if (!ident[3]) { return; }
-        var src = ident[0];
-        var sig = ident[1];
-        var listener = ident[2];
-        
+        if (!ident.isDOM) {
+            return;
+        }
+        var src = ident.source;
+        var sig = ident.signal;
+        var listener = ident.listener;
+
         if (src.removeEventListener) {
             src.removeEventListener(sig.substr(2), listener, false);
         } else if (src.detachEvent) {
@@ -689,7 +704,7 @@ MochiKit.Base.update(MochiKit.Signal, {
             var func = arguments[3];
             for (var i = observers.length - 1; i >= 0; i--) {
                 var o = observers[i];
-                if (o[0] === src && o[1] === sig && o[4] === obj && o[5] === func) {
+                if (o.source === src && o.signal === sig && o.objOrFunc === obj && o.funcOrStr === func) {
                     self._disconnect(o);
                     if (!self._lock) {
                         observers.splice(i, 1);
@@ -726,8 +741,8 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
         for (var i = observers.length - 1; i >= 0; i--) {
             var ident = observers[i];
-            if (ident[4] === objOrFunc &&
-                    (funcOrStr === null || ident[5] === funcOrStr)) {
+            if (ident.objOrFunc === objOrFunc &&
+                    (funcOrStr === null || ident.funcOrStr === funcOrStr)) {
                 disconnect(ident);
                 if (locked) {
                     dirty = true;
@@ -754,7 +769,7 @@ MochiKit.Base.update(MochiKit.Signal, {
             // disconnect all
             for (i = observers.length - 1; i >= 0; i--) {
                 ident = observers[i];
-                if (ident[0] === src) {
+                if (ident.source === src) {
                     disconnect(ident);
                     if (!locked) {
                         observers.splice(i, 1);
@@ -770,7 +785,7 @@ MochiKit.Base.update(MochiKit.Signal, {
             }
             for (i = observers.length - 1; i >= 0; i--) {
                 ident = observers[i];
-                if (ident[0] === src && ident[1] in sigs) {
+                if (ident.source === src && ident.signal in sigs) {
                     disconnect(ident);
                     if (!locked) {
                         observers.splice(i, 1);
@@ -793,9 +808,9 @@ MochiKit.Base.update(MochiKit.Signal, {
         self._lock = true;
         for (var i = 0; i < observers.length; i++) {
             var ident = observers[i];
-            if (ident[0] === src && ident[1] === sig) {
+            if (ident.source === src && ident.signal === sig) {
                 try {
-                    ident[2].apply(src, args);
+                    ident.listener.apply(src, args);
                 } catch (e) {
                     errors.push(e);
                 }
@@ -805,7 +820,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         if (self._dirty) {
             self._dirty = false;
             for (var i = observers.length - 1; i >= 0; i--) {
-                if (!observers[i][6]) {
+                if (!observers[i].connected) {
                     observers.splice(i, 1);
                 }
             }
