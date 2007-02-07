@@ -292,7 +292,7 @@ MochiKit.Selector.Selector.prototype = {
 
     /** @id MochiKit.Selector.Selector.prototype.isUIElement */
     isUIElement: function (element) {
-        return findValue(['input', 'button', 'select', 'option', 'textarea', 'object'],
+        return MochiKit.Base.findValue(['input', 'button', 'select', 'option', 'textarea', 'object'],
                 element.tagName.toLowerCase()) > -1;
     },
 
@@ -341,7 +341,7 @@ MochiKit.Selector.Selector.prototype = {
         }
 
         if (axis == "") {
-            scope = (scope || currentDocument()).getElementsByTagName(this.params.tagName || '*');
+            scope = (scope || MochiKit.DOM.currentDocument()).getElementsByTagName(this.params.tagName || '*');
         } else if (axis == ">") {
             if (!scope) {
                 throw "> combinator not allowed without preceeding expression";
