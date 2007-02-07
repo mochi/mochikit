@@ -1139,7 +1139,9 @@ MochiKit.Base.update(MochiKit.DOM, {
                 "for": "htmlFor",
                 "readonly": "readOnly",
                 "colspan": "colSpan",
-                "bgcolor": "bgColor"
+                "bgcolor": "bgColor",
+                "cellspacing": "cellSpacing",
+                "cellpadding": "cellPadding"
             };
         } else {
             attributeArray = function (node) {
