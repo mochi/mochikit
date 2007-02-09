@@ -244,8 +244,8 @@ Basic Effects classes
 
     percent:
         Final wanted size in percent of current size. The size will be
-        reduced if the value is between 0 and 1, and raised if the
-        value is above 1.
+        reduced if the value is between 0 and 100, and raised if the
+        value is above 100.
 
     options:
 
