@@ -441,6 +441,14 @@ Combination Effects
 
     Switch an element between appear and fade.
 
+    options:
+
+    ====== ========
+    pulses ``null``
+    ====== ========
+
+    pulses controls the number of pulses made during the effect.
+
     *Availability*:
         Available in MochiKit 1.4+
 

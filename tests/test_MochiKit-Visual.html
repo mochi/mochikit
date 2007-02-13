@@ -60,6 +60,10 @@ try {
     pulsate("elt1", {afterFinish: function () {
         is(getElement('elt1').style.display != 'none', true, "pulsate ok");
     }});
+
+    pulsate("elt1", {pulses: 2, afterFinish: function () {
+        is(getElement('elt1').style.display != 'none', true, "pulsate with numbered pulses ok");
+    }});
     
     shake("elt1", {afterFinish: function () {
         is(getElement('elt1').style.display != 'none', true, "shake ok");
