@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4.1: http://docutils.sourceforge.net/" />
 <title>MochiKit.Style - painless Style manipulation API</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -147,6 +147,9 @@ properties, or <tt class="docutils literal"><span class="pre">undefined</span></
 <blockquote>
 <p>Sets the dimensions of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an object
 with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties.</p>
+<p>Warning: IE in quirks-mode seems to behave strange when you set
+the height off an element containing text to 0. You can workaround this
+by setting the value of visibly/display.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">element</span></tt>:</dt>
 <dd>A reference to the DOM element to update (if a string is
@@ -194,9 +197,6 @@ with <tt class="docutils literal"><span class="pre">x</span></tt> and/or <tt cla
 <blockquote>
 <p>Sets the absolute position of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an
 object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties.</p>
-<p>Warning: IE in quirks-mode seems to behave strange when you set
-the height off an element containing text to 0. You can workaround this
-by setting the value of visibly/display.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">element</span></tt>:</dt>
 <dd>A reference to the DOM element to update (if a string is
