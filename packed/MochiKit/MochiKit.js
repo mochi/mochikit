@@ -3699,14 +3699,14 @@ if(_3d0=_3ce.attributes){
 MochiKit.Base.map(function(_3d9){
 var _3da="MochiKit.DOM.getNodeAttribute(element, "+repr(_3d9.name)+")";
 var _3db=function(_3dc){
-return _3da+" && "+_3da+".split("+repr(_3dc)+")";
+return _3da+".split("+repr(_3dc)+")";
 };
 switch(_3d9.operator){
 case "=":
 _3cf.push(_3da+" == "+repr(_3d9.value));
 break;
 case "~=":
-_3cf.push("MochiKit.Base.findValue("+_3db(" ")+", "+repr(_3d9.value)+") > -1");
+_3cf.push(_3da+" && MochiKit.Base.findValue("+_3db(" ")+", "+repr(_3d9.value)+") > -1");
 break;
 case "^=":
 _3cf.push(_3da+".substring(0, "+_3d9.value.length+") == "+repr(_3d9.value));
@@ -3718,7 +3718,7 @@ case "*=":
 _3cf.push(_3da+".match("+repr(_3d9.value)+")");
 break;
 case "|=":
-_3cf.push(_3db("-")+"[0].toUpperCase() == "+repr(_3d9.value.toUpperCase()));
+_3cf.push(_3da+" && "+_3db("-")+"[0].toUpperCase() == "+repr(_3d9.value.toUpperCase()));
 break;
 case "!=":
 _3cf.push(_3da+" != "+repr(_3d9.value));
