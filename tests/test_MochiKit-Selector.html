@@ -46,6 +46,8 @@
         <a href="http://www.example.com/link7">Link 7</a>
         <a href="http://www.example.com/link8">Link 8</a>
     </div>
+    
+    <div id="multiclass" class="multiple classnames here"></div>
 <pre id="test">
 <script type="text/javascript">
 try {
@@ -233,6 +235,12 @@ try {
     results = $$(':root');
     for (var i=0; i < results.length; i ++) {
         is( results[i], expected[i], "':root' selector" + ' (' + i + ')');
+    }
+    
+    expected = [$('multiclass')];
+    results = $$('[class~=classnames]');
+    for (var i=0; i < results.length; i ++) {
+        is( results[i], expected[i], "'~=' attribute test" + ' (' + i + ')');
     }
     
     var doc = MochiKit.MockDOM.createDocument();
