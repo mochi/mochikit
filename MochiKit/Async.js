@@ -345,6 +345,16 @@ MochiKit.Base.update(MochiKit.Async, {
 
     /** @id MochiKit.Async.doXHR */
     doXHR: function (url, opts) {
+        /*
+            Work around a Firefox bug by dealing with XHR during
+            the next event loop iteration. Maybe it's this one:
+            https://bugzilla.mozilla.org/show_bug.cgi?id=249843
+        */
+        var self = MochiKit.Async;
+        return self.callLater(0, self._doXHR, url, opts);
+    },
+
+    _doXHR: function (url, opts) {
         var m = MochiKit.Base;
         opts = m.update({
             method: 'GET',
