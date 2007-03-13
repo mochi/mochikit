@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Color's HSV to RGB conversion code fixed to return the correct
+  value (hsv.v for RGB values) in cases where saturation === 0.
 - doXHR workaround for a Mozilla bug when calling XMLHttpRequest in certain
   situations. Always wraps call in a callLater(0, doXHR, url, opts).
 - parseQueryString will now parse values with embedded "="
