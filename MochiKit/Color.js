@@ -476,9 +476,9 @@ MochiKit.Base.update(MochiKit.Color, {
         var green;
         var blue;
         if (saturation === 0) {
-            red = 0;
-            green = 0;
-            blue = 0;
+            red = value;
+            green = value;
+            blue = value;
         } else {
             var i = Math.floor(hue * 6);
             var f = (hue * 6) - i;

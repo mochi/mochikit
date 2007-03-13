@@ -4763,9 +4763,9 @@ var red;
 var _4e5;
 var blue;
 if(_4e0===0){
-red=0;
-_4e5=0;
-blue=0;
+red=_4e1;
+_4e5=_4e1;
+blue=_4e1;
 }else{
 var i=Math.floor(hue*6);
 var f=(hue*6)-i;
