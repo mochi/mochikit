@@ -69,6 +69,8 @@ related to development of and with MochiKit</li>
 <h1><a id="version-history" name="version-history">Version History</a></h1>
 <p>2006-XX-XX      v1.4</p>
 <ul class="simple">
+<li>doXHR workaround for a Mozilla bug when calling XMLHttpRequest in certain
+situations. Always wraps call in a callLater(0, doXHR, url, opts).</li>
 <li>parseQueryString will now parse values with embedded &quot;=&quot;</li>
 <li>Workaround for a Safari DOM crash when using MochiKit.Iter.list.
 <a class="reference" href="http://bugs.webkit.org/show_bug.cgi?id=12191">http://bugs.webkit.org/show_bug.cgi?id=12191</a></li>

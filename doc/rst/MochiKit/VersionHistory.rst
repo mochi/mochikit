@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- doXHR workaround for a Mozilla bug when calling XMLHttpRequest in certain
+  situations. Always wraps call in a callLater(0, doXHR, url, opts).
 - parseQueryString will now parse values with embedded "="
 - Workaround for a Safari DOM crash when using MochiKit.Iter.list.
   http://bugs.webkit.org/show_bug.cgi?id=12191
