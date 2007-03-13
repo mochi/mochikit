@@ -661,7 +661,7 @@ Functions
         The removed element
 
     *Availability*:
-        Available in MochiKit 1.4+
+        Available in MochiKit 1.3.1+
 
 
 :mochidef:`removeElementClass(element, className)`:
