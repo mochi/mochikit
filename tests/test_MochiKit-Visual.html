@@ -18,6 +18,9 @@
         font-size: 1em;
         margin: 2px;
     }
+    #elt3 {
+        display: none;
+    }
     #ctn1 {
         height: 2px;
     }
@@ -27,6 +30,7 @@
 
 <div id='elt1'>elt1</div>
 <div id='ctn1'><div id='elt2'></div></div>
+<div id='elt3'>elt3</div>
 <pre id="test">
 <script type="text/javascript">
 try {
@@ -54,6 +58,8 @@ try {
     var gl = new TestQueue();
     MochiKit.Visual.Queues.instances['global'] = gl;
     MochiKit.Visual.Queues.instances['elt1'] = gl;
+    MochiKit.Visual.Queues.instances['elt2'] = gl;
+    MochiKit.Visual.Queues.instances['elt3'] = gl;
     MochiKit.Visual.Queues.instances['ctn1'] = gl;
     MochiKit.Visual.Queue = gl;
 
@@ -144,6 +150,14 @@ try {
 
     multiple(["elt1", "ctn1"], appear, {afterFinish: function (effect) {
         is(effect.element.style.display != 'none', true, "multiple ok");
+    }});
+
+    toggle("elt3", "size", {afterFinish: function () {
+        is(getElement('elt3').style.display != 'none', true, "toggle with css ok");
+    }});
+
+    toggle("elt3", "size", {afterFinish: function () {
+        is(getElement('elt3').style.display, 'none', "toggle with css ok");
     }});
 
     var toTests = [roundElement, roundClass, tagifyText, Opacity, Move, Scale, Highlight, ScrollTo, Morph];
