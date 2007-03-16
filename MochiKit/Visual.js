@@ -459,7 +459,7 @@ MochiKit.Visual.toggle = function (element, /* optional */effect, /* optional */
         queue: {position: 'end', scope: (element.id || 'global'), limit: 1}
     }, options || {});
     var v = MochiKit.Visual;
-    v[element.style.display != 'none' ?
+    v[MochiKit.Style.getStyle(element, 'display') != 'none' ?
       v.PAIRS[effect][1] : v.PAIRS[effect][0]](element, options);
 };
 
