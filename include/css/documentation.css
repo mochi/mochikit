@@ -57,10 +57,20 @@ strong { color: #4b81bc; font-weight: bold; }
 .weak { font-size: .9em; font-weight: normal; }
 .contextual { font-size: .9em; color: #888; }
 
+#mainlink {
+    margin-top: 34px;
+    margin-left: 20px;
+}
+
+a.indexlink {
+    float: right;
+    font-size: 1.5em;
+    margin-right: 2em;
+}
+
 div.document {
     margin: 0em 20px 1em;
-    padding-top: 155px;
-    background: url(../_img/g_logo_doc.gif) no-repeat 0px 34px;
+    padding-top: 20px;
     padding-left: 10px;
 }
 div.section { margin-bottom: 2em; }

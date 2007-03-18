@@ -19,6 +19,8 @@ TEMPLATE = u"""%(html_prolog)s
 <script type="text/javascript" src="../../js/toc.js"></script>
 </head>
 <body>
+<a href="http://mochikit.com"><img id="mainlink" src="../../../include/_img/g_logo_doc.gif" alt="MochiKit" /></a>
+%(index_link)s
 %(html_body)s
 </body>
 </html>
@@ -101,6 +103,10 @@ def main():
                 )
                 parts['html_head'] = parts['html_head'] % ('utf-8',)
                 parts['html_prolog'] = parts['html_prolog'] % ('utf-8',)
+                if basefn != "index":
+                    parts['index_link'] = "<a class='indexlink' href='index.html'>Back to docs index</a>"
+                else:
+                    parts['index_link'] = ""
                 doc = (TEMPLATE % parts).encode("utf8")
                 out = file(dest, 'wb')
                 out.write(doc)
