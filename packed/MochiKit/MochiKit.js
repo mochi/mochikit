@@ -5990,7 +5990,7 @@ _609=MochiKit.DOM.getElement(_609);
 _60a=(_60a||"appear").toLowerCase();
 _60b=MochiKit.Base.update({queue:{position:"end",scope:(_609.id||"global"),limit:1}},_60b||{});
 var v=MochiKit.Visual;
-v[_609.style.display!="none"?v.PAIRS[_60a][1]:v.PAIRS[_60a][0]](_609,_60b);
+v[MochiKit.Style.getStyle(_609,"display")!="none"?v.PAIRS[_60a][1]:v.PAIRS[_60a][0]](_609,_60b);
 };
 MochiKit.Visual.Transitions={};
 MochiKit.Visual.Transitions.linear=function(pos){
