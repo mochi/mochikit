@@ -59,6 +59,37 @@ module is heavily inspired by Twisted <a class="footnote-reference" href="#id8" 
 </ul>
 </div>
 <div class="section">
+<h1><a id="security-concerns" name="security-concerns">Security Concerns</a></h1>
+<p>The current implementation of evalJSONRequest does no input validation.
+Invalid JSON can execute arbitrary JavaScript code in the client. This isn't
+normally a concern because of the same-origin policy in web browsers; the
+server is already sending arbitrary code to the client (your program!).</p>
+<p>While this isn't directly relevant to MochiKit, server-side code that produces
+JSON should consider potential cross-site request forgery. Currently known
+exploits require a JSON array to be the outer-most object, and the data to be
+leaked must be known keys in objects contained by that array:</p>
+<pre class="literal-block">
+[{&quot;some_known_key&quot;: &quot;this can be leaked&quot;}, &quot;but not this&quot;]
+</pre>
+<p>This exploit does not apply to the most common usage of JSON, sending an
+object::This exploit does not apply to the most common usage of JSON, sending an
+object:</p>
+<pre class="literal-block">
+{&quot;some_known_key&quot;: &quot;this can't be leaked&quot;}
+</pre>
+<p>There are several ways to avoid this, here are a few:</p>
+<ul class="simple">
+<li>Use some non-standard addition to JSON that adds constructs to prevent
+script tag parsing, such as wrapping the data in a comment or an infinite
+loop. MochiKit supports comment-wrapped JSON, but it's up to the server
+to send it that way.</li>
+<li>Require some kind of authentication token in the URL.</li>
+<li>Allow only POST requests to access sensitive JSON.</li>
+<li>Only send JSON objects, not arrays. JSON objects aren't valid JavaScript
+syntax on their own without parentheses.</li>
+</ul>
+</div>
+<div class="section">
 <h1><a id="overview" name="overview">Overview</a></h1>
 <div class="section">
 <h2><a id="deferred" name="deferred">Deferred</a></h2>
@@ -576,7 +607,8 @@ MochiKit 1.4.</dd>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">req</span></tt>:</dt>
 <dd>The request whose <tt class="docutils literal"><span class="pre">.responseText</span></tt> property is to be
-evaluated</dd>
+evaluated. If the JSON is wrapped in a comment, the comment will
+be stripped before evaluation.</dd>
 <dt><em>returns</em>:</dt>
 <dd>A JavaScript object</dd>
 <dt><em>Availability</em>:</dt>

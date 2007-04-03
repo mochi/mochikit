@@ -384,6 +384,8 @@ tests.test_Base = function (t) {
     var strJSON = {"a": 1, "b": 2, "json": function () { return "json"; }};
     t.is( serializeJSON(strJSON), "\"json\"", "json serialization calling" );
     t.is( serializeJSON([strJSON]), "[\"json\"]", "json serialization calling in a structure" );
+    t.is( evalJSON('/* {"result": 1} */').result, 1, "json comment stripping" );
+    t.is( evalJSON('/* {"*/ /*": 1} */')['*/ /*'], 1, "json comment stripping" );
     registerJSON("isDateLike",
         isDateLike,
         function (d) {

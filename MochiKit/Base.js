@@ -793,7 +793,15 @@ MochiKit.Base.update(MochiKit.Base, {
 
     /** @id MochiKit.Base.evalJSON */
     evalJSON: function () {
-        return eval("(" + arguments[0] + ")");
+        return eval("(" + MochiKit.Base._filterJSON(arguments[0]) + ")");
+    },
+
+    _filterJSON: function (s) {
+        var m = s.match(/^\s*\/\*(.*)\*\/\s*$/);
+        if (m) {
+            return m[1];
+        }
+        return s;
     },
 
     /** @id MochiKit.Base.serializeJSON */
