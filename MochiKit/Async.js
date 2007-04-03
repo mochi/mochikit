@@ -216,8 +216,8 @@ MochiKit.Async.Deferred.prototype = {
 
 MochiKit.Base.update(MochiKit.Async, {
     /** @id MochiKit.Async.evalJSONRequest */
-    evalJSONRequest: function (/* req */) {
-        return eval('(' + arguments[0].responseText + ')');
+    evalJSONRequest: function (req) {
+        return MochiKit.Base.evalJSON(req.responseText);
     },
 
     /** @id MochiKit.Async.succeed */

@@ -17,6 +17,8 @@
 <div class="document">
 <p>2006-XX-XX      v1.4</p>
 <ul class="simple">
+<li>MochiKit.Base.evalJSON will now evaluate JSON that is wrapped in a
+<tt class="docutils literal"><span class="pre">/*</span> <span class="pre">comment</span> <span class="pre">block</span> <span class="pre">*/</span></tt>.</li>
 <li>MochiKit.Color's HSV to RGB conversion code fixed to return the correct
 value (hsv.v for RGB values) in cases where saturation === 0.</li>
 <li>doXHR workaround for a Mozilla bug when calling XMLHttpRequest in certain

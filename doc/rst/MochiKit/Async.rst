@@ -49,6 +49,38 @@ Dependencies
 - :mochiref:`MochiKit.Base`
 
 
+Security Concerns
+=================
+
+The current implementation of evalJSONRequest does no input validation.
+Invalid JSON can execute arbitrary JavaScript code in the client. This isn't
+normally a concern because of the same-origin policy in web browsers; the
+server is already sending arbitrary code to the client (your program!).
+
+While this isn't directly relevant to MochiKit, server-side code that produces
+JSON should consider potential cross-site request forgery. Currently known
+exploits require a JSON array to be the outer-most object, and the data to be
+leaked must be known keys in objects contained by that array::
+
+    [{"some_known_key": "this can be leaked"}, "but not this"]
+
+This exploit does not apply to the most common usage of JSON, sending an
+object::This exploit does not apply to the most common usage of JSON, sending an
+object::
+
+    {"some_known_key": "this can't be leaked"}
+
+There are several ways to avoid this, here are a few:
+
+* Use some non-standard addition to JSON that adds constructs to prevent
+  script tag parsing, such as wrapping the data in a comment or an infinite
+  loop. MochiKit supports comment-wrapped JSON, but it's up to the server
+  to send it that way.
+* Require some kind of authentication token in the URL.
+* Allow only POST requests to access sensitive JSON.
+* Only send JSON objects, not arrays. JSON objects aren't valid JavaScript
+  syntax on their own without parentheses.
+
 Overview
 ========
 
@@ -548,7 +580,8 @@ Functions
 
     ``req``:
         The request whose ``.responseText`` property is to be
-        evaluated
+        evaluated. If the JSON is wrapped in a comment, the comment will
+        be stripped before evaluation.
 
     *returns*:
         A JavaScript object
