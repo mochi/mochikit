@@ -426,5 +426,16 @@ tests.test_Signal = function (t) {
     t.is(has__Connect.count, 3, '__connect__ is called when it exists');
     signal(has__Connect, 'signalOne');
     t.is(has__Connect.count, 3, '__connect__ can disconnect the signal');
+
+    var events = {};
+    var test_ident = connect(events, "test", function() {
+        var fail_ident = connect(events, "fail", function () {
+            events.failed = true;
+        });
+        disconnect(fail_ident);
+        signal(events, "fail");
+    });
+    signal(events, "test");
+    t.is(events.failed, undefined, 'disconnected slots do not fire');
     
 };
