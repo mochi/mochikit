@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- Fixed MochiKit.Signal.signal re-entrancy bug that could cause recently
+  disconnected slots to get signaled.
 - MochiKit.Base.evalJSON will now evaluate JSON that is wrapped in a
   ``/* comment block */``.
 - MochiKit.Color's HSV to RGB conversion code fixed to return the correct

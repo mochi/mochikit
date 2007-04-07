@@ -824,7 +824,8 @@ MochiKit.Base.update(MochiKit.Signal, {
         self._lock = true;
         for (var i = 0; i < observers.length; i++) {
             var ident = observers[i];
-            if (ident.source === src && ident.signal === sig) {
+            if (ident.source === src && ident.signal === sig &&
+                    ident.connected) {
                 try {
                     ident.listener.apply(src, args);
                 } catch (e) {

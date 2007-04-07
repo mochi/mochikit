@@ -5453,7 +5453,7 @@ var _585=[];
 self._lock=true;
 for(var i=0;i<_583.length;i++){
 var _587=_583[i];
-if(_587.source===src&&_587.signal===sig){
+if(_587.source===src&&_587.signal===sig&&_587.connected){
 try{
 _587.listener.apply(src,args);
 }
