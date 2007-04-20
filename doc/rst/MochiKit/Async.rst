@@ -65,7 +65,6 @@ leaked must be known keys in objects contained by that array::
     [{"some_known_key": "this can be leaked"}, "but not this"]
 
 This exploit does not apply to the most common usage of JSON, sending an
-object::This exploit does not apply to the most common usage of JSON, sending an
 object::
 
     {"some_known_key": "this can't be leaked"}
