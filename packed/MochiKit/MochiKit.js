@@ -857,7 +857,7 @@ var v=o[k];
 if(typeof (v)=="function"){
 continue;
 }else{
-if(typeof (v)!="string"&&typeof (v.length)=="number"){
+if(isArrayLike(v)){
 for(var i=0;i<v.length;i++){
 _129.push(k);
 _12a.push(v[i]);
