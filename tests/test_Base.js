@@ -506,4 +506,8 @@ tests.test_Base = function (t) {
     t.is( o.baz, "", "parseQueryString multiple = third" );
     t.is( o.wibble, "", "parseQueryString multiple = fourth" );
 
+    /* queryString with null values */
+    t.is( queryString(["a", "b"], [1, null]), "a=1", "queryString with null value" );
+    t.is( queryString({"a": 1, "b": null}), "a=1", "queryString with null value" );
+
 };
