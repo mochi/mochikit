@@ -1111,8 +1111,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 var v = o[k];
                 if (typeof(v) == "function") {
                     continue;
-                } else if (typeof(v) != "string" &&
-                        typeof(v.length) == "number") {
+                } else if (isArrayLike(v)){
                     for (var i = 0; i < v.length; i++) {
                         names.push(k);
                         values.push(v[i]);
