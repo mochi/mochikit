@@ -17,6 +17,8 @@
 <div class="document">
 <p>2006-XX-XX      v1.4</p>
 <ul class="simple">
+<li>MochiKit.Signal custom handlers no longer cause callbacks to get re-bound to
+the source if they were previously bound.</li>
 <li>Fixed MochiKit.Signal.signal re-entrancy bug that could cause recently
 disconnected slots to get signaled.</li>
 <li>MochiKit.Base.evalJSON will now evaluate JSON that is wrapped in a

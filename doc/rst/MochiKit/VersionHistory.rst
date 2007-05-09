@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Signal custom handlers no longer cause callbacks to get re-bound to
+  the source if they were previously bound.
 - Fixed MochiKit.Signal.signal re-entrancy bug that could cause recently
   disconnected slots to get signaled.
 - MochiKit.Base.evalJSON will now evaluate JSON that is wrapped in a
