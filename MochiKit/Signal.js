@@ -541,7 +541,12 @@ MochiKit.Base.update(MochiKit.Signal, {
         var self = MochiKit.Signal;
         var E = self.Event;
         if (!isDOM) {
-            return MochiKit.Base.bind(func, obj);
+            /* We don't want to re-bind already bound methods */
+            if (typeof(func.im_self) == 'undefined') {
+                return MochiKit.Base.bind(func, obj);
+            } else {
+                return func;
+            }
         }
         obj = obj || src;
         if (typeof(func) == "string") {

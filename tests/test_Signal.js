@@ -437,5 +437,12 @@ tests.test_Signal = function (t) {
     });
     signal(events, "test");
     t.is(events.failed, undefined, 'disconnected slots do not fire');
+
+    var sink = {f: function (ev) { this.ev = ev; }};
+    var src = {};
+    bindMethods(sink);
+    connect(src, 'signal', sink.f);
+    signal(src, 'signal', 'worked');
+    t.is(sink.ev, 'worked', 'custom signal does not re-bind methods');
     
 };

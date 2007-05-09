@@ -5215,7 +5215,11 @@ self._disconnect(_536[i]);
 var self=MochiKit.Signal;
 var E=self.Event;
 if(!_53c){
+if(typeof (func.im_self)=="undefined"){
 return MochiKit.Base.bind(func,obj);
+}else{
+return func;
+}
 }
 obj=obj||src;
 if(typeof (func)=="string"){
