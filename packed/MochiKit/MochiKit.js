@@ -599,10 +599,10 @@ catch(e){
 return "["+typeof (o)+"]";
 }
 if(typeof (o)=="function"){
-o=_d8.replace(/^\s+/,"");
-var idx=o.indexOf("{");
+_d8=_d8.replace(/^\s+/,"").replace(/\s+/g," ");
+var idx=_d8.indexOf("{");
 if(idx!=-1){
-o=o.substr(0,idx)+"{...}";
+_d8=_d8.substr(0,idx)+"{...}";
 }
 }
 return _d8;
