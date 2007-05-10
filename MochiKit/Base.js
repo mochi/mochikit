@@ -755,10 +755,10 @@ MochiKit.Base.update(MochiKit.Base, {
             return "[" + typeof(o) + "]";
         }
         if (typeof(o) == "function") {
-            o = ostring.replace(/^\s+/, "");
-            var idx = o.indexOf("{");
+            ostring = ostring.replace(/^\s+/, "").replace(/\s+/g, " ");
+            var idx = ostring.indexOf("{");
             if (idx != -1) {
-                o = o.substr(0, idx) + "{...}";
+                ostring = ostring.substr(0, idx) + "{...}";
             }
         }
         return ostring;
