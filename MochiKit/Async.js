@@ -385,6 +385,7 @@ MochiKit.Base.update(MochiKit.Async, {
         if (req.overrideMimeType && opts.mimeType) {
             req.overrideMimeType(opts.mimeType);
         }
+        req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         if (opts.headers) {
             var headers = opts.headers;
             if (!m.isArrayLike(headers)) {

@@ -2464,6 +2464,7 @@ req.open(opts.method,url,true);
 if(req.overrideMimeType&&opts.mimeType){
 req.overrideMimeType(opts.mimeType);
 }
+req.setRequestHeader("X-Requested-With","XMLHttpRequest");
 if(opts.headers){
 var _2a9=opts.headers;
 if(!m.isArrayLike(_2a9)){
