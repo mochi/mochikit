@@ -1,5 +1,7 @@
 2006-XX-XX      v1.4
 
+- MochiKit.Async now sets the "X-Requested-With: XMLHttpRequest" header,
+  a de facto standard (Prototype, jQuery, Mootools).
 - MochiKit.Signal custom handlers no longer cause callbacks to get re-bound to
   the source if they were previously bound.
 - Fixed MochiKit.Signal.signal re-entrancy bug that could cause recently
