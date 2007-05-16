@@ -254,6 +254,7 @@ MochiKit.Format.EXPORT = [
 MochiKit.Format.LOCALE = {
     en_US: {separator: ",", decimal: ".", percent: "%"},
     de_DE: {separator: ".", decimal: ",", percent: "%"},
+    pt_BR: {separator: ".", decimal: ",", percent: "%"},
     fr_FR: {separator: " ", decimal: ",", percent: "%"},
     "default": "en_US"
 };
