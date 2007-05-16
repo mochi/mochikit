@@ -1,5 +1,6 @@
 2006-XX-XX      v1.4
 
+- Added pt_BR to MochiKit.Format.LOCALE.
 - MochiKit.Async now sets the "X-Requested-With: XMLHttpRequest" header,
   a de facto standard (Prototype, jQuery, Mootools).
 - MochiKit.Signal custom handlers no longer cause callbacks to get re-bound to
