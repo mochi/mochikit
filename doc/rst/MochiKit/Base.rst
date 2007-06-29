@@ -806,16 +806,17 @@ Functions
             ->  ``[fn(p[0], q[0], ..), fn(p[1], q[1], ...), ...]``
     
     If ``fn`` is ``null``, and more than one sequence is given as
-    arguments, then the ``Array`` function is used, making it
-    equivalent to :mochiref:`MochiKit.Iter.zip`.
+    arguments, then the ``Array`` function is used.
 
         :mochiref:`map(null, p, q, ...)`
             -> :mochiref:`MochiKit.Iter.zip(p, q, ...)`
             -> ``[[p0, q0, ...], [p1, q1, ...], ...];``
+   
+    Since this is a common idiom, :mochiref:`zip(p, q, ...)`
+    is actually a shortcut for this.
 
     *Availability*:
         Available in MochiKit 1.3.1+
-
 
 :mochidef:`mean(lst[, ...])`:
 
@@ -1386,6 +1387,21 @@ Functions
     given as an argument.
 
     If ``fn`` is ``null``, ``operator.identity`` is used.
+
+    *Availability*:
+        Available in MochiKit 1.3.1+
+
+:mochidef:`zip(p, q, ...)`:
+
+    Returns an array where the n-th element is an array of the n-th
+    elements from each of the arrays p, q, ...
+
+    This is equivalent to calling :mochiref:`map(fn, p, q, ...)` with
+    ``null`` as the first argument.
+
+        :mochiref:`zip(p, q, ...)`
+            -> :mochiref:`map(null, p, q, ...)`
+            -> ``[[p0, q0, ...], [p1, q1, ...], ...];``
 
     *Availability*:
         Available in MochiKit 1.3.1+
