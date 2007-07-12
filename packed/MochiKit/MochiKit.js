@@ -5239,7 +5239,6 @@ obj[func].apply(obj,[new E(src,_541)]);
 if(sig==="onload"||sig==="onunload"){
 return function(_542){
 func.apply(obj,[new E(src,_542)]);
-MochiKit.Signal.disconnect(src,sig,func);
 var _543=new MochiKit.Signal.Ident({source:src,signal:sig,objOrFunc:func});
 MochiKit.Signal._disconnect(_543);
 };
