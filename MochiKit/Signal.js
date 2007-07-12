@@ -568,7 +568,6 @@ MochiKit.Base.update(MochiKit.Signal, {
             if (sig === 'onload' || sig === 'onunload') {
                 return function (nativeEvent) {
                     func.apply(obj, [new E(src, nativeEvent)]);
-                    MochiKit.Signal.disconnect(src, sig, func);
                     
                     var ident = new MochiKit.Signal.Ident({
                         source: src, signal: sig, objOrFunc: func});
