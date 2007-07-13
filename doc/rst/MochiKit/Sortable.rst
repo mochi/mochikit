@@ -125,6 +125,11 @@ Objects defined
     Other options are passed to the Draggables and Droppables objects created.
     Refer to :mochiref:`MochiKit.DragAndDrop` for more information.
 
+    A bug with Internet Explorer rendering engine can cause a problem with the
+    default effect used on start (the symptom being that the rows vanish).
+    If you encounter this problem, pass :mochiref:`MochiKit.Base.noop`
+    as the ``starteffect`` option.
+
     *Availability*:
         Available in MochiKit 1.4+
 
