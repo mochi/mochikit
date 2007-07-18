@@ -292,6 +292,13 @@ try {
     is( getFirstParentByTagAndClassName('child', 'div'), getElement("parentZero"), "getFirstParentByTagAndClassName found parent (any class)" );
     is( getFirstParentByTagAndClassName('child', '*', 'two'), getElement("parentTwo"), "getFirstParentByTagAndClassName found parent (any tag)" );
 
+    ok( isChildNode('child', 'parentZero'), "isChildNode direct child");
+    ok( isChildNode('child', 'parentTwo'), "isChildNode sub child");
+    ok( !isChildNode('child', 'form_test'), "isChildNode wrong child");
+    ok( !isChildNode('child', 'donotexist'), "isChildNode no parent");
+    ok( !isChildNode('donotexist', 'child'), "isChildNode no parent");
+    ok( isChildNode('child', document.body), "isChildNode of body");
+
     ok( true, "test suite finished!");
     
     
