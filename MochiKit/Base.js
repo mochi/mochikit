@@ -27,7 +27,7 @@ MochiKit.Base.VERSION = "1.4";
 MochiKit.Base.NAME = "MochiKit.Base";
 /** @id MochiKit.Base.update */
 MochiKit.Base.update = function (self, obj/*, ... */) {
-    if (self === null) {
+    if (self === null || self === undefined) {
         self = {};
     }
     for (var i = 1; i < arguments.length; i++) {
@@ -150,7 +150,7 @@ MochiKit.Base.update(MochiKit.Base, {
 
     /** @id MochiKit.Base.updatetree */
     updatetree: function (self, obj/*, ...*/) {
-        if (self === null) {
+        if (self === null || self === undefined) {
             self = {};
         }
         for (var i = 1; i < arguments.length; i++) {
@@ -171,7 +171,7 @@ MochiKit.Base.update(MochiKit.Base, {
 
     /** @id MochiKit.Base.setdefault */
     setdefault: function (self, obj/*, ...*/) {
-        if (self === null) {
+        if (self === null || self === undefined) {
             self = {};
         }
         for (var i = 1; i < arguments.length; i++) {
