@@ -160,11 +160,13 @@ try {
         is(getElement('elt3').style.display, 'none', "toggle with css ok");
     }});
 
-    var toTests = [roundElement, roundClass, tagifyText, Opacity, Move, Scale, Highlight, ScrollTo, Morph];
+    var toTests = [roundElement, roundClass, tagifyText, Opacity, Move, Highlight, ScrollTo, Morph];
     for (var m in toTests) {
-        toTests[m].apply(null, ["elt1"]);
+        toTests[m]("elt1");
         ok(true, toTests[m].NAME + " doesn't need 'new' keyword");
     }
+    Scale("elt1", 1);
+    ok(true, "Scale doesn't need 'new' keyword");
     
     ok(true, "visual suite finished");
 
