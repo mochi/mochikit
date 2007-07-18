@@ -103,6 +103,12 @@ tests.test_Base = function (t) {
     extend(b, three);
     t.ok( objEqual(b, three), "extend of an empty array" );
 
+    var c1 = extend(null, three);
+    t.ok( objEqual(c1, three), "extend null" );
+    var c2 = extend(undefined, three);
+    t.ok( objEqual(c2, three), "extend undefined" );
+
+
     t.is( compare(1, 2), -1, "numbers compare lt" );
     t.is( compare(2, 1), 1, "numbers compare gt" );
     t.is( compare(1, 1), 0, "numbers compare eq" );
@@ -321,6 +327,27 @@ tests.test_Base = function (t) {
     t.is( a.foo, "bar", "setdefault worked (skipped existing)" );
     t.is( a.bar, "web taco", "setdefault worked (set non-existing)" );
 
+    a = null;
+    a = setdefault(null, {"foo": "bar"});
+    t.is( a.foo, "bar", "setdefault worked (self is null)" );
+
+    a = null;
+    a = setdefault(undefined, {"foo": "bar"});
+    t.is( a.foo, "bar", "setdefault worked (self is undefined)" );
+
+    a = null;
+    a = update(null, {"foo": "bar"}, {"wibble": "baz"}, undefined, null, {"grr": 1});
+    t.is( a.foo, "bar", "update worked (self is null, first obj)" );
+    t.is( a.wibble, "baz", "update worked (self is null, second obj)" );
+    t.is( a.grr, 1, "update worked (self is null, skipped undefined and null)" );
+
+    a = null;
+    a = update(undefined, {"foo": "bar"}, {"wibble": "baz"}, undefined, null, {"grr": 1});
+    t.is( a.foo, "bar", "update worked (self is undefined, first obj)" );
+    t.is( a.wibble, "baz", "update worked (self is undefined, second obj)" );
+    t.is( a.grr, 1, "update worked (self is undefined, skipped undefined and null)" );
+
+
     var c = items(merge({"foo": "bar"}, {"wibble": "baz"}));
     c.sort(compare);
     t.is( compare(c, [["foo", "bar"], ["wibble", "baz"]]), 0, "merge worked" );
@@ -403,6 +430,21 @@ tests.test_Base = function (t) {
     got.sort(compare);
     t.is( repr(got), repr(expect), "updatetree merge" );
     t.is( a.bar, 4, "updatetree insert" );
+
+    var aa = {"foo": {"bar": 12, "wibble": 13}};
+    var bb = {"foo": {"baz": 4, "bar": 16}, "bar": 4};
+    
+    cc = updatetree(null, aa, bb);
+    got = items(cc.foo);
+    got.sort(compare);
+    t.is( repr(got), repr(expect), "updatetree merge (self is null)" );
+    t.is( cc.bar, 4, "updatetree insert (self is null)" );
+    
+    cc = updatetree(undefined, aa, bb);
+    got = items(cc.foo);
+    got.sort(compare);
+    t.is( repr(got), repr(expect), "updatetree merge (self is undefined)" );
+    t.is( cc.bar, 4, "updatetree insert (self is undefined)" );
     
     var c = counter();
     t.is( c(), 1, "counter starts at 1" );
