@@ -1406,6 +1406,8 @@ if (MochiKit.__export__) {
     compare = MochiKit.Base.compare;
     compose = MochiKit.Base.compose;
     serializeJSON = MochiKit.Base.serializeJSON;
+    mean = MochiKit.Base.mean;
+    median = MochiKit.Base.median;
 }
 
 MochiKit.Base._exportSymbols(this, MochiKit.Base);

@@ -503,7 +503,7 @@ tests.test_Base = function (t) {
     /* mean */
     try {
         mean();
-        t.ok( false, "no arguments didn't raise!" );
+        t.ok( false, "mean no arguments didn't raise!" );
     } catch (e) {
         t.is( e.name, 'TypeError', "no arguments raised correctly" );
     }    
@@ -516,7 +516,7 @@ tests.test_Base = function (t) {
     /* median */
     try {
         median();
-        t.ok( false, "no arguments didn't raise!" );
+        t.ok( false, "median no arguments didn't raise!" );
     } catch (e) {
         t.is( e.name, 'TypeError', "no arguments raised correctly" );
     }
