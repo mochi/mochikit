@@ -216,7 +216,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
             /** @id MochiKit.DragAndDrop.containment */
             containment: [],
             tree: false
-        }, options || {});
+        }, options);
 
         // cache containers
         this.options._containers = [];
@@ -452,7 +452,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
             /** @id MochiKit.DragAndDrop.snap */
             snap: false
-        }, options || {});
+        }, options);
 
         var d = MochiKit.DOM;
         this.element = d.getElement(element);
