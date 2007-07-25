@@ -231,7 +231,7 @@ Basic Effects classes
     ========= ================
     x         ``0``
     y         ``0``
-    position  ``'relative'``
+    mode      ``'relative'``
     ========= ================
 
     *Availability*:
