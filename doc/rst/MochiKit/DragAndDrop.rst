@@ -105,7 +105,7 @@ Constructors
         Function called when updates are made on the draggable object.
 
     ``scroll (false)``:
-        Element to scroll around, if precised. For example, 'window'
+        Element to scroll around, if precised. For example, ``window``
         will allow the draggable to scroll in the page.
 
     ``scrollSensitivity (20)``:
