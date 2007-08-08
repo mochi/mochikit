@@ -605,7 +605,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
         }
 
         // fix AppleWebKit rendering
-        if (/AppleWebKit'/.test(navigator.appVersion)) {
+        if (/AppleWebKit/.test(navigator.appVersion)) {
             window.scrollBy(0, 0);
         }
         event.stop();
@@ -800,7 +800,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             w = win.document.body.offsetWidth;
             h = win.document.body.offsetHeight;
         }
-        return {top: vp.x, left: vp.y, width: w, height: h};
+        return {top: vp.y, left: vp.x, width: w, height: h};
     },
 
     /** @id MochiKit.DragAndDrop.repr */
