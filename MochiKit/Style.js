@@ -296,7 +296,7 @@ MochiKit.Base.update(MochiKit.Style, {
             }
             var disp = self.getStyle(parent, 'display');
             // Handle strange Opera bug for some display
-            if (disp != 'inline' && disp != 'table-row') {
+            if (disp.search(/^inline|table-row.*$/i)) {
                 c.x -= parent.scrollLeft;
                 c.y -= parent.scrollTop;
             }
