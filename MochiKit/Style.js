@@ -244,6 +244,8 @@ MochiKit.Base.update(MochiKit.Style, {
                 (de.scrollTop || b.scrollTop) -
                 (de.clientTop || 0);
 
+            // Don't pass through next steps
+            return c;
         } else if (elem.offsetParent) {
             c.x += elem.offsetLeft;
             c.y += elem.offsetTop;
