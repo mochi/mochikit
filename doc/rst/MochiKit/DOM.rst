@@ -339,8 +339,11 @@ Functions
     - ``A``
     - ``BUTTON``
     - ``BR``
-    - ``CANVAS``
+    - ``CANVAS```
+    - ``DD``
     - ``DIV``
+    - ``DL```
+    - ``DT``
     - ``FIELDSET``
     - ``FORM``
     - ``H1``
