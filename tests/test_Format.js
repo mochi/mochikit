@@ -21,6 +21,8 @@ tests.test_Format = function (t) {
     t.is( twoDigitFloat(1.0), "1", "twoDigitFloat 1.0 correct");
     t.is( twoDigitFloat(1.2), "1.2", "twoDigitFloat 1.2 correct");
     t.is( twoDigitFloat(1.234), "1.23", "twoDigitFloat 1.234 correct");
+    t.is( twoDigitFloat(0.23), "0.23", "twoDigitFloat 0.23 correct");
+    t.is( twoDigitFloat(0.01), "0.01", "twoDigitFloat 0.01 correct");
     t.is( percentFormat(123), "12300%", "percentFormat 123 correct");
     t.is( percentFormat(1.23), "123%", "percentFormat 123 correct");
     t.is( twoDigitAverage(1, 0), "0", "twoDigitAverage dbz correct");

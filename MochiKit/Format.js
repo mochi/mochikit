@@ -167,6 +167,9 @@ MochiKit.Format.twoDigitFloat = function (someFloat) {
         return s;
     }
     if (s.length < 3) {
+        if (s.length == 1) {
+            s = '0' + s;
+        }
         while (s.charAt(s.length - 1) == '0') {
             s = s.substring(0, s.length - 1);
         }
