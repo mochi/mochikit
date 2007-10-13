@@ -289,7 +289,7 @@ return true;
 for(var i=0;i<arguments.length;i++){
 var o=arguments[i];
 var typ=typeof (o);
-if((typ!="object"&&!(typ=="function"&&typeof (o.item)=="function"))||o===null||typeof (o.length)!="number"||o.nodeType===3){
+if((typ!="object"&&!(typ=="function"&&typeof (o.item)=="function"))||o===null||typeof (o.length)!="number"||o.nodeType===3||o.nodeType===4){
 return false;
 }
 }
@@ -2090,6 +2090,9 @@ if(s=="0"){
 return s;
 }
 if(s.length<3){
+if(s.length==1){
+s="0"+s;
+}
 while(s.charAt(s.length-1)=="0"){
 s=s.substring(0,s.length-1);
 }
