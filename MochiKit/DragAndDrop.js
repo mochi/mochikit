@@ -11,33 +11,33 @@ Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 if (typeof(dojo) != 'undefined') {
     dojo.provide('MochiKit.DragAndDrop');
     dojo.require('MochiKit.Base');
-    dojo.require('MochiKit.DOM');
     dojo.require('MochiKit.Iter');
+    dojo.require('MochiKit.DOM');
+    dojo.require('MochiKit.Signal');
     dojo.require('MochiKit.Visual');
     dojo.require('MochiKit.Position');
-    dojo.require('MochiKit.Signal');
 }
 
 if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Base", []);
-    JSAN.use("MochiKit.DOM", []);
-    JSAN.use("MochiKit.Visual", []);
     JSAN.use("MochiKit.Iter", []);
-    JSAN.use("MochiKit.Position", []);
+    JSAN.use("MochiKit.DOM", []);
     JSAN.use("MochiKit.Signal", []);
+    JSAN.use("MochiKit.Visual", []);
+    JSAN.use("MochiKit.Position", []);
 }
 
 try {
     if (typeof(MochiKit.Base) == 'undefined' ||
+        typeof(MochiKit.Iter) == 'undefined' ||
         typeof(MochiKit.DOM) == 'undefined' ||
-        typeof(MochiKit.Visual) == 'undefined' ||
-        typeof(MochiKit.Position) == 'undefined' ||
         typeof(MochiKit.Signal) == 'undefined' ||
-        typeof(MochiKit.Iter) == 'undefined') {
+        typeof(MochiKit.Visual) == 'undefined' ||
+        typeof(MochiKit.Position) == 'undefined') {
         throw "";
     }
 } catch (e) {
-    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.DOM, MochiKit.Visual, MochiKit.Position, MochiKit.Signal and MochiKit.Iter!";
+    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.Iter, MochiKit.DOM, MochiKit.Signal, MochiKit.Visual, and MochiKit.Position!";
 }
 
 if (typeof(MochiKit.DragAndDrop) == 'undefined') {

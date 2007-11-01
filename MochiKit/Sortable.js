@@ -9,27 +9,30 @@ See scriptaculous.js for full license.
 if (typeof(dojo) != 'undefined') {
     dojo.provide('MochiKit.Sortable');
     dojo.require('MochiKit.Base');
-    dojo.require('MochiKit.Position');
-    dojo.require('MochiKit.DOM');
     dojo.require('MochiKit.Iter');
+    dojo.require('MochiKit.DOM');
+    dojo.require('MochiKit.Position');
+    dojo.require('MochiKit.DragAndDrop');
 }
 
 if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Base", []);
-    JSAN.use("MochiKit.Position", []);
-    JSAN.use("MochiKit.DOM", []);
     JSAN.use("MochiKit.Iter", []);
+    JSAN.use("MochiKit.DOM", []);
+    JSAN.use("MochiKit.Position", []);
+    JSAN.use("MochiKit.DragAndDrop", []);
 }
 
 try {
     if (typeof(MochiKit.Base) == 'undefined' ||
-        typeof(MochiKit.Position) == 'undefined' ||
+        typeof(MochiKit.Iter) == 'undefined' ||
         typeof(MochiKit.DOM) == 'undefined' ||
-        typeof(MochiKit.Iter) == 'undefined') {
+        typeof(MochiKit.Position) == 'undefined' ||
+        typeof(MochiKit.DragAndDrop) == 'undefined') {
         throw "";
     }
 } catch (e) {
-    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.Position, MochiKit.DOM and MochiKit.Iter!";
+    throw "MochiKit.Sortable depends on MochiKit.Base, MochiKit.Iter, MochiKit.DOM, MochiKit.Position, and MochiKit.DragAndDrop!";
 }
 
 if (typeof(MochiKit.Sortable) == 'undefined') {

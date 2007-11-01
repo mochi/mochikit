@@ -5535,12 +5535,12 @@ JSAN.use("MochiKit.DOM",[]);
 JSAN.use("MochiKit.Style",[]);
 }
 try{
-if(typeof (MochiKit.Base)=="undefined"||typeof (MochiKit.Style)=="undefined"||typeof (MochiKit.DOM)=="undefined"){
+if(typeof (MochiKit.Base)=="undefined"||typeof (MochiKit.DOM)=="undefined"||typeof (MochiKit.Style)=="undefined"){
 throw "";
 }
 }
 catch(e){
-throw "MochiKit.Style depends on MochiKit.Base, MochiKit.DOM, and MochiKit.Style!";
+throw "MochiKit.Position depends on MochiKit.Base, MochiKit.DOM, and MochiKit.Style!";
 }
 if(typeof (MochiKit.Position)=="undefined"){
 MochiKit.Position={};
