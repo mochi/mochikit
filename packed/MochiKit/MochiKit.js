@@ -5043,7 +5043,7 @@ str+=", button: {left: "+repr(this.mouse().button.left)+", middle: "+repr(this.m
 str+="}";
 }
 }
-if(this.type()=="mouseover"||this.type()=="mouseout"){
+if(this.type()=="mouseover"||this.type()=="mouseout"||this.type()=="mouseenter"||this.type()=="mouseleave"){
 str+=", relatedTarget(): "+repr(this.relatedTarget());
 }
 str+="}";
@@ -5063,10 +5063,10 @@ if(this._relatedTarget!==null){
 return this._relatedTarget;
 }
 var elem=null;
-if(this.type()=="mouseover"){
+if(this.type()=="mouseover"||this.type()=="mouseenter"){
 elem=(this._event.relatedTarget||this._event.fromElement);
 }else{
-if(this.type()=="mouseout"){
+if(this.type()=="mouseout"||this.type()=="mouseleave"){
 elem=(this._event.relatedTarget||this._event.toElement);
 }
 }

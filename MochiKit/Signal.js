@@ -101,7 +101,8 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                 str += '}';
             }
         }
-        if (this.type() == 'mouseover' || this.type() == 'mouseout') {
+        if (this.type() == 'mouseover' || this.type() == 'mouseout' || 
+            this.type() == 'mouseenter' || this.type() == 'mouseleave') {
             str += ', relatedTarget(): ' + repr(this.relatedTarget());
         }
         str += '}';
@@ -141,10 +142,10 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
         }
 
         var elem = null;
-        if (this.type() == 'mouseover') {
+        if (this.type() == 'mouseover' || this.type() == 'mouseenter') {
             elem = (this._event.relatedTarget ||
                 this._event.fromElement);
-        } else if (this.type() == 'mouseout') {
+        } else if (this.type() == 'mouseout' || this.type() == 'mouseleave') {
             elem = (this._event.relatedTarget ||
                 this._event.toElement);
         }
