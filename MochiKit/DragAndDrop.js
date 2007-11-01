@@ -14,6 +14,7 @@ if (typeof(dojo) != 'undefined') {
     dojo.require('MochiKit.DOM');
     dojo.require('MochiKit.Iter');
     dojo.require('MochiKit.Visual');
+    dojo.require('MochiKit.Position');
     dojo.require('MochiKit.Signal');
 }
 
@@ -22,6 +23,7 @@ if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.DOM", []);
     JSAN.use("MochiKit.Visual", []);
     JSAN.use("MochiKit.Iter", []);
+    JSAN.use("MochiKit.Position", []);
     JSAN.use("MochiKit.Signal", []);
 }
 
@@ -29,12 +31,13 @@ try {
     if (typeof(MochiKit.Base) == 'undefined' ||
         typeof(MochiKit.DOM) == 'undefined' ||
         typeof(MochiKit.Visual) == 'undefined' ||
+        typeof(MochiKit.Position) == 'undefined' ||
         typeof(MochiKit.Signal) == 'undefined' ||
         typeof(MochiKit.Iter) == 'undefined') {
         throw "";
     }
 } catch (e) {
-    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.DOM, MochiKit.Visual, MochiKit.Signal and MochiKit.Iter!";
+    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.DOM, MochiKit.Visual, MochiKit.Position, MochiKit.Signal and MochiKit.Iter!";
 }
 
 if (typeof(MochiKit.DragAndDrop) == 'undefined') {

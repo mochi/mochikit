@@ -9,24 +9,27 @@ See scriptaculous.js for full license.
 if (typeof(dojo) != 'undefined') {
     dojo.provide('MochiKit.Sortable');
     dojo.require('MochiKit.Base');
+    dojo.require('MochiKit.Position');
     dojo.require('MochiKit.DOM');
     dojo.require('MochiKit.Iter');
 }
 
 if (typeof(JSAN) != 'undefined') {
     JSAN.use("MochiKit.Base", []);
+    JSAN.use("MochiKit.Position", []);
     JSAN.use("MochiKit.DOM", []);
     JSAN.use("MochiKit.Iter", []);
 }
 
 try {
     if (typeof(MochiKit.Base) == 'undefined' ||
+        typeof(MochiKit.Position) == 'undefined' ||
         typeof(MochiKit.DOM) == 'undefined' ||
         typeof(MochiKit.Iter) == 'undefined') {
         throw "";
     }
 } catch (e) {
-    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.DOM and MochiKit.Iter!";
+    throw "MochiKit.DragAndDrop depends on MochiKit.Base, MochiKit.Position, MochiKit.DOM and MochiKit.Iter!";
 }
 
 if (typeof(MochiKit.Sortable) == 'undefined') {
