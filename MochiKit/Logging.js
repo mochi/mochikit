@@ -8,26 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Logging');
-    dojo.require('MochiKit.Base');
-}
-
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base", []);
-}
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Logging depends on MochiKit.Base!";
-}
-
-if (typeof(MochiKit.Logging) == 'undefined') {
-    MochiKit.Logging = {};
-}
+MochiKit.Base._deps('Logging', ['Base']);
 
 MochiKit.Logging.NAME = "MochiKit.Logging";
 MochiKit.Logging.VERSION = "1.4";

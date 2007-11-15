@@ -8,31 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Position');
-    dojo.require('MochiKit.Base');
-    dojo.require('MochiKit.DOM');
-    dojo.require('MochiKit.Style');
-}
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use('MochiKit.Base', []);
-    JSAN.use('MochiKit.DOM', []);
-    JSAN.use('MochiKit.Style', []);
-}
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined' ||
-        typeof(MochiKit.DOM) == 'undefined' ||
-        typeof(MochiKit.Style) == 'undefined') {
-        throw '';
-    }
-} catch (e) {
-    throw 'MochiKit.Position depends on MochiKit.Base, MochiKit.DOM, and MochiKit.Style!';
-}
-
-if (typeof(MochiKit.Position) == 'undefined') {
-    MochiKit.Position = {};
-}
+MochiKit.Base._deps('Position', ['Base', 'DOM', 'Style']);
 
 MochiKit.Position.NAME = 'MochiKit.Position';
 MochiKit.Position.VERSION = '1.4';

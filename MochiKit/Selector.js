@@ -8,35 +8,9 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Selector');
-    dojo.require('MochiKit.Base');
-    dojo.require('MochiKit.DOM');
-    dojo.require('MochiKit.Iter');
-}
-
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base", []);
-    JSAN.use("MochiKit.DOM", []);
-    JSAN.use("MochiKit.Iter", []);
-}
-
-try {
-    if (typeof(MochiKit.Base) === 'undefined' ||
-        typeof(MochiKit.DOM) === 'undefined' ||
-        typeof(MochiKit.Iter) === 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Selector depends on MochiKit.Base, MochiKit.DOM and MochiKit.Iter!";
-}
-
-if (typeof(MochiKit.Selector) == 'undefined') {
-    MochiKit.Selector = {};
-}
+MochiKit.Base._deps('Selector', ['Base', 'DOM', 'Iter']);
 
 MochiKit.Selector.NAME = "MochiKit.Selector";
-
 MochiKit.Selector.VERSION = "1.4";
 
 MochiKit.Selector.__repr__ = function () {

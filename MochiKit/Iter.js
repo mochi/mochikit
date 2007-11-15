@@ -8,26 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Iter');
-    dojo.require('MochiKit.Base');
-}
-
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base", []);
-}
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Iter depends on MochiKit.Base!";
-}
-
-if (typeof(MochiKit.Iter) == 'undefined') {
-    MochiKit.Iter = {};
-}
+MochiKit.Base._deps('Iter', ['Base']);
 
 MochiKit.Iter.NAME = "MochiKit.Iter";
 MochiKit.Iter.VERSION = "1.4";

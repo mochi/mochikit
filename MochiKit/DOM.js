@@ -8,25 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide("MochiKit.DOM");
-    dojo.require("MochiKit.Base");
-}
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base", []);
-}
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.DOM depends on MochiKit.Base!";
-}
-
-if (typeof(MochiKit.DOM) == 'undefined') {
-    MochiKit.DOM = {};
-}
+MochiKit.Base._deps('DOM', ['Base']);
 
 MochiKit.DOM.NAME = "MochiKit.DOM";
 MochiKit.DOM.VERSION = "1.4";

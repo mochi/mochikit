@@ -8,17 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.DateTime');
-}
-
-if (typeof(MochiKit) == 'undefined') {
-    MochiKit = {};
-}
-
-if (typeof(MochiKit.DateTime) == 'undefined') {
-    MochiKit.DateTime = {};
-}
+MochiKit.Base._deps('DateTime', ['Base']);
 
 MochiKit.DateTime.NAME = "MochiKit.DateTime";
 MochiKit.DateTime.VERSION = "1.4";

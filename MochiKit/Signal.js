@@ -8,45 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Signal');
-    dojo.require('MochiKit.Base');
-    dojo.require('MochiKit.DOM');
-    dojo.require('MochiKit.Style');
-}
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use('MochiKit.Base', []);
-    JSAN.use('MochiKit.DOM', []);
-    JSAN.use('MochiKit.Style', []);
-}
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined') {
-        throw '';
-    }
-} catch (e) {
-    throw 'MochiKit.Signal depends on MochiKit.Base!';
-}
-
-try {
-    if (typeof(MochiKit.DOM) == 'undefined') {
-        throw '';
-    }
-} catch (e) {
-    throw 'MochiKit.Signal depends on MochiKit.DOM!';
-}
-
-try {
-    if (typeof(MochiKit.Style) == 'undefined') {
-        throw '';
-    }
-} catch (e) {
-    throw 'MochiKit.Signal depends on MochiKit.Style!';
-}
-
-if (typeof(MochiKit.Signal) == 'undefined') {
-    MochiKit.Signal = {};
-}
+MochiKit.Base._deps('Signal', ['Base', 'DOM', 'Style']);
 
 MochiKit.Signal.NAME = 'MochiKit.Signal';
 MochiKit.Signal.VERSION = '1.4';

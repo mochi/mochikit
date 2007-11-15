@@ -80,6 +80,27 @@ MochiKit.Base.update(MochiKit.Base, {
         }
     },
 
+    _deps: function(module, deps) {
+        if (!(module in MochiKit)) {
+            MochiKit[module] = {};
+        }
+        
+        if (typeof(dojo) != 'undefined') {
+            dojo.provide('MochiKit.' + module);
+        }
+        for (var i = 0; i < deps.length; i++) {
+            if (typeof(dojo) != 'undefined') {
+                dojo.require('MochiKit.' + deps[i]);
+            }
+            if (typeof(JSAN) != 'undefined') {
+                JSAN.use('MochiKit.' + deps[i], []);
+            }
+            if (!(deps[i] in MochiKit)) {
+                throw 'MochiKit.' + module + ' depends on MochiKit.' + deps[i] + '!'
+            }
+        }
+    },
+    
     _flattenArray: function (res, lst) {
         for (var i = 0; i < lst.length; i++) {
             var o = lst[i];

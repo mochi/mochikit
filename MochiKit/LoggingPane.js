@@ -8,28 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.LoggingPane');
-    dojo.require('MochiKit.Logging');
-    dojo.require('MochiKit.Base');
-}
-
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Logging", []);
-    JSAN.use("MochiKit.Base", []);
-}
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined' || typeof(MochiKit.Logging) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.LoggingPane depends on MochiKit.Base and MochiKit.Logging!";
-}
-
-if (typeof(MochiKit.LoggingPane) == 'undefined') {
-    MochiKit.LoggingPane = {};
-}
+MochiKit.Base._deps('LoggingPane', ['Base', 'Logging']);
 
 MochiKit.LoggingPane.NAME = "MochiKit.LoggingPane";
 MochiKit.LoggingPane.VERSION = "1.4";
