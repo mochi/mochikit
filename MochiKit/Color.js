@@ -8,46 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Color');
-    dojo.require('MochiKit.Base');
-    dojo.require('MochiKit.DOM');
-    dojo.require('MochiKit.Style');
-}
-
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base", []);
-    JSAN.use("MochiKit.DOM", []);
-    JSAN.use("MochiKit.Style", []);
-}
-
-try {
-    if (typeof(MochiKit.Base) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Color depends on MochiKit.Base";
-}
-
-try {
-    if (typeof(MochiKit.DOM) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Color depends on MochiKit.DOM";
-}
-
-try {
-    if (typeof(MochiKit.Style) == 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Color depends on MochiKit.Style";
-}
-
-if (typeof(MochiKit.Color) == "undefined") {
-    MochiKit.Color = {};
-}
+MochiKit.Base._deps('Color', ['Base', 'DOM', 'Style']);
 
 MochiKit.Color.NAME = "MochiKit.Color";
 MochiKit.Color.VERSION = "1.4";

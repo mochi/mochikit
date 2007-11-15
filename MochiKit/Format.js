@@ -8,17 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Format');
-}
-
-if (typeof(MochiKit) == 'undefined') {
-    MochiKit = {};
-}
-
-if (typeof(MochiKit.Format) == 'undefined') {
-    MochiKit.Format = {};
-}
+MochiKit.Base._deps('Format', ['Base']);
 
 MochiKit.Format.NAME = "MochiKit.Format";
 MochiKit.Format.VERSION = "1.4";

@@ -8,38 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide('MochiKit.Visual');
-    dojo.require('MochiKit.Base');
-    dojo.require('MochiKit.DOM');
-    dojo.require('MochiKit.Style');
-    dojo.require('MochiKit.Color');
-    dojo.require('MochiKit.Position');
-}
-
-if (typeof(JSAN) != 'undefined') {
-    JSAN.use("MochiKit.Base", []);
-    JSAN.use("MochiKit.DOM", []);
-    JSAN.use("MochiKit.Style", []);
-    JSAN.use("MochiKit.Color", []);
-    JSAN.use("MochiKit.Position", []);
-}
-
-try {
-    if (typeof(MochiKit.Base) === 'undefined' ||
-        typeof(MochiKit.DOM) === 'undefined' ||
-        typeof(MochiKit.Style) === 'undefined' ||
-        typeof(MochiKit.Position) === 'undefined' ||
-        typeof(MochiKit.Color) === 'undefined') {
-        throw "";
-    }
-} catch (e) {
-    throw "MochiKit.Visual depends on MochiKit.Base, MochiKit.DOM, MochiKit.Style, MochiKit.Position and MochiKit.Color!";
-}
-
-if (typeof(MochiKit.Visual) == "undefined") {
-    MochiKit.Visual = {};
-}
+MochiKit.Base._deps('Visual', ['Base', 'DOM', 'Style', 'Color', 'Position']);
 
 MochiKit.Visual.NAME = "MochiKit.Visual";
 MochiKit.Visual.VERSION = "1.4";
