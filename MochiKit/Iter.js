@@ -283,12 +283,15 @@ MochiKit.Base.update(MochiKit.Iter, {
             next: function () {
                 while (argiter.length > 1) {
                     try {
-                        return argiter[0].next();
+                        var result = argiter[0].next();
+                        return result;
                     } catch (e) {
                         if (e != self.StopIteration) {
                             throw e;
                         }
                         argiter.shift();
+                        var result = argiter[0].next();
+                        return result;
                     }
                 }
                 if (argiter.length == 1) {
@@ -414,9 +417,11 @@ MochiKit.Base.update(MochiKit.Iter, {
         var self = MochiKit.Iter;
         iterable = self.iter(iterable);
         var rval = [];
+        var a_val;
         try {
             while (true) {
-                rval.push(iterable.next());
+                a_val = iterable.next();
+                rval.push(a_val);
             }
         } catch (e) {
             if (e != self.StopIteration) {
