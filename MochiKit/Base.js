@@ -1163,7 +1163,7 @@ MochiKit.Base.update(MochiKit.Base, {
         var qstr = (encodedString.charAt(0) == "?")
             ? encodedString.substring(1)
             : encodedString;
-        var pairs = qstr.replace(/\+/g, "%20").split(/(\&amp\;|\&\#38\;|\&#x26;|\&)/);
+        var pairs = qstr.replace(/\+/g, "%20").split(/\&amp\;|\&\#38\;|\&#x26;|\&/);
         var o = {};
         var decode;
         if (typeof(decodeURIComponent) != "undefined") {
