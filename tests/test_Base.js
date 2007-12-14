@@ -389,6 +389,9 @@ tests.test_Base = function (t) {
     var res = parseQueryString("?foo=2&bar=1");
     t.is( res["foo"], "2", "parseQueryString strip leading question mark");
 
+    var res = parseQueryString("x=1&y=2");
+    t.is( typeof(res['&']), "undefined", "extra cruft in parseQueryString output");
+
     t.is( serializeJSON("foo\n\r\b\f\t"), "\"foo\\n\\r\\b\\f\\t\"", "string JSON" );
     t.is( serializeJSON(null), "null", "null JSON");
     try {

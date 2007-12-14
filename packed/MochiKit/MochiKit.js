@@ -900,7 +900,7 @@ rval.push(_135(_12c[i])+"="+_135(v));
 return rval.join("&");
 },parseQueryString:function(_136,_137){
 var qstr=(_136.charAt(0)=="?")?_136.substring(1):_136;
-var _139=qstr.replace(/\+/g,"%20").split(/(\&amp\;|\&\#38\;|\&#x26;|\&)/);
+var _139=qstr.replace(/\+/g,"%20").split(/\&amp\;|\&\#38\;|\&#x26;|\&/);
 var o={};
 var _13b;
 if(typeof (decodeURIComponent)!="undefined"){
