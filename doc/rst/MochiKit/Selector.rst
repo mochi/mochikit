@@ -125,7 +125,7 @@ Constructors
     Usually the user would not instantiate or use this object directly, but 
     heres how::
 
-        var selector = MochiKit.Selector.Selector('#someelementid');
+        var selector = new MochiKit.Selector.Selector('#someelementid');
         var searchResults = selector.findElements(rootElement);
 
     *Availability*:
