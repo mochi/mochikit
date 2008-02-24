@@ -1109,6 +1109,13 @@ MochiKit.Base.update(MochiKit.DOM, {
             // for braindead browsers (IE) that insert extra junk
             var filter = m.filter;
             attributeArray = function (node) {
+                /***
+
+                    Return an array of attributes for a given node,
+                    filtering out attributes that don't belong for
+                    that are inserted by "Certain Browsers".
+
+                ***/
                 return filter(attributeArray.ignoreAttrFilter, node.attributes);
             };
             attributeArray.ignoreAttr = {};
@@ -1135,13 +1142,6 @@ MochiKit.Base.update(MochiKit.DOM, {
             };
         } else {
             attributeArray = function (node) {
-                /***
-
-                    Return an array of attributes for a given node,
-                    filtering out attributes that don't belong for
-                    that are inserted by "Certain Browsers".
-
-                ***/
                 return node.attributes;
             };
             attributeArray.compliant = true;
