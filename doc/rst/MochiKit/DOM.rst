@@ -464,8 +464,8 @@ Functions
 
 :mochidef:`escapeHTML(s)`:
 
-    Make a string safe for HTML, converting the usual suspects (lt,
-    gt, quot, amp)
+    Make a string safe for HTML, converting the usual suspects (``<``,
+    ``>``, ``"``, ``&``) to their HTML character entity equivalents.
 
     *Availability*:
         Available in MochiKit 1.3.1+
