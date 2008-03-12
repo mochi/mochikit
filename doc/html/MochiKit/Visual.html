@@ -34,8 +34,7 @@ fade('myelement');
 </div>
 <div class="section">
 <h1><a id="description" name="description">Description</a></h1>
-<p>MochiKit.Visual provides visual effects and support functions for
-visuals.</p>
+<p>MochiKit.Visual provides visual effects and animations for HTML elements.</p>
 </div>
 <div class="section">
 <h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
@@ -49,7 +48,7 @@ visuals.</p>
 </div>
 <div class="section">
 <h1><a id="overview" name="overview">Overview</a></h1>
-<p>MochiKit.Visual provides different visual effect: rounded corners and
+<p>MochiKit.Visual provides different visual effects: rounded corners and
 animations for your HTML elements. Rounded corners are created
 completely through CSS manipulations and require no external images or
 style sheets.  This implementation was adapted from <a class="reference" href="http://www.openrico.org">Rico</a>. Dynamic
@@ -66,7 +65,7 @@ effects are ported from <a class="reference" href="http://script.aculo.us">Scrip
 <p>Rounds all of the elements that match the <tt class="docutils literal"><span class="pre">tagName</span></tt> and
 <tt class="docutils literal"><span class="pre">className</span></tt> specifiers, using the options provided.  <tt class="docutils literal"><span class="pre">tagName</span></tt>
 or <tt class="docutils literal"><span class="pre">className</span></tt> can be <tt class="docutils literal"><span class="pre">null</span></tt> to match all tags or classes.
-For more information about the options, see the
+For more information about the <tt class="docutils literal"><span class="pre">options</span></tt>, see the
 <a class="mochiref reference" href="#fn-roundelement">roundElement</a> function.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -77,11 +76,14 @@ For more information about the options, see the
 <a name="fn-roundelement"></a>
 <a class="mochidef reference" href="#fn-roundelement">roundElement(element[, options])</a>:</p>
 <blockquote>
-<p>Immediately round the corners of the specified element.  The
-element can be given as either a string with the element ID, or as
-an element object.</p>
-<p>The options mapping has the following defaults:</p>
-<table border="1" class="docutils">
+<p>Immediately round the corners of the specified <tt class="docutils literal"><span class="pre">element</span></tt>.</p>
+<dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd><p class="first">The <tt class="docutils literal"><span class="pre">options</span></tt> mapping has the following defaults:</p>
+<table border="1" class="last docutils">
 <colgroup>
 <col width="35%" />
 <col width="65%" />
@@ -107,9 +109,12 @@ an element object.</p>
 </tr>
 </tbody>
 </table>
-<p>corners:</p>
-<blockquote>
-<p>specifies which corners of the element should be rounded.
+</dd>
+</dl>
+<p>The <tt class="docutils literal"><span class="pre">options</span></tt> parameters can have following values:</p>
+<dl class="docutils">
+<dt>corners:</dt>
+<dd><p class="first">Specifies which corners of the element should be rounded.
 Choices are:</p>
 <ul class="simple">
 <li>all</li>
@@ -120,14 +125,13 @@ Choices are:</p>
 <li>tr (top right)</li>
 <li>br (bottom right)</li>
 </ul>
-<dl class="docutils">
+<dl class="last docutils">
 <dt>Example:</dt>
 <dd><tt class="docutils literal"><span class="pre">&quot;tl</span> <span class="pre">br&quot;</span></tt>: top-left and bottom-right corners are rounded</dd>
 </dl>
-</blockquote>
-<dl class="docutils">
+</dd>
 <dt>blend:</dt>
-<dd>specifies whether the color and background color should be
+<dd>Specifies whether the color and background color should be
 blended together to produce the border color.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -137,11 +141,17 @@ blended together to produce the border color.</dd>
 <a name="fn-toggle"></a>
 <a class="mochidef reference" href="#fn-toggle">toggle(element[, effect[, options]])</a>:</p>
 <blockquote>
-<p>Toggle an element between visible and invisible state using an effect.</p>
+<p>Toggle an <tt class="docutils literal"><span class="pre">element</span></tt> between visible and invisible state using an
+effect.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt>effect:</dt>
-<dd>One of the visual pairs to use, between 'slide', 'blind',
+<dd>One of the visual pairs to use. Choose between 'slide', 'blind',
 'appear', and 'size'.</dd>
+<dt>options:</dt>
+<dd>The optional effect options (see effect functions for details).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -150,11 +160,16 @@ blended together to produce the border color.</dd>
 <a name="fn-tagifytext"></a>
 <a class="mochidef reference" href="#fn-tagifytext">tagifyText(element[, tagifyStyle])</a>:</p>
 <blockquote>
-<p>Transform a node text into nodes containing one letter by tag.</p>
+<p>Transform the node text into <tt class="docutils literal"><span class="pre">SPAN</span></tt> nodes each containing a single
+letter. Only text nodes that are immediate children will be modified
+by this function.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt>tagifyStyle:</dt>
-<dd>style to apply to character nodes, default to 'position:
-relative'.</dd>
+<dd>Style to apply to each new <tt class="docutils literal"><span class="pre">SPAN</span></tt> node, defaults to
+<tt class="docutils literal"><span class="pre">'position:</span> <span class="pre">relative'</span></tt>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -163,8 +178,15 @@ relative'.</dd>
 <a name="fn-multiple"></a>
 <a class="mochidef reference" href="#fn-multiple">multiple(elements, effect[, options])</a>:</p>
 <blockquote>
-<p>Launch the same effect on a list of elements.</p>
+<p>Launch the same effect on a list of <tt class="docutils literal"><span class="pre">elements</span></tt>.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>A list of element ID strings or a DOM nodes (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>effect:</dt>
+<dd>An effect class constructor function.</dd>
+<dt>options:</dt>
+<dd>The optional effect options (see effect classes for details).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>

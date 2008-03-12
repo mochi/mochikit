@@ -24,8 +24,7 @@ Synopsis
 Description
 ===========
 
-MochiKit.Visual provides visual effects and support functions for
-visuals.
+MochiKit.Visual provides visual effects and animations for HTML elements.
 
 
 Dependencies
@@ -40,7 +39,7 @@ Dependencies
 Overview
 ========
 
-MochiKit.Visual provides different visual effect: rounded corners and
+MochiKit.Visual provides different visual effects: rounded corners and
 animations for your HTML elements. Rounded corners are created
 completely through CSS manipulations and require no external images or
 style sheets.  This implementation was adapted from Rico_. Dynamic
@@ -62,7 +61,7 @@ Functions
     Rounds all of the elements that match the ``tagName`` and
     ``className`` specifiers, using the options provided.  ``tagName``
     or ``className`` can be ``null`` to match all tags or classes.
-    For more information about the options, see the
+    For more information about the ``options``, see the
     :mochiref:`roundElement` function.
 
     *Availability*:
@@ -71,24 +70,28 @@ Functions
 
 :mochidef:`roundElement(element[, options])`:
 
-    Immediately round the corners of the specified element.  The
-    element can be given as either a string with the element ID, or as
-    an element object.
+    Immediately round the corners of the specified ``element``.
 
-    The options mapping has the following defaults:
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
-    ========= =================
-    corners   ``"all"``
-    color     ``"fromElement"``
-    bgColor   ``"fromParent"``
-    blend     ``true``
-    border    ``false``
-    compact   ``false``
-    ========= =================
+    options: 
+        The ``options`` mapping has the following defaults:
+
+        ========= =================
+        corners   ``"all"``
+        color     ``"fromElement"``
+        bgColor   ``"fromParent"``
+        blend     ``true``
+        border    ``false``
+        compact   ``false``
+        ========= =================
+
+    The ``options`` parameters can have following values:
 
     corners:
-
-        specifies which corners of the element should be rounded.
+        Specifies which corners of the element should be rounded.
         Choices are:
 
         - all
@@ -103,7 +106,7 @@ Functions
             ``"tl br"``: top-left and bottom-right corners are rounded
 
     blend:
-        specifies whether the color and background color should be
+        Specifies whether the color and background color should be
         blended together to produce the border color.
 
     *Availability*:
@@ -112,11 +115,19 @@ Functions
 
 :mochidef:`toggle(element[, effect[, options]])`:
 
-    Toggle an element between visible and invisible state using an effect.
+    Toggle an ``element`` between visible and invisible state using an
+    effect.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     effect:
-        One of the visual pairs to use, between 'slide', 'blind',
+        One of the visual pairs to use. Choose between 'slide', 'blind',
         'appear', and 'size'.
+
+    options:
+        The optional effect options (see effect functions for details).
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -124,11 +135,17 @@ Functions
 
 :mochidef:`tagifyText(element[, tagifyStyle])`:
 
-    Transform a node text into nodes containing one letter by tag.
+    Transform the node text into ``SPAN`` nodes each containing a single
+    letter. Only text nodes that are immediate children will be modified
+    by this function.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     tagifyStyle:
-        style to apply to character nodes, default to 'position:
-        relative'.
+        Style to apply to each new ``SPAN`` node, defaults to
+        ``'position: relative'``.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -136,7 +153,17 @@ Functions
 
 :mochidef:`multiple(elements, effect[, options])`:
 
-    Launch the same effect on a list of elements.
+    Launch the same effect on a list of ``elements``.
+
+    element:
+        A list of element ID strings or a DOM nodes (see
+        :mochiref:`MochiKit.DOM.getElement`).
+
+    effect:
+        An effect class constructor function.
+
+    options:
+        The optional effect options (see effect classes for details).
 
     *Availability*:
         Available in MochiKit 1.4+
