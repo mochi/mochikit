@@ -221,8 +221,7 @@ Combination Effects
     Fades an ``element`` using the :mochiref:`Opacity` effect. Once
     the effect has completed, the ``element`` will be hidden with
     :mochiref:`MochiKit.Style.hideElement` and the original element
-    opacity will be restored. The available ``options`` are identical
-    to the :mochiref:`Opacity` effect.
+    opacity will be restored.
 
     element:
         An element ID string or a DOM node (see
@@ -243,7 +242,6 @@ Combination Effects
     Slowly shows an ``element`` using the :mochiref:`Opacity` effect.
     If the ``element`` has ``"display: none"`` style it will be changed
     to ``"display: block"`` with :mochiref:`MochiKit.Style.showElement`.
-    The available options are identical to the :mochiref:`Opacity` effect.
 
     element:
         An element ID string or a DOM node (see
@@ -261,23 +259,18 @@ Combination Effects
 
 :mochidef:`puff(element [, options])`:
 
-    Make an element double size, and then make it disappear using the
+    Make an ``element`` double size, and then make it disappear using the
     :mochiref:`Scale` and :mochiref:`Opacity` effects. Once the effect
     has completed, the ``element`` will be hidden with
     :mochiref:`MochiKit.Style.hideElement` and the original element
-    size, position and opacity will be restored. Only a few options
-    from :mochiref:`Scale` are supported along with the
-    :mochiref:`DefaultOptions`.
+    size, position and opacity will be restored.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
 
     options:
-        ================ ============
-        scaleContent     ``true``
-        scaleFromCenter  ``true``
-        ================ ============
+        See :mochiref:`DefaultOptions`.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -285,11 +278,18 @@ Combination Effects
 
 :mochidef:`blindUp(element [, options])`:
 
-    Blind an element up, changing its vertical size to 0.
+    Blind an ``element`` up, changing its vertical size to 0 using the
+    :mochiref:`Scale` effect. Once the effect has completed, the
+    ``element`` will be hidden with
+    :mochiref:`MochiKit.Style.hideElement` and the original element
+    size will be restored.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        See :mochiref:`DefaultOptions`.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -297,11 +297,17 @@ Combination Effects
 
 :mochidef:`blindDown(element [, options])`:
 
-    Blind an element down, restoring its vertical size.
+    Blind an ``element`` down, restoring its vertical size using the
+    :mochiref:`Scale` effect. If the ``element`` has ``"display: none"``
+    style it will be changed to ``"display: block"`` with
+    :mochiref:`MochiKit.Style.showElement`.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        See :mochiref:`DefaultOptions`.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -350,11 +356,18 @@ Combination Effects
 
 :mochidef:`slideDown(element [, options])`:
 
-    Slide an element down.
+    Slide an ``element`` down using the :mochiref:`Scale` effect.
+    The ``element`` must have a fixed height and contain a single
+    child. If the ``element`` has ``"display: none"`` style it
+    will be changed to ``"display: block"`` with
+    :mochiref:`MochiKit.Style.showElement`.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        See :mochiref:`DefaultOptions`.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -362,11 +375,18 @@ Combination Effects
 
 :mochidef:`slideUp(element [, options])`:
 
-    Slide an element up.
+    Slide an ``element`` up using the :mochiref:`Scale` effect.
+    The ``element`` must have a fixed height and contain a single
+    child. Once the effect has completed, the ``element`` will be
+    hidden with :mochiref:`MochiKit.Style.hideElement` and the
+    original element size will be restored.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        See :mochiref:`DefaultOptions`.
 
     *Availability*:
         Available in MochiKit 1.4+
