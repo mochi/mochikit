@@ -153,8 +153,14 @@ Functions
         :mochiref:`MochiKit.DOM.getElement`).
 
     effect:
-        One of the visual pairs to use. Choose between 'slide', 'blind',
-        'appear', and 'size'.
+        One of the visual pairs to use:
+
+        ============ =========================================
+        ``"appear"`` :mochiref:`appear` and :mochiref:`fade`
+        ``"blind"``  :mochiref:`blindUp` and :mochiref:`blindDown`
+        ``"size"``   :mochiref:`grow` and :mochiref:`shrink`
+        ``"slide"``  :mochiref:`slideUp` and :mochiref:`slideDown`
+        ============ =========================================
 
     options:
         The optional effect options (see effect functions for details).
@@ -210,16 +216,23 @@ Functions
 Combination Effects
 -------------------
 
-:mochidef:`fade(element [, options])`:
+:mochidef:`fade(element[, options])`:
 
-    Change the opacity of an element until making it disappear.
+    Fades an ``element`` using the :mochiref:`Opacity` effect. Once
+    the effect has completed, the ``element`` will be hidden with
+    :mochiref:`MochiKit.Style.hideElement` and the original element
+    opacity will be restored. The available ``options`` are identical
+    to the :mochiref:`Opacity` effect.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     options:
-
-    ====== =============================================
-    from   ``element.opacity || 1.0``
-    to     ``0.0``
-    ====== =============================================
+        ====== =============================================
+        from   ``element.opacity || 1.0``
+        to     ``0.0``
+        ====== =============================================
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -227,14 +240,20 @@ Combination Effects
 
 :mochidef:`appear(element [, options])`:
 
-    Slowly show an invisible element.
+    Slowly shows an ``element`` using the :mochiref:`Opacity` effect.
+    If the ``element`` has ``"display: none"`` style it will be changed
+    to ``"display: block"`` with :mochiref:`MochiKit.Style.showElement`.
+    The available options are identical to the :mochiref:`Opacity` effect.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     options:
-
-    ===== =========
-    from  ``0.0``
-    to    ``1.0``
-    ===== =========
+        ===== =============================================
+        from  ``element.opacity || 0.0``
+        to    ``1.0``
+        ===== =============================================
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -242,7 +261,23 @@ Combination Effects
 
 :mochidef:`puff(element [, options])`:
 
-    Make an element double size, and then make it disappear.
+    Make an element double size, and then make it disappear using the
+    :mochiref:`Scale` and :mochiref:`Opacity` effects. Once the effect
+    has completed, the ``element`` will be hidden with
+    :mochiref:`MochiKit.Style.hideElement` and the original element
+    size, position and opacity will be restored. Only a few options
+    from :mochiref:`Scale` are supported along with the
+    :mochiref:`DefaultOptions`.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        ================ ============
+        scaleContent     ``true``
+        scaleFromCenter  ``true``
+        ================ ============
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -252,6 +287,10 @@ Combination Effects
 
     Blind an element up, changing its vertical size to 0.
 
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
+
     *Availability*:
         Available in MochiKit 1.4+
 
@@ -259,6 +298,10 @@ Combination Effects
 :mochidef:`blindDown(element [, options])`:
 
     Blind an element down, restoring its vertical size.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -268,6 +311,10 @@ Combination Effects
 
     A switch-off like effect, making the element disappear.
 
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
+
     *Availability*:
         Available in MochiKit 1.4+
 
@@ -276,11 +323,14 @@ Combination Effects
 
     Make the element fall and fade.
 
-    options:
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
-    ======== =======
-    distance ``100``
-    ======== =======
+    options:
+        ======== =======
+        distance ``100``
+        ======== =======
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -290,6 +340,10 @@ Combination Effects
 
     Shake an element from left to right.
 
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
+
     *Availability*:
         Available in MochiKit 1.4+
 
@@ -298,6 +352,10 @@ Combination Effects
 
     Slide an element down.
 
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
+
     *Availability*:
         Available in MochiKit 1.4+
 
@@ -305,6 +363,10 @@ Combination Effects
 :mochidef:`slideUp(element [, options])`:
 
     Slide an element up.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -315,6 +377,10 @@ Combination Effects
     Reduce the horizontal and vertical sizes at the same time, using
     the top left corner.
 
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
+
     *Availability*:
         Available in MochiKit 1.4+
 
@@ -322,6 +388,10 @@ Combination Effects
 :mochidef:`grow(element [, options])`:
 
     Restore the size of an element.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -331,6 +401,10 @@ Combination Effects
 
     Shrink an element to its center.
 
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
+
     *Availability*:
         Available in MochiKit 1.4+
 
@@ -339,11 +413,14 @@ Combination Effects
 
     Switch an element between appear and fade.
 
-    options:
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
-    ====== ========
-    pulses ``null``
-    ====== ========
+    options:
+        ====== ========
+        pulses ``null``
+        ====== ========
 
     pulses controls the number of pulses made during the effect.
 
@@ -354,6 +431,10 @@ Combination Effects
 :mochidef:`fold(element [, options])`:
 
     Reduce first the vertical size, and then the horizontal size.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -417,7 +498,14 @@ Basic Effects classes
 
 :mochidef:`Parallel(effects [, options])`:
 
-    Launch effects in parallel.
+    Launch a list of ``effects`` in parallel.
+
+    effects:
+        An array of instantiated effect objects. Note that they must
+        all have ``sync`` set to ``true``.
+
+    options:
+        See :mochiref:`DefaultOptions`.
 
     *Availability*:
         Available in MochiKit 1.4+

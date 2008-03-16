@@ -175,8 +175,28 @@ effect.</p>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt>effect:</dt>
-<dd>One of the visual pairs to use. Choose between 'slide', 'blind',
-'appear', and 'size'.</dd>
+<dd><p class="first">One of the visual pairs to use:</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">&quot;appear&quot;</span></tt></td>
+<td><a class="mochiref reference" href="#fn-appear">appear</a> and <a class="mochiref reference" href="#fn-fade">fade</a></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">&quot;blind&quot;</span></tt></td>
+<td><a class="mochiref reference" href="#fn-blindup">blindUp</a> and <a class="mochiref reference" href="#fn-blinddown">blindDown</a></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">&quot;size&quot;</span></tt></td>
+<td><a class="mochiref reference" href="#fn-grow">grow</a> and <a class="mochiref reference" href="#fn-shrink">shrink</a></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">&quot;slide&quot;</span></tt></td>
+<td><a class="mochiref reference" href="#fn-slideup">slideUp</a> and <a class="mochiref reference" href="#fn-slidedown">slideDown</a></td>
+</tr>
+</tbody>
+</table>
+</dd>
 <dt>options:</dt>
 <dd>The optional effect options (see effect functions for details).</dd>
 <dt><em>Availability</em>:</dt>
@@ -241,11 +261,19 @@ in parallel by default.</p>
 <h2><a id="combination-effects" name="combination-effects">Combination Effects</a></h2>
 <p>
 <a name="fn-fade"></a>
-<a class="mochidef reference" href="#fn-fade">fade(element [, options])</a>:</p>
+<a class="mochidef reference" href="#fn-fade">fade(element[, options])</a>:</p>
 <blockquote>
-<p>Change the opacity of an element until making it disappear.</p>
-<p>options:</p>
-<table border="1" class="docutils">
+<p>Fades an <tt class="docutils literal"><span class="pre">element</span></tt> using the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect. Once
+the effect has completed, the <tt class="docutils literal"><span class="pre">element</span></tt> will be hidden with
+<a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the original element
+opacity will be restored. The available <tt class="docutils literal"><span class="pre">options</span></tt> are identical
+to the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect.</p>
+<dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd><table border="1" class="first last docutils">
 <colgroup>
 <col width="12%" />
 <col width="88%" />
@@ -259,7 +287,7 @@ in parallel by default.</p>
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
+</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -268,23 +296,30 @@ in parallel by default.</p>
 <a name="fn-appear"></a>
 <a class="mochidef reference" href="#fn-appear">appear(element [, options])</a>:</p>
 <blockquote>
-<p>Slowly show an invisible element.</p>
-<p>options:</p>
-<table border="1" class="docutils">
+<p>Slowly shows an <tt class="docutils literal"><span class="pre">element</span></tt> using the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect.
+If the <tt class="docutils literal"><span class="pre">element</span></tt> has <tt class="docutils literal"><span class="pre">&quot;display:</span> <span class="pre">none&quot;</span></tt> style it will be changed
+to <tt class="docutils literal"><span class="pre">&quot;display:</span> <span class="pre">block&quot;</span></tt> with <a class="mochiref reference" href="Style.html#fn-showelement">MochiKit.Style.showElement</a>.
+The available options are identical to the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect.</p>
+<dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd><table border="1" class="first last docutils">
 <colgroup>
-<col width="36%" />
-<col width="64%" />
+<col width="10%" />
+<col width="90%" />
 </colgroup>
 <tbody valign="top">
 <tr><td>from</td>
-<td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">element.opacity</span> <span class="pre">||</span> <span class="pre">0.0</span></tt></td>
 </tr>
 <tr><td>to</td>
 <td><tt class="docutils literal"><span class="pre">1.0</span></tt></td>
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
+</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -293,8 +328,33 @@ in parallel by default.</p>
 <a name="fn-puff"></a>
 <a class="mochidef reference" href="#fn-puff">puff(element [, options])</a>:</p>
 <blockquote>
-<p>Make an element double size, and then make it disappear.</p>
+<p>Make an element double size, and then make it disappear using the
+<a class="mochiref reference" href="#fn-scale">Scale</a> and <a class="mochiref reference" href="#fn-opacity">Opacity</a> effects. Once the effect
+has completed, the <tt class="docutils literal"><span class="pre">element</span></tt> will be hidden with
+<a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the original element
+size, position and opacity will be restored. Only a few options
+from <a class="mochiref reference" href="#fn-scale">Scale</a> are supported along with the
+<a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd><table border="1" class="first last docutils">
+<colgroup>
+<col width="57%" />
+<col width="43%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>scaleContent</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
+</tr>
+<tr><td>scaleFromCenter</td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -305,6 +365,9 @@ in parallel by default.</p>
 <blockquote>
 <p>Blind an element up, changing its vertical size to 0.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -315,6 +378,9 @@ in parallel by default.</p>
 <blockquote>
 <p>Blind an element down, restoring its vertical size.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -325,6 +391,9 @@ in parallel by default.</p>
 <blockquote>
 <p>A switch-off like effect, making the element disappear.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -334,8 +403,12 @@ in parallel by default.</p>
 <a class="mochidef reference" href="#fn-dropout">dropOut(element [, options])</a>:</p>
 <blockquote>
 <p>Make the element fall and fade.</p>
-<p>options:</p>
-<table border="1" class="docutils">
+<dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd><table border="1" class="first last docutils">
 <colgroup>
 <col width="53%" />
 <col width="47%" />
@@ -346,7 +419,7 @@ in parallel by default.</p>
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
+</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -357,6 +430,9 @@ in parallel by default.</p>
 <blockquote>
 <p>Shake an element from left to right.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -367,6 +443,9 @@ in parallel by default.</p>
 <blockquote>
 <p>Slide an element down.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -377,6 +456,9 @@ in parallel by default.</p>
 <blockquote>
 <p>Slide an element up.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -388,6 +470,9 @@ in parallel by default.</p>
 <p>Reduce the horizontal and vertical sizes at the same time, using
 the top left corner.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -398,6 +483,9 @@ the top left corner.</p>
 <blockquote>
 <p>Restore the size of an element.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -408,6 +496,9 @@ the top left corner.</p>
 <blockquote>
 <p>Shrink an element to its center.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -417,8 +508,12 @@ the top left corner.</p>
 <a class="mochidef reference" href="#fn-pulsate">pulsate(element [, options])</a>:</p>
 <blockquote>
 <p>Switch an element between appear and fade.</p>
-<p>options:</p>
-<table border="1" class="docutils">
+<dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd><table border="1" class="first last docutils">
 <colgroup>
 <col width="43%" />
 <col width="57%" />
@@ -429,6 +524,8 @@ the top left corner.</p>
 </tr>
 </tbody>
 </table>
+</dd>
+</dl>
 <p>pulses controls the number of pulses made during the effect.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -441,6 +538,9 @@ the top left corner.</p>
 <blockquote>
 <p>Reduce first the vertical size, and then the horizontal size.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -528,8 +628,13 @@ callbacks (not overriding the library ones).</p>
 <a name="fn-parallel"></a>
 <a class="mochidef reference" href="#fn-parallel">Parallel(effects [, options])</a>:</p>
 <blockquote>
-<p>Launch effects in parallel.</p>
+<p>Launch a list of <tt class="docutils literal"><span class="pre">effects</span></tt> in parallel.</p>
 <dl class="docutils">
+<dt>effects:</dt>
+<dd>An array of instantiated effect objects. Note that they must
+all have <tt class="docutils literal"><span class="pre">sync</span></tt> set to <tt class="docutils literal"><span class="pre">true</span></tt>.</dd>
+<dt>options:</dt>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
