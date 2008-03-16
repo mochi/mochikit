@@ -207,6 +207,158 @@ Functions
         Available in MochiKit 1.4+
 
 
+Combination Effects
+-------------------
+
+:mochidef:`fade(element [, options])`:
+
+    Change the opacity of an element until making it disappear.
+
+    options:
+
+    ====== =============================================
+    from   ``element.opacity || 1.0``
+    to     ``0.0``
+    ====== =============================================
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`appear(element [, options])`:
+
+    Slowly show an invisible element.
+
+    options:
+
+    ===== =========
+    from  ``0.0``
+    to    ``1.0``
+    ===== =========
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`puff(element [, options])`:
+
+    Make an element double size, and then make it disappear.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`blindUp(element [, options])`:
+
+    Blind an element up, changing its vertical size to 0.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`blindDown(element [, options])`:
+
+    Blind an element down, restoring its vertical size.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`switchOff(element [, options])`:
+
+    A switch-off like effect, making the element disappear.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`dropOut(element [, options])`:
+
+    Make the element fall and fade.
+
+    options:
+
+    ======== =======
+    distance ``100``
+    ======== =======
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`shake(element [, options])`:
+
+    Shake an element from left to right.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`slideDown(element [, options])`:
+
+    Slide an element down.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`slideUp(element [, options])`:
+
+    Slide an element up.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`squish(element [, options])`:
+
+    Reduce the horizontal and vertical sizes at the same time, using
+    the top left corner.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`grow(element [, options])`:
+
+    Restore the size of an element.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`shrink(element [, options])`:
+
+    Shrink an element to its center.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`pulsate(element [, options])`:
+
+    Switch an element between appear and fade.
+
+    options:
+
+    ====== ========
+    pulses ``null``
+    ====== ========
+
+    pulses controls the number of pulses made during the effect.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`fold(element [, options])`:
+
+    Reduce first the vertical size, and then the horizontal size.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 Basic Effects classes
 ---------------------
 
@@ -369,158 +521,6 @@ Basic Effects classes
         ...
         Morph("foo", {"style": {"font-size": "2em"}});
 
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-Combination Effects
--------------------
-
-:mochidef:`fade(element [, options])`:
-
-    Change the opacity of an element until making it disappear.
-
-    options:
-
-    ====== =============================================
-    from   ``element.opacity || 1.0``
-    to     ``0.0``
-    ====== =============================================
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`appear(element [, options])`:
-
-    Slowly show an invisible element.
-
-    options:
-
-    ===== =========
-    from  ``0.0``
-    to    ``1.0``
-    ===== =========
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`puff(element [, options])`:
-
-    Make an element double size, and then make it disappear.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`blindUp(element [, options])`:
-
-    Blind an element up, changing its vertical size to 0.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`blindDown(element [, options])`:
-
-    Blind an element down, restoring its vertical size.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`switchOff(element [, options])`:
-
-    A switch-off like effect, making the element disappear.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`dropOut(element [, options])`:
-
-    Make the element fall and fade.
-
-    options:
-
-    ======== =======
-    distance ``100``
-    ======== =======
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`shake(element [, options])`:
-
-    Shake an element from left to right.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`slideDown(element [, options])`:
-
-    Slide an element down.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`slideUp(element [, options])`:
-
-    Slide an element up.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`squish(element [, options])`:
-
-    Reduce the horizontal and vertical sizes at the same time, using
-    the top left corner.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`grow(element [, options])`:
-
-    Restore the size of an element.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`shrink(element [, options])`:
-
-    Shrink an element to its center.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`pulsate(element [, options])`:
-
-    Switch an element between appear and fade.
-
-    options:
-
-    ====== ========
-    pulses ``null``
-    ====== ========
-
-    pulses controls the number of pulses made during the effect.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`fold(element [, options])`:
-
-    Reduce first the vertical size, and then the horizontal size.
 
     *Availability*:
         Available in MochiKit 1.4+
