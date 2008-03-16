@@ -266,8 +266,7 @@ in parallel by default.</p>
 <p>Fades an <tt class="docutils literal"><span class="pre">element</span></tt> using the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect. Once
 the effect has completed, the <tt class="docutils literal"><span class="pre">element</span></tt> will be hidden with
 <a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the original element
-opacity will be restored. The available <tt class="docutils literal"><span class="pre">options</span></tt> are identical
-to the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect.</p>
+opacity will be restored.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
@@ -298,8 +297,7 @@ to the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect.</p>
 <blockquote>
 <p>Slowly shows an <tt class="docutils literal"><span class="pre">element</span></tt> using the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect.
 If the <tt class="docutils literal"><span class="pre">element</span></tt> has <tt class="docutils literal"><span class="pre">&quot;display:</span> <span class="pre">none&quot;</span></tt> style it will be changed
-to <tt class="docutils literal"><span class="pre">&quot;display:</span> <span class="pre">block&quot;</span></tt> with <a class="mochiref reference" href="Style.html#fn-showelement">MochiKit.Style.showElement</a>.
-The available options are identical to the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect.</p>
+to <tt class="docutils literal"><span class="pre">&quot;display:</span> <span class="pre">block&quot;</span></tt> with <a class="mochiref reference" href="Style.html#fn-showelement">MochiKit.Style.showElement</a>.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
@@ -328,33 +326,17 @@ The available options are identical to the <a class="mochiref reference" href="#
 <a name="fn-puff"></a>
 <a class="mochidef reference" href="#fn-puff">puff(element [, options])</a>:</p>
 <blockquote>
-<p>Make an element double size, and then make it disappear using the
+<p>Make an <tt class="docutils literal"><span class="pre">element</span></tt> double size, and then make it disappear using the
 <a class="mochiref reference" href="#fn-scale">Scale</a> and <a class="mochiref reference" href="#fn-opacity">Opacity</a> effects. Once the effect
 has completed, the <tt class="docutils literal"><span class="pre">element</span></tt> will be hidden with
 <a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the original element
-size, position and opacity will be restored. Only a few options
-from <a class="mochiref reference" href="#fn-scale">Scale</a> are supported along with the
-<a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
+size, position and opacity will be restored.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt>options:</dt>
-<dd><table border="1" class="first last docutils">
-<colgroup>
-<col width="57%" />
-<col width="43%" />
-</colgroup>
-<tbody valign="top">
-<tr><td>scaleContent</td>
-<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
-</tr>
-<tr><td>scaleFromCenter</td>
-<td><tt class="docutils literal"><span class="pre">true</span></tt></td>
-</tr>
-</tbody>
-</table>
-</dd>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -363,11 +345,17 @@ from <a class="mochiref reference" href="#fn-scale">Scale</a> are supported alon
 <a name="fn-blindup"></a>
 <a class="mochidef reference" href="#fn-blindup">blindUp(element [, options])</a>:</p>
 <blockquote>
-<p>Blind an element up, changing its vertical size to 0.</p>
+<p>Blind an <tt class="docutils literal"><span class="pre">element</span></tt> up, changing its vertical size to 0 using the
+<a class="mochiref reference" href="#fn-scale">Scale</a> effect. Once the effect has completed, the
+<tt class="docutils literal"><span class="pre">element</span></tt> will be hidden with
+<a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the original element
+size will be restored.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -376,11 +364,16 @@ from <a class="mochiref reference" href="#fn-scale">Scale</a> are supported alon
 <a name="fn-blinddown"></a>
 <a class="mochidef reference" href="#fn-blinddown">blindDown(element [, options])</a>:</p>
 <blockquote>
-<p>Blind an element down, restoring its vertical size.</p>
+<p>Blind an <tt class="docutils literal"><span class="pre">element</span></tt> down, restoring its vertical size using the
+<a class="mochiref reference" href="#fn-scale">Scale</a> effect. If the <tt class="docutils literal"><span class="pre">element</span></tt> has <tt class="docutils literal"><span class="pre">&quot;display:</span> <span class="pre">none&quot;</span></tt>
+style it will be changed to <tt class="docutils literal"><span class="pre">&quot;display:</span> <span class="pre">block&quot;</span></tt> with
+<a class="mochiref reference" href="Style.html#fn-showelement">MochiKit.Style.showElement</a>.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -441,11 +434,17 @@ from <a class="mochiref reference" href="#fn-scale">Scale</a> are supported alon
 <a name="fn-slidedown"></a>
 <a class="mochidef reference" href="#fn-slidedown">slideDown(element [, options])</a>:</p>
 <blockquote>
-<p>Slide an element down.</p>
+<p>Slide an <tt class="docutils literal"><span class="pre">element</span></tt> down using the <a class="mochiref reference" href="#fn-scale">Scale</a> effect.
+The <tt class="docutils literal"><span class="pre">element</span></tt> must have a fixed height and contain a single
+child. If the <tt class="docutils literal"><span class="pre">element</span></tt> has <tt class="docutils literal"><span class="pre">&quot;display:</span> <span class="pre">none&quot;</span></tt> style it
+will be changed to <tt class="docutils literal"><span class="pre">&quot;display:</span> <span class="pre">block&quot;</span></tt> with
+<a class="mochiref reference" href="Style.html#fn-showelement">MochiKit.Style.showElement</a>.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -454,11 +453,17 @@ from <a class="mochiref reference" href="#fn-scale">Scale</a> are supported alon
 <a name="fn-slideup"></a>
 <a class="mochidef reference" href="#fn-slideup">slideUp(element [, options])</a>:</p>
 <blockquote>
-<p>Slide an element up.</p>
+<p>Slide an <tt class="docutils literal"><span class="pre">element</span></tt> up using the <a class="mochiref reference" href="#fn-scale">Scale</a> effect.
+The <tt class="docutils literal"><span class="pre">element</span></tt> must have a fixed height and contain a single
+child. Once the effect has completed, the <tt class="docutils literal"><span class="pre">element</span></tt> will be
+hidden with <a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the
+original element size will be restored.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
