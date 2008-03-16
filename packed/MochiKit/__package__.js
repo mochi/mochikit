@@ -1,2 +1,6 @@
-dojo.hostenv.conditionalLoadModule({"common": ["MochiKit.MochiKit"]});
-dojo.hostenv.moduleLoaded("MochiKit.*");
+dojo.kwCompoundRequire({
+    "common": [
+        "MochiKit.MochiKit"
+    ]
+});
+dojo.provide("MochiKit.*");
