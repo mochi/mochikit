@@ -207,13 +207,31 @@ by this function.</p>
 <blockquote>
 <p>Launch the same effect on a list of <tt class="docutils literal"><span class="pre">elements</span></tt>.</p>
 <dl class="docutils">
-<dt>element:</dt>
+<dt>elements:</dt>
 <dd>A list of element ID strings or a DOM nodes (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt>effect:</dt>
 <dd>An effect class constructor function.</dd>
 <dt>options:</dt>
-<dd>The optional effect options (see effect classes for details).</dd>
+<dd><p class="first">The effect options (see the effect classes). A special <tt class="docutils literal"><span class="pre">speed</span></tt>
+value will be added to the effect <tt class="docutils literal"><span class="pre">delay</span></tt> for each additional
+element in the list. This cause the effects to not run exactly
+in parallel by default.</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>speed</td>
+<td><tt class="docutils literal"><span class="pre">0.1</span></tt></td>
+</tr>
+<tr><td>delay</td>
+<td><tt class="docutils literal"><span class="pre">0.0</span></tt> (initial)</td>
+</tr>
+</tbody>
+</table>
+</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>

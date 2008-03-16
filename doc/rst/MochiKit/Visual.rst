@@ -36,6 +36,7 @@ Dependencies
 - :mochiref:`MochiKit.Color`
 - :mochiref:`MochiKit.Position`
 
+
 Overview
 ========
 
@@ -66,7 +67,6 @@ It can be a string, the scope is then global:
 - `end`: the effect will be run after any other;
 - `break`: every other effects break when the the effect start;
 - `parallel`: the effect run normally with others.
-
 
 But you have even more control if you use an array with the following keys:
 
@@ -185,7 +185,7 @@ Functions
 
     Launch the same effect on a list of ``elements``.
 
-    element:
+    elements:
         A list of element ID strings or a DOM nodes (see
         :mochiref:`MochiKit.DOM.getElement`).
 
@@ -193,7 +193,15 @@ Functions
         An effect class constructor function.
 
     options:
-        The optional effect options (see effect classes for details).
+        The effect options (see the effect classes). A special ``speed``
+        value will be added to the effect ``delay`` for each additional
+        element in the list. This cause the effects to not run exactly
+        in parallel by default.
+
+        ========= =================
+        speed     ``0.1``
+        delay     ``0.0`` (initial)
+        ========= =================
 
     *Availability*:
         Available in MochiKit 1.4+
