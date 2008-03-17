@@ -298,6 +298,7 @@ try {
     ok( !isChildNode('child', 'donotexist'), "isChildNode no parent");
     ok( !isChildNode('donotexist', 'child'), "isChildNode no parent");
     ok( isChildNode('child', document.body), "isChildNode of body");
+    ok( isChildNode($('child').firstChild, 'parentTwo'), "isChildNode text node");
 
     ok( true, "test suite finished!");
     

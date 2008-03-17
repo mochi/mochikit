@@ -63,9 +63,9 @@ MochiKit.DOM.EXPORT = [
     "UL",
     "OL",
     "LI",
-	"DL",
-	"DT",
-	"DD",
+    "DL",
+    "DT",
+    "DD",
     "TD",
     "TR",
     "THEAD",
@@ -355,20 +355,15 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (typeof(maybeparent) == "string") {
             maybeparent = self.getElement(maybeparent);
         }
-        if (typeof(node) == 'undefined' || node === null || node === self._document) {
+        if (typeof(node) == 'undefined' || node === null) {
             return false;
         }
-        do {
+        while (node !== self._document) {
             if (node === maybeparent) {
                 return true;
             }
-            var tagName = node.tagName;
             node = node.parentNode;
-            if (!tagName) {
-                break;
-            }
-            tagName = tagName.toUpperCase();
-        } while (tagName != "BODY" && tagName != "HTML");
+        }
         return false;
     },
 
