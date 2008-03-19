@@ -105,19 +105,22 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
         var baseElem = null;
         var allScripts = {};
         var i;
+        var src;
         for (i = 0; i < scripts.length; i++) {
-            var src;
+            src = null;
             switch (scripts[i].namespaceURI) {
-                case '': // HTML
-                case kXHTMLNSURI:
-                case kXULNSURI:
-                    src = scripts[i].getAttribute("src");
-                    break;
                 case kSVGNSURI:
                     src = scripts[i].getAttributeNS(kXLINKNSURI, "href");
                     break;
+                /*
+                case null: // HTML
+                case '': // HTML
+                case kXHTMLNSURI:
+                case kXULNSURI:
+                */
                 default:
-                    throw new Error("Unsupported namespace");
+                    src = scripts[i].getAttribute("src");
+                    break;
             }
             if (!src) {
                 continue;
