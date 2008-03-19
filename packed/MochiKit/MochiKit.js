@@ -6632,42 +6632,61 @@ if(typeof (document)=="undefined"){
 return;
 }
 var _726=document.getElementsByTagName("script");
-var _727="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+var _727="http://www.w3.org/1999/xhtml";
+var _728="http://www.w3.org/2000/svg";
+var _729="http://www.w3.org/1999/xlink";
+var _72a="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 var base=null;
-var _729=null;
-var _72a={};
+var _72c=null;
+var _72d={};
 var i;
 for(i=0;i<_726.length;i++){
-var src=_726[i].getAttribute("src");
+var src;
+switch(_726[i].namespaceURI){
+case "":
+case _727:
+case _72a:
+src=_726[i].getAttribute("src");
+break;
+case _728:
+src=_726[i].getAttributeNS(_729,"href");
+break;
+default:
+throw new Error("Unsupported namespace");
+}
 if(!src){
 continue;
 }
-_72a[src]=true;
+_72d[src]=true;
 if(src.match(/MochiKit.js$/)){
 base=src.substring(0,src.lastIndexOf("MochiKit.js"));
-_729=_726[i];
+_72c=_726[i];
 }
 }
 if(base===null){
 return;
 }
-var _72d=MochiKit.MochiKit.SUBMODULES;
-for(var i=0;i<_72d.length;i++){
-if(MochiKit[_72d[i]]){
+var _730=MochiKit.MochiKit.SUBMODULES;
+for(var i=0;i<_730.length;i++){
+if(MochiKit[_730[i]]){
 continue;
 }
-var uri=base+_72d[i]+".js";
-if(uri in _72a){
+var uri=base+_730[i]+".js";
+if(uri in _72d){
 continue;
 }
-if(document.documentElement&&document.documentElement.namespaceURI==_727){
-var s=document.createElementNS(_727,"script");
-s.setAttribute("id","MochiKit_"+base+_72d[i]);
-s.setAttribute("src",uri);
-s.setAttribute("type","application/x-javascript");
-_729.parentNode.appendChild(s);
+if(_72c.namespaceURI==_728||_72c.namespaceURI==_72a){
+var s=document.createElementNS(_72c.namespaceURI,"script");
+s.setAttribute("id","MochiKit_"+base+_730[i]);
+if(_72c.namespaceURI==_728){
+s.setAttributeNS(_729,"href",uri);
 }else{
-document.write("<script src=\""+uri+"\" type=\"text/javascript\"></script>");
+s.setAttribute("src",uri);
+}
+s.setAttribute("type","application/x-javascript");
+_72c.parentNode.appendChild(s);
+}else{
+document.write("<"+_72c.nodeName+" src=\""+uri+"\" type=\"text/javascript\"></script>");
 }
 }
 })();
