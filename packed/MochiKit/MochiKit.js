@@ -6640,19 +6640,16 @@ var base=null;
 var _72c=null;
 var _72d={};
 var i;
-for(i=0;i<_726.length;i++){
 var src;
+for(i=0;i<_726.length;i++){
+src=null;
 switch(_726[i].namespaceURI){
-case "":
-case _727:
-case _72a:
-src=_726[i].getAttribute("src");
-break;
 case _728:
 src=_726[i].getAttributeNS(_729,"href");
 break;
 default:
-throw new Error("Unsupported namespace");
+src=_726[i].getAttribute("src");
+break;
 }
 if(!src){
 continue;
