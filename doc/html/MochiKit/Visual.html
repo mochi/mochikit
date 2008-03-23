@@ -486,11 +486,70 @@ the top left corner.</p>
 <a name="fn-grow"></a>
 <a class="mochidef reference" href="#fn-grow">grow(element [, options])</a>:</p>
 <blockquote>
-<p>Restore the size of an element.</p>
+<p>Grows an <tt class="docutils literal"><span class="pre">element</span></tt> size using <a class="mochiref reference" href="#fn-scale">Scale</a>, <a class="mochiref reference" href="#fn-move">Move</a>
+and <a class="mochiref reference" href="#fn-opacity">Opacity</a> effects in parallel. The <tt class="docutils literal"><span class="pre">element</span></tt> should
+have fixed width, height and top-left position. Before the effect
+starts, the <tt class="docutils literal"><span class="pre">element</span></tt> will be shown with
+<a class="mochiref reference" href="Style.html#fn-showelement">MochiKit.Style.showElement</a> and the size and position
+values will be read.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd><p class="first">The following options and default values controls this
+effect. Note that the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect is turned
+off by default. See also the <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">direction</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">center</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">moveTransition</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.Visual.Transitions.sinoidal</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">scaleTransition</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.Visual.Transitions.sinoidal</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">opacityTransition</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.Visual.Transitions.full</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p>The <tt class="docutils literal"><span class="pre">direction</span></tt> option controls the origin point of the effect.
+The following values are allowed:</p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">center</span></tt></td>
+<td>Grows from the center</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">top-left</span></tt></td>
+<td>Grows from the top left corner</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">top-right</span></tt></td>
+<td>Grows from the top right corner</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">bottom-left</span></tt></td>
+<td>Grows from the bottom left corner</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">bottom-right</span></tt></td>
+<td>Grows from the bottom right corner</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -499,12 +558,12 @@ the top left corner.</p>
 <a name="fn-shrink"></a>
 <a class="mochidef reference" href="#fn-shrink">shrink(element [, options])</a>:</p>
 <blockquote>
-<p>Shrinks an <tt class="docutils literal"><span class="pre">element</span></tt> to its center using <a class="mochiref reference" href="#fn-scale">Scale</a>,
-<a class="mochiref reference" href="#fn-move">Move</a> and <a class="mochiref reference" href="#fn-opacity">Opacity</a> effects in parallel.
-The <tt class="docutils literal"><span class="pre">element</span></tt> should have fixed width, height and top-left
-position. Once the effect has completed, the <tt class="docutils literal"><span class="pre">element</span></tt> will
-be hidden with <a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the
-original size and position will be restored.</p>
+<p>Shrinks an <tt class="docutils literal"><span class="pre">element</span></tt> using <a class="mochiref reference" href="#fn-scale">Scale</a>, <a class="mochiref reference" href="#fn-move">Move</a>
+and <a class="mochiref reference" href="#fn-opacity">Opacity</a> effects in parallel. The <tt class="docutils literal"><span class="pre">element</span></tt> should
+have fixed width, height and top-left position. Once the effect has
+completed, the <tt class="docutils literal"><span class="pre">element</span></tt> will be hidden with
+<a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the original size and
+position will be restored.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
@@ -512,7 +571,7 @@ original size and position will be restored.</p>
 <dt>options:</dt>
 <dd><p class="first">The following options and default values controls this
 effect. Note that the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect is turned
-off by default. See also the <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>:</p>
+off by default. See also the <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
 <table border="1" class="last docutils">
 <colgroup>
 <col width="34%" />
@@ -536,7 +595,7 @@ off by default. See also the <a class="mochiref reference" href="#fn-defaultopti
 </dd>
 </dl>
 <p>The <tt class="docutils literal"><span class="pre">direction</span></tt> option controls the destination point of the
-shrink effect. The following values are allowed:</p>
+effect. The following values are allowed:</p>
 <blockquote>
 <table border="1" class="docutils">
 <colgroup>

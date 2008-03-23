@@ -407,11 +407,39 @@ Combination Effects
 
 :mochidef:`grow(element [, options])`:
 
-    Restore the size of an element.
+    Grows an ``element`` size using :mochiref:`Scale`, :mochiref:`Move`
+    and :mochiref:`Opacity` effects in parallel. The ``element`` should
+    have fixed width, height and top-left position. Before the effect
+    starts, the ``element`` will be shown with
+    :mochiref:`MochiKit.Style.showElement` and the size and position
+    values will be read.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        The following options and default values controls this
+        effect. Note that the :mochiref:`Opacity` effect is turned
+        off by default. See also the :mochiref:`DefaultOptions`.
+
+        ===================== ========================================
+        ``direction``         ``center``
+        ``moveTransition``    ``MochiKit.Visual.Transitions.sinoidal``    
+        ``scaleTransition``   ``MochiKit.Visual.Transitions.sinoidal``    
+        ``opacityTransition`` ``MochiKit.Visual.Transitions.full``    
+        ===================== ========================================
+
+    The ``direction`` option controls the origin point of the effect.
+    The following values are allowed:
+
+        ===================== ========================================
+        ``center``            Grows from the center
+        ``top-left``          Grows from the top left corner
+        ``top-right``         Grows from the top right corner
+        ``bottom-left``       Grows from the bottom left corner
+        ``bottom-right``      Grows from the bottom right corner
+        ===================== ========================================
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -419,12 +447,12 @@ Combination Effects
 
 :mochidef:`shrink(element [, options])`:
 
-    Shrinks an ``element`` to its center using :mochiref:`Scale`,
-    :mochiref:`Move` and :mochiref:`Opacity` effects in parallel.
-    The ``element`` should have fixed width, height and top-left
-    position. Once the effect has completed, the ``element`` will
-    be hidden with :mochiref:`MochiKit.Style.hideElement` and the
-    original size and position will be restored.
+    Shrinks an ``element`` using :mochiref:`Scale`, :mochiref:`Move`
+    and :mochiref:`Opacity` effects in parallel. The ``element`` should
+    have fixed width, height and top-left position. Once the effect has
+    completed, the ``element`` will be hidden with
+    :mochiref:`MochiKit.Style.hideElement` and the original size and
+    position will be restored.
 
     element:
         An element ID string or a DOM node (see
@@ -443,7 +471,7 @@ Combination Effects
         ===================== ========================================
 
     The ``direction`` option controls the destination point of the
-    shrink effect. The following values are allowed:
+    effect. The following values are allowed:
 
         ===================== ========================================
         ``center``            Shrinks to the center
