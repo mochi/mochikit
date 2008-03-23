@@ -259,9 +259,9 @@ Combination Effects
 
 :mochidef:`puff(element [, options])`:
 
-    Make an ``element`` double size, and then make it disappear using the
-    :mochiref:`Scale` and :mochiref:`Opacity` effects. Once the effect
-    has completed, the ``element`` will be hidden with
+    Make an ``element`` double size while also fading it using the
+    :mochiref:`Scale` and :mochiref:`Opacity` effects in parallel.
+    Once the effect has completed, the ``element`` will be hidden with
     :mochiref:`MochiKit.Style.hideElement` and the original element
     size, position and opacity will be restored.
 
@@ -419,11 +419,39 @@ Combination Effects
 
 :mochidef:`shrink(element [, options])`:
 
-    Shrink an element to its center.
+    Shrinks an ``element`` to its center using :mochiref:`Scale`,
+    :mochiref:`Move` and :mochiref:`Opacity` effects in parallel.
+    The ``element`` should have fixed width, height and top-left
+    position. Once the effect has completed, the ``element`` will
+    be hidden with :mochiref:`MochiKit.Style.hideElement` and the
+    original size and position will be restored.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        The following options and default values controls this
+        effect. Note that the :mochiref:`Opacity` effect is turned
+        off by default. See also the :mochiref:`DefaultOptions`.
+
+        ===================== ========================================
+        ``direction``         ``center``
+        ``moveTransition``    ``MochiKit.Visual.Transitions.sinoidal``    
+        ``scaleTransition``   ``MochiKit.Visual.Transitions.sinoidal``    
+        ``opacityTransition`` ``MochiKit.Visual.Transitions.none``    
+        ===================== ========================================
+
+    The ``direction`` option controls the destination point of the
+    shrink effect. The following values are allowed:
+
+        ===================== ========================================
+        ``center``            Shrinks to the center
+        ``top-left``          Shrinks to the top left corner
+        ``top-right``         Shrinks to the top right corner
+        ``bottom-left``       Shrinks to the bottom left corner
+        ``bottom-right``      Shrinks to the bottom right corner
+        ===================== ========================================
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -431,18 +459,22 @@ Combination Effects
 
 :mochidef:`pulsate(element [, options])`:
 
-    Switch an element between appear and fade.
+    Switches the ``element`` visibility using a pulsating
+    :mochiref:`Opacity` effect. The effect both starts and
+    ends with a ``0`` opacity value.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
 
     options:
-        ====== ========
-        pulses ``null``
-        ====== ========
+        The ``pulses`` option controls the number of pulses
+        made during the effect. See also the
+        :mochiref:`DefaultOptions`.
 
-    pulses controls the number of pulses made during the effect.
+        ====== ========
+        pulses ``5``
+        ====== ========
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -450,11 +482,20 @@ Combination Effects
 
 :mochidef:`fold(element [, options])`:
 
-    Reduce first the vertical size, and then the horizontal size.
+    Reduce first the ``element`` vertical size, and then the
+    horizontal size using two :mochiref:`Scale` effects in sequence.
+    The ``element`` should have both fixed width and height. Once
+    the effect has completed, the ``element`` will be hidden
+    with :mochiref:`MochiKit.Style.hideElement` and the original
+    size and position will be restored.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        See :mochiref:`DefaultOptions`. Note that the options
+        will only affect the first :mochiref:`Scale` effect.
 
     *Availability*:
         Available in MochiKit 1.4+
