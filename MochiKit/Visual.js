@@ -1477,6 +1477,10 @@ MochiKit.Visual.shake = function (element, /* optional */ options) {
     var v = MochiKit.Visual;
     var s = MochiKit.Style;
     element = d.getElement(element);
+    var oldStyle = {
+        top: s.getStyle(element, 'top'),
+        left: s.getStyle(element, 'left')
+    };
     options = MochiKit.Base.update({
         x: -20,
         y: 0,
@@ -1486,10 +1490,7 @@ MochiKit.Visual.shake = function (element, /* optional */ options) {
             s.setStyle(effect.element, oldStyle);
         }
     }, options);
-    var oldStyle = {
-        top: s.getStyle(element, 'top'),
-        left: s.getStyle(element, 'left') };
-        return new v.Move(element,
+    return new v.Move(element,
           {x: 20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
         new v.Move(effect.element,
           {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
