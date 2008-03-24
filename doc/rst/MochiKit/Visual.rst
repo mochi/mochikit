@@ -451,7 +451,7 @@ Combination Effects
         :mochiref:`MochiKit.DOM.getElement`).
 
     options:
-        The following options and default values controls this
+        The following options and default values control this
         effect. Note that the :mochiref:`Opacity` effect is turned
         off by default. See also the :mochiref:`DefaultOptions`.
 
@@ -491,7 +491,7 @@ Combination Effects
         :mochiref:`MochiKit.DOM.getElement`).
 
     options:
-        The following options and default values controls this
+        The following options and default values control this
         effect. Note that the :mochiref:`Opacity` effect is turned
         off by default. See also the :mochiref:`DefaultOptions`.
 
@@ -561,8 +561,8 @@ Combination Effects
         Available in MochiKit 1.4+
 
 
-Basic Effects classes
----------------------
+Basic Effects Classes & Constants
+---------------------------------
 
 :mochidef:`Transitions`:
 
@@ -646,7 +646,7 @@ Basic Effects classes
     Launch a list of ``effects`` in parallel.
 
     effects:
-        An array of instantiated effect objects. Note that they must
+        An array of instantiated effect objects. Note that they *must*
         all have ``sync`` set to ``true``.
 
     options:
@@ -658,14 +658,20 @@ Basic Effects classes
 
 :mochidef:`Opacity(element [, options])`:
 
-    Change the opacity of an element progressively.
+    Change the opacity of an ``element`` progressively.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     options:
+        The following options and default values control this effect.
+        See also the :mochiref:`DefaultOptions`.
 
-    ====== ========
-    from   ``0.0``
-    to     ``1.0``
-    ====== ========
+        ====== ========
+        from   ``0.0``
+        to     ``1.0``
+        ====== ========
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -673,16 +679,26 @@ Basic Effects classes
 
 :mochidef:`Move(element [, options])`:
 
-    Change the position of an element in small steps, creating a
-    moving effect.
+    Changes the (top left) position of an ``element`` in small steps,
+    creating a moving effect.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     options:
+        The following options and default values control this effect.
+        See also the :mochiref:`DefaultOptions`.
 
-    ========= ================
-    x         ``0``
-    y         ``0``
-    mode      ``'relative'``
-    ========= ================
+        ========= ================
+        x         ``0``
+        y         ``0``
+        mode      ``'relative'``
+        ========= ================
+
+    The ``mode`` option controls if the specified ``x`` and ``y``
+    coordinates are ``relative`` or ``absolute`` with respect to the
+    current ``element`` position.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -690,7 +706,11 @@ Basic Effects classes
 
 :mochidef:`Scale(element, percent [, options])`:
 
-    Change the size of an element.
+    Changes the size of an ``element``.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     percent:
         Final wanted size in percent of current size. The size will be
@@ -698,16 +718,31 @@ Basic Effects classes
         value is above 100.
 
     options:
+        The following options and default values control this effect.
+        See also the :mochiref:`DefaultOptions`.
 
-    ================ ============
-    scaleX           ``true``
-    scaleY           ``true``
-    scaleContent     ``true``
-    scaleFromCenter  ``false``
-    scaleMode        ``'box'``
-    scaleFrom        ``100.0``
-    scaleTo          ``percent``
-    ================ ============
+        ================ ============
+        scaleX           ``true``
+        scaleY           ``true``
+        scaleContent     ``true``
+        scaleFromCenter  ``false``
+        scaleMode        ``"box"``
+        scaleFrom        ``100.0``
+        scaleTo          ``percent``
+        ================ ============
+
+    The ``scaleContent`` option controls if the element ``font-size``
+    should also be scaled along with the size. The ``scaleFromCenter``
+    option allows continual adjustment of the ``element`` top left
+    position to keep the element centered during the size change.
+    The ``scaleMode`` option is used to determine the original
+    ``element`` size. It can have one of the following values:
+
+        ================ =========================================
+        ``"box"``        Uses ``offsetHeight`` and ``offsetWidth``
+        ``"contents"``   Uses ``scrollHeight`` and ``scrollWidth``
+        {...}            Uses ``originalHeight`` and ``originalWidth`` from the specified object
+        ================ =========================================        
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -715,13 +750,23 @@ Basic Effects classes
 
 :mochidef:`Highlight(element [, options])`:
 
-    Highlight an element, flashing with one color.
+    Highlights an ``element`` by flashing the background color. The
+    color is first set to the ``startcolor`` and is then slowly
+    morphed into the ``endcolor``, normally the original background
+    color of the element.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
 
     options:
+        The following options and default values control this effect.
+        See also the :mochiref:`DefaultOptions`.
 
-    =========== ==============
-    startcolor  ``'#ffff99'``
-    =========== ==============
+        =========== ==============
+        startcolor  ``'#ffff99'``
+        endcolor    ``element.style.backgroundColor``
+        =========== ==============
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -729,7 +774,16 @@ Basic Effects classes
 
 :mochidef:`ScrollTo(element [, options])`:
 
-    Scroll the window to the position of the given element.
+    Scroll the window to the position of the given ``element``. Note
+    that this effect only scrolls the top window and not any parent
+    elements with scrollbars due to ``"overflow: auto"`` style.
+
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        See :mochiref:`DefaultOptions`.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -737,7 +791,7 @@ Basic Effects classes
 
 :mochidef:`Morph(element [, options])`:
 
-    Make a transformation to the given element. It's called with the option
+    Make a transformation to the given ``element``. It's called with the option
     ``style`` with an array holding the styles to change. It works with
     properties for size (``font-size``, ``border-width``, ...) and properties
     for color (``color``, ``background-color``, ...). 
@@ -754,6 +808,12 @@ Basic Effects classes
         ...
         Morph("foo", {"style": {"font-size": "2em"}});
 
+    element:
+        An element ID string or a DOM node (see
+        :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        See :mochiref:`DefaultOptions`.
 
     *Availability*:
         Available in MochiKit 1.4+
