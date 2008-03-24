@@ -6534,27 +6534,26 @@ _706=b.update({duration:3,from:0,afterFinishInternal:function(_70b){
 MochiKit.Style.setStyle(_70b.element,{"opacity":_70a});
 }},_706);
 var _70c=_706.transition||v.Transitions.sinoidal;
-var _70d=b.bind(function(pos){
+_706.transition=function(pos){
 return _70c(1-v.Transitions.pulse(pos,_706.pulses));
-},_70c);
-b.bind(_70d,_70c);
-return new v.Opacity(_705,b.update({transition:_70d},_706));
 };
-MochiKit.Visual.fold=function(_70f,_710){
+return new v.Opacity(_705,_706);
+};
+MochiKit.Visual.fold=function(_70e,_70f){
 var d=MochiKit.DOM;
 var v=MochiKit.Visual;
 var s=MochiKit.Style;
-_70f=d.getElement(_70f);
-var _714={top:_70f.style.top,left:_70f.style.left,width:_70f.style.width,height:_70f.style.height};
-var _715=d.makeClipping(_70f);
-_710=MochiKit.Base.update({scaleContent:false,scaleX:false,afterFinishInternal:function(_716){
-new v.Scale(_70f,1,{scaleContent:false,scaleY:false,afterFinishInternal:function(_717){
-s.hideElement(_717.element);
-d.undoClipping(_717.element,_715);
-s.setStyle(_717.element,_714);
+_70e=d.getElement(_70e);
+var _713={top:_70e.style.top,left:_70e.style.left,width:_70e.style.width,height:_70e.style.height};
+var _714=d.makeClipping(_70e);
+_70f=MochiKit.Base.update({scaleContent:false,scaleX:false,afterFinishInternal:function(_715){
+new v.Scale(_70e,1,{scaleContent:false,scaleY:false,afterFinishInternal:function(_716){
+s.hideElement(_716.element);
+d.undoClipping(_716.element,_714);
+s.setStyle(_716.element,_713);
 }});
-}},_710);
-return new v.Scale(_70f,5,_710);
+}},_70f);
+return new v.Scale(_70e,5,_70f);
 };
 MochiKit.Visual.Color=MochiKit.Color.Color;
 MochiKit.Visual.getElementsComputedStyle=MochiKit.DOM.computedStyle;
@@ -6595,23 +6594,23 @@ JSAN.use("MochiKit."+lst[i],[]);
 })(MochiKit.MochiKit.SUBMODULES);
 }
 (function(){
-var _71b=MochiKit.Base.extend;
+var _71a=MochiKit.Base.extend;
 var self=MochiKit.MochiKit;
-var _71d=self.SUBMODULES;
+var _71c=self.SUBMODULES;
+var _71d=[];
 var _71e=[];
-var _71f=[];
-var _720={};
+var _71f={};
 var i,k,m,all;
-for(i=0;i<_71d.length;i++){
-m=MochiKit[_71d[i]];
-_71b(_71e,m.EXPORT);
-_71b(_71f,m.EXPORT_OK);
+for(i=0;i<_71c.length;i++){
+m=MochiKit[_71c[i]];
+_71a(_71d,m.EXPORT);
+_71a(_71e,m.EXPORT_OK);
 for(k in m.EXPORT_TAGS){
-_720[k]=_71b(_720[k],m.EXPORT_TAGS[k]);
+_71f[k]=_71a(_71f[k],m.EXPORT_TAGS[k]);
 }
 all=m.EXPORT_TAGS[":all"];
 if(!all){
-all=_71b(null,m.EXPORT,m.EXPORT_OK);
+all=_71a(null,m.EXPORT,m.EXPORT_OK);
 }
 var j;
 for(j=0;j<all.length;j++){
@@ -6619,9 +6618,9 @@ k=all[j];
 self[k]=m[k];
 }
 }
-self.EXPORT=_71e;
-self.EXPORT_OK=_71f;
-self.EXPORT_TAGS=_720;
+self.EXPORT=_71d;
+self.EXPORT_OK=_71e;
+self.EXPORT_TAGS=_71f;
 }());
 }else{
 if(typeof (MochiKit.__compat__)=="undefined"){
@@ -6631,59 +6630,59 @@ MochiKit.__compat__=true;
 if(typeof (document)=="undefined"){
 return;
 }
-var _726=document.getElementsByTagName("script");
-var _727="http://www.w3.org/1999/xhtml";
-var _728="http://www.w3.org/2000/svg";
-var _729="http://www.w3.org/1999/xlink";
-var _72a="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+var _725=document.getElementsByTagName("script");
+var _726="http://www.w3.org/1999/xhtml";
+var _727="http://www.w3.org/2000/svg";
+var _728="http://www.w3.org/1999/xlink";
+var _729="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 var base=null;
-var _72c=null;
-var _72d={};
+var _72b=null;
+var _72c={};
 var i;
 var src;
-for(i=0;i<_726.length;i++){
+for(i=0;i<_725.length;i++){
 src=null;
-switch(_726[i].namespaceURI){
-case _728:
-src=_726[i].getAttributeNS(_729,"href");
+switch(_725[i].namespaceURI){
+case _727:
+src=_725[i].getAttributeNS(_728,"href");
 break;
 default:
-src=_726[i].getAttribute("src");
+src=_725[i].getAttribute("src");
 break;
 }
 if(!src){
 continue;
 }
-_72d[src]=true;
+_72c[src]=true;
 if(src.match(/MochiKit.js$/)){
 base=src.substring(0,src.lastIndexOf("MochiKit.js"));
-_72c=_726[i];
+_72b=_725[i];
 }
 }
 if(base===null){
 return;
 }
-var _730=MochiKit.MochiKit.SUBMODULES;
-for(var i=0;i<_730.length;i++){
-if(MochiKit[_730[i]]){
+var _72f=MochiKit.MochiKit.SUBMODULES;
+for(var i=0;i<_72f.length;i++){
+if(MochiKit[_72f[i]]){
 continue;
 }
-var uri=base+_730[i]+".js";
-if(uri in _72d){
+var uri=base+_72f[i]+".js";
+if(uri in _72c){
 continue;
 }
-if(_72c.namespaceURI==_728||_72c.namespaceURI==_72a){
-var s=document.createElementNS(_72c.namespaceURI,"script");
-s.setAttribute("id","MochiKit_"+base+_730[i]);
-if(_72c.namespaceURI==_728){
-s.setAttributeNS(_729,"href",uri);
+if(_72b.namespaceURI==_727||_72b.namespaceURI==_729){
+var s=document.createElementNS(_72b.namespaceURI,"script");
+s.setAttribute("id","MochiKit_"+base+_72f[i]);
+if(_72b.namespaceURI==_727){
+s.setAttributeNS(_728,"href",uri);
 }else{
 s.setAttribute("src",uri);
 }
 s.setAttribute("type","application/x-javascript");
-_72c.parentNode.appendChild(s);
+_72b.parentNode.appendChild(s);
 }else{
-document.write("<"+_72c.nodeName+" src=\""+uri+"\" type=\"text/javascript\"></script>");
+document.write("<"+_72b.nodeName+" src=\""+uri+"\" type=\"text/javascript\"></script>");
 }
 }
 })();
