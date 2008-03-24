@@ -6335,11 +6335,11 @@ var d=MochiKit.DOM;
 var v=MochiKit.Visual;
 var s=MochiKit.Style;
 _6c0=d.getElement(_6c0);
-_6c1=MochiKit.Base.update({x:-20,y:0,duration:0.05,afterFinishInternal:function(_6c5){
-d.undoPositioned(_6c5.element);
-s.setStyle(_6c5.element,_6c6);
+var _6c5={top:s.getStyle(_6c0,"top"),left:s.getStyle(_6c0,"left")};
+_6c1=MochiKit.Base.update({x:-20,y:0,duration:0.05,afterFinishInternal:function(_6c6){
+d.undoPositioned(_6c6.element);
+s.setStyle(_6c6.element,_6c5);
 }},_6c1);
-var _6c6={top:s.getStyle(_6c0,"top"),left:s.getStyle(_6c0,"left")};
 return new v.Move(_6c0,{x:20,y:0,duration:0.05,afterFinishInternal:function(_6c7){
 new v.Move(_6c7.element,{x:-40,y:0,duration:0.1,afterFinishInternal:function(_6c8){
 new v.Move(_6c8.element,{x:40,y:0,duration:0.1,afterFinishInternal:function(_6c9){
