@@ -51,6 +51,24 @@ effects are ported from Scriptaculous_.
 .. _Scriptaculous: http://script.aculo.us
 
 
+Animations & Effects
+--------------------
+
+Dynamic or animated effects are managed by a basic looping service (see
+:mochiref:`Base`). The effect looping is controlled by timers that are invoked
+at regular and short intervals while the effect is executing. The base looping
+service takes the current system time into consideration, automatically
+skipping effect steps on execution delays.
+
+The effect classes need only handle dynamic updates based on a floating-point
+number between ``0.0`` and ``1.0`` (the effect position). This effect position
+may also be manipulated by :mochiref:`Transitions` to provide non-linear
+updates, which may further enhance the visual effect.
+
+The effect timer and transitions can be controlled through a set of
+:mochiref:`DefaultOptions` that are available for all effect classes.
+
+
 The Effects Queue
 -----------------
 
@@ -59,25 +77,26 @@ create conflicts between the effects if multiple effects are running at the
 same time. To manage this problem, the Queue mechanism has been introduced:
 it's responsible for running the effects as you desired.
 
-By default, you have one Queue called 'global', and the effects run in 'parallel'
-(see default options). Every effects have a queue option to customize this.
-It can be a string, the scope is then global:
-    
-- `start`: the effect will be run before any other;
-- `end`: the effect will be run after any other;
-- `break`: every other effects break when the the effect start;
-- `parallel`: the effect run normally with others.
+By default, you have one Queue called ``'global'``, and the effects run in
+``'parallel'`` (see :mochiref:`DefaultOptions`). Every effect has a ``queue``
+option to customize this. It's value can be a string, thereby using the
+``global`` scope:
 
-But you have even more control if you use an array with the following keys:
+- `front`: the effect will be run before any other non-started effect;
+- `end`: the effect will be run when all other effects have finished;
+- `break`: every other effect is immediately finalized when the the effect start;
+- `parallel`: the effect runs in parallel with other effects.
 
-- `position` takes a value listed above;
-- `scope` manages how the information has to be taken. If it's `global` 
-  then it's the same information for every effects. Otherwise you can define
-  your own scode. For example, if you add an effect on a specified element,
-  you may use the element id as scode;
-- `limit` defines how many effects can run in the current scode. If an
-  effect is added whereas the limit is reached, it will never be run (it's
-  lost).
+But you have even more control if you use an object with the following
+property keys:
+
+- `position` takes one of the values listed above;
+- `scope` contains the queue name. If it's ``"global"`` the effect will use the
+  default queue, otherwise you can define your own queue name. For example, if
+  you add an effect on a specified element, you may use the element id as scope;
+- `limit` defines how many effects can be stored in the queue at a single time.
+  If an effect is added when the limit has been reached, it will never be run
+  (it's lost).
 
 
 API Reference

@@ -54,30 +54,45 @@ completely through CSS manipulations and require no external images or
 style sheets.  This implementation was adapted from <a class="reference" href="http://www.openrico.org">Rico</a>. Dynamic
 effects are ported from <a class="reference" href="http://script.aculo.us">Scriptaculous</a>.</p>
 <div class="section">
+<h2><a id="animations-effects" name="animations-effects">Animations &amp; Effects</a></h2>
+<p>Dynamic or animated effects are managed by a basic looping service (see
+<a class="mochiref reference" href="#fn-base">Base</a>). The effect looping is controlled by timers that are invoked
+at regular and short intervals while the effect is executing. The base looping
+service takes the current system time into consideration, automatically
+skipping effect steps on execution delays.</p>
+<p>The effect classes need only handle dynamic updates based on a floating-point
+number between <tt class="docutils literal"><span class="pre">0.0</span></tt> and <tt class="docutils literal"><span class="pre">1.0</span></tt> (the effect position). This effect position
+may also be manipulated by <a class="mochiref reference" href="#fn-transitions">Transitions</a> to provide non-linear
+updates, which may further enhance the visual effect.</p>
+<p>The effect timer and transitions can be controlled through a set of
+<a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a> that are available for all effect classes.</p>
+</div>
+<div class="section">
 <h2><a id="the-effects-queue" name="the-effects-queue">The Effects Queue</a></h2>
 <p>When you create effects based on user input (mouse clicks for example), it can
 create conflicts between the effects if multiple effects are running at the
 same time. To manage this problem, the Queue mechanism has been introduced:
 it's responsible for running the effects as you desired.</p>
-<p>By default, you have one Queue called 'global', and the effects run in 'parallel'
-(see default options). Every effects have a queue option to customize this.
-It can be a string, the scope is then global:</p>
+<p>By default, you have one Queue called <tt class="docutils literal"><span class="pre">'global'</span></tt>, and the effects run in
+<tt class="docutils literal"><span class="pre">'parallel'</span></tt> (see <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>). Every effect has a <tt class="docutils literal"><span class="pre">queue</span></tt>
+option to customize this. It's value can be a string, thereby using the
+<tt class="docutils literal"><span class="pre">global</span></tt> scope:</p>
 <ul class="simple">
-<li><cite>start</cite>: the effect will be run before any other;</li>
-<li><cite>end</cite>: the effect will be run after any other;</li>
-<li><cite>break</cite>: every other effects break when the the effect start;</li>
-<li><cite>parallel</cite>: the effect run normally with others.</li>
+<li><cite>front</cite>: the effect will be run before any other non-started effect;</li>
+<li><cite>end</cite>: the effect will be run when all other effects have finished;</li>
+<li><cite>break</cite>: every other effect is immediately finalized when the the effect start;</li>
+<li><cite>parallel</cite>: the effect runs in parallel with other effects.</li>
 </ul>
-<p>But you have even more control if you use an array with the following keys:</p>
+<p>But you have even more control if you use an object with the following
+property keys:</p>
 <ul class="simple">
-<li><cite>position</cite> takes a value listed above;</li>
-<li><cite>scope</cite> manages how the information has to be taken. If it's <cite>global</cite>
-then it's the same information for every effects. Otherwise you can define
-your own scode. For example, if you add an effect on a specified element,
-you may use the element id as scode;</li>
-<li><cite>limit</cite> defines how many effects can run in the current scode. If an
-effect is added whereas the limit is reached, it will never be run (it's
-lost).</li>
+<li><cite>position</cite> takes one of the values listed above;</li>
+<li><cite>scope</cite> contains the queue name. If it's <tt class="docutils literal"><span class="pre">&quot;global&quot;</span></tt> the effect will use the
+default queue, otherwise you can define your own queue name. For example, if
+you add an effect on a specified element, you may use the element id as scope;</li>
+<li><cite>limit</cite> defines how many effects can be stored in the queue at a single time.
+If an effect is added when the limit has been reached, it will never be run
+(it's lost).</li>
 </ul>
 </div>
 </div>
