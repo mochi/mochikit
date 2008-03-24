@@ -455,22 +455,22 @@ Combination Effects
         effect. Note that the :mochiref:`Opacity` effect is turned
         off by default. See also the :mochiref:`DefaultOptions`.
 
-        ===================== ========================================
-        ``direction``         ``center``
-        ``moveTransition``    ``MochiKit.Visual.Transitions.sinoidal``    
-        ``scaleTransition``   ``MochiKit.Visual.Transitions.sinoidal``    
-        ``opacityTransition`` ``MochiKit.Visual.Transitions.full``    
-        ===================== ========================================
+        ================= ========================================
+        direction         ``"center"``
+        moveTransition    ``MochiKit.Visual.Transitions.sinoidal``    
+        scaleTransition   ``MochiKit.Visual.Transitions.sinoidal``    
+        opacityTransition ``MochiKit.Visual.Transitions.full``    
+        ================= ========================================
 
     The ``direction`` option controls the origin point of the effect.
     The following values are allowed:
 
         ===================== ========================================
-        ``center``            Grows from the center
-        ``top-left``          Grows from the top left corner
-        ``top-right``         Grows from the top right corner
-        ``bottom-left``       Grows from the bottom left corner
-        ``bottom-right``      Grows from the bottom right corner
+        ``"center"``          Grows from the center
+        ``"top-left"``        Grows from the top left corner
+        ``"top-right"``       Grows from the top right corner
+        ``"bottom-left"``     Grows from the bottom left corner
+        ``"bottom-right"``    Grows from the bottom right corner
         ===================== ========================================
 
     *Availability*:
@@ -495,22 +495,22 @@ Combination Effects
         effect. Note that the :mochiref:`Opacity` effect is turned
         off by default. See also the :mochiref:`DefaultOptions`.
 
-        ===================== ========================================
-        ``direction``         ``center``
-        ``moveTransition``    ``MochiKit.Visual.Transitions.sinoidal``    
-        ``scaleTransition``   ``MochiKit.Visual.Transitions.sinoidal``    
-        ``opacityTransition`` ``MochiKit.Visual.Transitions.none``    
-        ===================== ========================================
+        ================= ========================================
+        direction         ``"center"``
+        moveTransition    ``MochiKit.Visual.Transitions.sinoidal``    
+        scaleTransition   ``MochiKit.Visual.Transitions.sinoidal``    
+        opacityTransition ``MochiKit.Visual.Transitions.full``    
+        ================= ========================================
 
     The ``direction`` option controls the destination point of the
     effect. The following values are allowed:
 
         ===================== ========================================
-        ``center``            Shrinks to the center
-        ``top-left``          Shrinks to the top left corner
-        ``top-right``         Shrinks to the top right corner
-        ``bottom-left``       Shrinks to the bottom left corner
-        ``bottom-right``      Shrinks to the bottom right corner
+        ``"center"``          Grows from the center
+        ``"top-left"``        Grows from the top left corner
+        ``"top-right"``       Grows from the top right corner
+        ``"bottom-left"``     Grows from the bottom left corner
+        ``"bottom-right"``    Grows from the bottom right corner
         ===================== ========================================
 
     *Availability*:
@@ -564,15 +564,39 @@ Combination Effects
 Basic Effects classes
 ---------------------
 
+:mochidef:`Transitions`:
+
+    Default transition functions available for all effects. A transition
+    function adjusts the current position value between 0 and 1 in order
+    to achieve a non-linear sequence of position values for the effect.
+
+    =========== ========================================
+    linear      A straight linear transition.
+    sinoidal    A smooth sine value transition.
+    reverse     A reverse linear transition.
+    flicker     A sine transition with random additions.
+    wobble      A multi-period sine curve transition.
+    pulse       A multi-period triangle curve transition.
+    none        A fixed zero (0) value transition.
+    full        A fixed one (1) value transition.
+    =========== ========================================
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`DefaultOptions`:
 
-    Default options for all Effect creation.
+    Default options for all effects. Note that all effects inherit
+    the :mochiref:`Base` class and thereby also support a number of
+    events, that can be specified as callback functions among the
+    effect options.
 
     =========== ========================================
     transition  ``MochiKit.Visual.Transitions.sinoidal``
-    duration    ``1.0``
+    duration    ``1.0`` (seconds)
     fps         ``25.0``
-    sync        ``false``
+    sync        ``false`` (only set for :mochiref:`Parallel` effects)
     from        ``0.0``
     to          ``1.0``
     delay       ``0.0``
@@ -588,7 +612,7 @@ Basic Effects classes
     Base class to all effects. Define a basic looping service, use it
     for creating new effects.
 
-    You can override the methods ``setup``, ``update`` and ``finish```.
+    You can override the methods ``setup``, ``update`` and ``finish``.
 
     The class defines a number of events that will be called during effect
     life. The events are:
