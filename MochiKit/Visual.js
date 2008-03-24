@@ -1847,12 +1847,10 @@ MochiKit.Visual.pulsate = function (element, /* optional */ options) {
         }
     }, options);
     var transition = options.transition || v.Transitions.sinoidal;
-    var reverser = b.bind(function (pos) {
+    options.transition = function (pos) {
         return transition(1 - v.Transitions.pulse(pos, options.pulses));
-    }, transition);
-    b.bind(reverser, transition);
-    return new v.Opacity(element, b.update({
-        transition: reverser}, options));
+    };
+    return new v.Opacity(element, options);
 };
 
 /** @id MochiKit.Visual.fold */
