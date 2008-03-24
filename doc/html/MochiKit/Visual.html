@@ -525,7 +525,7 @@ values will be read.</p>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt>options:</dt>
-<dd><p class="first">The following options and default values controls this
+<dd><p class="first">The following options and default values control this
 effect. Note that the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect is turned
 off by default. See also the <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
 <table border="1" class="last docutils">
@@ -597,7 +597,7 @@ position will be restored.</p>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt>options:</dt>
-<dd><p class="first">The following options and default values controls this
+<dd><p class="first">The following options and default values control this
 effect. Note that the <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect is turned
 off by default. See also the <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
 <table border="1" class="last docutils">
@@ -708,7 +708,7 @@ will only affect the first <a class="mochiref reference" href="#fn-scale">Scale<
 </blockquote>
 </div>
 <div class="section">
-<h2><a id="basic-effects-classes" name="basic-effects-classes">Basic Effects classes</a></h2>
+<h2><a id="basic-effects-classes-constants" name="basic-effects-classes-constants">Basic Effects Classes &amp; Constants</a></h2>
 <p>
 <a name="fn-transitions"></a>
 <a class="mochidef reference" href="#fn-transitions">Transitions</a>:</p>
@@ -839,7 +839,7 @@ callbacks (not overriding the library ones).</p>
 <p>Launch a list of <tt class="docutils literal"><span class="pre">effects</span></tt> in parallel.</p>
 <dl class="docutils">
 <dt>effects:</dt>
-<dd>An array of instantiated effect objects. Note that they must
+<dd>An array of instantiated effect objects. Note that they <em>must</em>
 all have <tt class="docutils literal"><span class="pre">sync</span></tt> set to <tt class="docutils literal"><span class="pre">true</span></tt>.</dd>
 <dt>options:</dt>
 <dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
@@ -851,9 +851,15 @@ all have <tt class="docutils literal"><span class="pre">sync</span></tt> set to 
 <a name="fn-opacity"></a>
 <a class="mochidef reference" href="#fn-opacity">Opacity(element [, options])</a>:</p>
 <blockquote>
-<p>Change the opacity of an element progressively.</p>
-<p>options:</p>
-<table border="1" class="docutils">
+<p>Change the opacity of an <tt class="docutils literal"><span class="pre">element</span></tt> progressively.</p>
+<dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd><p class="first">The following options and default values control this effect.
+See also the <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
+<table border="1" class="last docutils">
 <colgroup>
 <col width="43%" />
 <col width="57%" />
@@ -867,7 +873,7 @@ all have <tt class="docutils literal"><span class="pre">sync</span></tt> set to 
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
+</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -876,10 +882,16 @@ all have <tt class="docutils literal"><span class="pre">sync</span></tt> set to 
 <a name="fn-move"></a>
 <a class="mochidef reference" href="#fn-move">Move(element [, options])</a>:</p>
 <blockquote>
-<p>Change the position of an element in small steps, creating a
-moving effect.</p>
-<p>options:</p>
-<table border="1" class="docutils">
+<p>Changes the (top left) position of an <tt class="docutils literal"><span class="pre">element</span></tt> in small steps,
+creating a moving effect.</p>
+<dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd><p class="first">The following options and default values control this effect.
+See also the <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
+<table border="1" class="last docutils">
 <colgroup>
 <col width="36%" />
 <col width="64%" />
@@ -896,6 +908,11 @@ moving effect.</p>
 </tr>
 </tbody>
 </table>
+</dd>
+</dl>
+<p>The <tt class="docutils literal"><span class="pre">mode</span></tt> option controls if the specified <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt>
+coordinates are <tt class="docutils literal"><span class="pre">relative</span></tt> or <tt class="docutils literal"><span class="pre">absolute</span></tt> with respect to the
+current <tt class="docutils literal"><span class="pre">element</span></tt> position.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -905,15 +922,19 @@ moving effect.</p>
 <a name="fn-scale"></a>
 <a class="mochidef reference" href="#fn-scale">Scale(element, percent [, options])</a>:</p>
 <blockquote>
-<p>Change the size of an element.</p>
+<p>Changes the size of an <tt class="docutils literal"><span class="pre">element</span></tt>.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt>percent:</dt>
 <dd>Final wanted size in percent of current size. The size will be
 reduced if the value is between 0 and 100, and raised if the
 value is above 100.</dd>
-</dl>
-<p>options:</p>
-<table border="1" class="docutils">
+<dt>options:</dt>
+<dd><p class="first">The following options and default values control this effect.
+See also the <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
+<table border="1" class="last docutils">
 <colgroup>
 <col width="57%" />
 <col width="43%" />
@@ -932,7 +953,7 @@ value is above 100.</dd>
 <td><tt class="docutils literal"><span class="pre">false</span></tt></td>
 </tr>
 <tr><td>scaleMode</td>
-<td><tt class="docutils literal"><span class="pre">'box'</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">&quot;box&quot;</span></tt></td>
 </tr>
 <tr><td>scaleFrom</td>
 <td><tt class="docutils literal"><span class="pre">100.0</span></tt></td>
@@ -942,6 +963,33 @@ value is above 100.</dd>
 </tr>
 </tbody>
 </table>
+</dd>
+</dl>
+<p>The <tt class="docutils literal"><span class="pre">scaleContent</span></tt> option controls if the element <tt class="docutils literal"><span class="pre">font-size</span></tt>
+should also be scaled along with the size. The <tt class="docutils literal"><span class="pre">scaleFromCenter</span></tt>
+option allows continual adjustment of the <tt class="docutils literal"><span class="pre">element</span></tt> top left
+position to keep the element centered during the size change.
+The <tt class="docutils literal"><span class="pre">scaleMode</span></tt> option is used to determine the original
+<tt class="docutils literal"><span class="pre">element</span></tt> size. It can have one of the following values:</p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">&quot;box&quot;</span></tt></td>
+<td>Uses <tt class="docutils literal"><span class="pre">offsetHeight</span></tt> and <tt class="docutils literal"><span class="pre">offsetWidth</span></tt></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">&quot;contents&quot;</span></tt></td>
+<td>Uses <tt class="docutils literal"><span class="pre">scrollHeight</span></tt> and <tt class="docutils literal"><span class="pre">scrollWidth</span></tt></td>
+</tr>
+<tr><td>{...}</td>
+<td>Uses <tt class="docutils literal"><span class="pre">originalHeight</span></tt> and <tt class="docutils literal"><span class="pre">originalWidth</span></tt> from the specified object</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -951,20 +999,32 @@ value is above 100.</dd>
 <a name="fn-highlight"></a>
 <a class="mochidef reference" href="#fn-highlight">Highlight(element [, options])</a>:</p>
 <blockquote>
-<p>Highlight an element, flashing with one color.</p>
-<p>options:</p>
-<table border="1" class="docutils">
+<p>Highlights an <tt class="docutils literal"><span class="pre">element</span></tt> by flashing the background color. The
+color is first set to the <tt class="docutils literal"><span class="pre">startcolor</span></tt> and is then slowly
+morphed into the <tt class="docutils literal"><span class="pre">endcolor</span></tt>, normally the original background
+color of the element.</p>
+<dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd><p class="first">The following options and default values control this effect.
+See also the <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
+<table border="1" class="last docutils">
 <colgroup>
-<col width="44%" />
-<col width="56%" />
+<col width="25%" />
+<col width="75%" />
 </colgroup>
 <tbody valign="top">
 <tr><td>startcolor</td>
 <td><tt class="docutils literal"><span class="pre">'#ffff99'</span></tt></td>
 </tr>
+<tr><td>endcolor</td>
+<td><tt class="docutils literal"><span class="pre">element.style.backgroundColor</span></tt></td>
+</tr>
 </tbody>
 </table>
-<dl class="docutils">
+</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -973,8 +1033,15 @@ value is above 100.</dd>
 <a name="fn-scrollto"></a>
 <a class="mochidef reference" href="#fn-scrollto">ScrollTo(element [, options])</a>:</p>
 <blockquote>
-<p>Scroll the window to the position of the given element.</p>
+<p>Scroll the window to the position of the given <tt class="docutils literal"><span class="pre">element</span></tt>. Note
+that this effect only scrolls the top window and not any parent
+elements with scrollbars due to <tt class="docutils literal"><span class="pre">&quot;overflow:</span> <span class="pre">auto&quot;</span></tt> style.</p>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -983,7 +1050,7 @@ value is above 100.</dd>
 <a name="fn-morph"></a>
 <a class="mochidef reference" href="#fn-morph">Morph(element [, options])</a>:</p>
 <blockquote>
-<p>Make a transformation to the given element. It's called with the option
+<p>Make a transformation to the given <tt class="docutils literal"><span class="pre">element</span></tt>. It's called with the option
 <tt class="docutils literal"><span class="pre">style</span></tt> with an array holding the styles to change. It works with
 properties for size (<tt class="docutils literal"><span class="pre">font-size</span></tt>, <tt class="docutils literal"><span class="pre">border-width</span></tt>, ...) and properties
 for color (<tt class="docutils literal"><span class="pre">color</span></tt>, <tt class="docutils literal"><span class="pre">background-color</span></tt>, ...).</p>
@@ -998,6 +1065,11 @@ different units).</p>
 Morph(&quot;foo&quot;, {&quot;style&quot;: {&quot;font-size&quot;: &quot;2em&quot;}});
 </pre>
 <dl class="docutils">
+<dt>element:</dt>
+<dd>An element ID string or a DOM node (see
+<a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
