@@ -315,11 +315,21 @@ Combination Effects
 
 :mochidef:`switchOff(element [, options])`:
 
-    A switch-off like effect, making the element disappear.
+    A switch-off like effect, making the ``element`` disappear, using
+    the :mochiref:`Opacity` and :mochiref:`Scale` effects in sequence.
+    The initial :mochiref:`Opacity` effect uses a flicker (partially
+    random) transformation. Once the effect has completed, the
+    ``element`` will be hidden with
+    :mochiref:`MochiKit.Style.hideElement` and the original element
+    opacity, size and position will be restored.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        See :mochiref:`DefaultOptions`. Note that the options will
+        only affect the secondary :mochiref:`Scale` effect.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -327,13 +337,21 @@ Combination Effects
 
 :mochidef:`dropOut(element [, options])`:
 
-    Make the element fall and fade.
+    Make the element fall and fade using the
+    :mochiref:`Move` and :mochiref:`Opacity` effects in parallel.
+    Once the effect has completed, the ``element`` will be hidden with
+    :mochiref:`MochiKit.Style.hideElement` and the original element
+    position and opacity will be restored.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
 
     options:
+        The ``distance`` option controls the number of pixels that the
+        element will move downwards. See also the
+        :mochiref:`DefaultOptions`.
+
         ======== =======
         distance ``100``
         ======== =======
@@ -344,11 +362,17 @@ Combination Effects
 
 :mochidef:`shake(element [, options])`:
 
-    Shake an element from left to right.
+    Shake an element from left to right using a sequence of six
+    :mochiref:`Move` effects. Once the effect has completed, the
+    original ``element`` position will be restored.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        See :mochiref:`DefaultOptions`. Note that the options will
+        only affect the last :mochiref:`Move` effect.
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -394,12 +418,20 @@ Combination Effects
 
 :mochidef:`squish(element [, options])`:
 
-    Reduce the horizontal and vertical sizes at the same time, using
-    the top left corner.
+    Reduce the horizontal and vertical sizes at the same time using
+    a single :mochiref:`Scale` effect. The result is similar to the
+    :mochiref:`shrink` effect with a ``top-left`` value for the
+    ``direction`` option. The ``element`` should have fixed width and
+    height. Once the effect has completed, the ``element`` will be
+    hidden with :mochiref:`MochiKit.Style.hideElement` and the
+    original element size will be restored.
 
     element:
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
+
+    options:
+        See :mochiref:`DefaultOptions`.
 
     *Availability*:
         Available in MochiKit 1.4+

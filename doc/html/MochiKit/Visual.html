@@ -382,11 +382,20 @@ style it will be changed to <tt class="docutils literal"><span class="pre">&quot
 <a name="fn-switchoff"></a>
 <a class="mochidef reference" href="#fn-switchoff">switchOff(element [, options])</a>:</p>
 <blockquote>
-<p>A switch-off like effect, making the element disappear.</p>
+<p>A switch-off like effect, making the <tt class="docutils literal"><span class="pre">element</span></tt> disappear, using
+the <a class="mochiref reference" href="#fn-opacity">Opacity</a> and <a class="mochiref reference" href="#fn-scale">Scale</a> effects in sequence.
+The initial <a class="mochiref reference" href="#fn-opacity">Opacity</a> effect uses a flicker (partially
+random) transformation. Once the effect has completed, the
+<tt class="docutils literal"><span class="pre">element</span></tt> will be hidden with
+<a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the original element
+opacity, size and position will be restored.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>. Note that the options will
+only affect the secondary <a class="mochiref reference" href="#fn-scale">Scale</a> effect.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -395,13 +404,20 @@ style it will be changed to <tt class="docutils literal"><span class="pre">&quot
 <a name="fn-dropout"></a>
 <a class="mochidef reference" href="#fn-dropout">dropOut(element [, options])</a>:</p>
 <blockquote>
-<p>Make the element fall and fade.</p>
+<p>Make the element fall and fade using the
+<a class="mochiref reference" href="#fn-move">Move</a> and <a class="mochiref reference" href="#fn-opacity">Opacity</a> effects in parallel.
+Once the effect has completed, the <tt class="docutils literal"><span class="pre">element</span></tt> will be hidden with
+<a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the original element
+position and opacity will be restored.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
 <dt>options:</dt>
-<dd><table border="1" class="first last docutils">
+<dd><p class="first">The <tt class="docutils literal"><span class="pre">distance</span></tt> option controls the number of pixels that the
+element will move downwards. See also the
+<a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</p>
+<table border="1" class="last docutils">
 <colgroup>
 <col width="53%" />
 <col width="47%" />
@@ -421,11 +437,16 @@ style it will be changed to <tt class="docutils literal"><span class="pre">&quot
 <a name="fn-shake"></a>
 <a class="mochidef reference" href="#fn-shake">shake(element [, options])</a>:</p>
 <blockquote>
-<p>Shake an element from left to right.</p>
+<p>Shake an element from left to right using a sequence of six
+<a class="mochiref reference" href="#fn-move">Move</a> effects. Once the effect has completed, the
+original <tt class="docutils literal"><span class="pre">element</span></tt> position will be restored.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>. Note that the options will
+only affect the last <a class="mochiref reference" href="#fn-move">Move</a> effect.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -472,12 +493,19 @@ original element size will be restored.</p>
 <a name="fn-squish"></a>
 <a class="mochidef reference" href="#fn-squish">squish(element [, options])</a>:</p>
 <blockquote>
-<p>Reduce the horizontal and vertical sizes at the same time, using
-the top left corner.</p>
+<p>Reduce the horizontal and vertical sizes at the same time using
+a single <a class="mochiref reference" href="#fn-scale">Scale</a> effect. The result is similar to the
+<a class="mochiref reference" href="#fn-shrink">shrink</a> effect with a <tt class="docutils literal"><span class="pre">top-left</span></tt> value for the
+<tt class="docutils literal"><span class="pre">direction</span></tt> option. The <tt class="docutils literal"><span class="pre">element</span></tt> should have fixed width and
+height. Once the effect has completed, the <tt class="docutils literal"><span class="pre">element</span></tt> will be
+hidden with <a class="mochiref reference" href="Style.html#fn-hideelement">MochiKit.Style.hideElement</a> and the
+original element size will be restored.</p>
 <dl class="docutils">
 <dt>element:</dt>
 <dd>An element ID string or a DOM node (see
 <a class="mochiref reference" href="DOM.html#fn-getelement">MochiKit.DOM.getElement</a>).</dd>
+<dt>options:</dt>
+<dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
