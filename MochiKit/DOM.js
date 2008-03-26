@@ -1043,29 +1043,18 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (typeof(className) == 'undefined' || className === null) {
             className = null;
         }
-
-        var classList = '';
-        var curTagName = '';
-        while (elem && elem.tagName) {
+        if (elem) {
             elem = elem.parentNode;
-            if (tagName == '*' && className === null) {
-                return elem;
-            }
-            classList = elem.className.split(' ');
-            curTagName = elem.tagName.toUpperCase();
-            if (className === null && tagName == curTagName) {
-                return elem;
-            } else if (className !== null) {
-                for (var i = 0; i < classList.length; i++) {
-                    if (tagName == '*' && classList[i] == className) {
-                        return elem;
-                    } else if (tagName == curTagName && classList[i] == className) {
-                        return elem;
-                    }
-                }
-            }
         }
-        return elem;
+        while (elem && elem.tagName && elem.className) {
+            var curTagName = elem.tagName.toUpperCase();
+            if ((tagName === '*' || tagName == curTagName) &&
+                (className === null || self.hasElementClass(elem, className))) {
+                return elem;
+            }
+            elem = elem.parentNode;
+        }
+        return null;
     },
 
     /** @id MochiKit.DOM.isParent */

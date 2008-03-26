@@ -547,15 +547,17 @@ Functions
 
 :mochidef:`getFirstParentByTagAndClassName(elem, tagName='*', className=null)`:
 
-    Returns the first parent of ``elem`` matches the tag name and class name
-    provided. If parent is a string, it will be looked up using
+    Returns the first parent of ``elem`` that matches the tag name and class
+    name provided. If ``elem`` is a string, it will be looked up using
     :mochiref:`getElement`.
 
     If ``tagName`` is ``null`` or ``"*"``, all elements will be searched
     for the matching class.
 
     If ``className`` is ``null``, the first element matching the provided
-    tag will be returned.
+    tag name will be returned.
+
+    If no match is found, ``null`` will be returned.
 
     *Availability*:
         Available in MochiKit 1.4+

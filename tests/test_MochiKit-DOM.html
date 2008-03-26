@@ -291,6 +291,8 @@ try {
     is( getFirstParentByTagAndClassName('child', 'div', 'two'), getElement("parentTwo"), "getFirstParentByTagAndClassName found parent" );
     is( getFirstParentByTagAndClassName('child', 'div'), getElement("parentZero"), "getFirstParentByTagAndClassName found parent (any class)" );
     is( getFirstParentByTagAndClassName('child', '*', 'two'), getElement("parentTwo"), "getFirstParentByTagAndClassName found parent (any tag)" );
+    is( getFirstParentByTagAndClassName('child', '*'), getElement("parentZero"), "getFirstParentByTagAndClassName found parent (any tag + any class)" );
+    is( getFirstParentByTagAndClassName('child', 'form'), null, "getFirstParentByTagAndClassName found null parent (no match)" );
 
     ok( isChildNode('child', 'parentZero'), "isChildNode direct child");
     ok( isChildNode('child', 'parentTwo'), "isChildNode sub child");
