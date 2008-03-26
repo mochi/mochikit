@@ -568,13 +568,14 @@ tag will be returned.</p>
 <a name="fn-getfirstparentbytagandclassname"></a>
 <a class="mochidef reference" href="#fn-getfirstparentbytagandclassname">getFirstParentByTagAndClassName(elem, tagName='*', className=null)</a>:</p>
 <blockquote>
-<p>Returns the first parent of <tt class="docutils literal"><span class="pre">elem</span></tt> matches the tag name and class name
-provided. If parent is a string, it will be looked up using
+<p>Returns the first parent of <tt class="docutils literal"><span class="pre">elem</span></tt> that matches the tag name and class
+name provided. If <tt class="docutils literal"><span class="pre">elem</span></tt> is a string, it will be looked up using
 <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
 <p>If <tt class="docutils literal"><span class="pre">tagName</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt> or <tt class="docutils literal"><span class="pre">&quot;*&quot;</span></tt>, all elements will be searched
 for the matching class.</p>
 <p>If <tt class="docutils literal"><span class="pre">className</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, the first element matching the provided
-tag will be returned.</p>
+tag name will be returned.</p>
+<p>If no match is found, <tt class="docutils literal"><span class="pre">null</span></tt> will be returned.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
