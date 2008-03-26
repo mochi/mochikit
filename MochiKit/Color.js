@@ -670,7 +670,7 @@ MochiKit.Base.update(MochiKit.Color, {
 
         var isColor = function () {
             for (var i = 0; i < arguments.length; i++) {
-                if (!(arguments[i] instanceof Color)) {
+                if (!(arguments[i] instanceof MochiKit.Color.Color)) {
                     return false;
                 }
             }
