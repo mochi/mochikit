@@ -3344,7 +3344,7 @@ _3b4=null;
 if(elem){
 elem=elem.parentNode;
 }
-while(elem&&elem.tagName&&elem.className){
+while(elem&&elem.tagName&&typeof (elem.className)=="string"){
 var _3b6=elem.tagName.toUpperCase();
 if((_3b3==="*"||_3b3==_3b6)&&(_3b4===null||self.hasElementClass(elem,_3b4))){
 return elem;

@@ -1046,7 +1046,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (elem) {
             elem = elem.parentNode;
         }
-        while (elem && elem.tagName && elem.className) {
+        while (elem && elem.tagName && typeof(elem.className) == "string") {
             var curTagName = elem.tagName.toUpperCase();
             if ((tagName === '*' || tagName == curTagName) &&
                 (className === null || self.hasElementClass(elem, className))) {
