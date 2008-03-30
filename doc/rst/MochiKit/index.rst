@@ -49,6 +49,7 @@ See Also
 
 .. _`mochikit.com`: http://mochikit.com/
 .. _`from __future__ import *`: http://bob.pythonmac.org/
+.. _`MochiKit and Dojo`: http://trac.mochikit.com/wiki/HowToUseWithDojo
 .. _`MochiKit on JSAN`: http://openjsan.org/doc/b/bo/bob/MochiKit/
 .. _`MochiKit tag on del.icio.us`: http://del.icio.us/tag/mochikit
 .. _`MochiKit tag on Technorati`: http://technorati.com/tag/mochikit
@@ -58,6 +59,7 @@ See Also
   related to development of and with MochiKit
 - `mochikit.com`_: MochiKit's home on the web
 - `from __future__ import *`_: Bob Ippolito's blog
+- `MochiKit and Dojo`_: information for using MochiKit with Dojo Toolkit
 - `MochiKit on JSAN`_: the JSAN distribution page for MochiKit
 - `MochiKit tag on del.icio.us`_: Recent bookmarks related to MochiKit
 - `MochiKit tag on Technorati`_: Recent blog entries related to MochiKit
