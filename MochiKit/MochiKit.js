@@ -49,7 +49,11 @@ MochiKit.MochiKit.SUBMODULES = [
 if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
     if (typeof(dojo) != 'undefined') {
         dojo.provide('MochiKit.MochiKit');
-        dojo.require("MochiKit.*");
+        (function (lst) {
+            for (var i = 0; i < lst.length; i++) {
+                dojo.require("MochiKit." + lst[i]);
+            }
+        })(MochiKit.MochiKit.SUBMODULES);
     }
     if (typeof(JSAN) != 'undefined') {
         (function (lst) {
