@@ -215,8 +215,6 @@ MochiKit.Base.update(MochiKit.Style, {
                 (de.scrollTop || b.scrollTop) -
                 (de.clientTop || 0);
 
-            // Don't pass through next steps
-            return c;
         } else if (elem.offsetParent) {
             c.x += elem.offsetLeft;
             c.y += elem.offsetTop;
@@ -246,6 +244,30 @@ MochiKit.Base.update(MochiKit.Style, {
                 c.y -= b.offsetTop;
 
             }
+
+            // Adjust position for strange Opera scroll bug
+            if (elem.parentNode) {
+                parent = elem.parentNode;
+            } else {
+                parent = null;
+            }
+            while (parent) {
+                var tagName = parent.tagName.toUpperCase();
+                if (tagName === 'BODY' || tagName === 'HTML') {
+                    break;
+                }
+                var disp = self.getStyle(parent, 'display');
+                // Handle strange Opera bug for some display
+                if (disp.search(/^inline|table-row.*$/i)) {
+                    c.x -= parent.scrollLeft;
+                    c.y -= parent.scrollTop;
+                }
+                if (parent.parentNode) {
+                    parent = parent.parentNode;
+                } else {
+                    parent = null;
+                }
+            }
         }
 
         if (typeof(relativeTo) != 'undefined') {
@@ -253,30 +275,6 @@ MochiKit.Base.update(MochiKit.Style, {
             if (relativeTo) {
                 c.x -= (relativeTo.x || 0);
                 c.y -= (relativeTo.y || 0);
-            }
-        }
-
-        if (elem.parentNode) {
-            parent = elem.parentNode;
-        } else {
-            parent = null;
-        }
-
-        while (parent) {
-            var tagName = parent.tagName.toUpperCase();
-            if (tagName === 'BODY' || tagName === 'HTML') {
-                break;
-            }
-            var disp = self.getStyle(parent, 'display');
-            // Handle strange Opera bug for some display
-            if (disp.search(/^inline|table-row.*$/i)) {
-                c.x -= parent.scrollLeft;
-                c.y -= parent.scrollTop;
-            }
-            if (parent.parentNode) {
-                parent = parent.parentNode;
-            } else {
-                parent = null;
             }
         }
 

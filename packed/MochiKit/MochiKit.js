@@ -3905,7 +3905,6 @@ if(elem.getBoundingClientRect){
 box=elem.getBoundingClientRect();
 c.x+=box.left+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||0);
 c.y+=box.top+(de.scrollTop||b.scrollTop)-(de.clientTop||0);
-return c;
 }else{
 if(elem.offsetParent){
 c.x+=elem.offsetLeft;
@@ -3922,16 +3921,6 @@ var ua=navigator.userAgent.toLowerCase();
 if((typeof (opera)!="undefined"&&parseFloat(opera.version())<9)||(ua.indexOf("AppleWebKit")!=-1&&self.getStyle(elem,"position")=="absolute")){
 c.x-=b.offsetLeft;
 c.y-=b.offsetTop;
-}
-}
-}
-}
-if(typeof (_41b)!="undefined"){
-_41b=arguments.callee(_41b);
-if(_41b){
-c.x-=(_41b.x||0);
-c.y-=(_41b.y||0);
-}
 }
 if(elem.parentNode){
 _420=elem.parentNode;
@@ -3952,6 +3941,16 @@ if(_420.parentNode){
 _420=_420.parentNode;
 }else{
 _420=null;
+}
+}
+}
+}
+}
+if(typeof (_41b)!="undefined"){
+_41b=arguments.callee(_41b);
+if(_41b){
+c.x-=(_41b.x||0);
+c.y-=(_41b.y||0);
 }
 }
 return c;
