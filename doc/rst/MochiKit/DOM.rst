@@ -339,10 +339,10 @@ Functions
     - ``A``
     - ``BUTTON``
     - ``BR``
-    - ``CANVAS```
+    - ``CANVAS``
     - ``DD``
     - ``DIV``
-    - ``DL```
+    - ``DL``
     - ``DT``
     - ``FIELDSET``
     - ``FORM``
