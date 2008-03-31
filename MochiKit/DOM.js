@@ -47,6 +47,9 @@ MochiKit.DOM.EXPORT = [
     "H1",
     "H2",
     "H3",
+    "H4",
+    "H5",
+    "H6",
     "BR",
     "CANVAS",
     "HR",
@@ -1202,6 +1205,12 @@ MochiKit.Base.update(MochiKit.DOM, {
         this.H2 = createDOMFunc("h2");
         /** @id MochiKit.DOM.H3 */
         this.H3 = createDOMFunc("h3");
+        /** @id MochiKit.DOM.H4 */
+        this.H4 = createDOMFunc("h4");
+        /** @id MochiKit.DOM.H5 */
+        this.H5 = createDOMFunc("h5");
+        /** @id MochiKit.DOM.H6 */
+        this.H6 = createDOMFunc("h6");
         /** @id MochiKit.DOM.BR */
         this.BR = createDOMFunc("br");
         /** @id MochiKit.DOM.HR */
