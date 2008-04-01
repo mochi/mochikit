@@ -318,12 +318,13 @@ MochiKit.Base.update(MochiKit.Style, {
         var s = elem.style;
         var originalVisibility = s.visibility;
         var originalPosition = s.position;
+        var originalDisplay = s.display;
         s.visibility = 'hidden';
         s.position = 'absolute';
         s.display = '';
         var originalWidth = elem.offsetWidth;
         var originalHeight = elem.offsetHeight;
-        s.display = 'none';
+        s.display = originalDisplay;
         s.position = originalPosition;
         s.visibility = originalVisibility;
         return new self.Dimensions(originalWidth, originalHeight);
