@@ -109,6 +109,13 @@ try {
     is(dims.w, 150, 'getElementDimensions w ok when display none');
     is(dims.h, 150, 'getElementDimensions h ok when display none');
 
+    var elem = DIV();
+    appendChildNodes('styleTest', elem);
+    var before = elem.style.display;
+    getElementDimensions(elem);
+    var after = elem.style.display;
+    is(after, before, 'getElementDimensions modified element display');
+
     dims = getViewportDimensions();
     is(dims.w > 0, true, 'test getViewportDimensions w');
     is(dims.h > 0, true, 'test getViewportDimensions h');
