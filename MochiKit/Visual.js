@@ -447,7 +447,7 @@ MochiKit.Visual.Transitions.linear = function (pos) {
 
 /** @id MochiKit.Visual.Transitions.sinoidal */
 MochiKit.Visual.Transitions.sinoidal = function (pos) {
-    return (-Math.cos(pos*Math.PI)/2) + 0.5;
+    return 0.5 - Math.cos(pos*Math.PI)/2;
 };
 
 /** @id MochiKit.Visual.Transitions.reverse */
@@ -457,23 +457,23 @@ MochiKit.Visual.Transitions.reverse = function (pos) {
 
 /** @id MochiKit.Visual.Transitions.flicker */
 MochiKit.Visual.Transitions.flicker = function (pos) {
-    return ((-Math.cos(pos*Math.PI)/4) + 0.75) + Math.random()/4;
+    return 0.25 - Math.cos(pos*Math.PI)/4 + Math.random()/2;
 };
 
 /** @id MochiKit.Visual.Transitions.wobble */
 MochiKit.Visual.Transitions.wobble = function (pos) {
-    return (-Math.cos(pos*Math.PI*(9*pos))/2) + 0.5;
+    return 0.5 - Math.cos(9*pos*Math.PI)/2;
 };
 
 /** @id MochiKit.Visual.Transitions.pulse */
 MochiKit.Visual.Transitions.pulse = function (pos, pulses) {
-    if (!pulses) {
-        return (Math.floor(pos*10) % 2 === 0 ?
-            (pos*10 - Math.floor(pos*10)) : 1 - (pos*10 - Math.floor(pos*10)));
+    if (pulses) {
+        pos *= 2 * pulses;
+    } else {
+        pos *= 10;
     }
-    return (Math.round((pos % (1/pulses)) * pulses) == 0 ?
-            ((pos * pulses * 2) - Math.floor(pos * pulses * 2)) :
-        1 - ((pos * pulses * 2) - Math.floor(pos * pulses * 2)));
+    var decimals = pos - Math.floor(pos);
+    return (Math.floor(pos) % 2 == 0) ? decimals : 1 - decimals;
 };
 
 /** @id MochiKit.Visual.Transitions.none */
