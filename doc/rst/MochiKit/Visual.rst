@@ -594,8 +594,8 @@ Basic Effects Classes & Constants
     sinoidal    A smooth sine value transition.
     reverse     A reverse linear transition.
     flicker     A sine transition with random additions.
-    wobble      A multi-period sine curve transition.
-    pulse       A multi-period triangle curve transition.
+    wobble      A multi-period sine curve transition with 4.5 wobbles and ending with one (1).
+    pulse       A multi-period triangle curve transition with 5 pulses (by default) and ending with zero (0).
     none        A fixed zero (0) value transition.
     full        A fixed one (1) value transition.
     =========== ========================================
