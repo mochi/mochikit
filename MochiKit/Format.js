@@ -143,36 +143,21 @@ MochiKit.Format.twoDigitAverage = function (numerator, denominator) {
     if (denominator) {
         var res = numerator / denominator;
         if (!isNaN(res)) {
-            return MochiKit.Format.twoDigitFloat(numerator / denominator);
+            return MochiKit.Format.twoDigitFloat(res);
         }
     }
     return "0";
 };
 
 /** @id MochiKit.Format.twoDigitFloat */
-MochiKit.Format.twoDigitFloat = function (someFloat) {
-    var sign = (someFloat < 0 ? '-' : '');
-    var s = Math.floor(Math.abs(someFloat) * 100).toString();
-    if (s == '0') {
-        return s;
-    }
-    if (s.length < 3) {
-        if (s.length == 1) {
-            s = '0' + s;
-        }
-        while (s.charAt(s.length - 1) == '0') {
-            s = s.substring(0, s.length - 1);
-        }
-        return sign + '0.' + s;
-    }
-    var head = sign + s.substring(0, s.length - 2);
-    var tail = s.substring(s.length - 2, s.length);
-    if (tail == '00') {
-        return head;
-    } else if (tail.charAt(1) == '0') {
-        return head + '.' + tail.charAt(0);
+MochiKit.Format.twoDigitFloat = function (aNumber) {
+    var res = roundToFixed(aNumber, 2);
+    if (res.indexOf(".00") > 0) {
+        return res.substring(0, res.length - 3);
+    } else if (res.charAt(res.length - 1) == "0") {
+        return res.substring(0, res.length - 1);
     } else {
-        return head + '.' + tail;
+        return res;
     }
 };
 
@@ -210,25 +195,46 @@ MochiKit.Format.strip = function (str, /* optional */chars) {
 
 /** @id MochiKit.Format.truncToFixed */
 MochiKit.Format.truncToFixed = function (aNumber, precision) {
-    aNumber = Math.floor(aNumber * Math.pow(10, precision));
-    var res = (aNumber * Math.pow(10, -precision)).toFixed(precision);
-    if (res.charAt(0) == ".") {
-        res = "0" + res;
+    var res = Math.floor(aNumber).toFixed(0);
+    if (aNumber < 0) {
+        res = Math.ceil(aNumber).toFixed(0);
+        if (res.charAt(0) != "-" && precision > 0) {
+            res = "-" + res;
+        }
+    }
+    if (res.indexOf("e") < 0 && precision > 0) {
+        var tail = aNumber.toString();
+        if (tail.indexOf("e") > 0) {
+            tail = ".";
+        } else if (tail.indexOf(".") < 0) {
+            tail = ".";
+        } else {
+            tail = tail.substring(tail.indexOf("."));
+        }
+        if (tail.length - 1 > precision) {
+            tail = tail.substring(0, precision + 1);
+        }
+        while (tail.length - 1 < precision) {
+            tail += "0";
+        }
+        res += tail;
     }
     return res;
 };
 
 /** @id MochiKit.Format.roundToFixed */
 MochiKit.Format.roundToFixed = function (aNumber, precision) {
-    return MochiKit.Format.truncToFixed(
-        aNumber + 0.5 * Math.pow(10, -precision),
-        precision
-    );
+    var upper = Math.abs(aNumber) + 0.5 * Math.pow(10, -precision);
+    var res = MochiKit.Format.truncToFixed(upper, precision);
+    if (aNumber < 0) {
+        res = "-" + res;
+    }
+    return res;
 };
 
 /** @id MochiKit.Format.percentFormat */
-MochiKit.Format.percentFormat = function (someFloat) {
-    return MochiKit.Format.twoDigitFloat(100 * someFloat) + '%';
+MochiKit.Format.percentFormat = function (aNumber) {
+    return MochiKit.Format.twoDigitFloat(100 * aNumber) + '%';
 };
 
 MochiKit.Format.EXPORT = [

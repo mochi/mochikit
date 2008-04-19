@@ -7,11 +7,18 @@ tests.test_Format = function (t) {
     t.is( truncToFixed(0.12, 3), "0.120", "truncToFixed trailing zeros" );
     t.is( truncToFixed(0.15, 1), "0.1", "truncToFixed no round" );
     t.is( truncToFixed(0.15, 0), "0", "truncToFixed zero (edge case)" );
+    t.is( truncToFixed(568.80, 2), "568.80", "truncToFixed 568.80, floating-point error" );
+    t.is( truncToFixed(1.23e+20, 2), "123000000000000000000.00", "truncToFixed 1.23e+20" );
+    t.is( truncToFixed(1.23e+21, 2), "1.23e+21", "truncToFixed 1.23e+21" );
+    t.is( truncToFixed(-1.23e+20, 2), "-123000000000000000000.00", "truncToFixed -1.23e+20" );
+    t.is( truncToFixed(-1.23e+21, 2), "-1.23e+21", "truncToFixed -1.23e+21" );
+    t.is( truncToFixed(1.23e-10, 2), "0.00", "truncToFixed 1.23e-10" );
 
     t.is( roundToFixed(0.1234, 3), "0.123", "roundToFixed truncate" );
     t.is( roundToFixed(0.12, 3), "0.120", "roundToFixed trailing zeros" );
     t.is( roundToFixed(0.15, 1), "0.2", "roundToFixed round" );
     t.is( roundToFixed(0.15, 0), "0", "roundToFixed zero (edge case)" );
+    t.is( roundToFixed(568.80, 2), "568.80", "roundToFixed 568.80, floating-point error" );
 
     t.is( twoDigitFloat(-0.1234), "-0.12", "twoDigitFloat -0.1234 correct");
     t.is( twoDigitFloat(-0.1), "-0.1", "twoDigitFloat -0.1 correct");
@@ -23,6 +30,8 @@ tests.test_Format = function (t) {
     t.is( twoDigitFloat(1.234), "1.23", "twoDigitFloat 1.234 correct");
     t.is( twoDigitFloat(0.23), "0.23", "twoDigitFloat 0.23 correct");
     t.is( twoDigitFloat(0.01), "0.01", "twoDigitFloat 0.01 correct");
+    t.is( twoDigitFloat(568.80), "568.8", "twoDigitFloat, floating-point error");
+
     t.is( percentFormat(123), "12300%", "percentFormat 123 correct");
     t.is( percentFormat(1.23), "123%", "percentFormat 123 correct");
     t.is( twoDigitAverage(1, 0), "0", "twoDigitAverage dbz correct");
