@@ -79,7 +79,7 @@ it's responsible for running the effects as you desired.
 
 By default, you have one Queue called ``'global'``, and the effects run in
 ``'parallel'`` (see :mochiref:`DefaultOptions`). Every effect has a ``queue``
-option to customize this. It's value can be a string, thereby using the
+option to customize this. Its value can be a string, thereby using the
 ``global`` scope:
 
 - `front`: the effect will be run before any other non-started effect;
@@ -110,8 +110,7 @@ Functions
     Rounds all of the elements that match the ``tagName`` and
     ``className`` specifiers, using the options provided.  ``tagName``
     or ``className`` can be ``null`` to match all tags or classes.
-    For more information about the ``options``, see the
-    :mochiref:`roundElement` function.
+    Regarding the ``options``, see the :mochiref:`roundElement` function.
 
     *Availability*:
         Available in MochiKit 1.3.1+
@@ -125,7 +124,7 @@ Functions
         An element ID string or a DOM node (see
         :mochiref:`MochiKit.DOM.getElement`).
 
-    options: 
+    options:
         The ``options`` mapping has the following defaults:
 
         ========= =================
@@ -182,7 +181,8 @@ Functions
         ============ =========================================
 
     options:
-        The optional effect options (see effect functions for details).
+        The optional effect options (see the respective effect
+        functions for details).
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -218,10 +218,10 @@ Functions
         An effect class constructor function.
 
     options:
-        The effect options (see the effect classes). A special ``speed``
-        value will be added to the effect ``delay`` for each additional
-        element in the list. This cause the effects to not run exactly
-        in parallel by default.
+        The effect options (see the respective effect class). A special
+        ``speed`` value will be added to the effect ``delay`` for each
+        additional element in the list. This cause the effects to not run
+        exactly in parallel by default.
 
         ========= =================
         speed     ``0.1``
@@ -259,7 +259,7 @@ Combination Effects
 :mochidef:`appear(element [, options])`:
 
     Slowly shows an ``element`` using the :mochiref:`Opacity` effect.
-    If the ``element`` has ``"display: none"`` style it will be changed
+    If the ``element`` has ``"display: none"`` style, it will be changed
     to ``"display: block"`` with :mochiref:`MochiKit.Style.showElement`.
 
     element:
@@ -318,7 +318,7 @@ Combination Effects
 
     Blind an ``element`` down, restoring its vertical size using the
     :mochiref:`Scale` effect. If the ``element`` has ``"display: none"``
-    style it will be changed to ``"display: block"`` with
+    style, it will be changed to ``"display: block"`` with
     :mochiref:`MochiKit.Style.showElement`.
 
     element:
@@ -476,9 +476,9 @@ Combination Effects
 
         ================= ========================================
         direction         ``"center"``
-        moveTransition    ``MochiKit.Visual.Transitions.sinoidal``    
-        scaleTransition   ``MochiKit.Visual.Transitions.sinoidal``    
-        opacityTransition ``MochiKit.Visual.Transitions.full``    
+        moveTransition    ``MochiKit.Visual.Transitions.sinoidal``
+        scaleTransition   ``MochiKit.Visual.Transitions.sinoidal``
+        opacityTransition ``MochiKit.Visual.Transitions.full``
         ================= ========================================
 
     The ``direction`` option controls the origin point of the effect.
@@ -516,9 +516,9 @@ Combination Effects
 
         ================= ========================================
         direction         ``"center"``
-        moveTransition    ``MochiKit.Visual.Transitions.sinoidal``    
-        scaleTransition   ``MochiKit.Visual.Transitions.sinoidal``    
-        opacityTransition ``MochiKit.Visual.Transitions.full``    
+        moveTransition    ``MochiKit.Visual.Transitions.sinoidal``
+        scaleTransition   ``MochiKit.Visual.Transitions.sinoidal``
+        opacityTransition ``MochiKit.Visual.Transitions.full``
         ================= ========================================
 
     The ``direction`` option controls the destination point of the
@@ -608,7 +608,7 @@ Basic Effects Classes & Constants
 
     Default options for all effects. Note that all effects inherit
     the :mochiref:`Base` class and thereby also support a number of
-    events, that can be specified as callback functions among the
+    events that can be specified as callback functions among the
     effect options.
 
     =========== ========================================
@@ -650,11 +650,11 @@ Basic Effects Classes & Constants
         slideUp('myelement', {afterFinish: function () {
             slideDown('myelement');
         });
- 
-    Specific ``internal`` events are also available: for each one abone the
-    same exists with 'Internal' (example: 'beforeStartInternal'). Their purpose
-    is mainly for creating your own effect and keep the user access to event
-    callbacks (not overriding the library ones).
+
+    Specific ``internal`` events are also available: for each one listed above,
+    the same exists with an 'Internal' postfix (e.g. 'beforeStartInternal').
+    Their purpose is mainly for creating your own effect and keep the user
+    access to event callbacks (not overriding the library ones).
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -761,7 +761,7 @@ Basic Effects Classes & Constants
         ``"box"``        Uses ``offsetHeight`` and ``offsetWidth``
         ``"contents"``   Uses ``scrollHeight`` and ``scrollWidth``
         {...}            Uses ``originalHeight`` and ``originalWidth`` from the specified object
-        ================ =========================================        
+        ================ =========================================
 
     *Availability*:
         Available in MochiKit 1.4+
@@ -813,16 +813,16 @@ Basic Effects Classes & Constants
     Make a transformation to the given ``element``. It's called with the option
     ``style`` with an array holding the styles to change. It works with
     properties for size (``font-size``, ``border-width``, ...) and properties
-    for color (``color``, ``background-color``, ...). 
+    for color (``color``, ``background-color``, ...).
 
     For size, it's better to have defined the original style. You *must*
     use the same unit in the call to Morph (no translation exists between two
     different units).
-    
+
     Parsed length are postfixed with: em, ex, px, in, cm, mm, pt, pc.
-    
+
     Example::
-        
+
         <div id="foo" style="font-size: 1em">MyDiv</div>
         ...
         Morph("foo", {"style": {"font-size": "2em"}});
