@@ -164,11 +164,13 @@ default) or an object with the following fields:</p>
 </blockquote>
 <p>
 <a name="fn-percentformat"></a>
-<a class="mochidef reference" href="#fn-percentformat">percentFormat(someFloat)</a>:</p>
+<a class="mochidef reference" href="#fn-percentformat">percentFormat(aNumber)</a>:</p>
 <blockquote>
-<p>Roughly equivalent to: <tt class="docutils literal"><span class="pre">sprintf(&quot;%.2f%%&quot;,</span> <span class="pre">someFloat</span> <span class="pre">*</span> <span class="pre">100)</span></tt></p>
+<p>Return a string representation of <tt class="docutils literal"><span class="pre">aNumber</span> <span class="pre">*</span> <span class="pre">100</span></tt>, rounded to a
+maximum precision of 2 fractional digits. Roughly equivalent to:
+<tt class="docutils literal"><span class="pre">sprintf(&quot;%.2f%%&quot;,</span> <span class="pre">aNumber</span> <span class="pre">*</span> <span class="pre">100)</span></tt></p>
 <p>In new code, you probably want to use:
-<a class="mochiref reference" href="#fn-numberformatter">numberFormatter(&quot;#.##%&quot;)(someFloat)</a> instead.</p>
+<a class="mochiref reference" href="#fn-numberformatter">numberFormatter(&quot;#.##%&quot;)(aNumber)</a> instead.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -242,7 +244,8 @@ than <tt class="docutils literal"><span class="pre">1</span></tt>.</p>
 <a class="mochidef reference" href="#fn-twodigitaverage">twoDigitAverage(numerator, denominator)</a>:</p>
 <blockquote>
 <p>Calculate an average from a numerator and a denominator and return
-it as a string with two digits of precision (e.g. &quot;1.23&quot;).</p>
+it as a string rounded to a maximum precision of two fractional
+digits (e.g. &quot;1.23&quot;).</p>
 <p>If the denominator is 0, &quot;0&quot; will be returned instead of <tt class="docutils literal"><span class="pre">NaN</span></tt>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -251,11 +254,16 @@ it as a string with two digits of precision (e.g. &quot;1.23&quot;).</p>
 </blockquote>
 <p>
 <a name="fn-twodigitfloat"></a>
-<a class="mochidef reference" href="#fn-twodigitfloat">twoDigitFloat(someFloat)</a>:</p>
+<a class="mochidef reference" href="#fn-twodigitfloat">twoDigitFloat(aNumber)</a>:</p>
 <blockquote>
-<p>Roughly equivalent to: <tt class="docutils literal"><span class="pre">sprintf(&quot;%.2f&quot;,</span> <span class="pre">someFloat)</span></tt></p>
-<p>In new code, you probably want to use
-<a class="mochiref reference" href="#fn-numberformatter">numberFormatter(&quot;#.##&quot;)(someFloat)</a> instead.</p>
+<p>Return a string representation of <tt class="docutils literal"><span class="pre">aNumber</span></tt>, rounded to a maximum
+precision of 2 fractional digits. This is a variation of
+<a class="mochiref reference" href="#fn-roundtofixed">roundToFixed(aNumber, 2)</a> that removes trailing zeros from
+the fractional part.</p>
+<p>For example, <tt class="docutils literal"><span class="pre">twoDigitFloat(0.1357)</span></tt> returns <tt class="docutils literal"><span class="pre">0.14</span></tt>
+and <tt class="docutils literal"><span class="pre">twoDigitFloat(12.00)</span></tt> returns <tt class="docutils literal"><span class="pre">12</span></tt>.</p>
+<p>In new code, you probably want to use:
+<a class="mochiref reference" href="#fn-numberformatter">numberFormatter(&quot;#.##&quot;)(aNumber)</a> instead.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>

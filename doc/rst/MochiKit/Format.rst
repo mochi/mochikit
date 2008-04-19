@@ -132,12 +132,14 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`percentFormat(someFloat)`:
+:mochidef:`percentFormat(aNumber)`:
 
-    Roughly equivalent to: ``sprintf("%.2f%%", someFloat * 100)``
+    Return a string representation of ``aNumber * 100``, rounded to a
+    maximum precision of 2 fractional digits. Roughly equivalent to:
+    ``sprintf("%.2f%%", aNumber * 100)``
 
     In new code, you probably want to use:
-    :mochiref:`numberFormatter("#.##%")(someFloat)` instead.
+    :mochiref:`numberFormatter("#.##%")(aNumber)` instead.
 
     *Availability*:
         Available in MochiKit 1.3.1+
@@ -205,7 +207,8 @@ Functions
 :mochidef:`twoDigitAverage(numerator, denominator)`:
 
     Calculate an average from a numerator and a denominator and return
-    it as a string with two digits of precision (e.g. "1.23").
+    it as a string rounded to a maximum precision of two fractional
+    digits (e.g. "1.23").
 
     If the denominator is 0, "0" will be returned instead of ``NaN``.
 
@@ -213,12 +216,18 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`twoDigitFloat(someFloat)`:
+:mochidef:`twoDigitFloat(aNumber)`:
 
-    Roughly equivalent to: ``sprintf("%.2f", someFloat)``
+    Return a string representation of ``aNumber``, rounded to a maximum
+    precision of 2 fractional digits. This is a variation of
+    :mochiref:`roundToFixed(aNumber, 2)` that removes trailing zeros from
+    the fractional part.
 
-    In new code, you probably want to use
-    :mochiref:`numberFormatter("#.##")(someFloat)` instead.
+    For example, ``twoDigitFloat(0.1357)`` returns ``0.14``
+    and ``twoDigitFloat(12.00)`` returns ``12``.
+
+    In new code, you probably want to use:
+    :mochiref:`numberFormatter("#.##")(aNumber)` instead.
 
     *Availability*:
         Available in MochiKit 1.3.1+
