@@ -838,14 +838,6 @@ Basic Effects Classes & Constants
         Available in MochiKit 1.4+
 
 
-See Also
-========
-
-.. [1] Application Kit Reference - NSColor: http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Classes/NSColor.html
-.. [2] SVG 1.0 color keywords: http://www.w3.org/TR/SVG/types.html#ColorKeywords
-.. [3] W3C CSS3 Color Module: http://www.w3.org/TR/css3-color/#svg-color
-
-
 Authors
 =======
 
