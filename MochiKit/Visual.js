@@ -476,6 +476,11 @@ MochiKit.Visual.Transitions.pulse = function (pos, pulses) {
     return (Math.floor(pos) % 2 == 0) ? decimals : 1 - decimals;
 };
 
+/** @id MochiKit.Visual.Transitions.parabolic */
+MochiKit.Visual.Transitions.parabolic = function (pos) {
+   return pos * pos;
+};
+
 /** @id MochiKit.Visual.Transitions.none */
 MochiKit.Visual.Transitions.none = function (pos) {
     return 0;
