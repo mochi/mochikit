@@ -618,6 +618,7 @@ return "["+typeof (o)+"]";
 }
 if(typeof (o)=="function"){
 _db=_db.replace(/^\s+/,"").replace(/\s+/g," ");
+_db=_db.replace(/,(\S)/,", $1");
 var idx=_db.indexOf("{");
 if(idx!=-1){
 _db=_db.substr(0,idx)+"{...}";
