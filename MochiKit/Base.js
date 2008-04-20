@@ -778,6 +778,7 @@ MochiKit.Base.update(MochiKit.Base, {
         }
         if (typeof(o) == "function") {
             ostring = ostring.replace(/^\s+/, "").replace(/\s+/g, " ");
+            ostring = ostring.replace(/,(\S)/, ", $1");
             var idx = ostring.indexOf("{");
             if (idx != -1) {
                 ostring = ostring.substr(0, idx) + "{...}";
