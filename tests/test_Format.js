@@ -9,9 +9,7 @@ tests.test_Format = function (t) {
     t.is( truncToFixed(0.15, 0), "0", "truncToFixed zero (edge case)" );
     t.is( truncToFixed(568.80, 2), "568.80", "truncToFixed 568.80, floating-point error" );
     t.is( truncToFixed(1.23e+20, 2), "123000000000000000000.00", "truncToFixed 1.23e+20" );
-    t.is( truncToFixed(1.23e+21, 2), "1.23e+21", "truncToFixed 1.23e+21" );
     t.is( truncToFixed(-1.23e+20, 2), "-123000000000000000000.00", "truncToFixed -1.23e+20" );
-    t.is( truncToFixed(-1.23e+21, 2), "-1.23e+21", "truncToFixed -1.23e+21" );
     t.is( truncToFixed(1.23e-10, 2), "0.00", "truncToFixed 1.23e-10" );
 
     t.is( roundToFixed(0.1234, 3), "0.123", "roundToFixed truncate" );
