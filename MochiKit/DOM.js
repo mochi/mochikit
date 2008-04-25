@@ -1138,18 +1138,16 @@ MochiKit.Base.update(MochiKit.DOM, {
 
         // FIXME: this really belongs in Base, and could probably be cleaner
         var _deprecated = function(fromModule, arr) {
-            var modules = arr[1].split('.');
+            var fromName = arr[0];
+            var toName = arr[1];
+            var toModule = toName.split('.')[1];
             var str = '';
-            var obj = {};
 
-            str += 'if (!MochiKit.' + modules[1] + ') { throw new Error("';
+            str += 'if (!MochiKit.' + toModule + ') { throw new Error("';
             str += 'This function has been deprecated and depends on MochiKit.';
-            str += modules[1] + '.");}';
-            str += 'return MochiKit.' + modules[1] + '.' + arr[0];
-            str += '.apply(this, arguments);';
-
-            obj[modules[2]] = new Function(str);
-            MochiKit.Base.update(MochiKit[fromModule], obj);
+            str += toModule + '.");}';
+            str += 'return ' + toName + '.apply(this, arguments);';
+            MochiKit[fromModule][fromName] = new Function(str);
         }
         for (var i = 0; i < MochiKit.DOM.DEPRECATED.length; i++) {
             _deprecated('DOM', MochiKit.DOM.DEPRECATED[i]);
