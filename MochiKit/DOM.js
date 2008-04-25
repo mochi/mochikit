@@ -1151,7 +1151,7 @@ MochiKit.Base.update(MochiKit.DOM, {
             obj[modules[2]] = new Function(str);
             MochiKit.Base.update(MochiKit[fromModule], obj);
         }
-        for (var i; i < MochiKit.DOM.DEPRECATED.length; i++) {
+        for (var i = 0; i < MochiKit.DOM.DEPRECATED.length; i++) {
             _deprecated('DOM', MochiKit.DOM.DEPRECATED[i]);
         }
 

@@ -3445,7 +3445,7 @@ str+=".apply(this, arguments);";
 obj[_3cc[2]]=new Function(str);
 MochiKit.Base.update(MochiKit[_3ca],obj);
 };
-for(var i;i<MochiKit.DOM.DEPRECATED.length;i++){
+for(var i=0;i<MochiKit.DOM.DEPRECATED.length;i++){
 _3c9("DOM",MochiKit.DOM.DEPRECATED[i]);
 }
 var _3cf=this.createDOMFunc;
