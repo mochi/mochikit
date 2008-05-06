@@ -361,7 +361,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (typeof(node) == 'undefined' || node === null) {
             return false;
         }
-        while (node !== self._document) {
+        while (node != null && node !== self._document) {
             if (node === maybeparent) {
                 return true;
             }

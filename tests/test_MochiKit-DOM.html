@@ -301,6 +301,9 @@ try {
     ok( !isChildNode('donotexist', 'child'), "isChildNode no parent");
     ok( isChildNode('child', document.body), "isChildNode of body");
     ok( isChildNode($('child').firstChild, 'parentTwo'), "isChildNode text node");
+    ok( !isChildNode( SPAN(), document.body), "isChildNode child not in DOM");
+    ok( !isChildNode( SPAN(), 'child'), "isChildNode child not in DOM");
+    ok( !isChildNode( 'child', SPAN()), "isChildNode parent not in DOM");
 
     ok( true, "test suite finished!");
     
