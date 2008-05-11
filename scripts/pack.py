@@ -8,11 +8,12 @@ import re
 import sys
 import shutil
 import subprocess
-mk = file('MochiKit/MochiKit.js').read()
+dirname = os.path.dirname(os.path.dirname(__file__))
+mk = file(os.path.join(dirname, 'MochiKit/MochiKit.js')).read()
 if len(sys.argv) > 1:
     outf = sys.stdout
 else:
-    outf = file('packed/MochiKit/MochiKit.js', 'w')
+    outf = file(os.path.join(dirname, 'packed/MochiKit/MochiKit.js'), 'w')
 VERSION = re.search(
     r"""(?mxs)MochiKit.MochiKit.VERSION\s*=\s*['"]([^'"]+)""",
     mk
@@ -26,13 +27,13 @@ else:
     ).group(1).replace(' ', '').replace('"', '').split(','))
     SUBMODULES.append('MochiKit')
 alltext = '\n'.join(
-    [file('MochiKit/%s.js' % m).read() for m in SUBMODULES])
+    [file(os.path.join(dirname, 'MochiKit/%s.js' % m)).read() for m in SUBMODULES])
 
-tf = file('packed/_scratch.js', 'w')
+tf = file(os.path.join(dirname, 'packed/_scratch.js'), 'w')
 tf.write(alltext)
 tf.flush()
 p = subprocess.Popen(
-    ['java', '-jar', 'scripts/custom_rhino.jar', '-c', tf.name],
+    ['java', '-jar', os.path.join(dirname, 'scripts/custom_rhino.jar'), '-c', tf.name],
     stdout=subprocess.PIPE,
 )
 print >>outf, """/***
