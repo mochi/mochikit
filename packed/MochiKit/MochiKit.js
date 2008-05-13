@@ -3871,6 +3871,21 @@ return parseFloat(_414[1])/100;
 }
 return 1;
 }
+if(_411=="float"||_411=="cssFloat"||_411=="styleFloat"){
+if(elem.style["float"]){
+return elem.style["float"];
+}else{
+if(elem.style.cssFloat){
+return elem.style.cssFloat;
+}else{
+if(elem.style.styleFloat){
+return elem.style.styleFloat;
+}else{
+return "none";
+}
+}
+}
+}
 var _415=elem.style?elem.style[_411]:null;
 if(!_415){
 if(d.defaultView&&d.defaultView.getComputedStyle){
@@ -3895,9 +3910,24 @@ return _415=="auto"?null:_415;
 },setStyle:function(elem,_418){
 elem=MochiKit.DOM.getElement(elem);
 for(var name in _418){
-if(name=="opacity"){
+switch(name){
+case "opacity":
 MochiKit.Style.setOpacity(elem,_418[name]);
+break;
+case "float":
+case "cssFloat":
+case "styleFloat":
+if(elem.style["float"]){
+elem.style["float"]=_418[name];
 }else{
+if(elem.style.cssFloat){
+elem.style.cssFloat=_418[name];
+}else{
+elem.style.styleFloat=_418[name];
+}
+}
+break;
+default:
 elem.style[MochiKit.Base.camelize(name)]=_418[name];
 }
 }
@@ -6717,6 +6747,5 @@ document.write("<"+_732.nodeName+" src=\""+uri+"\" type=\"text/javascript\"></sc
 }
 })();
 }
-
 
 

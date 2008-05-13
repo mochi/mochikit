@@ -103,6 +103,17 @@ MochiKit.Base.update(MochiKit.Style, {
             }
             return 1.0;
         }
+        if (cssProperty == 'float' || cssProperty == 'cssFloat' || cssProperty == 'styleFloat') {
+            if (elem.style["float"]) {
+                return elem.style["float"];
+            } else if (elem.style.cssFloat) {
+                return elem.style.cssFloat;
+            } else if (elem.style.styleFloat) {
+                return elem.style.styleFloat;
+            } else {
+                return "none";
+            }
+        }
         var value = elem.style ? elem.style[cssProperty] : null;
         if (!value) {
             if (d.defaultView && d.defaultView.getComputedStyle) {
@@ -131,9 +142,22 @@ MochiKit.Base.update(MochiKit.Style, {
     setStyle: function (elem, style) {
         elem = MochiKit.DOM.getElement(elem);
         for (var name in style) {
-            if (name == 'opacity') {
+            switch (name) {
+            case 'opacity':
                 MochiKit.Style.setOpacity(elem, style[name]);
-            } else {
+                break;
+            case 'float':
+            case 'cssFloat':
+            case 'styleFloat':
+                if (elem.style["float"]) {
+                    elem.style["float"] = style[name];
+                } else if (elem.style.cssFloat) {
+                    elem.style.cssFloat = style[name];
+                } else {
+                    elem.style.styleFloat = style[name];
+                }
+                break;
+            default:
                 elem.style[MochiKit.Base.camelize(name)] = style[name];
             }
         }
