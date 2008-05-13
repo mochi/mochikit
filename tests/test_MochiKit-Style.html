@@ -12,7 +12,7 @@
 </head>
 <body style="border: 0; margin: 0; padding: 0;">
 
-<div id="styleTest" style="position: absolute; left: 400px; top: 100px; width: 100px; height: 100px; background: rgb(255, 0, 0); opacity: 0.5; filter: alpha(opacity=50); font-size: 10px">TEST<span id="styleSubTest">SUB</span></div>
+<div id="styleTest" style="position: absolute; left: 400px; top: 100px; width: 100px; height: 100px; background: rgb(255, 0, 0); opacity: 0.5; filter: alpha(opacity=50); font-size: 10px">TEST<span id="styleSubTest">SUB</span><div id="floatTest" style="float: left;">Float</div></div>
 
 <pre id="test">
 <script type="text/javascript">
@@ -89,6 +89,16 @@ try {
     setStyle('styleTest', {'opacity': 1});
     var t = getStyle('styleTest', 'opacity');
     ok(t > 0.999 && t <= 1, 'test setOpacity');
+
+    is(getStyle('floatTest', 'float'), "left", 'getStyle of float');
+    is(getStyle('floatTest', 'cssFloat'), "left", 'getStyle of cssFloat');
+    is(getStyle('floatTest', 'styleFloat'), "left", 'getStyle of styleFloat');
+    is(getStyle('styleTest', 'float'), "none", 'getStyle of float when unset');
+
+    setStyle('floatTest', { "float": "right" });
+    is(getStyle('floatTest', 'float'), "right", 'setStyle of CSS float');
+    is(getStyle('floatTest', 'cssFloat'), "right", 'setStyle of CSS cssFloat');
+    is(getStyle('floatTest', 'styleFloat'), "right", 'setStyle of CSS styleFloat');
 
     var dims = getElementDimensions('styleTest');
     is(dims.w, 100, 'getElementDimensions w ok');
