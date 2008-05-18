@@ -1533,26 +1533,26 @@ MochiKit.Visual.shake = function (element, /* optional */ options) {
         left: s.getStyle(element, 'left')
     };
     options = MochiKit.Base.update({
-        x: -20,
-        y: 0,
-        duration: 0.05,
+        duration: 0.5,
         afterFinishInternal: function (effect) {
-            d.undoPositioned(effect.element);
-            s.setStyle(effect.element, oldStyle);
+            d.undoPositioned(element);
+            s.setStyle(element, oldStyle);
         }
     }, options);
-    return new v.Move(element,
-          {x: 20, y: 0, duration: 0.05, afterFinishInternal: function (effect) {
-        new v.Move(effect.element,
-          {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new v.Move(effect.element,
-           {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new v.Move(effect.element,
-          {x: -40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new v.Move(effect.element,
-           {x: 40, y: 0, duration: 0.1, afterFinishInternal: function (effect) {
-        new v.Move(effect.element, options
-        ) }}) }}) }}) }}) }});
+    return new v.Sequence(
+        [new v.Move(element, { sync: true, duration: 0.1 * options.duration,
+                               x: 20, y: 0 }),
+         new v.Move(element, { sync: true, duration: 0.2 * options.duration,
+                               x: -40, y: 0 }),
+         new v.Move(element, { sync: true, duration: 0.2 * options.duration,
+                               x: 40, y: 0 }),
+         new v.Move(element, { sync: true, duration: 0.2 * options.duration,
+                               x: -40, y: 0 }),
+         new v.Move(element, { sync: true, duration: 0.2 * options.duration,
+                               x: 40, y: 0 }),
+         new v.Move(element, { sync: true, duration: 0.1 * options.duration,
+                               x: -20, y: 0 })],
+        options);
 };
 
 /** @id MochiKit.Visual.slideDown */
