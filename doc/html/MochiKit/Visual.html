@@ -781,8 +781,8 @@ events that can be specified as callback functions among the
 effect options.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="17%" />
-<col width="83%" />
+<col width="13%" />
+<col width="88%" />
 </colgroup>
 <tbody valign="top">
 <tr><td>transition</td>
@@ -795,7 +795,7 @@ effect options.</p>
 <td><tt class="docutils literal"><span class="pre">25.0</span></tt></td>
 </tr>
 <tr><td>sync</td>
-<td><tt class="docutils literal"><span class="pre">false</span></tt> (only set for <a class="mochiref reference" href="#fn-parallel">Parallel</a> effects)</td>
+<td><tt class="docutils literal"><span class="pre">false</span></tt> (only set for <a class="mochiref reference" href="#fn-parallel">Parallel</a> or <a class="mochiref reference" href="#fn-sequence">Sequence</a> effects)</td>
 </tr>
 <tr><td>from</td>
 <td><tt class="docutils literal"><span class="pre">0.0</span></tt></td>
@@ -861,6 +861,44 @@ access to event callbacks (not overriding the library ones).</p>
 all have <tt class="docutils literal"><span class="pre">sync</span></tt> set to <tt class="docutils literal"><span class="pre">true</span></tt>.</dd>
 <dt>options:</dt>
 <dd>See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>.</dd>
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-sequence"></a>
+<a class="mochidef reference" href="#fn-sequence">Sequence(effects [, options])</a>:</p>
+<blockquote>
+<p>Launch a list of <tt class="docutils literal"><span class="pre">effects</span></tt> in sequence, one after the other.</p>
+<dl class="docutils">
+<dt>effects:</dt>
+<dd>An array of instantiated effect objects. Note that they <em>must</em>
+all have <tt class="docutils literal"><span class="pre">sync</span></tt> set to <tt class="docutils literal"><span class="pre">true</span></tt>.</dd>
+<dt>options:</dt>
+<dd><p class="first">See <a class="mochiref reference" href="#fn-defaultoptions">DefaultOptions</a>. Note that the default value
+for some options is different and that some of the transition
+and timing options don't make sense to override.</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>transition</td>
+<td><tt class="docutils literal"><span class="pre">MochiKit.Visual.Transitions.linear</span></tt></td>
+</tr>
+<tr><td>duration</td>
+<td>Sum of the <tt class="docutils literal"><span class="pre">duration</span></tt> for all <tt class="docutils literal"><span class="pre">effects</span></tt>.</td>
+</tr>
+<tr><td>from</td>
+<td>Only <tt class="docutils literal"><span class="pre">0.0</span></tt> makes sense.</td>
+</tr>
+<tr><td>to</td>
+<td>Only <tt class="docutils literal"><span class="pre">1.0</span></tt> makes sense.</td>
+</tr>
+</tbody>
+</table>
+</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>

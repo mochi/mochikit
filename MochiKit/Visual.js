@@ -726,7 +726,7 @@ MochiKit.Visual.Base.prototype = {
     }
 };
 
-    /** @id MochiKit.Visual.Parallel */
+/** @id MochiKit.Visual.Parallel */
 MochiKit.Visual.Parallel = function (effects, options) {
     var cls = arguments.callee;
     if (!(this instanceof cls)) {
@@ -760,6 +760,54 @@ MochiKit.Base.update(MochiKit.Visual.Parallel.prototype, {
     },
 
     /** @id MochiKit.Visual.Parallel.prototype.finish */
+    finish: function () {
+        MochiKit.Base.map(function (effect) {
+            effect.finalize();
+        }, this.effects);
+    }
+});
+
+/** @id MochiKit.Visual.Sequence */
+MochiKit.Visual.Sequence = function (effects, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(effects, options);
+    }
+    this.__init__(effects, options);
+};
+
+MochiKit.Visual.Sequence.prototype = new MochiKit.Visual.Base();
+
+MochiKit.Base.update(MochiKit.Visual.Sequence.prototype, {
+
+    __class__ : MochiKit.Visual.Sequence,
+
+    __init__: function (effects, options) {
+        var defs = { transition: MochiKit.Visual.Transitions.linear,
+                     duration: 0 };
+        this.effects = effects || [];
+        MochiKit.Base.map(function (effect) {
+            defs.duration += effect.options.duration;
+        }, this.effects);
+        MochiKit.Base.setdefault(options, defs);
+        this.start(options);
+    },
+
+    /** @id MochiKit.Visual.Sequence.prototype.update */
+    update: function (position) {
+        var time = position * this.options.duration;
+        for (var i = 0; i < this.effects.length; i++) {
+            var effect = this.effects[i];
+            if (time <= effect.options.duration) {
+                effect.render(time / effect.options.duration);
+                break;
+            } else {
+                time -= effect.options.duration;
+            }
+        }
+    },
+
+    /** @id MochiKit.Visual.Sequence.prototype.finish */
     finish: function () {
         MochiKit.Base.map(function (effect) {
             effect.finalize();
@@ -1409,31 +1457,29 @@ MochiKit.Visual.switchOff = function (element, /* optional */ options) {
     var oldOpacity = MochiKit.Style.getStyle(element, 'opacity');
     var elemClip;
     options = MochiKit.Base.update({
-        duration: 0.3,
-        scaleFromCenter: true,
-        scaleX: false,
-        scaleContent: false,
+        duration: 0.7,
         restoreAfterFinish: true,
         beforeSetupInternal: function (effect) {
-            d.makePositioned(effect.element);
-            elemClip = d.makeClipping(effect.element);
+            d.makePositioned(element);
+            elemClip = d.makeClipping(element);
         },
         afterFinishInternal: function (effect) {
-            MochiKit.Style.hideElement(effect.element);
-            d.undoClipping(effect.element, elemClip);
-            d.undoPositioned(effect.element);
-            MochiKit.Style.setStyle(effect.element, {'opacity': oldOpacity});
+            MochiKit.Style.hideElement(element);
+            d.undoClipping(element, elemClip);
+            d.undoPositioned(element);
+            MochiKit.Style.setStyle(element, {'opacity': oldOpacity});
         }
     }, options);
     var v = MochiKit.Visual;
-    return new v.appear(element, {
-        duration: 0.4,
-        from: 0,
-        transition: v.Transitions.flicker,
-        afterFinishInternal: function (effect) {
-            new v.Scale(effect.element, 1, options);
-        }
-    });
+    return new v.Sequence(
+        [new v.appear(element,
+                      { sync: true, duration: 0.57 * options.duration,
+                        from: 0, transition: v.Transitions.flicker }),
+         new v.Scale(element, 1,
+                     { sync: true, duration: 0.43 * options.duration,
+                       scaleFromCenter: true, scaleX: false,
+                       scaleContent: false, restoreAfterFinish: true })],
+        options);
 };
 
 /** @id MochiKit.Visual.dropOut */
@@ -1921,6 +1967,7 @@ MochiKit.Visual.EXPORT = [
     "multiple",
     "toggle",
     "Parallel",
+    "Sequence",
     "Opacity",
     "Move",
     "Scale",

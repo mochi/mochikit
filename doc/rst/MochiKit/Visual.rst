@@ -616,7 +616,7 @@ Basic Effects Classes & Constants
     transition  ``MochiKit.Visual.Transitions.sinoidal``
     duration    ``1.0`` (seconds)
     fps         ``25.0``
-    sync        ``false`` (only set for :mochiref:`Parallel` effects)
+    sync        ``false`` (only set for :mochiref:`Parallel` or :mochiref:`Sequence` effects)
     from        ``0.0``
     to          ``1.0``
     delay       ``0.0``
@@ -671,6 +671,30 @@ Basic Effects Classes & Constants
 
     options:
         See :mochiref:`DefaultOptions`.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
+:mochidef:`Sequence(effects [, options])`:
+
+    Launch a list of ``effects`` in sequence, one after the other.
+
+    effects:
+        An array of instantiated effect objects. Note that they *must*
+        all have ``sync`` set to ``true``.
+
+    options:
+        See :mochiref:`DefaultOptions`. Note that the default value
+        for some options is different and that some of the transition
+        and timing options don't make sense to override.
+
+        =========== ========================================
+        transition  ``MochiKit.Visual.Transitions.linear``
+        duration    Sum of the ``duration`` for all ``effects``.
+        from        Only ``0.0`` makes sense.
+        to          Only ``1.0`` makes sense.
+        =========== ========================================
 
     *Availability*:
         Available in MochiKit 1.4+
