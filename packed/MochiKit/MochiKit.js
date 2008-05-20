@@ -4164,7 +4164,7 @@ if(typeof (MochiKit.DOM)!="undefined"){
 win=MochiKit.DOM.currentWindow();
 }
 if(!_44e){
-var url=win.location.href.split("?")[0].replace(/[#:\/.><&-]/g,"_");
+var url=win.location.href.split("?")[0].replace(/[#:\/.><&-%]/g,"_");
 var name=uid+"_"+url;
 var nwin=win.open("",name,"dependent,resizable,height=200");
 if(!nwin){
