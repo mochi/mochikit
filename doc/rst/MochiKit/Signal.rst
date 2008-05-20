@@ -233,9 +233,9 @@ Signal API Reference
 
     In MochiKit 1.4+, if ``src`` is an object that has a ``__connect__``
     method, then ``src.__connect__(ident, signal, objOrFunc, funcOrStr)``
-    will be called. This method may be used to disconnect the signal.
-    DOM objects can not implement this feature.
-    
+    will be called. The ``__connect__`` method is allowed to disconnect
+    the signal. DOM objects can not implement this feature.
+
     *Availability*:
         Available in MochiKit 1.3.1+
 
@@ -246,11 +246,19 @@ Signal API Reference
     :mochiref:`connect()`.  This is similar to how the browser's
     ``setTimeout`` and ``clearTimeout`` works.
 
+    In MochiKit 1.4+, if the signal source is an object that has a
+    ``__disconnect__`` method, then
+    ``src.__disconnect__(ident, signal, objOrFunc, funcOrStr)``
+    will be called. DOM objects can not implement this feature.
+
     *Availability*:
         Available in MochiKit 1.3.1+
 
 
 :mochidef:`disconnectAll(src[, signal, ...])`:
+
+    Removes a set of signals from ``src``, similar to calling
+    :mochiref:`disconnect(ident)` for each one.
 
     ``disconnectAll(src)`` removes all signals from src.
 
@@ -262,6 +270,9 @@ Signal API Reference
 
 
 :mochidef:`disconnectAllTo(dest[, func])`:
+
+    Removes a set of signals connected to ``dest``, similar to calling
+    :mochiref:`disconnect(ident)` for each one.
 
     ``disconnectAllTo(dest)`` removes all signals connected to dest.
 

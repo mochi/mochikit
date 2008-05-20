@@ -421,11 +421,22 @@ tests.test_Signal = function (t) {
               disconnect(ident);
           }
     };
-
-    connect(has__Connect, 'signalOne', aFunction);
+    connect(has__Connect, 'signalOne', function() {
+        t.fail("__connect__ should have disconnected signal");
+    });
     t.is(has__Connect.count, 3, '__connect__ is called when it exists');
     signal(has__Connect, 'signalOne');
-    t.is(has__Connect.count, 3, '__connect__ can disconnect the signal');
+
+    has__Disconnect = {
+          count: 0,
+          __disconnect__: function (ident) {
+              this.count += arguments.length;
+          }
+    };
+    connect(has__Disconnect, 'signalOne', aFunction);
+    connect(has__Disconnect, 'signalTwo', aFunction);
+    disconnectAll(has__Disconnect);
+    t.is(has__Disconnect.count, 8, '__disconnect__ is called when it exists');
 
     var events = {};
     var test_ident = connect(events, "test", function() {
