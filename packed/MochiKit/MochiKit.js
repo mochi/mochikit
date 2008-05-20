@@ -5195,12 +5195,15 @@ if(!_564.connected){
 return;
 }
 _564.connected=false;
-if(!_564.isDOM){
-return;
-}
 var src=_564.source;
 var sig=_564.signal;
 var _567=_564.listener;
+if(!_564.isDOM){
+if(typeof (src.__disconnect__)=="function"){
+src.__disconnect__(_564,sig,_564.objOrFunc,_564.funcOrStr);
+}
+return;
+}
 if(src.removeEventListener){
 src.removeEventListener(sig.substr(2),_567,false);
 }else{

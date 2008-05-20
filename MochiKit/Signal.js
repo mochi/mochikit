@@ -657,14 +657,16 @@ MochiKit.Base.update(MochiKit.Signal, {
             return;
         }
         ident.connected = false;
-        // check isDOM
-        if (!ident.isDOM) {
-            return;
-        }
         var src = ident.source;
         var sig = ident.signal;
         var listener = ident.listener;
-
+        // check isDOM
+        if (!ident.isDOM) {
+            if (typeof(src.__disconnect__) == 'function') {
+                src.__disconnect__(ident, sig, ident.objOrFunc, ident.funcOrStr);
+            }
+            return;
+        }
         if (src.removeEventListener) {
             src.removeEventListener(sig.substr(2), listener, false);
         } else if (src.detachEvent) {
