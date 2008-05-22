@@ -778,8 +778,11 @@ MochiKit.Base.update(MochiKit.DOM, {
         var self = MochiKit.DOM;
         var obj = self.getElement(element);
         var cls = obj.className;
+        if (typeof(cls) != "string") {
+            cls = obj.getAttribute("class");
+        }
         // trivial case, no className yet
-        if (cls == undefined || cls.length === 0) {
+        if (typeof(cls) != "string" || cls.length === 0) {
             self.setElementClass(obj, className);
             return true;
         }
@@ -804,8 +807,11 @@ MochiKit.Base.update(MochiKit.DOM, {
         var self = MochiKit.DOM;
         var obj = self.getElement(element);
         var cls = obj.className;
+        if (typeof(cls) != "string") {
+            cls = obj.getAttribute("class");
+        }
         // trivial case, no className yet
-        if (cls == undefined || cls.length === 0) {
+        if (typeof(cls) != "string" || cls.length === 0) {
             return false;
         }
         // other trivial case, set only to className
@@ -841,7 +847,10 @@ MochiKit.Base.update(MochiKit.DOM, {
     hasElementClass: function (element, className/*...*/) {
         var obj = MochiKit.DOM.getElement(element);
         var cls = obj.className;
-        if (!cls) {
+        if (typeof(cls) != "string") {
+            cls = obj.getAttribute("class");
+        }
+        if (typeof(cls) != "string") {
             return false;
         }
         var classes = cls.split(" ");
@@ -1027,10 +1036,16 @@ MochiKit.Base.update(MochiKit.DOM, {
 
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
-            var classNames = child.className.split(' ');
-            for (var j = 0; j < classNames.length; j++) {
-                if (classNames[j] == className) {
-                    return child;
+            var cls = child.className;
+            if (typeof(cls) != "string") {
+                cls = child.getAttribute("class");
+            }
+            if (typeof(cls) == "string") {
+                var classNames = cls.split(' ');
+                for (var j = 0; j < classNames.length; j++) {
+                    if (classNames[j] == className) {
+                        return child;
+                    }
                 }
             }
         }
@@ -1051,7 +1066,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (elem) {
             elem = elem.parentNode;
         }
-        while (elem && elem.tagName && typeof(elem.className) == "string") {
+        while (elem && elem.tagName) {
             var curTagName = elem.tagName.toUpperCase();
             if ((tagName === '*' || tagName == curTagName) &&
                 (className === null || self.hasElementClass(elem, className))) {
