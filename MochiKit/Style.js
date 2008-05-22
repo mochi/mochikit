@@ -149,9 +149,9 @@ MochiKit.Base.update(MochiKit.Style, {
             case 'float':
             case 'cssFloat':
             case 'styleFloat':
-                if (elem.style["float"]) {
+                if (typeof(elem.style["float"]) != "undefined") {
                     elem.style["float"] = style[name];
-                } else if (elem.style.cssFloat) {
+                } else if (typeof(elem.style.cssFloat) != "undefined") {
                     elem.style.cssFloat = style[name];
                 } else {
                     elem.style.styleFloat = style[name];

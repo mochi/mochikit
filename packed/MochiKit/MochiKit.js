@@ -3934,10 +3934,10 @@ break;
 case "float":
 case "cssFloat":
 case "styleFloat":
-if(elem.style["float"]){
+if(typeof (elem.style["float"])!="undefined"){
 elem.style["float"]=_419[name];
 }else{
-if(elem.style.cssFloat){
+if(typeof (elem.style.cssFloat)!="undefined"){
 elem.style.cssFloat=_419[name];
 }else{
 elem.style.styleFloat=_419[name];
