@@ -679,14 +679,16 @@ MochiKit.Base.update(MochiKit.DOM, {
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
             var cls = child.className;
-            if (!cls) {
-                continue;
+            if (typeof(cls) != "string") {
+                cls = child.getAttribute("class");
             }
-            var classNames = cls.split(' ');
-            for (var j = 0; j < classNames.length; j++) {
-                if (classNames[j] == className) {
-                    elements.push(child);
-                    break;
+            if (typeof(cls) == "string") {
+                var classNames = cls.split(' ');
+                for (var j = 0; j < classNames.length; j++) {
+                    if (classNames[j] == className) {
+                        elements.push(child);
+                        break;
+                    }
                 }
             }
         }
