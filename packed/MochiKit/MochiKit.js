@@ -3101,14 +3101,16 @@ var _353=[];
 for(var i=0;i<_352.length;i++){
 var _355=_352[i];
 var cls=_355.className;
-if(!cls){
-continue;
+if(typeof (cls)!="string"){
+cls=_355.getAttribute("class");
 }
+if(typeof (cls)=="string"){
 var _357=cls.split(" ");
 for(var j=0;j<_357.length;j++){
 if(_357[j]==_34f){
 _353.push(_355);
 break;
+}
 }
 }
 }
