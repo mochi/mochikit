@@ -138,6 +138,32 @@ MochiKit.Base.update(MochiKit.Style, {
         return value == 'auto' ? null : value;
     },
 
+    /** @id MochiKit.Style.getElementWidth */
+    getElementWidth: function (elem) {
+        var self = MochiKit.Style;
+        w = parseFloat(self.getStyle(elem, 'width'));
+        if (/Opera/.test(navigator.userAgent)) {
+            w -= (parseFloat(self.getStyle(elem, 'paddingLeft'))
+                + parseFloat(self.getStyle(elem, 'paddingRight'))
+                + parseFloat(self.getStyle(elem, 'borderLeft'))
+                + parseFloat(self.getStyle(elem, 'borderRight')));
+        }
+        return w;
+    },
+
+    /** @id MochiKit.Style.getElementHeight */
+    getElementHeight: function (elem) {
+        var self = MochiKit.Style;
+        h = parseFloat(self.getStyle(elem, 'height'));
+        if (/Opera/.test(navigator.userAgent)) {
+            h -= (parseFloat(self.getStyle(elem, 'paddingTop'))
+                + parseFloat(self.getStyle(elem, 'paddingBottom'))
+                + parseFloat(self.getStyle(elem, 'borderTop'))
+                + parseFloat(self.getStyle(elem, 'borderBottom')));
+        }
+        return h;
+    },
+
     /** @id MochiKit.Style.setStyle */
     setStyle: function (elem, style) {
         elem = MochiKit.DOM.getElement(elem);
