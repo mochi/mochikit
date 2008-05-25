@@ -8,27 +8,11 @@ h3 {
     margin-bottom: 10px;
     width: 120px;
     height: 120px;
-    background-color: #AAAAAA;
+	border: 1px solid #669;
+    background-color: #ccf;
     text-align: center;
     padding: 1em 0.2em 0.2em 0.2em;
 }
 .demo {
     clear: both;
 }
-#reset {
-    position: absolute;
-    top: 600px;
-    left: 600px;
-}
-#demo-all {
-    position: absolute;
-    top: 600px;
-    left: 400px;
-    font-size: 1.0em;
-    width: 120px;
-    height: 120px;
-    background-color: #AAAAAA;
-    text-align: center;
-    padding: 1em 0.2em 0.2em 0.2em;
-}
-
