@@ -1573,7 +1573,7 @@ MochiKit.Visual.slideDown = function (element, /* optional */ options) {
     var s = MochiKit.Style;
     element = d.getElement(element);
     if (!element.firstChild) {
-        throw "MochiKit.Visual.slideDown must be used on a element with a child";
+        throw new Error("MochiKit.Visual.slideDown must be used on a element with a child");
     }
     d.removeEmptyTextNodes(element);
     var oldInnerBottom = s.getStyle(element.firstChild, 'bottom') || 0;
@@ -1630,7 +1630,7 @@ MochiKit.Visual.slideUp = function (element, /* optional */ options) {
     var s = MochiKit.Style;
     element = d.getElement(element);
     if (!element.firstChild) {
-        throw "MochiKit.Visual.slideUp must be used on a element with a child";
+        throw new Error("MochiKit.Visual.slideUp must be used on a element with a child");
     }
     d.removeEmptyTextNodes(element);
     var oldInnerBottom = s.getStyle(element.firstChild, 'bottom');
