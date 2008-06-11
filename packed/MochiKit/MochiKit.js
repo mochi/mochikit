@@ -6469,7 +6469,7 @@ var b=MochiKit.Base;
 var s=MochiKit.Style;
 _6dd=d.getElement(_6dd);
 if(!_6dd.firstChild){
-throw "MochiKit.Visual.slideDown must be used on a element with a child";
+throw new Error("MochiKit.Visual.slideDown must be used on a element with a child");
 }
 d.removeEmptyTextNodes(_6dd);
 var _6e2=s.getStyle(_6dd.firstChild,"bottom")||0;
@@ -6504,7 +6504,7 @@ var b=MochiKit.Base;
 var s=MochiKit.Style;
 _6e7=d.getElement(_6e7);
 if(!_6e7.firstChild){
-throw "MochiKit.Visual.slideUp must be used on a element with a child";
+throw new Error("MochiKit.Visual.slideUp must be used on a element with a child");
 }
 d.removeEmptyTextNodes(_6e7);
 var _6ec=s.getStyle(_6e7.firstChild,"bottom");
@@ -6802,6 +6802,5 @@ document.write("<"+_73e.nodeName+" src=\""+uri+"\" type=\"text/javascript\"></sc
 }
 })();
 }
-
 
 
