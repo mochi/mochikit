@@ -1178,11 +1178,11 @@ MochiKit.Base.update(MochiKit.DOM, {
         this.OL = createDOMFunc("ol");
         /** @id MochiKit.DOM.LI */
         this.LI = createDOMFunc("li");
-		/** @id MochiKit.DOM.DL */
+        /** @id MochiKit.DOM.DL */
         this.DL = createDOMFunc("dl");
-		/** @id MochiKit.DOM.DT */
+        /** @id MochiKit.DOM.DT */
         this.DT = createDOMFunc("dt");
-		/** @id MochiKit.DOM.DD */
+        /** @id MochiKit.DOM.DD */
         this.DD = createDOMFunc("dd");
         /** @id MochiKit.DOM.TD */
         this.TD = createDOMFunc("td");
