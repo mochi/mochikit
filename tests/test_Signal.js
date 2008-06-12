@@ -112,10 +112,12 @@ tests.test_Signal = function (t) {
         ident = connect('submit', 'onmousewheel', function(e) {
             i++;
             t.ok((typeof(e.mouse()) === 'object'), 'checking that mouse() is an object');
-            t.ok((typeof(e.mouse().wheel) === 'number'), 'checking that mouse().wheel is a number');
+            t.ok((typeof(e.mouse().wheel) === 'object'), 'checking that mouse().wheel is an object');
+            t.ok((typeof(e.mouse().wheel.x) === 'number'), 'checking that mouse().wheel.x is a number');
+            t.ok((typeof(e.mouse().wheel.y) === 'number'), 'checking that mouse().wheel.y is a number');
         });
         var nativeSignal = 'mousewheel';
-        if (!/MSIE/.test(navigator.userAgent) && !/Opera/.test(navigator.userAgent)) {
+        if (MochiKit.Signal._browserLacksMouseWheelEvent()) {
             nativeSignal = 'DOMMouseScroll';
         }
         triggerMouseEvent('submit', nativeSignal, false);

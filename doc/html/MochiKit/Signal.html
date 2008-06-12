@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
 <title>MochiKit.Signal - Simple universal event handling</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -153,9 +153,9 @@ nodes. This is the analog to <tt class="docutils literal"><span class="pre">'onm
 </blockquote>
 <p><tt class="docutils literal"><span class="pre">onmousewheel</span></tt></p>
 <blockquote>
-<p>Not strictly synthesized, but named <tt class="docutils literal"><span class="pre">'DOMMouseScroll'</span></tt> in Firefox
-and Safari browsers. MochiKit translates <tt class="docutils literal"><span class="pre">'onmousewheel'</span></tt> to the
-correct event in these browsers.</p>
+<p>Not strictly synthesized, but named <tt class="docutils literal"><span class="pre">'DOMMouseScroll'</span></tt> in
+Gecko-based browsers. MochiKit translates <tt class="docutils literal"><span class="pre">'onmousewheel'</span></tt> to
+the corresponding event in these browsers.</p>
 <dl class="docutils">
 <dt><em>Availability:</em></dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -425,9 +425,13 @@ each property is <tt class="docutils literal"><span class="pre">true</span></tt>
 <p>Properties for <tt class="docutils literal"><span class="pre">'onmousewheel'</span></tt>:</p>
 <blockquote>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">mouse().wheel</span></tt> returns a number for the scroll wheel
-offset. The number will normally be +3 when scrolling down,
-and -3 when scrolling up.</li>
+<li><tt class="docutils literal"><span class="pre">mouse().wheel</span></tt> is a <a class="mochiref reference" href="Style.html#fn-coordinates">MochiKit.Style.Coordinates</a>
+object containing the scroll wheel offset. The number will be
+positive when scrolling down (or to the right) and negative
+when scrolling up (or to the left). Note that only Safari 3
+currently supports horizontal scrolling. In other browsers,
+the <tt class="docutils literal"><span class="pre">'y'</span></tt> component will contain the scroll offset for
+both directions.</li>
 </ul>
 </blockquote>
 <p>Known browser bugs:</p>

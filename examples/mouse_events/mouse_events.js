@@ -20,7 +20,7 @@ function stopPageFromScrolling( event ) {
   var fudgeFactor = /MSIE/.test(navigator.userAgent) ? 25 : 0;
 
   // scrolling up
-  if (event.mouse().wheel < 0) {
+  if (event.mouse().wheel.y < 0) {
     // Following test should probably be "if (scrollTop == 0)" which
     // works in FF but not IE.
     if (scrollTop <= fudgeFactor) {

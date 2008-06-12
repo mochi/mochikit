@@ -169,9 +169,9 @@ These events include:
 
 ``onmousewheel``
 
-    Not strictly synthesized, but named ``'DOMMouseScroll'`` in Firefox
-    and Safari browsers. MochiKit translates ``'onmousewheel'`` to the
-    correct event in these browsers.
+    Not strictly synthesized, but named ``'DOMMouseScroll'`` in
+    Gecko-based browsers. MochiKit translates ``'onmousewheel'`` to
+    the corresponding event in these browsers.
 
     *Availability:*
         Available in MochiKit 1.4+
@@ -426,9 +426,13 @@ DOM Custom Event Object Reference
 
     Properties for ``'onmousewheel'``:
 
-        -   ``mouse().wheel`` returns a number for the scroll wheel
-            offset. The number will normally be +3 when scrolling down,
-            and -3 when scrolling up.
+        -   ``mouse().wheel`` is a :mochiref:`MochiKit.Style.Coordinates`
+            object containing the scroll wheel offset. The number will be
+            positive when scrolling down (or to the right) and negative
+            when scrolling up (or to the left). Note that only Safari 3
+            currently supports horizontal scrolling. In other browsers,
+            the ``'y'`` component will contain the scroll offset for
+            both directions.
 
     Known browser bugs:
 
