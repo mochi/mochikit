@@ -5035,7 +5035,17 @@ m.button.middle=!!(e.button&4);
 }
 }
 if(this.type()=="mousewheel"){
-m.wheel=e.detail?e.detail:-e.wheelDelta/40;
+m.wheel=new MochiKit.Style.Coordinates(0,0);
+if(e.wheelDeltaX||e.wheelDeltaY){
+m.wheel.x=e.wheelDeltaX/-40||0;
+m.wheel.y=e.wheelDeltaY/-40||0;
+}else{
+if(e.wheelDelta){
+m.wheel.y=e.wheelDelta/-40;
+}else{
+m.wheel.y=e.detail||0;
+}
+}
 }
 this._mouse=m;
 return m;
@@ -5147,8 +5157,8 @@ func.apply(obj,[new E(src,_551)]);
 }
 },_browserAlreadyHasMouseEnterAndLeave:function(){
 return /MSIE/.test(navigator.userAgent);
-},_browserHasMouseWheelEvent:function(){
-return /MSIE/.test(navigator.userAgent)||/Opera/.test(navigator.userAgent);
+},_browserLacksMouseWheelEvent:function(){
+return /Gecko\//.test(navigator.userAgent);
 },_mouseEnterListener:function(src,sig,func,obj){
 var E=MochiKit.Signal.Event;
 return function(_557){
@@ -5216,7 +5226,7 @@ sig="onmouseover";
 sig="onmouseout";
 }
 }else{
-if(_565&&sig=="onmousewheel"&&!self._browserHasMouseWheelEvent()){
+if(_565&&sig=="onmousewheel"&&self._browserLacksMouseWheelEvent()){
 var _566=self._listener(src,sig,func,obj,_565);
 sig="onDOMMouseScroll";
 }else{

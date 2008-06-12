@@ -334,7 +334,15 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                 }
             }
             if (this.type() == 'mousewheel') {
-                m.wheel = e.detail ? e.detail : -e.wheelDelta / 40;
+                m.wheel = new MochiKit.Style.Coordinates(0, 0);
+                if (e.wheelDeltaX || e.wheelDeltaY) {
+                    m.wheel.x = e.wheelDeltaX / -40 || 0;
+                    m.wheel.y = e.wheelDeltaY / -40 || 0;
+                } else if (e.wheelDelta) {
+                    m.wheel.y = e.wheelDelta / -40;
+                } else {
+                    m.wheel.y = e.detail || 0;
+                }
             }
             this._mouse = m;
             return m;
@@ -558,8 +566,8 @@ MochiKit.Base.update(MochiKit.Signal, {
         return /MSIE/.test(navigator.userAgent);
     },
 
-    _browserHasMouseWheelEvent: function () {
-        return /MSIE/.test(navigator.userAgent) || /Opera/.test(navigator.userAgent);
+    _browserLacksMouseWheelEvent: function () {
+        return /Gecko\//.test(navigator.userAgent);
     },
 
     _mouseEnterListener: function (src, sig, func, obj) {
@@ -635,7 +643,7 @@ MochiKit.Base.update(MochiKit.Signal, {
             } else {
                 sig = "onmouseout";
             }
-        } else if (isDOM && sig == "onmousewheel" && !self._browserHasMouseWheelEvent()) {
+        } else if (isDOM && sig == "onmousewheel" && self._browserLacksMouseWheelEvent()) {
             var listener = self._listener(src, sig, func, obj, isDOM);
             sig = "onDOMMouseScroll";
         } else {
