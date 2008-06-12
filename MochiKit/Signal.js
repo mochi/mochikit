@@ -55,13 +55,15 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
             str += ', mouse(): {page: ' + repr(this.mouse().page) +
                 ', client: ' + repr(this.mouse().client);
 
-            if (this.type() != 'mousemove') {
+            if (this.type() != 'mousemove' && this.type() != 'mousewheel') {
                 str += ', button: {left: ' + repr(this.mouse().button.left) +
                     ', middle: ' + repr(this.mouse().button.middle) +
-                    ', right: ' + repr(this.mouse().button.right) + '}}';
-            } else {
-                str += '}';
+                    ', right: ' + repr(this.mouse().button.right) + '}';
             }
+            if (this.type() == 'mousewheel') {
+                str += ', wheel: ' + repr(this.mouse().wheel);
+            }
+            str += '}';
         }
         if (this.type() == 'mouseover' || this.type() == 'mouseout' || 
             this.type() == 'mouseenter' || this.type() == 'mouseleave') {
@@ -88,7 +90,11 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
     /** @id MochiKit.Signal.Event.prototype.type */
     type: function () {
-        return this._event.type || undefined;
+        if (this._event.type === "DOMMouseScroll") {
+            return "mousewheel";
+        } else {
+            return this._event.type || undefined;
+        }
     },
 
     /** @id MochiKit.Signal.Event.prototype.target */
@@ -292,7 +298,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                     (de.clientTop || 0);
 
             }
-            if (this.type() != 'mousemove') {
+            if (this.type() != 'mousemove' && this.type() != 'mousewheel') {
                 m.button = {};
                 m.button.left = false;
                 m.button.right = false;
@@ -326,6 +332,9 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
                     m.button.right = !!(e.button & 2);
                     m.button.middle = !!(e.button & 4);
                 }
+            }
+            if (this.type() == 'mousewheel') {
+                m.wheel = e.detail ? e.detail : -e.wheelDelta / 40;
             }
             this._mouse = m;
             return m;
@@ -549,6 +558,10 @@ MochiKit.Base.update(MochiKit.Signal, {
         return /MSIE/.test(navigator.userAgent);
     },
 
+    _browserHasMouseWheelEvent: function () {
+        return /MSIE/.test(navigator.userAgent) || /Opera/.test(navigator.userAgent);
+    },
+
     _mouseEnterListener: function (src, sig, func, obj) {
         var E = MochiKit.Signal.Event;
         return function (nativeEvent) {
@@ -622,6 +635,9 @@ MochiKit.Base.update(MochiKit.Signal, {
             } else {
                 sig = "onmouseout";
             }
+        } else if (isDOM && sig == "onmousewheel" && !self._browserHasMouseWheelEvent()) {
+            var listener = self._listener(src, sig, func, obj, isDOM);
+            sig = "onDOMMouseScroll";
         } else {
             var listener = self._listener(src, sig, func, obj, isDOM);
         }

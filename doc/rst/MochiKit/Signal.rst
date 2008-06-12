@@ -167,6 +167,15 @@ These events include:
     *Availability:*
         Available in MochiKit 1.4+
 
+``onmousewheel``
+
+    Not strictly synthesized, but named ``'DOMMouseScroll'`` in Firefox
+    and Safari browsers. MochiKit translates ``'onmousewheel'`` to the
+    correct event in these browsers.
+
+    *Availability:*
+        Available in MochiKit 1.4+
+
 
 Using Signal for non-DOM objects
 --------------------------------
@@ -414,6 +423,12 @@ DOM Custom Event Object Reference
         -   ``mouse().button`` returns ``{left, right, middle}`` where
             each property is ``true`` if the mouse button was pressed,
             ``false`` otherwise.
+
+    Properties for ``'onmousewheel'``:
+
+        -   ``mouse().wheel`` returns a number for the scroll wheel
+            offset. The number will normally be +3 when scrolling down,
+            and -3 when scrolling up.
 
     Known browser bugs:
 

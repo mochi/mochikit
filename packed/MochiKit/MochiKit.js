@@ -4911,11 +4911,13 @@ str+=", key(): {code: "+repr(this.key().code)+", string: "+repr(this.key().strin
 }
 if(this.type()&&(this.type().indexOf("mouse")===0||this.type().indexOf("click")!=-1||this.type()=="contextmenu")){
 str+=", mouse(): {page: "+repr(this.mouse().page)+", client: "+repr(this.mouse().client);
-if(this.type()!="mousemove"){
-str+=", button: {left: "+repr(this.mouse().button.left)+", middle: "+repr(this.mouse().button.middle)+", right: "+repr(this.mouse().button.right)+"}}";
-}else{
-str+="}";
+if(this.type()!="mousemove"&&this.type()!="mousewheel"){
+str+=", button: {left: "+repr(this.mouse().button.left)+", middle: "+repr(this.mouse().button.middle)+", right: "+repr(this.mouse().button.right)+"}";
 }
+if(this.type()=="mousewheel"){
+str+=", wheel: "+repr(this.mouse().wheel);
+}
+str+="}";
 }
 if(this.type()=="mouseover"||this.type()=="mouseout"||this.type()=="mouseenter"||this.type()=="mouseleave"){
 str+=", relatedTarget(): "+repr(this.relatedTarget());
@@ -4929,7 +4931,11 @@ return this._src;
 },event:function(){
 return this._event;
 },type:function(){
+if(this._event.type==="DOMMouseScroll"){
+return "mousewheel";
+}else{
 return this._event.type||undefined;
+}
 },target:function(){
 return this._event.target||this._event.srcElement;
 },_relatedTarget:null,relatedTarget:function(){
@@ -5013,7 +5019,7 @@ var b=MochiKit.DOM._document.body;
 m.page.x=e.clientX+(de.scrollLeft||b.scrollLeft)-(de.clientLeft||0);
 m.page.y=e.clientY+(de.scrollTop||b.scrollTop)-(de.clientTop||0);
 }
-if(this.type()!="mousemove"){
+if(this.type()!="mousemove"&&this.type()!="mousewheel"){
 m.button={};
 m.button.left=false;
 m.button.right=false;
@@ -5027,6 +5033,9 @@ m.button.left=!!(e.button&1);
 m.button.right=!!(e.button&2);
 m.button.middle=!!(e.button&4);
 }
+}
+if(this.type()=="mousewheel"){
+m.wheel=e.detail?e.detail:-e.wheelDelta/40;
 }
 this._mouse=m;
 return m;
@@ -5138,6 +5147,8 @@ func.apply(obj,[new E(src,_551)]);
 }
 },_browserAlreadyHasMouseEnterAndLeave:function(){
 return /MSIE/.test(navigator.userAgent);
+},_browserHasMouseWheelEvent:function(){
+return /MSIE/.test(navigator.userAgent)||/Opera/.test(navigator.userAgent);
 },_mouseEnterListener:function(src,sig,func,obj){
 var E=MochiKit.Signal.Event;
 return function(_557){
@@ -5205,7 +5216,12 @@ sig="onmouseover";
 sig="onmouseout";
 }
 }else{
+if(_565&&sig=="onmousewheel"&&!self._browserHasMouseWheelEvent()){
 var _566=self._listener(src,sig,func,obj,_565);
+sig="onDOMMouseScroll";
+}else{
+var _566=self._listener(src,sig,func,obj,_565);
+}
 }
 if(src.addEventListener){
 src.addEventListener(sig.substr(2),_566,false);
