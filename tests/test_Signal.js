@@ -59,11 +59,12 @@ tests.test_Signal = function (t) {
                 newEvt.clientX = 1;
                 newEvt.clientY = 1;
                 newEvt.button = 1;
+                newEvt.detail = 3;
                 element.fireEvent('on' + eventType, newEvt);
             } else if (document.createEvent && (typeof(document.createEvent('MouseEvents').initMouseEvent) == 'function')) {
                 var evt = document.createEvent('MouseEvents');
                 evt.initMouseEvent(eventType, canBubble, true, // event, bubbles, cancelable
-                    document.defaultView, 1, // view, # of clicks
+                    document.defaultView, 3, // view, detail (either scroll or # of clicks)
                     1, 0, 0, 0, // screenX, screenY, clientX, clientY
                     false, false, false, false, // ctrlKey, altKey, shiftKey, metaKey
                     0, null); // buttonCode, relatedTarget
@@ -96,6 +97,7 @@ tests.test_Signal = function (t) {
             /* these should not be defined */
             t.ok((typeof(e.relatedTarget()) === 'undefined'), 'checking that relatedTarget() is undefined');
             t.ok((typeof(e.key()) === 'undefined'), 'checking that key() is undefined');
+            t.ok((typeof(e.mouse().wheel) === 'undefined'), 'checking that mouse().wheel is undefined');
         };
 
         
@@ -107,9 +109,21 @@ tests.test_Signal = function (t) {
         triggerMouseEvent('submit', 'mousedown', false);
         t.is(i, 3, 'Disconnecting an event to an HTML object and firing a synthetic event');
 
-
-        
-    }    
+        ident = connect('submit', 'onmousewheel', function(e) {
+            i++;
+            t.ok((typeof(e.mouse()) === 'object'), 'checking that mouse() is an object');
+            t.ok((typeof(e.mouse().wheel) === 'number'), 'checking that mouse().wheel is a number');
+        });
+        var nativeSignal = 'mousewheel';
+        if (!/MSIE/.test(navigator.userAgent) && !/Opera/.test(navigator.userAgent)) {
+            nativeSignal = 'DOMMouseScroll';
+        }
+        triggerMouseEvent('submit', nativeSignal, false);
+        t.is(i, 4, 'Connecting a mousewheel event to an HTML object and firing a synthetic event');
+        disconnect(ident);
+        triggerMouseEvent('submit', nativeSignal, false);
+        t.is(i, 4, 'Disconnecting a mousewheel event to an HTML object and firing a synthetic event');
+    }
 
     // non-DOM tests
 

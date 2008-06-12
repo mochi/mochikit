@@ -151,6 +151,16 @@ nodes. This is the analog to <tt class="docutils literal"><span class="pre">'onm
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
 </blockquote>
+<p><tt class="docutils literal"><span class="pre">onmousewheel</span></tt></p>
+<blockquote>
+<p>Not strictly synthesized, but named <tt class="docutils literal"><span class="pre">'DOMMouseScroll'</span></tt> in Firefox
+and Safari browsers. MochiKit translates <tt class="docutils literal"><span class="pre">'onmousewheel'</span></tt> to the
+correct event in these browsers.</p>
+<dl class="docutils">
+<dt><em>Availability:</em></dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
 </div>
 <div class="section">
 <h2><a id="using-signal-for-non-dom-objects" name="using-signal-for-non-dom-objects">Using Signal for non-DOM objects</a></h2>
@@ -410,6 +420,14 @@ and <tt class="docutils literal"><span class="pre">'ondblclick'</span></tt>:</p>
 <li><tt class="docutils literal"><span class="pre">mouse().button</span></tt> returns <tt class="docutils literal"><span class="pre">{left,</span> <span class="pre">right,</span> <span class="pre">middle}</span></tt> where
 each property is <tt class="docutils literal"><span class="pre">true</span></tt> if the mouse button was pressed,
 <tt class="docutils literal"><span class="pre">false</span></tt> otherwise.</li>
+</ul>
+</blockquote>
+<p>Properties for <tt class="docutils literal"><span class="pre">'onmousewheel'</span></tt>:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">mouse().wheel</span></tt> returns a number for the scroll wheel
+offset. The number will normally be +3 when scrolling down,
+and -3 when scrolling up.</li>
 </ul>
 </blockquote>
 <p>Known browser bugs:</p>
