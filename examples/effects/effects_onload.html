@@ -7,6 +7,7 @@
     <script src="../../MochiKit/MochiKit.js" type="text/javascript"></script>
     <script src="../../MochiKit/Position.js" type="text/javascript"></script>
     <script src="../../MochiKit/Visual.js" type="text/javascript"></script>
+</head>
 <body>
 <h1>script.aculo.us Effects functional test file</h1>
 
@@ -14,7 +15,7 @@
 
 <div id="debug"> </div>
 
-<a href="#" onclick="MochiKit.Visual.slideDown('d1'); return false;">asdasd</a>
+<a href="#" onclick="MochiKit.Visual.slideDown('d1'); return false;">slide down</a>
 
 <div id="d1" onclick="MochiKit.Visual.slideUp('d1');" style="overflow:hidden;"><div  style="background-color:#ff8080;">
 
@@ -53,14 +54,14 @@
 <div id="d8" style="width:100px;height:100px;background-color:#dde;">
   pulsate
 </div>
-      
+
 <script type="text/javascript" language="javascript" charset="utf-8">
 // <![CDATA[
   new MochiKit.Visual.Highlight("d2",{startcolor:"#000000"});
   MochiKit.Visual.grow("d3",{duration:5.0,direction: 'bottom-right',opacityTransition:MochiKit.Visual.Transitions.linear});
   MochiKit.Visual.blindDown("d1");
 // ]]>
-</script>    
+</script>
 
 </body>
 </html>
