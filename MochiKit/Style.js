@@ -123,45 +123,29 @@ MochiKit.Base.update(MochiKit.Style, {
                 value = css ? css.getPropertyValue(cssProperty) : null;
             } else if (elem.currentStyle) {
                 value = elem.currentStyle[cssProperty];
+                if (/^\d/.test(value) && !/px$/.test(value)) {
+                    /* Convert to px using an hack from Dean Edwards */
+                    var left = elem.style.left;
+                    var rsLeft = elem.runtimeStyle.left;
+                    elem.runtimeStyle.left = elem.currentStyle.left;
+                    elem.style.left = value || 0;
+                    value = elem.style.pixelLeft + "px";
+                    elem.style.left = left;
+                    elem.runtimeStyle.left = rsLeft;
+                }
             }
         }
         if (cssProperty == 'opacity') {
             value = parseFloat(value);
         }
 
-        if (/Opera/.test(navigator.userAgent) && (MochiKit.Base.find(['left', 'top', 'right', 'bottom'], cssProperty) != -1)) {
+        if (/Opera/.test(navigator.userAgent) && (MochiKit.Base.findValue(['left', 'top', 'right', 'bottom'], cssProperty) != -1)) {
             if (MochiKit.Style.getStyle(elem, 'position') == 'static') {
                 value = 'auto';
             }
         }
 
         return value == 'auto' ? null : value;
-    },
-
-    /** @id MochiKit.Style.getElementWidth */
-    getElementWidth: function (elem) {
-        var self = MochiKit.Style;
-        w = parseFloat(self.getStyle(elem, 'width'));
-        if (/Opera/.test(navigator.userAgent)) {
-            w -= (parseFloat(self.getStyle(elem, 'paddingLeft'))
-                + parseFloat(self.getStyle(elem, 'paddingRight'))
-                + parseFloat(self.getStyle(elem, 'borderLeft'))
-                + parseFloat(self.getStyle(elem, 'borderRight')));
-        }
-        return w;
-    },
-
-    /** @id MochiKit.Style.getElementHeight */
-    getElementHeight: function (elem) {
-        var self = MochiKit.Style;
-        h = parseFloat(self.getStyle(elem, 'height'));
-        if (/Opera/.test(navigator.userAgent)) {
-            h -= (parseFloat(self.getStyle(elem, 'paddingTop'))
-                + parseFloat(self.getStyle(elem, 'paddingBottom'))
-                + parseFloat(self.getStyle(elem, 'borderTop'))
-                + parseFloat(self.getStyle(elem, 'borderBottom')));
-        }
-        return h;
     },
 
     /** @id MochiKit.Style.setStyle */
@@ -349,7 +333,7 @@ MochiKit.Base.update(MochiKit.Style, {
     },
 
     /** @id MochiKit.Style.getElementDimensions */
-    getElementDimensions: function (elem) {
+    getElementDimensions: function (elem, contentSize/*optional*/) {
         var self = MochiKit.Style;
         var dom = MochiKit.DOM;
         if (typeof(elem.w) == 'number' || typeof(elem.h) == 'number') {
@@ -361,22 +345,37 @@ MochiKit.Base.update(MochiKit.Style, {
         }
         var disp = self.getStyle(elem, 'display');
         // display can be empty/undefined on WebKit/KHTML
-        if (disp != 'none' && disp !== '' && typeof(disp) != 'undefined') {
-            return new self.Dimensions(elem.offsetWidth || 0,
-                elem.offsetHeight || 0);
+        if (disp == 'none' || disp == '' || typeof(disp) == 'undefined') {
+            var s = elem.style;
+            var originalVisibility = s.visibility;
+            var originalPosition = s.position;
+            var originalDisplay = s.display;
+            s.visibility = 'hidden';
+            s.position = 'absolute';
+            s.display = '';
+            var originalWidth = elem.offsetWidth;
+            var originalHeight = elem.offsetHeight;
+            s.display = originalDisplay;
+            s.position = originalPosition;
+            s.visibility = originalVisibility;
+        } else {
+            originalWidth = elem.offsetWidth || 0;
+            originalHeight = elem.offsetHeight || 0;
         }
-        var s = elem.style;
-        var originalVisibility = s.visibility;
-        var originalPosition = s.position;
-        var originalDisplay = s.display;
-        s.visibility = 'hidden';
-        s.position = 'absolute';
-        s.display = '';
-        var originalWidth = elem.offsetWidth;
-        var originalHeight = elem.offsetHeight;
-        s.display = originalDisplay;
-        s.position = originalPosition;
-        s.visibility = originalVisibility;
+        if (contentSize) {
+            originalWidth -= Math.round(
+                (parseFloat(self.getStyle(elem, 'paddingLeft')) || 0)
+              + (parseFloat(self.getStyle(elem, 'paddingRight')) || 0)
+              + (parseFloat(self.getStyle(elem, 'borderLeftWidth')) || 0)
+              + (parseFloat(self.getStyle(elem, 'borderRightWidth')) || 0)
+            );
+            originalHeight -= Math.round(
+                (parseFloat(self.getStyle(elem, 'paddingTop')) || 0)
+              + (parseFloat(self.getStyle(elem, 'paddingBottom')) || 0)
+              + (parseFloat(self.getStyle(elem, 'borderTopWidth')) || 0)
+              + (parseFloat(self.getStyle(elem, 'borderBottomWidth')) || 0)
+            );
+        }
         return new self.Dimensions(originalWidth, originalHeight);
     },
 
