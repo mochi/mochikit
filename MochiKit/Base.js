@@ -835,11 +835,35 @@ MochiKit.Base.update(MochiKit.Base, {
             return o + "";
         } else if (o === null) {
             return "null";
-        }
-        var m = MochiKit.Base;
-        var reprString = m.reprString;
-        if (objtype == "string") {
-            return reprString(o);
+        } else if (objtype == "string") {
+            var res = "";
+            for (var i = 0; i < o.length; i++) {
+                var c = o.charAt(i);
+                if (c == '\"') {
+                    res += '\\"';
+                } else if (c == '\\') {
+                    res += '\\\\';
+                } else if (c == '\b') {
+                    res += '\\b';
+                } else if (c == '\f') {
+                    res += '\\f';
+                } else if (c == '\n') {
+                    res += '\\n';
+                } else if (c == '\r') {
+                    res += '\\r';
+                } else if (c == '\t') {
+                    res += '\\t';
+                } else if (o.charCodeAt(i) <= 0x1F) {
+                    var hex = o.charCodeAt(i).toString(16);
+                    if (hex.length < 2) {
+                        hex = '0' + hex;
+                    }
+                    res += '\\u00' + hex.toUpperCase();
+                } else {
+                    res += c;
+                }
+            }
+            return '"' + res + '"';
         }
         // recurse
         var me = arguments.callee;
@@ -864,13 +888,15 @@ MochiKit.Base.update(MochiKit.Base, {
             for (var i = 0; i < o.length; i++) {
                 var val = me(o[i]);
                 if (typeof(val) != "string") {
-                    val = "undefined";
+                    // skip non-serializable values
+                    continue;
                 }
                 res.push(val);
             }
             return "[" + res.join(", ") + "]";
         }
         // look in the registry
+        var m = MochiKit.Base;
         try {
             newObj = m.jsonRegistry.match(o);
             if (o !== newObj) {
@@ -897,7 +923,7 @@ MochiKit.Base.update(MochiKit.Base, {
             if (typeof(k) == "number") {
                 useKey = '"' + k + '"';
             } else if (typeof(k) == "string") {
-                useKey = reprString(k);
+                useKey = me(k);
             } else {
                 // skip non-string or number keys
                 continue;
