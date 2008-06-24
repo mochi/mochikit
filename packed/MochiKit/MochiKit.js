@@ -629,7 +629,7 @@ return _db;
 var m=MochiKit.Base;
 return "["+m.map(m.repr,o).join(", ")+"]";
 },reprString:function(o){
-return ("\""+o.replace(/(["\\])/g,"\\$1")+"\"").replace(/[\f]/g,"\\f").replace(/[\b]/g,"\\b").replace(/[\n]/g,"\\n").replace(/[\t]/g,"\\t").replace(/[\r]/g,"\\r");
+return ("\""+o.replace(/(["\\])/g,"\\$1")+"\"").replace(/[\f]/g,"\\f").replace(/[\b]/g,"\\b").replace(/[\n]/g,"\\n").replace(/[\t]/g,"\\t").replace(/[\v]/g,"\\v").replace(/[\r]/g,"\\r");
 },reprNumber:function(o){
 return o+"";
 },registerJSON:function(_e1,_e2,_e3,_e4){

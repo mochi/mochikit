@@ -800,6 +800,7 @@ MochiKit.Base.update(MochiKit.Base, {
             ).replace(/[\b]/g, "\\b"
             ).replace(/[\n]/g, "\\n"
             ).replace(/[\t]/g, "\\t"
+            ).replace(/[\v]/g, "\\v"
             ).replace(/[\r]/g, "\\r");
     },
 
