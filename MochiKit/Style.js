@@ -96,7 +96,7 @@ MochiKit.Base.update(MochiKit.Style, {
         if (!elem || elem == d) {
             return undefined;
         }
-        if (cssProperty == 'opacity' && elem.filters) {
+        if (cssProperty == 'opacity' && typeof(elem.filters) != 'undefined') {
             var opacity = (MochiKit.Style.getStyle(elem, 'filter') || '').match(/alpha\(opacity=(.*)\)/);
             if (opacity && opacity[1]) {
                 return parseFloat(opacity[1]) / 100;
