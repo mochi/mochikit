@@ -3922,7 +3922,7 @@ _413=MochiKit.Base.camelize(_413);
 if(!elem||elem==d){
 return undefined;
 }
-if(_413=="opacity"&&elem.filters){
+if(_413=="opacity"&&typeof (elem.filters)!="undefined"){
 var _416=(MochiKit.Style.getStyle(elem,"filter")||"").match(/alpha\(opacity=(.*)\)/);
 if(_416&&_416[1]){
 return parseFloat(_416[1])/100;
