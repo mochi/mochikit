@@ -363,17 +363,48 @@ MochiKit.Base.update(MochiKit.Style, {
             originalHeight = elem.offsetHeight || 0;
         }
         if (contentSize) {
+            var tableCell = 'colSpan' in elem;
+            var collapse = (tableCell && elem.parentNode && self.getStyle(
+                    elem.parentNode, 'borderCollapse') == 'collapse')
+            if (collapse) {
+                if (/MSIE/.test(navigator.userAgent)) {
+                    var borderLeftQuota = elem.previousSibling? 0.5 : 1;
+                    var borderRightQuota = elem.nextSibling? 0.5 : 1;
+                }
+                else {
+                    var borderLeftQuota = 0.5;
+                    var borderRightQuota = 0.5;
+                }
+            } else {
+                var borderLeftQuota = 1;
+                var borderRightQuota = 1;
+            }
             originalWidth -= Math.round(
                 (parseFloat(self.getStyle(elem, 'paddingLeft')) || 0)
               + (parseFloat(self.getStyle(elem, 'paddingRight')) || 0)
-              + (parseFloat(self.getStyle(elem, 'borderLeftWidth')) || 0)
-              + (parseFloat(self.getStyle(elem, 'borderRightWidth')) || 0)
+              + borderLeftQuota *
+                (parseFloat(self.getStyle(elem, 'borderLeftWidth')) || 0)
+              + borderRightQuota *
+                (parseFloat(self.getStyle(elem, 'borderRightWidth')) || 0)
             );
+            if (tableCell) {
+                if (/Gecko|Opera/.test(navigator.userAgent)
+                    && !/Konqueror|AppleWebKit|KHTML/.test(navigator.userAgent)) {
+                    var borderHeightQuota = 0;
+                } else if (/MSIE/.test(navigator.userAgent)) {
+                    var borderHeightQuota = 1;
+                } else {
+                    var borderHeightQuota = collapse? 0.5 : 1;
+                }
+            } else {
+                var borderHeightQuota = 1;
+            }
             originalHeight -= Math.round(
                 (parseFloat(self.getStyle(elem, 'paddingTop')) || 0)
               + (parseFloat(self.getStyle(elem, 'paddingBottom')) || 0)
-              + (parseFloat(self.getStyle(elem, 'borderTopWidth')) || 0)
-              + (parseFloat(self.getStyle(elem, 'borderBottomWidth')) || 0)
+              + borderHeightQuota * (
+                (parseFloat(self.getStyle(elem, 'borderTopWidth')) || 0)
+              + (parseFloat(self.getStyle(elem, 'borderBottomWidth')) || 0))
             );
         }
         return new self.Dimensions(originalWidth, originalHeight);
