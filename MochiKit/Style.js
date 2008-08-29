@@ -363,7 +363,7 @@ MochiKit.Base.update(MochiKit.Style, {
             originalHeight = elem.offsetHeight || 0;
         }
         if (contentSize) {
-            var tableCell = 'colSpan' in elem;
+            var tableCell = 'colSpan' in elem && 'rowSpan' in elem;
             var collapse = (tableCell && elem.parentNode && self.getStyle(
                     elem.parentNode, 'borderCollapse') == 'collapse')
             if (collapse) {
