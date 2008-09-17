@@ -4129,7 +4129,7 @@ _43d=elem.offsetWidth||0;
 _43e=elem.offsetHeight||0;
 }
 if(_435){
-var _43f="colSpan" in elem;
+var _43f="colSpan" in elem&&"rowSpan" in elem;
 var _440=(_43f&&elem.parentNode&&self.getStyle(elem.parentNode,"borderCollapse")=="collapse");
 if(_440){
 if(/MSIE/.test(navigator.userAgent)){
@@ -6872,7 +6872,7 @@ if(!src){
 continue;
 }
 _74c[src]=true;
-if(src.match(/MochiKit.js$/)){
+if(src.match(/MochiKit.js(\?.*)?$/)){
 base=src.substring(0,src.lastIndexOf("MochiKit.js"));
 _74b=_745[i];
 }
