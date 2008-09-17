@@ -130,7 +130,7 @@ if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
                 continue;
             }
             allScripts[src] = true;
-            if (src.match(/MochiKit.js$/)) {
+            if (src.match(/MochiKit.js(\?.*)?$/)) {
                 base = src.substring(0, src.lastIndexOf('MochiKit.js'));
                 baseElem = scripts[i];
             }
