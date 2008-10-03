@@ -177,6 +177,19 @@ MochiKit.Logging.Logger.prototype = {
 
     /** @id MochiKit.Logging.Logger.prototype.baseLog */
     baseLog: function (level, message/*, ...*/) {
+        if (typeof(level) == "number") {
+            if (level >= MochiKit.Logging.LogLevel.FATAL) {
+                level = 'FATAL';
+            } else if (level >= MochiKit.Logging.LogLevel.ERROR) {
+                level = 'ERROR';
+            } else if (level >= MochiKit.Logging.LogLevel.WARNING) {
+                level = 'WARNING';
+            } else if (level >= MochiKit.Logging.LogLevel.INFO) {
+                level = 'INFO';
+            } else {
+                level = 'DEBUG';
+            }
+        }
         var msg = new MochiKit.Logging.LogMessage(
             this.counter,
             level,

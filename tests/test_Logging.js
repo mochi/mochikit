@@ -67,9 +67,22 @@ tests.test_Logging = function (t) {
     t.is( compare(fatalMessages, [msg]), 0, "fatalMessages listener" );
     t.is( compare(msg.info, ["fatalFoo"]), 0, "info matches" );
     t.is( msg.level, "FATAL", "level matches" );
+    msgs = logger.getMessages(1);
+    t.is( compare(fatalMessages, msgs), 0, "getMessages with limit returns latest" );
 
     logger.removeListener("allMessages");
     logger.removeListener("fatalMessages");
 
     t.is( compare(firstTwo, logger.getMessages().slice(0, 2)), 0, "firstTwo" );
+    
+    logger.clear();
+    msgs = logger.getMessages();
+    t.is(msgs.length, 0, "clear removes existing messages");
+
+    logger.baseLog(LogLevel.INFO, 'infoFoo');
+    msg = logger.getMessages().pop();
+    t.is(msg.level, "INFO", "baseLog converts level")
+    logger.baseLog(45, 'errorFoo');
+    msg = logger.getMessages().pop();
+    t.is(msg.level, "ERROR", "baseLog converts ad-hoc level")
 };
