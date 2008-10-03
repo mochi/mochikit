@@ -223,16 +223,18 @@ Constructors
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`Logger.prototype.getMessages(howMany)`:
+:mochidef:`Logger.prototype.getMessages([howMany])`:
 
-    Return a list of up to ``howMany`` messages from the message
-    buffer.
+    Returns a list of messages from the message buffer, ordered
+    from the oldest to the newest message. If ``howMany`` is
+    specified, only the last ``howMany`` messages are returned.
+    Otherwise all messages in the buffer are returned.
 
     *Availability*:
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`Logger.prototype.getMessageText(howMany)`:
+:mochidef:`Logger.prototype.getMessageText([howMany])`:
 
     Get a string representing up to the last ``howMany`` messages in
     the message buffer. The default is ``30``.
