@@ -69,9 +69,8 @@ call BBD, or Bookmarklet Based Debugging <a class="footnote-reference" href="#id
 whack it whenever you want to see what's in the logger. Of course,
 this means you must drink the MochiKit.Logging kool-aid. It's tangy
 and sweet, don't worry.</p>
-<p>Currently this is an ugly <tt class="docutils literal"><span class="pre">alert</span></tt>, but we'll have something spiffy
-Real Soon Now, and when we do, you only have to upgrade
-MochiKit.Logging, not your bookmarklet!</p>
+<p>Currently this uses <a class="mochiref reference" href="LoggingPane.html">MochiKit.LoggingPane</a> if loaded and
+otherwise falls back to ugly <tt class="docutils literal"><span class="pre">alert</span></tt> messages.</p>
 </div>
 </div>
 <div class="section">
@@ -115,11 +114,30 @@ messages. So if you don't like logging at all, be sure to pass
 <p>There is a default logger available named &quot;logger&quot;, and several of
 its methods are also global functions:</p>
 <blockquote>
-<tt class="docutils literal"><span class="pre">logger.log</span></tt>      -&gt; <tt class="docutils literal"><span class="pre">log</span></tt>
-<tt class="docutils literal"><span class="pre">logger.debug</span></tt>    -&gt; <tt class="docutils literal"><span class="pre">logDebug</span></tt>
-<tt class="docutils literal"><span class="pre">logger.warning</span></tt>  -&gt; <tt class="docutils literal"><span class="pre">logWarning</span></tt>
-<tt class="docutils literal"><span class="pre">logger.error</span></tt>    -&gt; <tt class="docutils literal"><span class="pre">logError</span></tt>
-<tt class="docutils literal"><span class="pre">logger.fatal</span></tt>    -&gt; <tt class="docutils literal"><span class="pre">logFatal</span></tt></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">logger.log</span></tt></td>
+<td>-&gt; <a class="mochiref reference" href="#fn-log">log</a></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">logger.debug</span></tt></td>
+<td>-&gt; <a class="mochiref reference" href="#fn-logdebug">logDebug</a></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">logger.warning</span></tt></td>
+<td>-&gt; <a class="mochiref reference" href="#fn-logwarning">logWarning</a></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">logger.error</span></tt></td>
+<td>-&gt; <a class="mochiref reference" href="#fn-logerror">logError</a></td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">logger.fatal</span></tt></td>
+<td>-&gt; <a class="mochiref reference" href="#fn-logfatal">logFatal</a></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>

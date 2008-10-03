@@ -72,9 +72,8 @@ and sweet, don't worry.
 
 .. __: javascript:MochiKit.Logging.logger.debuggingBookmarklet()
 
-Currently this is an ugly ``alert``, but we'll have something spiffy
-Real Soon Now, and when we do, you only have to upgrade
-MochiKit.Logging, not your bookmarklet!
+Currently this uses :mochiref:`MochiKit.LoggingPane` if loaded and
+otherwise falls back to ugly ``alert`` messages.
 
 
 API Reference
@@ -118,11 +117,13 @@ Constructors
     There is a default logger available named "logger", and several of
     its methods are also global functions:
 
-        ``logger.log``      -> ``log``
-        ``logger.debug``    -> ``logDebug``
-        ``logger.warning``  -> ``logWarning``
-        ``logger.error``    -> ``logError``
-        ``logger.fatal``    -> ``logFatal``
+        ==================  =============
+        ``logger.log``      -> :mochiref:`log`
+        ``logger.debug``    -> :mochiref:`logDebug`
+        ``logger.warning``  -> :mochiref:`logWarning`
+        ``logger.error``    -> :mochiref:`logError`
+        ``logger.fatal``    -> :mochiref:`logFatal`
+        ==================  =============
 
     *Availability*:
         Available in MochiKit 1.3.1+
