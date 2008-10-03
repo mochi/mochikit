@@ -24,7 +24,7 @@ SimpleTest._stopOnLoad = true;
 
 /**
  * Something like assert.
-**/
+ */
 SimpleTest.ok = function (condition, name, diag) {
     var test = {'result': !!condition, 'name': name, 'diag': diag || ""};
     if (SimpleTest._logEnabled) {
@@ -42,10 +42,22 @@ SimpleTest.ok = function (condition, name, diag) {
 
 /**
  * Roughly equivalent to ok(a==b, name)
-**/
+ */
 SimpleTest.is = function (a, b, name) {
     var repr = MochiKit.Base.repr;
     SimpleTest.ok(a == b, name, "got " + repr(a) + ", expected " + repr(b));
+};
+
+/**
+ * Roughly equivalent to ok(compare(a,b)==0, name)
+ */
+SimpleTest.eq = function (a, b, name) {
+    var repr = MochiKit.Base.repr;
+    try {
+        SimpleTest.ok(compare(a, b) == 0, name, "got " + repr(a) + ", expected " + repr(b));
+    } catch (e) {
+        SimpleTest.ok(false, name, "exception in compare: " + repr(e));
+    }
 };
 
 
@@ -66,7 +78,7 @@ SimpleTest.report = function () {
             } else {
                 failed++;
                 cls = "test_not_ok";
-                msg = "not ok - " + test.name + " " + test.diag;
+                msg = "not ok - " + test.name + ": " + test.diag;
             }
             return DIV({"class": cls}, msg);
         },
