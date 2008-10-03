@@ -1765,6 +1765,25 @@ this.listeners[_1ff]=_202;
 },removeListener:function(_203){
 delete this.listeners[_203];
 },baseLog:function(_204,_205){
+if(typeof (_204)=="number"){
+if(_204>=MochiKit.Logging.LogLevel.FATAL){
+_204="FATAL";
+}else{
+if(_204>=MochiKit.Logging.LogLevel.ERROR){
+_204="ERROR";
+}else{
+if(_204>=MochiKit.Logging.LogLevel.WARNING){
+_204="WARNING";
+}else{
+if(_204>=MochiKit.Logging.LogLevel.INFO){
+_204="INFO";
+}else{
+_204="DEBUG";
+}
+}
+}
+}
+}
 var msg=new MochiKit.Logging.LogMessage(this.counter,_204,MochiKit.Base.extend(null,arguments,1));
 this._messages.push(msg);
 this.dispatchListeners(msg);
