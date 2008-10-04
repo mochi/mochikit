@@ -3734,12 +3734,13 @@ var _3e9="MochiKit.DOM.getNodeAttribute(element, "+repr(_3e8.name)+")";
 var _3ea=function(_3eb){
 return _3e9+".split("+repr(_3eb)+")";
 };
+_3de.push(_3e9+" != null");
 switch(_3e8.operator){
 case "=":
 _3de.push(_3e9+" == "+repr(_3e8.value));
 break;
 case "~=":
-_3de.push(_3e9+" && MochiKit.Base.findValue("+_3ea(" ")+", "+repr(_3e8.value)+") > -1");
+_3de.push("MochiKit.Base.findValue("+_3ea(" ")+", "+repr(_3e8.value)+") > -1");
 break;
 case "^=":
 _3de.push(_3e9+".substring(0, "+_3e8.value.length+") == "+repr(_3e8.value));
@@ -3751,14 +3752,13 @@ case "*=":
 _3de.push(_3e9+".match("+repr(_3e8.value)+")");
 break;
 case "|=":
-_3de.push(_3e9+" && "+_3ea("-")+"[0].toUpperCase() == "+repr(_3e8.value.toUpperCase()));
+_3de.push(_3ea("-")+"[0].toUpperCase() == "+repr(_3e8.value.toUpperCase()));
 break;
 case "!=":
 _3de.push(_3e9+" != "+repr(_3e8.value));
 break;
 case "":
 case undefined:
-_3de.push(_3e9+" != null");
 break;
 default:
 throw "Unknown operator "+_3e8.operator+" in selector";
