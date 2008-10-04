@@ -10,16 +10,6 @@ tests.test_Base = function (t) {
     var boundFunc = bind(func, self);
     not_self.boundFunc = boundFunc;
 
-    t.is( isEmpty([], [], ""), true, "isEmpty true" )
-    t.is( isEmpty([], [1], ""), true, "isEmpty true" )
-    t.is( isNotEmpty([], [], ""), false, "isNotEmpty false" )
-    t.is( isNotEmpty([], [1], ""), false, "isNotEmpty false" )
-
-    t.is( isEmpty([1], [1], "1"), false, "isEmpty false" )
-    t.is( isEmpty([1], [1], "1"), false, "isEmpty false" )
-    t.is( isNotEmpty([1], [1], "1"), true, "isNotEmpty true" )
-    t.is( isNotEmpty([1], [1], "1"), true, "isNotEmpty true" )
-
     t.is( boundFunc("foo"), "self foo", "boundFunc bound to self properly" );
     t.is( not_self.boundFunc("foo"), "self foo", "boundFunc bound to self on another obj" );
     t.is( bind(boundFunc, not_self)("foo"), "not self foo", "boundFunc successfully rebound!" );
@@ -76,6 +66,9 @@ tests.test_Base = function (t) {
     t.is( q.func(), "awesome", "clone really does work" );
     
     // test boring boolean funcs
+    t.is( isNull(null), true, "isNull matches null" );
+    t.is( isNull(undefined), false, "isNull doesn't match undefined" );
+    t.is( isNull({}), false, "isNull doesn't match objects" );
 
     t.is( isCallable(isCallable), true, "isCallable returns true on itself" );
     t.is( isCallable(1), false, "isCallable returns false on numbers" );
@@ -89,6 +82,22 @@ tests.test_Base = function (t) {
     t.is( isUndefinedOrNull(""), false, "empty string is not undefined or null" );
     t.is( isUndefinedOrNull(undefined), true, "undefined is undefined or null" );
     t.is( isUndefinedOrNull({}.foo), true, "missing property is undefined or null" );
+
+    t.is( isEmpty(null), true, "isEmpty null" );
+    t.is( isEmpty([], [], ""), true, "isEmpty true" );
+    t.is( isEmpty([], [1], ""), true, "isEmpty true" );
+    t.is( isEmpty([1], [1], "1"), false, "isEmpty false" );
+    t.is( isEmpty([1], [1], "1"), false, "isEmpty false" );
+
+    t.is( isNotEmpty(null), false, "isNotEmpty null" );
+    t.is( isNotEmpty([], [], ""), false, "isNotEmpty false" );
+    t.is( isNotEmpty([], [1], ""), false, "isNotEmpty false" );
+    t.is( isNotEmpty([1], [1], "1"), true, "isNotEmpty true" );
+    t.is( isNotEmpty([1], [1], "1"), true, "isNotEmpty true" );
+
+    t.is( isArrayLike(undefined), false, "isArrayLike(undefined)" );
+    t.is( isArrayLike(null), false, "isArrayLike(null)" );
+    t.is( isArrayLike([]), true, "isArrayLike([])" );
 
     // test extension of arrays
     var a = [];
@@ -464,7 +473,6 @@ tests.test_Base = function (t) {
     t.is( findIdentical([1, 2, 3], 1), 0, "findIdentical returns correct index");
     t.is( findIdentical([1, 2, 3], 1, 1), -1, "findIdentical honors start");
     t.is( findIdentical([1, 2, 3], 2, 0, 1), -1, "findIdentical honors end");
-    t.is( isNull(undefined), false, "isNull doesn't match undefined" );
 
     var flat = flattenArguments(1, "2", 3, [4, [5, [6, 7], 8, [], 9]]);
     var expect = [1, "2", 3, 4, 5, 6, 7, 8, 9];
