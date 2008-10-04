@@ -100,6 +100,10 @@ try {
         is(getStyle("elt1", "margin-left"), "4px", "Morph multiple (margin) OK");
     }});
 
+    Morph("elt1", {"style": {"font-weight": "bold"}, afterFinish: function () {
+        is(getStyle("elt1", "font-weight"), "bold", "Morph OK");
+    }});
+
     switchOff("elt1", {afterFinish: function () {
         is(getElement('elt1').style.display, 'none', "switchOff ok");
     }});
