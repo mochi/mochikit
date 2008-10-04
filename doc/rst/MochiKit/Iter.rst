@@ -34,7 +34,7 @@ is largely inspired by Python's iteration protocol [1]_, and the
 itertools module [2]_.
 
 MochiKit.Iter defines a standard way to iterate over anything, that
-you can extend with :mochiref:`registerIterator`, or by implementing
+you can extend with :mochiref:`registerIteratorFactory`, or by implementing
 the ``.iter()`` or ``.__iterator__()`` (in MochiKit 1.4+) protocol.
 Iterators are lazy, so it can potentially be
 cheaper to build a filter chain of iterators than to build lots of
