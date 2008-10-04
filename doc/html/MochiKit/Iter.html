@@ -42,7 +42,7 @@ assert( theSum == (0 + 0 + 2 + 4 + 6 + 8) );
 is largely inspired by Python's iteration protocol <a class="footnote-reference" href="#id4" id="id1" name="id1">[1]</a>, and the
 itertools module <a class="footnote-reference" href="#id5" id="id2" name="id2">[2]</a>.</p>
 <p>MochiKit.Iter defines a standard way to iterate over anything, that
-you can extend with <a class="mochiref reference" href="#fn-registeriterator">registerIterator</a>, or by implementing
+you can extend with <a class="mochiref reference" href="#fn-registeriteratorfactory">registerIteratorFactory</a>, or by implementing
 the <tt class="docutils literal"><span class="pre">.iter()</span></tt> or <tt class="docutils literal"><span class="pre">.__iterator__()</span></tt> (in MochiKit 1.4+) protocol.
 Iterators are lazy, so it can potentially be
 cheaper to build a filter chain of iterators than to build lots of
