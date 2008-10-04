@@ -199,13 +199,13 @@ MochiKit.Selector.Selector.prototype = {
                 var splitValueBy = function (delimiter) {
                     return value + '.split(' + repr(delimiter) + ')';
                 }
-
+                conditions.push(value + ' != null');
                 switch (attribute.operator) {
                     case '=':
                         conditions.push(value + ' == ' + repr(attribute.value));
                         break;
                     case '~=':
-                        conditions.push(value + ' && MochiKit.Base.findValue(' + splitValueBy(' ') + ', ' + repr(attribute.value) + ') > -1');
+                        conditions.push('MochiKit.Base.findValue(' + splitValueBy(' ') + ', ' + repr(attribute.value) + ') > -1');
                         break;
                     case '^=':
                         conditions.push(value + '.substring(0, ' + attribute.value.length + ') == ' + repr(attribute.value));
@@ -217,16 +217,14 @@ MochiKit.Selector.Selector.prototype = {
                         conditions.push(value + '.match(' + repr(attribute.value) + ')');
                         break;
                     case '|=':
-                        conditions.push(
-                            value + ' && ' + splitValueBy('-') + '[0].toUpperCase() == ' + repr(attribute.value.toUpperCase())
-                        );
+                        conditions.push(splitValueBy('-') + '[0].toUpperCase() == ' + repr(attribute.value.toUpperCase()));
                         break;
                     case '!=':
                         conditions.push(value + ' != ' + repr(attribute.value));
                         break;
                     case '':
                     case undefined:
-                        conditions.push(value + ' != null');
+                        // Condition already added above
                         break;
                     default:
                         throw 'Unknown operator ' + attribute.operator + ' in selector';

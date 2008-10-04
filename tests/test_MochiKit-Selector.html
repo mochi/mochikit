@@ -152,6 +152,19 @@ try {
     testExpected(results, expected, "'a[title]' selector");
     */
 
+    // Test attribute operators (also for elements not having the attribute)
+    results = $$('p[lang="en-us"]');
+    is( results[0].firstChild.nodeValue, 'Nonninn', "'p[lang=en-us]' selector");
+    results = $$('p[lang!="is-IS"]');
+    is( results[0].firstChild.nodeValue, 'Nonninn', "'p[lang!=is-IS]' selector");
+    results = $$('p[lang~="en-us"]');
+    is( results[0].firstChild.nodeValue, 'Nonninn', "'p[lang~=en-us]' selector");
+    results = $$('p[lang^="en"]');
+    is( results[0].firstChild.nodeValue, 'Nonninn', "'p[lang^=en]' selector");
+    results = $$('p[lang$="us"]');
+    is( results[0].firstChild.nodeValue, 'Nonninn', "'p[lang$=us]' selector");
+    results = $$('p[lang*="-u"]');
+    is( results[0].firstChild.nodeValue, 'Nonninn', "'p[lang*=-u]' selector");
     results = $$('p[lang|="en"]');
     is( results[0].firstChild.nodeValue, 'Nonninn', "'p[lang|=en]' selector");
 
