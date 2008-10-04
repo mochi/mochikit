@@ -3981,7 +3981,7 @@ _41d=css?css.getPropertyValue(_419):null;
 }else{
 if(elem.currentStyle){
 _41d=elem.currentStyle[_419];
-if(/^\d/.test(_41d)&&!/px$/.test(_41d)){
+if(/^\d/.test(_41d)&&!/px$/.test(_41d)&&_419!="fontWeight"){
 var left=elem.style.left;
 var _420=elem.runtimeStyle.left;
 elem.runtimeStyle.left=elem.currentStyle.left;
