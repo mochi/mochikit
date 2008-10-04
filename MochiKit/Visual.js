@@ -1253,7 +1253,7 @@ MochiKit.Base.update(MochiKit.Visual.Morph.prototype, {
                 components = value.match(/^([\+\-]?[0-9\.]+)(.*)$/);
                 value = parseFloat(components[1]);
                 this.styleStart[s] = value;
-            } else {
+            } else if (/[Cc]olor$/.test(s)) {
                 var c = MochiKit.Color.Color;
                 value = c.fromString(value);
                 if (value) {
@@ -1271,6 +1271,9 @@ MochiKit.Base.update(MochiKit.Visual.Morph.prototype, {
                             this.styleEnd[s].slice(i*2 + 1, i*2 + 3), 16);
                     }, this), [0, 1, 2]);
                 }
+            } else {
+                // For non-length & non-color properties, we just set the value
+                this.element.style[s] = value;
             }
         }
     },

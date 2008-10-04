@@ -6447,6 +6447,7 @@ _6a6=_6a3.match(/^([\+\-]?[0-9\.]+)(.*)$/);
 _6a3=parseFloat(_6a6[1]);
 this.styleStart[s]=_6a3;
 }else{
+if(/[Cc]olor$/.test(s)){
 var c=MochiKit.Color.Color;
 _6a3=c.fromString(_6a3);
 if(_6a3){
@@ -6460,6 +6461,9 @@ return parseInt(this.styleStart[s].slice(i*2+1,i*2+3),16);
 this.styleEnd[s]=b.map(b.bind(function(i){
 return parseInt(this.styleEnd[s].slice(i*2+1,i*2+3),16);
 },this),[0,1,2]);
+}
+}else{
+this.element.style[s]=_6a3;
 }
 }
 }
