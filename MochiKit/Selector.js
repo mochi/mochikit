@@ -237,8 +237,9 @@ MochiKit.Selector.Selector.prototype = {
 
     /** @id MochiKit.Selector.Selector.prototype.compileMatcher */
     compileMatcher: function () {
-        this.match = new Function('element', 'if (!element.tagName) return false; \
-                return ' + this.buildMatchExpression());
+        var code = 'return (!element.tagName) ? false : ' +
+                   this.buildMatchExpression() + ';';
+        this.match = new Function('element', code);
     },
 
     /** @id MochiKit.Selector.Selector.prototype.nthChild */
