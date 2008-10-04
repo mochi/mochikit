@@ -401,7 +401,7 @@ tests.test_Base = function (t) {
     var res = parseQueryString("x=1&y=2");
     t.is( typeof(res['&']), "undefined", "extra cruft in parseQueryString output");
 
-    t.is( serializeJSON("foo\n\r\b\f\t\v\u001B"), "\"foo\\n\\r\\b\\f\\t\\u000B\\u001B\"", "string JSON" );
+    t.is( serializeJSON("foo\n\r\b\f\t\u000B\u001B"), "\"foo\\n\\r\\b\\f\\t\\u000B\\u001B\"", "string JSON" );
     t.is( serializeJSON(null), "null", "null JSON");
     try {
         serializeJSON(undefined);
