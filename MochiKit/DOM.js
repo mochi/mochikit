@@ -386,12 +386,16 @@ MochiKit.Base.update(MochiKit.DOM, {
     getNodeAttribute: function (node, attr) {
         var self = MochiKit.DOM;
         var rename = self.attributeArray.renames[attr];
+        var ignoreValue = self.attributeArray.ignoreAttr[attr];
         node = self.getElement(node);
         try {
             if (rename) {
                 return node[rename];
             }
-            return node.getAttribute(attr);
+            var value = node.getAttribute(attr);
+            if (value != ignoreValue) {
+                return value;
+            }
         } catch (e) {
             // pass
         }
@@ -1149,6 +1153,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                 return node.attributes;
             };
             attributeArray.compliant = true;
+            attributeArray.ignoreAttr = {};
             attributeArray.renames = {};
         }
         this.attributeArray = attributeArray;

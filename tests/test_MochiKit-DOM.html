@@ -105,6 +105,7 @@ try {
     d = createDOM("span", {"foo": "bar", "baz": "wibble", "spam": "egg"}, "one", "two", "three");
     is( getNodeAttribute(d, 'foo'), "bar", "createDOM attribute" );
     is( getNodeAttribute(d, 'baz'), "wibble", "createDOM attribute" );
+    is( getNodeAttribute(d, 'lang'), null, "getNodeAttribute on IE added attribute" );
     removeNodeAttribute(d, "spam");
     is( scrapeText(d), "onetwothree", "createDOM contents" );
     
