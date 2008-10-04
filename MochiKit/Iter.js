@@ -20,9 +20,15 @@ MochiKit.Base.update(MochiKit.Iter, {
         return this.__repr__();
     },
 
-    /** @id MochiKit.Iter.registerIteratorFactory  */
+    /** @id MochiKit.Iter.registerIteratorFactory */
     registerIteratorFactory: function (name, check, iterfactory, /* optional */ override) {
         MochiKit.Iter.iteratorRegistry.register(name, check, iterfactory, override);
+    },
+
+    /** @id MochiKit.Iter.isIterable */
+    isIterable: function(o) {
+        return o != null &&
+               (typeof(o.next) == "function" || typeof(o.iter) == "function");
     },
 
     /** @id MochiKit.Iter.iter */
@@ -535,24 +541,24 @@ MochiKit.Base.update(MochiKit.Iter, {
     },
 
     /** @id MochiKit.Iter.forEach */
-    forEach: function (iterable, func, /* optional */self) {
+    forEach: function (iterable, func, /* optional */obj) {
         var m = MochiKit.Base;
+        var self = MochiKit.Iter;
         if (arguments.length > 2) {
-            func = m.bind(func, self);
+            func = m.bind(func, obj);
         }
         // fast path for array
-        if (m.isArrayLike(iterable)) {
+        if (m.isArrayLike(iterable) && !self.isIterable(iterable)) {
             try {
                 for (var i = 0; i < iterable.length; i++) {
                     func(iterable[i]);
                 }
             } catch (e) {
-                if (e != MochiKit.Iter.StopIteration) {
+                if (e != self.StopIteration) {
                     throw e;
                 }
             }
         } else {
-            self = MochiKit.Iter;
             self.exhaust(self.imap(func, iterable));
         }
     },
@@ -604,13 +610,14 @@ MochiKit.Base.update(MochiKit.Iter, {
 
     /** @id MochiKit.Iter.iextend */
     iextend: function (lst, iterable) {
-        if (MochiKit.Base.isArrayLike(iterable)) {
+        var m = MochiKit.Base;
+        var self = MochiKit.Iter;
+        if (m.isArrayLike(iterable) && !self.isIterable(iterable)) {
             // fast-path for array-like
             for (var i = 0; i < iterable.length; i++) {
                 lst.push(iterable[i]);
             }
         } else {
-            var self = MochiKit.Iter;
             iterable = self.iter(iterable);
             try {
                 while (true) {
