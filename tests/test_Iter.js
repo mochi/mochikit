@@ -76,6 +76,10 @@ tests.test_Iter = function (t) {
     t.is( reduce(operator.add, [1], 10), 11, "range initial value OK populated" );
 
     t.is( compare(iextend([1], range(2)), [1, 0, 1]), 0, "iextend(...)" );
+    var rval = [];
+    var o = [0, 1, 2, 3];
+    o.next = range(2).next;
+    t.is( iextend([], o).length, 2, "iextend handles array-like iterables" );
 
     var x = [];
     exhaust(imap(bind(x.push, x), range(5)));
@@ -96,7 +100,13 @@ tests.test_Iter = function (t) {
     }
     forEach(range(2), foo);
     t.is( compare(rval, [0, 1, 0, 1]), 0, "forEach works unbound" );
-    
+
+    var rval = [];
+    var o = [0, 1, 2, 3];
+    o.next = range(2).next;
+    forEach(o, rval.push, rval);
+    t.is( rval.length, 2, "forEach handles array-like iterables" );
+
     t.is( compare(sorted([3, 2, 1]), [1, 2, 3]), 0, "sorted default" );
     rval = sorted(["aaa", "bb", "c"], keyComparator("length"));
     t.is(compare(rval, ["c", "bb", "aaa"]), 0, "sorted custom");
