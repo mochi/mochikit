@@ -80,6 +80,11 @@ try {
     var d = document.createElement('span');
     updateNodeAttributes(d, {"foo": "bar", "baz": "wibble"});
     isDOM( d, '<span baz="wibble" foo="bar"/>', "updateNodeAttributes" );
+    var d = document.createElement('input');
+    d.value = "foo";
+    updateNodeAttributes(d, { value: "bar" });
+    is( d.value, 'bar', "updateNodeAttributes updates value property" );
+    is( d.getAttribute("value"), 'bar', "updateNodeAttributes updates value attribute" );
 
     var d = document.createElement('span');
     appendChildNodes(d, 'word up', [document.createElement('span')]);

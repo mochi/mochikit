@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4.1: http://docutils.sourceforge.net/" />
 <title>MochiKit.DOM - painless DOM manipulation API</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -790,8 +790,13 @@ given, <a class="mochiref reference" href="#fn-getelement">getElement(node)</a> 
 node)</dd>
 <dt><tt class="docutils literal"><span class="pre">attr</span></tt>:</dt>
 <dd><p class="first">The name of the attribute</p>
-<p class="last">Note that it will do the right thing for IE, so don't do the
+<p>Note that it will do the right thing for IE, so don't do the
 <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself.</p>
+<p class="last">Also note that the DOM element object property with the same
+name will also be set if not already identical to the attribute
+value. This is needed to compensate for weird attributes that
+distinguish between the property and attribute values (i.e. the
+&quot;value&quot; attribute for fields).</p>
 </dd>
 <dt><tt class="docutils literal"><span class="pre">value</span></tt>:</dt>
 <dd>The value of the attribute, may be an object to be merged
@@ -898,9 +903,14 @@ attributes need to be set. If an object is given for the
 attribute value (e.g. <tt class="docutils literal"><span class="pre">{'style':</span> <span class="pre">{'display':</span> <span class="pre">'block'}}</span></tt>)
 then <a class="mochiref reference" href="Base.html#fn-updatetree">MochiKit.Base.updatetree</a> will be used to set
 that attribute.</p>
-<p class="last">Note that it will do the right thing for IE, so don't do the
+<p>Note that it will do the right thing for IE, so don't do the
 <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself, and it deals with
 setting &quot;on...&quot; event handlers correctly.</p>
+<p class="last">Also note that the DOM element object property with the same
+name will also be set if not already identical to the attribute
+value. This is needed to compensate for weird attributes that
+distinguish between the property and attribute values (i.e. the
+&quot;value&quot; attribute for fields).</p>
 </dd>
 <dt><em>returns</em>:</dt>
 <dd>The given DOM element</dd>

@@ -2982,6 +2982,9 @@ elem[k]=v;
 elem.setAttribute(k,v);
 }
 }
+if(typeof (elem[k])=="string"&&elem[k]!=v){
+elem[k]=v;
+}
 }
 }else{
 var _32b=self.attributeArray.renames;
@@ -3011,6 +3014,9 @@ elem.setAttribute(k,v);
 }
 }
 }
+}
+if(typeof (elem[k])=="string"&&elem[k]!=v){
+elem[k]=v;
 }
 }
 }
