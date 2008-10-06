@@ -29,8 +29,15 @@ tests.test_Base = function (t) {
     t.is( method(undefined, boundMethod, "foo")(), "self foo", "boundMethod partial no self change" );
     t.is( method(not_self, boundMethod, "foo")(), "not self foo", "boundMethod partial self change" );
 
-
-
+    // test bindLate
+    self = {"toString": function () { return "self"; } };
+    boundFunc = bindLate("toString", self);
+    t.is( boundFunc(), "self", "bindLate binds properly" );
+    self.toString = function () { return "not self"; };
+    t.is( boundFunc(), "not self", "bindLate late function lookup" );
+    func = function (arg) { return this.toString() + " " + arg; };
+    boundFunc = bindLate(func, self);
+    t.is( boundFunc("foo"), "not self foo", "bindLate fallback to standard bind" );
 
     // test bindMethods
 

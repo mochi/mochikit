@@ -447,6 +447,19 @@ Functions
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`bindLate(func, self[, arg, ...])`:
+
+    Alternate version of :mochiref:`bind` that uses late lookup of
+    the ``func`` parameter in ``self``. I.e, the ``self[func]``
+    function lookup will occur on each call to the returned function,
+    not when ``bindLate`` is called. Note that this difference is
+    only applicable when ``func`` is a string, otherwise ``bindLate``
+    and ``bind`` are identical.
+
+    *Availability*:
+        Available in MochiKit 1.4+
+
+
 :mochidef:`bindMethods(self)`:
 
     Replace all functions ``meth`` on ``self`` with
