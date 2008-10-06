@@ -42,6 +42,18 @@ MochiKit.Base.update(MochiKit.Sortable, {
         }
     },
 
+    _createElementId: function(element) {
+        if (element.id == null || element.id == "") {
+            var d = MochiKit.DOM;
+            var id;
+            var count = 1;
+            while (d.getElement(id = "sortable" + count) != null) {
+                count += 1;
+            }
+            d.setNodeAttribute(element, "id", id);
+        }
+    },
+
     /** @id MochiKit.Sortable.options */
     options: function (element) {
         element = MochiKit.Sortable._findRootElement(MochiKit.DOM.getElement(element));
@@ -75,6 +87,7 @@ MochiKit.Base.update(MochiKit.Sortable, {
     create: function (element, options) {
         element = MochiKit.DOM.getElement(element);
         var self = MochiKit.Sortable;
+        self._createElementId(element);
 
         /** @id MochiKit.Sortable.options */
         options = MochiKit.Base.update({
@@ -257,8 +270,7 @@ MochiKit.Base.update(MochiKit.Sortable, {
 
     /** @id MochiKit.Sortable.findElements */
     findElements: function (element, options) {
-        return MochiKit.Sortable.findChildren(
-            element, options.only, options.tree ? true : false, options.tag);
+        return MochiKit.Sortable.findChildren(element, options.only, options.tree, options.tag);
     },
 
     /** @id MochiKit.Sortable.findTreeElements */
