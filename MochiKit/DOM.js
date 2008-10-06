@@ -445,6 +445,10 @@ MochiKit.Base.update(MochiKit.DOM, {
                     } else {
                         elem.setAttribute(k, v);
                     }
+                    if (typeof(elem[k]) == "string" && elem[k] != v) {
+                        // Also set property for weird attributes (see #302)
+                        elem[k] = v;
+                    }
                 }
             } else {
                 // IE is insane in the membrane
@@ -470,6 +474,10 @@ MochiKit.Base.update(MochiKit.DOM, {
                         elem[k] = v;
                     } else {
                         elem.setAttribute(k, v);
+                    }
+                    if (typeof(elem[k]) == "string" && elem[k] != v) {
+                        // Also set property for weird attributes (see #302)
+                        elem[k] = v;
                     }
                 }
             }

@@ -761,6 +761,12 @@ Functions
         Note that it will do the right thing for IE, so don't do the
         ``class`` -> ``className`` hack yourself.
 
+        Also note that the DOM element object property with the same
+        name will also be set if not already identical to the attribute
+        value. This is needed to compensate for weird attributes that
+        distinguish between the property and attribute values (i.e. the
+        "value" attribute for fields).
+
     ``value``:
         The value of the attribute, may be an object to be merged
         (e.g. for setting style).
@@ -863,6 +869,12 @@ Functions
         Note that it will do the right thing for IE, so don't do the
         ``class`` -> ``className`` hack yourself, and it deals with
         setting "on..." event handlers correctly.
+
+        Also note that the DOM element object property with the same
+        name will also be set if not already identical to the attribute
+        value. This is needed to compensate for weird attributes that
+        distinguish between the property and attribute values (i.e. the
+        "value" attribute for fields).
 
     *returns*:
         The given DOM element
