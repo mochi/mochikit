@@ -471,5 +471,11 @@ tests.test_Signal = function (t) {
     connect(src, 'signal', sink.f);
     signal(src, 'signal', 'worked');
     t.is(sink.ev, 'worked', 'custom signal does not re-bind methods');
-    
+
+    var lateObj = { fun: function() { this.value = 1; } };
+    connect(src, 'signal', lateObj, "fun");
+    signal(src, 'signal');
+    lateObj.fun = function() { this.value = 2; };
+    signal(src, 'signal');
+    t.is(lateObj.value, 2, 'connect uses late function binding');
 };
