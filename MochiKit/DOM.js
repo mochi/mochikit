@@ -681,6 +681,9 @@ MochiKit.Base.update(MochiKit.DOM, {
             parent = self._document;
         }
         parent = self.getElement(parent);
+        if (parent == null) {
+            return [];
+        }
         var children = (parent.getElementsByTagName(tagName)
             || self._document.all);
         if (typeof(className) == 'undefined' || className === null) {
@@ -858,6 +861,9 @@ MochiKit.Base.update(MochiKit.DOM, {
     /** @id MochiKit.DOM.hasElementClass */
     hasElementClass: function (element, className/*...*/) {
         var obj = MochiKit.DOM.getElement(element);
+        if (obj == null) {
+            return false;
+        }
         var cls = obj.className;
         if (typeof(cls) != "string") {
             cls = obj.getAttribute("class");
@@ -1040,9 +1046,14 @@ MochiKit.Base.update(MochiKit.DOM, {
             parent = self._document;
         }
         parent = self.getElement(parent);
+        if (parent == null) {
+            return null;
+        }
         var children = (parent.getElementsByTagName(tagName)
             || self._document.all);
-        if (typeof(className) == 'undefined' || className === null) {
+        if (children.length <= 0) {
+            return null;
+        } else if (typeof(className) == 'undefined' || className === null) {
             return children[0];
         }
 
@@ -1061,6 +1072,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                 }
             }
         }
+        return null;
     },
 
     /** @id MochiKit.DOM.getFirstParentByTagAndClassName */
@@ -1091,15 +1103,22 @@ MochiKit.Base.update(MochiKit.DOM, {
 
     /** @id MochiKit.DOM.isParent */
     isParent: function (child, element) {
-        if (!child.parentNode || child == element) {
+        var self = MochiKit.DOM;
+        if (typeof(child) == "string") {
+            child = self.getElement(child);
+        }
+        if (typeof(element) == "string") {
+            element = self.getElement(element);
+        }
+        if (child == null || element == null) {
             return false;
-        }
-
-        if (child.parentNode == element) {
+        } else if (!child.parentNode || child == element) {
+            return false;
+        } else if (child.parentNode == element) {
             return true;
+        } else {
+            return self.isParent(child.parentNode, element);
         }
-
-        return MochiKit.DOM.isParent(child.parentNode, element);
     },
 
     __new__: function (win) {
