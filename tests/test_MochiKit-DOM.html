@@ -111,6 +111,7 @@ try {
     is( getNodeAttribute(d, 'foo'), "bar", "createDOM attribute" );
     is( getNodeAttribute(d, 'baz'), "wibble", "createDOM attribute" );
     is( getNodeAttribute(d, 'lang'), null, "getNodeAttribute on IE added attribute" );
+    is( getNodeAttribute("donotexist", 'foo'), null, "getNodeAttribute invalid node id" );
     removeNodeAttribute(d, "spam");
     is( scrapeText(d), "onetwothree", "createDOM contents" );
     
@@ -157,7 +158,8 @@ try {
     
     
     ok( !isUndefinedOrNull(getElement("test")), "getElement might work" );
-    ok( !isUndefinedOrNull($("test")), "$alias$$ CASH MONEY alias might work" );
+    ok( !isUndefinedOrNull($("test")), "$ alias might work" );
+    ok( getElement("donotexist") === null, "getElement invalid id" );
 
     d = createDOM("span", null, "one", "two");
     swapDOM(d.childNodes[0], document.createTextNode("uno"));
@@ -200,6 +202,7 @@ try {
     ok( !swapElementClass(d, "blah", "baz"), "swapElementClass twice" );
     ok( hasElementClass(d, "baz"), "swapElementClass has toClass" );
     ok( !hasElementClass(d, "blah"), "swapElementClass !has fromClass" );
+    ok( !hasElementClass("donotexist", "foo"), "hasElementClass invalid node id" );
 
     TABLE;
     TBODY;
@@ -227,7 +230,16 @@ try {
         "tr0 tr1",
         "getElementsByTagAndClassName found all tr tags"
     );
-        
+    is( getElementsByTagAndClassName("td", null, t).length, 0, "getElementsByTagAndClassName no match found");
+    is( getElementsByTagAndClassName("p", [], "donotexist").length, 0, "getElementsByTagAndClassName invalid parent id");
+
+    is( getFirstElementByTagAndClassName(null, "foo", t).id, "tbody0", "getFirstElementByTagAndClassName class name" );
+    is( getFirstElementByTagAndClassName("tr", "foo", t).id, "tr0", "getFirstElementByTagAndClassName tag and class name" );
+    is( getFirstElementByTagAndClassName("tr", null, t).id, "tr0", "getFirstElementByTagAndClassName tag name" );
+    ok( getFirstElementByTagAndClassName("td", null, t) === null, "getFirstElementByTagAndClassName no matching tag" );
+    ok( getFirstElementByTagAndClassName("tr", "donotexist", t) === null, "getFirstElementByTagAndClassName no matching class" );
+    ok( getFirstElementByTagAndClassName('*', null, 'donotexist') === null, "getFirstElementByTagAndClassName invalid parent id" );
+
     var oldDoc = document;
     var doc = MochiKit.MockDOM.createDocument();
     is( currentDocument(), document, "currentDocument() correct" );
@@ -298,8 +310,10 @@ try {
     is( getFirstParentByTagAndClassName('child', 'div'), getElement("parentZero"), "getFirstParentByTagAndClassName found parent (any class)" );
     is( getFirstParentByTagAndClassName('child', '*', 'two'), getElement("parentTwo"), "getFirstParentByTagAndClassName found parent (any tag)" );
     is( getFirstParentByTagAndClassName('child', '*'), getElement("parentZero"), "getFirstParentByTagAndClassName found parent (any tag + any class)" );
-    is( getFirstParentByTagAndClassName('child', 'form'), null, "getFirstParentByTagAndClassName found null parent (no match)" );
+    ok( getFirstParentByTagAndClassName('child', 'form') === null, "getFirstParentByTagAndClassName found null parent (no match)" );
+    ok( getFirstParentByTagAndClassName('donotexist', '*') === null, "getFirstParentByTagAndClassName invalid elem id" );
 
+    ok( isChildNode('child', 'child'), "isChildNode of itself");
     ok( isChildNode('child', 'parentZero'), "isChildNode direct child");
     ok( isChildNode('child', 'parentTwo'), "isChildNode sub child");
     ok( !isChildNode('child', 'form_test'), "isChildNode wrong child");
@@ -310,6 +324,18 @@ try {
     ok( !isChildNode( SPAN(), document.body), "isChildNode child not in DOM");
     ok( !isChildNode( SPAN(), 'child'), "isChildNode child not in DOM");
     ok( !isChildNode( 'child', SPAN()), "isChildNode parent not in DOM");
+
+    ok( !isParent('child', 'child'), "isParent of itself");
+    ok( isParent('child', 'parentZero'), "isParent direct child");
+    ok( isParent('child', 'parentTwo'), "isParent sub child");
+    ok( !isParent('child', 'form_test'), "isParent wrong child");
+    ok( !isParent('child', 'donotexist'), "isParent no parent");
+    ok( !isParent('donotexist', 'parentZero'), "isParent no child");
+    ok( isParent('child', document.body), "isParent of body");
+    ok( isParent($('child').firstChild, 'child'), "isParent text node");
+    ok( !isParent( SPAN(), document.body), "isParent child not in DOM");
+    ok( !isParent( SPAN(), 'child'), "isParent child not in DOM");
+    ok( !isParent( 'child', SPAN()), "isParent parent not in DOM");
 
     ok( true, "test suite finished!");
     
