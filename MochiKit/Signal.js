@@ -523,7 +523,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         if (!isDOM) {
             /* We don't want to re-bind already bound methods */
             if (typeof(func.im_self) == 'undefined') {
-                return MochiKit.Base.bind(func, obj);
+                return MochiKit.Base.bindLate(func, obj);
             } else {
                 return func;
             }
