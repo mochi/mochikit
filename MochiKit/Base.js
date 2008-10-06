@@ -665,6 +665,31 @@ MochiKit.Base.update(MochiKit.Base, {
         return newfunc;
     },
 
+    /** @id MochiKit.Base.bindLate */
+    bindLate: function (func, self/* args... */) {
+        var m = MochiKit.Base;
+        if (typeof(func) != "string") {
+            return m.bind.apply(this, arguments);
+        }
+        var im_preargs = m.extend([], arguments, 2);
+        var newfunc = function () {
+            var args = arguments;
+            var me = arguments.callee;
+            if (me.im_preargs.length > 0) {
+                args = m.concat(me.im_preargs, args);
+            }
+            var self = me.im_self;
+            if (!self) {
+                self = this;
+            }
+            return self[me.im_func].apply(self, args);
+        };
+        newfunc.im_self = self;
+        newfunc.im_func = func;
+        newfunc.im_preargs = im_preargs;
+        return newfunc;
+    },
+
     /** @id MochiKit.Base.bindMethods */
     bindMethods: function (self) {
         var bind = MochiKit.Base.bind;
@@ -1300,6 +1325,7 @@ MochiKit.Base.EXPORT = [
     "methodcaller",
     "compose",
     "bind",
+    "bindLate",
     "bindMethods",
     "NotFound",
     "AdapterRegistry",
