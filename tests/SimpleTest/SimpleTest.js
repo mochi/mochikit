@@ -78,7 +78,10 @@ SimpleTest.report = function () {
             } else {
                 failed++;
                 cls = "test_not_ok";
-                msg = "not ok - " + test.name + ": " + test.diag;
+                msg = "not ok - " + test.name;
+                if (test.diag != null && test.diag != "") {
+                    msg += ": " + test.diag;
+                }
             }
             return DIV({"class": cls}, msg);
         },
