@@ -110,8 +110,8 @@ regardless of whether it's specified in the markup or not.</p>
 <div class="section">
 <h2><a id="functions" name="functions">Functions</a></h2>
 <p>
-<a name="fn-$$"></a>
-<a class="mochidef reference" href="#fn-$$">$$(expression[, ...])</a>:</p>
+<a name="fn-finddocelements"></a>
+<a class="mochidef reference" href="#fn-finddocelements">findDocElements(expression[, ...])</a>:</p>
 <blockquote>
 <p>Performs a selection on the active document. Equivalent
 to <tt class="docutils literal"><span class="pre">findChildElements(MochiKit.DOM.currentDocument(),</span> <span class="pre">[expression,</span> <span class="pre">...])</span></tt></p>
@@ -131,6 +131,16 @@ them with spaces or combinators. In that case, normal CSS rules apply, each
 simple expression is evaluated in turn and the results of that one is used
 as the scope for the succeeding expression (see <a class="mochiref reference" href="#fn-selector.findelements">Selector.findElements</a>).
 Finally, the results of the last simple expression is returned as the search result.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-$$"></a>
+<a class="mochidef reference" href="#fn-$$">$$(expression[, ...])</a>:</p>
+<blockquote>
+<p>An alias to <tt class="docutils literal"><span class="pre">findChildElements</span></tt>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
