@@ -4127,6 +4127,8 @@ c.y+=elem.offsetTop;
 _437=elem.offsetParent;
 if(_437!=elem){
 while(_437){
+c.x+=parseInt(_437.style.borderLeftWidth)||0;
+c.y+=parseInt(_437.style.borderTopWidth)||0;
 c.x+=_437.offsetLeft;
 c.y+=_437.offsetTop;
 _437=_437.offsetParent;
