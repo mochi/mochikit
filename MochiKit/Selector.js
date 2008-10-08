@@ -614,13 +614,17 @@ var Expr = {
     }
 };
 
+function makeArray(a) {
+    return Array.prototype.slice.call( a );
+}
+
 if ( document.querySelectorAll ) (function(){
     var oldSizzle = Sizzle;
     
     Sizzle = function(query, context, extra){
         if ( context === document ) {
             try {
-                return context.querySelectorAll(query);
+                return makeArray(context.querySelectorAll(query));
             } catch(e){}
         }
         
@@ -639,10 +643,6 @@ if ( document.getElementsByClassName ) {
 }
 
 var done = 0;
-
-function makeArray(a) {
-    return Array.prototype.slice.call( a );
-}
 
 // TODO: Need a proper check here
 if ( document.all && !window.opera ) {

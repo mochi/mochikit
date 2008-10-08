@@ -4391,33 +4391,33 @@ if(_4d5){
 return _4d5(elem,i,_4d1,_4d3);
 }
 }}};
+function makeArray(a){
+return Array.prototype.slice.call(a);
+}
 if(document.querySelectorAll){
 (function(){
-var _4d6=Sizzle;
-Sizzle=function(_4d7,_4d8,_4d9){
-if(_4d8===document){
+var _4d7=Sizzle;
+Sizzle=function(_4d8,_4d9,_4da){
+if(_4d9===document){
 try{
-return _4d8.querySelectorAll(_4d7);
+return makeArray(_4d9.querySelectorAll(_4d8));
 }
 catch(e){
 }
 }
-return _4d6(_4d7,_4d8,_4d9);
+return _4d7(_4d8,_4d9,_4da);
 };
-Sizzle.find=_4d6.find;
-Sizzle.filter=_4d6.filter;
+Sizzle.find=_4d7.find;
+Sizzle.filter=_4d7.filter;
 })();
 }
 if(document.getElementsByClassName){
 Expr.order.splice(1,0,"CLASS");
-Expr.find.CLASS=function(_4da,_4db){
-return _4db.getElementsByClassName(_4da[1]);
+Expr.find.CLASS=function(_4db,_4dc){
+return _4dc.getElementsByClassName(_4db[1]);
 };
 }
 var done=0;
-function makeArray(a){
-return Array.prototype.slice.call(a);
-}
 if(document.all&&!window.opera){
 function makeArray(a){
 if(a instanceof Array){
