@@ -87,7 +87,7 @@ API Reference
 Functions
 ---------
 
-:mochidef:`$$(expression[, ...])`:
+:mochidef:`findDocElements(expression[, ...])`:
     
     Performs a selection on the active document. Equivalent
     to ``findChildElements(MochiKit.DOM.currentDocument(), [expression, ...])``
@@ -110,6 +110,12 @@ Functions
     *Availability*:
         Available in MochiKit 1.4+
 
+:mochidef:`$$(expression[, ...])`:
+
+    An alias to ``findChildElements``.
+
+    *Availability*:
+        Available in MochiKit 1.4+
 
 Constructors
 -------------
