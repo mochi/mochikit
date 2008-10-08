@@ -32,6 +32,11 @@ try {
     is(pos.x, 400, 'initial x position');
     is(pos.y, 100, 'initial y position');
 
+    // Coordinates including border and padding
+    pos = getElementPosition('innerDiv');
+    is(pos.x, 444, 'x position with offsetParent border');
+    is(pos.y, 111, 'y position with offsetParent border');
+
     // moved
     var newPos = new MochiKit.Style.Coordinates(500, 200);
     setElementPosition('styleTest', newPos);
@@ -64,11 +69,6 @@ try {
     pos = getElementPosition('styleTest');
     is(pos.x, 300, 'updated only x position');
     is(pos.y, 200, 'not updated y position');
-
-    // Coordinates including border and padding
-    pos = getElementPosition('innerDiv');
-    is(pos.x, 344, 'x position with offsetParent border');
-    is(pos.y, 211, 'y position with offsetParent border');
 
     var mc = MochiKit.Color.Color;
     var red = mc.fromString('rgb(255,0,0)');
