@@ -100,8 +100,8 @@ try {
         is(getStyle("elt1", "margin-left"), "4px", "Morph multiple (margin) OK");
     }});
 
-    Morph("elt1", {"style": {"font-weight": "bold"}, afterFinish: function () {
-        is(getStyle("elt1", "font-weight"), "bold", "Morph OK");
+    Morph("elt1", {"style": {"font-style": "italic"}, afterFinish: function () {
+        is(getStyle("elt1", "font-style"), "italic", "Morph generic property OK");
     }});
 
     switchOff("elt1", {afterFinish: function () {
