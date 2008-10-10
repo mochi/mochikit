@@ -112,7 +112,7 @@ Functions
 
 :mochidef:`$$(expression[, ...])`:
 
-    An alias to ``findChildElements``.
+    An alias to ``findDocElements``.
 
     *Availability*:
         Available in MochiKit 1.4+
