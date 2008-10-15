@@ -281,13 +281,13 @@ MochiKit.Selector.Selector.prototype = {
             if (axis == "") {
                 return MochiKit.DOM.isChildNode(element, scope);
             } else if (axis == ">") {
-                return element.parentNode == scope;
+                return element.parentNode === scope;
             } else if (axis == "+") {
-                return element == nextSiblingElement(scope);
+                return element === nextSiblingElement(scope);
             } else if (axis == "~") {
                 var sibling = scope;
                 while (sibling = nextSiblingElement(sibling)) {
-                    if (element == sibling) {
+                    if (element === sibling) {
                         return true;
                     }
                 }
@@ -362,9 +362,18 @@ MochiKit.Base.update(MochiKit.Selector, {
 
     /** @id MochiKit.Selector.findChildElements */
     findChildElements: function (element, expressions) {
+        var uniq = function(arr) {
+            var res = [];
+            for (var i = 0; i < arr.length; i++) {
+                if (MochiKit.Base.findIdentical(res, arr[i]) < 0) {
+                    res.push(arr[i]);
+                }
+            }
+            return res;
+        };
         return MochiKit.Base.flattenArray(MochiKit.Base.map(function (expression) {
             var nextScope = "";
-            return MochiKit.Iter.reduce(function (results, expr) {
+            var reducer = function (results, expr) {
                 if (match = expr.match(/^[>+~]$/)) {
                     nextScope = match[0];
                     return results;
@@ -376,7 +385,9 @@ MochiKit.Base.update(MochiKit.Selector, {
                     nextScope = "";
                     return elements;
                 }
-            }, expression.replace(/(^\s+|\s+$)/g, '').split(/\s+/), [null]);
+            };
+            var exprs = expression.replace(/(^\s+|\s+$)/g, '').split(/\s+/);
+            return uniq(MochiKit.Iter.reduce(reducer, exprs, [null]));
         }, expressions));
     },
 
