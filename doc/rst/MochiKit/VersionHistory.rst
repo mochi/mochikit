@@ -1,4 +1,4 @@
-2006-XX-XX      v1.4
+2008-10-XX      v1.4
 
 - Added pt_BR to MochiKit.Format.LOCALE.
 - MochiKit.Async now sets the "X-Requested-With: XMLHttpRequest" header,
@@ -26,7 +26,7 @@
   form.
 - MochiKit.DOM.formContents now defaults to document.body if no element is
   given.
-- New MochiKit.Selector module
+- New MochiKit.Selector module (still somewhat experimental)
 - MochiKit.LoggingPane fixes for Internet Explorer
 - MochiKit.DOM now creates XHTML nodes in XUL documents.
 - MochiKit.LoggingPane now works on pages with '#' in the URL on IE
@@ -52,6 +52,7 @@
 - serializeJSON no longer serializes undefined, as per the JSON spec
 - Fixed an infinite recursion bug in serializeJSON if an adapter
   returns the object itself.
+- Fixed vertical tab and control char encoding in serializeJSON (#313).
 - New MochiKit.Base.operator.seq and sne to support strict comparison
 - MochiKit.Base.isArrayLike no longer returns true for DOM text nodes
 - Added readonly-readOnly to the list of DOM renames for Internet Explorer
@@ -71,8 +72,26 @@
 - New MochiKit.DOM.coerceToDOM .dom(node) / .__dom__(node) protocol
 - MochiKit.DOM's MochiKit.Iter dependency is now optional
 - Added expand all link to the documentation index
-- Added MochiKit.DOM.isChildNode
+- Added MochiKit.DOM.isChildNode and isParent functions.
 - Added synthesizing for onmouseenter/onmouseleave
+- Added animation functions and classes to MochiKit.Visual.
+- Added MochiKit.Style.getElementDimensions support for calculating the
+  actual content size (without padding and borders).
+- Added MochiKit.DOM.insertSiblingNodesBefore, getFirstElementByTagAndClassName,
+  getFirstParentByTagAndClassName, makeClipping, makePositioned,
+  undoClipping, undoPositioned and removeEmptyTextNodes functions.
+- Added MochiKit.Base.bindLate, camelize, flattenArray, mean, median and
+  noop functions.
+- New MochiKit.DragAndDrop module for drag and drop handling.
+- New MochiKit.Sortable module for lists sortable with drag and drop.
+- Changed MochiKit.Signal.connect to use late function binding also
+  for non-DOM signals (#307).
+- Fixed MochiKit.Color.isColor when symbols not exported (#296).
+- Added support for inclusion in SVG files (#290).
+- Fixed rounding errors in MochiKit.Format.twoDigitFloat (#275).
+- Fixed MochiKit.Logging to convert log levels to strings (#273).
+- Fixed MochiKit.Iter.forEach and iextend for array-like objects with
+  and iter function (#268).
 
 2006-04-29      v1.3.1 (bug fix release)
 
