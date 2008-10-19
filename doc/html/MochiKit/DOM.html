@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
 <title>MochiKit.DOM - painless DOM manipulation API</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -622,24 +622,12 @@ identifiers are also acceptable.</p>
 <a name="fn-ischildnode"></a>
 <a class="mochidef reference" href="#fn-ischildnode">isChildNode(node, maybeParent)</a>:</p>
 <blockquote>
-<p>Determine whether <tt class="docutils literal"><span class="pre">node</span></tt> is a child node of <tt class="docutils literal"><span class="pre">maybeParent</span></tt>.
-Returns <tt class="docutils literal"><span class="pre">true</span></tt> if so, and <tt class="docutils literal"><span class="pre">false</span></tt> if not. A node is considered
-a child node of itself for the purposes of this function.</p>
+<p>Determine whether <tt class="docutils literal"><span class="pre">node</span></tt> is a child node or decendant node of
+<tt class="docutils literal"><span class="pre">maybeParent</span></tt>. Returns <tt class="docutils literal"><span class="pre">true</span></tt> if so, and <tt class="docutils literal"><span class="pre">false</span></tt> if not.
+A node is considered a child node of itself for the purposes of
+this function.</p>
 <p>If either <tt class="docutils literal"><span class="pre">node</span></tt> or <tt class="docutils literal"><span class="pre">maybeParent</span></tt> are strings, the related
 nodes will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.4+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-isparent"></a>
-<a class="mochidef reference" href="#fn-isparent">isParent(child, element)</a>:</p>
-<blockquote>
-<p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">element</span></tt> contains <tt class="docutils literal"><span class="pre">child</span></tt>. Returns <tt class="docutils literal"><span class="pre">false</span></tt>
-if <tt class="docutils literal"><span class="pre">element</span> <span class="pre">==</span> <span class="pre">child</span></tt> or <tt class="docutils literal"><span class="pre">child</span></tt> is not contained in <tt class="docutils literal"><span class="pre">element</span></tt>.
-If <tt class="docutils literal"><span class="pre">child</span></tt> or <tt class="docutils literal"><span class="pre">element</span></tt> are strings, they will be looked up with
-<a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>

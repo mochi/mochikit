@@ -331,18 +331,6 @@ try {
     ok( !isChildNode( SPAN(), 'child'), "isChildNode child not in DOM");
     ok( !isChildNode( 'child', SPAN()), "isChildNode parent not in DOM");
 
-    ok( !isParent('child', 'child'), "isParent of itself");
-    ok( isParent('child', 'parentZero'), "isParent direct child");
-    ok( isParent('child', 'parentTwo'), "isParent sub child");
-    ok( !isParent('child', 'form_test'), "isParent wrong child");
-    ok( !isParent('child', 'donotexist'), "isParent no parent");
-    ok( !isParent('donotexist', 'parentZero'), "isParent no child");
-    ok( isParent('child', document.body), "isParent of body");
-    ok( isParent($('child').firstChild, 'child'), "isParent text node");
-    ok( !isParent( SPAN(), document.body), "isParent child not in DOM");
-    ok( !isParent( SPAN(), 'child'), "isParent child not in DOM");
-    ok( !isParent( 'child', SPAN()), "isParent parent not in DOM");
-
     ok( true, "test suite finished!");
     
     
