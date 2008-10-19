@@ -97,7 +97,6 @@ MochiKit.DOM.EXPORT = [
     "toHTML",
     "emitHTML",
     "scrapeText",
-    "isParent",
     "getFirstParentByTagAndClassName",
     "makeClipping",
     "undoClipping",
@@ -1100,26 +1099,6 @@ MochiKit.Base.update(MochiKit.DOM, {
             elem = elem.parentNode;
         }
         return null;
-    },
-
-    /** @id MochiKit.DOM.isParent */
-    isParent: function (child, element) {
-        var self = MochiKit.DOM;
-        if (typeof(child) == "string") {
-            child = self.getElement(child);
-        }
-        if (typeof(element) == "string") {
-            element = self.getElement(element);
-        }
-        if (child == null || element == null) {
-            return false;
-        } else if (!child.parentNode || child == element) {
-            return false;
-        } else if (child.parentNode == element) {
-            return true;
-        } else {
-            return self.isParent(child.parentNode, element);
-        }
     },
 
     __new__: function (win) {

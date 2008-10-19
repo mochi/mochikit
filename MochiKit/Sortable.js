@@ -310,7 +310,7 @@ MochiKit.Base.update(MochiKit.Sortable, {
 
     /** @id MochiKit.Sortable.onHover */
     onHover: function (element, dropon, overlap) {
-        if (MochiKit.DOM.isParent(dropon, element)) {
+        if (MochiKit.DOM.isChildNode(dropon, element)) {
             return;
         }
         var self = MochiKit.Sortable;
@@ -357,7 +357,7 @@ MochiKit.Base.update(MochiKit.Sortable, {
         var self = MochiKit.Sortable;
         var droponOptions = self.options(dropon);
 
-        if (!MochiKit.DOM.isParent(dropon, element)) {
+        if (!MochiKit.DOM.isChildNode(dropon, element)) {
             var index;
 
             var children = self.findElements(dropon, {tag: droponOptions.tag,

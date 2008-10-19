@@ -601,23 +601,13 @@ Functions
 
 :mochidef:`isChildNode(node, maybeParent)`:
 
-    Determine whether ``node`` is a child node of ``maybeParent``.
-    Returns ``true`` if so, and ``false`` if not. A node is considered
-    a child node of itself for the purposes of this function.
+    Determine whether ``node`` is a child node or decendant node of
+    ``maybeParent``. Returns ``true`` if so, and ``false`` if not.
+    A node is considered a child node of itself for the purposes of
+    this function.
 
     If either ``node`` or ``maybeParent`` are strings, the related
     nodes will be looked up with :mochiref:`getElement`.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`isParent(child, element)`:
-
-    Returns ``true`` if ``element`` contains ``child``. Returns ``false``
-    if ``element == child`` or ``child`` is not contained in ``element``.
-    If ``child`` or ``element`` are strings, they will be looked up with
-    :mochiref:`getElement`.
 
     *Availability*:
         Available in MochiKit 1.4+
