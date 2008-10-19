@@ -72,7 +72,7 @@
 - New MochiKit.DOM.coerceToDOM .dom(node) / .__dom__(node) protocol
 - MochiKit.DOM's MochiKit.Iter dependency is now optional
 - Added expand all link to the documentation index
-- Added MochiKit.DOM.isChildNode and isParent functions.
+- Added MochiKit.DOM.isChildNode function.
 - Added synthesizing for onmouseenter/onmouseleave
 - Added animation functions and classes to MochiKit.Visual.
 - Added MochiKit.Style.getElementDimensions support for calculating the
