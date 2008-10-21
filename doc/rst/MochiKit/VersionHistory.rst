@@ -1,4 +1,4 @@
-2008-10-XX      v1.4
+2008-10-21      v1.4
 
 - Added pt_BR to MochiKit.Format.LOCALE.
 - MochiKit.Async now sets the "X-Requested-With: XMLHttpRequest" header,
