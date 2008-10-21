@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Selector 1.4
+MochiKit.Selector 1.5
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Selector', ['Base', 'DOM', 'Iter']);
 
 MochiKit.Selector.NAME = "MochiKit.Selector";
-MochiKit.Selector.VERSION = "1.4";
+MochiKit.Selector.VERSION = "1.5";
 
 MochiKit.Selector.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
