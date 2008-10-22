@@ -574,3 +574,16 @@ MochiKit.Base.update(MochiKit.Sortable, {
 
 // trunk compatibility
 MochiKit.Sortable.Sortable = MochiKit.Sortable;
+
+MochiKit.Sortable.__new__ = function () {
+    MochiKit.Base.nameFunctions(this);
+
+    this.EXPORT_TAGS = {
+        ":common": this.EXPORT,
+        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
+    };
+};
+
+MochiKit.Sortable.__new__();
+
+MochiKit.Base._exportSymbols(this, MochiKit.Sortable);
