@@ -58,7 +58,7 @@ Many of CSS3 [1]_ selectors are supported:
       - ``|=`` first part of hyphen deleimited (eg. lang|="en" matches lang="en-US") 
 - Pseudo-classes
       - ``:nth-child``, ``:nth-last-child``, ``:first-child``, ``:last-child``, ``:only-child``, ``:empty``, ``:enabled``, ``:disabled``, ``:checked``, ``:not(<any other selector>)`` 
-- Deprecated Pseudo-classes (tp be removed in 1.5)
+- Deprecated Pseudo-classes (to be removed in 1.5)
       - ``:root``, ``:nth-of-type``, ``:nth-last-of-type``, ``:first-of-type``, ``:last-of-type``, ``:only-of-type``
 
 Multiple selectors can be concatenated, like this: ``P.quote[author~='Torvalds']``,
