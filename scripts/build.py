@@ -112,4 +112,14 @@ for root, dirs, files in os.walk(src):
 
 z.writestr(os.path.join(pkg, 'MANIFEST'), '\n'.join(MANIFEST + ['']))
 
+# TODO: Some ZIP files unpack with permissions set to 0, which makes
+#       them unreadable on Linux and Unix systems. This is a known
+#       bug in Python (see link below). The following work-around
+#       attempts to remedy this issue, but might cause other problems.
+#
+#       http://bugs.python.org/issue3394
+#
+for zi in z.filelist:
+    zi.external_attr = 0660 << 16L
+
 z.close()
