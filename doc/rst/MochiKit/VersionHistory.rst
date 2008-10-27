@@ -1,3 +1,7 @@
+2008-11-#      v1.4.1 (bug fix release)
+
+- Added export of deprecated MochiKit.DOM.computedStyle function.
+
 2008-10-21      v1.4
 
 - Added pt_BR to MochiKit.Format.LOCALE.
