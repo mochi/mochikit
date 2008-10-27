@@ -93,6 +93,7 @@ MochiKit.DOM.EXPORT = [
     "removeElementClass",
     "swapElementClass",
     "hasElementClass",
+    "computedStyle", // deprecated in 1.4
     "escapeHTML",
     "toHTML",
     "emitHTML",
@@ -110,6 +111,7 @@ MochiKit.DOM.EXPORT_OK = [
 ];
 
 MochiKit.DOM.DEPRECATED = [
+    /** @id MochiKit.DOM.computedStyle  */
     ['computedStyle', 'MochiKit.Style.getStyle', '1.4'],
     /** @id MochiKit.DOM.elementDimensions  */
     ['elementDimensions', 'MochiKit.Style.getElementDimensions', '1.4'],
