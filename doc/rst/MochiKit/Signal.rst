@@ -31,6 +31,12 @@ Signal for DOM events::
         // e.mouse().page is a MochiKit.Style.Coordinates object
     }
 
+    // stops the default action for a click event
+    connect('myID', 'onclick', function(e) { e.stop(); });
+
+    // triggers a fake DOM event for the above handler
+    var fakeEvent = { /* add fake functions here */ };
+    signal('myID', 'onclick', fakeEvent);
 
 Signal for non-DOM events::
 
