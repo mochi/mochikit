@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4.1: http://docutils.sourceforge.net/" />
 <title>MochiKit.Signal - Simple universal event handling</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -40,6 +40,13 @@ myObject.wasClicked = function(e) {
     var crossBrowserCoordinates = e.mouse().page;
     // e.mouse().page is a MochiKit.Style.Coordinates object
 }
+
+// stops the default action for a click event
+connect('myID', 'onclick', function(e) { e.stop(); });
+
+// triggers a fake DOM event for the above handler
+var fakeEvent = { /* add fake functions here */ };
+signal('myID', 'onclick', fakeEvent);
 </pre>
 <p>Signal for non-DOM events:</p>
 <pre class="literal-block">
