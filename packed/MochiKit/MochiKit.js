@@ -5708,6 +5708,7 @@ this.EXPORT_TAGS={":common":this.EXPORT,":all":m.concat(this.EXPORT,this.EXPORT_
 m.nameFunctions(this);
 };
 MochiKit.Position.__new__(this);
+MochiKit.Base._exportSymbols(this,MochiKit.Position);
 MochiKit.Base._deps("Visual",["Base","DOM","Style","Color","Position"]);
 MochiKit.Visual.NAME="MochiKit.Visual";
 MochiKit.Visual.VERSION="1.5";
