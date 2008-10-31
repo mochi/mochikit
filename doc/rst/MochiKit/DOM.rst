@@ -613,31 +613,6 @@ Functions
         Available in MochiKit 1.4+
 
 
-:mochidef:`makeClipping(element)`:
-
-    Ensure that ``element.style.overflow = 'hidden'``. If ``element`` is a
-    string, then it will be looked up with :mochiref:`getElement`.
-
-    Returns the original value of ``element.style.overflow``, so that it
-    may be restored with :mochiref:`undoClipping(element, overflow)`.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`makePositioned(element)`:
-
-    Ensure that ``element.style.position`` is set to ``"relative"`` if it
-    is not set or is ``"static"``. If ``element`` is a
-    string, then it will be looked up with :mochiref:`getElement`.
-
-    Returns the original value of ``element.style.position``, so that it
-    may be restored with :mochiref:`undoPositioned(element, position)`.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
 :mochidef:`registerDOMConverter(name, check, wrap[, override])`:
 
     Register an adapter to convert objects that match ``check(obj,
@@ -819,26 +794,6 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`undoClipping(element, overflow)`:
-
-    Restore the setting of ``element.style.overflow`` set by
-    :mochiref:`makeClipping(element)`. If ``element`` is a string, then
-    it will be looked up with :mochiref:`getElement`.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
-:mochidef:`undoPositioned(element, overflow)`:
-
-    Restore the setting of ``element.style.position`` set by
-    :mochiref:`makePositioned(element)`. If ``element`` is a string, then
-    it will be looked up with :mochiref:`getElement`.
-
-    *Availability*:
-        Available in MochiKit 1.4+
-
-
 :mochidef:`updateNodeAttributes(node, attrs)`:
 
     Update the attributes of a DOM element from a given object.
@@ -901,8 +856,9 @@ Functions
 Style Functions
 ---------------
 
-These functions are available in MochiKit 1.3.1, but have been moved to 
-:mochiref:`MochiKit.Style` in 1.4+.
+These functions were previously available in MochiKit.DOM, but have been
+moved to :mochiref:`MochiKit.Style` in recent versions. Function aliases
+remain for backwards compability.
 
 
 :mochidef:`computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)`:
@@ -994,6 +950,30 @@ These functions are available in MochiKit 1.3.1, but have been moved to
         :mochiref:`MochiKit.Style.hideElement` in 1.4+
 
 
+:mochidef:`makeClipping(element)`:
+
+    Ensure that ``element.style.overflow = 'hidden'``. If ``element`` is a
+    string, then it will be looked up with :mochiref:`getElement`.
+
+    Returns the original value of ``element.style.overflow``, so that it
+    may be restored with :mochiref:`undoClipping(element, overflow)`.
+
+    *Availability*:
+        Available in MochiKit 1.4+, moved to 
+        :mochiref:`MochiKit.Style.makeClipping` in 1.4.1+
+
+
+:mochidef:`makePositioned(element)`:
+
+    Ensure that ``element.style.position`` is set to ``"relative"`` if it
+    is not set or is ``"static"``. If ``element`` is a
+    string, then it will be looked up with :mochiref:`getElement`.
+
+    *Availability*:
+        Available in MochiKit 1.4+, moved to 
+        :mochiref:`MochiKit.Style.makePositioned` in 1.4.1+
+
+
 :mochidef:`setElementDimensions(element, dimensions[, units='px'])`:
 
     Sets the dimensions of ``element`` in the document from an object
@@ -1080,6 +1060,28 @@ These functions are available in MochiKit 1.3.1, but have been moved to
     *Availability*:
         Available in MochiKit 1.3.1, moved to 
         :mochiref:`MochiKit.Style.showElement` in 1.4+
+
+
+:mochidef:`undoClipping(element, overflow)`:
+
+    Restore the setting of ``element.style.overflow`` set by
+    :mochiref:`makeClipping(element)`. If ``element`` is a string, then
+    it will be looked up with :mochiref:`getElement`.
+
+    *Availability*:
+        Available in MochiKit 1.4+, moved to 
+        :mochiref:`MochiKit.Style.undoClipping` in 1.4.1+
+
+
+:mochidef:`undoPositioned(element)`:
+
+    Restore the setting of ``element.style.position`` set by
+    :mochiref:`makePositioned(element)`. If ``element`` is a string, then
+    it will be looked up with :mochiref:`getElement`.
+
+    *Availability*:
+        Available in MochiKit 1.4+, moved to 
+        :mochiref:`MochiKit.Style.undoPositioned` in 1.4.1+
 
 
 Style Objects
