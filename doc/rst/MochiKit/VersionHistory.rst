@@ -1,6 +1,8 @@
 2008-11-#      v1.4.1 (bug fix release)
 
 - Added export of deprecated MochiKit.DOM.computedStyle function.
+- Fixed issue in MochiKit.Style.getElementDimensions when elements are
+  hidden due to CSS class definitions (#325). 
 
 2008-10-21      v1.4
 
