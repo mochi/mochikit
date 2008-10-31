@@ -365,9 +365,14 @@ MochiKit.Base.update(MochiKit.Style, {
     /** @id MochiKit.Style.makeClipping */
     makeClipping: function (element) {
         element = MochiKit.DOM.getElement(element);
-        var oldOverflow = element.style.overflow;
+        var s = element.style;
+        var oldOverflow = { 'overflow': s.overflow,
+                            'overflow-x': s.overflowX,
+                            'overflow-y': s.overflowY };
         if ((MochiKit.Style.getStyle(element, 'overflow') || 'visible') != 'hidden') {
             element.style.overflow = 'hidden';
+            element.style.overflowX = 'hidden';
+            element.style.overflowY = 'hidden';
         }
         return oldOverflow;
     },
@@ -375,10 +380,13 @@ MochiKit.Base.update(MochiKit.Style, {
     /** @id MochiKit.Style.undoClipping */
     undoClipping: function (element, overflow) {
         element = MochiKit.DOM.getElement(element);
-        if (!overflow) {
-            return;
+        if (typeof(overflow) == 'string') {
+            element.style.overflow = overflow;
+        } else if (overflow != null) {
+            element.style.overflow = overflow['overflow'];
+            element.style.overflowX = overflow['overflow-x'];
+            element.style.overflowY = overflow['overflow-y'];
         }
-        element.style.overflow = overflow;
     },
 
     /** @id MochiKit.Style.getElementDimensions */

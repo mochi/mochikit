@@ -990,8 +990,9 @@ based show/hide mechanism, and a CSS based alternative, see
 <blockquote>
 <p>Ensure that <tt class="docutils literal"><span class="pre">element.style.overflow</span> <span class="pre">=</span> <span class="pre">'hidden'</span></tt>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a
 string, then it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
-<p>Returns the original value of <tt class="docutils literal"><span class="pre">element.style.overflow</span></tt>, so that it
-may be restored with <a class="mochiref reference" href="#fn-undoclipping">undoClipping(element, overflow)</a>.</p>
+<p>Returns the original values of <tt class="docutils literal"><span class="pre">overflow</span></tt>, <tt class="docutils literal"><span class="pre">overflow-y</span></tt> and
+<tt class="docutils literal"><span class="pre">overflow-y</span></tt> so that they may be restored with
+<a class="mochiref reference" href="#fn-undoclipping">undoClipping(element, overflow)</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+, moved to

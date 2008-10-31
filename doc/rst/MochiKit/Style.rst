@@ -232,8 +232,9 @@ Functions
     Ensure that ``element.style.overflow = 'hidden'``. If ``element`` is a
     string, then it will be looked up with :mochiref:`getElement`.
 
-    Returns the original value of ``element.style.overflow``, so that it
-    may be restored with :mochiref:`undoClipping(element, overflow)`.
+    Returns the original values of ``overflow``, ``overflow-y`` and
+    ``overflow-y`` so that they may be restored with
+    :mochiref:`undoClipping(element, overflow)`.
 
     *Availability*:
         Available in MochiKit 1.4.1+
