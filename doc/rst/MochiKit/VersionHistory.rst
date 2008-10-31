@@ -2,7 +2,9 @@
 
 - Added export of deprecated MochiKit.DOM.computedStyle function.
 - Fixed issue in MochiKit.Style.getElementDimensions when elements are
-  hidden due to CSS class definitions (#325). 
+  hidden due to CSS class definitions (#325).
+- Moved makePositioned, undoPositioned, makeClipping and undoClipping
+  from MochiKit.DOM to MochiKit.Style due to circular dependency (#327).
 
 2008-10-21      v1.4
 

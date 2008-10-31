@@ -20,6 +20,8 @@
 <li>Added export of deprecated MochiKit.DOM.computedStyle function.</li>
 <li>Fixed issue in MochiKit.Style.getElementDimensions when elements are
 hidden due to CSS class definitions (#325).</li>
+<li>Moved makePositioned, undoPositioned, makeClipping and undoClipping
+from MochiKit.DOM to MochiKit.Style due to circular dependency (#327).</li>
 </ul>
 <p>2008-10-21      v1.4</p>
 <ul class="simple">
