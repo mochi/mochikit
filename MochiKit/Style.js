@@ -31,6 +31,10 @@ MochiKit.Style.EXPORT = [
     'getElementPosition',
     'elementPosition', // deprecated
     'setElementPosition',
+    "makePositioned",
+    "undoPositioned",
+    "makeClipping",
+    "undoClipping",
     'setDisplayForElement',
     'hideElement',
     'showElement',
@@ -332,6 +336,49 @@ MochiKit.Base.update(MochiKit.Style, {
             newStyle['top'] = newPos.y + units;
         }
         MochiKit.DOM.updateNodeAttributes(elem, {'style': newStyle});
+    },
+
+    /** @id MochiKit.Style.makePositioned */
+    makePositioned: function (element) {
+        element = MochiKit.DOM.getElement(element);
+        var pos = MochiKit.Style.getStyle(element, 'position');
+        if (pos == 'static' || !pos) {
+            element.style.position = 'relative';
+            // Opera returns the offset relative to the positioning context,
+            // when an element is position relative but top and left have
+            // not been defined
+            if (/Opera/.test(navigator.userAgent)) {
+                element.style.top = 0;
+                element.style.left = 0;
+            }
+        }
+    },
+
+    /** @id MochiKit.Style.undoPositioned */
+    undoPositioned: function (element) {
+        element = MochiKit.DOM.getElement(element);
+        if (element.style.position == 'relative') {
+            element.style.position = element.style.top = element.style.left = element.style.bottom = element.style.right = '';
+        }
+    },
+
+    /** @id MochiKit.Style.makeClipping */
+    makeClipping: function (element) {
+        element = MochiKit.DOM.getElement(element);
+        var oldOverflow = element.style.overflow;
+        if ((MochiKit.Style.getStyle(element, 'overflow') || 'visible') != 'hidden') {
+            element.style.overflow = 'hidden';
+        }
+        return oldOverflow;
+    },
+
+    /** @id MochiKit.Style.undoClipping */
+    undoClipping: function (element, overflow) {
+        element = MochiKit.DOM.getElement(element);
+        if (!overflow) {
+            return;
+        }
+        element.style.overflow = overflow;
     },
 
     /** @id MochiKit.Style.getElementDimensions */

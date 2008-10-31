@@ -193,7 +193,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
             this.options._containers.push(d.getElement(c));
         }, this), this.options.containment);
 
-        d.makePositioned(this.element); // fix IE
+        MochiKit.Style.makePositioned(this.element); // fix IE
 
         MochiKit.DragAndDrop.Droppables.register(this);
     },
@@ -442,7 +442,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             this._isScrollChild = MochiKit.DOM.isChildNode(this.element, options.scroll);
         }
 
-        d.makePositioned(this.element);  // fix IE
+        MochiKit.Style.makePositioned(this.element);  // fix IE
 
         this.delta = this.currentDelta();
         this.options = options;
