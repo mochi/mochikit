@@ -547,12 +547,22 @@ MochiKit.Base.update(MochiKit.Style, {
         var m = MochiKit.Base;
 
         var inlines = ['A','ABBR','ACRONYM','B','BASEFONT','BDO','BIG','BR',
-                       'CITE','CODE','DFN','EM','FONT','I','IMG','INPUT','KBD',
-                       'LABEL','Q','S','SAMP','SELECT','SMALL','SPAN','STRIKE',
-                       'STRONG','SUB','SUP','TEXTAREA','TT','U','VAR'];
-        this._defaultDisplay = { 'TABLE': 'table', 'TR': 'table-row',
-                                 'TD': 'table-cell', 'COL': 'table-column',
-                                 'LI': 'list-item' };
+                       'CITE','CODE','DFN','EM','FONT','I','IMG','KBD','LABEL',
+                       'Q','S','SAMP','SMALL','SPAN','STRIKE','STRONG','SUB',
+                       'SUP','TEXTAREA','TT','U','VAR'];
+        this._defaultDisplay = { 'TABLE': 'table',
+                                 'THEAD': 'table-header-group',
+                                 'TBODY': 'table-row-group',
+                                 'TFOOT': 'table-footer-group',
+                                 'COLGROUP': 'table-column-group',
+                                 'COL': 'table-column',
+                                 'TR': 'table-row',
+                                 'TD': 'table-cell',
+                                 'TH': 'table-cell',
+                                 'CAPTION': 'table-caption',
+                                 'LI': 'list-item',
+                                 'INPUT': 'inline-block',
+                                 'SELECT': 'inline-block' };
         for (var i = 0; i < inlines.length; i++) {
             this._defaultDisplay[inlines[i]] = 'inline';
         }
