@@ -354,7 +354,7 @@ MochiKit.Base.update(MochiKit.Style, {
             var originalDisplay = s.display;
             s.visibility = 'hidden';
             s.position = 'absolute';
-            s.display = '';
+            s.display = self._getDefaultDisplay(elem);
             var originalWidth = elem.offsetWidth;
             var originalHeight = elem.offsetHeight;
             s.display = originalDisplay;
@@ -429,6 +429,17 @@ MochiKit.Base.update(MochiKit.Style, {
         MochiKit.DOM.updateNodeAttributes(elem, {'style': newStyle});
     },
 
+    _getDefaultDisplay: function (elem) {
+        var self = MochiKit.Style;
+        var dom = MochiKit.DOM;
+        elem = dom.getElement(elem);
+        if (!elem) {
+            return undefined;
+        }
+        var tagName = elem.tagName.toUpperCase();
+        return self._defaultDisplay[tagName] || 'block';
+    },
+
     /** @id MochiKit.Style.setDisplayForElement */
     setDisplayForElement: function (display, element/*, ...*/) {
         var elements = MochiKit.Base.extend(null, arguments, 1);
@@ -480,10 +491,22 @@ MochiKit.Base.update(MochiKit.Style, {
     __new__: function () {
         var m = MochiKit.Base;
 
+        var inlines = ['A','ABBR','ACRONYM','B','BASEFONT','BDO','BIG','BR',
+                       'CITE','CODE','DFN','EM','FONT','I','IMG','INPUT','KBD',
+                       'LABEL','Q','S','SAMP','SELECT','SMALL','SPAN','STRIKE',
+                       'STRONG','SUB','SUP','TEXTAREA','TT','U','VAR'];
+        this._defaultDisplay = { 'TABLE': 'table', 'TR': 'table-row',
+                                 'TD': 'table-cell', 'COL': 'table-column',
+                                 'LI': 'list-item' };
+        for (var i = 0; i < inlines.length; i++) {
+            this._defaultDisplay[inlines[i]] = 'inline';
+        }
+
         this.elementPosition = this.getElementPosition;
         this.elementDimensions = this.getElementDimensions;
 
         this.hideElement = m.partial(this.setDisplayForElement, 'none');
+        // TODO: showElement could be improved by using getDefaultDisplay.
         this.showElement = m.partial(this.setDisplayForElement, 'block');
 
         this.EXPORT_TAGS = {
