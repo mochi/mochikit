@@ -5,6 +5,8 @@
   hidden due to CSS class definitions (#325).
 - Moved makePositioned, undoPositioned, makeClipping and undoClipping
   from MochiKit.DOM to MochiKit.Style due to circular dependency (#327).
+- Fixed makeClipping and undoClipping to handle overflow-x and overflow-y
+  styles correctly (#326).
 
 2008-10-21      v1.4
 
