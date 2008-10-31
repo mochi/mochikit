@@ -117,27 +117,25 @@ MochiKit.DOM.DEPRECATED = [
     ['elementDimensions', 'MochiKit.Style.getElementDimensions', '1.4'],
     /** @id MochiKit.DOM.elementPosition  */
     ['elementPosition', 'MochiKit.Style.getElementPosition', '1.4'],
+    /** @id MochiKit.DOM.getViewportDimensions */
+    ['getViewportDimensions', 'MochiKit.Style.getViewportDimensions', '1.4'],
+    /** @id MochiKit.DOM.hideElement */
     ['hideElement', 'MochiKit.Style.hideElement', '1.4'],
     /** @id MochiKit.DOM.setElementDimensions */
     ['setElementDimensions', 'MochiKit.Style.setElementDimensions', '1.4'],
     /** @id MochiKit.DOM.setElementPosition */
     ['setElementPosition', 'MochiKit.Style.setElementPosition', '1.4'],
+    /** @id MochiKit.DOM.setDisplayForElement */
     ['setDisplayForElement', 'MochiKit.Style.setDisplayForElement', '1.4'],
     /** @id MochiKit.DOM.setOpacity */
     ['setOpacity', 'MochiKit.Style.setOpacity', '1.4'],
+    /** @id MochiKit.DOM.showElement */
     ['showElement', 'MochiKit.Style.showElement', '1.4'],
     /** @id MochiKit.DOM.Coordinates */
     ['Coordinates', 'MochiKit.Style.Coordinates', '1.4'], // FIXME: broken
     /** @id MochiKit.DOM.Dimensions */
     ['Dimensions', 'MochiKit.Style.Dimensions', '1.4'] // FIXME: broken
 ];
-
-/** @id MochiKit.DOM.getViewportDimensions */
-MochiKit.DOM.getViewportDimensions = new Function('' +
-    'if (!MochiKit["Style"]) {' +
-    '    throw new Error("This function has been deprecated and depends on MochiKit.Style.");' +
-    '}' +
-    'return MochiKit.Style.getViewportDimensions.apply(this, arguments);');
 
 MochiKit.Base.update(MochiKit.DOM, {
 
