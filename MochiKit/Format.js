@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Format 1.4
+MochiKit.Format 1.4.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Format', ['Base']);
 
 MochiKit.Format.NAME = "MochiKit.Format";
-MochiKit.Format.VERSION = "1.4";
+MochiKit.Format.VERSION = "1.4.1";
 MochiKit.Format.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

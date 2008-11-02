@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Visual 1.4
+MochiKit.Visual 1.4.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Visual', ['Base', 'DOM', 'Style', 'Color', 'Position']);
 
 MochiKit.Visual.NAME = "MochiKit.Visual";
-MochiKit.Visual.VERSION = "1.4";
+MochiKit.Visual.VERSION = "1.4.1";
 
 MochiKit.Visual.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";

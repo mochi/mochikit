@@ -1,5 +1,5 @@
 /***
-MochiKit.DragAndDrop 1.4
+MochiKit.DragAndDrop 1.4.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 MochiKit.Base._deps('DragAndDrop', ['Base', 'Iter', 'DOM', 'Signal', 'Visual', 'Position']);
 
 MochiKit.DragAndDrop.NAME = 'MochiKit.DragAndDrop';
-MochiKit.DragAndDrop.VERSION = '1.4';
+MochiKit.DragAndDrop.VERSION = '1.4.1';
 
 MochiKit.DragAndDrop.__repr__ = function () {
     return '[' + this.NAME + ' ' + this.VERSION + ']';

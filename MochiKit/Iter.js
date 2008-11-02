@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Iter 1.4
+MochiKit.Iter 1.4.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Iter', ['Base']);
 
 MochiKit.Iter.NAME = "MochiKit.Iter";
-MochiKit.Iter.VERSION = "1.4";
+MochiKit.Iter.VERSION = "1.4.1";
 MochiKit.Base.update(MochiKit.Iter, {
     __repr__: function () {
         return "[" + this.NAME + " " + this.VERSION + "]";
