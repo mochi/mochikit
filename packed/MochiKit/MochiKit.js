@@ -5116,9 +5116,13 @@ if(this.type()=="mouseout"||this.type()=="mouseleave"){
 elem=(this._event.relatedTarget||this._event.toElement);
 }
 }
-if(elem!==null){
+try{
+if(elem!==null&&elem.nodeType!==null){
 this._relatedTarget=elem;
 return elem;
+}
+}
+catch(ignore){
 }
 return undefined;
 },_modifier:null,modifier:function(){
