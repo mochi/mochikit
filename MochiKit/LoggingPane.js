@@ -1,6 +1,6 @@
 /***
 
-MochiKit.LoggingPane 1.4
+MochiKit.LoggingPane 1.4.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('LoggingPane', ['Base', 'Logging']);
 
 MochiKit.LoggingPane.NAME = "MochiKit.LoggingPane";
-MochiKit.LoggingPane.VERSION = "1.4";
+MochiKit.LoggingPane.VERSION = "1.4.1";
 MochiKit.LoggingPane.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

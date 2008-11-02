@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Test 1.4
+MochiKit.Test 1.4.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Test', ['Base']);
 
 MochiKit.Test.NAME = "MochiKit.Test";
-MochiKit.Test.VERSION = "1.4";
+MochiKit.Test.VERSION = "1.4.1";
 MochiKit.Test.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

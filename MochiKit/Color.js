@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Color 1.4
+MochiKit.Color 1.4.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Color', ['Base', 'DOM', 'Style']);
 
 MochiKit.Color.NAME = "MochiKit.Color";
-MochiKit.Color.VERSION = "1.4";
+MochiKit.Color.VERSION = "1.4.1";
 
 MochiKit.Color.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
