@@ -1,12 +1,14 @@
-2008-11-#      v1.4.1 (bug fix release)
+2008-11-02      v1.4.1 (bug fix release)
 
-- Added export of deprecated MochiKit.DOM.computedStyle function.
+- Added export of deprecated MochiKit.DOM.computedStyle function (#324).
 - Fixed issue in MochiKit.Style.getElementDimensions when elements are
   hidden due to CSS class definitions (#325).
 - Moved makePositioned, undoPositioned, makeClipping and undoClipping
   from MochiKit.DOM to MochiKit.Style due to circular dependency (#327).
 - Fixed makeClipping and undoClipping to handle overflow-x and overflow-y
   styles correctly (#326).
+- Fixed issue with Event.relatedTarget() sometimes returning XUL elements
+  in Mozilla-based browsers (#322).
 
 2008-10-21      v1.4
 

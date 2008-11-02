@@ -15,15 +15,17 @@
 <a href="http://mochikit.com"><img id="mainlink" src="../../../include/_img/g_logo_doc.gif" alt="MochiKit" /></a>
 <a class='indexlink' href='index.html'>Back to docs index</a>
 <div class="document">
-<p>2008-11-#      v1.4.1 (bug fix release)</p>
+<p>2008-11-02      v1.4.1 (bug fix release)</p>
 <ul class="simple">
-<li>Added export of deprecated MochiKit.DOM.computedStyle function.</li>
+<li>Added export of deprecated MochiKit.DOM.computedStyle function (#324).</li>
 <li>Fixed issue in MochiKit.Style.getElementDimensions when elements are
 hidden due to CSS class definitions (#325).</li>
 <li>Moved makePositioned, undoPositioned, makeClipping and undoClipping
 from MochiKit.DOM to MochiKit.Style due to circular dependency (#327).</li>
 <li>Fixed makeClipping and undoClipping to handle overflow-x and overflow-y
 styles correctly (#326).</li>
+<li>Fixed issue with Event.relatedTarget() sometimes returning XUL elements
+in Mozilla-based browsers (#322).</li>
 </ul>
 <p>2008-10-21      v1.4</p>
 <ul class="simple">
