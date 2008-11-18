@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Logging 1.4.1
+MochiKit.Logging 1.4.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Logging', ['Base']);
 
 MochiKit.Logging.NAME = "MochiKit.Logging";
-MochiKit.Logging.VERSION = "1.4.1";
+MochiKit.Logging.VERSION = "1.4.2";
 MochiKit.Logging.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

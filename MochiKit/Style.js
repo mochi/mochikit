@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Style 1.4.1
+MochiKit.Style 1.4.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Style', ['Base', 'DOM']);
 
 MochiKit.Style.NAME = 'MochiKit.Style';
-MochiKit.Style.VERSION = '1.4.1';
+MochiKit.Style.VERSION = '1.4.2';
 MochiKit.Style.__repr__ = function () {
     return '[' + this.NAME + ' ' + this.VERSION + ']';
 };

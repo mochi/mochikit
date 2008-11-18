@@ -9,7 +9,7 @@ See scriptaculous.js for full license.
 MochiKit.Base._deps('Sortable', ['Base', 'Iter', 'DOM', 'Position', 'DragAndDrop']);
 
 MochiKit.Sortable.NAME = 'MochiKit.Sortable';
-MochiKit.Sortable.VERSION = '1.4.1';
+MochiKit.Sortable.VERSION = '1.4.2';
 
 MochiKit.Sortable.__repr__ = function () {
     return '[' + this.NAME + ' ' + this.VERSION + ']';
