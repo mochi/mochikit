@@ -1,3 +1,10 @@
+2008-12-XX      v1.4.2 (bug fix release)
+
+- More fixes in MochiKit.Style.getElementDimensions for IE and hidden
+  elements (#325).
+- Fixed issue in MochiKit.Style.getViewportDimensions when called within the
+  document HEAD.
+
 2008-11-02      v1.4.1 (bug fix release)
 
 - Added export of deprecated MochiKit.DOM.computedStyle function (#324).
