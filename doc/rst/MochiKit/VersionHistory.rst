@@ -1,5 +1,7 @@
 2008-12-XX      v1.4.2 (bug fix release)
 
+- Changed default packed version to contain all modules (since easy
+  customization is now available).
 - More fixes in MochiKit.Style.getElementDimensions for IE and hidden
   elements (#325).
 - Fixed issue in MochiKit.Style.getViewportDimensions when called within the
