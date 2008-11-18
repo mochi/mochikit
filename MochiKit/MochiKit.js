@@ -43,7 +43,9 @@ MochiKit.MochiKit.SUBMODULES = [
     "Color",
     "Signal",
     "Position",
-    "Visual"
+    "Visual",
+    "DragAndDrop",
+    "Sortable"
 ];
 
 if (typeof(JSAN) != 'undefined' || typeof(dojo) != 'undefined') {
