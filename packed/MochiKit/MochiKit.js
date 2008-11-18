@@ -4283,7 +4283,7 @@ if(w.innerWidth){
 d.w=w.innerWidth;
 d.h=w.innerHeight;
 }else{
-if(b.parentElement.clientWidth){
+if(b&&b.parentElement&&b.parentElement.clientWidth){
 d.w=b.parentElement.clientWidth;
 d.h=b.parentElement.clientHeight;
 }else{
