@@ -1,6 +1,6 @@
 /***
 
-MochiKit.DOM 1.4.1
+MochiKit.DOM 1.4.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('DOM', ['Base']);
 
 MochiKit.DOM.NAME = "MochiKit.DOM";
-MochiKit.DOM.VERSION = "1.4.1";
+MochiKit.DOM.VERSION = "1.4.2";
 MochiKit.DOM.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

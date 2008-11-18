@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Signal 1.4.1
+MochiKit.Signal 1.4.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Signal', ['Base', 'DOM', 'Style']);
 
 MochiKit.Signal.NAME = 'MochiKit.Signal';
-MochiKit.Signal.VERSION = '1.4.1';
+MochiKit.Signal.VERSION = '1.4.2';
 
 MochiKit.Signal._observers = [];
 

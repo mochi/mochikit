@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Position 1.4.1
+MochiKit.Position 1.4.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Position', ['Base', 'DOM', 'Style']);
 
 MochiKit.Position.NAME = 'MochiKit.Position';
-MochiKit.Position.VERSION = '1.4.1';
+MochiKit.Position.VERSION = '1.4.2';
 MochiKit.Position.__repr__ = function () {
     return '[' + this.NAME + ' ' + this.VERSION + ']';
 };

@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Base 1.4.1
+MochiKit.Base 1.4.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -23,7 +23,7 @@ if (typeof(MochiKit.__export__) == "undefined") {
     );
 }
 
-MochiKit.Base.VERSION = "1.4.1";
+MochiKit.Base.VERSION = "1.4.2";
 MochiKit.Base.NAME = "MochiKit.Base";
 /** @id MochiKit.Base.update */
 MochiKit.Base.update = function (self, obj/*, ... */) {

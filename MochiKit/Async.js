@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Async 1.4.1
+MochiKit.Async 1.4.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Async', ['Base']);
 
 MochiKit.Async.NAME = "MochiKit.Async";
-MochiKit.Async.VERSION = "1.4.1";
+MochiKit.Async.VERSION = "1.4.2";
 MochiKit.Async.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };

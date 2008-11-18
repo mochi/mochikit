@@ -1,6 +1,6 @@
 /***
 
-MochiKit.DateTime 1.4.1
+MochiKit.DateTime 1.4.2
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('DateTime', ['Base']);
 
 MochiKit.DateTime.NAME = "MochiKit.DateTime";
-MochiKit.DateTime.VERSION = "1.4.1";
+MochiKit.DateTime.VERSION = "1.4.2";
 MochiKit.DateTime.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
