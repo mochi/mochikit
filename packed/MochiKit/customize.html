@@ -1,0 +1,251 @@
+<html>
+  <head>
+    <title>MochiKit Customizer</title>
+    <link type="text/css" rel="stylesheet" href="../../include/css/documentation.css" />
+    <style type="text/css">
+      td {
+          vertical-align: top;
+      }
+      label {
+          font-weight: bold;
+          font-size: 14px;
+      }
+      input {
+          margin: 0;
+          vertical-align: -3px;
+      }
+      .info {
+          color: #888888;
+      }
+    </style>
+    <script type="text/javascript" src="MochiKit.js"></script>
+    <script type="text/javascript">
+// Predefined module sets
+var SETS = {
+    core: { name: "Non-Web Modules", deps: ["Base", "DateTime", "Format", "Iter"] },
+    standard: { name: "Web Modules", deps: ["Base", "DateTime", "Format", "Iter", "Async", "Color", "DOM", "Logging", "LoggingPane", "Selector", "Signal", "Style"] },
+    all: { name: "Extension Modules", deps: null }
+};
+var MODULES = { "Base": { deps: [], packed: "" } };
+
+// Starts loading the packed library
+function doInit() {
+    var url = $$("head script[src*=MochiKit.js]")[0].src;
+    var d = doSimpleXMLHttpRequest(url);
+    d.addCallback(doParseScript);
+    d.addErrback(function(err) {
+        alert("Error: " + err.toString());
+    });
+}
+
+// Parses the packed library into modules
+function doParseScript(xhr) {
+    var src = xhr.responseText;
+    var moduleName = "Base";
+    var pos = 0;
+    while ((pos = src.indexOf("MochiKit.Base._deps")) >= 0) {
+        if (pos > 0) {
+            MODULES[moduleName].packed += src.substring(0, pos);
+            src = src.substring(pos);
+        }
+        var names = doFindStringLiterals(src);
+        if (names.length > 0) {
+            moduleName = names[0];
+            MODULES[moduleName] = { deps: names.slice(1), packed: "" };
+        }
+        pos = src.indexOf("MochiKit.Base._exportSymbols");
+        pos = src.indexOf("\n", pos);
+        MODULES[moduleName].packed += src.substring(0, pos + 1);
+        src = src.substring(pos + 1);
+    }
+    MODULES["Base"].packedTail = src;
+    for (var key in MODULES) {
+        var m = MODULES[key];
+        m.size = m.packed.length;
+        if (m.packedTail) {
+            m.size += m.packedTail.length;
+        }
+    }
+    SETS.all.deps = keys(MODULES);
+    for (var key in SETS) {
+        var s = SETS[key];
+        s.size = 0;
+        for (var i = 0; i < s.deps.length; i++) {
+            s.size += MODULES[s.deps[i]].size;
+        }
+    }
+    doRender();
+}
+
+// Find all string literals on the first line
+function doFindStringLiterals(str) {
+    var res = [];
+    var endPos = str.indexOf("\n");
+    var line = str.substring(0, (endPos > 0) ? endPos : str.length);
+    var matches = line.match(/"([^"]*)"|'([^']*)'/g);
+    for (var i = 0; i < matches.length; i++) {
+        var name = matches[i];
+        res.push(name.substring(1, name.length - 1));
+    }
+    return res;
+}
+
+// Renders the module selection UI
+function doRender() {
+    var nf = numberFormatter("0.0 kB");
+    var select = $("packSets");
+    var cell = $("packModules");
+    for (var key in SETS) {
+        var s = SETS[key];
+        var text = s.name + " \u2014 " + nf(s.size / 1024);
+        select.appendChild(OPTION({ value: key }, text));
+        if (key != "core") {
+            cell.appendChild(HR());
+        }
+        cell.appendChild(H3({}, s.name, ":"));
+        for (var i = 0; i < s.deps.length; i++) {
+            var name = s.deps[i];
+            var m = MODULES[name];
+            if (m.dom == null) {
+                m.dom = INPUT({ type: "checkbox" });
+                if (name == "Base") {
+                    m.dom.disabled = true;
+                }
+                var text = " \u2014 " + nf(m.size / 1024);
+                if (m.deps.length > 1) {
+                    text += " \u2014 uses " + m.deps.slice(1).join(", ");
+                }
+                var span = SPAN({ "class": "info" }, text);
+                cell.appendChild(LABEL({}, m.dom, " MochiKit." + name, span));
+                cell.appendChild(BR());
+                connect(m.dom, "onclick", partial(doChangeModule, name));
+            }
+        }
+    }
+    select.appendChild(OPTION({ value: "custom" }, "Selected Modules"));
+    select.selectedIndex = 1;
+    connect(select, "onchange", doChangeSet);
+    doChangeSet();
+}
+
+// Handle module set changes
+function doChangeSet() {
+    var key = $("packSets").value;
+    var s = SETS[key];
+    if (s != null) {
+        doCheckBoxes(s.deps, true);
+        var fun = function(name) { return findValue(s.deps, name) < 0; };
+        var other = filter(fun, keys(MODULES));
+        doCheckBoxes(other, false);
+        doUpdateCustom();
+    }
+}
+
+// Handle individual module changes
+function doChangeModule(name) {
+    var m = MODULES[name];
+    if (m.dom.checked) {
+        var deps = m.deps.slice(0);
+        for (var i = 0; i < deps.length; i++) {
+            var sub = MODULES[deps[i]].deps;
+            for (var j = 0; j < sub.length; j++) {
+                if (findValue(deps, sub[j]) < 0) {
+                    deps.push(sub[j]);
+                }
+            }
+        }
+    } else {
+        var deps = [name];
+        for (var i = 0; i < deps.length; i++) {
+            for (var id in MODULES) {
+                if (findValue(deps, id) < 0 &&
+                    findValue(MODULES[id].deps, deps[i]) >= 0) {
+                    deps.push(id);
+                }
+            }
+        }
+    }
+    doCheckBoxes(deps, m.dom.checked);
+    doUpdateCustom();
+    var select = $("packSets");
+    select.selectedIndex = 3;
+}
+
+// Checks or unchecks the specified modules
+function doCheckBoxes(names, checked) {
+    for (var i = 0; i < names.length; i++) {
+        var name = names[i];
+        var input = MODULES[name].dom;
+        if (input.checked != checked) {
+            input.checked = checked;
+            var color = checked ? '#aaffaa' : '#ffaaaa';
+            Highlight(input.parentNode, { startcolor: color });
+        }
+    }
+}
+
+function doUpdateCustom() {
+    var select = $("packSets");
+    var nf = numberFormatter("0.0 kB");
+    var size = 0;
+    for (var id in MODULES) {
+        var m = MODULES[id];
+        if (m.dom.checked) {
+            size += m.size;
+        }
+    }
+    var option = select.childNodes[3];
+    replaceChildNodes(option, "Selected Modules \u2014 " + nf(size / 1024));
+}
+
+function doSubmit() {
+    var packed = "";
+    if (!$("packExport").checked) {
+        packed += "// Config options\n";
+        packed += "MochiKit={__export__:false};\n\n";
+    }
+    for (var id in MODULES) {
+        var m = MODULES[id];
+        if (m.dom.checked) {
+            packed += m.packed;
+        }
+    }
+    packed += MODULES["Base"].packedTail;
+    $("packData").value = packed;
+    return true;
+}
+    </script>
+  </head>
+  <body onload="doInit()">
+    <a href="http://mochikit.com/"><img id="mainlink" src="../../include/_img/g_logo_doc.gif" alt="I &hearts; MochiKit" title="I &hearts; MochiKit" /></a>
+    <div class="document">
+      <div class="section">
+        <h1>MochiKit Customizer</h1>
+
+    <form action="http://mochikit-dot-com.appspot.com/download" method="POST" onsubmit="return doSubmit();">
+      <table>
+        <tbody>
+          <tr>
+            <td style="border-right: 1px solid rgb(204, 204, 204); padding-right: 10px;">
+              <h3>Module Sets:</h3>
+              <select id="packSets"></select>
+              <hr style="margin-top: 200px;">
+              <h3>Additional Options:</h3>
+              <label><input id="packExport" checked="checked" type="checkbox"> Export Globals</label><br>
+            </td>
+            <td id="packModules" style="padding-left: 10px;">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding-top: 20px;">
+              <button type="submit">Create Customized MochiKit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <input id="packData" type="hidden" name="data" value="" />
+    </form>
+      </div>
+    </div>
+  </body>
+</html>
