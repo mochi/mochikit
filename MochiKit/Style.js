@@ -561,6 +561,15 @@ MochiKit.Base.update(MochiKit.Style, {
                                  'LI': 'list-item',
                                  'INPUT': 'inline-block',
                                  'SELECT': 'inline-block' };
+        // CSS 'display' support in IE6/7 is just broken...
+        if (/MSIE/.test(navigator.userAgent)) {
+            for (var k in this._defaultDisplay) {
+                var v = this._defaultDisplay[k];
+                if (v.indexOf('table') == 0) {
+                    this._defaultDisplay[k] = 'block';
+                }
+            }
+        }
         for (var i = 0; i < inlines.length; i++) {
             this._defaultDisplay[inlines[i]] = 'inline';
         }
