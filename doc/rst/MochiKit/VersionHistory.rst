@@ -1,3 +1,8 @@
+2009-XX-YY      v1.5
+
+- Changed MochiKit.Signal.signal to support DOM source objects with custom
+  arguments, instead of always wrapping into Event object.
+
 2008-12-XX      v1.4.2 (bug fix release)
 
 - Changed default packed version to contain all modules (since easy
