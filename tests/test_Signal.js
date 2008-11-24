@@ -52,8 +52,8 @@ tests.test_Signal = function (t) {
             
         */
         var triggerMouseEvent = function(element, eventType, canBubble) {
-            element = MochiKit.DOM.getElement(element);
-            canBubble = (typeof(canBubble) == 'undefined') ? true : canBubble;
+            var element = MochiKit.DOM.getElement(element);
+            var canBubble = (typeof(canBubble) == 'undefined') ? true : canBubble;
             if (element.fireEvent) {
                 var newEvt = document.createEventObject();
                 newEvt.clientX = 1;
@@ -242,13 +242,15 @@ tests.test_Signal = function (t) {
 
     try {
         connect(hasSignals, 'signalOne', shouldRaise);
+        ident = connect(hasSignals, 'signalOne', aFunction);
         signal(hasSignals, 'signalOne');
         t.ok(false, 'An exception was not raised');
     } catch (e) {
         t.ok(true, 'An exception was raised');
     }
     disconnect(hasSignals, 'signalOne', shouldRaise);
-    t.is(i, 0, 'Exception raised, signal should not have fired');
+    disconnect(ident);
+    t.is(i, 2, 'Exception raised, but signal was sent to all listeners');
     i = 0;
 
     
