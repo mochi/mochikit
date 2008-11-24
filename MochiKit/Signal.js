@@ -825,7 +825,14 @@ MochiKit.Base.update(MochiKit.Signal, {
             if (ident.source === src && ident.signal === sig &&
                     ident.connected) {
                 try {
-                    ident.listener.apply(src, args);
+                    if (ident.isDOM && ident.funcOrStr != null) {
+                        var obj = ident.objOrFunc;
+                        obj[ident.funcOrStr].apply(obj, args);
+                    } else if (ident.isDOM) {
+                        ident.objOrFunc.apply(src, args);
+                    } else {
+                        ident.listener.apply(src, args);
+                    }
                 } catch (e) {
                     errors.push(e);
                 }
