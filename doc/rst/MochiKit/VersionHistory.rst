@@ -11,6 +11,8 @@
   elements (#325).
 - Fixed issue in MochiKit.Style.getViewportDimensions when called within the
   document HEAD.
+- Fixed MochiKit.DOM.coerceToDOM() handling of arrays when MochiKit.Iter
+  is not loaded (#328).
 
 2008-11-02      v1.4.1 (bug fix release)
 
