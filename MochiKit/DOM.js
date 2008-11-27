@@ -283,8 +283,8 @@ MochiKit.Base.update(MochiKit.DOM, {
         if (im) {
             var iter = im.iter;
             var repeat = im.repeat;
-            var map = m.map;
         }
+        var map = m.map;
         var domConverters = self.domConverters;
         var coerceToDOM = arguments.callee;
         var NotFound = m.NotFound;
@@ -297,7 +297,7 @@ MochiKit.Base.update(MochiKit.DOM, {
             if (typeof(node) == "function" &&
                     typeof(node.length) == "number" &&
                     !(node instanceof Function)) {
-                node = im.list(node);
+                node = im ? im.list(node) : m.extend(null, node);
             }
             if (typeof(node.nodeType) != 'undefined' && node.nodeType > 0) {
                 return node;
@@ -333,6 +333,9 @@ MochiKit.Base.update(MochiKit.DOM, {
                 if (iterNodes) {
                     return map(coerceToDOM, iterNodes, repeat(ctx));
                 }
+            } else if (m.isArrayLike(node)) {
+                var func = function (n) { return coerceToDOM(n, ctx); };
+                return map(func, node);
             }
 
             // adapter
