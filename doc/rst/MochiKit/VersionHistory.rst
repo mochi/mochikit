@@ -1,4 +1,4 @@
-2008-12-XX      v1.4.2 (bug fix release)
+2008-11-27      v1.4.2 (bug fix release)
 
 - Changed default packed version to contain all modules (since easy
   customization is now available).
