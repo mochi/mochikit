@@ -336,8 +336,7 @@ try {
     delete MochiKit["Iter"];
     d = DIV({"foo": "bar"}, SPAN({}, "one"));
     is( getNodeAttribute(d, 'foo'), "bar", "createDOM attribute without Iter" );
-    is( scrapeText(d), "one", "node contents" );
-    isDOM( d, '<div foo="bar"><span>one</span></div>', "createDOM contents without Iter" );
+    is( scrapeText(d), "one", "node contents without Iter" );
     MochiKit.Iter = Iter;
 
     ok( true, "test suite finished!");
