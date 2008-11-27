@@ -331,6 +331,15 @@ try {
     ok( !isChildNode( SPAN(), 'child'), "isChildNode child not in DOM");
     ok( !isChildNode( 'child', SPAN()), "isChildNode parent not in DOM");
 
+    // Test optional dependency on Iter
+    var Iter = MochiKit.Iter;
+    delete MochiKit["Iter"];
+    d = DIV({"foo": "bar"}, SPAN({}, "one"));
+    is( getNodeAttribute(d, 'foo'), "bar", "createDOM attribute without Iter" );
+    is( scrapeText(d), "one", "node contents" );
+    isDOM( d, '<div foo="bar"><span>one</span></div>', "createDOM contents without Iter" );
+    MochiKit.Iter = Iter;
+
     ok( true, "test suite finished!");
     
     
