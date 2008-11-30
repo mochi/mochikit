@@ -48,7 +48,7 @@ See Also
 ========
 
 .. _`mochikit.com`: http://mochikit.com/
-.. _`from __future__ import *`: http://bob.pythonmac.org/
+.. _`MochiKit Wiki`: http://trac.mochikit.com/wiki
 .. _`MochiKit tag on del.icio.us`: http://del.icio.us/tag/mochikit
 .. _`MochiKit tag on Technorati`: http://technorati.com/tag/mochikit
 .. _`Google Groups: MochiKit`: http://groups.google.com/group/mochikit
@@ -56,7 +56,7 @@ See Also
 - `Google Groups: MochiKit`_: The official mailing list for discussions
   related to development of and with MochiKit
 - `mochikit.com`_: MochiKit's home on the web
-- `from __future__ import *`_: Bob Ippolito's blog
+- `MochiKit Wiki`_: MochiKit's wiki site with additional docs and examples
 - `MochiKit tag on del.icio.us`_: Recent bookmarks related to MochiKit
 - `MochiKit tag on Technorati`_: Recent blog entries related to MochiKit
 
@@ -70,7 +70,7 @@ Version History
 Copyright
 =========
 
-Copyright 2005 Bob Ippolito <bob@redivi.com>. This program is
+Copyright 2005-2008 Bob Ippolito <bob@redivi.com>. This program is
 dual-licensed free software; you can redistribute it and/or modify it
 under the terms of the `MIT License`_ or the `Academic Free License
 v2.1`_.
