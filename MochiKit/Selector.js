@@ -8,18 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('Selector', ['Base', 'DOM', 'Iter']);
-
-MochiKit.Selector.NAME = "MochiKit.Selector";
-MochiKit.Selector.VERSION = "1.5";
-
-MochiKit.Selector.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
-};
-
-MochiKit.Selector.toString = function () {
-    return this.__repr__();
-};
+MochiKit.Base._module('Selector', '1.5', ['Base', 'DOM', 'Iter']);
 
 MochiKit.Selector.EXPORT = [
     "Selector",

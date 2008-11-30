@@ -8,16 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('Style', ['Base', 'DOM']);
-
-MochiKit.Style.NAME = 'MochiKit.Style';
-MochiKit.Style.VERSION = '1.5';
-MochiKit.Style.__repr__ = function () {
-    return '[' + this.NAME + ' ' + this.VERSION + ']';
-};
-MochiKit.Style.toString = function () {
-    return this.__repr__();
-};
+MochiKit.Base._module('Style', '1.5', ['Base', 'DOM']);
 
 MochiKit.Style.EXPORT_OK = [];
 

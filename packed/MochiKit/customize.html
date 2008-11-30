@@ -43,15 +43,15 @@ function doParseScript(xhr) {
     var src = xhr.responseText;
     var moduleName = "Base";
     var pos = 0;
-    while ((pos = src.indexOf("MochiKit.Base._deps")) >= 0) {
+    while ((pos = src.indexOf("MochiKit.Base._module")) >= 0) {
         if (pos > 0) {
             MODULES[moduleName].packed += src.substring(0, pos);
             src = src.substring(pos);
         }
         var names = doFindStringLiterals(src);
-        if (names.length > 0) {
+        if (names.length > 0 && names[0] !== "Base") {
             moduleName = names[0];
-            MODULES[moduleName] = { deps: names.slice(1), packed: "" };
+            MODULES[moduleName] = { deps: names.slice(2), packed: "" };
         }
         pos = src.indexOf("MochiKit.Base._exportSymbols");
         pos = src.indexOf("\n", pos);
@@ -83,7 +83,7 @@ function doFindStringLiterals(str) {
     var endPos = str.indexOf("\n");
     var line = str.substring(0, (endPos > 0) ? endPos : str.length);
     var matches = line.match(/"([^"]*)"|'([^']*)'/g);
-    for (var i = 0; i < matches.length; i++) {
+    for (var i = 0; matches != null && i < matches.length; i++) {
         var name = matches[i];
         res.push(name.substring(1, name.length - 1));
     }

@@ -8,18 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('Logging', ['Base']);
-
-MochiKit.Logging.NAME = "MochiKit.Logging";
-MochiKit.Logging.VERSION = "1.5";
-MochiKit.Logging.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
-};
-
-MochiKit.Logging.toString = function () {
-    return this.__repr__();
-};
-
+MochiKit.Base._module('Logging', '1.5', ['Base']);
 
 MochiKit.Logging.EXPORT = [
     "LogLevel",

@@ -8,18 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('Visual', ['Base', 'DOM', 'Style', 'Color', 'Position']);
-
-MochiKit.Visual.NAME = "MochiKit.Visual";
-MochiKit.Visual.VERSION = "1.5";
-
-MochiKit.Visual.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
-};
-
-MochiKit.Visual.toString = function () {
-    return this.__repr__();
-};
+MochiKit.Base._module('Visual', '1.5', ['Base', 'DOM', 'Style', 'Color', 'Position']);
 
 MochiKit.Visual._RoundCorners = function (e, options) {
     e = MochiKit.DOM.getElement(e);

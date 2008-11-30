@@ -8,18 +8,7 @@ Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 
 ***/
 
-MochiKit.Base._deps('DragAndDrop', ['Base', 'Iter', 'DOM', 'Signal', 'Visual', 'Position']);
-
-MochiKit.DragAndDrop.NAME = 'MochiKit.DragAndDrop';
-MochiKit.DragAndDrop.VERSION = '1.5';
-
-MochiKit.DragAndDrop.__repr__ = function () {
-    return '[' + this.NAME + ' ' + this.VERSION + ']';
-};
-
-MochiKit.DragAndDrop.toString = function () {
-    return this.__repr__();
-};
+MochiKit.Base._module('DragAndDrop', '1.5', ['Base', 'Iter', 'DOM', 'Signal', 'Visual', 'Position']);
 
 MochiKit.DragAndDrop.EXPORT = [
     "Droppable",

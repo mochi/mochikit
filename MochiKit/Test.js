@@ -8,18 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('Test', ['Base']);
-
-MochiKit.Test.NAME = "MochiKit.Test";
-MochiKit.Test.VERSION = "1.5";
-MochiKit.Test.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
-};
-
-MochiKit.Test.toString = function () {
-    return this.__repr__();
-};
-
+MochiKit.Base._module('Test', '1.5', ['Base']);
 
 MochiKit.Test.EXPORT = ["runTests"];
 MochiKit.Test.EXPORT_OK = [];

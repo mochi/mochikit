@@ -8,16 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('DateTime', ['Base']);
-
-MochiKit.DateTime.NAME = "MochiKit.DateTime";
-MochiKit.DateTime.VERSION = "1.5";
-MochiKit.DateTime.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
-};
-MochiKit.DateTime.toString = function () {
-    return this.__repr__();
-};
+MochiKit.Base._module('DateTime', '1.5', ['Base']);
 
 /** @id MochiKit.DateTime.isoDate */
 MochiKit.DateTime.isoDate = function (str) {

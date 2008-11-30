@@ -11,15 +11,46 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 if (typeof(MochiKit) == 'undefined') {
     MochiKit = {};
 }
-if (typeof(MochiKit.Base) == 'undefined') {
-    MochiKit.Base = {};
-}
 if (typeof(MochiKit.__export__) == "undefined") {
     MochiKit.__export__ = true;
 }
+if (typeof(MochiKit.Base) == 'undefined') {
+    MochiKit.Base = {};
+}
 
-MochiKit.Base.VERSION = "1.5";
-MochiKit.Base.NAME = "MochiKit.Base";
+/**
+ * Registers a new MochiKit module. This function will insert a new
+ * property into the "MochiKit" object, making sure that all
+ * dependency modules have already been inserted. It will also make
+ * sure that the appropriate properties and default module functions
+ * are defined.
+ *
+ * @param {String} name the module name, e.g. "Base"
+ * @param {String} version the module version, e.g. "1.5"
+ * @param {Array} deps the array of module dependencies (as strings)
+ */
+MochiKit.Base._module = function (name, version, deps) {
+    if (!(name in MochiKit)) {
+        MochiKit[name] = {};
+    }
+    var module = MochiKit[name];
+    module.NAME = "MochiKit." + name;
+    module.VERSION = version;
+    module.__repr__ = function () {
+        return "[" + this.NAME + " " + this.VERSION + "]";
+    };
+    module.toString = function () {
+        return this.__repr__();
+    };
+    for (var i = 0; i < deps.length; i++) {
+        if (!(deps[i] in MochiKit)) {
+            throw 'MochiKit.' + name + ' depends on MochiKit.' + deps[i] + '!';
+        }
+    }
+}
+
+MochiKit.Base._module("Base", "1.5", []);
+
 /** @id MochiKit.Base.update */
 MochiKit.Base.update = function (self, obj/*, ... */) {
     if (self === null || self === undefined) {
@@ -37,14 +68,6 @@ MochiKit.Base.update = function (self, obj/*, ... */) {
 };
 
 MochiKit.Base.update(MochiKit.Base, {
-    __repr__: function () {
-        return "[" + this.NAME + " " + this.VERSION + "]";
-    },
-
-    toString: function () {
-        return this.__repr__();
-    },
-
     /** @id MochiKit.Base.camelize */
     camelize: function (selector) {
         /* from dojo.style.toCamelCase */
@@ -72,17 +95,6 @@ MochiKit.Base.update(MochiKit.Base, {
         if (arguments.length == 1) {
             me.prototype = obj;
             return new me();
-        }
-    },
-
-    _deps: function(module, deps) {
-        if (!(module in MochiKit)) {
-            MochiKit[module] = {};
-        }
-        for (var i = 0; i < deps.length; i++) {
-            if (!(deps[i] in MochiKit)) {
-                throw 'MochiKit.' + module + ' depends on MochiKit.' + deps[i] + '!'
-            }
         }
     },
     
