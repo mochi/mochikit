@@ -1,5 +1,3 @@
-if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.Base'); }
-if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.Base'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_Base = function (t) {

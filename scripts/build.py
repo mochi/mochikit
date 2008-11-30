@@ -58,7 +58,7 @@ META = dict(
     license='mit',
     version=VERSION,
     build_requires={'Test.Simple': '0.11'},
-    recommends={'JSAN': '0.10'},
+    recommends={},
     provides={},
     generated_by="MochiKit's build script",
 )
@@ -102,10 +102,6 @@ for root, dirs, files in os.walk(src):
         if os.path.splitext(fn)[1] == '.html':
             s = file(fn).read()
             s = s.replace('/MochiKit/', '/lib/MochiKit/')
-            s = s.replace(
-                "JSAN.addRepository('..');",
-                'JSAN.addRepository("../lib");',
-            )
             z.writestr(dstfn, s)
         else:
             z.write(fn, dstfn)

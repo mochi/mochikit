@@ -1,5 +1,3 @@
-if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.Color'); }
-if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.Color'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_Color = function (t) {

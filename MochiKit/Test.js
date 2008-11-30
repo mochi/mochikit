@@ -26,7 +26,8 @@ MochiKit.Test.EXPORT_OK = [];
 
 MochiKit.Test.runTests = function (obj) {
     if (typeof(obj) == "string") {
-        obj = JSAN.use(obj);
+        // TODO: Remove this temporary API change advertisement
+        throw new TypeError("Automatic module import not supported, call runTests() with proper object: " + obj);
     }
     var suite = new MochiKit.Test.Suite();
     suite.run(obj);
