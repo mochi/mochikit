@@ -8,19 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('Color', ['Base', 'DOM', 'Style']);
-
-MochiKit.Color.NAME = "MochiKit.Color";
-MochiKit.Color.VERSION = "1.5";
-
-MochiKit.Color.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
-};
-
-MochiKit.Color.toString = function () {
-    return this.__repr__();
-};
-
+MochiKit.Base._module('Color', '1.5', ['Base', 'DOM', 'Style']);
 
 /** @id MochiKit.Color.Color */
 MochiKit.Color.Color = function (red, green, blue, alpha) {

@@ -8,17 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('LoggingPane', ['Base', 'Logging']);
-
-MochiKit.LoggingPane.NAME = "MochiKit.LoggingPane";
-MochiKit.LoggingPane.VERSION = "1.5";
-MochiKit.LoggingPane.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
-};
-
-MochiKit.LoggingPane.toString = function () {
-    return this.__repr__();
-};
+MochiKit.Base._module('LoggingPane', '1.5', ['Base', 'Logging']);
 
 /** @id MochiKit.LoggingPane.createLoggingPane */
 MochiKit.LoggingPane.createLoggingPane = function (inline/* = false */) {

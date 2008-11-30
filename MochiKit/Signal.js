@@ -8,10 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('Signal', ['Base', 'DOM', 'Style']);
-
-MochiKit.Signal.NAME = 'MochiKit.Signal';
-MochiKit.Signal.VERSION = '1.5';
+MochiKit.Base._module('Signal', '1.5', ['Base', 'DOM', 'Style']);
 
 MochiKit.Signal._observers = [];
 
@@ -502,14 +499,6 @@ MochiKit.Signal.Ident = function (ident) {
 MochiKit.Signal.Ident.prototype = {};
 
 MochiKit.Base.update(MochiKit.Signal, {
-
-    __repr__: function () {
-        return '[' + this.NAME + ' ' + this.VERSION + ']';
-    },
-
-    toString: function () {
-        return this.__repr__();
-    },
 
     _unloadCache: function () {
         var self = MochiKit.Signal;

@@ -8,18 +8,9 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('Iter', ['Base']);
+MochiKit.Base._module('Iter', '1.5', ['Base']);
 
-MochiKit.Iter.NAME = "MochiKit.Iter";
-MochiKit.Iter.VERSION = "1.5";
 MochiKit.Base.update(MochiKit.Iter, {
-    __repr__: function () {
-        return "[" + this.NAME + " " + this.VERSION + "]";
-    },
-    toString: function () {
-        return this.__repr__();
-    },
-
     /** @id MochiKit.Iter.registerIteratorFactory */
     registerIteratorFactory: function (name, check, iterfactory, /* optional */ override) {
         MochiKit.Iter.iteratorRegistry.register(name, check, iterfactory, override);

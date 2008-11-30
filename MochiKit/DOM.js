@@ -8,16 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('DOM', ['Base']);
-
-MochiKit.DOM.NAME = "MochiKit.DOM";
-MochiKit.DOM.VERSION = "1.5";
-MochiKit.DOM.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
-};
-MochiKit.DOM.toString = function () {
-    return this.__repr__();
-};
+MochiKit.Base._module('DOM', '1.5', ['Base']);
 
 MochiKit.DOM.EXPORT = [
     "removeEmptyTextNodes",

@@ -6,18 +6,7 @@ See scriptaculous.js for full license.
 
 ***/
 
-MochiKit.Base._deps('Sortable', ['Base', 'Iter', 'DOM', 'Position', 'DragAndDrop']);
-
-MochiKit.Sortable.NAME = 'MochiKit.Sortable';
-MochiKit.Sortable.VERSION = '1.5';
-
-MochiKit.Sortable.__repr__ = function () {
-    return '[' + this.NAME + ' ' + this.VERSION + ']';
-};
-
-MochiKit.Sortable.toString = function () {
-    return this.__repr__();
-};
+MochiKit.Base._module('Sortable', '1.5', ['Base', 'Iter', 'DOM', 'Position', 'DragAndDrop']);
 
 MochiKit.Sortable.EXPORT = [
 ];

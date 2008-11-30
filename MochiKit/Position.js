@@ -8,16 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('Position', ['Base', 'DOM', 'Style']);
-
-MochiKit.Position.NAME = 'MochiKit.Position';
-MochiKit.Position.VERSION = '1.5';
-MochiKit.Position.__repr__ = function () {
-    return '[' + this.NAME + ' ' + this.VERSION + ']';
-};
-MochiKit.Position.toString = function () {
-    return this.__repr__();
-};
+MochiKit.Base._module('Position', '1.5', ['Base', 'DOM', 'Style']);
 
 MochiKit.Position.EXPORT_OK = [];
 
