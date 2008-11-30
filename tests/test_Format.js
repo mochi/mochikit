@@ -1,5 +1,3 @@
-if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.Format'); }
-if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.Format'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_Format = function (t) {

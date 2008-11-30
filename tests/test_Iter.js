@@ -1,5 +1,3 @@
-if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.Iter'); }
-if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.Iter'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_Iter = function (t) {

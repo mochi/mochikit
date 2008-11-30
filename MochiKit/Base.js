@@ -8,9 +8,6 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(dojo) != 'undefined') {
-    dojo.provide("MochiKit.Base");
-}
 if (typeof(MochiKit) == 'undefined') {
     MochiKit = {};
 }
@@ -18,9 +15,7 @@ if (typeof(MochiKit.Base) == 'undefined') {
     MochiKit.Base = {};
 }
 if (typeof(MochiKit.__export__) == "undefined") {
-    MochiKit.__export__ = (MochiKit.__compat__  ||
-        (typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
-    );
+    MochiKit.__export__ = true;
 }
 
 MochiKit.Base.VERSION = "1.5";
@@ -84,17 +79,7 @@ MochiKit.Base.update(MochiKit.Base, {
         if (!(module in MochiKit)) {
             MochiKit[module] = {};
         }
-        
-        if (typeof(dojo) != 'undefined') {
-            dojo.provide('MochiKit.' + module);
-        }
         for (var i = 0; i < deps.length; i++) {
-            if (typeof(dojo) != 'undefined') {
-                dojo.require('MochiKit.' + deps[i]);
-            }
-            if (typeof(JSAN) != 'undefined') {
-                JSAN.use('MochiKit.' + deps[i], []);
-            }
             if (!(deps[i] in MochiKit)) {
                 throw 'MochiKit.' + module + ' depends on MochiKit.' + deps[i] + '!'
             }
