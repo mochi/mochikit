@@ -48,9 +48,6 @@ MochiKit.MochiKit.SUBMODULES = [
     "Sortable"
 ];
 
-if (typeof(MochiKit.__compat__) == 'undefined') {
-    MochiKit.__compat__ = true;
-}
 (function () {
     if (typeof(document) == "undefined") {
         return;
