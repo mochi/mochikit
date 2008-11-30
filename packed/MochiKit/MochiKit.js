@@ -7579,9 +7579,6 @@ MochiKit.MochiKit.toString=function(){
 return this.__repr__();
 };
 MochiKit.MochiKit.SUBMODULES=["Base","Iter","Logging","DateTime","Format","Async","DOM","Selector","Style","LoggingPane","Color","Signal","Position","Visual","DragAndDrop","Sortable"];
-if(typeof (MochiKit.__compat__)=="undefined"){
-MochiKit.__compat__=true;
-}
 (function(){
 if(typeof (document)=="undefined"){
 return;
