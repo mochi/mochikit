@@ -1381,8 +1381,52 @@ MochiKit.Base._exportSymbols = function (globals, module) {
     }
 };
 
+/**
+ * Creates a deprecated function alias in the specified module. The
+ * deprecated function will forward all calls and arguments to a
+ * target function, while also logging a debug message on the first
+ * call (if MochiKit.Logging is loaded). The destination function may
+ * be located in another module, which must be loaded, or an
+ * exception will be thrown.
+ *
+ * @param {Object/String} module the source module or module name
+ *            (e.g. 'DOM' or 'MochiKit.DOM')
+ * @param {String} name the deprecated function name (e.g. 'getStyle')
+ * @param {String} target the fully qualified name of the target
+ *            function (e.g. 'MochiKit.Style.getStyle')
+ * @param {String} version the first version when the source function
+ *            was deprecated (e.g. '1.4')
+ */
+MochiKit.Base._deprecated = function (module, name, target, version) {
+    if (typeof(module) === 'string') {
+        if (module.indexOf('MochiKit.') === 0) {
+            module = module.substring(9);
+        }
+        module = MochiKit[module];
+    }
+    var targetModule = target.split('.')[1];
+    var targetName = target.split('.')[2];
+    var func = function () {
+        var self = arguments.callee;
+        var msg = module.NAME + '.' + name + ' is deprecated since version ' +
+                  version + '. Use ' + target + ' instead.';
+        if (self.logged !== true) {
+            self.logged = true;
+            if (MochiKit.Logging) {
+                MochiKit.Logging.logDebug(msg);
+            } else if (console && console.log) {
+                console.log(msg);
+            }
+        }
+        if (!MochiKit[targetModule]) {
+            throw new Error(msg);
+        }
+        return MochiKit[targetModule][targetName].apply(this, arguments);
+    };
+    module[name] = func;
+}
+
 MochiKit.Base.__new__ = function () {
-    // A singleton raised when no suitable adapter is found
     var m = this;
 
     // convenience
@@ -1390,8 +1434,8 @@ MochiKit.Base.__new__ = function () {
     m.noop = m.operator.identity;
 
     // Backwards compat
-    m.forward = m.forwardCall;
-    m.find = m.findValue;
+    m._deprecated(m, 'forward', 'MochiKit.Base.forwardCall', '1.3');
+    m._deprecated(m, 'find', 'MochiKit.Base.findValue', '1.3');
 
     if (typeof(encodeURIComponent) != "undefined") {
         /** @id MochiKit.Base.urlEncode */
