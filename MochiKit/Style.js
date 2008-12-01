@@ -43,6 +43,9 @@ MochiKit.Style.EXPORT = [
 */
 /** @id MochiKit.Style.Dimensions */
 MochiKit.Style.Dimensions = function (w, h) {
+    if (!(this instanceof MochiKit.Style.Dimensions)) {
+        return new MochiKit.Style.Dimensions(w, h);
+    }
     this.w = w;
     this.h = h;
 };
@@ -64,6 +67,9 @@ MochiKit.Style.Dimensions.prototype.toString = function () {
 */
 /** @id MochiKit.Style.Coordinates */
 MochiKit.Style.Coordinates = function (x, y) {
+    if (!(this instanceof MochiKit.Style.Coordinates)) {
+        return new MochiKit.Style.Coordinates(x, y);
+    }
     this.x = x;
     this.y = y;
 };
