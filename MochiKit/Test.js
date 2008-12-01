@@ -10,9 +10,6 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 MochiKit.Base._module('Test', '1.5', ['Base']);
 
-MochiKit.Test.EXPORT = ["runTests"];
-MochiKit.Test.EXPORT_OK = [];
-
 MochiKit.Test.runTests = function (obj) {
     if (typeof(obj) == "string") {
         // TODO: Remove this temporary API change advertisement
@@ -137,12 +134,7 @@ MochiKit.Test.Suite.prototype = {
 
 MochiKit.Test.__new__ = function () {
     var m = MochiKit.Base;
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": m.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
+    this.Suite.__export__ = false;
     m.nameFunctions(this);
 
 };

@@ -10,28 +10,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 MochiKit.Base._module('Logging', '1.5', ['Base']);
 
-MochiKit.Logging.EXPORT = [
-    "LogLevel",
-    "LogMessage",
-    "Logger",
-    "alertListener",
-    "logger",
-    "log",
-    "logError",
-    "logDebug",
-    "logFatal",
-    "logWarning"
-];
-
-
-MochiKit.Logging.EXPORT_OK = [
-    "logLevelAtLeast",
-    "isLogMessage",
-    "compareLogMessage"
-];
-
-
-/** @id MochiKit.Logging.LogMessage */
+    /** @id MochiKit.Logging.LogMessage */
 MochiKit.Logging.LogMessage = function (num, level, info) {
     this.num = num;
     this.level = level;
@@ -278,13 +257,7 @@ MochiKit.Logging.__new__ = function () {
     this.logger = new Logger();
     this.logger.useNativeConsole = true;
 
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": m.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
     m.nameFunctions(this);
-
 };
 
 if (typeof(printfire) == "undefined" &&

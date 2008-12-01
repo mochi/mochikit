@@ -1288,96 +1288,18 @@ MochiKit.Base.AdapterRegistry.prototype = {
     }
 };
 
-
-MochiKit.Base.EXPORT = [
-    "flattenArray",
-    "noop",
-    "camelize",
-    "counter",
-    "clone",
-    "extend",
-    "update",
-    "updatetree",
-    "setdefault",
-    "keys",
-    "values",
-    "items",
-    "NamedError",
-    "operator",
-    "forwardCall",
-    "itemgetter",
-    "typeMatcher",
-    "isCallable",
-    "isUndefined",
-    "isUndefinedOrNull",
-    "isNull",
-    "isEmpty",
-    "isNotEmpty",
-    "isArrayLike",
-    "isDateLike",
-    "xmap",
-    "map",
-    "xfilter",
-    "filter",
-    "methodcaller",
-    "compose",
-    "bind",
-    "bindLate",
-    "bindMethods",
-    "NotFound",
-    "AdapterRegistry",
-    "registerComparator",
-    "compare",
-    "registerRepr",
-    "repr",
-    "objEqual",
-    "arrayEqual",
-    "concat",
-    "keyComparator",
-    "reverseKeyComparator",
-    "partial",
-    "merge",
-    "listMinMax",
-    "listMax",
-    "listMin",
-    "objMax",
-    "objMin",
-    "nodeWalk",
-    "zip",
-    "urlEncode",
-    "queryString",
-    "serializeJSON",
-    "registerJSON",
-    "evalJSON",
-    "parseQueryString",
-    "findValue",
-    "findIdentical",
-    "flattenArguments",
-    "method",
-    "average",
-    "mean",
-    "median"
-];
-
-MochiKit.Base.EXPORT_OK = [
-    "nameFunctions",
-    "comparatorRegistry",
-    "reprRegistry",
-    "jsonRegistry",
-    "compareDateLike",
-    "compareArrayLike",
-    "reprArrayLike",
-    "reprString",
-    "reprNumber"
-];
-
 MochiKit.Base._exportSymbols = function (globals, module) {
-    if (!MochiKit.__export__) {
+    if (MochiKit.__export__ === false || module.__export__ === false) {
         return;
     }
-    var all = module.EXPORT_TAGS[":all"];
-    for (var i = 0; i < all.length; i++) {
-        globals[all[i]] = module[all[i]];
+    for (var k in module) {
+        var v = module[k];
+        if (v != null) {
+            var okName = (k[0] !== "_" && k !== "toString");
+            if (v.__export__ === true || (v.__export__ !== false && okName)) {
+                globals[k] = module[k];
+            }
+        }
     }
 };
 
@@ -1396,8 +1318,10 @@ MochiKit.Base._exportSymbols = function (globals, module) {
  *            function (e.g. 'MochiKit.Style.getStyle')
  * @param {String} version the first version when the source function
  *            was deprecated (e.g. '1.4')
+ * @param {Boolean} [exportable] the exportable function flag,
+ *            defaults to true
  */
-MochiKit.Base._deprecated = function (module, name, target, version) {
+MochiKit.Base._deprecated = function (module, name, target, version, exportable) {
     if (typeof(module) === 'string') {
         if (module.indexOf('MochiKit.') === 0) {
             module = module.substring(9);
@@ -1423,19 +1347,21 @@ MochiKit.Base._deprecated = function (module, name, target, version) {
         }
         return MochiKit[targetModule][targetName].apply(this, arguments);
     };
+    if (exportable === false) {
+        func.__export__ = false;
+    }
     module[name] = func;
 }
 
 MochiKit.Base.__new__ = function () {
     var m = this;
 
-    // convenience
     /** @id MochiKit.Base.noop */
     m.noop = m.operator.identity;
 
     // Backwards compat
-    m._deprecated(m, 'forward', 'MochiKit.Base.forwardCall', '1.3');
-    m._deprecated(m, 'find', 'MochiKit.Base.findValue', '1.3');
+    m._deprecated(m, 'forward', 'MochiKit.Base.forwardCall', '1.3', false);
+    m._deprecated(m, 'find', 'MochiKit.Base.findValue', '1.3', false);
 
     if (typeof(encodeURIComponent) != "undefined") {
         /** @id MochiKit.Base.urlEncode */
@@ -1503,12 +1429,6 @@ MochiKit.Base.__new__ = function () {
 
     /** @id MochiKit.Base.jsonRegistry */
     m.jsonRegistry = new m.AdapterRegistry();
-
-    var all = m.concat(m.EXPORT, m.EXPORT_OK);
-    m.EXPORT_TAGS = {
-        ":common": m.concat(m.EXPORT_OK),
-        ":all": all
-    };
 
     m.nameFunctions(this);
 

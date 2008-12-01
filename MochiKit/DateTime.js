@@ -164,36 +164,8 @@ MochiKit.DateTime.toAmericanDate = function (d) {
     return [d.getMonth() + 1, d.getDate(), d.getFullYear()].join('/');
 };
 
-MochiKit.DateTime.EXPORT = [
-    "isoDate",
-    "isoTimestamp",
-    "toISOTime",
-    "toISOTimestamp",
-    "toISODate",
-    "americanDate",
-    "toPaddedAmericanDate",
-    "toAmericanDate"
-];
-
-MochiKit.DateTime.EXPORT_OK = [];
-MochiKit.DateTime.EXPORT_TAGS = {
-    ":common": MochiKit.DateTime.EXPORT,
-    ":all": MochiKit.DateTime.EXPORT
-};
-
 MochiKit.DateTime.__new__ = function () {
-    // MochiKit.Base.nameFunctions(this);
-    var base = this.NAME + ".";
-    for (var k in this) {
-        var o = this[k];
-        if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
-            try {
-                o.NAME = base + k;
-            } catch (e) {
-                // pass
-            }
-        }
-    }
+    MochiKit.Base.nameFunctions(this);
 };
 
 MochiKit.DateTime.__new__();

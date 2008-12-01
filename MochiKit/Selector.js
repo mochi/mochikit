@@ -10,16 +10,6 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 MochiKit.Base._module('Selector', '1.5', ['Base', 'DOM', 'Iter']);
 
-MochiKit.Selector.EXPORT = [
-    "Selector",
-    "findChildElements",
-    "findDocElements",
-    "$$"
-];
-
-MochiKit.Selector.EXPORT_OK = [
-];
-
 MochiKit.Selector.Selector = function (expression) {
     this.params = {classNames: [], pseudoClassNames: []};
     this.expression = expression.toString().replace(/(^\s+|\s+$)/g, '');
@@ -385,20 +375,11 @@ MochiKit.Base.update(MochiKit.Selector, {
     },
 
     __new__: function () {
-        var m = MochiKit.Base;
-
         this.$$ = this.findDocElements;
-
-        this.EXPORT_TAGS = {
-            ":common": this.EXPORT,
-            ":all": m.concat(this.EXPORT, this.EXPORT_OK)
-        };
-
-        m.nameFunctions(this);
+        MochiKit.Base.nameFunctions(this);
     }
 });
 
 MochiKit.Selector.__new__();
 
 MochiKit.Base._exportSymbols(this, MochiKit.Selector);
-

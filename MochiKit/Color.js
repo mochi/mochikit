@@ -594,12 +594,12 @@ MochiKit.Base.update(MochiKit.Color, {
 
     __new__: function () {
         var m = MochiKit.Base;
-        /** @id MochiKit.Color.fromRGBString */
+        /** @id MochiKit.Color.Color.fromRGBString */
         this.Color.fromRGBString = m.bind(
             this.Color._fromColorString, this.Color, "rgb", "fromRGB",
             [1.0/255.0, 1.0/255.0, 1.0/255.0, 1]
         );
-        /** @id MochiKit.Color.fromHSLString */
+        /** @id MochiKit.Color.Color.fromHSLString */
         this.Color.fromHSLString = m.bind(
             this.Color._fromColorString, this.Color, "hsl", "fromHSL",
             [1.0/360.0, 0.01, 0.01, 1]
@@ -672,31 +672,10 @@ MochiKit.Base.update(MochiKit.Color, {
         m.nameFunctions(this);
 
         m.registerComparator(this.Color.NAME, isColor, compareColor);
-
-        this.EXPORT_TAGS = {
-            ":common": this.EXPORT,
-            ":all": m.concat(this.EXPORT, this.EXPORT_OK)
-        };
-
     }
 });
 
-MochiKit.Color.EXPORT = [
-    "Color"
-];
-
-MochiKit.Color.EXPORT_OK = [
-    "clampColorComponent",
-    "rgbToHSL",
-    "hslToRGB",
-    "rgbToHSV",
-    "hsvToRGB",
-    "toColorPart"
-];
-
 MochiKit.Color.__new__();
-
-MochiKit.Base._exportSymbols(this, MochiKit.Color);
 
 // Full table of css3 X11 colors <http://www.w3.org/TR/css3-color/#X11COLORS>
 
@@ -849,3 +828,5 @@ MochiKit.Color.Color._namedColors = {
     yellow: "#ffff00",
     yellowgreen: "#9acd32"
 };
+
+MochiKit.Base._exportSymbols(this, MochiKit.Color);

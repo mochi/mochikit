@@ -3,6 +3,8 @@
 - Changed MochiKit.Signal.signal to support DOM source objects with custom
   arguments, instead of always wrapping into Event object.
 - Removed the Dojo and JSAN integrations, since they are not maintained.
+- Simplified module init and export code, saving up to 5kB in packed
+  download size.
 
 2008-11-27      v1.4.2 (bug fix release)
 

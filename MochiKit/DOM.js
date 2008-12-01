@@ -10,93 +10,6 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 MochiKit.Base._module('DOM', '1.5', ['Base']);
 
-MochiKit.DOM.EXPORT = [
-    "removeEmptyTextNodes",
-    "formContents",
-    "currentWindow",
-    "currentDocument",
-    "withWindow",
-    "withDocument",
-    "registerDOMConverter",
-    "coerceToDOM",
-    "createDOM",
-    "createDOMFunc",
-    "isChildNode",
-    "getNodeAttribute",
-    "removeNodeAttribute",
-    "setNodeAttribute",
-    "updateNodeAttributes",
-    "appendChildNodes",
-    "insertSiblingNodesAfter",
-    "insertSiblingNodesBefore",
-    "replaceChildNodes",
-    "removeElement",
-    "swapDOM",
-    "BUTTON",
-    "TT",
-    "PRE",
-    "H1",
-    "H2",
-    "H3",
-    "H4",
-    "H5",
-    "H6",
-    "BR",
-    "CANVAS",
-    "HR",
-    "LABEL",
-    "TEXTAREA",
-    "FORM",
-    "STRONG",
-    "SELECT",
-    "OPTION",
-    "OPTGROUP",
-    "LEGEND",
-    "FIELDSET",
-    "P",
-    "UL",
-    "OL",
-    "LI",
-    "DL",
-    "DT",
-    "DD",
-    "TD",
-    "TR",
-    "THEAD",
-    "TBODY",
-    "TFOOT",
-    "TABLE",
-    "TH",
-    "INPUT",
-    "SPAN",
-    "A",
-    "DIV",
-    "IMG",
-    "getElement",
-    "$",
-    "getElementsByTagAndClassName",
-    "addToCallStack",
-    "addLoadEvent",
-    "focusOnLoad",
-    "setElementClass",
-    "toggleElementClass",
-    "addElementClass",
-    "removeElementClass",
-    "swapElementClass",
-    "hasElementClass",
-    "computedStyle", // deprecated in 1.4
-    "escapeHTML",
-    "toHTML",
-    "emitHTML",
-    "scrapeText",
-    "getFirstParentByTagAndClassName",
-    "getFirstElementByTagAndClassName"
-];
-
-MochiKit.DOM.EXPORT_OK = [
-    "domConverters"
-];
-
 MochiKit.Base.update(MochiKit.DOM, {
 
     /** @id MochiKit.DOM.currentWindow */
@@ -1083,6 +996,7 @@ MochiKit.Base.update(MochiKit.DOM, {
             attributeArray.ignoreAttr = {};
             attributeArray.renames = {};
         }
+        attributeArray.__export__ = false;
         this.attributeArray = attributeArray;
 
         // Backwards compatibility aliases
@@ -1204,11 +1118,6 @@ MochiKit.Base.update(MochiKit.DOM, {
 
         /** @id MochiKit.DOM.$ */
         this.$ = this.getElement;
-
-        this.EXPORT_TAGS = {
-            ":common": this.EXPORT,
-            ":all": m.concat(this.EXPORT, this.EXPORT_OK)
-        };
 
         m.nameFunctions(this);
 

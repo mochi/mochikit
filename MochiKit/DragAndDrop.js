@@ -10,16 +10,6 @@ Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 
 MochiKit.Base._module('DragAndDrop', '1.5', ['Base', 'Iter', 'DOM', 'Signal', 'Visual', 'Position']);
 
-MochiKit.DragAndDrop.EXPORT = [
-    "Droppable",
-    "Draggable"
-];
-
-MochiKit.DragAndDrop.EXPORT_OK = [
-    "Droppables",
-    "Draggables"
-];
-
 MochiKit.DragAndDrop.Droppables = {
     /***
 
@@ -769,14 +759,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
 MochiKit.DragAndDrop.__new__ = function () {
     MochiKit.Base.nameFunctions(this);
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
-    };
 };
 
 MochiKit.DragAndDrop.__new__();
 
 MochiKit.Base._exportSymbols(this, MochiKit.DragAndDrop);
-

@@ -365,8 +365,7 @@ MochiKit.Visual.tagifyText = function (element, /* optional */tagifyStyle) {
     }, element.childNodes);
 };
 
-/** @id MochiKit.Visual.forceRerendering */
-MochiKit.Visual.forceRerendering = function (element) {
+MochiKit.Visual._forceRerendering = function (element) {
     try {
         element = MochiKit.DOM.getElement(element);
         var n = document.createTextNode(' ');
@@ -427,7 +426,7 @@ Transitions: define functions calculating variations depending of a position.
 
 ***/
 
-MochiKit.Visual.Transitions = {};
+MochiKit.Visual.Transitions = { __export__: false };
 
 /** @id MochiKit.Visual.Transitions.linear */
 MochiKit.Visual.Transitions.linear = function (pos) {
@@ -493,6 +492,7 @@ MochiKit.Visual.ScopedQueue = function () {
     }
     this.__init__();
 };
+MochiKit.Visual.ScopedQueue.__export__ = false;
 
 MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
     __init__: function () {
@@ -580,8 +580,8 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
 });
 
 MochiKit.Visual.Queues = {
+    __export__: false,
     instances: {},
-
     get: function (queueName) {
         if (typeof(queueName) != 'string') {
             return queueName;
@@ -595,8 +595,10 @@ MochiKit.Visual.Queues = {
 };
 
 MochiKit.Visual.Queue = MochiKit.Visual.Queues.get('global');
+MochiKit.Visual.Queue.__export__ = false;
 
 MochiKit.Visual.DefaultOptions = {
+    __export__: false,
     transition: MochiKit.Visual.Transitions.sinoidal,
     duration: 1.0,  // seconds
     fps: 25.0,  // max. 25fps due to MochiKit.Visual.Queue implementation
@@ -1194,7 +1196,7 @@ MochiKit.Base.update(MochiKit.Visual.ScrollTo.prototype, {
     }
 });
 
-MochiKit.Visual.CSS_LENGTH = /^(([\+\-]?[0-9\.]+)(em|ex|px|in|cm|mm|pt|pc|\%))|0$/;
+MochiKit.Visual._CSS_LENGTH = /^(([\+\-]?[0-9\.]+)(em|ex|px|in|cm|mm|pt|pc|\%))|0$/;
 
 MochiKit.Visual.Morph = function (element, options) {
     var cls = arguments.callee;
@@ -1232,7 +1234,7 @@ MochiKit.Base.update(MochiKit.Visual.Morph.prototype, {
         for (var s in style) {
             value = style[s];
             s = b.camelize(s);
-            if (MochiKit.Visual.CSS_LENGTH.test(value)) {
+            if (MochiKit.Visual._CSS_LENGTH.test(value)) {
                 var components = value.match(/^([\+\-]?[0-9\.]+)(.*)$/);
                 value = parseFloat(components[1]);
                 unit = (components.length == 3) ? components[2] : null;
@@ -1336,7 +1338,7 @@ MochiKit.Visual.appear = function (element, /* optional */ options) {
         to: 1.0,
         // force Safari to render floated elements properly
         afterFinishInternal: function (effect) {
-            v.forceRerendering(effect.element);
+            v._forceRerendering(effect.element);
         },
         beforeSetupInternal: function (effect) {
             s.setStyle(effect.element, {'opacity': effect.options.from});
@@ -1956,59 +1958,17 @@ MochiKit.Visual.fold = function (element, /* optional */ options) {
 };
 
 
-// Compatibility with MochiKit 1.0
-MochiKit.Visual.Color = MochiKit.Color.Color;
-MochiKit.Visual.getElementsComputedStyle = MochiKit.DOM.computedStyle;
-
 /* end of Rico adaptation */
 
 MochiKit.Visual.__new__ = function () {
     var m = MochiKit.Base;
 
+    // Backwards compatibility aliases
+    m._deprecated(this, 'Color', 'MochiKit.Color.Color', '1.1');
+    m._deprecated(this, 'getElementsComputedStyle', 'MochiKit.Style.getStyle', '1.1');
+
     m.nameFunctions(this);
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": m.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
 };
-
-MochiKit.Visual.EXPORT = [
-    "roundElement",
-    "roundClass",
-    "tagifyText",
-    "multiple",
-    "toggle",
-    "Parallel",
-    "Sequence",
-    "Opacity",
-    "Move",
-    "Scale",
-    "Highlight",
-    "ScrollTo",
-    "Morph",
-    "fade",
-    "appear",
-    "puff",
-    "blindUp",
-    "blindDown",
-    "switchOff",
-    "dropOut",
-    "shake",
-    "slideDown",
-    "slideUp",
-    "squish",
-    "grow",
-    "shrink",
-    "pulsate",
-    "fold"
-];
-
-MochiKit.Visual.EXPORT_OK = [
-    "Base",
-    "PAIRS"
-];
 
 MochiKit.Visual.__new__();
 

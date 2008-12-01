@@ -317,25 +317,9 @@ MochiKit.LoggingPane.LoggingPane.prototype = {
     }
 };
 
-
-MochiKit.LoggingPane.EXPORT_OK = [
-    "LoggingPane"
-];
-
-MochiKit.LoggingPane.EXPORT = [
-    "createLoggingPane"
-];
-
 MochiKit.LoggingPane.__new__ = function () {
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
     MochiKit.Base.nameFunctions(this);
-
     MochiKit.LoggingPane._loggingPane = null;
-
 };
 
 MochiKit.LoggingPane.__new__();
