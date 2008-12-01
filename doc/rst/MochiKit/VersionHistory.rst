@@ -5,6 +5,8 @@
 - Removed the Dojo and JSAN integrations, since they are not maintained.
 - Simplified module init and export code, saving up to 5kB in packed
   download size.
+- Changed MochiKit.Selector.findChildElements to support element lookup
+  via MochiKit.DOM.getElement.
 
 2008-11-27      v1.4.2 (bug fix release)
 

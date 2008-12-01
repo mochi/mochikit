@@ -3809,6 +3809,7 @@ return _401;
 return "Selector("+this.expression+")";
 },toString:MochiKit.Base.forwardCall("repr")};
 MochiKit.Base.update(MochiKit.Selector,{findChildElements:function(_403,_404){
+_403=MochiKit.DOM.getElement(_403);
 var uniq=function(arr){
 var res=[];
 for(var i=0;i<arr.length;i++){

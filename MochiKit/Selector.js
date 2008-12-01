@@ -341,6 +341,7 @@ MochiKit.Base.update(MochiKit.Selector, {
 
     /** @id MochiKit.Selector.findChildElements */
     findChildElements: function (element, expressions) {
+        element = MochiKit.DOM.getElement(element);
         var uniq = function(arr) {
             var res = [];
             for (var i = 0; i < arr.length; i++) {
