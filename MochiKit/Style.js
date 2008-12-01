@@ -571,8 +571,9 @@ MochiKit.Base.update(MochiKit.Style, {
             this._defaultDisplay[inlines[i]] = 'inline';
         }
 
-        this.elementPosition = this.getElementPosition;
-        this.elementDimensions = this.getElementDimensions;
+        // Backwards compatibility aliases
+        m._deprecated(this, 'elementPosition', 'MochiKit.Style.getElementPosition', '1.3');
+        m._deprecated(this, 'elementDimensions', 'MochiKit.Style.getElementDimensions', '1.3');
 
         this.hideElement = m.partial(this.setDisplayForElement, 'none');
         // TODO: showElement could be improved by using getDefaultDisplay.
