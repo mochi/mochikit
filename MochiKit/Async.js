@@ -562,32 +562,6 @@ MochiKit.Async.maybeDeferred = function (func) {
 };
 
 
-MochiKit.Async.EXPORT = [
-    "AlreadyCalledError",
-    "CancelledError",
-    "BrowserComplianceError",
-    "GenericError",
-    "XMLHttpRequestError",
-    "Deferred",
-    "succeed",
-    "fail",
-    "getXMLHttpRequest",
-    "doSimpleXMLHttpRequest",
-    "loadJSONDoc",
-    "wait",
-    "callLater",
-    "sendXMLHttpRequest",
-    "DeferredLock",
-    "DeferredList",
-    "gatherResults",
-    "maybeDeferred",
-    "doXHR"
-];
-
-MochiKit.Async.EXPORT_OK = [
-    "evalJSONRequest"
-];
-
 MochiKit.Async.__new__ = function () {
     var m = MochiKit.Base;
     var ne = m.partial(m._newNamedError, this);
@@ -658,14 +632,7 @@ MochiKit.Async.__new__ = function () {
         }
     );
 
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": m.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
     m.nameFunctions(this);
-
 };
 
 MochiKit.Async.__new__();

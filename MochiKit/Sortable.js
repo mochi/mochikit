@@ -8,13 +8,9 @@ See scriptaculous.js for full license.
 
 MochiKit.Base._module('Sortable', '1.5', ['Base', 'Iter', 'DOM', 'Position', 'DragAndDrop']);
 
-MochiKit.Sortable.EXPORT = [
-];
-
-MochiKit.Sortable.EXPORT_OK = [
-];
-
 MochiKit.Base.update(MochiKit.Sortable, {
+    __export__: false,
+
     /***
 
     Manage sortables. Mainly use the create function to add a sortable.
@@ -566,11 +562,6 @@ MochiKit.Sortable.Sortable = MochiKit.Sortable;
 
 MochiKit.Sortable.__new__ = function () {
     MochiKit.Base.nameFunctions(this);
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
-    };
 };
 
 MochiKit.Sortable.__new__();

@@ -17,6 +17,7 @@ MochiKit.Signal.Event = function (src, e) {
     this._event = e || window.event;
     this._src = src;
 };
+MochiKit.Signal.Event.__export__ = false;
 
 MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
@@ -495,7 +496,7 @@ MochiKit.Signal.Ident = function (ident) {
     this.funcOrStr = ident.funcOrStr;
     this.connected = ident.connected;
 };
-
+MochiKit.Signal.Ident.__export__ = false;
 MochiKit.Signal.Ident.prototype = {};
 
 MochiKit.Base.update(MochiKit.Signal, {
@@ -847,16 +848,6 @@ MochiKit.Base.update(MochiKit.Signal, {
 
 });
 
-MochiKit.Signal.EXPORT_OK = [];
-
-MochiKit.Signal.EXPORT = [
-    'connect',
-    'disconnect',
-    'signal',
-    'disconnectAll',
-    'disconnectAllTo'
-];
-
 MochiKit.Signal.__new__ = function (win) {
     var m = MochiKit.Base;
     this._document = document;
@@ -869,11 +860,6 @@ MochiKit.Signal.__new__ = function (win) {
     } catch (e) {
         // pass: might not be a browser
     }
-
-    this.EXPORT_TAGS = {
-        ':common': this.EXPORT,
-        ':all': m.concat(this.EXPORT, this.EXPORT_OK)
-    };
 
     m.nameFunctions(this);
 };

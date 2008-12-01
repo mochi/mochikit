@@ -10,13 +10,10 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 MochiKit.Base._module('Position', '1.5', ['Base', 'DOM', 'Style']);
 
-MochiKit.Position.EXPORT_OK = [];
-
-MochiKit.Position.EXPORT = [
-];
-
-
 MochiKit.Base.update(MochiKit.Position, {
+    // Don't export from this module
+    __export__: false,
+
     // set to true if needed, warning: firefox performance problems
     // NOT neeeded for page scrolling, only if draggable contained in
     // scrollable elements
@@ -213,13 +210,7 @@ MochiKit.Base.update(MochiKit.Position, {
 });
 
 MochiKit.Position.__new__ = function (win) {
-    var m = MochiKit.Base;
-    this.EXPORT_TAGS = {
-        ':common': this.EXPORT,
-        ':all': m.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
-    m.nameFunctions(this);
+    MochiKit.Base.nameFunctions(this);
 };
 
 MochiKit.Position.__new__(this);

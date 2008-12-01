@@ -10,36 +10,8 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 MochiKit.Base._module('Style', '1.5', ['Base', 'DOM']);
 
-MochiKit.Style.EXPORT_OK = [];
-
-MochiKit.Style.EXPORT = [
-    'setStyle',
-    'setOpacity',
-    'getStyle',
-    'getElementDimensions',
-    'elementDimensions', // deprecated
-    'setElementDimensions',
-    'getElementPosition',
-    'elementPosition', // deprecated
-    'setElementPosition',
-    "makePositioned",
-    "undoPositioned",
-    "makeClipping",
-    "undoClipping",
-    'setDisplayForElement',
-    'hideElement',
-    'showElement',
-    'getViewportDimensions',
-    'getViewportPosition',
-    'Dimensions',
-    'Coordinates'
-];
-
-
 /*
-
     Dimensions
-
 */
 /** @id MochiKit.Style.Dimensions */
 MochiKit.Style.Dimensions = function (w, h) {
@@ -61,9 +33,7 @@ MochiKit.Style.Dimensions.prototype.toString = function () {
 
 
 /*
-
     Coordinates
-
 */
 /** @id MochiKit.Style.Coordinates */
 MochiKit.Style.Coordinates = function (x, y) {
@@ -578,11 +548,6 @@ MochiKit.Base.update(MochiKit.Style, {
         this.hideElement = m.partial(this.setDisplayForElement, 'none');
         // TODO: showElement could be improved by using getDefaultDisplay.
         this.showElement = m.partial(this.setDisplayForElement, 'block');
-
-        this.EXPORT_TAGS = {
-            ':common': this.EXPORT,
-            ':all': m.concat(this.EXPORT, this.EXPORT_OK)
-        };
 
         m.nameFunctions(this);
     }

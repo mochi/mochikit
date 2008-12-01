@@ -228,35 +228,17 @@ MochiKit.Format.percentFormat = function (aNumber) {
     return MochiKit.Format.twoDigitFloat(100 * aNumber) + '%';
 };
 
-MochiKit.Format.EXPORT = [
-    "truncToFixed",
-    "roundToFixed",
-    "numberFormatter",
-    "formatLocale",
-    "twoDigitAverage",
-    "twoDigitFloat",
-    "percentFormat",
-    "lstrip",
-    "rstrip",
-    "strip"
-];
-
 MochiKit.Format.LOCALE = {
     en_US: {separator: ",", decimal: ".", percent: "%"},
     de_DE: {separator: ".", decimal: ",", percent: "%"},
     pt_BR: {separator: ".", decimal: ",", percent: "%"},
     fr_FR: {separator: " ", decimal: ",", percent: "%"},
-    "default": "en_US"
-};
-
-MochiKit.Format.EXPORT_OK = [];
-MochiKit.Format.EXPORT_TAGS = {
-    ':all': MochiKit.Format.EXPORT,
-    ':common': MochiKit.Format.EXPORT
+    "default": "en_US",
+    __export__: false
 };
 
 MochiKit.Format.__new__ = function () {
-    // MochiKit.Base.nameFunctions(this);
+    MochiKit.Base.nameFunctions(this);
     var base = this.NAME + ".";
     var k, v, o;
     for (k in this.LOCALE) {
@@ -264,16 +246,6 @@ MochiKit.Format.__new__ = function () {
         if (typeof(o) == "object") {
             o.repr = function () { return this.NAME; };
             o.NAME = base + "LOCALE." + k;
-        }
-    }
-    for (k in this) {
-        o = this[k];
-        if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
-            try {
-                o.NAME = base + k;
-            } catch (e) {
-                // pass
-            }
         }
     }
 };
