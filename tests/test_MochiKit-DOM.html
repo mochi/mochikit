@@ -179,7 +179,7 @@ try {
 
     */
 
-    d = createDOM("span", {"class": "foo"});
+    d = createDOM("span", {"class": "foo"}, "text");
     setElementClass(d, "bar baz");
     ok( d.className == "bar baz", "setElementClass");
     toggleElementClass("bar", d);
@@ -209,6 +209,7 @@ try {
     ok( hasElementClass(d, "baz"), "swapElementClass has toClass" );
     ok( !hasElementClass(d, "blah"), "swapElementClass !has fromClass" );
     ok( !hasElementClass("donotexist", "foo"), "hasElementClass invalid node id" );
+    ok( !hasElementClass(d.firstChild, "baz"), "hasElementClass for text node" );
 
     TABLE;
     TBODY;

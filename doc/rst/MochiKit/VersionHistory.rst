@@ -7,6 +7,7 @@
   download size.
 - Changed MochiKit.Selector.findChildElements to support element lookup
   via MochiKit.DOM.getElement.
+- Fixed MochiKit.DOM.hasElementClass handling of text DOM nodes (#330).
 
 2008-11-27      v1.4.2 (bug fix release)
 
