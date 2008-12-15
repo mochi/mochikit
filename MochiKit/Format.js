@@ -186,42 +186,96 @@ MochiKit.Format.strip = function (str, /* optional */chars) {
 
 /** @id MochiKit.Format.truncToFixed */
 MochiKit.Format.truncToFixed = function (aNumber, precision) {
-    var res = Math.floor(aNumber).toFixed(0);
-    if (aNumber < 0) {
-        res = Math.ceil(aNumber).toFixed(0);
-        if (res.charAt(0) != "-" && precision > 0) {
-            res = "-" + res;
-        }
+    var fixed = MochiKit.Format._numberToFixed(aNumber, precision);
+    var fracPos = fixed.indexOf(".");
+    if (fracPos > 0 && fracPos + precision + 1 < fixed.length) {
+        fixed = fixed.substring(0, fracPos + precision + 1);
+        fixed = MochiKit.Format._shiftNumber(fixed, 0);
     }
-    if (res.indexOf("e") < 0 && precision > 0) {
-        var tail = aNumber.toString();
-        if (tail.indexOf("e") > 0) {
-            tail = ".";
-        } else if (tail.indexOf(".") < 0) {
-            tail = ".";
-        } else {
-            tail = tail.substring(tail.indexOf("."));
-        }
-        if (tail.length - 1 > precision) {
-            tail = tail.substring(0, precision + 1);
-        }
-        while (tail.length - 1 < precision) {
-            tail += "0";
-        }
-        res += tail;
-    }
-    return res;
-};
+    return fixed;
+}
 
 /** @id MochiKit.Format.roundToFixed */
 MochiKit.Format.roundToFixed = function (aNumber, precision) {
-    var upper = Math.abs(aNumber) + 0.5 * Math.pow(10, -precision);
-    var res = MochiKit.Format.truncToFixed(upper, precision);
-    if (aNumber < 0) {
-        res = "-" + res;
+    var fixed = MochiKit.Format._numberToFixed(aNumber, precision);
+    var fracPos = fixed.indexOf(".");
+    if (fracPos > 0 && fracPos + precision + 1 < fixed.length) {
+        var str = MochiKit.Format._shiftNumber(fixed, precision);
+        str = MochiKit.Format._numberToFixed(Math.round(parseFloat(str)), 0);
+        fixed = MochiKit.Format._shiftNumber(str, -precision);
     }
-    return res;
-};
+    return fixed;
+}
+
+/**
+ * Converts a number to a fixed format string. This function handles
+ * conversion of exponents by shifting the decimal point to the left
+ * or the right. It also guarantees a specified minimum number of
+ * fractional digits (but no maximum).
+ *
+ * @param {Number} aNumber the number to convert
+ * @param {Number} precision the minimum number of decimal digits
+ *
+ * @return {String} the fixed format number string
+ */
+MochiKit.Format._numberToFixed = function (aNumber, precision) {
+    var str = aNumber.toString();
+    var parts = str.split(/[eE]/);
+    var exp = (parts.length === 1) ? 0 : parseInt(parts[1]) || 0;
+    var fixed = MochiKit.Format._shiftNumber(parts[0], exp);
+    parts = fixed.split(/\./);
+    var whole = parts[0];
+    var frac = (parts.length === 1) ? "" : parts[1];
+    while (frac.length < precision) {
+        frac += "0";
+    }
+    if (frac.length > 0) {
+        return whole + "." + frac;
+    } else {
+        return whole;
+    }
+}
+
+/**
+ * Shifts the decimal dot location in a fixed format number string.
+ * This function handles negative values and will add and remove
+ * leading and trailing zeros as needed.
+ *
+ * @param {String} num the fixed format number string
+ * @param {Number} exp the base-10 exponent to apply
+ *
+ * @return {String} the new fixed format number string
+ */
+MochiKit.Format._shiftNumber = function (num, exp) {
+    var pos = num.indexOf(".");
+    if (pos < 0) {
+        pos = num.length;
+    } else {
+        num = num.substring(0, pos) + num.substring(pos + 1);
+    }
+    pos += exp;
+    while (pos <= 0 || (pos <= 1 && num.charAt(0) === "-")) {
+        if (num.charAt(0) === "-") {
+            num = "-0" + num.substring(1);
+        } else {
+            num = "0" + num;
+        }
+        pos++;
+    }
+    while (pos > num.length) {
+        num += "0";
+    }
+    if (pos < num.length) {
+        num = num.substring(0, pos) + "." + num.substring(pos);
+    }
+    while (/^0[^.]/.test(num)) {
+        num = num.substring(1);
+    }
+    while (/^-0[^.]/.test(num)) {
+        num = "-" + num.substring(2);
+    }
+    return num;
+}
 
 /** @id MochiKit.Format.percentFormat */
 MochiKit.Format.percentFormat = function (aNumber) {
