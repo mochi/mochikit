@@ -57,6 +57,12 @@ try {
     is(pos.x, 400, 'updated x position (using relativeTo parameter)');
     is(pos.y, 100, 'updated y position (using relativeTo parameter)');
 
+    // using 0,0 relativeTo
+    anotherPos = new MochiKit.Style.Coordinates(0, 0);
+    pos = getElementPosition('styleTest', anotherPos);
+    is(pos.x, 500, 'updated x position (using 0,0 relativeTo parameter)');
+    is(pos.y, 200, 'updated y position (using 0,0 relativeTo parameter)');
+
     // Coordinates object
     pos = getElementPosition({x: 123, y: 321});
     is(pos.x, 123, 'passthrough x position');
