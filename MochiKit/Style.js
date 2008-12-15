@@ -10,9 +10,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 MochiKit.Base._module('Style', '1.5', ['Base', 'DOM']);
 
-/*
-    Dimensions
-*/
+
 /** @id MochiKit.Style.Dimensions */
 MochiKit.Style.Dimensions = function (w, h) {
     if (!(this instanceof MochiKit.Style.Dimensions)) {
@@ -32,9 +30,6 @@ MochiKit.Style.Dimensions.prototype.toString = function () {
 };
 
 
-/*
-    Coordinates
-*/
 /** @id MochiKit.Style.Coordinates */
 MochiKit.Style.Coordinates = function (x, y) {
     if (!(this instanceof MochiKit.Style.Coordinates)) {
@@ -179,12 +174,18 @@ MochiKit.Base.update(MochiKit.Style, {
     getElementPosition: function (elem, /* optional */relativeTo) {
         var self = MochiKit.Style;
         var dom = MochiKit.DOM;
-        elem = dom.getElement(elem);
+        var isCoordinates = function (o) {
+            return o != null &&
+                   o.nodeType == null &&
+                   typeof(o.x) == "number" &&
+                   typeof(o.y) == "number";
+        }
 
-        if (!elem ||
-            (!(elem.x && elem.y) &&
-            (!elem.parentNode === null ||
-            self.getStyle(elem, 'display') == 'none'))) {
+        if (!isCoordinates(elem)) {
+            elem = dom.getElement(elem);
+        }
+        if (elem == null ||
+            (!isCoordinates(elem) && self.getStyle(elem, 'display') == 'none')) {
             return undefined;
         }
 
@@ -277,7 +278,7 @@ MochiKit.Base.update(MochiKit.Style, {
             }
         }
 
-        if (typeof(relativeTo) != 'undefined') {
+        if (relativeTo) {
             relativeTo = arguments.callee(relativeTo);
             if (relativeTo) {
                 c.x -= (relativeTo.x || 0);
