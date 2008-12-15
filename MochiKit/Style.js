@@ -181,7 +181,7 @@ MochiKit.Base.update(MochiKit.Style, {
                    typeof(o.y) == "number";
         }
 
-        if (!isCoordinates(elem)) {
+        if (typeof(elem) == "string") {
             elem = dom.getElement(elem);
         }
         if (elem == null ||

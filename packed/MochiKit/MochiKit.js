@@ -4017,7 +4017,7 @@ var dom=MochiKit.DOM;
 var _439=function(o){
 return o!=null&&o.nodeType==null&&typeof (o.x)=="number"&&typeof (o.y)=="number";
 };
-if(!_439(elem)){
+if(typeof (elem)=="string"){
 elem=dom.getElement(elem);
 }
 if(elem==null||(!_439(elem)&&self.getStyle(elem,"display")=="none")){
