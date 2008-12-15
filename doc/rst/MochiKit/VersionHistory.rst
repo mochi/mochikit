@@ -8,6 +8,8 @@
 - Changed MochiKit.Selector.findChildElements to support element lookup
   via MochiKit.DOM.getElement.
 - Fixed MochiKit.DOM.hasElementClass handling of text DOM nodes (#330).
+- Reimplemented MochiKit.Format.truncToFixed and roundToFixed to resolve
+  rounding errors and other issues (#333).
 
 2008-11-27      v1.4.2 (bug fix release)
 
