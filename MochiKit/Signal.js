@@ -615,7 +615,9 @@ MochiKit.Base.update(MochiKit.Signal, {
 
     /** @id MochiKit.Signal.connect */
     connect: function (src, sig, objOrFunc/* optional */, funcOrStr) {
-        src = MochiKit.DOM.getElement(src);
+        if (typeof(src) == "string") {
+            src = MochiKit.DOM.getElement(src);
+        }
         var self = MochiKit.Signal;
 
         if (typeof(sig) != 'string') {
@@ -702,7 +704,10 @@ MochiKit.Base.update(MochiKit.Signal, {
         var m = MochiKit.Base;
         if (arguments.length > 1) {
             // compatibility API
-            var src = MochiKit.DOM.getElement(arguments[0]);
+            var src = arguments[0];
+            if (typeof(src) == "string") {
+                src = MochiKit.DOM.getElement(src);
+            }
             var sig = arguments[1];
             var obj = arguments[2];
             var func = arguments[3];
@@ -760,7 +765,9 @@ MochiKit.Base.update(MochiKit.Signal, {
 
     /** @id MochiKit.Signal.disconnectAll */
     disconnectAll: function (src/* optional */, sig) {
-        src = MochiKit.DOM.getElement(src);
+        if (typeof(src) == "string") {
+            src = MochiKit.DOM.getElement(src);
+        }
         var m = MochiKit.Base;
         var signals = m.flattenArguments(m.extend(null, arguments, 1));
         var self = MochiKit.Signal;
@@ -806,7 +813,9 @@ MochiKit.Base.update(MochiKit.Signal, {
     signal: function (src, sig) {
         var self = MochiKit.Signal;
         var observers = self._observers;
-        src = MochiKit.DOM.getElement(src);
+        if (typeof(src) == "string") {
+            src = MochiKit.DOM.getElement(src);
+        }
         var args = MochiKit.Base.extend(null, arguments, 2);
         var errors = [];
         self._lock = true;

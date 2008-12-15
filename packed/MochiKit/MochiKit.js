@@ -3115,7 +3115,10 @@ var m=MochiKit.Base;
 return m.partial.apply(this,m.extend([MochiKit.DOM.createDOM],arguments));
 },removeElement:function(elem){
 var self=MochiKit.DOM;
-var e=self.coerceToDOM(self.getElement(elem));
+if(typeof (elem)=="string"){
+elem=self.getElement(elem);
+}
+var e=self.coerceToDOM(elem);
 e.parentNode.removeChild(e);
 return e;
 },swapDOM:function(dest,src){
@@ -3123,7 +3126,10 @@ var self=MochiKit.DOM;
 dest=self.getElement(dest);
 var _369=dest.parentNode;
 if(src){
-src=self.coerceToDOM(self.getElement(src),_369);
+if(typeof (src)=="string"){
+src=self.getElement(src);
+}
+src=self.coerceToDOM(src,_369);
 _369.replaceChild(src,dest);
 }else{
 _369.removeChild(dest);
@@ -5301,7 +5307,9 @@ func=_581;
 }
 return [obj,func];
 },connect:function(src,sig,_587,_588){
+if(typeof (src)=="string"){
 src=MochiKit.DOM.getElement(src);
+}
 var self=MochiKit.Signal;
 if(typeof (sig)!="string"){
 throw new Error("'sig' must be a string");
@@ -5370,7 +5378,10 @@ var self=MochiKit.Signal;
 var _597=self._observers;
 var m=MochiKit.Base;
 if(arguments.length>1){
-var src=MochiKit.DOM.getElement(arguments[0]);
+var src=arguments[0];
+if(typeof (src)=="string"){
+src=MochiKit.DOM.getElement(src);
+}
 var sig=arguments[1];
 var obj=arguments[2];
 var func=arguments[3];
@@ -5421,7 +5432,9 @@ _5a3.splice(i,1);
 }
 self._dirty=_5a6;
 },disconnectAll:function(src,sig){
+if(typeof (src)=="string"){
 src=MochiKit.DOM.getElement(src);
+}
 var m=MochiKit.Base;
 var _5ac=m.flattenArguments(m.extend(null,arguments,1));
 var self=MochiKit.Signal;
@@ -5463,7 +5476,9 @@ self._dirty=_5b3;
 },signal:function(src,sig){
 var self=MochiKit.Signal;
 var _5b8=self._observers;
+if(typeof (src)=="string"){
 src=MochiKit.DOM.getElement(src);
+}
 var args=MochiKit.Base.extend(null,arguments,2);
 var _5ba=[];
 self._lock=true;

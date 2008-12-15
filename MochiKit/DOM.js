@@ -516,7 +516,10 @@ MochiKit.Base.update(MochiKit.DOM, {
     /** @id MochiKit.DOM.removeElement */
     removeElement: function (elem) {
         var self = MochiKit.DOM;
-        var e = self.coerceToDOM(self.getElement(elem));
+        if (typeof(elem) == "string") {
+            elem = self.getElement(elem);
+        }
+        var e = self.coerceToDOM(elem);
         e.parentNode.removeChild(e);
         return e;
     },
@@ -527,7 +530,10 @@ MochiKit.Base.update(MochiKit.DOM, {
         dest = self.getElement(dest);
         var parent = dest.parentNode;
         if (src) {
-            src = self.coerceToDOM(self.getElement(src), parent);
+            if (typeof(src) == "string") {
+                src = self.getElement(src);
+            }
+            src = self.coerceToDOM(src, parent);
             parent.replaceChild(src, dest);
         } else {
             parent.removeChild(dest);
