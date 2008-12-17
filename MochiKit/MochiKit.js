@@ -35,6 +35,7 @@ MochiKit.MochiKit.SUBMODULES = [
     "Logging",
     "DateTime",
     "Format",
+    "Text",
     "Async",
     "DOM",
     "Selector",
