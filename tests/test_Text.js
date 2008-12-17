@@ -3,34 +3,34 @@ if (typeof(tests) == 'undefined') { tests = {}; }
 tests.test_Text = function (t) {
 
     // startsWith tests
-    t.ok(startsWith("abc", "ab"), "startsWith for normal substring");
-    t.ok(!startsWith("abc", "bc"), "startsWith for non-matching substring");
-    t.ok(startsWith("aaaa", "aa"), "startsWith for repeated substring");
-    t.ok(!startsWith("abc", "abcde"), "startsWith for long substring");
-    t.ok(startsWith("abc", ""), "startsWith for blank substring");
+    t.ok(startsWith("ab", "abc"), "startsWith for normal substring");
+    t.ok(!startsWith("bc", "abc"), "startsWith for non-matching substring");
+    t.ok(startsWith("aa", "aaaa"), "startsWith for repeated substring");
+    t.ok(!startsWith("abcde", "abc"), "startsWith for long substring");
+    t.ok(startsWith("", "abc"), "startsWith for blank substring");
     t.ok(startsWith("", ""), "startsWith on empty strings");
-    t.ok(!startsWith(null, ""), "startsWith for null string");
-    t.ok(!startsWith("", null), "startsWith for null substring");
+    t.ok(!startsWith("", null), "startsWith for null string");
+    t.ok(!startsWith(null, ""), "startsWith for null substring");
 
     // endsWith tests
-    t.ok(endsWith("abc", "bc"), "endsWith for normal substring");
-    t.ok(!endsWith("abc", "ab"), "endsWith for non-matching substring");
-    t.ok(endsWith("aaaa", "aa"), "endsWith for repeated substring");
-    t.ok(!endsWith("abc", "abcde"), "endsWith for long substring");
-    t.ok(endsWith("abc", ""), "endsWith for blank substring");
+    t.ok(endsWith("bc", "abc"), "endsWith for normal substring");
+    t.ok(!endsWith("ab", "abc"), "endsWith for non-matching substring");
+    t.ok(endsWith("aa", "aaaa"), "endsWith for repeated substring");
+    t.ok(!endsWith("abcde", "abc"), "endsWith for long substring");
+    t.ok(endsWith("", "abc"), "endsWith for blank substring");
     t.ok(endsWith("", ""), "endsWith on empty strings");
-    t.ok(!endsWith(null, ""), "endsWith for null string");
-    t.ok(!endsWith("", null), "endsWith for null substring");
+    t.ok(!endsWith("", null), "endsWith for null string");
+    t.ok(!endsWith(null, ""), "endsWith for null substring");
 
     // contains tests
-    t.ok(contains("abcd", "bc"), "contains for normal substring");
-    t.ok(!contains("abc", "ac"), "contains for non-matching substring");
-    t.ok(contains("aaaa", "aa"), "contains for repeated substring");
-    t.ok(!contains("abc", "abcde"), "contains for long substring");
-    t.ok(contains("abc", ""), "contains for blank substring");
+    t.ok(contains("bc", "abcd"), "contains for normal substring");
+    t.ok(!contains("ac", "abc"), "contains for non-matching substring");
+    t.ok(contains("aa", "aaaa"), "contains for repeated substring");
+    t.ok(!contains("abcde", "abc"), "contains for long substring");
+    t.ok(contains("", "abc"), "contains for blank substring");
     t.ok(contains("", ""), "contains on empty strings");
-    t.ok(!contains(null, ""), "contains for null string");
-    t.ok(!contains("", null), "contains for null substring");
+    t.ok(!contains("", null), "contains for null string");
+    t.ok(!contains(null, ""), "contains for null substring");
 
     // padLeft tests
     t.is(padLeft("abc", 5), "  abc", "padLeft normal string");

@@ -14,13 +14,13 @@ MochiKit.Base._module('Text', '1.5', ['Base', 'Format']);
  * Checks if a text string starts with the specified substring. If
  * either of the two strings is null, false will be returned.
  *
- * @param {String} str the string to search in
  * @param {String} substr the substring to search for
+ * @param {String} str the string to search in
  *
  * @return {Boolean} true if the string starts with the substring, or
  *         false otherwise
  */
-MochiKit.Text.startsWith = function (str, substr) {
+MochiKit.Text.startsWith = function (substr, str) {
     return str != null && substr != null && str.indexOf(substr) == 0;
 }
 
@@ -28,13 +28,13 @@ MochiKit.Text.startsWith = function (str, substr) {
  * Checks if a text string ends with the specified substring. If
  * either of the two strings is null, false will be returned.
  *
- * @param {String} str the string to search in
  * @param {String} substr the substring to search for
+ * @param {String} str the string to search in
  *
  * @return {Boolean} true if the string ends with the substring, or
  *         false otherwise
  */
-MochiKit.Text.endsWith = function (str, substr) {
+MochiKit.Text.endsWith = function (substr, str) {
     return str != null && substr != null &&
            str.lastIndexOf(substr) == Math.max(str.length - substr.length, 0);
 }
@@ -43,13 +43,13 @@ MochiKit.Text.endsWith = function (str, substr) {
  * Checks if a text string contains the specified substring. If
  * either of the two strings is null, false will be returned.
  *
- * @param {String} str the string to search in
  * @param {String} substr the substring to search for
+ * @param {String} str the string to search in
  *
  * @return {Boolean} true if the string contains the substring, or
  *         false otherwise
  */
-MochiKit.Text.contains = function (str, substr) {
+MochiKit.Text.contains = function (substr, str) {
     return str != null && substr != null && str.indexOf(substr) >= 0;
 }
 
