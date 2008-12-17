@@ -22,9 +22,9 @@
 <div class="section">
 <h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
 <pre class="literal-block">
-assert( startsWith(&quot;abc&quot;, &quot;ab&quot;) );
-assert( endsWith(&quot;abc&quot;, &quot;bc&quot;) );
-assert( contains(&quot;abcd&quot;, &quot;bc&quot;) );
+assert( startsWith(&quot;ab&quot;, &quot;abcd&quot;) );
+assert( endsWith(&quot;cd&quot;, &quot;abcd&quot;) );
+assert( contains(&quot;bc&quot;, &quot;abcd&quot;) );
 assert( padLeft(&quot;abc&quot;, 5), &quot;  abc&quot; );
 assert( padRight(&quot;abc&quot;, 5, &quot;*&quot;), &quot;abc**&quot; );
 assert( truncate(&quot;abcd&quot;, 2) == &quot;ab&quot; );
@@ -182,7 +182,7 @@ character will be added to the end.</td>
 <h2><a id="functions" name="functions">Functions</a></h2>
 <p>
 <a name="fn-contains"></a>
-<a class="mochidef reference" href="#fn-contains">contains(str, substr)</a>:</p>
+<a class="mochidef reference" href="#fn-contains">contains(substr, str)</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">str</span></tt> contains <tt class="docutils literal"><span class="pre">substr</span></tt>, otherwise <tt class="docutils literal"><span class="pre">false</span></tt>.
 If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt class="docutils literal"><span class="pre">substr</span></tt> is null, <tt class="docutils literal"><span class="pre">false</span></tt> is returned.</p>
@@ -193,7 +193,7 @@ If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt 
 </blockquote>
 <p>
 <a name="fn-endswith"></a>
-<a class="mochidef reference" href="#fn-endswith">endsWith(str, substr)</a>:</p>
+<a class="mochidef reference" href="#fn-endswith">endsWith(substr, str)</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">str</span></tt> ends with <tt class="docutils literal"><span class="pre">substr</span></tt>, otherwise <tt class="docutils literal"><span class="pre">false</span></tt>.
 If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt class="docutils literal"><span class="pre">substr</span></tt> is null, <tt class="docutils literal"><span class="pre">false</span></tt> is returned.</p>
@@ -289,7 +289,7 @@ finally joins the results back together again using the same
 </blockquote>
 <p>
 <a name="fn-startswith"></a>
-<a class="mochidef reference" href="#fn-startswith">startsWith(str, substr)</a>:</p>
+<a class="mochidef reference" href="#fn-startswith">startsWith(substr, str)</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">str</span></tt> starts with <tt class="docutils literal"><span class="pre">substr</span></tt>, otherwise <tt class="docutils literal"><span class="pre">false</span></tt>.
 If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt class="docutils literal"><span class="pre">substr</span></tt> is null, <tt class="docutils literal"><span class="pre">false</span></tt> is returned.</p>

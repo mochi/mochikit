@@ -11,9 +11,9 @@ Synopsis
 
 ::
 
-   assert( startsWith("abc", "ab") );
-   assert( endsWith("abc", "bc") );
-   assert( contains("abcd", "bc") );
+   assert( startsWith("ab", "abcd") );
+   assert( endsWith("cd", "abcd") );
+   assert( contains("bc", "abcd") );
    assert( padLeft("abc", 5), "  abc" );
    assert( padRight("abc", 5, "*"), "abc**" );
    assert( truncate("abcd", 2) == "ab" );
@@ -158,7 +158,7 @@ API Reference
 Functions
 ---------
 
-:mochidef:`contains(str, substr)`:
+:mochidef:`contains(substr, str)`:
 
     Returns ``true`` if ``str`` contains ``substr``, otherwise ``false``.
     If either ``str`` or ``substr`` is null, ``false`` is returned.
@@ -167,7 +167,7 @@ Functions
         Available in MochiKit 1.5+
 
 
-:mochidef:`endsWith(str, substr)`:
+:mochidef:`endsWith(substr, str)`:
 
     Returns ``true`` if ``str`` ends with ``substr``, otherwise ``false``.
     If either ``str`` or ``substr`` is null, ``false`` is returned.
@@ -251,7 +251,7 @@ Functions
         Available in MochiKit 1.5+
 
 
-:mochidef:`startsWith(str, substr)`:
+:mochidef:`startsWith(substr, str)`:
 
     Returns ``true`` if ``str`` starts with ``substr``, otherwise ``false``.
     If either ``str`` or ``substr`` is null, ``false`` is returned.

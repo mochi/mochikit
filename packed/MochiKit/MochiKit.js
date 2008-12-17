@@ -2254,14 +2254,14 @@ o.NAME=base+"LOCALE."+k;
 MochiKit.Format.__new__();
 MochiKit.Base._exportSymbols(this,MochiKit.Format);
 MochiKit.Base._module("Text","1.5",["Base","Format"]);
-MochiKit.Text.startsWith=function(str,_29b){
-return str!=null&&_29b!=null&&str.indexOf(_29b)==0;
+MochiKit.Text.startsWith=function(_29a,str){
+return str!=null&&_29a!=null&&str.indexOf(_29a)==0;
 };
-MochiKit.Text.endsWith=function(str,_29d){
-return str!=null&&_29d!=null&&str.lastIndexOf(_29d)==Math.max(str.length-_29d.length,0);
+MochiKit.Text.endsWith=function(_29c,str){
+return str!=null&&_29c!=null&&str.lastIndexOf(_29c)==Math.max(str.length-_29c.length,0);
 };
-MochiKit.Text.contains=function(str,_29f){
-return str!=null&&_29f!=null&&str.indexOf(_29f)>=0;
+MochiKit.Text.contains=function(_29e,str){
+return str!=null&&_29e!=null&&str.indexOf(_29e)>=0;
 };
 MochiKit.Text.padLeft=function(str,_2a1,_2a2){
 str=str||"";
