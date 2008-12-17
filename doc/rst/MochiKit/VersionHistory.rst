@@ -12,6 +12,7 @@
   rounding errors and other issues (#333).
 - Fixed MochiKit.Style.getElementPosition when using a 0,0 relative
   position (#332).
+- Added new MochiKit.Text module to eventually replace MochiKit.Format.
 
 2008-11-27      v1.4.2 (bug fix release)
 

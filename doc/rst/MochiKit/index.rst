@@ -21,6 +21,7 @@ MochiKit - makes JavaScript suck a bit less
 - :mochiref:`MochiKit.Signal` - simple universal event handling
 - :mochiref:`MochiKit.Style` - painless CSS manipulation API
 - :mochiref:`MochiKit.Sortable` - sortable
+- :mochiref:`MochiKit.Text` - string formatting and helper functions
 - :mochiref:`MochiKit.Visual` - visual effects
 
 
