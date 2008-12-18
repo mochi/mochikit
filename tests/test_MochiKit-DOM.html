@@ -49,10 +49,12 @@
 
 <pre id="test">
 <script type="text/javascript">
-try {
 
-    lst = [];
-    o = {"blah": function () { lst.push("original"); }};
+if (typeof(tests) == 'undefined') { tests = {}; }
+
+tests.test_DOM = function () {
+    var lst = [];
+    var o = {"blah": function () { lst.push("original"); }};
     addToCallStack(o, "blah", function () { lst.push("new"); }, true);
     addToCallStack(o, "blah", function () { lst.push("stuff"); }, true);
     is( typeof(o.blah), 'function', 'addToCallStack has a function' );
@@ -339,12 +341,15 @@ try {
     is( getNodeAttribute(d, 'foo'), "bar", "createDOM attribute without Iter" );
     is( scrapeText(d), "one", "node contents without Iter" );
     MochiKit.Iter = Iter;
+}
 
+
+try {
+    SimpleTest.saveScope(this);
+    tests.test_DOM();
+    SimpleTest.verifyScope(this);
     ok( true, "test suite finished!");
-    
-    
 } catch (err) {
-    
     var s = "test suite failure!\n";
     var o = {};
     var k = null;
@@ -356,7 +361,6 @@ try {
         }
     }
     ok ( false, s );
-
 }
 </script>
 </pre>

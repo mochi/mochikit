@@ -50,8 +50,10 @@
     <div id="multiclass" class="multiple classnames here"></div>
 <pre id="test">
 <script type="text/javascript">
-try {
 
+if (typeof(tests) == 'undefined') { tests = {}; }
+
+tests.test_Selector = function () {
     var testExpected = function (res, exp, lbl) {
         for (var i=0; i < res.length; i ++) {
             is( res[i].href, exp[i], lbl + ' (' + i + ')');
@@ -270,12 +272,15 @@ try {
         is( $$(":root")[0], doc, ":root on a different document" );
         is( $$("a")[0], doc.body.firstChild, "a inside a different document" );
     });
+}
 
+
+try {
+    SimpleTest.saveScope(this);
+    tests.test_Selector();
+    SimpleTest.verifyScope(this);
     ok( true, "test suite finished!");
-    
-    
 } catch (err) {
-    
     var s = "test suite failure!\n";
     var o = {};
     var k = null;
@@ -287,7 +292,6 @@ try {
         }
     }
     ok ( false, s );
-
 }
 </script>
 </pre>
