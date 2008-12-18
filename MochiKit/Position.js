@@ -142,7 +142,7 @@ MochiKit.Base.update(MochiKit.Position, {
             valueL += element.offsetLeft || 0;
             element = element.offsetParent;
             if (element) {
-                p = MochiKit.Style.getStyle(element, 'position');
+                var p = MochiKit.Style.getStyle(element, 'position');
                 if (p == 'relative' || p == 'absolute') {
                     break;
                 }
