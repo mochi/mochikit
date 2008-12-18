@@ -494,7 +494,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 fn = Array;
             }
             var length = null;
-            for (i = 1; i < arguments.length; i++) {
+            for (var i = 1; i < arguments.length; i++) {
                 // allow iterables to be passed
                 if (!isArrayLike(arguments[i])) {
                     if (itr) {
@@ -510,7 +510,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 }
             }
             rval = [];
-            for (i = 0; i < length; i++) {
+            for (var i = 0; i < length; i++) {
                 var args = [];
                 for (var j = 1; j < arguments.length; j++) {
                     args.push(arguments[j][i]);
@@ -562,7 +562,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 }
             }
         } else {
-            for (i = 0; i < lst.length; i++) {
+            for (var i = 0; i < lst.length; i++) {
                 o = lst[i];
                 if (fn.call(self, o)) {
                     rval.push(o);
@@ -1238,7 +1238,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 arr.push(decode(pair.join("=")));
             }
         } else {
-            for (i = 0; i < pairs.length; i++) {
+            for (var i = 0; i < pairs.length; i++) {
                 pair = pairs[i].split("=");
                 var name = pair.shift();
                 if (!name) {
