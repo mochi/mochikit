@@ -27,7 +27,10 @@ SimpleTest._scopeCopy = {};
  * Saves a copy of the specified scope variables.
  */
 SimpleTest.saveScope = function (scope) {
-    SimpleTest._scopeCopy = MochiKit.Base.update({}, scope);
+    SimpleTest._scopeCopy = {};
+    for (var k in scope) {
+        SimpleTest._scopeCopy[k] = scope[k];
+    }
 }
 
 /**
@@ -35,7 +38,7 @@ SimpleTest.saveScope = function (scope) {
  * any differences as test failures.
  */
 SimpleTest.verifyScope = function (scope) {
-    var filter = ['_firebug','_FirebugConsole','XMLHttpRequest','Audio',
+    var filter = ['test', '_firebug','_FirebugConsole','XMLHttpRequest','Audio',
                   'XSLTProcessor','Option','Image','scrollMaxX','scrollMaxY',
                   'clipboardData'];
     for (var k in scope) {
