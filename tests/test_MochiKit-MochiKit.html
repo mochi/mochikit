@@ -1,17 +1,59 @@
 <html>
 <head>
-    <script type="text/javascript" src="../MochiKit/MochiKit.js"></script>
+    <script type="text/javascript">
+var MochiKit = {
+    __export__: false,
+    DOM: {
+        addLoadEvent: function (func) {
+            // hack to allow SimpleTest loading before MochiKit...
+            window.onload = func;
+        }
+    }
+};
+    </script>
     <script type="text/javascript" src="SimpleTest/SimpleTest.js"></script>        
+    <script type="text/javascript">
+delete MochiKit.DOM;
+SimpleTest.saveScope(this);
+    </script>
+    <script type="text/javascript" src="../MochiKit/MochiKit.js"></script>
     <link rel="stylesheet" type="text/css" href="SimpleTest/test.css">
 </head>
 <body>
 
 <pre id="test">
 <script type="text/javascript">
-    is( isUndefined(null), false, "null is not undefined" );
-    is( isUndefined(""), false, "empty string is not undefined" );
-    is( isUndefined(undefined), true, "undefined is undefined" );
-    is( isUndefined({}.foo), true, "missing property is undefined" );
+try {
+    (function () {
+        // Test import of MochiKit.Base
+        var b = MochiKit.Base;
+        is( b.isUndefined(null), false, "null is not undefined" );
+        is( b.isUndefined(""), false, "empty string is not undefined" );
+        is( b.isUndefined(undefined), true, "undefined is undefined" );
+        is( b.isUndefined({}.foo), true, "missing property is undefined" );
+
+        // Test export flag
+        try {
+            is( isUndefined, undefined, "__export__ flag works");
+        } catch (e) {
+            ok( true, "__export__ flag works");
+        }
+    })();
+    SimpleTest.verifyScope(this);
+    ok( true, "test suite finished!");
+} catch (err) {
+    var s = "test suite failure!\n";
+    var o = {};
+    var k = null;
+    for (k in err) {
+        // ensure unique keys?!
+        if (!o[k]) {
+            s +=  k + ": " + err[k] + "\n";
+            o[k] = err[k];
+        }
+    }
+    ok ( false, s );    
+}
 </script>
 </pre>
 </body>
