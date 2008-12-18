@@ -341,6 +341,22 @@ MochiKit.Base.update(MochiKit.Base, {
         };
     },
 
+    /** @id MochiKit.Base.bool */
+    bool: function (value) {
+        if (typeof(value) === "boolean" || value instanceof Boolean) {
+            return value.valueOf();
+        } else if (typeof(value) === "string" || value instanceof String) {
+            return value.length > 0 && value != "false" && value != "null" &&
+                   value != "undefined" && value != "0";
+        } else if (typeof(value) === "number" || value instanceof Number) {
+            return !isNaN(value) && value != 0;
+        } else if (value != null && typeof(value.length) === "number") {
+            return value.length !== 0
+        } else {
+            return value != null;
+        }
+    },
+
     /** @id MochiKit.Base.typeMatcher */
     typeMatcher: function (/* typ */) {
         var types = {};
