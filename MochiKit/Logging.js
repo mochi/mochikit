@@ -103,9 +103,6 @@ MochiKit.Logging.Logger.prototype = {
         } else if (typeof(opera) != "undefined" && opera.postError) {
             // Opera
             opera.postError(msg);
-        } else if (typeof(printfire) == "function") {
-            // FireBug 0.3 and earlier
-            printfire(msg);
         } else if (typeof(Debug) != "undefined" && Debug.writeln) {
             // IE Web Development Helper (?)
             // http://www.nikhilk.net/Entry.aspx?id=93
@@ -259,18 +256,6 @@ MochiKit.Logging.__new__ = function () {
 
     m.nameFunctions(this);
 };
-
-if (typeof(printfire) == "undefined" &&
-        typeof(document) != "undefined" && document.createEvent &&
-        typeof(dispatchEvent) != "undefined") {
-    // FireBug really should be less lame about this global function
-    printfire  = function () {
-        printfire.args = arguments;
-        var ev = document.createEvent("Events");
-        ev.initEvent("printfire", false, true);
-        dispatchEvent(ev);
-    };
-}
 
 MochiKit.Logging.__new__();
 
