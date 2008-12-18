@@ -471,7 +471,7 @@ tests.test_Base = function (t) {
     var aa = {"foo": {"bar": 12, "wibble": 13}};
     var bb = {"foo": {"baz": 4, "bar": 16}, "bar": 4};
     
-    cc = updatetree(null, aa, bb);
+    var cc = updatetree(null, aa, bb);
     got = items(cc.foo);
     got.sort(compare);
     t.is( repr(got), repr(expect), "updatetree merge (self is null)" );

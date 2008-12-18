@@ -129,10 +129,11 @@ tests.test_Iter = function (t) {
         }
     }
 
-    odd = partial(operator.and, 1)
+    var odd = partial(operator.and, 1)
 
     // empty
-    grouped = groupby([]);
+    var kv, key, k, v, subiter;
+    var grouped = groupby([]);
     except(StopIteration, grouped.next);
 
     // exhaust sub-iterator
@@ -171,7 +172,7 @@ tests.test_Iter = function (t) {
     t.is(k, null, "null ok");
 
     // groupby - array version
-    isEqual = (t.isDeeply || function (a, b, msg) {
+    var isEqual = (t.isDeeply || function (a, b, msg) {
         return t.ok(compare(a, b) == 0, msg);
     });
     isEqual(groupby_as_array([ ]    ), [                        ], "empty");
