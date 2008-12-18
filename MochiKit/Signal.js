@@ -407,7 +407,7 @@ MochiKit.Signal._specialMacKeys = {
 /* for KEY_F1 - KEY_F12 */
 (function () {
     var _specialMacKeys = MochiKit.Signal._specialMacKeys;
-    for (i = 63236; i <= 63242; i++) {
+    for (var i = 63236; i <= 63242; i++) {
         // no F0
         _specialMacKeys[i] = 'KEY_F' + (i - 63236 + 1);
     }
