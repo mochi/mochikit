@@ -47,9 +47,9 @@ MochiKit.DragAndDrop.Droppables = {
     },
 
     findDeepestChild: function (drops) {
-        deepest = drops[0];
+        var deepest = drops[0];
 
-        for (i = 1; i < drops.length; ++i) {
+        for (var i = 1; i < drops.length; ++i) {
             if (MochiKit.DOM.isChildNode(drops[i].element, deepest.element)) {
                 deepest = drops[i];
             }
@@ -72,7 +72,7 @@ MochiKit.DragAndDrop.Droppables = {
             }
         });
         if (affected.length > 0) {
-            drop = this.findDeepestChild(affected);
+            var drop = this.findDeepestChild(affected);
             MochiKit.Position.within(drop.element, point.page.x, point.page.y);
             drop.options.onhover(element, drop.element,
                 MochiKit.Position.overlap(drop.options.overlap, drop.element));
