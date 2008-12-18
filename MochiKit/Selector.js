@@ -354,7 +354,8 @@ MochiKit.Base.update(MochiKit.Selector, {
         return MochiKit.Base.flattenArray(MochiKit.Base.map(function (expression) {
             var nextScope = "";
             var reducer = function (results, expr) {
-                if (match = expr.match(/^[>+~]$/)) {
+                var match = expr.match(/^[>+~]$/);
+                if (match) {
                     nextScope = match[0];
                     return results;
                 } else {
