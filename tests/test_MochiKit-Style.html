@@ -32,8 +32,9 @@
 <pre id="test">
 <script type="text/javascript">
 
-try {
+if (typeof(tests) == 'undefined') { tests = {}; }
 
+tests.test_Style = function () {
     // initial
     var pos = getElementPosition('styleTest');
     is(pos.x, 400, 'initial x position');
@@ -52,7 +53,7 @@ try {
     is(pos.y, 200, 'updated y position');
 
     // moved with relativeTo
-    anotherPos = new MochiKit.Style.Coordinates(100, 100);
+    var anotherPos = new MochiKit.Style.Coordinates(100, 100);
     pos = getElementPosition('styleTest', anotherPos);
     is(pos.x, 400, 'updated x position (using relativeTo parameter)');
     is(pos.y, 100, 'updated y position (using relativeTo parameter)');
@@ -204,12 +205,15 @@ try {
     undoClipping('styleTest', overflow);
     is(getStyle('styleTest', 'overflow-x'), 'visible', 'undo clipping on overflow-x');
     is(getStyle('styleTest', 'overflow-y'), 'hidden', 'undo clipping on overflow-y');
+}
 
+
+try {
+    SimpleTest.saveScope(this);
+    tests.test_Style();
+    SimpleTest.verifyScope(this);
     ok( true, "test suite finished!");
-
-
 } catch (err) {
-
     var s = "test suite failure!\n";
     var o = {};
     var k = null;
@@ -221,7 +225,6 @@ try {
         }
     }
     ok ( false, s );
-
 }
 </script>
 </pre>

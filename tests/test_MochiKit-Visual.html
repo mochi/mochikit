@@ -33,7 +33,11 @@
 <div id='elt3'>elt3</div>
 <pre id="test">
 <script type="text/javascript">
-try {
+
+if (typeof(tests) == 'undefined') { tests = {}; }
+
+tests.test_Visual = function () {
+
     var TestQueue = function () {
     };
 
@@ -171,11 +175,14 @@ try {
     }
     Scale("elt1", 1);
     ok(true, "Scale doesn't need 'new' keyword");
-    
+}
+
+try {
+    SimpleTest.saveScope(this);
+    tests.test_Visual();
+    SimpleTest.verifyScope(this);
     ok(true, "visual suite finished");
-
 } catch (err) {
-
     var s = "test suite failure!\n";
     var o = {};
     var k = null;
@@ -188,7 +195,6 @@ try {
     }
     ok ( false, s );
     SimpleTest.finish();
-
 }
 </script>
 </pre>
