@@ -616,7 +616,7 @@ MochiKit.Base.update(MochiKit.Signal, {
     /** @id MochiKit.Signal.connect */
     connect: function (src, sig, objOrFunc/* optional */, funcOrStr) {
         if (typeof(src) == "string") {
-            src = MochiKit.DOM.getElement(src);
+            src = MochiKit.DOM.getElement(src);	    
         }
         var self = MochiKit.Signal;
 

@@ -14,10 +14,6 @@ MochiKit.Selector.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
 
-MochiKit.Selector.toString = function () {
-    return this.__repr__();
-};
-
 MochiKit.Selector.EXPORT = [
     "Selector",
     "findRelatedElements",
@@ -37,7 +33,7 @@ MochiKit.Base.update(MochiKit.Selector, {
     /** @id MochiKit.Selector.findRelatedElements */
     findRelatedElements: function (element, expressions) {
         return MochiKit.Base.flattenArray(MochiKit.Base.map(function (expression) {
-            return Sizzle(expression, element);
+            return MochiKit.Selector.Sizzle(expression, element);
         }, expressions));
     },
 
@@ -64,10 +60,14 @@ MochiKit.Selector.__new__();
 MochiKit.Base._exportSymbols(this, MochiKit.Selector);
 
 
-/* The rest of this file is (c) John Resig, 2008
+/* The rest of this file is (c) John Resig, 2009
  * Copied from the Sizzle selector library.
  * See: http://github.com/jeresig/sizzle/tree/master/sizzle.js
+ * The only modification is how the Sizzle object is exposed (last line)
  */
+
+(function(){
+ 
 var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]*\]|[^[\]]+)+\]|\\.|[^ >+~,(\[]+)+|[>+~])(\s*,\s*)?/g,
   done = 0,
   toString = Object.prototype.toString;
@@ -872,3 +872,7 @@ var contains = document.compareDocumentPosition ? function(a, b){
   return a !== b && (a.contains ? a.contains(b) : true);
 };
  
+// EXPOSE
+MochiKit.Selector.Sizzle = Sizzle;
+ 
+})();
