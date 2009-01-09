@@ -27,7 +27,7 @@ tests.test_Signal = function (t) {
         i++;
     };
 
-    ident = connect('submit', 'onclick', aFunction);
+    ident = connect('#submit', 'onclick', aFunction);
     MochiKit.DOM.getElement('submit').click();
     t.is(i, 1, 'HTML onclick event can be connected to a function');
 
@@ -115,7 +115,7 @@ tests.test_Signal = function (t) {
         };
 
 
-        ident = connect('submit', 'onmousedown', eventTest);
+        ident = connect('#submit', 'onmousedown', eventTest);
         triggerMouseEvent('submit', 'mousedown', false);
         t.is(i, 4, 'Connecting an event to an HTML object and firing a synthetic event');
 
@@ -123,7 +123,7 @@ tests.test_Signal = function (t) {
         triggerMouseEvent('submit', 'mousedown', false);
         t.is(i, 4, 'Disconnecting an event to an HTML object and firing a synthetic event');
 
-        ident = connect('submit', 'onmousewheel', function(e) {
+        ident = connect('#submit', 'onmousewheel', function(e) {
             i++;
             t.ok((typeof(e.mouse()) === 'object'), 'checking that mouse() is an object');
             t.ok((typeof(e.mouse().wheel) === 'object'), 'checking that mouse().wheel is an object');
