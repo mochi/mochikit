@@ -14,11 +14,12 @@
 <script type="text/javascript" src="test_Format.js"></script>
 <script type="text/javascript">
 try {
-    SimpleTest.saveScope(this);
+        
     tests.test_Format({ok:ok, is:is});
-    SimpleTest.verifyScope(this);
     ok( true, "test suite finished!");
+    
 } catch (err) {
+    
     var s = "test suite failure!\n";
     var o = {};
     var k = null;
@@ -30,6 +31,7 @@ try {
         }
     }
     ok ( false, s );
+
 }
 </script>
 </pre>

@@ -33,11 +33,7 @@
 <div id='elt3'>elt3</div>
 <pre id="test">
 <script type="text/javascript">
-
-if (typeof(tests) == 'undefined') { tests = {}; }
-
-tests.test_Visual = function () {
-
+try {
     var TestQueue = function () {
     };
 
@@ -104,8 +100,8 @@ tests.test_Visual = function () {
         is(getStyle("elt1", "margin-left"), "4px", "Morph multiple (margin) OK");
     }});
 
-    Morph("elt1", {"style": {"font-style": "italic"}, afterFinish: function () {
-        is(getStyle("elt1", "font-style"), "italic", "Morph generic property OK");
+    Morph("elt1", {"style": {"font-weight": "bold"}, afterFinish: function () {
+        is(getStyle("elt1", "font-weight"), "bold", "Morph OK");
     }});
 
     switchOff("elt1", {afterFinish: function () {
@@ -175,14 +171,11 @@ tests.test_Visual = function () {
     }
     Scale("elt1", 1);
     ok(true, "Scale doesn't need 'new' keyword");
-}
-
-try {
-    SimpleTest.saveScope(this);
-    tests.test_Visual();
-    SimpleTest.verifyScope(this);
+    
     ok(true, "visual suite finished");
+
 } catch (err) {
+
     var s = "test suite failure!\n";
     var o = {};
     var k = null;
@@ -195,6 +188,7 @@ try {
     }
     ok ( false, s );
     SimpleTest.finish();
+
 }
 </script>
 </pre>

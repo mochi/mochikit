@@ -1,3 +1,5 @@
+if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.Logging'); }
+if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.Logging'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_Logging = function (t) {

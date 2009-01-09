@@ -1,3 +1,5 @@
+if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.DateTime'); }
+if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.DateTime'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_DateTime = function (t) {

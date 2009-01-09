@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Async 1.5
+MochiKit.Async 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,7 +8,16 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Async', '1.5', ['Base']);
+MochiKit.Base._deps('Async', ['Base']);
+
+MochiKit.Async.NAME = "MochiKit.Async";
+MochiKit.Async.VERSION = "1.4";
+MochiKit.Async.__repr__ = function () {
+    return "[" + this.NAME + " " + this.VERSION + "]";
+};
+MochiKit.Async.toString = function () {
+    return this.__repr__();
+};
 
 /** @id MochiKit.Async.Deferred */
 MochiKit.Async.Deferred = function (/* optional */ canceller) {
@@ -562,6 +571,32 @@ MochiKit.Async.maybeDeferred = function (func) {
 };
 
 
+MochiKit.Async.EXPORT = [
+    "AlreadyCalledError",
+    "CancelledError",
+    "BrowserComplianceError",
+    "GenericError",
+    "XMLHttpRequestError",
+    "Deferred",
+    "succeed",
+    "fail",
+    "getXMLHttpRequest",
+    "doSimpleXMLHttpRequest",
+    "loadJSONDoc",
+    "wait",
+    "callLater",
+    "sendXMLHttpRequest",
+    "DeferredLock",
+    "DeferredList",
+    "gatherResults",
+    "maybeDeferred",
+    "doXHR"
+];
+
+MochiKit.Async.EXPORT_OK = [
+    "evalJSONRequest"
+];
+
 MochiKit.Async.__new__ = function () {
     var m = MochiKit.Base;
     var ne = m.partial(m._newNamedError, this);
@@ -632,7 +667,14 @@ MochiKit.Async.__new__ = function () {
         }
     );
 
+
+    this.EXPORT_TAGS = {
+        ":common": this.EXPORT,
+        ":all": m.concat(this.EXPORT, this.EXPORT_OK)
+    };
+
     m.nameFunctions(this);
+
 };
 
 MochiKit.Async.__new__();

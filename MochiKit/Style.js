@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Style 1.5
+MochiKit.Style 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,14 +8,46 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Style', '1.5', ['Base', 'DOM']);
+MochiKit.Base._deps('Style', ['Base', 'DOM']);
+
+MochiKit.Style.NAME = 'MochiKit.Style';
+MochiKit.Style.VERSION = '1.4';
+MochiKit.Style.__repr__ = function () {
+    return '[' + this.NAME + ' ' + this.VERSION + ']';
+};
+MochiKit.Style.toString = function () {
+    return this.__repr__();
+};
+
+MochiKit.Style.EXPORT_OK = [];
+
+MochiKit.Style.EXPORT = [
+    'setStyle',
+    'setOpacity',
+    'getStyle',
+    'getElementDimensions',
+    'elementDimensions', // deprecated
+    'setElementDimensions',
+    'getElementPosition',
+    'elementPosition', // deprecated
+    'setElementPosition',
+    'setDisplayForElement',
+    'hideElement',
+    'showElement',
+    'getViewportDimensions',
+    'getViewportPosition',
+    'Dimensions',
+    'Coordinates'
+];
 
 
+/*
+
+    Dimensions
+
+*/
 /** @id MochiKit.Style.Dimensions */
 MochiKit.Style.Dimensions = function (w, h) {
-    if (!(this instanceof MochiKit.Style.Dimensions)) {
-        return new MochiKit.Style.Dimensions(w, h);
-    }
     this.w = w;
     this.h = h;
 };
@@ -30,11 +62,13 @@ MochiKit.Style.Dimensions.prototype.toString = function () {
 };
 
 
+/*
+
+    Coordinates
+
+*/
 /** @id MochiKit.Style.Coordinates */
 MochiKit.Style.Coordinates = function (x, y) {
-    if (!(this instanceof MochiKit.Style.Coordinates)) {
-        return new MochiKit.Style.Coordinates(x, y);
-    }
     this.x = x;
     this.y = y;
 };
@@ -174,18 +208,12 @@ MochiKit.Base.update(MochiKit.Style, {
     getElementPosition: function (elem, /* optional */relativeTo) {
         var self = MochiKit.Style;
         var dom = MochiKit.DOM;
-        var isCoordinates = function (o) {
-            return o != null &&
-                   o.nodeType == null &&
-                   typeof(o.x) == "number" &&
-                   typeof(o.y) == "number";
-        }
+        elem = dom.getElement(elem);
 
-        if (typeof(elem) == "string") {
-            elem = dom.getElement(elem);
-        }
-        if (elem == null ||
-            (!isCoordinates(elem) && self.getStyle(elem, 'display') == 'none')) {
+        if (!elem ||
+            (!(elem.x && elem.y) &&
+            (!elem.parentNode === null ||
+            self.getStyle(elem, 'display') == 'none'))) {
             return undefined;
         }
 
@@ -228,8 +256,6 @@ MochiKit.Base.update(MochiKit.Style, {
 
             if (parent != elem) {
                 while (parent) {
-                    c.x += parseInt(parent.style.borderLeftWidth) || 0;
-                    c.y += parseInt(parent.style.borderTopWidth) || 0;
                     c.x += parent.offsetLeft;
                     c.y += parent.offsetTop;
                     parent = parent.offsetParent;
@@ -278,7 +304,7 @@ MochiKit.Base.update(MochiKit.Style, {
             }
         }
 
-        if (relativeTo) {
+        if (typeof(relativeTo) != 'undefined') {
             relativeTo = arguments.callee(relativeTo);
             if (relativeTo) {
                 c.x -= (relativeTo.x || 0);
@@ -306,57 +332,6 @@ MochiKit.Base.update(MochiKit.Style, {
         MochiKit.DOM.updateNodeAttributes(elem, {'style': newStyle});
     },
 
-    /** @id MochiKit.Style.makePositioned */
-    makePositioned: function (element) {
-        element = MochiKit.DOM.getElement(element);
-        var pos = MochiKit.Style.getStyle(element, 'position');
-        if (pos == 'static' || !pos) {
-            element.style.position = 'relative';
-            // Opera returns the offset relative to the positioning context,
-            // when an element is position relative but top and left have
-            // not been defined
-            if (/Opera/.test(navigator.userAgent)) {
-                element.style.top = 0;
-                element.style.left = 0;
-            }
-        }
-    },
-
-    /** @id MochiKit.Style.undoPositioned */
-    undoPositioned: function (element) {
-        element = MochiKit.DOM.getElement(element);
-        if (element.style.position == 'relative') {
-            element.style.position = element.style.top = element.style.left = element.style.bottom = element.style.right = '';
-        }
-    },
-
-    /** @id MochiKit.Style.makeClipping */
-    makeClipping: function (element) {
-        element = MochiKit.DOM.getElement(element);
-        var s = element.style;
-        var oldOverflow = { 'overflow': s.overflow,
-                            'overflow-x': s.overflowX,
-                            'overflow-y': s.overflowY };
-        if ((MochiKit.Style.getStyle(element, 'overflow') || 'visible') != 'hidden') {
-            element.style.overflow = 'hidden';
-            element.style.overflowX = 'hidden';
-            element.style.overflowY = 'hidden';
-        }
-        return oldOverflow;
-    },
-
-    /** @id MochiKit.Style.undoClipping */
-    undoClipping: function (element, overflow) {
-        element = MochiKit.DOM.getElement(element);
-        if (typeof(overflow) == 'string') {
-            element.style.overflow = overflow;
-        } else if (overflow != null) {
-            element.style.overflow = overflow['overflow'];
-            element.style.overflowX = overflow['overflow-x'];
-            element.style.overflowY = overflow['overflow-y'];
-        }
-    },
-
     /** @id MochiKit.Style.getElementDimensions */
     getElementDimensions: function (elem, contentSize/*optional*/) {
         var self = MochiKit.Style;
@@ -377,7 +352,7 @@ MochiKit.Base.update(MochiKit.Style, {
             var originalDisplay = s.display;
             s.visibility = 'hidden';
             s.position = 'absolute';
-            s.display = self._getDefaultDisplay(elem);
+            s.display = '';
             var originalWidth = elem.offsetWidth;
             var originalHeight = elem.offsetHeight;
             s.display = originalDisplay;
@@ -452,17 +427,6 @@ MochiKit.Base.update(MochiKit.Style, {
         MochiKit.DOM.updateNodeAttributes(elem, {'style': newStyle});
     },
 
-    _getDefaultDisplay: function (elem) {
-        var self = MochiKit.Style;
-        var dom = MochiKit.DOM;
-        elem = dom.getElement(elem);
-        if (!elem) {
-            return undefined;
-        }
-        var tagName = elem.tagName.toUpperCase();
-        return self._defaultDisplay[tagName] || 'block';
-    },
-
     /** @id MochiKit.Style.setDisplayForElement */
     setDisplayForElement: function (display, element/*, ...*/) {
         var elements = MochiKit.Base.extend(null, arguments, 1);
@@ -478,12 +442,14 @@ MochiKit.Base.update(MochiKit.Style, {
     /** @id MochiKit.Style.getViewportDimensions */
     getViewportDimensions: function () {
         var d = new MochiKit.Style.Dimensions();
+
         var w = MochiKit.DOM._window;
         var b = MochiKit.DOM._document.body;
+
         if (w.innerWidth) {
             d.w = w.innerWidth;
             d.h = w.innerHeight;
-        } else if (b && b.parentElement && b.parentElement.clientWidth) {
+        } else if (b.parentElement.clientWidth) {
             d.w = b.parentElement.clientWidth;
             d.h = b.parentElement.clientHeight;
         } else if (b && b.clientWidth) {
@@ -512,43 +478,16 @@ MochiKit.Base.update(MochiKit.Style, {
     __new__: function () {
         var m = MochiKit.Base;
 
-        var inlines = ['A','ABBR','ACRONYM','B','BASEFONT','BDO','BIG','BR',
-                       'CITE','CODE','DFN','EM','FONT','I','IMG','KBD','LABEL',
-                       'Q','S','SAMP','SMALL','SPAN','STRIKE','STRONG','SUB',
-                       'SUP','TEXTAREA','TT','U','VAR'];
-        this._defaultDisplay = { 'TABLE': 'table',
-                                 'THEAD': 'table-header-group',
-                                 'TBODY': 'table-row-group',
-                                 'TFOOT': 'table-footer-group',
-                                 'COLGROUP': 'table-column-group',
-                                 'COL': 'table-column',
-                                 'TR': 'table-row',
-                                 'TD': 'table-cell',
-                                 'TH': 'table-cell',
-                                 'CAPTION': 'table-caption',
-                                 'LI': 'list-item',
-                                 'INPUT': 'inline-block',
-                                 'SELECT': 'inline-block' };
-        // CSS 'display' support in IE6/7 is just broken...
-        if (/MSIE/.test(navigator.userAgent)) {
-            for (var k in this._defaultDisplay) {
-                var v = this._defaultDisplay[k];
-                if (v.indexOf('table') == 0) {
-                    this._defaultDisplay[k] = 'block';
-                }
-            }
-        }
-        for (var i = 0; i < inlines.length; i++) {
-            this._defaultDisplay[inlines[i]] = 'inline';
-        }
-
-        // Backwards compatibility aliases
-        m._deprecated(this, 'elementPosition', 'MochiKit.Style.getElementPosition', '1.3');
-        m._deprecated(this, 'elementDimensions', 'MochiKit.Style.getElementDimensions', '1.3');
+        this.elementPosition = this.getElementPosition;
+        this.elementDimensions = this.getElementDimensions;
 
         this.hideElement = m.partial(this.setDisplayForElement, 'none');
-        // TODO: showElement could be improved by using getDefaultDisplay.
         this.showElement = m.partial(this.setDisplayForElement, 'block');
+
+        this.EXPORT_TAGS = {
+            ':common': this.EXPORT,
+            ':all': m.concat(this.EXPORT, this.EXPORT_OK)
+        };
 
         m.nameFunctions(this);
     }

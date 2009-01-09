@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
 <title>MochiKit.Signal - Simple universal event handling</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -40,13 +40,6 @@ myObject.wasClicked = function(e) {
     var crossBrowserCoordinates = e.mouse().page;
     // e.mouse().page is a MochiKit.Style.Coordinates object
 }
-
-// stops the default action for a click event
-connect('myID', 'onclick', function(e) { e.stop(); });
-
-// triggers a fake DOM event for the above handler
-var fakeEvent = { /* add properties and functions needed here */ };
-signal('myID', 'onclick', fakeEvent);
 </pre>
 <p>Signal for non-DOM events:</p>
 <pre class="literal-block">
@@ -282,13 +275,10 @@ signals connected to dest using func.</p>
 <blockquote>
 <p>This will signal a signal, passing whatever additional parameters
 on to the connected slots. <tt class="docutils literal"><span class="pre">src</span></tt> and <tt class="docutils literal"><span class="pre">signal</span></tt> are the same as
-for <a class="mochiref reference" href="#fn-connect">connect()</a>. Note that when using this function for
-DOM signals, a single event argument is expected by most listeners
-(see DOM Custom Event Object Reference below).</p>
+for <a class="mochiref reference" href="#fn-connect">connect()</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1+, modified DOM signalling in
-MochiKit 1.5+</dd>
+<dd>Available in MochiKit 1.3.1+</dd>
 </dl>
 </blockquote>
 </div>

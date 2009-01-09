@@ -31,12 +31,6 @@ Signal for DOM events::
         // e.mouse().page is a MochiKit.Style.Coordinates object
     }
 
-    // stops the default action for a click event
-    connect('myID', 'onclick', function(e) { e.stop(); });
-
-    // triggers a fake DOM event for the above handler
-    var fakeEvent = { /* add properties and functions needed here */ };
-    signal('myID', 'onclick', fakeEvent);
 
 Signal for non-DOM events::
 
@@ -302,13 +296,10 @@ Signal API Reference
 
     This will signal a signal, passing whatever additional parameters
     on to the connected slots. ``src`` and ``signal`` are the same as
-    for :mochiref:`connect()`. Note that when using this function for
-    DOM signals, a single event argument is expected by most listeners
-    (see DOM Custom Event Object Reference below).
+    for :mochiref:`connect()`.
 
     *Availability*:
-        Available in MochiKit 1.3.1+, modified DOM signalling in
-        MochiKit 1.5+
+        Available in MochiKit 1.3.1+
 
 
 DOM Custom Event Object Reference

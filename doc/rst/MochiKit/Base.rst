@@ -471,24 +471,6 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`bool(value)`:
-
-    Converts ``value`` into a boolean. The conversion varies depending on
-    ``typeof(value)``:
-
-    1. A boolean ``value`` is returned as-is.
-    2. A string ``value`` is considered false if and only if it equals ``""``,
-       ``"false"``, ``"null"``, ``"undefined"`` or ``"0"``. 
-    3. A number ``value`` is considered false if and only if ``isNaN(value)``
-       or ``value == 0``.
-    4. A array-like ``value`` is considered false if and only if
-       ``value.length == 0``.
-    5. Any other ``value`` is considered false if and only if ``value == null``.
-
-    *Availability*:
-        Available in MochiKit 1.5+
-
-
 :mochidef:`camelize(str)`:
 
     Converts hyphenated strings to camelCase::

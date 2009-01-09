@@ -5,11 +5,10 @@
     <script type="text/javascript" src="../MochiKit/DOM.js"></script>
     <script type="text/javascript" src="../MochiKit/Style.js"></script>
     <script type="text/javascript" src="../MochiKit/Color.js"></script>
-    <script type="text/javascript" src="../MochiKit/Signal.js"></script>
-    <script type="text/javascript" src="../MochiKit/Position.js"></script>
-    <script type="text/javascript" src="../MochiKit/Visual.js"></script>
-    <script type="text/javascript" src="../MochiKit/DragAndDrop.js"></script>
-    <script type="text/javascript" src="SimpleTest/SimpleTest.js"></script>
+    <script type="text/javascript" src="../MochiKit/Signal.js"></script>    
+    <script type="text/javascript" src="../MochiKit/Visual.js"></script>    
+    <script type="text/javascript" src="../MochiKit/DragAndDrop.js"></script>    
+    <script type="text/javascript" src="SimpleTest/SimpleTest.js"></script>        
     <link rel="stylesheet" type="text/css" href="SimpleTest/test.css">
     <style type="text/css">
     .drop-hover {
@@ -29,11 +28,13 @@
 <script type="text/javascript" src="test_DragAndDrop.js"></script>
 <script type="text/javascript">
 try {
-    SimpleTest.saveScope(this);
+        
+    // Counting the number of tests is really lame
     tests.test_DragAndDrop({ok:ok, is:is});
-    SimpleTest.verifyScope(this);
     ok( true, "test suite finished!");
+    
 } catch (err) {
+    
     var s = "test suite failure!\n";
     var o = {};
     var k = null;
@@ -45,6 +46,7 @@ try {
         }
     }
     ok ( false, s );
+
 }
 </script>
 </pre>

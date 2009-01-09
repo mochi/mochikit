@@ -1,3 +1,5 @@
+if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.Iter'); }
+if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.Iter'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_Iter = function (t) {
@@ -129,11 +131,10 @@ tests.test_Iter = function (t) {
         }
     }
 
-    var odd = partial(operator.and, 1)
+    odd = partial(operator.and, 1)
 
     // empty
-    var kv, key, k, v, subiter;
-    var grouped = groupby([]);
+    grouped = groupby([]);
     except(StopIteration, grouped.next);
 
     // exhaust sub-iterator
@@ -172,7 +173,7 @@ tests.test_Iter = function (t) {
     t.is(k, null, "null ok");
 
     // groupby - array version
-    var isEqual = (t.isDeeply || function (a, b, msg) {
+    isEqual = (t.isDeeply || function (a, b, msg) {
         return t.ok(compare(a, b) == 0, msg);
     });
     isEqual(groupby_as_array([ ]    ), [                        ], "empty");

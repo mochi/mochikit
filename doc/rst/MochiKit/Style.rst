@@ -207,49 +207,6 @@ Functions
         Available in MochiKit 1.4+
 
 
-:mochidef:`makePositioned(element)`:
-
-    Ensure that ``element.style.position`` is set to ``"relative"`` if it
-    is not set or is ``"static"``. If ``element`` is a
-    string, then it will be looked up with :mochiref:`getElement`.
-
-    *Availability*:
-        Available in MochiKit 1.4.1+
-
-
-:mochidef:`undoPositioned(element)`:
-
-    Restore the setting of ``element.style.position`` set by
-    :mochiref:`makePositioned(element)`. If ``element`` is a string, then
-    it will be looked up with :mochiref:`getElement`.
-
-    *Availability*:
-        Available in MochiKit 1.4.1+
-
-
-:mochidef:`makeClipping(element)`:
-
-    Ensure that ``element.style.overflow = 'hidden'``. If ``element`` is a
-    string, then it will be looked up with :mochiref:`getElement`.
-
-    Returns the original values of ``overflow``, ``overflow-y`` and
-    ``overflow-y`` so that they may be restored with
-    :mochiref:`undoClipping(element, overflow)`.
-
-    *Availability*:
-        Available in MochiKit 1.4.1+
-
-
-:mochidef:`undoClipping(element, overflow)`:
-
-    Restore the setting of ``element.style.overflow`` set by
-    :mochiref:`makeClipping(element)`. If ``element`` is a string, then
-    it will be looked up with :mochiref:`getElement`.
-
-    *Availability*:
-        Available in MochiKit 1.4.1+
-
-
 :mochidef:`setDisplayForElement(display, element[, ...])`:
 
     Change the ``style.display`` for the given element(s). Usually

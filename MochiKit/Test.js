@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Test 1.5
+MochiKit.Test 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,12 +8,25 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Test', '1.5', ['Base']);
+MochiKit.Base._deps('Test', ['Base']);
+
+MochiKit.Test.NAME = "MochiKit.Test";
+MochiKit.Test.VERSION = "1.4";
+MochiKit.Test.__repr__ = function () {
+    return "[" + this.NAME + " " + this.VERSION + "]";
+};
+
+MochiKit.Test.toString = function () {
+    return this.__repr__();
+};
+
+
+MochiKit.Test.EXPORT = ["runTests"];
+MochiKit.Test.EXPORT_OK = [];
 
 MochiKit.Test.runTests = function (obj) {
     if (typeof(obj) == "string") {
-        // TODO: Remove this temporary API change advertisement
-        throw new TypeError("Automatic module import not supported, call runTests() with proper object: " + obj);
+        obj = JSAN.use(obj);
     }
     var suite = new MochiKit.Test.Suite();
     suite.run(obj);
@@ -134,7 +147,12 @@ MochiKit.Test.Suite.prototype = {
 
 MochiKit.Test.__new__ = function () {
     var m = MochiKit.Base;
-    this.Suite.__export__ = false;
+
+    this.EXPORT_TAGS = {
+        ":common": this.EXPORT,
+        ":all": m.concat(this.EXPORT, this.EXPORT_OK)
+    };
+
     m.nameFunctions(this);
 
 };

@@ -1,7 +1,9 @@
+if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.Signal'); }
+if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.Signal'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_Signal = function (t) {
-
+    
     var submit = MochiKit.DOM.getElement('submit');
     var ident = null;
     var i = 0;
@@ -12,15 +14,7 @@ tests.test_Signal = function (t) {
             i += this.someVar;
         }
     };
-    var bFunction = function(someArg, someOtherArg) {
-        if (typeof(someArg) == "number") {
-            i += someArg;
-        }
-        if (typeof(someOtherArg) == "number") {
-            i += someOtherArg;
-        }
-    };
-
+    
     var aObject = {};
     aObject.aMethod = function() {
         t.ok(this === aObject, "aMethod should have 'this' as aObject");
@@ -43,31 +37,23 @@ tests.test_Signal = function (t) {
 
     disconnect(ident);
     submit.click();
-    t.is(i, 2, '...and then disconnected');
-
-    ident = connect(submit, 'onclick', aObject, 'aMethod');
-    submit.click();
-    t.is(i, 3, 'Checking that a DOM element can be connected to a method');
-
-    disconnect(ident);
-    submit.click();
-    t.is(i, 3, '...and disconnected again');
-
-    if (MochiKit.DOM.getElement('submit').fireEvent ||
-        (document.createEvent &&
+    t.is(i, 2, '...and then disconnected');    
+    
+    if (MochiKit.DOM.getElement('submit').fireEvent || 
+        (document.createEvent && 
         typeof(document.createEvent('MouseEvents').initMouseEvent) == 'function')) {
-
-        /*
-
-            Adapted from:
+        
+        /* 
+        
+            Adapted from: 
             http://www.devdaily.com/java/jwarehouse/jforum/tests/selenium/javascript/htmlutils.js.shtml
             License: Apache
             Copyright: Copyright 2004 ThoughtWorks, Inc
-
+            
         */
         var triggerMouseEvent = function(element, eventType, canBubble) {
-            var element = MochiKit.DOM.getElement(element);
-            var canBubble = (typeof(canBubble) == 'undefined') ? true : canBubble;
+            element = MochiKit.DOM.getElement(element);
+            canBubble = (typeof(canBubble) == 'undefined') ? true : canBubble;
             if (element.fireEvent) {
                 var newEvt = document.createEventObject();
                 newEvt.clientX = 1;
@@ -114,14 +100,14 @@ tests.test_Signal = function (t) {
             t.ok((typeof(e.mouse().wheel) === 'undefined'), 'checking that mouse().wheel is undefined');
         };
 
-
+        
         ident = connect('submit', 'onmousedown', eventTest);
         triggerMouseEvent('submit', 'mousedown', false);
-        t.is(i, 4, 'Connecting an event to an HTML object and firing a synthetic event');
+        t.is(i, 3, 'Connecting an event to an HTML object and firing a synthetic event');
 
         disconnect(ident);
         triggerMouseEvent('submit', 'mousedown', false);
-        t.is(i, 4, 'Disconnecting an event to an HTML object and firing a synthetic event');
+        t.is(i, 3, 'Disconnecting an event to an HTML object and firing a synthetic event');
 
         ident = connect('submit', 'onmousewheel', function(e) {
             i++;
@@ -135,71 +121,41 @@ tests.test_Signal = function (t) {
             nativeSignal = 'DOMMouseScroll';
         }
         triggerMouseEvent('submit', nativeSignal, false);
-        t.is(i, 5, 'Connecting a mousewheel event to an HTML object and firing a synthetic event');
+        t.is(i, 4, 'Connecting a mousewheel event to an HTML object and firing a synthetic event');
         disconnect(ident);
         triggerMouseEvent('submit', nativeSignal, false);
-        t.is(i, 5, 'Disconnecting a mousewheel event to an HTML object and firing a synthetic event');
+        t.is(i, 4, 'Disconnecting a mousewheel event to an HTML object and firing a synthetic event');
     }
-
-
-    // non-event signals to DOM nodes
-    i = 0;
-    ident = connect(submit, 'onclick', bFunction);
-    signal(submit, 'onclick', 1, 2);
-    t.is(i, 3, 'Manual signal() from DOM element to a function');
-
-    disconnect(ident);
-    signal(submit, 'onclick', 1, 2);
-    t.is(i, 3, '...and disconnected signals are not called');
-
-    i = 0;
-    ident = connect(submit, 'ontest', bFunction);
-    signal(submit, 'ontest', 1, 2);
-    t.is(i, 3, 'Manual signal() from DOM element with custom signal name');
-
-    disconnect(ident);
-    signal(submit, 'ontest', 1, 2);
-    t.is(i, 3, '...and disconnected signals are not called');
-
-    i = 0;
-    ident = connect(submit, 'onclick', aObject, 'aMethod');
-    signal(submit, 'onclick', 1, 2);
-    t.is(i, 1, 'Manual signal() from DOM element to a method');
-
-    disconnect(ident);
-    signal(submit, 'onclick', 1, 2);
-    t.is(i, 1, '...and disconnected signals are not called');
-
 
     // non-DOM tests
 
     var hasNoSignals = {};
-
+    
     var hasSignals = {someVar: 1};
 
     var i = 0;
-
+        
     var aFunction = function() {
         i++;
         if (typeof(this.someVar) != 'undefined') {
             i += this.someVar;
         }
     };
-
+    
     var bFunction = function(someArg, someOtherArg) {
         i += someArg + someOtherArg;
     };
 
-
+    
     var aObject = {};
     aObject.aMethod = function() {
         i++;
     };
-
+    
     aObject.bMethod = function() {
         i++;
     };
-
+    
     var bObject = {};
     bObject.bMethod = function() {
         i++;
@@ -286,24 +242,22 @@ tests.test_Signal = function (t) {
 
     try {
         connect(hasSignals, 'signalOne', shouldRaise);
-        ident = connect(hasSignals, 'signalOne', aFunction);
         signal(hasSignals, 'signalOne');
         t.ok(false, 'An exception was not raised');
     } catch (e) {
         t.ok(true, 'An exception was raised');
     }
     disconnect(hasSignals, 'signalOne', shouldRaise);
-    disconnect(ident);
-    t.is(i, 2, 'Exception raised, but signal was sent to all listeners');
+    t.is(i, 0, 'Exception raised, signal should not have fired');
     i = 0;
 
-
+    
     connect(hasSignals, 'signalOne', aObject, 'aMethod');
     connect(hasSignals, 'signalOne', aObject, 'bMethod');
     signal(hasSignals, 'signalOne');
     t.is(i, 2, 'Connecting one signal to two slots in one object');
     i = 0;
-
+    
     disconnect(hasSignals, 'signalOne', aObject, 'aMethod');
     disconnect(hasSignals, 'signalOne', aObject, 'bMethod');
     signal(hasSignals, 'signalOne');
@@ -322,7 +276,7 @@ tests.test_Signal = function (t) {
     signal(hasSignals, 'signalOne');
     t.is(i, 0, 'Disconnecting one signal from two slots in two objects');
     i = 0;
-
+    
 
     try {
         connect(nothing, 'signalOne', aObject, 'aMethod');
@@ -338,8 +292,8 @@ tests.test_Signal = function (t) {
     } catch (e) {
         t.ok(true, 'An exception was raised when disconnecting undefined');
     }
-
-
+    
+    
     try {
         connect(hasSignals, 'signalOne', nothing);
         signal(hasSignals, 'signalOne');
@@ -354,8 +308,8 @@ tests.test_Signal = function (t) {
     } catch (e) {
         t.ok(true, 'An exception was raised when disconnecting an undefined function');
     }
-
-
+    
+    
     try {
         connect(hasSignals, 'signalOne', aObject, aObject.nothing);
         signal(hasSignals, 'signalOne');
@@ -363,7 +317,7 @@ tests.test_Signal = function (t) {
     } catch (e) {
         t.ok(true, 'An exception was raised when connecting an undefined method');
     }
-
+    
     try {
         connect(hasSignals, 'signalOne', aObject, 'nothing');
         signal(hasSignals, 'signalOne');
@@ -421,13 +375,13 @@ tests.test_Signal = function (t) {
     signal(hasSignals, 'signalTwo');
     t.is(i, 0, 'disconnectAll works with implicit signals');
     i = 0;
-
+    
 	var toggle = function() {
 		disconnectAll(hasSignals, 'signalOne');
 		connect(hasSignals, 'signalOne', aFunction);
 		i++;
 	};
-
+    
 	connect(hasSignals, 'signalOne', aFunction);
 	connect(hasSignals, 'signalTwo', function() { i++; });
 	connect(hasSignals, 'signalTwo', toggle);
@@ -475,8 +429,8 @@ tests.test_Signal = function (t) {
     signal(hasSignals, 'signalTwo');
     t.is(testObj.countOne, 0, 'disconnectAllTo obj+str');
     t.is(testObj.countTwo, 1, 'disconnectAllTo obj+str');
-
-    var has__Connect = {
+ 
+    has__Connect = {
           count: 0,
           __connect__: function (ident) {
               this.count += arguments.length;
@@ -489,7 +443,7 @@ tests.test_Signal = function (t) {
     t.is(has__Connect.count, 3, '__connect__ is called when it exists');
     signal(has__Connect, 'signalOne');
 
-    var has__Disconnect = {
+    has__Disconnect = {
           count: 0,
           __disconnect__: function (ident) {
               this.count += arguments.length;

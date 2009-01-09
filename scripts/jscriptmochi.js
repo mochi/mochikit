@@ -11,6 +11,9 @@ if (typeof(print) == "undefined" && typeof(WScript) != "undefined") {
         var fso = new ActiveXObject("Scripting.FileSystemObject");
         var textStream = fso.OpenTextFile(fn, 1);
         var namespace = undefined;
+        if (typeof(JSAN) != "undefined") {
+            namespace = JSAN.global;
+        }
         arguments.callee.do_eval.apply(namespace, [textStream.ReadAll()]);
     };
     load.do_eval = function () {

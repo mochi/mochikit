@@ -1,6 +1,6 @@
 /***
 
-MochiKit.DateTime 1.5
+MochiKit.DateTime 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,7 +8,16 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('DateTime', '1.5', ['Base']);
+MochiKit.Base._deps('DateTime', ['Base']);
+
+MochiKit.DateTime.NAME = "MochiKit.DateTime";
+MochiKit.DateTime.VERSION = "1.4";
+MochiKit.DateTime.__repr__ = function () {
+    return "[" + this.NAME + " " + this.VERSION + "]";
+};
+MochiKit.DateTime.toString = function () {
+    return this.__repr__();
+};
 
 /** @id MochiKit.DateTime.isoDate */
 MochiKit.DateTime.isoDate = function (str) {
@@ -164,10 +173,50 @@ MochiKit.DateTime.toAmericanDate = function (d) {
     return [d.getMonth() + 1, d.getDate(), d.getFullYear()].join('/');
 };
 
+MochiKit.DateTime.EXPORT = [
+    "isoDate",
+    "isoTimestamp",
+    "toISOTime",
+    "toISOTimestamp",
+    "toISODate",
+    "americanDate",
+    "toPaddedAmericanDate",
+    "toAmericanDate"
+];
+
+MochiKit.DateTime.EXPORT_OK = [];
+MochiKit.DateTime.EXPORT_TAGS = {
+    ":common": MochiKit.DateTime.EXPORT,
+    ":all": MochiKit.DateTime.EXPORT
+};
+
 MochiKit.DateTime.__new__ = function () {
-    MochiKit.Base.nameFunctions(this);
+    // MochiKit.Base.nameFunctions(this);
+    var base = this.NAME + ".";
+    for (var k in this) {
+        var o = this[k];
+        if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
+            try {
+                o.NAME = base + k;
+            } catch (e) {
+                // pass
+            }
+        }
+    }
 };
 
 MochiKit.DateTime.__new__();
 
-MochiKit.Base._exportSymbols(this, MochiKit.DateTime);
+if (typeof(MochiKit.Base) != "undefined") {
+    MochiKit.Base._exportSymbols(this, MochiKit.DateTime);
+} else {
+    (function (globals, module) {
+        if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
+            || (MochiKit.__export__ === false)) {
+            var all = module.EXPORT_TAGS[":all"];
+            for (var i = 0; i < all.length; i++) {
+                globals[all[i]] = module[all[i]];
+            }
+        }
+    })(this, MochiKit.DateTime);
+}

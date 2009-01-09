@@ -1,44 +1,4 @@
-2009-XX-YY      v1.5
-
-- Changed MochiKit.Signal.signal to support DOM source objects with custom
-  arguments, instead of always wrapping into Event object.
-- Removed the Dojo and JSAN integrations, since they are not maintained.
-- Simplified module init and export code, saving up to 5kB in packed
-  download size.
-- Changed MochiKit.Selector.findChildElements to support element lookup
-  via MochiKit.DOM.getElement.
-- Fixed MochiKit.DOM.hasElementClass handling of text DOM nodes (#330).
-- Reimplemented MochiKit.Format.truncToFixed and roundToFixed to resolve
-  rounding errors and other issues (#333).
-- Fixed MochiKit.Style.getElementPosition when using a 0,0 relative
-  position (#332).
-- Added new MochiKit.Text module to eventually replace MochiKit.Format.
-- Added the MochiKit.Base.bool() function.
-
-2008-11-27      v1.4.2 (bug fix release)
-
-- Changed default packed version to contain all modules (since easy
-  customization is now available).
-- More fixes in MochiKit.Style.getElementDimensions for IE and hidden
-  elements (#325).
-- Fixed issue in MochiKit.Style.getViewportDimensions when called within the
-  document HEAD.
-- Fixed MochiKit.DOM.coerceToDOM() handling of arrays when MochiKit.Iter
-  is not loaded (#328).
-
-2008-11-02      v1.4.1 (bug fix release)
-
-- Added export of deprecated MochiKit.DOM.computedStyle function (#324).
-- Fixed issue in MochiKit.Style.getElementDimensions when elements are
-  hidden due to CSS class definitions (#325).
-- Moved makePositioned, undoPositioned, makeClipping and undoClipping
-  from MochiKit.DOM to MochiKit.Style due to circular dependency (#327).
-- Fixed makeClipping and undoClipping to handle overflow-x and overflow-y
-  styles correctly (#326).
-- Fixed issue with Event.relatedTarget() sometimes returning XUL elements
-  in Mozilla-based browsers (#322).
-
-2008-10-21      v1.4
+2006-XX-XX      v1.4
 
 - Added pt_BR to MochiKit.Format.LOCALE.
 - MochiKit.Async now sets the "X-Requested-With: XMLHttpRequest" header,
@@ -66,7 +26,7 @@
   form.
 - MochiKit.DOM.formContents now defaults to document.body if no element is
   given.
-- New MochiKit.Selector module (still somewhat experimental)
+- New MochiKit.Selector module
 - MochiKit.LoggingPane fixes for Internet Explorer
 - MochiKit.DOM now creates XHTML nodes in XUL documents.
 - MochiKit.LoggingPane now works on pages with '#' in the URL on IE
@@ -92,7 +52,6 @@
 - serializeJSON no longer serializes undefined, as per the JSON spec
 - Fixed an infinite recursion bug in serializeJSON if an adapter
   returns the object itself.
-- Fixed vertical tab and control char encoding in serializeJSON (#313).
 - New MochiKit.Base.operator.seq and sne to support strict comparison
 - MochiKit.Base.isArrayLike no longer returns true for DOM text nodes
 - Added readonly-readOnly to the list of DOM renames for Internet Explorer
@@ -112,26 +71,8 @@
 - New MochiKit.DOM.coerceToDOM .dom(node) / .__dom__(node) protocol
 - MochiKit.DOM's MochiKit.Iter dependency is now optional
 - Added expand all link to the documentation index
-- Added MochiKit.DOM.isChildNode function.
+- Added MochiKit.DOM.isChildNode
 - Added synthesizing for onmouseenter/onmouseleave
-- Added animation functions and classes to MochiKit.Visual.
-- Added MochiKit.Style.getElementDimensions support for calculating the
-  actual content size (without padding and borders).
-- Added MochiKit.DOM.insertSiblingNodesBefore, getFirstElementByTagAndClassName,
-  getFirstParentByTagAndClassName, makeClipping, makePositioned,
-  undoClipping, undoPositioned and removeEmptyTextNodes functions.
-- Added MochiKit.Base.bindLate, camelize, flattenArray, mean, median and
-  noop functions.
-- New MochiKit.DragAndDrop module for drag and drop handling.
-- New MochiKit.Sortable module for lists sortable with drag and drop.
-- Changed MochiKit.Signal.connect to use late function binding also
-  for non-DOM signals (#307).
-- Fixed MochiKit.Color.isColor when symbols not exported (#296).
-- Added support for inclusion in SVG files (#290).
-- Fixed rounding errors in MochiKit.Format.twoDigitFloat (#275).
-- Fixed MochiKit.Logging to convert log levels to strings (#273).
-- Fixed MochiKit.Iter.forEach and iextend for array-like objects with
-  and iter function (#268).
 
 2006-04-29      v1.3.1 (bug fix release)
 

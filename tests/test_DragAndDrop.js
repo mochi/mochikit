@@ -1,3 +1,5 @@
+if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.Signal'); }
+if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.Signal'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_DragAndDrop = function (t) {

@@ -50,10 +50,8 @@
     <div id="multiclass" class="multiple classnames here"></div>
 <pre id="test">
 <script type="text/javascript">
+try {
 
-if (typeof(tests) == 'undefined') { tests = {}; }
-
-tests.test_Selector = function () {
     var testExpected = function (res, exp, lbl) {
         for (var i=0; i < res.length; i ++) {
             is( res[i].href, exp[i], lbl + ' (' + i + ')');
@@ -194,14 +192,6 @@ tests.test_Selector = function () {
     results = $$('a + a');
     testExpected(results, expected, "'a + a' selector");
 
-    expected = ['http://www.example.com/outsidep',
-                'http://www.example.com/link5',
-                'http://www.example.com/link6',
-                'http://www.example.com/link7',
-                'http://www.example.com/link8'];
-    results = $$('p ~ a');
-    testExpected(results, expected, "'p ~ a' selector");
-
     expected = ['http://www.example.com/link1',
                 'http://www.example.com/link3',
                 'http://www.example.com/link6',
@@ -279,15 +269,12 @@ tests.test_Selector = function () {
         // Not supported by Sizzle: is( $$(":root")[0], doc, ":root on a different document" );
         is( $$("a")[0], doc.body.firstChild, "a inside a different document" );
     });
-}
 
-
-try {
-    SimpleTest.saveScope(this);
-    tests.test_Selector();
-    SimpleTest.verifyScope(this);
     ok( true, "test suite finished!");
+    
+    
 } catch (err) {
+    
     var s = "test suite failure!\n";
     var o = {};
     var k = null;
@@ -299,6 +286,7 @@ try {
         }
     }
     ok ( false, s );
+
 }
 </script>
 </pre>

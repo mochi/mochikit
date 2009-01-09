@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Signal 1.5
+MochiKit.Signal 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,7 +8,10 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Signal', '1.5', ['Base', 'DOM', 'Style']);
+MochiKit.Base._deps('Signal', ['Base', 'DOM', 'Style']);
+
+MochiKit.Signal.NAME = 'MochiKit.Signal';
+MochiKit.Signal.VERSION = '1.4';
 
 MochiKit.Signal._observers = [];
 
@@ -17,7 +20,6 @@ MochiKit.Signal.Event = function (src, e) {
     this._event = e || window.event;
     this._src = src;
 };
-MochiKit.Signal.Event.__export__ = false;
 
 MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
@@ -115,14 +117,9 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
             elem = (this._event.relatedTarget ||
                 this._event.toElement);
         }
-        try {
-            if (elem !== null && elem.nodeType !== null) {
-                this._relatedTarget = elem;
-                return elem;
-            }
-        } catch (ignore) {
-            // Firefox 3 throws a permission denied error when accessing
-            // any property on XUL elements (e.g. scrollbars)...
+        if (elem !== null) {
+            this._relatedTarget = elem;
+            return elem;
         }
 
         return undefined;
@@ -407,7 +404,7 @@ MochiKit.Signal._specialMacKeys = {
 /* for KEY_F1 - KEY_F12 */
 (function () {
     var _specialMacKeys = MochiKit.Signal._specialMacKeys;
-    for (var i = 63236; i <= 63242; i++) {
+    for (i = 63236; i <= 63242; i++) {
         // no F0
         _specialMacKeys[i] = 'KEY_F' + (i - 63236 + 1);
     }
@@ -496,10 +493,18 @@ MochiKit.Signal.Ident = function (ident) {
     this.funcOrStr = ident.funcOrStr;
     this.connected = ident.connected;
 };
-MochiKit.Signal.Ident.__export__ = false;
+
 MochiKit.Signal.Ident.prototype = {};
 
 MochiKit.Base.update(MochiKit.Signal, {
+
+    __repr__: function () {
+        return '[' + this.NAME + ' ' + this.VERSION + ']';
+    },
+
+    toString: function () {
+        return this.__repr__();
+    },
 
     _unloadCache: function () {
         var self = MochiKit.Signal;
@@ -615,16 +620,12 @@ MochiKit.Base.update(MochiKit.Signal, {
 
     /** @id MochiKit.Signal.connect */
     connect: function (src, sig, objOrFunc/* optional */, funcOrStr) {
-
-        if (typeof(src) == 'string') {
-	    src = MochiKit.DOM.getElement(src);	    
-        }
+        src = MochiKit.DOM.getElement(src);
         var self = MochiKit.Signal;
 
         if (typeof(sig) != 'string') {
             throw new Error("'sig' must be a string");
         }
-
 
         var destPair = self._getDestPair(objOrFunc, funcOrStr);
         var obj = destPair[0];
@@ -706,10 +707,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         var m = MochiKit.Base;
         if (arguments.length > 1) {
             // compatibility API
-            var src = arguments[0];
-            if (typeof(src) == "string") {
-                src = MochiKit.DOM.getElement(src);
-            }
+            var src = MochiKit.DOM.getElement(arguments[0]);
             var sig = arguments[1];
             var obj = arguments[2];
             var func = arguments[3];
@@ -767,9 +765,7 @@ MochiKit.Base.update(MochiKit.Signal, {
 
     /** @id MochiKit.Signal.disconnectAll */
     disconnectAll: function (src/* optional */, sig) {
-        if (typeof(src) == "string") {
-            src = MochiKit.DOM.getElement(src);
-        }
+        src = MochiKit.DOM.getElement(src);
         var m = MochiKit.Base;
         var signals = m.flattenArguments(m.extend(null, arguments, 1));
         var self = MochiKit.Signal;
@@ -815,9 +811,7 @@ MochiKit.Base.update(MochiKit.Signal, {
     signal: function (src, sig) {
         var self = MochiKit.Signal;
         var observers = self._observers;
-        if (typeof(src) == "string") {
-            src = MochiKit.DOM.getElement(src);
-        }
+        src = MochiKit.DOM.getElement(src);
         var args = MochiKit.Base.extend(null, arguments, 2);
         var errors = [];
         self._lock = true;
@@ -826,14 +820,7 @@ MochiKit.Base.update(MochiKit.Signal, {
             if (ident.source === src && ident.signal === sig &&
                     ident.connected) {
                 try {
-                    if (ident.isDOM && ident.funcOrStr != null) {
-                        var obj = ident.objOrFunc;
-                        obj[ident.funcOrStr].apply(obj, args);
-                    } else if (ident.isDOM) {
-                        ident.objOrFunc.apply(src, args);
-                    } else {
-                        ident.listener.apply(src, args);
-                    }
+                    ident.listener.apply(src, args);
                 } catch (e) {
                     errors.push(e);
                 }
@@ -859,6 +846,16 @@ MochiKit.Base.update(MochiKit.Signal, {
 
 });
 
+MochiKit.Signal.EXPORT_OK = [];
+
+MochiKit.Signal.EXPORT = [
+    'connect',
+    'disconnect',
+    'signal',
+    'disconnectAll',
+    'disconnectAllTo'
+];
+
 MochiKit.Signal.__new__ = function (win) {
     var m = MochiKit.Base;
     this._document = document;
@@ -871,6 +868,11 @@ MochiKit.Signal.__new__ = function (win) {
     } catch (e) {
         // pass: might not be a browser
     }
+
+    this.EXPORT_TAGS = {
+        ':common': this.EXPORT,
+        ':all': m.concat(this.EXPORT, this.EXPORT_OK)
+    };
 
     m.nameFunctions(this);
 };

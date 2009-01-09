@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Format 1.5
+MochiKit.Format 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,7 +8,16 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Format', '1.5', ['Base']);
+MochiKit.Base._deps('Format', ['Base']);
+
+MochiKit.Format.NAME = "MochiKit.Format";
+MochiKit.Format.VERSION = "1.4";
+MochiKit.Format.__repr__ = function () {
+    return "[" + this.NAME + " " + this.VERSION + "]";
+};
+MochiKit.Format.toString = function () {
+    return this.__repr__();
+};
 
 MochiKit.Format._numberFormatter = function (placeholder, header, footer, locale, isPercent, precision, leadingZeros, separatorAt, trailingZeros) {
     return function (num) {
@@ -186,113 +195,77 @@ MochiKit.Format.strip = function (str, /* optional */chars) {
 
 /** @id MochiKit.Format.truncToFixed */
 MochiKit.Format.truncToFixed = function (aNumber, precision) {
-    var fixed = MochiKit.Format._numberToFixed(aNumber, precision);
-    var fracPos = fixed.indexOf(".");
-    if (fracPos > 0 && fracPos + precision + 1 < fixed.length) {
-        fixed = fixed.substring(0, fracPos + precision + 1);
-        fixed = MochiKit.Format._shiftNumber(fixed, 0);
+    var res = Math.floor(aNumber).toFixed(0);
+    if (aNumber < 0) {
+        res = Math.ceil(aNumber).toFixed(0);
+        if (res.charAt(0) != "-" && precision > 0) {
+            res = "-" + res;
+        }
     }
-    return fixed;
-}
+    if (res.indexOf("e") < 0 && precision > 0) {
+        var tail = aNumber.toString();
+        if (tail.indexOf("e") > 0) {
+            tail = ".";
+        } else if (tail.indexOf(".") < 0) {
+            tail = ".";
+        } else {
+            tail = tail.substring(tail.indexOf("."));
+        }
+        if (tail.length - 1 > precision) {
+            tail = tail.substring(0, precision + 1);
+        }
+        while (tail.length - 1 < precision) {
+            tail += "0";
+        }
+        res += tail;
+    }
+    return res;
+};
 
 /** @id MochiKit.Format.roundToFixed */
 MochiKit.Format.roundToFixed = function (aNumber, precision) {
-    var fixed = MochiKit.Format._numberToFixed(aNumber, precision);
-    var fracPos = fixed.indexOf(".");
-    if (fracPos > 0 && fracPos + precision + 1 < fixed.length) {
-        var str = MochiKit.Format._shiftNumber(fixed, precision);
-        str = MochiKit.Format._numberToFixed(Math.round(parseFloat(str)), 0);
-        fixed = MochiKit.Format._shiftNumber(str, -precision);
+    var upper = Math.abs(aNumber) + 0.5 * Math.pow(10, -precision);
+    var res = MochiKit.Format.truncToFixed(upper, precision);
+    if (aNumber < 0) {
+        res = "-" + res;
     }
-    return fixed;
-}
-
-/**
- * Converts a number to a fixed format string. This function handles
- * conversion of exponents by shifting the decimal point to the left
- * or the right. It also guarantees a specified minimum number of
- * fractional digits (but no maximum).
- *
- * @param {Number} aNumber the number to convert
- * @param {Number} precision the minimum number of decimal digits
- *
- * @return {String} the fixed format number string
- */
-MochiKit.Format._numberToFixed = function (aNumber, precision) {
-    var str = aNumber.toString();
-    var parts = str.split(/[eE]/);
-    var exp = (parts.length === 1) ? 0 : parseInt(parts[1]) || 0;
-    var fixed = MochiKit.Format._shiftNumber(parts[0], exp);
-    parts = fixed.split(/\./);
-    var whole = parts[0];
-    var frac = (parts.length === 1) ? "" : parts[1];
-    while (frac.length < precision) {
-        frac += "0";
-    }
-    if (frac.length > 0) {
-        return whole + "." + frac;
-    } else {
-        return whole;
-    }
-}
-
-/**
- * Shifts the decimal dot location in a fixed format number string.
- * This function handles negative values and will add and remove
- * leading and trailing zeros as needed.
- *
- * @param {String} num the fixed format number string
- * @param {Number} exp the base-10 exponent to apply
- *
- * @return {String} the new fixed format number string
- */
-MochiKit.Format._shiftNumber = function (num, exp) {
-    var pos = num.indexOf(".");
-    if (pos < 0) {
-        pos = num.length;
-    } else {
-        num = num.substring(0, pos) + num.substring(pos + 1);
-    }
-    pos += exp;
-    while (pos <= 0 || (pos <= 1 && num.charAt(0) === "-")) {
-        if (num.charAt(0) === "-") {
-            num = "-0" + num.substring(1);
-        } else {
-            num = "0" + num;
-        }
-        pos++;
-    }
-    while (pos > num.length) {
-        num += "0";
-    }
-    if (pos < num.length) {
-        num = num.substring(0, pos) + "." + num.substring(pos);
-    }
-    while (/^0[^.]/.test(num)) {
-        num = num.substring(1);
-    }
-    while (/^-0[^.]/.test(num)) {
-        num = "-" + num.substring(2);
-    }
-    return num;
-}
+    return res;
+};
 
 /** @id MochiKit.Format.percentFormat */
 MochiKit.Format.percentFormat = function (aNumber) {
     return MochiKit.Format.twoDigitFloat(100 * aNumber) + '%';
 };
 
+MochiKit.Format.EXPORT = [
+    "truncToFixed",
+    "roundToFixed",
+    "numberFormatter",
+    "formatLocale",
+    "twoDigitAverage",
+    "twoDigitFloat",
+    "percentFormat",
+    "lstrip",
+    "rstrip",
+    "strip"
+];
+
 MochiKit.Format.LOCALE = {
     en_US: {separator: ",", decimal: ".", percent: "%"},
     de_DE: {separator: ".", decimal: ",", percent: "%"},
     pt_BR: {separator: ".", decimal: ",", percent: "%"},
     fr_FR: {separator: " ", decimal: ",", percent: "%"},
-    "default": "en_US",
-    __export__: false
+    "default": "en_US"
+};
+
+MochiKit.Format.EXPORT_OK = [];
+MochiKit.Format.EXPORT_TAGS = {
+    ':all': MochiKit.Format.EXPORT,
+    ':common': MochiKit.Format.EXPORT
 };
 
 MochiKit.Format.__new__ = function () {
-    MochiKit.Base.nameFunctions(this);
+    // MochiKit.Base.nameFunctions(this);
     var base = this.NAME + ".";
     var k, v, o;
     for (k in this.LOCALE) {
@@ -302,8 +275,30 @@ MochiKit.Format.__new__ = function () {
             o.NAME = base + "LOCALE." + k;
         }
     }
+    for (k in this) {
+        o = this[k];
+        if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
+            try {
+                o.NAME = base + k;
+            } catch (e) {
+                // pass
+            }
+        }
+    }
 };
 
 MochiKit.Format.__new__();
 
-MochiKit.Base._exportSymbols(this, MochiKit.Format);
+if (typeof(MochiKit.Base) != "undefined") {
+    MochiKit.Base._exportSymbols(this, MochiKit.Format);
+} else {
+    (function (globals, module) {
+        if ((typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
+            || (MochiKit.__export__ === false)) {
+            var all = module.EXPORT_TAGS[":all"];
+            for (var i = 0; i < all.length; i++) {
+                globals[all[i]] = module[all[i]];
+            }
+        }
+    })(this, MochiKit.Format);
+}

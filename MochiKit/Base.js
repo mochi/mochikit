@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Base 1.5
+MochiKit.Base 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,49 +8,23 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
+if (typeof(dojo) != 'undefined') {
+    dojo.provide("MochiKit.Base");
+}
 if (typeof(MochiKit) == 'undefined') {
     MochiKit = {};
-}
-if (typeof(MochiKit.__export__) == "undefined") {
-    MochiKit.__export__ = true;
 }
 if (typeof(MochiKit.Base) == 'undefined') {
     MochiKit.Base = {};
 }
-
-/**
- * Registers a new MochiKit module. This function will insert a new
- * property into the "MochiKit" object, making sure that all
- * dependency modules have already been inserted. It will also make
- * sure that the appropriate properties and default module functions
- * are defined.
- *
- * @param {String} name the module name, e.g. "Base"
- * @param {String} version the module version, e.g. "1.5"
- * @param {Array} deps the array of module dependencies (as strings)
- */
-MochiKit.Base._module = function (name, version, deps) {
-    if (!(name in MochiKit)) {
-        MochiKit[name] = {};
-    }
-    var module = MochiKit[name];
-    module.NAME = "MochiKit." + name;
-    module.VERSION = version;
-    module.__repr__ = function () {
-        return "[" + this.NAME + " " + this.VERSION + "]";
-    };
-    module.toString = function () {
-        return this.__repr__();
-    };
-    for (var i = 0; i < deps.length; i++) {
-        if (!(deps[i] in MochiKit)) {
-            throw 'MochiKit.' + name + ' depends on MochiKit.' + deps[i] + '!';
-        }
-    }
+if (typeof(MochiKit.__export__) == "undefined") {
+    MochiKit.__export__ = (MochiKit.__compat__  ||
+        (typeof(JSAN) == 'undefined' && typeof(dojo) == 'undefined')
+    );
 }
 
-MochiKit.Base._module("Base", "1.5", []);
-
+MochiKit.Base.VERSION = "1.4";
+MochiKit.Base.NAME = "MochiKit.Base";
 /** @id MochiKit.Base.update */
 MochiKit.Base.update = function (self, obj/*, ... */) {
     if (self === null || self === undefined) {
@@ -68,6 +42,14 @@ MochiKit.Base.update = function (self, obj/*, ... */) {
 };
 
 MochiKit.Base.update(MochiKit.Base, {
+    __repr__: function () {
+        return "[" + this.NAME + " " + this.VERSION + "]";
+    },
+
+    toString: function () {
+        return this.__repr__();
+    },
+
     /** @id MochiKit.Base.camelize */
     camelize: function (selector) {
         /* from dojo.style.toCamelCase */
@@ -95,6 +77,27 @@ MochiKit.Base.update(MochiKit.Base, {
         if (arguments.length == 1) {
             me.prototype = obj;
             return new me();
+        }
+    },
+
+    _deps: function(module, deps) {
+        if (!(module in MochiKit)) {
+            MochiKit[module] = {};
+        }
+        
+        if (typeof(dojo) != 'undefined') {
+            dojo.provide('MochiKit.' + module);
+        }
+        for (var i = 0; i < deps.length; i++) {
+            if (typeof(dojo) != 'undefined') {
+                dojo.require('MochiKit.' + deps[i]);
+            }
+            if (typeof(JSAN) != 'undefined') {
+                JSAN.use('MochiKit.' + deps[i], []);
+            }
+            if (!(deps[i] in MochiKit)) {
+                throw 'MochiKit.' + module + ' depends on MochiKit.' + deps[i] + '!'
+            }
         }
     },
     
@@ -341,22 +344,6 @@ MochiKit.Base.update(MochiKit.Base, {
         };
     },
 
-    /** @id MochiKit.Base.bool */
-    bool: function (value) {
-        if (typeof(value) === "boolean" || value instanceof Boolean) {
-            return value.valueOf();
-        } else if (typeof(value) === "string" || value instanceof String) {
-            return value.length > 0 && value != "false" && value != "null" &&
-                   value != "undefined" && value != "0";
-        } else if (typeof(value) === "number" || value instanceof Number) {
-            return !isNaN(value) && value != 0;
-        } else if (value != null && typeof(value.length) === "number") {
-            return value.length !== 0
-        } else {
-            return value != null;
-        }
-    },
-
     /** @id MochiKit.Base.typeMatcher */
     typeMatcher: function (/* typ */) {
         var types = {};
@@ -494,7 +481,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 fn = Array;
             }
             var length = null;
-            for (var i = 1; i < arguments.length; i++) {
+            for (i = 1; i < arguments.length; i++) {
                 // allow iterables to be passed
                 if (!isArrayLike(arguments[i])) {
                     if (itr) {
@@ -510,7 +497,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 }
             }
             rval = [];
-            for (var i = 0; i < length; i++) {
+            for (i = 0; i < length; i++) {
                 var args = [];
                 for (var j = 1; j < arguments.length; j++) {
                     args.push(arguments[j][i]);
@@ -562,7 +549,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 }
             }
         } else {
-            for (var i = 0; i < lst.length; i++) {
+            for (i = 0; i < lst.length; i++) {
                 o = lst[i];
                 if (fn.call(self, o)) {
                     rval.push(o);
@@ -681,12 +668,26 @@ MochiKit.Base.update(MochiKit.Base, {
     /** @id MochiKit.Base.bindLate */
     bindLate: function (func, self/* args... */) {
         var m = MochiKit.Base;
-        var args = arguments;
-        if (typeof(func) === "string") {
-            args = m.extend([m.forwardCall(func)], arguments, 1);
-            return m.bind.apply(this, args);
+        if (typeof(func) != "string") {
+            return m.bind.apply(this, arguments);
         }
-        return m.bind.apply(this, args);
+        var im_preargs = m.extend([], arguments, 2);
+        var newfunc = function () {
+            var args = arguments;
+            var me = arguments.callee;
+            if (me.im_preargs.length > 0) {
+                args = m.concat(me.im_preargs, args);
+            }
+            var self = me.im_self;
+            if (!self) {
+                self = this;
+            }
+            return self[me.im_func].apply(self, args);
+        };
+        newfunc.im_self = self;
+        newfunc.im_func = func;
+        newfunc.im_preargs = im_preargs;
+        return newfunc;
     },
 
     /** @id MochiKit.Base.bindMethods */
@@ -1238,7 +1239,7 @@ MochiKit.Base.update(MochiKit.Base, {
                 arr.push(decode(pair.join("=")));
             }
         } else {
-            for (var i = 0; i < pairs.length; i++) {
+            for (i = 0; i < pairs.length; i++) {
                 pair = pairs[i].split("=");
                 var name = pair.shift();
                 if (!name) {
@@ -1290,80 +1291,110 @@ MochiKit.Base.AdapterRegistry.prototype = {
     }
 };
 
+
+MochiKit.Base.EXPORT = [
+    "flattenArray",
+    "noop",
+    "camelize",
+    "counter",
+    "clone",
+    "extend",
+    "update",
+    "updatetree",
+    "setdefault",
+    "keys",
+    "values",
+    "items",
+    "NamedError",
+    "operator",
+    "forwardCall",
+    "itemgetter",
+    "typeMatcher",
+    "isCallable",
+    "isUndefined",
+    "isUndefinedOrNull",
+    "isNull",
+    "isEmpty",
+    "isNotEmpty",
+    "isArrayLike",
+    "isDateLike",
+    "xmap",
+    "map",
+    "xfilter",
+    "filter",
+    "methodcaller",
+    "compose",
+    "bind",
+    "bindLate",
+    "bindMethods",
+    "NotFound",
+    "AdapterRegistry",
+    "registerComparator",
+    "compare",
+    "registerRepr",
+    "repr",
+    "objEqual",
+    "arrayEqual",
+    "concat",
+    "keyComparator",
+    "reverseKeyComparator",
+    "partial",
+    "merge",
+    "listMinMax",
+    "listMax",
+    "listMin",
+    "objMax",
+    "objMin",
+    "nodeWalk",
+    "zip",
+    "urlEncode",
+    "queryString",
+    "serializeJSON",
+    "registerJSON",
+    "evalJSON",
+    "parseQueryString",
+    "findValue",
+    "findIdentical",
+    "flattenArguments",
+    "method",
+    "average",
+    "mean",
+    "median"
+];
+
+MochiKit.Base.EXPORT_OK = [
+    "nameFunctions",
+    "comparatorRegistry",
+    "reprRegistry",
+    "jsonRegistry",
+    "compareDateLike",
+    "compareArrayLike",
+    "reprArrayLike",
+    "reprString",
+    "reprNumber"
+];
+
 MochiKit.Base._exportSymbols = function (globals, module) {
-    if (MochiKit.__export__ === false || module.__export__ === false) {
+    if (!MochiKit.__export__) {
         return;
     }
-    for (var k in module) {
-        var v = module[k];
-        if (v != null) {
-            var okName = (k[0] !== "_" && k !== "toString");
-            if (v.__export__ === true || (v.__export__ !== false && okName)) {
-                globals[k] = module[k];
-            }
-        }
+    var all = module.EXPORT_TAGS[":all"];
+    for (var i = 0; i < all.length; i++) {
+        globals[all[i]] = module[all[i]];
     }
 };
 
-/**
- * Creates a deprecated function alias in the specified module. The
- * deprecated function will forward all calls and arguments to a
- * target function, while also logging a debug message on the first
- * call (if MochiKit.Logging is loaded). The destination function may
- * be located in another module, which must be loaded, or an
- * exception will be thrown.
- *
- * @param {Object/String} module the source module or module name
- *            (e.g. 'DOM' or 'MochiKit.DOM')
- * @param {String} name the deprecated function name (e.g. 'getStyle')
- * @param {String} target the fully qualified name of the target
- *            function (e.g. 'MochiKit.Style.getStyle')
- * @param {String} version the first version when the source function
- *            was deprecated (e.g. '1.4')
- * @param {Boolean} [exportable] the exportable function flag,
- *            defaults to true
- */
-MochiKit.Base._deprecated = function (module, name, target, version, exportable) {
-    if (typeof(module) === 'string') {
-        if (module.indexOf('MochiKit.') === 0) {
-            module = module.substring(9);
-        }
-        module = MochiKit[module];
-    }
-    var targetModule = target.split('.')[1];
-    var targetName = target.split('.')[2];
-    var func = function () {
-        var self = arguments.callee;
-        var msg = module.NAME + '.' + name + ' is deprecated since version ' +
-                  version + '. Use ' + target + ' instead.';
-        if (self.logged !== true) {
-            self.logged = true;
-            if (MochiKit.Logging) {
-                MochiKit.Logging.logDebug(msg);
-            } else if (console && console.log) {
-                console.log(msg);
-            }
-        }
-        if (!MochiKit[targetModule]) {
-            throw new Error(msg);
-        }
-        return MochiKit[targetModule][targetName].apply(this, arguments);
-    };
-    if (exportable === false) {
-        func.__export__ = false;
-    }
-    module[name] = func;
-}
-
 MochiKit.Base.__new__ = function () {
+    // A singleton raised when no suitable adapter is found
     var m = this;
 
+    // convenience
     /** @id MochiKit.Base.noop */
     m.noop = m.operator.identity;
 
     // Backwards compat
-    m._deprecated(m, 'forward', 'MochiKit.Base.forwardCall', '1.3', false);
-    m._deprecated(m, 'find', 'MochiKit.Base.findValue', '1.3', false);
+    m.forward = m.forwardCall;
+    m.find = m.findValue;
 
     if (typeof(encodeURIComponent) != "undefined") {
         /** @id MochiKit.Base.urlEncode */
@@ -1431,6 +1462,12 @@ MochiKit.Base.__new__ = function () {
 
     /** @id MochiKit.Base.jsonRegistry */
     m.jsonRegistry = new m.AdapterRegistry();
+
+    var all = m.concat(m.EXPORT, m.EXPORT_OK);
+    m.EXPORT_TAGS = {
+        ":common": m.concat(m.EXPORT_OK),
+        ":all": all
+    };
 
     m.nameFunctions(this);
 

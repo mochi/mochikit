@@ -58,7 +58,7 @@ META = dict(
     license='mit',
     version=VERSION,
     build_requires={'Test.Simple': '0.11'},
-    recommends={},
+    recommends={'JSAN': '0.10'},
     provides={},
     generated_by="MochiKit's build script",
 )
@@ -102,20 +102,14 @@ for root, dirs, files in os.walk(src):
         if os.path.splitext(fn)[1] == '.html':
             s = file(fn).read()
             s = s.replace('/MochiKit/', '/lib/MochiKit/')
+            s = s.replace(
+                "JSAN.addRepository('..');",
+                'JSAN.addRepository("../lib");',
+            )
             z.writestr(dstfn, s)
         else:
             z.write(fn, dstfn)
 
 z.writestr(os.path.join(pkg, 'MANIFEST'), '\n'.join(MANIFEST + ['']))
-
-# TODO: Some ZIP files unpack with permissions set to 0, which makes
-#       them unreadable on Linux and Unix systems. This is a known
-#       bug in Python (see link below). The following work-around
-#       attempts to remedy this issue, but might cause other problems.
-#
-#       http://bugs.python.org/issue3394
-#
-for zi in z.filelist:
-    zi.external_attr = 0660 << 16L
 
 z.close()

@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Position 1.5
+MochiKit.Position 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,12 +8,24 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Position', '1.5', ['Base', 'DOM', 'Style']);
+MochiKit.Base._deps('Position', ['Base', 'DOM', 'Style']);
+
+MochiKit.Position.NAME = 'MochiKit.Position';
+MochiKit.Position.VERSION = '1.4';
+MochiKit.Position.__repr__ = function () {
+    return '[' + this.NAME + ' ' + this.VERSION + ']';
+};
+MochiKit.Position.toString = function () {
+    return this.__repr__();
+};
+
+MochiKit.Position.EXPORT_OK = [];
+
+MochiKit.Position.EXPORT = [
+];
+
 
 MochiKit.Base.update(MochiKit.Position, {
-    // Don't export from this module
-    __export__: false,
-
     // set to true if needed, warning: firefox performance problems
     // NOT neeeded for page scrolling, only if draggable contained in
     // scrollable elements
@@ -142,7 +154,7 @@ MochiKit.Base.update(MochiKit.Position, {
             valueL += element.offsetLeft || 0;
             element = element.offsetParent;
             if (element) {
-                var p = MochiKit.Style.getStyle(element, 'position');
+                p = MochiKit.Style.getStyle(element, 'position');
                 if (p == 'relative' || p == 'absolute') {
                     break;
                 }
@@ -210,9 +222,13 @@ MochiKit.Base.update(MochiKit.Position, {
 });
 
 MochiKit.Position.__new__ = function (win) {
-    MochiKit.Base.nameFunctions(this);
+    var m = MochiKit.Base;
+    this.EXPORT_TAGS = {
+        ':common': this.EXPORT,
+        ':all': m.concat(this.EXPORT, this.EXPORT_OK)
+    };
+
+    m.nameFunctions(this);
 };
 
 MochiKit.Position.__new__(this);
-
-MochiKit.Base._exportSymbols(this, MochiKit.Position);

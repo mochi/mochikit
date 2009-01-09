@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Color 1.5
+MochiKit.Color 1.4
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,7 +8,19 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Color', '1.5', ['Base', 'DOM', 'Style']);
+MochiKit.Base._deps('Color', ['Base', 'DOM', 'Style']);
+
+MochiKit.Color.NAME = "MochiKit.Color";
+MochiKit.Color.VERSION = "1.4";
+
+MochiKit.Color.__repr__ = function () {
+    return "[" + this.NAME + " " + this.VERSION + "]";
+};
+
+MochiKit.Color.toString = function () {
+    return this.__repr__();
+};
+
 
 /** @id MochiKit.Color.Color */
 MochiKit.Color.Color = function (red, green, blue, alpha) {
@@ -594,12 +606,12 @@ MochiKit.Base.update(MochiKit.Color, {
 
     __new__: function () {
         var m = MochiKit.Base;
-        /** @id MochiKit.Color.Color.fromRGBString */
+        /** @id MochiKit.Color.fromRGBString */
         this.Color.fromRGBString = m.bind(
             this.Color._fromColorString, this.Color, "rgb", "fromRGB",
             [1.0/255.0, 1.0/255.0, 1.0/255.0, 1]
         );
-        /** @id MochiKit.Color.Color.fromHSLString */
+        /** @id MochiKit.Color.fromHSLString */
         this.Color.fromHSLString = m.bind(
             this.Color._fromColorString, this.Color, "hsl", "fromHSL",
             [1.0/360.0, 0.01, 0.01, 1]
@@ -672,10 +684,31 @@ MochiKit.Base.update(MochiKit.Color, {
         m.nameFunctions(this);
 
         m.registerComparator(this.Color.NAME, isColor, compareColor);
+
+        this.EXPORT_TAGS = {
+            ":common": this.EXPORT,
+            ":all": m.concat(this.EXPORT, this.EXPORT_OK)
+        };
+
     }
 });
 
+MochiKit.Color.EXPORT = [
+    "Color"
+];
+
+MochiKit.Color.EXPORT_OK = [
+    "clampColorComponent",
+    "rgbToHSL",
+    "hslToRGB",
+    "rgbToHSV",
+    "hsvToRGB",
+    "toColorPart"
+];
+
 MochiKit.Color.__new__();
+
+MochiKit.Base._exportSymbols(this, MochiKit.Color);
 
 // Full table of css3 X11 colors <http://www.w3.org/TR/css3-color/#X11COLORS>
 
@@ -828,5 +861,3 @@ MochiKit.Color.Color._namedColors = {
     yellow: "#ffff00",
     yellowgreen: "#9acd32"
 };
-
-MochiKit.Base._exportSymbols(this, MochiKit.Color);

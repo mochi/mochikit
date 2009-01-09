@@ -545,6 +545,9 @@ Functions
 
     Returns ``num * scale`` clamped between ``0`` and ``scale``.
 
+    :mochiref:`clampColorComponent` is not exported by default when
+    using JSAN.
+
     *Availability*:
         Available in MochiKit 1.3.1+
 
@@ -557,6 +560,8 @@ Functions
     Alternate form:
         :mochiref:`hslToRGB({h: hue, s: saturation, l: lightness, a:
         alpha})`.
+
+    :mochiref:`hslToRGB` is not exported by default when using JSAN.
 
     *Availability*:
         Available in MochiKit 1.3.1+
@@ -571,6 +576,8 @@ Functions
         :mochiref:`hsvToRGB({h: hue, s: saturation, v: value, a:
         alpha})`.
 
+    :mochiref:`hsvToRGB` is not exported by default when using JSAN.
+
     *Availability*:
         Available in MochiKit 1.3.1+
 
@@ -580,6 +587,9 @@ Functions
     Convert num to a zero padded hexadecimal digit for use in a
     hexadecimal color string. Num should be an integer between ``0``
     and ``255``.
+
+    :mochiref:`toColorPart` is not exported by default when using
+    JSAN.
 
     *Availability*:
         Available in MochiKit 1.3.1+
@@ -594,6 +604,8 @@ Functions
     Alternate form:
         :mochiref:`rgbToHSL({r: red, g: green, b: blue, a: alpha})`.
 
+    :mochiref:`rgbToHSL` is not exported by default when using JSAN.
+
     *Availability*:
         Available in MochiKit 1.3.1+
 
@@ -606,6 +618,8 @@ Functions
 
     Alternate form:
         :mochiref:`rgbToHSV({r: red, g: green, b: blue, a: alpha})`.
+
+    :mochiref:`rgbToHSV` is not exported by default when using JSAN.
 
     *Availability*:
         Available in MochiKit 1.3.1+

@@ -1,3 +1,5 @@
+if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.Base'); }
+if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.Base'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_Base = function (t) {
@@ -69,27 +71,7 @@ tests.test_Base = function (t) {
     t.is( p.func(), "boring", "clone function calls correct" );
     q.value = "awesome";
     t.is( q.func(), "awesome", "clone really does work" );
-
-    // test bool
-    t.is( bool(true), true, "bool(true)");
-    t.is( bool(false), false, "bool(false)");
-    t.is( bool(new Boolean(false)), false, "bool(new Boolean(false))");
-    t.is( bool(""), false, "bool('')");
-    t.is( bool(" "), true, "bool(' ')");
-    t.is( bool("false"), false, "bool('false')");
-    t.is( bool("null"), false, "bool('null')");
-    t.is( bool("undefined"), false, "bool('undefined')");
-    t.is( bool("0"), false, "bool('0')");
-    t.is( bool(0), false, "bool(0)");
-    t.is( bool(NaN), false, "bool(NaN)");
-    t.is( bool(1), true, "bool(1)");
-    t.is( bool(new Number(0)), false, "bool(new Number(0))");
-    t.is( bool([]), false, "bool([])");
-    t.is( bool([0]), true, "bool([0])");
-    t.is( bool(null), false, "bool(null)");
-    t.is( bool(undefined), false, "bool(undefined)");
-    t.is( bool({}), true, "bool({})");
-
+    
     // test boring boolean funcs
     t.is( isNull(null), true, "isNull matches null" );
     t.is( isNull(undefined), false, "isNull doesn't match undefined" );
@@ -471,7 +453,7 @@ tests.test_Base = function (t) {
     var aa = {"foo": {"bar": 12, "wibble": 13}};
     var bb = {"foo": {"baz": 4, "bar": 16}, "bar": 4};
     
-    var cc = updatetree(null, aa, bb);
+    cc = updatetree(null, aa, bb);
     got = items(cc.foo);
     got.sort(compare);
     t.is( repr(got), repr(expect), "updatetree merge (self is null)" );
