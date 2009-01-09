@@ -57,9 +57,7 @@ Many of CSS3 [1]_ selectors are supported:
       - ``*=`` substring containment
       - ``|=`` first part of hyphen deleimited (eg. lang|="en" matches lang="en-US") 
 - Pseudo-classes
-      - ``:nth-child``, ``:nth-last-child``, ``:first-child``, ``:last-child``, ``:only-child``, ``:empty``, ``:enabled``, ``:disabled``, ``:checked``, ``:not(<any other selector>)`` 
-- Deprecated Pseudo-classes (to be removed in 1.5)
-      - ``:root``, ``:nth-of-type``, ``:nth-last-of-type``, ``:first-of-type``, ``:last-of-type``, ``:only-of-type``
+      - ``:root``, ``:nth-child``, ``:nth-last-child``, ``:nth-of-type``, ``:nth-last-of-type``, ``:first-child``, ``:last-child``, ``:first-of-type``, ``:last-of-type``, ``:only-child``, ``:only-of-type``, ``:empty``, ``:enabled``, ``:disabled``, ``:checked``, ``:not(<any other selector>)`` 
 
 Multiple selectors can be concatenated, like this: ``P.quote[author~='Torvalds']``,
 in which case elements matching *all* the selectors are returned. Furthermore, such
@@ -77,11 +75,6 @@ For further documentation of CSS selectors, refer to the W3C CSS standard. [1]_
 
 The original version of this module was ported from Prototype.
 
-**Note:** This module is currently experimental and API stability cannot be
-fully guaranteed. The implementation is scheduled to be replaced with a new
-faster version (now in development) during the MochiKit 1.5 development
-cycle.
-
 **Note:** Due to how Internet Explorer handles node attributes, some attribute
 selectors may not work as expected. In particular ``a[title]`` will not work
 as all ``A`` elements in the Internet Explorer DOM model have a title attribute
@@ -94,7 +87,7 @@ API Reference
 Functions
 ---------
 
-:mochidef:`findDocElements(expression[, ...])`:
+:mochidef:`$$(expression[, ...])`:
     
     Performs a selection on the active document. Equivalent
     to ``findChildElements(MochiKit.DOM.currentDocument(), [expression, ...])``
@@ -117,12 +110,6 @@ Functions
     *Availability*:
         Available in MochiKit 1.4+
 
-:mochidef:`$$(expression[, ...])`:
-
-    An alias to ``findDocElements``.
-
-    *Availability*:
-        Available in MochiKit 1.4+
 
 Constructors
 -------------
@@ -141,10 +128,6 @@ Constructors
         var selector = new MochiKit.Selector.Selector('#someelementid');
         var searchResults = selector.findElements(rootElement);
 
-    *Deprecated*:
-        Use :mochiref:`findChildElements` instead. The Selector class will be
-        removed in version 1.5.
-
     *Availability*:
         Available in MochiKit 1.4+
 
@@ -162,10 +145,6 @@ Constructors
         the expression. If ``>`` only direct child nodes of ``scope`` are tested,
         if ``+`` only the next sibling (if any) of ``scope`` is tested and if
         ``~`` all succeeding siblings of ``scope`` are tested.
-
-    *Deprecated*:
-        Use :mochiref:`findChildElements` instead. The Selector class will be
-        removed in version 1.5.
 
     *Availability*:
         Available in MochiKit 1.4+

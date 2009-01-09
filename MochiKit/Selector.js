@@ -10,378 +10,702 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 MochiKit.Base._module('Selector', '1.5', ['Base', 'DOM', 'Iter']);
 
-MochiKit.Selector.Selector = function (expression) {
-    this.params = {classNames: [], pseudoClassNames: []};
-    this.expression = expression.toString().replace(/(^\s+|\s+$)/g, '');
-    this.parseExpression();
-    this.compileMatcher();
+MochiKit.Selector.__repr__ = function () {
+    return "[" + this.NAME + " " + this.VERSION + "]";
 };
 
-MochiKit.Selector.Selector.prototype = {
-    /***
+MochiKit.Selector.toString = function () {
+    return this.__repr__();
+};
 
-    Selector class: convenient object to make CSS selections.
+MochiKit.Selector.EXPORT = [
+    "Selector",
+    "findRelatedElements",
+    "findDocElements",
+    "$$"
+];
 
-    ***/
-    __class__: MochiKit.Selector.Selector,
+MochiKit.Selector.EXPORT_OK = [
+];
 
-    /** @id MochiKit.Selector.Selector.prototype.parseExpression */
-    parseExpression: function () {
-        function abort(message) {
-            throw 'Parse error in selector: ' + message;
-        }
-
-        if (this.expression == '')  {
-            abort('empty expression');
-        }
-
-        var repr = MochiKit.Base.repr;
-        var params = this.params;
-        var expr = this.expression;
-        var match, modifier, clause, rest;
-        while (match = expr.match(/^(.*)\[([a-z0-9_:-]+?)(?:([~\|!^$*]?=)(?:"([^"]*)"|([^\]\s]*)))?\]$/i)) {
-            params.attributes = params.attributes || [];
-            params.attributes.push({name: match[2], operator: match[3], value: match[4] || match[5] || ''});
-            expr = match[1];
-        }
-
-        if (expr == '*') {
-            return this.params.wildcard = true;
-        }
-
-        while (match = expr.match(/^([^a-z0-9_-])?([a-z0-9_-]+(?:\([^)]*\))?)(.*)/i)) {
-            modifier = match[1];
-            clause = match[2];
-            rest = match[3];
-            switch (modifier) {
-                case '#':
-                    params.id = clause;
-                    break;
-                case '.':
-                    params.classNames.push(clause);
-                    break;
-                case ':':
-                    params.pseudoClassNames.push(clause);
-                    break;
-                case '':
-                case undefined:
-                    params.tagName = clause.toUpperCase();
-                    break;
-                default:
-                    abort(repr(expr));
-            }
-            expr = rest;
-        }
-
-        if (expr.length > 0) {
-            abort(repr(expr));
-        }
-    },
-
-    /** @id MochiKit.Selector.Selector.prototype.buildMatchExpression */
-    buildMatchExpression: function () {
-        var repr = MochiKit.Base.repr;
-        var params = this.params;
-        var conditions = [];
-        var clause, i;
-
-        function childElements(element) {
-            return "MochiKit.Base.filter(function (node) { return node.nodeType == 1; }, " + element + ".childNodes)";
-        }
-
-        if (params.wildcard) {
-            conditions.push('true');
-        }
-        if (clause = params.id) {
-            conditions.push('element.id == ' + repr(clause));
-        }
-        if (clause = params.tagName) {
-            conditions.push('element.tagName.toUpperCase() == ' + repr(clause));
-        }
-        if ((clause = params.classNames).length > 0) {
-            for (i = 0; i < clause.length; i++) {
-                conditions.push('MochiKit.DOM.hasElementClass(element, ' + repr(clause[i]) + ')');
-            }
-        }
-        if ((clause = params.pseudoClassNames).length > 0) {
-            for (i = 0; i < clause.length; i++) {
-                var match = clause[i].match(/^([^(]+)(?:\((.*)\))?$/);
-                var pseudoClass = match[1];
-                var pseudoClassArgument = match[2];
-                switch (pseudoClass) {
-                    case 'root':
-                        conditions.push('element.nodeType == 9 || element === element.ownerDocument.documentElement'); break;
-                    case 'nth-child':
-                    case 'nth-last-child':
-                    case 'nth-of-type':
-                    case 'nth-last-of-type':
-                        match = pseudoClassArgument.match(/^((?:(\d+)n\+)?(\d+)|odd|even)$/);
-                        if (!match) {
-                            throw "Invalid argument to pseudo element nth-child: " + pseudoClassArgument;
-                        }
-                        var a, b;
-                        if (match[0] == 'odd') {
-                            a = 2;
-                            b = 1;
-                        } else if (match[0] == 'even') {
-                            a = 2;
-                            b = 0;
-                        } else {
-                            a = match[2] && parseInt(match) || null;
-                            b = parseInt(match[3]);
-                        }
-                        conditions.push('this.nthChild(element,' + a + ',' + b
-                                        + ',' + !!pseudoClass.match('^nth-last')    // Reverse
-                                        + ',' + !!pseudoClass.match('of-type$')     // Restrict to same tagName
-                                        + ')');
-                        break;
-                    case 'first-child':
-                        conditions.push('this.nthChild(element, null, 1)');
-                        break;
-                    case 'last-child':
-                        conditions.push('this.nthChild(element, null, 1, true)');
-                        break;
-                    case 'first-of-type':
-                        conditions.push('this.nthChild(element, null, 1, false, true)');
-                        break;
-                    case 'last-of-type':
-                        conditions.push('this.nthChild(element, null, 1, true, true)');
-                        break;
-                    case 'only-child':
-                        conditions.push(childElements('element.parentNode') + '.length == 1');
-                        break;
-                    case 'only-of-type':
-                        conditions.push('MochiKit.Base.filter(function (node) { return node.tagName == element.tagName; }, ' + childElements('element.parentNode') + ').length == 1');
-                        break;
-                    case 'empty':
-                        conditions.push('element.childNodes.length == 0');
-                        break;
-                    case 'enabled':
-                        conditions.push('(this.isUIElement(element) && element.disabled === false)');
-                        break;
-                    case 'disabled':
-                        conditions.push('(this.isUIElement(element) && element.disabled === true)');
-                        break;
-                    case 'checked':
-                        conditions.push('(this.isUIElement(element) && element.checked === true)');
-                        break;
-                    case 'not':
-                        var subselector = new MochiKit.Selector.Selector(pseudoClassArgument);
-                        conditions.push('!( ' + subselector.buildMatchExpression() + ')')
-                        break;
-                }
-            }
-        }
-        if (clause = params.attributes) {
-            MochiKit.Base.map(function (attribute) {
-                var value = 'MochiKit.DOM.getNodeAttribute(element, ' + repr(attribute.name) + ')';
-                var splitValueBy = function (delimiter) {
-                    return value + '.split(' + repr(delimiter) + ')';
-                }
-                conditions.push(value + ' != null');
-                switch (attribute.operator) {
-                    case '=':
-                        conditions.push(value + ' == ' + repr(attribute.value));
-                        break;
-                    case '~=':
-                        conditions.push('MochiKit.Base.findValue(' + splitValueBy(' ') + ', ' + repr(attribute.value) + ') > -1');
-                        break;
-                    case '^=':
-                        conditions.push(value + '.substring(0, ' + attribute.value.length + ') == ' + repr(attribute.value));
-                        break;
-                    case '$=':
-                        conditions.push(value + '.substring(' + value + '.length - ' + attribute.value.length + ') == ' + repr(attribute.value));
-                        break;
-                    case '*=':
-                        conditions.push(value + '.match(' + repr(attribute.value) + ')');
-                        break;
-                    case '|=':
-                        conditions.push(splitValueBy('-') + '[0].toUpperCase() == ' + repr(attribute.value.toUpperCase()));
-                        break;
-                    case '!=':
-                        conditions.push(value + ' != ' + repr(attribute.value));
-                        break;
-                    case '':
-                    case undefined:
-                        // Condition already added above
-                        break;
-                    default:
-                        throw 'Unknown operator ' + attribute.operator + ' in selector';
-                }
-            }, clause);
-        }
-
-        return conditions.join(' && ');
-    },
-
-    /** @id MochiKit.Selector.Selector.prototype.compileMatcher */
-    compileMatcher: function () {
-        var code = 'return (!element.tagName) ? false : ' +
-                   this.buildMatchExpression() + ';';
-        this.match = new Function('element', code);
-    },
-
-    /** @id MochiKit.Selector.Selector.prototype.nthChild */
-    nthChild: function (element, a, b, reverse, sametag){
-        var siblings = MochiKit.Base.filter(function (node) {
-            return node.nodeType == 1;
-        }, element.parentNode.childNodes);
-        if (sametag) {
-            siblings = MochiKit.Base.filter(function (node) {
-                return node.tagName == element.tagName;
-            }, siblings);
-        }
-        if (reverse) {
-            siblings = MochiKit.Iter.reversed(siblings);
-        }
-        if (a) {
-            var actualIndex = MochiKit.Base.findIdentical(siblings, element);
-            return ((actualIndex + 1 - b) / a) % 1 == 0;
-        } else {
-            return b == MochiKit.Base.findIdentical(siblings, element) + 1;
-        }
-    },
-
-    /** @id MochiKit.Selector.Selector.prototype.isUIElement */
-    isUIElement: function (element) {
-        return MochiKit.Base.findValue(['input', 'button', 'select', 'option', 'textarea', 'object'],
-                element.tagName.toLowerCase()) > -1;
-    },
-
-    /** @id MochiKit.Selector.Selector.prototype.findElements */
-    findElements: function (scope, axis) {
-        var element;
-
-        if (axis == undefined) {
-            axis = "";
-        }
-
-        function inScope(element, scope) {
-            if (axis == "") {
-                return MochiKit.DOM.isChildNode(element, scope);
-            } else if (axis == ">") {
-                return element.parentNode === scope;
-            } else if (axis == "+") {
-                return element === nextSiblingElement(scope);
-            } else if (axis == "~") {
-                var sibling = scope;
-                while (sibling = nextSiblingElement(sibling)) {
-                    if (element === sibling) {
-                        return true;
-                    }
-                }
-                return false;
-            } else {
-                throw "Invalid axis: " + axis;
-            }
-        }
-
-        if (element = MochiKit.DOM.getElement(this.params.id)) {
-            if (this.match(element)) {
-                if (!scope || inScope(element, scope)) {
-                    return [element];
-                }
-            }
-        }
-
-        function nextSiblingElement(node) {
-            node = node.nextSibling;
-            while (node && node.nodeType != 1) {
-                node = node.nextSibling;
-            }
-            return node;
-        }
-
-        if (axis == "") {
-            scope = (scope || MochiKit.DOM.currentDocument()).getElementsByTagName(this.params.tagName || '*');
-        } else if (axis == ">") {
-            if (!scope) {
-                throw "> combinator not allowed without preceeding expression";
-            }
-            scope = MochiKit.Base.filter(function (node) {
-                return node.nodeType == 1;
-            }, scope.childNodes);
-        } else if (axis == "+") {
-            if (!scope) {
-                throw "+ combinator not allowed without preceeding expression";
-            }
-            scope = nextSiblingElement(scope) && [nextSiblingElement(scope)];
-        } else if (axis == "~") {
-            if (!scope) {
-                throw "~ combinator not allowed without preceeding expression";
-            }
-            var newscope = [];
-            while (nextSiblingElement(scope)) {
-                scope = nextSiblingElement(scope);
-                newscope.push(scope);
-            }
-            scope = newscope;
-        }
-
-        if (!scope) {
-            return [];
-        }
-
-        var results = MochiKit.Base.filter(MochiKit.Base.bind(function (scopeElt) {
-            return this.match(scopeElt);
-        }, this), scope);
-
-        return results;
-    },
-
-    /** @id MochiKit.Selector.Selector.prototype.repr */
-    repr: function () {
-        return 'Selector(' + this.expression + ')';
-    },
-
-    toString: MochiKit.Base.forwardCall("repr")
+MochiKit.Selector.Selector = function (expression) {
+    throw new Error("The selector object has been deprecated in favor of Sizzle. Please use findRelatedElements, findDocElements or $$ instead.");
 };
 
 MochiKit.Base.update(MochiKit.Selector, {
 
-    /** @id MochiKit.Selector.findChildElements */
-    findChildElements: function (element, expressions) {
-        element = MochiKit.DOM.getElement(element);
-        var uniq = function(arr) {
-            var res = [];
-            for (var i = 0; i < arr.length; i++) {
-                if (MochiKit.Base.findIdentical(res, arr[i]) < 0) {
-                    res.push(arr[i]);
-                }
-            }
-            return res;
-        };
+    /** @id MochiKit.Selector.findRelatedElements */
+    findRelatedElements: function (element, expressions) {
         return MochiKit.Base.flattenArray(MochiKit.Base.map(function (expression) {
-            var nextScope = "";
-            var reducer = function (results, expr) {
-                var match = expr.match(/^[>+~]$/);
-                if (match) {
-                    nextScope = match[0];
-                    return results;
-                } else {
-                    var selector = new MochiKit.Selector.Selector(expr);
-                    var elements = MochiKit.Iter.reduce(function (elements, result) {
-                        return MochiKit.Base.extend(elements, selector.findElements(result || element, nextScope));
-                    }, results, []);
-                    nextScope = "";
-                    return elements;
-                }
-            };
-            var exprs = expression.replace(/(^\s+|\s+$)/g, '').split(/\s+/);
-            return uniq(MochiKit.Iter.reduce(reducer, exprs, [null]));
+            return Sizzle(expression, element);
         }, expressions));
     },
 
     findDocElements: function () {
-        return MochiKit.Selector.findChildElements(MochiKit.DOM.currentDocument(), arguments);
+        return MochiKit.Selector.findRelatedElements(MochiKit.DOM.currentDocument(), arguments);
     },
 
     __new__: function () {
+        var m = MochiKit.Base;
+
         this.$$ = this.findDocElements;
-        MochiKit.Base.nameFunctions(this);
+
+        this.EXPORT_TAGS = {
+            ":common": this.EXPORT,
+            ":all": m.concat(this.EXPORT, this.EXPORT_OK)
+        };
+
+        m.nameFunctions(this);
     }
 });
 
 MochiKit.Selector.__new__();
 
 MochiKit.Base._exportSymbols(this, MochiKit.Selector);
+
+
+/* The rest of this file is (c) John Resig, 2008
+ * Copied from the Sizzle selector library.
+ * See: http://github.com/jeresig/sizzle/tree/master/sizzle.js
+ */
+var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]+\]|[^[\]]+)+\]|\\.|[^ >+~,(\[]+)+|[>+~])(\s*,\s*)?/g;
+
+var cache = null;
+
+if ( document.addEventListener && !document.querySelectorAll ) {
+    cache = {};
+    function invalidate(){ cache = {}; }
+    document.addEventListener("DOMAttrModified", invalidate, false);
+    document.addEventListener("DOMNodeInserted", invalidate, false);
+    document.addEventListener("DOMNodeRemoved", invalidate, false);
+}
+
+function Sizzle(selector, context, results) {
+    var doCache = !results;
+    results = results || [];
+    context = context || document;
+    
+    if ( !selector || typeof selector !== "string" ) {
+        return results;
+    }
+
+    if ( cache && context === document && cache[ selector ] ) {
+        results.push.apply( results, cache[ selector ] );
+        return results;
+    }
+    
+    var parts = [], m, set, checkSet, check, mode, extra;
+    
+    // Reset the position of the chunker regexp (start from head)
+    chunker.lastIndex = 0;
+    
+    while ( (m = chunker.exec(selector)) !== null ) {
+        parts.push( m[1] );
+        
+        if ( m[2] ) {
+            extra = RegExp.rightContext;
+            break;
+        }
+    }
+
+    var ret = Sizzle.find( parts.pop(), context );
+    set = Sizzle.filter( ret.expr, ret.set );
+
+    if ( parts.length > 0 && !checkSet ) {
+        checkSet = makeArray(set);
+    }
+
+    while ( parts.length ) {
+        var cur = parts.pop(), pop = cur;
+
+        if ( !Expr.relative[ cur ] ) {
+            cur = "";
+        } else {
+            pop = parts.pop();
+        }
+
+        if ( pop == null ) {
+            pop = context;
+        }
+
+        var later = "", match;
+
+        // Position selectors must be done after the filter
+        if ( typeof pop === "string" ) {
+            while ( (match = Expr.match.POS.exec( pop )) ) {
+                later += match[0];
+                pop = pop.replace( Expr.match.POS, "" );
+            }
+        }
+
+        Expr.relative[ cur ]( checkSet, pop );
+
+        if ( later ) {
+            Sizzle.filter( later, checkSet, true );
+        }
+    }
+    
+    if ( !checkSet ) {
+        checkSet = set;
+    }
+
+    if ( !checkSet ) {
+        throw "Syntax error, unrecognized expression: " + (cur || selector);
+    }
+    
+    for ( var i = 0, l = checkSet.length; i < l; i++ ) {
+        if ( checkSet[i] ) {
+            results.push( set[i] );
+        }
+    }
+
+    if ( extra ) {
+        arguments.callee( extra, context, results );
+    }
+    
+    return cache && doCache ?
+        (cache[ selector ] = results) :
+        results;
+}
+
+Sizzle.find = function(expr, context){
+    var set, match;
+
+    if ( !expr ) {
+        return [];
+    }
+
+    var later = "", match;
+
+    // Pseudo-selectors could contain other selectors (like :not)
+    while ( (match = Expr.match.PSEUDO.exec( expr )) ) {
+        if ( RegExp.leftContext.substr(-1) !== "\\" ) {
+            later += match[0];
+            expr = expr.replace( Expr.match.PSEUDO, "" );
+        } else {
+            // TODO: Need a better solution, fails: .class\:foo:realfoo(#id)
+            break;
+        }
+    }
+
+    for ( var i = 0, l = Expr.order.length; i < l; i++ ) {
+        var type = Expr.order[i];
+        if ( (match = Expr.match[ type ].exec( expr )) && RegExp.leftContext.substr(-1) !== "\\" ) {
+            match[1] = (match[1] || "").replace(/\\/g, "");
+            set = Expr.find[ type ]( match, context );
+            if ( set != null ) {
+                expr = expr.replace( Expr.match[ type ], "" );
+                break;
+            }
+        }
+    }
+
+    if ( !set ) {
+        set = context.getElementsByTagName("*");
+    }
+
+    expr += later;
+
+    return {set: set, expr: expr};
+};
+
+Sizzle.filter = function(expr, set, inplace){
+    var old = expr, result = [], curLoop = set, match;
+
+    while ( expr && set.length ) {
+        for ( var type in Expr.filter ) {
+            if ( (match = Expr.match[ type ].exec( expr )) != null ) {
+                var anyFound = false, filter = Expr.filter[ type ], goodArray = null;
+
+                if ( curLoop == result ) {
+                    result = [];
+                }
+
+                if ( Expr.preFilter[ type ] ) {
+                    match = Expr.preFilter[ type ]( match, curLoop );
+
+                    if ( match[0] === true ) {
+                        goodArray = [];
+                        var last = null;
+                        for ( var i = 0, l = curLoop.length; i < l; i++ ) {
+                            var elem = curLoop[i];
+                            if ( elem && last !== elem ) {
+                                goodArray.push( elem );
+                                last = elem;
+                            }
+                        }
+                    }
+
+                }
+
+                var goodPos = 0;
+
+                for ( var i = 0, l = curLoop.length; i < l; i++ ) {
+                    var item = curLoop[i];
+                    if ( item ) {
+                        if ( goodArray && item != goodArray[goodPos] ) {
+                            goodPos++;
+                        }
+
+                        var found = filter( item, match, goodPos, goodArray );
+                        if ( inplace && found != null ) {
+                            curLoop[i] = found ? curLoop[i] : false;
+                        } else if ( found ) {
+                            result.push( item );
+                            anyFound = true;
+                        }
+                    }
+                }
+
+                if ( found !== undefined ) {
+                    if ( !inplace ) {
+                        curLoop = result;
+                    }
+
+                    expr = expr.replace( Expr.match[ type ], "" );
+
+                    if ( !anyFound ) {
+                        return [];
+                    }
+
+                    break;
+                }
+            }
+        }
+
+
+        expr = expr.replace(/\s*,\s*/, "");
+
+        // Improper expression
+        if ( expr == old ) {
+            throw "Syntax error, unrecognized expression: " + expr;
+        }
+
+        old = expr;
+    }
+
+    return curLoop;
+};
+
+var Expr = {
+    order: [ "ID", "NAME", "TAG" ],
+    match: {
+        ID: /#((?:[\w\u0128-\uFFFF_-]|\\.)+)/,
+        CLASS: /\.((?:[\w\u0128-\uFFFF_-]|\\.)+)/,
+        NAME: /\[name=((?:[\w\u0128-\uFFFF_-]|\\.)+)\]/,
+        ATTR: /\[((?:[\w\u0128-\uFFFF_-]|\\.)+)\s*(?:(\S*=)\s*(['"]*)([^\3]+)\3|)\]/,
+        TAG: /^((?:[\w\u0128-\uFFFF\*_-]|\\.)+)/,
+        CHILD: /:(only|nth|last|first)-child\(?(even|odd|[\dn+-]*)\)?/,
+        POS: /:(nth|eq|gt|lt|first|last|even|odd)\(?(\d*)\)?/,
+        PSEUDO: /:((?:[\w\u0128-\uFFFF_-]|\\.)+)(?:\((['"]*)((?:\([^\)]+\)|[^\2\(\)]*)+)\2\))?/
+    },
+    attrMap: {
+        "class": "className"
+    },
+    relative: {
+        "+": function(checkSet, part){
+            for ( var i = 0, l = checkSet.length; i < l; i++ ) {
+                var elem = checkSet[i];
+                if ( elem ) {
+                    checkSet[i] = dir( elem, "previousSibling" );
+                }
+            }
+
+            Sizzle.filter( part, checkSet, true );
+        },
+        ">": function(checkSet, part){
+            for ( var i = 0, l = checkSet.length; i < l; i++ ) {
+                var elem = checkSet[i];
+                if ( elem ) {
+                    checkSet[i] = elem.parentNode;
+                    if ( typeof part !== "string" ) {
+                        checkSet[i] = checkSet[i] == part;
+                    }
+                }
+            }
+
+            if ( typeof part === "string" ) {
+                Sizzle.filter( part, checkSet, true );
+            }
+        },
+        "": function(checkSet, part){
+            var doneName = "done" + (done++), checkFn = dirCheck;
+
+            if ( !part.match(/\W/) ) {
+                var nodeCheck = part = part.toUpperCase();
+                checkFn = dirNodeCheck;
+            }
+
+            for ( var i = 0, l = checkSet.length; i < l; i++ ) {
+                if ( checkSet[i] ) {
+                    checkSet[i] = checkFn(checkSet[i], "parentNode", part, doneName, i, checkSet, nodeCheck);
+                }
+            }
+        },
+        "~": function(checkSet, part){
+            var doneName = "done" + (done++), checkFn = dirCheck;
+
+            if ( !part.match(/\W/) ) {
+                var nodeCheck = part = part.toUpperCase();
+                checkFn = dirNodeCheck;
+            }
+
+            for ( var i = 0, l = checkSet.length; i < l; i++ ) {
+                if ( checkSet[i] ) {
+                    checkSet[i] = checkFn(checkSet[i], "previousSibling", part, doneName, i, checkSet, nodeCheck);
+                }
+            }
+        }
+    },
+    find: {
+        ID: function(match, context){
+            if ( context.getElementById ) {
+                var m = context.getElementById(match[1]);
+                return m ? [m] : [];
+            }
+        },
+        NAME: function(match, context){
+            return context.getElementsByName(match[1]);
+        },
+        TAG: function(match, context){
+            return context.getElementsByTagName(match[1]);
+        }
+    },
+    preFilter: {
+        CLASS: function(match){
+            return " " + match[1] + " ";
+        },
+        ID: function(match){
+            return match[1];
+        },
+        TAG: function(match){
+            return match[1].toUpperCase();
+        },
+        CHILD: function(match){
+            if ( match[1] == "nth" ) {
+                // parse equations like 'even', 'odd', '5', '2n', '3n+2', '4n-1', '-n+6'
+                var test = /(-?)(\d*)n((?:\+|-)?\d*)/.exec(
+                    match[2] == "even" && "2n" || match[2] == "odd" && "2n+1" ||
+                    !/\D/.test( match[2] ) && "0n+" + match[2] || match[2]);
+
+                // calculate the numbers (first)n+(last) including if they are negative
+                match[2] = (test[1] + (test[2] || 1)) - 0;
+                match[3] = test[3] - 0;
+            }
+
+            // TODO: Move to normal caching system
+            match[0] = typeof get_length == "undefined" ? "done" + (done++) : "nodeCache";
+
+            return match;
+        },
+        ATTR: function(match){
+            var name = match[1];
+            
+            if ( Expr.attrMap[name] ) {
+                match[1] = Expr.attrMap[name];
+            }
+
+            return match;
+        },
+        PSEUDO: function(match){
+            if ( match[1] === "not" ) {
+                match[3] = match[3].split(/\s*,\s*/);
+            }
+            
+            return match;
+        },
+        POS: function(match){
+            match.unshift( true );
+            return match;
+        }
+    },
+    filters: {
+        enabled: function(elem){
+            return elem.disabled === false && elem.type !== "hidden";
+        },
+        disabled: function(elem){
+            return elem.disabled === true;
+        },
+        checked: function(elem){
+            return elem.checked === true;
+        },
+        selected: function(elem){
+            return elem.selected === true;
+        },
+        parent: function(elem){
+            return elem.firstChild;
+        },
+        empty: function(elem){
+            return !elem.firstChild;
+        },
+        contains: function(elem, i, match){
+            return (elem.textContent||elem.innerText||"").indexOf(match[3]) >= 0;
+        },
+        visible: function(elem){
+            return "hidden" != elem.type && MochiKit.Style.getStyle(elem,"display") != "none" && MochiKit.Style.getStyle(elem,"visibility") != "hidden";
+        },
+        hidden: function(elem){
+            return "hidden"==a.type || MochiKit.Style.getStyle(elem,"display") == "none" || MochiKit.Style.getStyle(elem,"visibility") == "hidden";
+        },
+        text: function(elem){
+            return "text" == elem.type;
+        },
+        radio: function(elem){
+            return "radio" == elem.type;
+        },
+        checkbox: function(elem){
+            return "checkbox" == elem.type;
+        },
+        file: function(elem){
+            return "file" == elem.type;
+        },
+        password: function(elem){
+            return "password" == elem.type;
+        },
+        submit: function(elem){
+            return "submit" == elem.type;
+        },
+        image: function(elem){
+            return "image" == elem.type;
+        },
+        reset: function(elem){
+            return "reset" == elem.type;
+        },
+        button: function(elem){
+            return "button" == elem.type || elem.nodeName.toUpperCase == "BUTTON";
+        },
+        input: function(elem){
+            return /input|select|textarea|button/i.test(elem.nodeName);
+        },
+        has: function(elem, i, match){
+            return MochiKit.Selector.findChildElements(elem, match[3]).length;
+        },
+        header: function(elem){
+            return /h\d/i.test(elem.nodeName);
+        }
+    },
+    setFilters: {
+        lt: function(elem, i, match){
+            return i < match[3]-0;
+        },
+        gt: function(elem, i, match){
+            return i > match[3]-0;
+        },
+        nth: function(elem, i, match){
+            return match[3] - 0 == i;
+        },
+        eq: function(elem, i, match){
+            return match[3] - 0 == i;
+        },
+        first: function(elem, i){
+            return i === 0;
+        },
+        last: function(elem, i, match, array){
+            return i === array.length - 1;
+        },
+        even: function(elem, i){
+            return i % 2 === 0;
+        },
+        odd: function(elem, i){
+            return i % 2 === 1;
+        }
+    },
+    filter: {
+        CHILD: function(elem, match){
+            var type = match[1], parent = elem.parentNode;
+
+            var doneName = match[0];
+            
+            if ( !parent[ doneName ] ) {
+                var count = 1;
+
+                for ( var node = parent.firstChild; node; node = node.nextSibling ) {
+                    if ( node.nodeType == 1 ) {
+                        node.nodeIndex = count++;
+                    }
+                }
+
+                parent[ doneName ] = count - 1;
+            }
+
+            if ( type == "first" ) {
+                return elem.nodeIndex == 1;
+            } else if ( type == "last" ) {
+                return elem.nodeIndex == parent[ doneName ];
+            } else if ( type == "only" ) {
+                return parent[ doneName ] == 1;
+            } else if ( type == "nth" ) {
+                var add = false, first = match[2], last = match[3];
+
+                if ( first == 1 && last == 0 ) {
+                    return true;
+                }
+
+                if ( first == 0 ) {
+                    if ( elem.nodeIndex == last ) {
+                        add = true;
+                    }
+                } else if ( (elem.nodeIndex - last) % first == 0 && (elem.nodeIndex - last) / first >= 0 ) {
+                    add = true;
+                }
+
+                return add;
+            }
+        },
+        PSEUDO: function(elem, match, i, array){
+            var name = match[1], filter = Expr.filters[ name ];
+
+            if ( name === "contains" ) {
+                return (elem.textContent || elem.innerText || "").indexOf(match[3]) >= 0;
+            } else if ( name === "not" ) {
+                var not = match[3];
+
+                for ( var i = 0, l = not.length; i < l; i++ ) {
+                    if ( Sizzle.filter(not[i], [elem]).length > 0 ) {
+                        return false;
+                    }
+                }
+
+                return true;
+            } else if ( filter ) {
+                return filter( elem, i, match, array )
+            }
+        },
+        ID: function(elem, match){
+            return elem.nodeType === 1 && elem.getAttribute("id") === match;
+        },
+        TAG: function(elem, match){
+            return (match === "*" && elem.nodeType === 1) || elem.nodeName === match;
+        },
+        CLASS: function(elem, match){
+            return (" " + elem.className + " ").indexOf( match ) > -1;
+        },
+        ATTR: function(elem, match){
+            var value = elem[ match[1] ] + "", type = match[2], check = match[4];
+            return value == null ?
+                false :
+                type === "=" ?
+                value === check :
+                type === "*=" || type === "~=" ?
+                value.indexOf(check) >= 0 :
+                !match[4] ?
+                elem.hasAttribute( match[1] ) || elem[ match[1] ] :
+                type === "!=" ?
+                value != check :
+                type === "^=" ?
+                value.indexOf(check) === 0 :
+                type === "$=" ?
+                value.substr(value.length - check.length) === check :
+                type === "|=" ?
+                value === check || value.substr(0, check.length + 1) === check + "-" :
+                false;
+        },
+        POS: function(elem, match, i, array){
+            var name = match[2], filter = Expr.setFilters[ name ];
+
+            if ( filter ) {
+                return filter( elem, i, match, array );
+            }
+        }
+    }
+};
+
+function makeArray(a) {
+    return Array.prototype.slice.call( a );
+}
+
+if ( document.querySelectorAll ) (function(){
+    var oldSizzle = Sizzle;
+    
+    Sizzle = function(query, context, extra){
+        if ( context === document ) {
+            try {
+                return makeArray(context.querySelectorAll(query));
+            } catch(e){}
+        }
+        
+        return oldSizzle(query, context, extra);
+    };
+
+    Sizzle.find = oldSizzle.find;
+    Sizzle.filter = oldSizzle.filter;
+})();
+
+if ( document.getElementsByClassName ) {
+    Expr.order.splice(1, 0, "CLASS");
+    Expr.find.CLASS = function(match, context) {
+        return context.getElementsByClassName(match[1]);
+    };
+}
+
+var done = 0;
+
+// TODO: Need a proper check here
+if ( document.all && !window.opera ) {
+    function makeArray(a) {
+        if ( a instanceof Array ) {
+            return Array.prototype.slice.call( a );
+        }
+
+        var ret = [];
+        for ( var i = 0; a[i]; i++ ) {
+            ret.push( a[i] );
+        }
+
+        return ret;
+    }
+}
+
+function dir( elem, dir ) {
+    var cur = elem[ dir ];
+    while ( cur && cur.nodeType !== 1 ) {
+        cur = cur[ dir ];
+    }
+    return cur || false;
+}
+
+function dirNodeCheck( elem, dir, cur, doneName, i, checkSet, nodeCheck ) {
+    elem = elem[dir]
+    var match = false;
+
+    while ( elem ) {
+        if ( elem[doneName] ) {
+            match = checkSet[ elem[doneName] ];
+            break;
+        }
+
+        elem[doneName] = i;
+
+        if ( elem.nodeName === cur ) {
+            match = elem;
+            break;
+        }
+
+        elem = elem[dir];
+    }
+
+    return match;
+}
+
+function dirCheck( elem, dir, cur, doneName, i, checkSet, nodeCheck ) {
+    elem = elem[dir]
+    var match = false;
+
+    while ( elem ) {
+        if ( elem[doneName] ) {
+            match = checkSet[ elem[doneName] ];
+            break;
+        }
+
+        elem[doneName] = i;
+
+        if ( elem.nodeType === 1 && Sizzle.filter( cur, [elem] ).length > 0 ) {
+            match = elem;
+            break;
+        }
+
+        elem = elem[dir];
+    }
+    
+    return match;
+}
