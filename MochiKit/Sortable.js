@@ -6,26 +6,11 @@ See scriptaculous.js for full license.
 
 ***/
 
-MochiKit.Base._deps('Sortable', ['Base', 'Iter', 'DOM', 'Position', 'DragAndDrop']);
-
-MochiKit.Sortable.NAME = 'MochiKit.Sortable';
-MochiKit.Sortable.VERSION = '1.4';
-
-MochiKit.Sortable.__repr__ = function () {
-    return '[' + this.NAME + ' ' + this.VERSION + ']';
-};
-
-MochiKit.Sortable.toString = function () {
-    return this.__repr__();
-};
-
-MochiKit.Sortable.EXPORT = [
-];
-
-MochiKit.Sortable.EXPORT_OK = [
-];
+MochiKit.Base._module('Sortable', '1.5', ['Base', 'Iter', 'DOM', 'Position', 'DragAndDrop']);
 
 MochiKit.Base.update(MochiKit.Sortable, {
+    __export__: false,
+
     /***
 
     Manage sortables. Mainly use the create function to add a sortable.
@@ -310,7 +295,7 @@ MochiKit.Base.update(MochiKit.Sortable, {
 
     /** @id MochiKit.Sortable.onHover */
     onHover: function (element, dropon, overlap) {
-        if (MochiKit.DOM.isParent(dropon, element)) {
+        if (MochiKit.DOM.isChildNode(dropon, element)) {
             return;
         }
         var self = MochiKit.Sortable;
@@ -357,7 +342,7 @@ MochiKit.Base.update(MochiKit.Sortable, {
         var self = MochiKit.Sortable;
         var droponOptions = self.options(dropon);
 
-        if (!MochiKit.DOM.isParent(dropon, element)) {
+        if (!MochiKit.DOM.isChildNode(dropon, element)) {
             var index;
 
             var children = self.findElements(dropon, {tag: droponOptions.tag,
@@ -574,3 +559,11 @@ MochiKit.Base.update(MochiKit.Sortable, {
 
 // trunk compatibility
 MochiKit.Sortable.Sortable = MochiKit.Sortable;
+
+MochiKit.Sortable.__new__ = function () {
+    MochiKit.Base.nameFunctions(this);
+};
+
+MochiKit.Sortable.__new__();
+
+MochiKit.Base._exportSymbols(this, MochiKit.Sortable);

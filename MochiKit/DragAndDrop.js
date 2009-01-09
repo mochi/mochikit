@@ -1,5 +1,5 @@
 /***
-MochiKit.DragAndDrop 1.4
+MochiKit.DragAndDrop 1.5
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,28 +8,7 @@ Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 
 ***/
 
-MochiKit.Base._deps('DragAndDrop', ['Base', 'Iter', 'DOM', 'Signal', 'Visual', 'Position']);
-
-MochiKit.DragAndDrop.NAME = 'MochiKit.DragAndDrop';
-MochiKit.DragAndDrop.VERSION = '1.4';
-
-MochiKit.DragAndDrop.__repr__ = function () {
-    return '[' + this.NAME + ' ' + this.VERSION + ']';
-};
-
-MochiKit.DragAndDrop.toString = function () {
-    return this.__repr__();
-};
-
-MochiKit.DragAndDrop.EXPORT = [
-    "Droppable",
-    "Draggable"
-];
-
-MochiKit.DragAndDrop.EXPORT_OK = [
-    "Droppables",
-    "Draggables"
-];
+MochiKit.Base._module('DragAndDrop', '1.5', ['Base', 'Iter', 'DOM', 'Signal', 'Visual', 'Position']);
 
 MochiKit.DragAndDrop.Droppables = {
     /***
@@ -68,10 +47,10 @@ MochiKit.DragAndDrop.Droppables = {
     },
 
     findDeepestChild: function (drops) {
-        deepest = drops[0];
+        var deepest = drops[0];
 
-        for (i = 1; i < drops.length; ++i) {
-            if (MochiKit.DOM.isParent(drops[i].element, deepest.element)) {
+        for (var i = 1; i < drops.length; ++i) {
+            if (MochiKit.DOM.isChildNode(drops[i].element, deepest.element)) {
                 deepest = drops[i];
             }
         }
@@ -93,7 +72,7 @@ MochiKit.DragAndDrop.Droppables = {
             }
         });
         if (affected.length > 0) {
-            drop = this.findDeepestChild(affected);
+            var drop = this.findDeepestChild(affected);
             MochiKit.Position.within(drop.element, point.page.x, point.page.y);
             drop.options.onhover(element, drop.element,
                 MochiKit.Position.overlap(drop.options.overlap, drop.element));
@@ -193,7 +172,7 @@ MochiKit.DragAndDrop.Droppable.prototype = {
             this.options._containers.push(d.getElement(c));
         }, this), this.options.containment);
 
-        d.makePositioned(this.element); // fix IE
+        MochiKit.Style.makePositioned(this.element); // fix IE
 
         MochiKit.DragAndDrop.Droppables.register(this);
     },
@@ -442,7 +421,7 @@ MochiKit.DragAndDrop.Draggable.prototype = {
             this._isScrollChild = MochiKit.DOM.isChildNode(this.element, options.scroll);
         }
 
-        d.makePositioned(this.element);  // fix IE
+        MochiKit.Style.makePositioned(this.element);  // fix IE
 
         this.delta = this.currentDelta();
         this.options = options;
@@ -780,14 +759,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
 
 MochiKit.DragAndDrop.__new__ = function () {
     MochiKit.Base.nameFunctions(this);
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
-    };
 };
 
 MochiKit.DragAndDrop.__new__();
 
 MochiKit.Base._exportSymbols(this, MochiKit.DragAndDrop);
-

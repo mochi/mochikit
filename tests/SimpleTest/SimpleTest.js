@@ -21,6 +21,43 @@ if (typeof(parent) != "undefined" && parent.TestRunner) {
 
 SimpleTest._tests = [];
 SimpleTest._stopOnLoad = true;
+SimpleTest._scopeCopy = {};
+
+/**
+ * Saves a copy of the specified scope variables.
+ */
+SimpleTest.saveScope = function (scope) {
+    SimpleTest._scopeCopy = {};
+    for (var k in scope) {
+        SimpleTest._scopeCopy[k] = scope[k];
+    }
+}
+
+/**
+ * Verifies the specified scope against the stored copy and reports
+ * any differences as test failures.
+ */
+SimpleTest.verifyScope = function (scope) {
+    var filter = ['test', '_firebug','_FirebugConsole','XMLHttpRequest','Audio',
+                  'XSLTProcessor','Option','Image','scrollMaxX','scrollMaxY',
+                  'clipboardData'];
+    for (var k in scope) {
+        if (MochiKit.Base.findValue(filter, k) < 0) {
+            var v = scope[k];
+            var old = SimpleTest._scopeCopy[k];
+            if (v !== old && typeof(old) === "undefined") {
+                SimpleTest.ok(false, "scope modified, variable " + k + " was added");
+            } else if (v !== old) {
+                SimpleTest.ok(false, "scope modified, variable " + k + " changed from: " + old + ", to: " + v);
+            }
+        }
+    }
+    for (var k in SimpleTest._scopeCopy) {
+        if (!(k in scope)) {
+            SimpleTest.ok(false, "scope modified, variable " + k + " has been removed");
+        }
+    }
+}
 
 /**
  * Something like assert.
@@ -52,9 +89,10 @@ SimpleTest.is = function (a, b, name) {
  * Roughly equivalent to ok(compare(a,b)==0, name)
  */
 SimpleTest.eq = function (a, b, name) {
-    var repr = MochiKit.Base.repr;
+    var base = MochiKit.Base;
+    var repr = base.repr;
     try {
-        SimpleTest.ok(compare(a, b) == 0, name, "got " + repr(a) + ", expected " + repr(b));
+        SimpleTest.ok(base.compare(a, b) == 0, name, "got " + repr(a) + ", expected " + repr(b));
     } catch (e) {
         SimpleTest.ok(false, name, "exception in compare: " + repr(e));
     }
@@ -111,7 +149,7 @@ SimpleTest.toggle = function(el) {
  * Toggle visibility for divs with a specific class.
 **/
 SimpleTest.toggleByClass = function (cls) {
-    var elems = getElementsByTagAndClassName('div', cls);
+    var elems = MochiKit.DOM.getElementsByTagAndClassName('div', cls);
     MochiKit.Base.map(SimpleTest.toggle, elems);
 };
 
@@ -120,10 +158,12 @@ SimpleTest.toggleByClass = function (cls) {
 **/
 
 SimpleTest.showReport = function() {
-    var togglePassed = A({'href': '#'}, "Toggle passed tests");
-    var toggleFailed = A({'href': '#'}, "Toggle failed tests");
-    togglePassed.onclick = partial(SimpleTest.toggleByClass, 'test_ok');
-    toggleFailed.onclick = partial(SimpleTest.toggleByClass, 'test_not_ok');
+    var base = MochiKit.Base;
+    var dom = MochiKit.DOM;
+    var togglePassed = dom.A({'href': '#'}, "Toggle passed tests");
+    var toggleFailed = dom.A({'href': '#'}, "Toggle failed tests");
+    togglePassed.onclick = base.partial(SimpleTest.toggleByClass, 'test_ok');
+    toggleFailed.onclick = base.partial(SimpleTest.toggleByClass, 'test_not_ok');
     var body = document.getElementsByTagName("body")[0];
     var firstChild = body.childNodes[0];
     var addNode;
@@ -137,7 +177,7 @@ SimpleTest.showReport = function() {
         };
     }
     addNode(togglePassed);
-    addNode(SPAN(null, " "));
+    addNode(dom.SPAN(null, " "));
     addNode(toggleFailed);
     addNode(SimpleTest.report());
 };
@@ -173,7 +213,7 @@ SimpleTest.finish = function () {
 };
 
 
-addLoadEvent(function() {
+MochiKit.DOM.addLoadEvent(function() {
     if (SimpleTest._stopOnLoad) {
         SimpleTest.finish();
     }
@@ -374,6 +414,8 @@ SimpleTest.typeOf = function (object) {
 SimpleTest.isa = function (object, clas) {
     return SimpleTest.typeOf(object) == clas;
 };
+
+
 
 // Global symbols:
 var ok = SimpleTest.ok;

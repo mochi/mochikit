@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
 <title>MochiKit.DOM - painless DOM manipulation API</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -622,51 +622,12 @@ identifiers are also acceptable.</p>
 <a name="fn-ischildnode"></a>
 <a class="mochidef reference" href="#fn-ischildnode">isChildNode(node, maybeParent)</a>:</p>
 <blockquote>
-<p>Determine whether <tt class="docutils literal"><span class="pre">node</span></tt> is a child node of <tt class="docutils literal"><span class="pre">maybeParent</span></tt>.
-Returns <tt class="docutils literal"><span class="pre">true</span></tt> if so, and <tt class="docutils literal"><span class="pre">false</span></tt> if not. A node is considered
-a child node of itself for the purposes of this function.</p>
+<p>Determine whether <tt class="docutils literal"><span class="pre">node</span></tt> is a child node or decendant node of
+<tt class="docutils literal"><span class="pre">maybeParent</span></tt>. Returns <tt class="docutils literal"><span class="pre">true</span></tt> if so, and <tt class="docutils literal"><span class="pre">false</span></tt> if not.
+A node is considered a child node of itself for the purposes of
+this function.</p>
 <p>If either <tt class="docutils literal"><span class="pre">node</span></tt> or <tt class="docutils literal"><span class="pre">maybeParent</span></tt> are strings, the related
 nodes will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.4+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-isparent"></a>
-<a class="mochidef reference" href="#fn-isparent">isParent(child, element)</a>:</p>
-<blockquote>
-<p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">element</span></tt> contains <tt class="docutils literal"><span class="pre">child</span></tt>. Returns <tt class="docutils literal"><span class="pre">false</span></tt>
-if <tt class="docutils literal"><span class="pre">element</span> <span class="pre">==</span> <span class="pre">child</span></tt> or <tt class="docutils literal"><span class="pre">child</span></tt> is not contained in <tt class="docutils literal"><span class="pre">element</span></tt>.
-If <tt class="docutils literal"><span class="pre">child</span></tt> or <tt class="docutils literal"><span class="pre">element</span></tt> are strings, they will be looked up with
-<a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.4+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-makeclipping"></a>
-<a class="mochidef reference" href="#fn-makeclipping">makeClipping(element)</a>:</p>
-<blockquote>
-<p>Ensure that <tt class="docutils literal"><span class="pre">element.style.overflow</span> <span class="pre">=</span> <span class="pre">'hidden'</span></tt>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a
-string, then it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
-<p>Returns the original value of <tt class="docutils literal"><span class="pre">element.style.overflow</span></tt>, so that it
-may be restored with <a class="mochiref reference" href="#fn-undoclipping">undoClipping(element, overflow)</a>.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.4+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-makepositioned"></a>
-<a class="mochidef reference" href="#fn-makepositioned">makePositioned(element)</a>:</p>
-<blockquote>
-<p>Ensure that <tt class="docutils literal"><span class="pre">element.style.position</span></tt> is set to <tt class="docutils literal"><span class="pre">&quot;relative&quot;</span></tt> if it
-is not set or is <tt class="docutils literal"><span class="pre">&quot;static&quot;</span></tt>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a
-string, then it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
-<p>Returns the original value of <tt class="docutils literal"><span class="pre">element.style.position</span></tt>, so that it
-may be restored with <a class="mochiref reference" href="#fn-undopositioned">undoPositioned(element, position)</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -863,30 +824,6 @@ be used for most purposes.</p>
 </dl>
 </blockquote>
 <p>
-<a name="fn-undoclipping"></a>
-<a class="mochidef reference" href="#fn-undoclipping">undoClipping(element, overflow)</a>:</p>
-<blockquote>
-<p>Restore the setting of <tt class="docutils literal"><span class="pre">element.style.overflow</span></tt> set by
-<a class="mochiref reference" href="#fn-makeclipping">makeClipping(element)</a>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a string, then
-it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.4+</dd>
-</dl>
-</blockquote>
-<p>
-<a name="fn-undopositioned"></a>
-<a class="mochidef reference" href="#fn-undopositioned">undoPositioned(element, overflow)</a>:</p>
-<blockquote>
-<p>Restore the setting of <tt class="docutils literal"><span class="pre">element.style.position</span></tt> set by
-<a class="mochiref reference" href="#fn-makepositioned">makePositioned(element)</a>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a string, then
-it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.4+</dd>
-</dl>
-</blockquote>
-<p>
 <a name="fn-updatenodeattributes"></a>
 <a class="mochidef reference" href="#fn-updatenodeattributes">updateNodeAttributes(node, attrs)</a>:</p>
 <blockquote>
@@ -948,8 +885,9 @@ will be restored to its previous state.</p>
 </div>
 <div class="section">
 <h2><a id="style-functions" name="style-functions">Style Functions</a></h2>
-<p>These functions are available in MochiKit 1.3.1, but have been moved to
-<a class="mochiref reference" href="Style.html">MochiKit.Style</a> in 1.4+.</p>
+<p>These functions were previously available in MochiKit.DOM, but have been
+moved to <a class="mochiref reference" href="Style.html">MochiKit.Style</a> in recent versions. Function aliases
+remain for backwards compability.</p>
 <p>
 <a name="fn-computedstyle"></a>
 <a class="mochidef reference" href="#fn-computedstyle">computedStyle(htmlElement, cssProperty, mozillaEquivalentCSS)</a>:</p>
@@ -1047,6 +985,34 @@ based show/hide mechanism, and a CSS based alternative, see
 </dl>
 </blockquote>
 <p>
+<a name="fn-makeclipping"></a>
+<a class="mochidef reference" href="#fn-makeclipping">makeClipping(element)</a>:</p>
+<blockquote>
+<p>Ensure that <tt class="docutils literal"><span class="pre">element.style.overflow</span> <span class="pre">=</span> <span class="pre">'hidden'</span></tt>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a
+string, then it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<p>Returns the original values of <tt class="docutils literal"><span class="pre">overflow</span></tt>, <tt class="docutils literal"><span class="pre">overflow-y</span></tt> and
+<tt class="docutils literal"><span class="pre">overflow-y</span></tt> so that they may be restored with
+<a class="mochiref reference" href="#fn-undoclipping">undoClipping(element, overflow)</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+, moved to
+<a class="mochiref reference" href="Style.html#fn-makeclipping">MochiKit.Style.makeClipping</a> in 1.4.1+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-makepositioned"></a>
+<a class="mochidef reference" href="#fn-makepositioned">makePositioned(element)</a>:</p>
+<blockquote>
+<p>Ensure that <tt class="docutils literal"><span class="pre">element.style.position</span></tt> is set to <tt class="docutils literal"><span class="pre">&quot;relative&quot;</span></tt> if it
+is not set or is <tt class="docutils literal"><span class="pre">&quot;static&quot;</span></tt>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a
+string, then it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+, moved to
+<a class="mochiref reference" href="Style.html#fn-makepositioned">MochiKit.Style.makePositioned</a> in 1.4.1+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-setelementdimensions"></a>
 <a class="mochidef reference" href="#fn-setelementdimensions">setElementDimensions(element, dimensions[, units='px'])</a>:</p>
 <blockquote>
@@ -1135,6 +1101,32 @@ based show/hide mechanism, and a CSS based alternative, see
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1, moved to
 <a class="mochiref reference" href="Style.html#fn-showelement">MochiKit.Style.showElement</a> in 1.4+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-undoclipping"></a>
+<a class="mochidef reference" href="#fn-undoclipping">undoClipping(element, overflow)</a>:</p>
+<blockquote>
+<p>Restore the setting of <tt class="docutils literal"><span class="pre">element.style.overflow</span></tt> set by
+<a class="mochiref reference" href="#fn-makeclipping">makeClipping(element)</a>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a string, then
+it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+, moved to
+<a class="mochiref reference" href="Style.html#fn-undoclipping">MochiKit.Style.undoClipping</a> in 1.4.1+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-undopositioned"></a>
+<a class="mochidef reference" href="#fn-undopositioned">undoPositioned(element)</a>:</p>
+<blockquote>
+<p>Restore the setting of <tt class="docutils literal"><span class="pre">element.style.position</span></tt> set by
+<a class="mochiref reference" href="#fn-makepositioned">makePositioned(element)</a>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a string, then
+it will be looked up with <a class="mochiref reference" href="#fn-getelement">getElement</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+, moved to
+<a class="mochiref reference" href="Style.html#fn-undopositioned">MochiKit.Style.undoPositioned</a> in 1.4.1+</dd>
 </dl>
 </blockquote>
 </div>

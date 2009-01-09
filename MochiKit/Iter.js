@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Iter 1.4
+MochiKit.Iter 1.5
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,18 +8,9 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('Iter', ['Base']);
+MochiKit.Base._module('Iter', '1.5', ['Base']);
 
-MochiKit.Iter.NAME = "MochiKit.Iter";
-MochiKit.Iter.VERSION = "1.4";
 MochiKit.Base.update(MochiKit.Iter, {
-    __repr__: function () {
-        return "[" + this.NAME + " " + this.VERSION + "]";
-    },
-    toString: function () {
-        return this.__repr__();
-    },
-
     /** @id MochiKit.Iter.registerIteratorFactory */
     registerIteratorFactory: function (name, check, iterfactory, /* optional */ override) {
         MochiKit.Iter.iteratorRegistry.register(name, check, iterfactory, override);
@@ -760,46 +751,6 @@ MochiKit.Base.update(MochiKit.Iter, {
 });
 
 
-MochiKit.Iter.EXPORT_OK = [
-    "iteratorRegistry",
-    "arrayLikeIter",
-    "hasIterateNext",
-    "iterateNextIter"
-];
-
-MochiKit.Iter.EXPORT = [
-    "StopIteration",
-    "registerIteratorFactory",
-    "iter",
-    "count",
-    "cycle",
-    "repeat",
-    "next",
-    "izip",
-    "ifilter",
-    "ifilterfalse",
-    "islice",
-    "imap",
-    "applymap",
-    "chain",
-    "takewhile",
-    "dropwhile",
-    "tee",
-    "list",
-    "reduce",
-    "range",
-    "sum",
-    "exhaust",
-    "forEach",
-    "every",
-    "sorted",
-    "reversed",
-    "some",
-    "iextend",
-    "groupby",
-    "groupby_as_array"
-];
-
 MochiKit.Iter.__new__ = function () {
     var m = MochiKit.Base;
     // Re-use StopIteration if exists (e.g. SpiderMonkey)
@@ -822,11 +773,6 @@ MochiKit.Iter.__new__ = function () {
         this.hasIterateNext,
         this.iterateNextIter
     );
-
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": m.concat(this.EXPORT, this.EXPORT_OK)
-    };
 
     m.nameFunctions(this);
 
