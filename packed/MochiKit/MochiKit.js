@@ -4353,6 +4353,7 @@ MochiKit.Selector.Selector=function(_482){
 throw new Error("The selector object has been deprecated in favor of Sizzle. Please use findRelatedElements, findDocElements or $$ instead.");
 };
 MochiKit.Base.update(MochiKit.Selector,{findRelatedElements:function(_483,_484){
+_483=MochiKit.DOM.getElement(_483);
 return MochiKit.Base.flattenArray(MochiKit.Base.map(function(_485){
 return MochiKit.Selector.Sizzle(_485,_483);
 },_484));

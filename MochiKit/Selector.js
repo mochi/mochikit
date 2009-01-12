@@ -36,6 +36,7 @@ MochiKit.Base.update(MochiKit.Selector, {
 
     /** @id MochiKit.Selector.findRelatedElements */
     findRelatedElements: function (element, expressions) {
+	element = MochiKit.DOM.getElement(element);
         return MochiKit.Base.flattenArray(MochiKit.Base.map(function (expression) {
             return MochiKit.Selector.Sizzle(expression, element);
         }, expressions));
