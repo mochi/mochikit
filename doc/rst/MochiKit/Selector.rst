@@ -57,7 +57,9 @@ Many of CSS3 [1]_ selectors are supported:
       - ``*=`` substring containment
       - ``|=`` first part of hyphen deleimited (eg. lang|="en" matches lang="en-US") 
 - Pseudo-classes
-      - ``:root``, ``:nth-child``, ``:nth-last-child``, ``:nth-of-type``, ``:nth-last-of-type``, ``:first-child``, ``:last-child``, ``:first-of-type``, ``:last-of-type``, ``:only-child``, ``:only-of-type``, ``:empty``, ``:enabled``, ``:disabled``, ``:checked``, ``:not(<any other selector>)`` 
+      - ``:nth-child``, ``:nth-last-child``, ``:first-child``, ``:last-child``, ``:only-child``, ``:empty``, ``:enabled``, ``:disabled``, ``:checked``, ``:not(<any other selector>)`` 
+- Deprecated Pseudo-classes (to be removed in 1.5)
+      - ``:root``, ``:nth-of-type``, ``:nth-last-of-type``, ``:first-of-type``, ``:last-of-type``, ``:only-of-type``
 
 Multiple selectors can be concatenated, like this: ``P.quote[author~='Torvalds']``,
 in which case elements matching *all* the selectors are returned. Furthermore, such
@@ -87,7 +89,7 @@ API Reference
 Functions
 ---------
 
-:mochidef:`$$(expression[, ...])`:
+:mochidef:`findDocElements(expression[, ...])`:
     
     Performs a selection on the active document. Equivalent
     to ``findChildElements(MochiKit.DOM.currentDocument(), [expression, ...])``
@@ -110,6 +112,12 @@ Functions
     *Availability*:
         Available in MochiKit 1.4+
 
+:mochidef:`$$(expression[, ...])`:
+
+    An alias to ``findDocElements``.
+
+    *Availability*:
+        Available in MochiKit 1.4+
 
 Constructors
 -------------
@@ -128,6 +136,10 @@ Constructors
         var selector = new MochiKit.Selector.Selector('#someelementid');
         var searchResults = selector.findElements(rootElement);
 
+    *Deprecated*:
+        Use :mochiref:`findChildElements` instead. The Selector class will be
+        removed in version 1.5.
+
     *Availability*:
         Available in MochiKit 1.4+
 
@@ -145,6 +157,10 @@ Constructors
         the expression. If ``>`` only direct child nodes of ``scope`` are tested,
         if ``+`` only the next sibling (if any) of ``scope`` is tested and if
         ``~`` all succeeding siblings of ``scope`` are tested.
+
+    *Deprecated*:
+        Use :mochiref:`findChildElements` instead. The Selector class will be
+        removed in version 1.5.
 
     *Availability*:
         Available in MochiKit 1.4+

@@ -13,7 +13,9 @@
 <script type="text/javascript" src="test_Base.js"></script>
 <script type="text/javascript">
 try {
+    SimpleTest.saveScope(this);
     tests.test_Base({ok:ok,is:is});
+    SimpleTest.verifyScope(this);
     ok( true, "test suite finished!");
 } catch (err) {
     var s = "test suite failure!\n";

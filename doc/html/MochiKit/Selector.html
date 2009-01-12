@@ -82,7 +82,15 @@ current document.</p>
 <li><dl class="first docutils">
 <dt>Pseudo-classes</dt>
 <dd><ul class="first last simple">
-<li><tt class="docutils literal"><span class="pre">:root</span></tt>, <tt class="docutils literal"><span class="pre">:nth-child</span></tt>, <tt class="docutils literal"><span class="pre">:nth-last-child</span></tt>, <tt class="docutils literal"><span class="pre">:nth-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:nth-last-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:first-child</span></tt>, <tt class="docutils literal"><span class="pre">:last-child</span></tt>, <tt class="docutils literal"><span class="pre">:first-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:last-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:only-child</span></tt>, <tt class="docutils literal"><span class="pre">:only-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:empty</span></tt>, <tt class="docutils literal"><span class="pre">:enabled</span></tt>, <tt class="docutils literal"><span class="pre">:disabled</span></tt>, <tt class="docutils literal"><span class="pre">:checked</span></tt>, <tt class="docutils literal"><span class="pre">:not(&lt;any</span> <span class="pre">other</span> <span class="pre">selector&gt;)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">:nth-child</span></tt>, <tt class="docutils literal"><span class="pre">:nth-last-child</span></tt>, <tt class="docutils literal"><span class="pre">:first-child</span></tt>, <tt class="docutils literal"><span class="pre">:last-child</span></tt>, <tt class="docutils literal"><span class="pre">:only-child</span></tt>, <tt class="docutils literal"><span class="pre">:empty</span></tt>, <tt class="docutils literal"><span class="pre">:enabled</span></tt>, <tt class="docutils literal"><span class="pre">:disabled</span></tt>, <tt class="docutils literal"><span class="pre">:checked</span></tt>, <tt class="docutils literal"><span class="pre">:not(&lt;any</span> <span class="pre">other</span> <span class="pre">selector&gt;)</span></tt></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Deprecated Pseudo-classes (to be removed in 1.5)</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">:root</span></tt>, <tt class="docutils literal"><span class="pre">:nth-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:nth-last-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:first-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:last-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:only-of-type</span></tt></li>
 </ul>
 </dd>
 </dl>
@@ -100,6 +108,10 @@ are supported, e.g. <tt class="docutils literal"><span class="pre">table</span> 
 other row of table starting with the first one.</p>
 <p>For further documentation of CSS selectors, refer to the W3C CSS standard. <a class="footnote-reference" href="#id3" id="id2" name="id2">[1]</a></p>
 <p>The original version of this module was ported from Prototype.</p>
+<p><strong>Note:</strong> This module is currently experimental and API stability cannot be
+fully guaranteed. The implementation is scheduled to be replaced with a new
+faster version (now in development) during the MochiKit 1.5 development
+cycle.</p>
 <p><strong>Note:</strong> Due to how Internet Explorer handles node attributes, some attribute
 selectors may not work as expected. In particular <tt class="docutils literal"><span class="pre">a[title]</span></tt> will not work
 as all <tt class="docutils literal"><span class="pre">A</span></tt> elements in the Internet Explorer DOM model have a title attribute
@@ -110,8 +122,8 @@ regardless of whether it's specified in the markup or not.</p>
 <div class="section">
 <h2><a id="functions" name="functions">Functions</a></h2>
 <p>
-<a name="fn-$$"></a>
-<a class="mochidef reference" href="#fn-$$">$$(expression[, ...])</a>:</p>
+<a name="fn-finddocelements"></a>
+<a class="mochidef reference" href="#fn-finddocelements">findDocElements(expression[, ...])</a>:</p>
 <blockquote>
 <p>Performs a selection on the active document. Equivalent
 to <tt class="docutils literal"><span class="pre">findChildElements(MochiKit.DOM.currentDocument(),</span> <span class="pre">[expression,</span> <span class="pre">...])</span></tt></p>
@@ -136,6 +148,16 @@ Finally, the results of the last simple expression is returned as the search res
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
 </blockquote>
+<p>
+<a name="fn-$$"></a>
+<a class="mochidef reference" href="#fn-$$">$$(expression[, ...])</a>:</p>
+<blockquote>
+<p>An alias to <tt class="docutils literal"><span class="pre">findDocElements</span></tt>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.4+</dd>
+</dl>
+</blockquote>
 </div>
 <div class="section">
 <h2><a id="constructors" name="constructors">Constructors</a></h2>
@@ -154,6 +176,9 @@ var selector = new MochiKit.Selector.Selector('#someelementid');
 var searchResults = selector.findElements(rootElement);
 </pre>
 <dl class="docutils">
+<dt><em>Deprecated</em>:</dt>
+<dd>Use <a class="mochiref reference" href="#fn-findchildelements">findChildElements</a> instead. The Selector class will be
+removed in version 1.5.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>
@@ -173,6 +198,9 @@ If the empty string, all descendant nodes of <tt class="docutils literal"><span 
 the expression. If <tt class="docutils literal"><span class="pre">&gt;</span></tt> only direct child nodes of <tt class="docutils literal"><span class="pre">scope</span></tt> are tested,
 if <tt class="docutils literal"><span class="pre">+</span></tt> only the next sibling (if any) of <tt class="docutils literal"><span class="pre">scope</span></tt> is tested and if
 <tt class="docutils literal"><span class="pre">~</span></tt> all succeeding siblings of <tt class="docutils literal"><span class="pre">scope</span></tt> are tested.</dd>
+<dt><em>Deprecated</em>:</dt>
+<dd>Use <a class="mochiref reference" href="#fn-findchildelements">findChildElements</a> instead. The Selector class will be
+removed in version 1.5.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
 </dl>

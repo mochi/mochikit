@@ -49,10 +49,12 @@
 
 <pre id="test">
 <script type="text/javascript">
-try {
 
-    lst = [];
-    o = {"blah": function () { lst.push("original"); }};
+if (typeof(tests) == 'undefined') { tests = {}; }
+
+tests.test_DOM = function () {
+    var lst = [];
+    var o = {"blah": function () { lst.push("original"); }};
     addToCallStack(o, "blah", function () { lst.push("new"); }, true);
     addToCallStack(o, "blah", function () { lst.push("stuff"); }, true);
     is( typeof(o.blah), 'function', 'addToCallStack has a function' );
@@ -87,8 +89,11 @@ try {
     is( d.getAttribute("value"), 'bar', "updateNodeAttributes updates value attribute" );
 
     var d = document.createElement('span');
-    appendChildNodes(d, 'word up', [document.createElement('span')]);
-    isDOM( d, '<span>word up<span/></span>', 'appendChildNodes' );
+    var o = { elem: SPAN(null, "foo"), __dom__: function() { return this.elem; } };
+    appendChildNodes(d, 'word up', [document.createElement('span')], o);
+    isDOM( d, '<span>word up<span/><span>foo</span></span>', 'appendChildNodes' );
+    removeElement(o);
+    isDOM( d, '<span>word up<span/></span>', 'removeElement using DOM Coercion Rules' );
 
     replaceChildNodes(d, 'Think Different');
     isDOM( d, '<span>Think Different</span>', 'replaceChildNodes' );
@@ -164,8 +169,11 @@ try {
     d = createDOM("span", null, "one", "two");
     swapDOM(d.childNodes[0], document.createTextNode("uno"));
     isDOM( d, "<span>unotwo</span>", "swapDOM" );
+    var o = { elem: SPAN(null, "foo"), __dom__: function() { return this.elem; } };
+    swapDOM(d.childNodes[0], o);
+    isDOM( d, "<span><span>foo</span>two</span>", "swapDOM using DOM Coercion Rules" );
 
-    is( scrapeText(d, true).join(" "), "uno two", "multi-node scrapeText" );
+    is( scrapeText(d, true).join(" "), "foo two", "multi-node scrapeText" );
     /*
 
         TODO:
@@ -173,7 +181,7 @@ try {
 
     */
 
-    d = createDOM("span", {"class": "foo"});
+    d = createDOM("span", {"class": "foo"}, "text");
     setElementClass(d, "bar baz");
     ok( d.className == "bar baz", "setElementClass");
     toggleElementClass("bar", d);
@@ -203,6 +211,7 @@ try {
     ok( hasElementClass(d, "baz"), "swapElementClass has toClass" );
     ok( !hasElementClass(d, "blah"), "swapElementClass !has fromClass" );
     ok( !hasElementClass("donotexist", "foo"), "hasElementClass invalid node id" );
+    ok( !hasElementClass(d.firstChild, "baz"), "hasElementClass for text node" );
 
     TABLE;
     TBODY;
@@ -325,23 +334,22 @@ try {
     ok( !isChildNode( SPAN(), 'child'), "isChildNode child not in DOM");
     ok( !isChildNode( 'child', SPAN()), "isChildNode parent not in DOM");
 
-    ok( !isParent('child', 'child'), "isParent of itself");
-    ok( isParent('child', 'parentZero'), "isParent direct child");
-    ok( isParent('child', 'parentTwo'), "isParent sub child");
-    ok( !isParent('child', 'form_test'), "isParent wrong child");
-    ok( !isParent('child', 'donotexist'), "isParent no parent");
-    ok( !isParent('donotexist', 'parentZero'), "isParent no child");
-    ok( isParent('child', document.body), "isParent of body");
-    ok( isParent($('child').firstChild, 'child'), "isParent text node");
-    ok( !isParent( SPAN(), document.body), "isParent child not in DOM");
-    ok( !isParent( SPAN(), 'child'), "isParent child not in DOM");
-    ok( !isParent( 'child', SPAN()), "isParent parent not in DOM");
+    // Test optional dependency on Iter
+    var Iter = MochiKit.Iter;
+    delete MochiKit["Iter"];
+    d = DIV({"foo": "bar"}, SPAN({}, "one"));
+    is( getNodeAttribute(d, 'foo'), "bar", "createDOM attribute without Iter" );
+    is( scrapeText(d), "one", "node contents without Iter" );
+    MochiKit.Iter = Iter;
+}
 
+
+try {
+    SimpleTest.saveScope(this);
+    tests.test_DOM();
+    SimpleTest.verifyScope(this);
     ok( true, "test suite finished!");
-    
-    
 } catch (err) {
-    
     var s = "test suite failure!\n";
     var o = {};
     var k = null;
@@ -353,7 +361,6 @@ try {
         }
     }
     ok ( false, s );
-
 }
 </script>
 </pre>

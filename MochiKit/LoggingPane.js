@@ -1,6 +1,6 @@
 /***
 
-MochiKit.LoggingPane 1.4
+MochiKit.LoggingPane 1.5
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -8,17 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._deps('LoggingPane', ['Base', 'Logging']);
-
-MochiKit.LoggingPane.NAME = "MochiKit.LoggingPane";
-MochiKit.LoggingPane.VERSION = "1.4";
-MochiKit.LoggingPane.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
-};
-
-MochiKit.LoggingPane.toString = function () {
-    return this.__repr__();
-};
+MochiKit.Base._module('LoggingPane', '1.5', ['Base', 'Logging']);
 
 /** @id MochiKit.LoggingPane.createLoggingPane */
 MochiKit.LoggingPane.createLoggingPane = function (inline/* = false */) {
@@ -327,25 +317,9 @@ MochiKit.LoggingPane.LoggingPane.prototype = {
     }
 };
 
-
-MochiKit.LoggingPane.EXPORT_OK = [
-    "LoggingPane"
-];
-
-MochiKit.LoggingPane.EXPORT = [
-    "createLoggingPane"
-];
-
 MochiKit.LoggingPane.__new__ = function () {
-    this.EXPORT_TAGS = {
-        ":common": this.EXPORT,
-        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
-    };
-
     MochiKit.Base.nameFunctions(this);
-
     MochiKit.LoggingPane._loggingPane = null;
-
 };
 
 MochiKit.LoggingPane.__new__();

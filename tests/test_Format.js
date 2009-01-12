@@ -1,5 +1,3 @@
-if (typeof(dojo) != 'undefined') { dojo.require('MochiKit.Format'); }
-if (typeof(JSAN) != 'undefined') { JSAN.use('MochiKit.Format'); }
 if (typeof(tests) == 'undefined') { tests = {}; }
 
 tests.test_Format = function (t) {
@@ -11,12 +9,15 @@ tests.test_Format = function (t) {
     t.is( truncToFixed(1.23e+20, 2), "123000000000000000000.00", "truncToFixed 1.23e+20" );
     t.is( truncToFixed(-1.23e+20, 2), "-123000000000000000000.00", "truncToFixed -1.23e+20" );
     t.is( truncToFixed(1.23e-10, 2), "0.00", "truncToFixed 1.23e-10" );
+    t.is( truncToFixed(1e-10, 10), "0.0000000001", "truncToFixed 1e-10" );
 
     t.is( roundToFixed(0.1234, 3), "0.123", "roundToFixed truncate" );
     t.is( roundToFixed(0.12, 3), "0.120", "roundToFixed trailing zeros" );
     t.is( roundToFixed(0.15, 1), "0.2", "roundToFixed round" );
     t.is( roundToFixed(0.15, 0), "0", "roundToFixed zero (edge case)" );
     t.is( roundToFixed(568.80, 2), "568.80", "roundToFixed 568.80, floating-point error" );
+    t.is( roundToFixed(1.535, 2), "1.54", "roundToFixed 1.535, rounding error" );
+    t.is( roundToFixed(1e-11,10), "0.0000000000", "truncToFixed 1e-10" );
 
     t.is( twoDigitFloat(-0.1234), "-0.12", "twoDigitFloat -0.1234 correct");
     t.is( twoDigitFloat(-0.1), "-0.1", "twoDigitFloat -0.1 correct");
