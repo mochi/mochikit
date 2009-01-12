@@ -38,7 +38,7 @@
     <div id="sequence">
         <a href="http://www.example.com/link1">Link 1</a>
         <a href="http://www.example.com/link2">Link 2</a>
-        <a href="http://www.example.com/link3">Link 3</a>
+        <a href="http://www.example.com/link3" id="sequence-3">Link 3</a>
         <a href="http://www.example.com/link4">Link 4</a>
         <p>Something else</p>
         <a href="http://www.example.com/link5">Link 5</a>
@@ -279,6 +279,28 @@ tests.test_Selector = function () {
         // Not supported by Sizzle: is( $$(":root")[0], doc, ":root on a different document" );
         is( $$("a")[0], doc.body.firstChild, "a inside a different document" );
     });
+
+    // Test findRelated
+    expected = ['http://www.example.com/link4',
+                    'http://www.example.com/link5',
+                    'http://www.example.com/link6',
+                    'http://www.example.com/link7',
+                    'http://www.example.com/link8'];
+    results = findRelatedElements(getElement('sequence-3'), ['~ a']);
+    testExpected(results, expected, "findRelatedElements '~ a' selector");
+
+    // Implicit child axis
+    expected = ['http://www.example.com/link1',
+                'http://www.example.com/link2',
+                'http://www.example.com/link3',
+                'http://www.example.com/link4',
+                'http://www.example.com/link5',
+                'http://www.example.com/link6',
+                'http://www.example.com/link7',
+                'http://www.example.com/link8'];
+    results = findRelatedElements(getElement('sequence'), ['a']);
+    testExpected(results, expected, "findRelatedElements 'a' selector");
+
 }
 
 

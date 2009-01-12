@@ -1,11 +1,13 @@
 2009-XX-YY      v1.5
 
+- Renamed MochiKit.Selector.findChildElements to MochiKit.Selector.findRelatedElements
+  to reflect its' ability to accept more axes than the child axis
 - Changed MochiKit.Signal.signal to support DOM source objects with custom
   arguments, instead of always wrapping into Event object.
 - Removed the Dojo and JSAN integrations, since they are not maintained.
 - Simplified module init and export code, saving up to 5kB in packed
   download size.
-- Changed MochiKit.Selector.findChildElements to support element lookup
+- Changed MochiKit.Selector.findRelatedElements to support element lookup
   via MochiKit.DOM.getElement.
 - Fixed MochiKit.DOM.hasElementClass handling of text DOM nodes (#330).
 - Reimplemented MochiKit.Format.truncToFixed and roundToFixed to resolve

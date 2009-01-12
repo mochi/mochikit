@@ -20,7 +20,7 @@ MochiKit.Selector.toString = function () {
 
 MochiKit.Selector.EXPORT = [
     "Selector",
-    "findChildElements",
+    "findRelatedElements",
     "findDocElements",
     "$$"
 ];
@@ -29,24 +29,26 @@ MochiKit.Selector.EXPORT_OK = [
 ];
 
 MochiKit.Selector.Selector = function (expression) {
-    throw new Error("The selector object has been deprecated in favor of Sizzle. Please use findChildElements, findDocElements or $$ instead.");
+    throw new Error("The selector object has been deprecated in favor of Sizzle. Please use findRelatedElements, findDocElements or $$ instead.");
 };
 
 MochiKit.Base.update(MochiKit.Selector, {
 
-    /** @id MochiKit.Selector.findChildElements */
-    findChildElements: function (element, expressions) {
+    /** @id MochiKit.Selector.findRelatedElements */
+    findRelatedElements: function (element, expressions) {
         return MochiKit.Base.flattenArray(MochiKit.Base.map(function (expression) {
             return MochiKit.Selector.Sizzle(expression, element);
         }, expressions));
     },
 
     findDocElements: function () {
-        return MochiKit.Selector.findChildElements(MochiKit.DOM.currentDocument(), arguments);
+        return MochiKit.Selector.findRelatedElements(MochiKit.DOM.currentDocument(), arguments);
     },
 
     __new__: function () {
         var m = MochiKit.Base;
+
+	m._deprecated(this, 'findChildElements', 'MochiKit.Selector.findRelatedElements', '1.5');
 
         this.$$ = this.findDocElements;
 

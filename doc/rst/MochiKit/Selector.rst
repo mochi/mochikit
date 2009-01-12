@@ -13,6 +13,13 @@ Synopsis
 
     MochiKit.Base.map(MochiKit.Visual.fade, $$('p.fademe'));
 
+    // Highlight all right hand cells of a row when the second column is clicked
+    forEach($$('tr td:nth-child(2)'), function(midcell){
+         connect(midcell, 'onclick', function(e){
+	     addElementClass('highlight', findRelatedElements(midcell, '~ td'));
+	 });
+    });
+
 
 Description
 ===========
@@ -92,16 +99,16 @@ Functions
 :mochidef:`findDocElements(expression[, ...])`:
     
     Performs a selection on the active document. Equivalent
-    to ``findChildElements(MochiKit.DOM.currentDocument(), [expression, ...])``
+    to ``findRelatedElements(MochiKit.DOM.currentDocument(), [expression, ...])``
 
     *Availability*:
         Available in MochiKit 1.4+
 
 
-:mochidef:`findChildElements(element, expressions)`:
+:mochidef:`findRelatedElements(element, expressions)`:
 
-    Traverses the child nodes of ``element`` and returns the subset
-    of those that match any of the selector expressions in ``expressions``.
+    Performs a selection within the context of ``element`` and returns an array of
+    elements that match any of the selector expressions in ``expressions``.
 
     Each expression can be a combination of simple expressions, by concatenating
     them with spaces or combinators. In that case, normal CSS rules apply, each
@@ -111,6 +118,16 @@ Functions
 
     *Availability*:
         Available in MochiKit 1.4+
+
+
+:mochidef:`findChildElements(element)`:
+
+    An alias to ``findRelatedElements``.
+
+    *Availability*:
+        Available in MochiKit 1.4, deprecated in favor of
+        :mochiref:`MochiKit.Selector.findRelatedElements` in 1.5+
+
 
 :mochidef:`$$(expression[, ...])`:
 
@@ -137,7 +154,7 @@ Constructors
         var searchResults = selector.findElements(rootElement);
 
     *Deprecated*:
-        Use :mochiref:`findChildElements` instead. The Selector class will be
+        Use :mochiref:`findRelatedElements` instead. The Selector class will be
         removed in version 1.5.
 
     *Availability*:
@@ -159,7 +176,7 @@ Constructors
         ``~`` all succeeding siblings of ``scope`` are tested.
 
     *Deprecated*:
-        Use :mochiref:`findChildElements` instead. The Selector class will be
+        Use :mochiref:`findRelatedElements` instead. The Selector class will be
         removed in version 1.5.
 
     *Availability*:

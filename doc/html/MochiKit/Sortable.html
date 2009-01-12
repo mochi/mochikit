@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
 <title>MochiKit.Sortable - sortable with drag and drop lists</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -15,12 +15,12 @@
 <a href="http://mochikit.com"><img id="mainlink" src="../../../include/_img/g_logo_doc.gif" alt="MochiKit" /></a>
 <a class='indexlink' href='index.html'>Back to docs index</a>
 <div class="document">
-<div class="section">
-<h1><a id="name" name="name">Name</a></h1>
+<div class="section" id="name">
+<h1>Name</h1>
 <p>MochiKit.Sortable - sortable with drag and drop lists</p>
 </div>
-<div class="section">
-<h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
+<div class="section" id="synopsis">
+<h1>Synopsis</h1>
 <pre class="literal-block">
 &lt;ul id=&quot;dnd_sortable&quot;&gt;
     &lt;li&gt;mochibot.com&lt;/li&gt;
@@ -33,37 +33,37 @@
 &lt;/script&gt;
 </pre>
 </div>
-<div class="section">
-<h1><a id="description" name="description">Description</a></h1>
+<div class="section" id="description">
+<h1>Description</h1>
 <p>MochiKit.Sortable add a new Sortable object to manipulate easily
 drag&amp;drop in lists.</p>
 </div>
-<div class="section">
-<h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
+<div class="section" id="dependencies">
+<h1>Dependencies</h1>
 <ul class="simple">
-<li><a class="mochiref reference" href="Base.html">MochiKit.Base</a></li>
-<li><a class="mochiref reference" href="Iter.html">MochiKit.Iter</a></li>
-<li><a class="mochiref reference" href="DOM.html">MochiKit.DOM</a></li>
-<li><a class="mochiref reference" href="Color.html">MochiKit.Color</a></li>
-<li><a class="mochiref reference" href="Visual.html">MochiKit.Visual</a></li>
-<li><a class="mochiref reference" href="Signal.html">MochiKit.Signal</a></li>
-<li><a class="mochiref reference" href="DragAndDrop.html">MochiKit.DragAndDrop</a></li>
+<li><a class="mochiref reference external" href="Base.html">MochiKit.Base</a></li>
+<li><a class="mochiref reference external" href="Iter.html">MochiKit.Iter</a></li>
+<li><a class="mochiref reference external" href="DOM.html">MochiKit.DOM</a></li>
+<li><a class="mochiref reference external" href="Color.html">MochiKit.Color</a></li>
+<li><a class="mochiref reference external" href="Visual.html">MochiKit.Visual</a></li>
+<li><a class="mochiref reference external" href="Signal.html">MochiKit.Signal</a></li>
+<li><a class="mochiref reference external" href="DragAndDrop.html">MochiKit.DragAndDrop</a></li>
 </ul>
 </div>
-<div class="section">
-<h1><a id="overview" name="overview">Overview</a></h1>
+<div class="section" id="overview">
+<h1>Overview</h1>
 <p>MochiKit.Sortable mainly contains the Sortable object offering
 facilities to manipulate a list and drag its items to reorder it. It
 can also be serialized for being send to server. It is ported from
-<a class="reference" href="http://script.aculo.us">Scriptaculous</a>.</p>
+<a class="reference external" href="http://script.aculo.us">Scriptaculous</a>.</p>
 </div>
-<div class="section">
-<h1><a id="api-reference" name="api-reference">API Reference</a></h1>
-<div class="section">
-<h2><a id="objects-defined" name="objects-defined">Objects defined</a></h2>
+<div class="section" id="api-reference">
+<h1>API Reference</h1>
+<div class="section" id="objects-defined">
+<h2>Objects defined</h2>
 <p>
 <a name="fn-sortableobserver"></a>
-<a class="mochidef reference" href="#fn-sortableobserver">SortableObserver</a>:</p>
+<a class="mochidef reference external" href="#fn-sortableobserver">SortableObserver</a>:</p>
 <blockquote>
 <p>Observer for DragAndDrop object. You normally don't have to access
 this, only for customization purpose.</p>
@@ -74,7 +74,7 @@ this, only for customization purpose.</p>
 </blockquote>
 <p>
 <a name="fn-sortable.create"></a>
-<a class="mochidef reference" href="#fn-sortable.create">Sortable.create(element [, options])</a>:</p>
+<a class="mochidef reference external" href="#fn-sortable.create">Sortable.create(element [, options])</a>:</p>
 <blockquote>
 <p>Create a new Sortable. Usually you'll call it with a UL element,
 but it can be customized with options to use something else.</p>
@@ -166,10 +166,10 @@ defines the node used to make branches in your tree (that
 contains leaves).</dd>
 </dl>
 <p>Other options are passed to the Draggables and Droppables objects created.
-Refer to <a class="mochiref reference" href="DragAndDrop.html">MochiKit.DragAndDrop</a> for more information.</p>
+Refer to <a class="mochiref reference external" href="DragAndDrop.html">MochiKit.DragAndDrop</a> for more information.</p>
 <p>A bug with Internet Explorer rendering engine can cause a problem with the
 default effect used on start (the symptom being that the rows vanish).
-If you encounter this problem, pass <a class="mochiref reference" href="Base.html#fn-noop">MochiKit.Base.noop</a>
+If you encounter this problem, pass <a class="mochiref reference external" href="Base.html#fn-noop">MochiKit.Base.noop</a>
 as the <tt class="docutils literal"><span class="pre">starteffect</span></tt> option.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -178,7 +178,7 @@ as the <tt class="docutils literal"><span class="pre">starteffect</span></tt> op
 </blockquote>
 <p>
 <a name="fn-sortable.destroy"></a>
-<a class="mochidef reference" href="#fn-sortable.destroy">Sortable.destroy(element)</a>:</p>
+<a class="mochidef reference external" href="#fn-sortable.destroy">Sortable.destroy(element)</a>:</p>
 <blockquote>
 <p>Destroy a previously created sortable. It prevents further use of
 the Sortable functionnality on the element, unless recreated.</p>
@@ -189,7 +189,7 @@ the Sortable functionnality on the element, unless recreated.</p>
 </blockquote>
 <p>
 <a name="fn-sortable.serialize"></a>
-<a class="mochidef reference" href="#fn-sortable.serialize">Sortable.serialize(element [, options])</a>:</p>
+<a class="mochidef reference external" href="#fn-sortable.serialize">Sortable.serialize(element [, options])</a>:</p>
 <blockquote>
 <p>Serialize the content of a Sortable. Useful to send this content
 through a XMLHTTPRequest. The options overrides the ones of the Sortable
@@ -221,22 +221,22 @@ only for the serialization.</p>
 </blockquote>
 </div>
 </div>
-<div class="section">
-<h1><a id="authors" name="authors">Authors</a></h1>
+<div class="section" id="authors">
+<h1>Authors</h1>
 <ul class="simple">
-<li>Thomas Herve &lt;<a class="reference" href="mailto:therve&#64;gmail.com">therve&#64;gmail.com</a>&gt;</li>
-<li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
-<li>Originally adapted from Script.aculo.us &lt;<a class="reference" href="http://script.aculo.us/">http://script.aculo.us/</a>&gt;</li>
+<li>Thomas Herve &lt;<a class="reference external" href="mailto:therve&#64;gmail.com">therve&#64;gmail.com</a>&gt;</li>
+<li>Bob Ippolito &lt;<a class="reference external" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
+<li>Originally adapted from Script.aculo.us &lt;<a class="reference external" href="http://script.aculo.us/">http://script.aculo.us/</a>&gt;</li>
 </ul>
 </div>
-<div class="section">
-<h1><a id="copyright" name="copyright">Copyright</a></h1>
-<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is
+<div class="section" id="copyright">
+<h1>Copyright</h1>
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference external" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;.  This program is
 dual-licensed free software; you can redistribute it and/or modify it
-under the terms of the <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License
+under the terms of the <a class="reference external" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference external" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License
 v2.1</a>.</p>
-<p>Portions adapted from <a class="reference" href="http://script.aculo.us">Scriptaculous</a> are available under the terms
-of the <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
+<p>Portions adapted from <a class="reference external" href="http://script.aculo.us">Scriptaculous</a> are available under the terms
+of the <a class="reference external" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
 </div>
 </div>
 

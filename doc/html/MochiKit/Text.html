@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
 <title>MochiKit.Text - string formatting and helper functions</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -15,12 +15,12 @@
 <a href="http://mochikit.com"><img id="mainlink" src="../../../include/_img/g_logo_doc.gif" alt="MochiKit" /></a>
 <a class='indexlink' href='index.html'>Back to docs index</a>
 <div class="document">
-<div class="section">
-<h1><a id="name" name="name">Name</a></h1>
+<div class="section" id="name">
+<h1>Name</h1>
 <p>MochiKit.Text - string formatting and helper functions</p>
 </div>
-<div class="section">
-<h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
+<div class="section" id="synopsis">
+<h1>Synopsis</h1>
 <pre class="literal-block">
 assert( startsWith(&quot;ab&quot;, &quot;abcd&quot;) );
 assert( endsWith(&quot;cd&quot;, &quot;abcd&quot;) );
@@ -33,28 +33,28 @@ assert( format(&quot;{0}: {1:.3f}&quot;, &quot;value&quot;, 1.2345) == &quot;val
 assert( formatter(&quot;{:6.1%}&quot;)(0.125) == &quot; 12.5%&quot; );
 </pre>
 </div>
-<div class="section">
-<h1><a id="description" name="description">Description</a></h1>
-<p><a class="mochiref reference" href="Text.html">MochiKit.Text</a> provides helper functions for creating or
+<div class="section" id="description">
+<h1>Description</h1>
+<p><a class="mochiref reference external" href="Text.html">MochiKit.Text</a> provides helper functions for creating or
 managing text (also known as strings). Formatting strings and
 stringifying numbers is boring, so a couple useful functions in that
 domain live here.</p>
 </div>
-<div class="section">
-<h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
+<div class="section" id="dependencies">
+<h1>Dependencies</h1>
 <ul class="simple">
-<li><a class="mochiref reference" href="Base.html">MochiKit.Base</a></li>
-<li><a class="mochiref reference" href="Format.html">MochiKit.Format</a> (to be removed)</li>
+<li><a class="mochiref reference external" href="Base.html">MochiKit.Base</a></li>
+<li><a class="mochiref reference external" href="Format.html">MochiKit.Format</a> (to be removed)</li>
 </ul>
 </div>
-<div class="section">
-<h1><a id="overview" name="overview">Overview</a></h1>
-<div class="section">
-<h2><a id="formatting-text" name="formatting-text">Formatting Text</a></h2>
+<div class="section" id="overview">
+<h1>Overview</h1>
+<div class="section" id="formatting-text">
+<h2>Formatting Text</h2>
 <p>MochiKit provides a generic formatting facility, modeled after the
-Python PEP 3101 Format Pattern Syntax <a class="footnote-reference" href="#id2" id="id1" name="id1">[1]</a>. The text formatting
-functions <a class="mochiref reference" href="#fn-formatter">formatter</a>, <a class="mochiref reference" href="#fn-format">format</a> and
-<a class="mochiref reference" href="#fn-formatvalue">formatValue</a> support formatting both single and multiple
+Python PEP 3101 Format Pattern Syntax <a class="footnote-reference" href="#id2" id="id1">[1]</a>. The text formatting
+functions <a class="mochiref reference external" href="#fn-formatter">formatter</a>, <a class="mochiref reference external" href="#fn-format">format</a> and
+<a class="mochiref reference external" href="#fn-formatvalue">formatValue</a> support formatting both single and multiple
 values for most practical uses. The same format pattern strings (or
 part of it) is used by all three functions, and can contains an
 arbitrary number of both positional and named values mixed into
@@ -77,7 +77,7 @@ properties in a value object. Both methods can be combined or deeply
 nested, using a dot (<tt class="docutils literal"><span class="pre">.</span></tt>) to separate the sub-parts.</p>
 <p>The <tt class="docutils literal"><span class="pre">specification</span></tt> part is optional and specifies which value
 formatting to apply to the value. This is the only part of the
-formatting pattern used by the <a class="mochiref reference" href="#fn-formatvalue">formatValue</a> function.
+formatting pattern used by the <a class="mochiref reference external" href="#fn-formatvalue">formatValue</a> function.
 The specification itself consists of a number of parts:</p>
 <pre class="literal-block">
 [flags][width][.precision][type]
@@ -140,7 +140,7 @@ side to match the field <tt class="docutils literal"><span class="pre">width</sp
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">r</span></tt></td>
 <td>The programmers representation format <tt class="docutils literal"><span class="pre">type</span></tt>. The output
-from <a class="mochiref reference" href="Base.html#fn-repr">MochiKit.Base.repr()`</a> will be used.</td>
+from <a class="mochiref reference external" href="Base.html#fn-repr">MochiKit.Base.repr()`</a> will be used.</td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">b</span></tt></td>
 <td>The binary number format <tt class="docutils literal"><span class="pre">type</span></tt>. Rounds the number to the
@@ -176,13 +176,13 @@ character will be added to the end.</td>
 </table>
 </div>
 </div>
-<div class="section">
-<h1><a id="api-reference" name="api-reference">API Reference</a></h1>
-<div class="section">
-<h2><a id="functions" name="functions">Functions</a></h2>
+<div class="section" id="api-reference">
+<h1>API Reference</h1>
+<div class="section" id="functions">
+<h2>Functions</h2>
 <p>
 <a name="fn-contains"></a>
-<a class="mochidef reference" href="#fn-contains">contains(substr, str)</a>:</p>
+<a class="mochidef reference external" href="#fn-contains">contains(substr, str)</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">str</span></tt> contains <tt class="docutils literal"><span class="pre">substr</span></tt>, otherwise <tt class="docutils literal"><span class="pre">false</span></tt>.
 If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt class="docutils literal"><span class="pre">substr</span></tt> is null, <tt class="docutils literal"><span class="pre">false</span></tt> is returned.</p>
@@ -193,7 +193,7 @@ If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt 
 </blockquote>
 <p>
 <a name="fn-endswith"></a>
-<a class="mochidef reference" href="#fn-endswith">endsWith(substr, str)</a>:</p>
+<a class="mochidef reference external" href="#fn-endswith">endsWith(substr, str)</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">str</span></tt> ends with <tt class="docutils literal"><span class="pre">substr</span></tt>, otherwise <tt class="docutils literal"><span class="pre">false</span></tt>.
 If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt class="docutils literal"><span class="pre">substr</span></tt> is null, <tt class="docutils literal"><span class="pre">false</span></tt> is returned.</p>
@@ -204,12 +204,12 @@ If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt 
 </blockquote>
 <p>
 <a name="fn-format"></a>
-<a class="mochidef reference" href="#fn-format">format(pattern[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-format">format(pattern[, ...])</a>:</p>
 <blockquote>
 <p>Formats the values specified using a format <tt class="docutils literal"><span class="pre">pattern</span></tt> and
 returns the resulting string. The default locale is always used
 by this function. For more information see
-<a class="reference" href="#formatting-text">Formatting Text</a>.</p>
+<a class="reference internal" href="#formatting-text">Formatting Text</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -217,14 +217,14 @@ by this function. For more information see
 </blockquote>
 <p>
 <a name="fn-formatter"></a>
-<a class="mochidef reference" href="#fn-formatter">formatter(pattern, locale=&quot;default&quot;)</a>:</p>
+<a class="mochidef reference external" href="#fn-formatter">formatter(pattern, locale=&quot;default&quot;)</a>:</p>
 <blockquote>
 <p>Returns a function that formats values according to a format
 <tt class="docutils literal"><span class="pre">pattern</span></tt>. The specified <tt class="docutils literal"><span class="pre">locale</span></tt> string or object will be
 used to adjust number formatting where appropriate. The
 returned function takes as many arguments as the format
 <tt class="docutils literal"><span class="pre">pattern</span></tt> requires. For more information see
-<a class="reference" href="#formatting-text">Formatting Text</a>.</p>
+<a class="reference internal" href="#formatting-text">Formatting Text</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -232,14 +232,14 @@ returned function takes as many arguments as the format
 </blockquote>
 <p>
 <a name="fn-formatvalue"></a>
-<a class="mochidef reference" href="#fn-formatvalue">formatValue(spec, value, locale=&quot;default&quot;)</a>:</p>
+<a class="mochidef reference external" href="#fn-formatvalue">formatValue(spec, value, locale=&quot;default&quot;)</a>:</p>
 <blockquote>
 <p>Formats a <tt class="docutils literal"><span class="pre">value</span></tt> with the format specifier <tt class="docutils literal"><span class="pre">spec</span></tt>. The
 specified <tt class="docutils literal"><span class="pre">locale</span></tt> string or object will be used to adjust
 number formatting where appropriate.</p>
 <p>Note that <tt class="docutils literal"><span class="pre">spec</span></tt> is only a partial formatting pattern, detailing
 only how a particular value is to be formatted. For more information
-see <a class="reference" href="#formatting-text">Formatting Text</a>.</p>
+see <a class="reference internal" href="#formatting-text">Formatting Text</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -247,7 +247,7 @@ see <a class="reference" href="#formatting-text">Formatting Text</a>.</p>
 </blockquote>
 <p>
 <a name="fn-padleft"></a>
-<a class="mochidef reference" href="#fn-padleft">padLeft(str, minLength, fillChar=&quot; &quot;)</a>:</p>
+<a class="mochidef reference external" href="#fn-padleft">padLeft(str, minLength, fillChar=&quot; &quot;)</a>:</p>
 <blockquote>
 <p>Returns a string where <tt class="docutils literal"><span class="pre">fillChar</span></tt> has been prepended to <tt class="docutils literal"><span class="pre">str</span></tt>
 until the string length is at least <tt class="docutils literal"><span class="pre">minLength</span></tt> characters.
@@ -260,7 +260,7 @@ consist of repeated <tt class="docutils literal"><span class="pre">fillChar</spa
 </blockquote>
 <p>
 <a name="fn-padright"></a>
-<a class="mochidef reference" href="#fn-padright">padRight(str, minLength, fillChar=&quot; &quot;)</a>:</p>
+<a class="mochidef reference external" href="#fn-padright">padRight(str, minLength, fillChar=&quot; &quot;)</a>:</p>
 <blockquote>
 <p>Returns a string where <tt class="docutils literal"><span class="pre">fillChar</span></tt> has been appended to <tt class="docutils literal"><span class="pre">str</span></tt>
 until the string length is at least <tt class="docutils literal"><span class="pre">minLength</span></tt> characters.
@@ -273,12 +273,12 @@ consist of repeated <tt class="docutils literal"><span class="pre">fillChar</spa
 </blockquote>
 <p>
 <a name="fn-splitjoin"></a>
-<a class="mochidef reference" href="#fn-splitjoin">splitJoin(func, str, separator=&quot;n&quot;)</a>:</p>
+<a class="mochidef reference external" href="#fn-splitjoin">splitJoin(func, str, separator=&quot;n&quot;)</a>:</p>
 <blockquote>
 <p>Splits <tt class="docutils literal"><span class="pre">str</span></tt>, applies the <tt class="docutils literal"><span class="pre">func</span></tt> function on each part, and
 finally joins the results back together again using the same
 <tt class="docutils literal"><span class="pre">separator</span></tt> string. This is a convenience function for calling
-<tt class="docutils literal"><span class="pre">String.prototype.split()</span></tt>, <a class="mochiref reference" href="Base.html#fn-map">MochiKit.Base.map()</a> and
+<tt class="docutils literal"><span class="pre">String.prototype.split()</span></tt>, <a class="mochiref reference external" href="Base.html#fn-map">MochiKit.Base.map()</a> and
 <tt class="docutils literal"><span class="pre">Array.prototype.join()</span></tt> separately.</p>
 <p>It can be used to trim each line in a text string by calling
 <tt class="docutils literal"><span class="pre">splitJoin(strip,</span> <span class="pre">str)</span></tt>.</p>
@@ -289,7 +289,7 @@ finally joins the results back together again using the same
 </blockquote>
 <p>
 <a name="fn-startswith"></a>
-<a class="mochidef reference" href="#fn-startswith">startsWith(substr, str)</a>:</p>
+<a class="mochidef reference external" href="#fn-startswith">startsWith(substr, str)</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">str</span></tt> starts with <tt class="docutils literal"><span class="pre">substr</span></tt>, otherwise <tt class="docutils literal"><span class="pre">false</span></tt>.
 If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt class="docutils literal"><span class="pre">substr</span></tt> is null, <tt class="docutils literal"><span class="pre">false</span></tt> is returned.</p>
@@ -300,7 +300,7 @@ If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt 
 </blockquote>
 <p>
 <a name="fn-truncate"></a>
-<a class="mochidef reference" href="#fn-truncate">truncate(str, maxLength, tail=&quot;&quot;)</a>:</p>
+<a class="mochidef reference external" href="#fn-truncate">truncate(str, maxLength, tail=&quot;&quot;)</a>:</p>
 <blockquote>
 <p>Returns a truncated copy of <tt class="docutils literal"><span class="pre">str</span></tt> with no more than <tt class="docutils literal"><span class="pre">maxLength</span></tt>
 characters. If <tt class="docutils literal"><span class="pre">str</span></tt> is truncated, <tt class="docutils literal"><span class="pre">tail</span></tt> will be appended  in
@@ -314,13 +314,13 @@ must also be an Array.</p>
 </dl>
 </blockquote>
 </div>
-<div class="section">
-<h2><a id="errors" name="errors">Errors</a></h2>
+<div class="section" id="errors">
+<h2>Errors</h2>
 <p>
 <a name="fn-formatpatternerror"></a>
-<a class="mochidef reference" href="#fn-formatpatternerror">FormatPatternError</a>:</p>
+<a class="mochidef reference external" href="#fn-formatpatternerror">FormatPatternError</a>:</p>
 <blockquote>
-<p>Thrown by a <a class="mochiref reference" href="#fn-deferred">Deferred</a> if <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt>
+<p>Thrown by a <a class="mochiref reference external" href="#fn-deferred">Deferred</a> if <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt>
 are called more than once.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -329,35 +329,35 @@ are called more than once.</p>
 </blockquote>
 </div>
 </div>
-<div class="section">
-<h1><a id="see-also" name="see-also">See Also</a></h1>
+<div class="section" id="see-also">
+<h1>See Also</h1>
 <table class="docutils footnote" frame="void" id="id2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1" name="id2">[1]</a></td><td>Python PEP 3101 Format Pattern Syntax:
-<a class="reference" href="http://www.python.org/dev/peps/pep-3101/">http://www.python.org/dev/peps/pep-3101/</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Python PEP 3101 Format Pattern Syntax:
+<a class="reference external" href="http://www.python.org/dev/peps/pep-3101/">http://www.python.org/dev/peps/pep-3101/</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a name="id3">[2]</a></td><td>Python String Module:
-<a class="reference" href="http://docs.python.org/library/string.html">http://docs.python.org/library/string.html</a></td></tr>
+<tr><td class="label">[2]</td><td>Python String Module:
+<a class="reference external" href="http://docs.python.org/library/string.html">http://docs.python.org/library/string.html</a></td></tr>
 </tbody>
 </table>
 </div>
-<div class="section">
-<h1><a id="authors" name="authors">Authors</a></h1>
+<div class="section" id="authors">
+<h1>Authors</h1>
 <ul class="simple">
-<li>Per Cederberg &lt;<a class="reference" href="mailto:cederberg&#64;gmail.com">cederberg&#64;gmail.com</a>&gt;</li>
+<li>Per Cederberg &lt;<a class="reference external" href="mailto:cederberg&#64;gmail.com">cederberg&#64;gmail.com</a>&gt;</li>
 </ul>
 </div>
-<div class="section">
-<h1><a id="copyright" name="copyright">Copyright</a></h1>
-<p>Copyright 2005-2008 by Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt; and Per Cederberg
-&lt;<a class="reference" href="mailto:cederberg&#64;gmail.com">cederberg&#64;gmail.com</a>&gt;. This program is dual-licensed free software; you can
-redistribute it and/or modify it under the terms of the <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the
-<a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
+<div class="section" id="copyright">
+<h1>Copyright</h1>
+<p>Copyright 2005-2008 by Bob Ippolito &lt;<a class="reference external" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt; and Per Cederberg
+&lt;<a class="reference external" href="mailto:cederberg&#64;gmail.com">cederberg&#64;gmail.com</a>&gt;. This program is dual-licensed free software; you can
+redistribute it and/or modify it under the terms of the <a class="reference external" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the
+<a class="reference external" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>
 </div>
 </div>
 
