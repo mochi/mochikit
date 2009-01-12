@@ -61,8 +61,6 @@ MochiKit.Base.update(MochiKit.Selector, {
 
 MochiKit.Selector.__new__();
 
-MochiKit.Base._exportSymbols(this, MochiKit.Selector);
-
 
 /* The rest of this file is (c) John Resig, 2008
  * Copied from the Sizzle selector library.
@@ -710,3 +708,5 @@ function dirCheck( elem, dir, cur, doneName, i, checkSet, nodeCheck ) {
     
     return match;
 }
+
+MochiKit.Base._exportSymbols(this, MochiKit.Selector);
