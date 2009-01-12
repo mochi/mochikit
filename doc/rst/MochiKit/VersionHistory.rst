@@ -1,5 +1,7 @@
 2009-XX-YY      v1.5
 
+- Changed the signature of MochiKit.Selector.findRelatedElements to accept arguments of the form
+  findRelatedElements(el, exp1, exp2, exp3...) as well as the previous findChildElements(el, [exp1, exp2, exp3...])
 - Renamed MochiKit.Selector.findChildElements to MochiKit.Selector.findRelatedElements
   to reflect its' ability to accept more axes than the child axis
 - Changed MochiKit.Signal.signal to support DOM source objects with custom

@@ -99,20 +99,21 @@ Functions
 :mochidef:`findDocElements(expression[, ...])`:
     
     Performs a selection on the active document. Equivalent
-    to ``findRelatedElements(MochiKit.DOM.currentDocument(), [expression, ...])``
+    to ``findRelatedElements(MochiKit.DOM.currentDocument(), expression[, ...])``
 
     *Availability*:
         Available in MochiKit 1.4+
 
 
-:mochidef:`findRelatedElements(element, expressions)`:
+:mochidef:`findRelatedElements(element, expression[, ...])`:
 
     Performs a selection within the context of ``element`` and returns an array of
-    elements that match any of the selector expressions in ``expressions``.
+    elements that match the CSS selector ``expression``. 
+    Each additional ``expression`` will concatenate matching items to the returned array.
 
-    Each expression can be a combination of simple expressions, by concatenating
+    An expression can be a combination of simple expressions, by concatenating
     them with spaces or combinators. In that case, normal CSS rules apply, each
-    simple expression is evaluated in turn and the results of that one is used
+    simple expression is evaluated in turn and the results of each expression is used
     as the scope for the succeeding expression (see :mochiref:`Selector.findElements`).
     Finally, the results of the last simple expression is returned as the search result.
 

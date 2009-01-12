@@ -129,7 +129,7 @@ regardless of whether it's specified in the markup or not.</p>
 <a class="mochidef reference external" href="#fn-finddocelements">findDocElements(expression[, ...])</a>:</p>
 <blockquote>
 <p>Performs a selection on the active document. Equivalent
-to <tt class="docutils literal"><span class="pre">findRelatedElements(MochiKit.DOM.currentDocument(),</span> <span class="pre">[expression,</span> <span class="pre">...])</span></tt></p>
+to <tt class="docutils literal"><span class="pre">findRelatedElements(MochiKit.DOM.currentDocument(),</span> <span class="pre">expression[,</span> <span class="pre">...])</span></tt></p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -137,13 +137,14 @@ to <tt class="docutils literal"><span class="pre">findRelatedElements(MochiKit.D
 </blockquote>
 <p>
 <a name="fn-findrelatedelements"></a>
-<a class="mochidef reference external" href="#fn-findrelatedelements">findRelatedElements(element, expressions)</a>:</p>
+<a class="mochidef reference external" href="#fn-findrelatedelements">findRelatedElements(element, expression[, ...])</a>:</p>
 <blockquote>
 <p>Performs a selection within the context of <tt class="docutils literal"><span class="pre">element</span></tt> and returns an array of
-elements that match any of the selector expressions in <tt class="docutils literal"><span class="pre">expressions</span></tt>.</p>
-<p>Each expression can be a combination of simple expressions, by concatenating
+elements that match the CSS selector <tt class="docutils literal"><span class="pre">expression</span></tt>.
+Each additional <tt class="docutils literal"><span class="pre">expression</span></tt> will concatenate matching items to the returned array.</p>
+<p>An expression can be a combination of simple expressions, by concatenating
 them with spaces or combinators. In that case, normal CSS rules apply, each
-simple expression is evaluated in turn and the results of that one is used
+simple expression is evaluated in turn and the results of each expression is used
 as the scope for the succeeding expression (see <a class="mochiref reference external" href="#fn-selector.findelements">Selector.findElements</a>).
 Finally, the results of the last simple expression is returned as the search result.</p>
 <dl class="docutils">
