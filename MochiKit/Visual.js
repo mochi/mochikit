@@ -469,6 +469,11 @@ MochiKit.Visual.Transitions.parabolic = function (pos) {
    return pos * pos;
 };
 
+/** @id MochiKit.Visual.Transitions.spring */
+MochiKit.Visual.Transitions.spring = function (pos) {
+   return 1 - (Math.cos(pos * 2.5 * Math.PI) * Math.exp(-pos * 6));
+};
+
 /** @id MochiKit.Visual.Transitions.none */
 MochiKit.Visual.Transitions.none = function (pos) {
     return 0;
@@ -532,6 +537,11 @@ MochiKit.Base.update(MochiKit.Visual.ScopedQueue.prototype, {
             case 'break':
                 ma(function (e) {
                     e.finalize();
+                }, this.effects);
+                break;
+            case 'replace':
+                ma(function (e) {
+                    e.cancel();
                 }, this.effects);
                 break;
         }
@@ -662,8 +672,12 @@ MochiKit.Visual.Base.prototype = {
             this.event('afterSetup');
         }
         if (this.state == 'running') {
-            if (this.options.transition) {
-                pos = this.options.transition(pos);
+            var trans = this.options.transition;
+            if (typeof(trans) == "string") {
+                trans = MochiKit.Visual.Transitions[trans];
+            }
+            if (typeof(trans) == "function") {
+                pos = trans(pos);
             }
             pos *= (this.options.to - this.options.from);
             pos += this.options.from;

@@ -14,6 +14,10 @@
   position (#332).
 - Added new MochiKit.Text module to eventually replace MochiKit.Format.
 - Added the MochiKit.Base.bool() function.
+- Added MochiKit.Visual.Transitions.spring for creating "springy" effects
+- Changed MochiKit.Visual to support specifying transitions a strings.
+- Added new 'replace' queue position to MochiKit.Visual for cancelling
+  existing effects instead of completing them (as 'break' does).
 
 2008-11-27      v1.4.2 (bug fix release)
 

@@ -85,6 +85,7 @@ option to customize this. Its value can be a string, thereby using the
 - `front`: the effect will be run before any other non-started effect;
 - `end`: the effect will be run when all other effects have finished;
 - `break`: every other effect is immediately finalized when the the effect start;
+- `replace`: every other effect is canceled when the the effect start (available in MochiKit 1.5+);
 - `parallel`: the effect runs in parallel with other effects.
 
 But you have even more control if you use an object with the following
@@ -595,14 +596,16 @@ Basic Effects Classes & Constants
     reverse     A reverse linear transition.
     flicker     A sine transition with random additions.
     wobble      A multi-period sine curve transition with 4.5 wobbles and ending with one (1).
+    spring      A multi-period sine curve transition decreasing wobble amplitudes (spring-like effect).
     pulse       A multi-period triangle curve transition with 5 pulses (by default) and ending with zero (0).
-    parabolic   A smooth parabolic transition.
+    parabolic   A smooth parabolic transition (square function).
     none        A fixed zero (0) value transition.
     full        A fixed one (1) value transition.
     =========== ========================================
 
     *Availability*:
-        Available in MochiKit 1.4+
+        Available in MochiKit 1.4+. The ``spring`` transition is available
+        since MochiKit 1.5+.
 
 
 :mochidef:`DefaultOptions`:
@@ -613,14 +616,14 @@ Basic Effects Classes & Constants
     effect options.
 
     =========== ========================================
-    transition  ``MochiKit.Visual.Transitions.sinoidal``
+    transition  ``MochiKit.Visual.Transitions.sinoidal`` (or ``"sinoidal"``)
     duration    ``1.0`` (seconds)
     fps         ``25.0``
     sync        ``false`` (only set for :mochiref:`Parallel` or :mochiref:`Sequence` effects)
     from        ``0.0``
     to          ``1.0``
     delay       ``0.0``
-    queue       ``'parallel'``
+    queue       ``'parallel'`` (see :mochiref:`The Effects Queue`)
     =========== ========================================
 
     *Availability*:
