@@ -236,7 +236,41 @@ Functions
         Available in MochiKit 1.5+
 
 
-:mochidef:`splitJoin(func, str, separator="\n")`:
+:mochidef:`split(str, separator="\\n" [, max])`:
+
+    Splits ``str`` using a ``separator`` string. 
+    If ``max`` is given, at most ``max`` splits will be performed
+    (giving at most ``max`` + 1 parts returned).
+
+    If ``max`` is omitted, this is equivalent to the built in
+    ``str.split(separator)``.
+    The difference to the built in method can be illustrated by:
+
+    >>> "lovely bunch of coconuts".split(" ", 2)
+    ["lovely", "bunch"]
+
+
+    >>> MochiKit.Text.split("lovely bunch of coconuts", " ", 2)
+    ["lovely", "bunch", "of coconuts"]
+
+    *Availability*:
+        Available in MochiKit 1.5+
+
+
+:mochidef:`rsplit(str, separator="\\n" [, max])`:
+
+    Splits ``str`` using a ``separator`` string. 
+    This is similar to ``split``, except that if ``max`` is given,
+    splits are performed from the right hand side first
+
+    >>> MochiKit.Text.rsplit("lovely bunch of coconuts", " ", 2)
+    ["lovely bunch", "of", "coconuts"]
+
+    *Availability*:
+        Available in MochiKit 1.5+
+
+
+:mochidef:`splitJoin(func, str, separator="\\n")`:
 
     Splits ``str``, applies the ``func`` function on each part, and
     finally joins the results back together again using the same
