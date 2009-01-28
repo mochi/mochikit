@@ -60,6 +60,14 @@ tests.test_Text = function (t) {
     t.is(splitJoin(strip, "  abc   \n aa\t", "a"), "abcaa", "splitJoin with custom separator");
     t.is(splitJoin(strip, null), null, "splitJoin with null string");
 
+    // split and rsplit tests
+    t.ok(objEqual(split("  abc   \n aa\t", " "), "  abc   \n aa\t".split(" ")), "split equivalence with str.split");
+    t.ok(objEqual(rsplit("  abc   \n aa\t", " "), "  abc   \n aa\t".split(" ")), "rsplit equivalence with str.split");
+    t.ok(objEqual(split("  abc   \n aa\t", " ", 2), ["", "", "abc   \n aa\t"], "Splitting 2"));
+    t.ok(objEqual(rsplit("red-orange-yellow-green", "-", 1), ["red-orange-yellow", "green"], "Rsplitting 1"));
+    t.ok(objEqual(split("red-orange-yellow-green", "-", 3), ["red", "orange", "yellow", "green"], "splitting at n")); 
+    t.ok(objEqual(rsplit("red-orange-yellow-green", "-", 13), ["red", "orange", "yellow", "green"], "rsplitting at > n"));
+
     // format pattern tests
     t.is(format("plain text 123"), "plain text 123", "plain text is unmodified");
     t.is(format("{{}}abc}}{{123"), "{}abc}{123", "escaping { and } characters");

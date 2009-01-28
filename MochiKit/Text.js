@@ -122,6 +122,54 @@ MochiKit.Text.truncate = function (str, maxLength, tail) {
 }
 
 /**
+ * Splits a text string using separator as the split point
+ * If max is given, at most max splits are done, giving at most
+ * max + 1 elements in the returned list.
+ *
+ * @param {String} str the string to split
+ * @param {String} [separator] the separator character to use,
+ *            defaults to newline
+ * @param {Int} [max] the maximum number of parts to return
+ * @return {Array} an array of parts of the string
+ */
+MochiKit.Text.split = function (str, separator, max) {
+    if (str == null || str.length == 0) {
+        return str;
+    }
+    separator = separator || '\n'
+    var bits = str.split(separator);
+    if ((typeof(max) == "undefined") || max >= bits.length-1){
+	return bits;
+    }
+    bits.splice(max, bits.length, bits.slice(max, bits.length).join(separator))
+    return bits;
+}
+
+/**
+ * Splits a text string using separator as the split point
+ * If max is given, at most max splits are done,
+ * using splits from the right
+ *
+ * @param {String} str the string to split
+ * @param {String} [separator] the separator character to use,
+ *            defaults to newline
+ * @param {Int} [max] the maximum number of parts to return
+ * @return {Array} an array of parts of the string
+ */
+MochiKit.Text.rsplit = function (str, separator, max) {
+    if (str == null || str.length == 0) {
+        return str;
+    }
+    separator = separator || '\n'
+    var bits = str.split(separator);
+    if ((typeof(max) == "undefined") || max >= bits.length-1){
+	return bits;
+    }
+    bits.splice(0, bits.length-max, bits.slice(0, bits.length-max).join(separator))
+    return bits;
+}
+
+/**
  * Splits a text string, applies a function and joins the results
  * back together again. This is a convenience function for calling
  * split(), map() and join() separately. It can be used to easily
