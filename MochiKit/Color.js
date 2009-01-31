@@ -641,19 +641,10 @@ MochiKit.Base.update(MochiKit.Color, {
             yellow: [1, 1, 0]
         };
 
-        var makeColor = function (name, r, g, b, a) {
-            var rval = this.fromRGB(r, g, b, a);
-            this[name] = function () { return rval; };
-            return rval;
-        };
-
         for (var k in colors) {
             var name = k + "Color";
-            var bindArgs = m.concat(
-                [makeColor, this.Color, name],
-                colors[k]
-            );
-            this.Color[name] = m.bind.apply(null, bindArgs);
+            var value = this.Color.fromRGB.apply(this.Color, colors[k]);
+            this.Color[name] = m.partial(m.operator.identity, value);
         }
 
         var isColor = function () {
