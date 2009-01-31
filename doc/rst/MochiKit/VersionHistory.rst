@@ -18,6 +18,8 @@
 - Changed MochiKit.Visual to support specifying transitions a strings.
 - Added new 'replace' queue position to MochiKit.Visual for cancelling
   existing effects instead of completing them (as 'break' does).
+- Removed MochiKit.Visual.Color and getElementsComputedStyle compatibility
+  aliases (obsolete since version 1.1, see #337).
 
 2008-11-27      v1.4.2 (bug fix release)
 

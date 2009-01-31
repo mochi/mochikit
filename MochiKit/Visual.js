@@ -1972,18 +1972,5 @@ MochiKit.Visual.fold = function (element, /* optional */ options) {
 };
 
 
-/* end of Rico adaptation */
-
-MochiKit.Visual.__new__ = function () {
-    var m = MochiKit.Base;
-
-    // Backwards compatibility aliases
-    m._deprecated(this, 'Color', 'MochiKit.Color.Color', '1.1');
-    m._deprecated(this, 'getElementsComputedStyle', 'MochiKit.Style.getStyle', '1.1');
-
-    m.nameFunctions(this);
-};
-
-MochiKit.Visual.__new__();
-
+MochiKit.Base.nameFunctions(MochiKit.Visual);
 MochiKit.Base._exportSymbols(this, MochiKit.Visual);
