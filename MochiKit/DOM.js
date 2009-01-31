@@ -1007,7 +1007,7 @@ MochiKit.Base.update(MochiKit.DOM, {
 
         // Backwards compatibility aliases
         /** @id MochiKit.DOM.computedStyle  */
-        m._deprecated(this, 'computedStyle', 'MochiKit.Style.getStyle', '1.4');
+        m._deprecated(this, 'computedStyle', 'MochiKit.Style.getStyle', '1.4', true);
         /** @id MochiKit.DOM.elementDimensions  */
         m._deprecated(this, 'elementDimensions', 'MochiKit.Style.getElementDimensions', '1.4');
         /** @id MochiKit.DOM.elementPosition  */

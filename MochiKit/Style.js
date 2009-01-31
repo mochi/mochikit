@@ -543,8 +543,8 @@ MochiKit.Base.update(MochiKit.Style, {
         }
 
         // Backwards compatibility aliases
-        m._deprecated(this, 'elementPosition', 'MochiKit.Style.getElementPosition', '1.3');
-        m._deprecated(this, 'elementDimensions', 'MochiKit.Style.getElementDimensions', '1.3');
+        m._deprecated(this, 'elementPosition', 'MochiKit.Style.getElementPosition', '1.3', true);
+        m._deprecated(this, 'elementDimensions', 'MochiKit.Style.getElementDimensions', '1.3', true);
 
         this.hideElement = m.partial(this.setDisplayForElement, 'none');
         // TODO: showElement could be improved by using getDefaultDisplay.

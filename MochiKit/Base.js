@@ -1321,7 +1321,7 @@ MochiKit.Base._exportSymbols = function (globals, module) {
  * @param {String} version the first version when the source function
  *            was deprecated (e.g. '1.4')
  * @param {Boolean} [exportable] the exportable function flag,
- *            defaults to true
+ *            defaults to false
  */
 MochiKit.Base._deprecated = function (module, name, target, version, exportable) {
     if (typeof(module) === 'string') {
@@ -1349,9 +1349,7 @@ MochiKit.Base._deprecated = function (module, name, target, version, exportable)
         }
         return MochiKit[targetModule][targetName].apply(this, arguments);
     };
-    if (exportable === false) {
-        func.__export__ = false;
-    }
+    func.__export__ = (exportable === true);
     module[name] = func;
 }
 
@@ -1362,8 +1360,8 @@ MochiKit.Base.__new__ = function () {
     m.noop = m.operator.identity;
 
     // Backwards compat
-    m._deprecated(m, 'forward', 'MochiKit.Base.forwardCall', '1.3', false);
-    m._deprecated(m, 'find', 'MochiKit.Base.findValue', '1.3', false);
+    m._deprecated(m, 'forward', 'MochiKit.Base.forwardCall', '1.3');
+    m._deprecated(m, 'find', 'MochiKit.Base.findValue', '1.3');
 
     if (typeof(encodeURIComponent) != "undefined") {
         /** @id MochiKit.Base.urlEncode */
