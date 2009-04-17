@@ -846,8 +846,14 @@ Functions
     Since this is a common idiom, :mochiref:`zip(p, q, ...)`
     is actually a shortcut for this.
 
+    ``lst`` (or any of the optional extra arguments) can be a string, 
+    in which case they are first converted to a list of DOM elements by 
+    :mochiref:`MochiKit.Selector.findDocElements(lst)`
+
     *Availability*:
         Available in MochiKit 1.3.1+
+        Selector shortcut available in MochiKit 1.5+
+
 
 :mochidef:`mean(lst[, ...])`:
 

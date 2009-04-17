@@ -31,6 +31,9 @@ MochiKit.Base.update(MochiKit.Iter, {
                 iterable
             );
         }
+        if (typeof(iterable) == "string" && typeof(MochiKit.Selector) != "undefined") {
+            iterable = MochiKit.Selector.findDocElements(iterable);
+        }
         if (typeof(iterable.next) == 'function') {
             return iterable;
         } else if (typeof(iterable.iter) == 'function') {
@@ -538,6 +541,11 @@ MochiKit.Base.update(MochiKit.Iter, {
         if (arguments.length > 2) {
             func = m.bind(func, obj);
         }
+
+        if (typeof(iterable) == "string" && typeof(MochiKit.Selector) != "undefined") {
+            iterable = MochiKit.Selector.findDocElements(iterable);
+        }
+
         // fast path for array
         if (m.isArrayLike(iterable) && !self.isIterable(iterable)) {
             try {

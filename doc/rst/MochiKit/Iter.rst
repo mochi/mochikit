@@ -140,8 +140,12 @@ Functions
     Call ``func`` for each item in ``iterable``, and don't save the
     results.
 
+    ``iterable`` can be a string, in which case ``func`` is called on each 
+    of the DOM elements returned by :mochiref:`MochiKit.Selector.findDocElements(iterable)`
+
     *Availability*:
         Available in MochiKit 1.3.1+
+        Selector shortcut available in MochiKit 1.5+
 
 
 :mochidef:`groupby(iterable[, keyfunc])`:

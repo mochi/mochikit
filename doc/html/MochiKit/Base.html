@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
 <title>MochiKit.Base - functional programming and useful comparisons</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -15,12 +15,12 @@
 <a href="http://mochikit.com"><img id="mainlink" src="../../../include/_img/g_logo_doc.gif" alt="MochiKit" /></a>
 <a class='indexlink' href='index.html'>Back to docs index</a>
 <div class="document">
-<div class="section">
-<h1><a id="name" name="name">Name</a></h1>
+<div class="section" id="name">
+<h1>Name</h1>
 <p>MochiKit.Base - functional programming and useful comparisons</p>
 </div>
-<div class="section">
-<h1><a id="synopsis" name="synopsis">Synopsis</a></h1>
+<div class="section" id="synopsis">
+<h1>Synopsis</h1>
 <pre class="literal-block">
 myObjectRepr = function () {
     // gives a nice, stable string representation for objects,
@@ -61,54 +61,54 @@ myArray = [1, 2, &quot;3&quot;, null, undefined];
 assert( objEqual(evalJSON(serializeJSON(myArray)), myArray) );
 </pre>
 </div>
-<div class="section">
-<h1><a id="description" name="description">Description</a></h1>
-<p><a class="mochiref reference" href="Base.html">MochiKit.Base</a> is the foundation for the MochiKit suite.
+<div class="section" id="description">
+<h1>Description</h1>
+<p><a class="mochiref reference external" href="Base.html">MochiKit.Base</a> is the foundation for the MochiKit suite.
 It provides:</p>
 <ul class="simple">
 <li>An extensible comparison facility
-(<a class="mochiref reference" href="#fn-compare">compare</a>, <a class="mochiref reference" href="#fn-registercomparator">registerComparator</a>)</li>
+(<a class="mochiref reference external" href="#fn-compare">compare</a>, <a class="mochiref reference external" href="#fn-registercomparator">registerComparator</a>)</li>
 <li>An extensible programmer representation facility
-(<a class="mochiref reference" href="#fn-repr">repr</a>, <a class="mochiref reference" href="#fn-registerrepr">registerRepr</a>)</li>
-<li>An extensible JSON <a class="footnote-reference" href="#id7" id="id1" name="id1">[1]</a> serialization and evaluation facility
-(<a class="mochiref reference" href="#fn-serializejson">serializeJSON</a>, <a class="mochiref reference" href="#fn-evaljson">evalJSON</a>,
-<a class="mochiref reference" href="#fn-registerjson">registerJSON</a>)</li>
-<li>A simple adaptation facility (<a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a>)</li>
+(<a class="mochiref reference external" href="#fn-repr">repr</a>, <a class="mochiref reference external" href="#fn-registerrepr">registerRepr</a>)</li>
+<li>An extensible JSON <a class="footnote-reference" href="#id7" id="id1">[1]</a> serialization and evaluation facility
+(<a class="mochiref reference external" href="#fn-serializejson">serializeJSON</a>, <a class="mochiref reference external" href="#fn-evaljson">evalJSON</a>,
+<a class="mochiref reference external" href="#fn-registerjson">registerJSON</a>)</li>
+<li>A simple adaptation facility (<a class="mochiref reference external" href="#fn-adapterregistry">AdapterRegistry</a>)</li>
 <li>Convenience functions for manipulating objects and Arrays
-(<a class="mochiref reference" href="#fn-update">update</a>, <a class="mochiref reference" href="#fn-setdefault">setdefault</a>, <a class="mochiref reference" href="#fn-extend">extend</a>, etc.)</li>
+(<a class="mochiref reference external" href="#fn-update">update</a>, <a class="mochiref reference external" href="#fn-setdefault">setdefault</a>, <a class="mochiref reference external" href="#fn-extend">extend</a>, etc.)</li>
 <li>Array-based functional programming
-(<a class="mochiref reference" href="#fn-map">map</a>, <a class="mochiref reference" href="#fn-filter">filter</a>, etc.)</li>
+(<a class="mochiref reference external" href="#fn-map">map</a>, <a class="mochiref reference external" href="#fn-filter">filter</a>, etc.)</li>
 <li>Bound and partially applied functions
-(<a class="mochiref reference" href="#fn-bind">bind</a>, <a class="mochiref reference" href="#fn-method">method</a>, <a class="mochiref reference" href="#fn-partial">partial</a>)</li>
+(<a class="mochiref reference external" href="#fn-bind">bind</a>, <a class="mochiref reference external" href="#fn-method">method</a>, <a class="mochiref reference external" href="#fn-partial">partial</a>)</li>
 </ul>
-<p>Python users will feel at home with <a class="mochiref reference" href="Base.html">MochiKit.Base</a>, as the
+<p>Python users will feel at home with <a class="mochiref reference external" href="Base.html">MochiKit.Base</a>, as the
 facilities are quite similar to those available as part of Python and
 the Python standard library.</p>
 </div>
-<div class="section">
-<h1><a id="dependencies" name="dependencies">Dependencies</a></h1>
+<div class="section" id="dependencies">
+<h1>Dependencies</h1>
 <p>None.</p>
 </div>
-<div class="section">
-<h1><a id="overview" name="overview">Overview</a></h1>
-<div class="section">
-<h2><a id="comparison" name="comparison">Comparison</a></h2>
+<div class="section" id="overview">
+<h1>Overview</h1>
+<div class="section" id="comparison">
+<h2>Comparison</h2>
 <p>The comparators (operators for comparison) in JavaScript are deeply
 broken, and it is not possible to teach them new tricks.</p>
 <p>MochiKit exposes an extensible comparison facility as a simple
-<a class="mochiref reference" href="#fn-compare">compare(a, b)</a> function, which should be used in lieu of
+<a class="mochiref reference external" href="#fn-compare">compare(a, b)</a> function, which should be used in lieu of
 JavaScript's operators whenever comparing objects other than numbers
-or strings (though you can certainly use <a class="mochiref reference" href="#fn-compare">compare</a> for
+or strings (though you can certainly use <a class="mochiref reference external" href="#fn-compare">compare</a> for
 those, too!).</p>
-<p>The <a class="mochiref reference" href="#fn-compare">compare</a> function has the same signature and return
+<p>The <a class="mochiref reference external" href="#fn-compare">compare</a> function has the same signature and return
 value as a sort function for <tt class="docutils literal"><span class="pre">Array.prototype.sort</span></tt>, and is often
 used in that context.</p>
-<p>Defining new comparators for the <a class="mochiref reference" href="#fn-compare">compare</a> function to use
-is done by adding an entry to its <a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a> with the
-<a class="mochiref reference" href="#fn-registercomparator">registerComparator</a> function.</p>
+<p>Defining new comparators for the <a class="mochiref reference external" href="#fn-compare">compare</a> function to use
+is done by adding an entry to its <a class="mochiref reference external" href="#fn-adapterregistry">AdapterRegistry</a> with the
+<a class="mochiref reference external" href="#fn-registercomparator">registerComparator</a> function.</p>
 </div>
-<div class="section">
-<h2><a id="programmer-representation" name="programmer-representation">Programmer Representation</a></h2>
+<div class="section" id="programmer-representation">
+<h2>Programmer Representation</h2>
 <p>JavaScript's default representation mechanism, <tt class="docutils literal"><span class="pre">toString</span></tt>, is
 notorious for having terrible default behavior. It's also very unwise
 to change that default, as other JavaScript code you may be using may
@@ -116,9 +116,9 @@ depend on it.</p>
 <p>It's also useful to separate the concept of a &quot;string representation&quot;
 and a &quot;string representation for programmers&quot;, much like Python does
 with its str and repr protocols.</p>
-<p><a class="mochiref reference" href="#fn-repr">repr</a> provides this programmer representation for
+<p><a class="mochiref reference external" href="#fn-repr">repr</a> provides this programmer representation for
 JavaScript, in a way that doesn't require object prototype hacking:
-using an <a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a>.</p>
+using an <a class="mochiref reference external" href="#fn-adapterregistry">AdapterRegistry</a>.</p>
 <p>Objects that implement the repr protocol can either implement a
 <tt class="docutils literal"><span class="pre">.repr()</span></tt> or <tt class="docutils literal"><span class="pre">.__repr__()</span></tt> method, or they can simply have an
 adapter setup to generate programmer representations. By default, the
@@ -132,11 +132,11 @@ seamlessly with code that implements the idiomatic JavaScript
 a <tt class="docutils literal"><span class="pre">.repr()</span></tt> or <tt class="docutils literal"><span class="pre">.__repr__()</span></tt> method that returns a string. For
 objects that you didn't create (e.g., from a script you didn't write,
 or a built-in object), it is instead recommended that you create an
-adapter with <a class="mochiref reference" href="#fn-registerrepr">registerRepr</a>.</p>
+adapter with <a class="mochiref reference external" href="#fn-registerrepr">registerRepr</a>.</p>
 </div>
-<div class="section">
-<h2><a id="json-serialization" name="json-serialization">JSON Serialization</a></h2>
-<p>JSON <a class="footnote-reference" href="#id7" id="id2" name="id2">[1]</a>, JavaScript Object Notation, is a widely used serialization
+<div class="section" id="json-serialization">
+<h2>JSON Serialization</h2>
+<p>JSON <a class="footnote-reference" href="#id7" id="id2">[1]</a>, JavaScript Object Notation, is a widely used serialization
 format in the context of web development. It's extremely simple,
 lightweight, and fast. In its essence, JSON is a restricted subset of
 JavaScript syntax suitable for sending over the wire that can be
@@ -144,9 +144,9 @@ unserialized with a simple eval. It's often used as an alternative to
 XML in &quot;AJAX&quot; contexts because it is compact, fast, and much simpler
 to use for most purposes.</p>
 <p>To create a JSON serialization of any object, simply call
-<a class="mochiref reference" href="#fn-serializejson">serializeJSON()</a> with that object. To unserialize a JSON
-string, simply call <a class="mochiref reference" href="#fn-evaljson">evalJSON()</a> with the serialization.</p>
-<p>In order of precedence, <a class="mochiref reference" href="#fn-serializejson">serializeJSON</a> coerces the given
+<a class="mochiref reference external" href="#fn-serializejson">serializeJSON()</a> with that object. To unserialize a JSON
+string, simply call <a class="mochiref reference external" href="#fn-evaljson">evalJSON()</a> with the serialization.</p>
+<p>In order of precedence, <a class="mochiref reference external" href="#fn-serializejson">serializeJSON</a> coerces the given
 argument into a JSON serialization:</p>
 <ol class="arabic simple">
 <li>Primitive types are returned as their JSON representation:
@@ -161,7 +161,7 @@ a number, and is not a function), then it is serialized as a JSON
 array.  Each element will be processed according to these rules in
 order.  Elements that can not be serialized (e.g. functions) will
 be replaced with <tt class="docutils literal"><span class="pre">undefined</span></tt>.</li>
-<li>The <tt class="docutils literal"><span class="pre">jsonRegistry</span></tt> <a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a> is consulted for
+<li>The <tt class="docutils literal"><span class="pre">jsonRegistry</span></tt> <a class="mochiref reference external" href="#fn-adapterregistry">AdapterRegistry</a> is consulted for
 an adapter for this object. JSON adapters take one argument (the
 object), and are expected to behave like a <tt class="docutils literal"><span class="pre">__json__</span></tt> or
 <tt class="docutils literal"><span class="pre">json</span></tt> method (return another object to be serialized, or
@@ -176,17 +176,17 @@ these rules, and if it can not be serialized (e.g. methods), then
 that name:value pair will be skipped.</li>
 </ol>
 </div>
-<div class="section">
-<h2><a id="adapter-registries" name="adapter-registries">Adapter Registries</a></h2>
+<div class="section" id="adapter-registries">
+<h2>Adapter Registries</h2>
 <p>MochiKit makes extensive use of adapter registries, which enable you
 to implement object-specific behaviors for objects that you do not
 necessarily want to modify, such as built-in objects. This is
 especially useful because JavaScript does not provide a method for
 hiding user-defined properties from <tt class="docutils literal"><span class="pre">for</span> <span class="pre">propName</span> <span class="pre">in</span> <span class="pre">obj</span></tt>
 enumeration.</p>
-<p><a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a> is simply an encapsulation for an ordered
+<p><a class="mochiref reference external" href="#fn-adapterregistry">AdapterRegistry</a> is simply an encapsulation for an ordered
 list of &quot;check&quot; and &quot;wrap&quot; function pairs. Each
-<a class="mochiref reference" href="#fn-adapterregistry">AdapterRegistry</a> instance should perform one function, but
+<a class="mochiref reference external" href="#fn-adapterregistry">AdapterRegistry</a> instance should perform one function, but
 may have multiple ways to achieve that function based upon the
 arguments. One way to think of it is as a poor man's generic function,
 or multiple dispatch (on arbitrary functions, not just type!).</p>
@@ -198,47 +198,47 @@ the &quot;expensive&quot; wrap function is called.</p>
 operation, such as creating a programmer representation or comparing
 both arguments.</p>
 </div>
-<div class="section">
-<h2><a id="convenience-functions" name="convenience-functions">Convenience Functions</a></h2>
-<p>Much of <a class="mochiref reference" href="Base.html">MochiKit.Base</a> is there to simply remove the grunt
+<div class="section" id="convenience-functions">
+<h2>Convenience Functions</h2>
+<p>Much of <a class="mochiref reference external" href="Base.html">MochiKit.Base</a> is there to simply remove the grunt
 work of doing generic JavaScript programming.</p>
 <p>Need to take every property from one object and set them on another?
-No problem, just call <a class="mochiref reference" href="#fn-update">update(dest, src)</a>! What if you just
+No problem, just call <a class="mochiref reference external" href="#fn-update">update(dest, src)</a>! What if you just
 wanted to update keys that weren't already set? Look no further than
-<a class="mochiref reference" href="#fn-setdefault">setdefault(dest, src[, ...])</a>.</p>
+<a class="mochiref reference external" href="#fn-setdefault">setdefault(dest, src[, ...])</a>.</p>
 <p>Want to return a mutable object, but don't want to suffer the
-consequences if the user mutates it? Just <a class="mochiref reference" href="#fn-clone">clone(it)</a> and
+consequences if the user mutates it? Just <a class="mochiref reference external" href="#fn-clone">clone(it)</a> and
 you'll get a copy-on-write clone. Cheaper than a copy!</p>
 <p>Need to extend an <tt class="docutils literal"><span class="pre">Array</span></tt> with another array? Or even an
 <tt class="docutils literal"><span class="pre">Array</span></tt>-like object such as a <tt class="docutils literal"><span class="pre">NodeList</span></tt> or the special
 <tt class="docutils literal"><span class="pre">arguments</span></tt> object? Even if you need to skip the first few elements
 of the source <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, it's no problem with
-<a class="mochiref reference" href="#fn-extend">extend(dstArray, srcArrayLike[, skip])</a>!</p>
+<a class="mochiref reference external" href="#fn-extend">extend(dstArray, srcArrayLike[, skip])</a>!</p>
 <p>Wouldn't it be convenient to have all of the JavaScript operators were
 available as functions somewhere? That's what the
-<a class="mochiref reference" href="#fn-operators">operators</a> table is for, and it even comes with additional
-operators based on the <a class="mochiref reference" href="#fn-compare">compare</a> function.</p>
+<a class="mochiref reference external" href="#fn-operators">operators</a> table is for, and it even comes with additional
+operators based on the <a class="mochiref reference external" href="#fn-compare">compare</a> function.</p>
 <p>Need to walk some tree of objects and manipulate or find something in
-it?  A DOM element tree perhaps? Use <a class="mochiref reference" href="#fn-nodewalk">nodeWalk(node,
+it?  A DOM element tree perhaps? Use <a class="mochiref reference external" href="#fn-nodewalk">nodeWalk(node,
 visitor)</a>!</p>
-<p>There's plenty more, so check out the <a class="reference" href="#api-reference">API Reference</a> below.</p>
+<p>There's plenty more, so check out the <a class="reference internal" href="#api-reference">API Reference</a> below.</p>
 </div>
-<div class="section">
-<h2><a id="functional-programming" name="functional-programming">Functional Programming</a></h2>
-<p>Functional programming constructs such as <a class="mochiref reference" href="#fn-map">map</a> and
-<a class="mochiref reference" href="#fn-filter">filter</a> can save you a lot of time, because JavaScript
+<div class="section" id="functional-programming">
+<h2>Functional Programming</h2>
+<p>Functional programming constructs such as <a class="mochiref reference external" href="#fn-map">map</a> and
+<a class="mochiref reference external" href="#fn-filter">filter</a> can save you a lot of time, because JavaScript
 iteration is error-prone and arduous. Writing less code is the best
 way to prevent bugs, and functional programming can help you do that.</p>
-<p><a class="mochiref reference" href="Base.html">MochiKit.Base</a> ships with a few simple Array-based
-functional programming constructs, namely <a class="mochiref reference" href="#fn-map">map</a> and
-<a class="mochiref reference" href="#fn-filter">filter</a>, and their &quot;extended&quot; brethren, <a class="mochiref reference" href="#fn-xmap">xmap</a>
-and <a class="mochiref reference" href="#fn-xfilter">xfilter</a>.</p>
-<p><a class="mochiref reference" href="#fn-map">map(func, arrayLike[, ...])</a> takes a function and an
+<p><a class="mochiref reference external" href="Base.html">MochiKit.Base</a> ships with a few simple Array-based
+functional programming constructs, namely <a class="mochiref reference external" href="#fn-map">map</a> and
+<a class="mochiref reference external" href="#fn-filter">filter</a>, and their &quot;extended&quot; brethren, <a class="mochiref reference external" href="#fn-xmap">xmap</a>
+and <a class="mochiref reference external" href="#fn-xfilter">xfilter</a>.</p>
+<p><a class="mochiref reference external" href="#fn-map">map(func, arrayLike[, ...])</a> takes a function and an
 <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, and creates a new <tt class="docutils literal"><span class="pre">Array</span></tt>. The new <tt class="docutils literal"><span class="pre">Array</span></tt>
 is the result of <tt class="docutils literal"><span class="pre">func(element)</span></tt> for every element of <tt class="docutils literal"><span class="pre">arrayLike</span></tt>,
 much like the <tt class="docutils literal"><span class="pre">Array.prototype.map</span></tt> extension in Mozilla. However,
-<a class="mochiref reference" href="Base.html">MochiKit.Base</a> takes that a step further and gives you the
-full blown Python version of <a class="mochiref reference" href="#fn-map">map</a>, which will take several
+<a class="mochiref reference external" href="Base.html">MochiKit.Base</a> takes that a step further and gives you the
+full blown Python version of <a class="mochiref reference external" href="#fn-map">map</a>, which will take several
 <tt class="docutils literal"><span class="pre">Array</span></tt>-like objects, and calls the function with one argument per
 given <tt class="docutils literal"><span class="pre">Array</span></tt>-like, e.g.:</p>
 <pre class="literal-block">
@@ -248,28 +248,28 @@ var arrayThree = [5, 2, 1, 3, 4];
 var biggestElements = map(objMax, arrayOne, arrayTwo, arrayThree);
 assert( objEqual(biggestElements, [5, 5, 3, 4, 5]) );
 </pre>
-<p><a class="mochiref reference" href="#fn-filter">filter(func, arrayLike[, self])</a> takes a function and an
+<p><a class="mochiref reference external" href="#fn-filter">filter(func, arrayLike[, self])</a> takes a function and an
 <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, and returns a new <tt class="docutils literal"><span class="pre">Array</span></tt>.  This is basically
 identical to the <tt class="docutils literal"><span class="pre">Array.prototype.filter</span></tt> extension in
 Mozilla. self, if given, will be used as <tt class="docutils literal"><span class="pre">this</span></tt> in the context of
 func when called.</p>
-<p><a class="mochiref reference" href="#fn-xmap">xmap</a> and <a class="mochiref reference" href="#fn-xfilter">xfilter</a> are just special forms of
-<a class="mochiref reference" href="#fn-map">map</a> and <a class="mochiref reference" href="#fn-filter">filter</a> that accept a function as the
+<p><a class="mochiref reference external" href="#fn-xmap">xmap</a> and <a class="mochiref reference external" href="#fn-xfilter">xfilter</a> are just special forms of
+<a class="mochiref reference external" href="#fn-map">map</a> and <a class="mochiref reference external" href="#fn-filter">filter</a> that accept a function as the
 first argument, and use the extra arguments as the <tt class="docutils literal"><span class="pre">Array</span></tt>-like. Not
 terribly interesting, but a definite time-saver in some cases.</p>
 <p>If you appreciate the functional programming facilities here, you
-should definitely check out <a class="mochiref reference" href="Iter.html">MochiKit.Iter</a>, which provides
-full blown iterators, <a class="mochiref reference" href="Iter.html#fn-range">MochiKit.Iter.range</a>,
-<a class="mochiref reference" href="Iter.html#fn-reduce">MochiKit.Iter.reduce</a>, and a near-complete port of Python's
-itertools <a class="footnote-reference" href="#id8" id="id3" name="id3">[2]</a> module, with some extra stuff thrown in for good
+should definitely check out <a class="mochiref reference external" href="Iter.html">MochiKit.Iter</a>, which provides
+full blown iterators, <a class="mochiref reference external" href="Iter.html#fn-range">MochiKit.Iter.range</a>,
+<a class="mochiref reference external" href="Iter.html#fn-reduce">MochiKit.Iter.reduce</a>, and a near-complete port of Python's
+itertools <a class="footnote-reference" href="#id8" id="id3">[2]</a> module, with some extra stuff thrown in for good
 measure!</p>
 </div>
-<div class="section">
-<h2><a id="bound-and-partial-functions" name="bound-and-partial-functions">Bound and Partial Functions</a></h2>
+<div class="section" id="bound-and-partial-functions">
+<h2>Bound and Partial Functions</h2>
 <p>JavaScript's method-calling special form and lack of bound functions
 (functions that know what <tt class="docutils literal"><span class="pre">this</span></tt> should be) are one of the first
 stumbling blocks that programmers new to JavaScript face. The
-<a class="mochiref reference" href="#fn-bind">bind(func, self)</a> method fixes that right up by returning a
+<a class="mochiref reference external" href="#fn-bind">bind(func, self)</a> method fixes that right up by returning a
 new function that calls func with the right <tt class="docutils literal"><span class="pre">this</span></tt>.</p>
 <p>In order to take real advantage of all this fancy functional
 programming stuff, you're probably going to want partial
@@ -283,17 +283,17 @@ results = map(compareWithOne, [0, 1, 2, 3]);
 assert( objEqual(results, [-1, 0, 1, 1]) );
 </pre>
 <p>One of the better uses of partial functions is in
-<a class="mochiref reference" href="DOM.html">MochiKit.DOM</a>, which is certainly a must-see for those of
+<a class="mochiref reference external" href="DOM.html">MochiKit.DOM</a>, which is certainly a must-see for those of
 you creating lots of DOM elements with JavaScript!</p>
 </div>
 </div>
-<div class="section">
-<h1><a id="api-reference" name="api-reference">API Reference</a></h1>
-<div class="section">
-<h2><a id="errors" name="errors">Errors</a></h2>
+<div class="section" id="api-reference">
+<h1>API Reference</h1>
+<div class="section" id="errors">
+<h2>Errors</h2>
 <p>
 <a name="fn-notfound"></a>
-<a class="mochidef reference" href="#fn-notfound">NotFound</a>:</p>
+<a class="mochidef reference external" href="#fn-notfound">NotFound</a>:</p>
 <blockquote>
 <p>A singleton error raised when no suitable adapter is found</p>
 <dl class="docutils">
@@ -302,11 +302,11 @@ you creating lots of DOM elements with JavaScript!</p>
 </dl>
 </blockquote>
 </div>
-<div class="section">
-<h2><a id="constructors" name="constructors">Constructors</a></h2>
+<div class="section" id="constructors">
+<h2>Constructors</h2>
 <p>
 <a name="fn-adapterregistry"></a>
-<a class="mochidef reference" href="#fn-adapterregistry">AdapterRegistry</a>:</p>
+<a class="mochidef reference external" href="#fn-adapterregistry">AdapterRegistry</a>:</p>
 <blockquote>
 <p>A registry to facilitate adaptation.</p>
 <p>All <tt class="docutils literal"><span class="pre">check</span></tt>/<tt class="docutils literal"><span class="pre">wrap</span></tt> function pairs in a given registry should
@@ -318,7 +318,7 @@ take the same number of arguments.</p>
 </blockquote>
 <p>
 <a name="fn-adapterregistry.prototype.register"></a>
-<a class="mochidef reference" href="#fn-adapterregistry.prototype.register">AdapterRegistry.prototype.register(name, check, wrap[, override])</a>:</p>
+<a class="mochidef reference external" href="#fn-adapterregistry.prototype.register">AdapterRegistry.prototype.register(name, check, wrap[, override])</a>:</p>
 <blockquote>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">name</span></tt>:</dt>
@@ -340,11 +340,11 @@ given highest priority. Otherwise, the lowest.</dd>
 </blockquote>
 <p>
 <a name="fn-adapterregistry.prototype.match"></a>
-<a class="mochidef reference" href="#fn-adapterregistry.prototype.match">AdapterRegistry.prototype.match(obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-adapterregistry.prototype.match">AdapterRegistry.prototype.match(obj[, ...])</a>:</p>
 <blockquote>
 <p>Find an adapter for the given arguments by calling every <tt class="docutils literal"><span class="pre">check</span></tt>
 function until one returns <tt class="docutils literal"><span class="pre">true</span></tt>.</p>
-<p>If no suitable adapter is found, throws <a class="mochiref reference" href="#fn-notfound">NotFound</a>.</p>
+<p>If no suitable adapter is found, throws <a class="mochiref reference external" href="#fn-notfound">NotFound</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -352,7 +352,7 @@ function until one returns <tt class="docutils literal"><span class="pre">true</
 </blockquote>
 <p>
 <a name="fn-adapterregistry.prototype.unregister"></a>
-<a class="mochidef reference" href="#fn-adapterregistry.prototype.unregister">AdapterRegistry.prototype.unregister(name)</a>:</p>
+<a class="mochidef reference external" href="#fn-adapterregistry.prototype.unregister">AdapterRegistry.prototype.unregister(name)</a>:</p>
 <blockquote>
 <p>Remove a named adapter from the registry</p>
 <dl class="docutils">
@@ -362,21 +362,21 @@ function until one returns <tt class="docutils literal"><span class="pre">true</
 </blockquote>
 <p>
 <a name="fn-namederror"></a>
-<a class="mochidef reference" href="#fn-namederror">NamedError</a>:</p>
+<a class="mochidef reference external" href="#fn-namederror">NamedError</a>:</p>
 <blockquote>
 <p>Convenience constructor for creating new errors
-(e.g. <a class="mochiref reference" href="#fn-notfound">NotFound</a>)</p>
+(e.g. <a class="mochiref reference external" href="#fn-notfound">NotFound</a>)</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
 </dl>
 </blockquote>
 </div>
-<div class="section">
-<h2><a id="functions" name="functions">Functions</a></h2>
+<div class="section" id="functions">
+<h2>Functions</h2>
 <p>
 <a name="fn-arrayequal"></a>
-<a class="mochidef reference" href="#fn-arrayequal">arrayEqual(self, arr)</a>:</p>
+<a class="mochidef reference external" href="#fn-arrayequal">arrayEqual(self, arr)</a>:</p>
 <blockquote>
 <p>Compare the arrays <tt class="docutils literal"><span class="pre">self</span></tt> and <tt class="docutils literal"><span class="pre">arr</span></tt> for equality using
 <tt class="docutils literal"><span class="pre">compare</span></tt> on each element. Uses a fast-path for length
@@ -388,9 +388,9 @@ differences.</p>
 </blockquote>
 <p>
 <a name="fn-average"></a>
-<a class="mochidef reference" href="#fn-average">average(lst[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-average">average(lst[, ...])</a>:</p>
 <blockquote>
-<p>This function is an alias of <a class="mochiref reference" href="#fn-mean">mean()</a>.</p>
+<p>This function is an alias of <a class="mochiref reference external" href="#fn-mean">mean()</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -398,7 +398,7 @@ differences.</p>
 </blockquote>
 <p>
 <a name="fn-bind"></a>
-<a class="mochidef reference" href="#fn-bind">bind(func, self[, arg, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-bind">bind(func, self[, arg, ...])</a>:</p>
 <blockquote>
 <p>Return a copy of <tt class="docutils literal"><span class="pre">func</span></tt> bound to <tt class="docutils literal"><span class="pre">self</span></tt>. This means whenever
 and however the returned function is called, <tt class="docutils literal"><span class="pre">this</span></tt> will always
@@ -409,7 +409,7 @@ be used, making these two statements equivalent:</p>
 bind(&quot;method&quot;, self);
 bind(self.method, self);
 </pre>
-<p>Calling <a class="mochiref reference" href="#fn-bind">bind(func, self)</a> on an already bound function
+<p>Calling <a class="mochiref reference external" href="#fn-bind">bind(func, self)</a> on an already bound function
 will return a new function that is bound to the new <tt class="docutils literal"><span class="pre">self</span></tt>! If
 <tt class="docutils literal"><span class="pre">self</span></tt> is <tt class="docutils literal"><span class="pre">undefined</span></tt>, then the previous <tt class="docutils literal"><span class="pre">self</span></tt> is used.  If
 <tt class="docutils literal"><span class="pre">self</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, then the <tt class="docutils literal"><span class="pre">this</span></tt> object is used (which may
@@ -417,12 +417,12 @@ or may not be the global object). To force binding to the global
 object, you should pass it explicitly.</p>
 <p>Additional arguments, if given, will be partially applied to the
 function. These three expressions are equivalent and return
-equally efficient functions (<a class="mochiref reference" href="#fn-bind">bind</a> and
-<a class="mochiref reference" href="#fn-partial">partial</a> share the same code path):</p>
+equally efficient functions (<a class="mochiref reference external" href="#fn-bind">bind</a> and
+<a class="mochiref reference external" href="#fn-partial">partial</a> share the same code path):</p>
 <ul class="simple">
-<li><a class="mochiref reference" href="#fn-bind">bind(oldfunc, self, arg1, arg2)</a></li>
-<li><a class="mochiref reference" href="#fn-bind">bind(partial(oldfunc, arg1, arg2), self)</a></li>
-<li><a class="mochiref reference" href="#fn-partial">partial(bind(oldfunc, self), arg1, arg2)</a></li>
+<li><a class="mochiref reference external" href="#fn-bind">bind(oldfunc, self, arg1, arg2)</a></li>
+<li><a class="mochiref reference external" href="#fn-bind">bind(partial(oldfunc, arg1, arg2), self)</a></li>
+<li><a class="mochiref reference external" href="#fn-partial">partial(bind(oldfunc, self), arg1, arg2)</a></li>
 </ul>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -431,9 +431,9 @@ equally efficient functions (<a class="mochiref reference" href="#fn-bind">bind<
 </blockquote>
 <p>
 <a name="fn-bindlate"></a>
-<a class="mochidef reference" href="#fn-bindlate">bindLate(func, self[, arg, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-bindlate">bindLate(func, self[, arg, ...])</a>:</p>
 <blockquote>
-<p>Alternate version of <a class="mochiref reference" href="#fn-bind">bind</a> that uses late lookup of
+<p>Alternate version of <a class="mochiref reference external" href="#fn-bind">bind</a> that uses late lookup of
 the <tt class="docutils literal"><span class="pre">func</span></tt> parameter in <tt class="docutils literal"><span class="pre">self</span></tt>. I.e, the <tt class="docutils literal"><span class="pre">self[func]</span></tt>
 function lookup will occur on each call to the returned function,
 not when <tt class="docutils literal"><span class="pre">bindLate</span></tt> is called. Note that this difference is
@@ -446,10 +446,10 @@ and <tt class="docutils literal"><span class="pre">bind</span></tt> are identica
 </blockquote>
 <p>
 <a name="fn-bindmethods"></a>
-<a class="mochidef reference" href="#fn-bindmethods">bindMethods(self)</a>:</p>
+<a class="mochidef reference external" href="#fn-bindmethods">bindMethods(self)</a>:</p>
 <blockquote>
 <p>Replace all functions <tt class="docutils literal"><span class="pre">meth</span></tt> on <tt class="docutils literal"><span class="pre">self</span></tt> with
-<a class="mochiref reference" href="#fn-bind">bind(meth, self)</a>.  This emulates Python's bound
+<a class="mochiref reference external" href="#fn-bind">bind(meth, self)</a>.  This emulates Python's bound
 instance methods, where there is no need to worry about preserving
 <tt class="docutils literal"><span class="pre">this</span></tt> when the method is used as a callback.</p>
 <dl class="docutils">
@@ -459,7 +459,7 @@ instance methods, where there is no need to worry about preserving
 </blockquote>
 <p>
 <a name="fn-bool"></a>
-<a class="mochidef reference" href="#fn-bool">bool(value)</a>:</p>
+<a class="mochidef reference external" href="#fn-bool">bool(value)</a>:</p>
 <blockquote>
 <p>Converts <tt class="docutils literal"><span class="pre">value</span></tt> into a boolean. The conversion varies depending on
 <tt class="docutils literal"><span class="pre">typeof(value)</span></tt>:</p>
@@ -480,7 +480,7 @@ or <tt class="docutils literal"><span class="pre">value</span> <span class="pre"
 </blockquote>
 <p>
 <a name="fn-camelize"></a>
-<a class="mochidef reference" href="#fn-camelize">camelize(str)</a>:</p>
+<a class="mochidef reference external" href="#fn-camelize">camelize(str)</a>:</p>
 <blockquote>
 <p>Converts hyphenated strings to camelCase:</p>
 <pre class="literal-block">
@@ -493,7 +493,7 @@ assert( camelize(&quot;border-left&quot;) == &quot;borderLeft&quot; );
 </blockquote>
 <p>
 <a name="fn-clone"></a>
-<a class="mochidef reference" href="#fn-clone">clone(obj)</a>:</p>
+<a class="mochidef reference external" href="#fn-clone">clone(obj)</a>:</p>
 <blockquote>
 <p>Return a new object using <tt class="docutils literal"><span class="pre">obj</span></tt> as its prototype. Use this if
 you want to return a mutable object (e.g. instance state), but
@@ -508,7 +508,7 @@ to be cloned separately if you want to &quot;protect&quot; them.</p>
 </blockquote>
 <p>
 <a name="fn-compare"></a>
-<a class="mochidef reference" href="#fn-compare">compare(a, b)</a>:</p>
+<a class="mochidef reference external" href="#fn-compare">compare(a, b)</a>:</p>
 <blockquote>
 <p>Compare two objects in a sensible manner. Currently this is:</p>
 <ol class="arabic simple">
@@ -550,7 +550,7 @@ something useful, which should work for numbers and strings.</li>
 </blockquote>
 <p>
 <a name="fn-compose"></a>
-<a class="mochidef reference" href="#fn-compose">compose(f1, f2, ..., fN)</a>:</p>
+<a class="mochidef reference external" href="#fn-compose">compose(f1, f2, ..., fN)</a>:</p>
 <blockquote>
 <p>Return a new function as the combination of the given function
 arguments, equivalent to <tt class="docutils literal"><span class="pre">f1(f2(arguments))</span></tt>.</p>
@@ -561,7 +561,7 @@ arguments, equivalent to <tt class="docutils literal"><span class="pre">f1(f2(ar
 </blockquote>
 <p>
 <a name="fn-concat"></a>
-<a class="mochidef reference" href="#fn-concat">concat(lst[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-concat">concat(lst[, ...])</a>:</p>
 <blockquote>
 <p>Concatenates all given <tt class="docutils literal"><span class="pre">Array</span></tt>-like arguments and returns
 a new <tt class="docutils literal"><span class="pre">Array</span></tt>:</p>
@@ -576,7 +576,7 @@ assert( lst.toString() == &quot;1,3,5,2,4,6&quot; );
 </blockquote>
 <p>
 <a name="fn-counter"></a>
-<a class="mochidef reference" href="#fn-counter">counter(n=1)</a>:</p>
+<a class="mochidef reference external" href="#fn-counter">counter(n=1)</a>:</p>
 <blockquote>
 <p>Returns a function that will return a number one greater than
 the previous returned value, starting at <tt class="docutils literal"><span class="pre">n</span></tt>. For example:</p>
@@ -586,7 +586,7 @@ assert( nextId() == 1 )
 assert( nextId() == 2 )
 </pre>
 <p>For an iterator with this behavior, see
-<a class="mochiref reference" href="Iter.html#fn-count">MochiKit.Iter.count</a>.</p>
+<a class="mochiref reference external" href="Iter.html#fn-count">MochiKit.Iter.count</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -594,7 +594,7 @@ assert( nextId() == 2 )
 </blockquote>
 <p>
 <a name="fn-extend"></a>
-<a class="mochidef reference" href="#fn-extend">extend(self, obj, skip=0)</a>:</p>
+<a class="mochidef reference external" href="#fn-extend">extend(self, obj, skip=0)</a>:</p>
 <blockquote>
 <p>Mutate the array <tt class="docutils literal"><span class="pre">self</span></tt> by extending it with an <tt class="docutils literal"><span class="pre">Array</span></tt>-like
 <tt class="docutils literal"><span class="pre">obj</span></tt>, starting from index <tt class="docutils literal"><span class="pre">skip</span></tt>. If <tt class="docutils literal"><span class="pre">null</span></tt> is given as the
@@ -607,16 +607,16 @@ initial array, a new one will be created.</p>
 </blockquote>
 <p>
 <a name="fn-evaljson"></a>
-<a class="mochidef reference" href="#fn-evaljson">evalJSON(aJSONString)</a>:</p>
+<a class="mochidef reference external" href="#fn-evaljson">evalJSON(aJSONString)</a>:</p>
 <blockquote>
-<p>Unserialize a JSON <a class="footnote-reference" href="#id7" id="id4" name="id4">[1]</a> represenation of an object.</p>
+<p>Unserialize a JSON <a class="footnote-reference" href="#id7" id="id4">[1]</a> represenation of an object.</p>
 <p>Note that this uses the <tt class="docutils literal"><span class="pre">eval</span></tt> function of the interpreter, and
 therefore trusts the contents of <tt class="docutils literal"><span class="pre">aJSONString</span></tt> to be safe.  This
 is acceptable when the JSON and JavaScript application originate
 from the same server, but in other scenarios it may not be the
 appropriate security model. Currently, a validating JSON parser is
 beyond the scope of MochiKit, but there is one available from
-json.org <a class="footnote-reference" href="#id7" id="id5" name="id5">[1]</a>.</p>
+json.org <a class="footnote-reference" href="#id7" id="id5">[1]</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -624,7 +624,7 @@ json.org <a class="footnote-reference" href="#id7" id="id5" name="id5">[1]</a>.<
 </blockquote>
 <p>
 <a name="fn-filter"></a>
-<a class="mochidef reference" href="#fn-filter">filter(fn, lst)</a>:</p>
+<a class="mochidef reference external" href="#fn-filter">filter(fn, lst)</a>:</p>
 <blockquote>
 <p>Returns a new <tt class="docutils literal"><span class="pre">Array</span></tt> composed of all elements from <tt class="docutils literal"><span class="pre">lst</span></tt>
 where <tt class="docutils literal"><span class="pre">fn(lst[i])</span></tt> returns a true value.</p>
@@ -636,10 +636,10 @@ where <tt class="docutils literal"><span class="pre">fn(lst[i])</span></tt> retu
 </blockquote>
 <p>
 <a name="fn-findvalue"></a>
-<a class="mochidef reference" href="#fn-findvalue">findValue(lst, value, start=0, end=lst.length)</a>:</p>
+<a class="mochidef reference external" href="#fn-findvalue">findValue(lst, value, start=0, end=lst.length)</a>:</p>
 <blockquote>
 <p>Finds the index of <tt class="docutils literal"><span class="pre">value</span></tt> in the <tt class="docutils literal"><span class="pre">Array</span></tt>-like object <tt class="docutils literal"><span class="pre">lst</span></tt>
-using <a class="mochiref reference" href="#fn-compare">compare</a>. The search starts at the index
+using <a class="mochiref reference external" href="#fn-compare">compare</a>. The search starts at the index
 <tt class="docutils literal"><span class="pre">start</span></tt>, and ends at the index <tt class="docutils literal"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">1</span></tt>. If <tt class="docutils literal"><span class="pre">value</span></tt> is not
 found in <tt class="docutils literal"><span class="pre">lst</span></tt>, it will return <tt class="docutils literal"><span class="pre">-1</span></tt>.</p>
 <p>For example:</p>
@@ -654,13 +654,13 @@ assert( findValue([1, 2, 3, 2, 1], 2, 2) == 3 )
 </blockquote>
 <p>
 <a name="fn-findidentical"></a>
-<a class="mochidef reference" href="#fn-findidentical">findIdentical(lst, value, start=0, end=lst.length)</a>:</p>
+<a class="mochidef reference external" href="#fn-findidentical">findIdentical(lst, value, start=0, end=lst.length)</a>:</p>
 <blockquote>
 <p>Finds the index of <tt class="docutils literal"><span class="pre">value</span></tt> in the <tt class="docutils literal"><span class="pre">Array</span></tt>-like object <tt class="docutils literal"><span class="pre">lst</span></tt>
 using the <tt class="docutils literal"><span class="pre">===</span></tt> operator. The search starts at the index
 <tt class="docutils literal"><span class="pre">start</span></tt>, and ends at the index <tt class="docutils literal"><span class="pre">end</span> <span class="pre">-</span> <span class="pre">1</span></tt>. If <tt class="docutils literal"><span class="pre">value</span></tt> is not
 found in <tt class="docutils literal"><span class="pre">lst</span></tt>, it will return <tt class="docutils literal"><span class="pre">-1</span></tt>.</p>
-<p>You should use this function instead of <a class="mochiref reference" href="#fn-findvalue">findValue</a> if
+<p>You should use this function instead of <a class="mochiref reference external" href="#fn-findvalue">findValue</a> if
 <tt class="docutils literal"><span class="pre">lst</span></tt> may be comprised of objects for which no comparator is
 defined and all you care about is finding an identical object
 (e.g. the same instance), or if <tt class="docutils literal"><span class="pre">lst</span></tt> is comprised of just
@@ -677,7 +677,7 @@ assert( findIdentical([1, 2, 3, 2, 1], 2, 2) == 3 )
 </blockquote>
 <p>
 <a name="fn-flattenarguments"></a>
-<a class="mochidef reference" href="#fn-flattenarguments">flattenArguments(arg[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-flattenarguments">flattenArguments(arg[, ...])</a>:</p>
 <blockquote>
 <p>Given a bunch of arguments, return a single <tt class="docutils literal"><span class="pre">Array</span></tt> containing
 all of those arguments. Any <tt class="docutils literal"><span class="pre">Array</span></tt>-like argument will be extended
@@ -692,11 +692,11 @@ compare(flattenArguments(1, [2, 3, [4, 5]]), [1, 2, 3, 4, 5]) == 0
 </blockquote>
 <p>
 <a name="fn-flattenarray"></a>
-<a class="mochidef reference" href="#fn-flattenarray">flattenArray(lst)</a>:</p>
+<a class="mochidef reference external" href="#fn-flattenarray">flattenArray(lst)</a>:</p>
 <blockquote>
 <p>Return a new <tt class="docutils literal"><span class="pre">Array</span></tt> consisting of every item in lst with <tt class="docutils literal"><span class="pre">Array</span></tt>
 items expanded in-place recursively. This differs from
-<a class="mochiref reference" href="#fn-flattenarguments">flattenArguments</a> in that it only takes one argument and
+<a class="mochiref reference external" href="#fn-flattenarguments">flattenArguments</a> in that it only takes one argument and
 it only flattens items that are <tt class="docutils literal"><span class="pre">instanceof</span> <span class="pre">Array</span></tt>.</p>
 <blockquote>
 compare(flattenArray([1, [2, 3, [4, 5]]]), [1, 2, 3, 4, 5]) == 0</blockquote>
@@ -707,7 +707,7 @@ compare(flattenArray([1, [2, 3, [4, 5]]]), [1, 2, 3, 4, 5]) == 0</blockquote>
 </blockquote>
 <p>
 <a name="fn-forwardcall"></a>
-<a class="mochidef reference" href="#fn-forwardcall">forwardCall(name)</a>:</p>
+<a class="mochidef reference external" href="#fn-forwardcall">forwardCall(name)</a>:</p>
 <blockquote>
 <p>Returns a function that forwards a method call to
 <tt class="docutils literal"><span class="pre">this.name(...)</span></tt></p>
@@ -718,7 +718,7 @@ compare(flattenArray([1, [2, 3, [4, 5]]]), [1, 2, 3, 4, 5]) == 0</blockquote>
 </blockquote>
 <p>
 <a name="fn-isarraylike"></a>
-<a class="mochidef reference" href="#fn-isarraylike">isArrayLike(obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-isarraylike">isArrayLike(obj[, ...])</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all given arguments are <tt class="docutils literal"><span class="pre">Array</span></tt>-like (have a
 <tt class="docutils literal"><span class="pre">.length</span></tt> property and <tt class="docutils literal"><span class="pre">typeof(obj)</span> <span class="pre">==</span> <span class="pre">'object'</span></tt>)</p>
@@ -729,7 +729,7 @@ compare(flattenArray([1, [2, 3, [4, 5]]]), [1, 2, 3, 4, 5]) == 0</blockquote>
 </blockquote>
 <p>
 <a name="fn-isdatelike"></a>
-<a class="mochidef reference" href="#fn-isdatelike">isDateLike(obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-isdatelike">isDateLike(obj[, ...])</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all given arguments are <tt class="docutils literal"><span class="pre">Date</span></tt>-like (have a
 <tt class="docutils literal"><span class="pre">.getTime()</span></tt> method)</p>
@@ -740,7 +740,7 @@ compare(flattenArray([1, [2, 3, [4, 5]]]), [1, 2, 3, 4, 5]) == 0</blockquote>
 </blockquote>
 <p>
 <a name="fn-isempty"></a>
-<a class="mochidef reference" href="#fn-isempty">isEmpty(obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-isempty">isEmpty(obj[, ...])</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all the given <tt class="docutils literal"><span class="pre">Array</span></tt>-like or string
 arguments are empty <tt class="docutils literal"><span class="pre">(obj.length</span> <span class="pre">==</span> <span class="pre">0)</span></tt></p>
@@ -751,7 +751,7 @@ arguments are empty <tt class="docutils literal"><span class="pre">(obj.length</
 </blockquote>
 <p>
 <a name="fn-isnotempty"></a>
-<a class="mochidef reference" href="#fn-isnotempty">isNotEmpty(obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-isnotempty">isNotEmpty(obj[, ...])</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all the given <tt class="docutils literal"><span class="pre">Array</span></tt>-like or string
 arguments are not empty <tt class="docutils literal"><span class="pre">(obj.length</span> <span class="pre">&gt;</span> <span class="pre">0)</span></tt></p>
@@ -762,7 +762,7 @@ arguments are not empty <tt class="docutils literal"><span class="pre">(obj.leng
 </blockquote>
 <p>
 <a name="fn-isnull"></a>
-<a class="mochidef reference" href="#fn-isnull">isNull(obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-isnull">isNull(obj[, ...])</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all arguments are <tt class="docutils literal"><span class="pre">null</span></tt>.</p>
 <dl class="docutils">
@@ -772,7 +772,7 @@ arguments are not empty <tt class="docutils literal"><span class="pre">(obj.leng
 </blockquote>
 <p>
 <a name="fn-isundefinedornull"></a>
-<a class="mochidef reference" href="#fn-isundefinedornull">isUndefinedOrNull(obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-isundefinedornull">isUndefinedOrNull(obj[, ...])</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if all arguments are undefined or <tt class="docutils literal"><span class="pre">null</span></tt></p>
 <dl class="docutils">
@@ -782,7 +782,7 @@ arguments are not empty <tt class="docutils literal"><span class="pre">(obj.leng
 </blockquote>
 <p>
 <a name="fn-itemgetter"></a>
-<a class="mochidef reference" href="#fn-itemgetter">itemgetter(name)</a>:</p>
+<a class="mochidef reference external" href="#fn-itemgetter">itemgetter(name)</a>:</p>
 <blockquote>
 <p>Returns a <tt class="docutils literal"><span class="pre">function(obj)</span></tt> that returns <tt class="docutils literal"><span class="pre">obj[name]</span></tt></p>
 <dl class="docutils">
@@ -792,7 +792,7 @@ arguments are not empty <tt class="docutils literal"><span class="pre">(obj.leng
 </blockquote>
 <p>
 <a name="fn-items"></a>
-<a class="mochidef reference" href="#fn-items">items(obj)</a>:</p>
+<a class="mochidef reference external" href="#fn-items">items(obj)</a>:</p>
 <blockquote>
 <p>Return an <tt class="docutils literal"><span class="pre">Array</span></tt> of <tt class="docutils literal"><span class="pre">[propertyName,</span> <span class="pre">propertyValue]</span></tt> pairs for
 the given <tt class="docutils literal"><span class="pre">obj</span></tt> (in the order determined by <tt class="docutils literal"><span class="pre">for</span> <span class="pre">propName</span> <span class="pre">in</span>
@@ -804,7 +804,7 @@ the given <tt class="docutils literal"><span class="pre">obj</span></tt> (in the
 </blockquote>
 <p>
 <a name="fn-keycomparator"></a>
-<a class="mochidef reference" href="#fn-keycomparator">keyComparator(key[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-keycomparator">keyComparator(key[, ...])</a>:</p>
 <blockquote>
 <p>A comparator factory that compares <tt class="docutils literal"><span class="pre">a[key]</span></tt> with <tt class="docutils literal"><span class="pre">b[key]</span></tt>.
 e.g.:</p>
@@ -820,7 +820,7 @@ assert( lst.toString() == &quot;a,cc,bbb&quot; );
 </blockquote>
 <p>
 <a name="fn-keys"></a>
-<a class="mochidef reference" href="#fn-keys">keys(obj)</a>:</p>
+<a class="mochidef reference external" href="#fn-keys">keys(obj)</a>:</p>
 <blockquote>
 <p>Return an <tt class="docutils literal"><span class="pre">Array</span></tt> of the property names of an object (in the
 order determined by <tt class="docutils literal"><span class="pre">for</span> <span class="pre">propName</span> <span class="pre">in</span> <span class="pre">obj</span></tt>).</p>
@@ -831,12 +831,12 @@ order determined by <tt class="docutils literal"><span class="pre">for</span> <s
 </blockquote>
 <p>
 <a name="fn-listmax"></a>
-<a class="mochidef reference" href="#fn-listmax">listMax(lst)</a>:</p>
+<a class="mochidef reference external" href="#fn-listmax">listMax(lst)</a>:</p>
 <blockquote>
 <p>Return the largest element of an <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, as
-determined by <a class="mochiref reference" href="#fn-compare">compare</a>. This is a special form of
-<a class="mochiref reference" href="#fn-listminmax">listMinMax</a>, specifically
-<a class="mochiref reference" href="#fn-partial">partial(listMinMax, 1)</a>.</p>
+determined by <a class="mochiref reference external" href="#fn-compare">compare</a>. This is a special form of
+<a class="mochiref reference external" href="#fn-listminmax">listMinMax</a>, specifically
+<a class="mochiref reference external" href="#fn-partial">partial(listMinMax, 1)</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -844,12 +844,12 @@ determined by <a class="mochiref reference" href="#fn-compare">compare</a>. This
 </blockquote>
 <p>
 <a name="fn-listmin"></a>
-<a class="mochidef reference" href="#fn-listmin">listMin(lst)</a>:</p>
+<a class="mochidef reference external" href="#fn-listmin">listMin(lst)</a>:</p>
 <blockquote>
 <p>Return the smallest element of an <tt class="docutils literal"><span class="pre">Array</span></tt>-like object, as
-determined by <a class="mochiref reference" href="#fn-compare">compare</a>. This is a special form of
-<a class="mochiref reference" href="#fn-listminmax">listMinMax</a>, specifically
-<a class="mochiref reference" href="#fn-partial">partial(listMinMax, -1)</a>.</p>
+determined by <a class="mochiref reference external" href="#fn-compare">compare</a>. This is a special form of
+<a class="mochiref reference external" href="#fn-listminmax">listMinMax</a>, specifically
+<a class="mochiref reference external" href="#fn-partial">partial(listMinMax, -1)</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -857,14 +857,14 @@ determined by <a class="mochiref reference" href="#fn-compare">compare</a>. This
 </blockquote>
 <p>
 <a name="fn-listminmax"></a>
-<a class="mochidef reference" href="#fn-listminmax">listMinMax(which, lst)</a>:</p>
+<a class="mochidef reference external" href="#fn-listminmax">listMinMax(which, lst)</a>:</p>
 <blockquote>
 <p>If <tt class="docutils literal"><span class="pre">which</span> <span class="pre">==</span> <span class="pre">-1</span></tt> then it will return the smallest element of the
 <tt class="docutils literal"><span class="pre">Array</span></tt>-like <tt class="docutils literal"><span class="pre">lst</span></tt>. This is also available as
-<a class="mochiref reference" href="#fn-listmin">listMin(lst)</a>.</p>
+<a class="mochiref reference external" href="#fn-listmin">listMin(lst)</a>.</p>
 <p>If <tt class="docutils literal"><span class="pre">which</span> <span class="pre">==</span> <span class="pre">1</span></tt> then it will return the largest element of the
 <tt class="docutils literal"><span class="pre">Array</span></tt>-like <tt class="docutils literal"><span class="pre">lst</span></tt>. This is also available as
-<a class="mochiref reference" href="#fn-listmax">listMax(list)</a>.</p>
+<a class="mochiref reference external" href="#fn-listmax">listMax(list)</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -872,20 +872,20 @@ determined by <a class="mochiref reference" href="#fn-compare">compare</a>. This
 </blockquote>
 <p>
 <a name="fn-map"></a>
-<a class="mochidef reference" href="#fn-map">map(fn, lst[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-map">map(fn, lst[, ...])</a>:</p>
 <blockquote>
 <p>Return a new array composed of the results of <tt class="docutils literal"><span class="pre">fn(x)</span></tt> for every
 <tt class="docutils literal"><span class="pre">x</span></tt> in <tt class="docutils literal"><span class="pre">lst</span></tt>.</p>
 <p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, and only one sequence argument is given the
 identity function is used.</p>
 <blockquote>
-<a class="mochiref reference" href="#fn-map">map(null, lst)</a> -&gt; <tt class="docutils literal"><span class="pre">lst.slice()</span></tt>;</blockquote>
+<a class="mochiref reference external" href="#fn-map">map(null, lst)</a> -&gt; <tt class="docutils literal"><span class="pre">lst.slice()</span></tt>;</blockquote>
 <p>If <tt class="docutils literal"><span class="pre">fn</span></tt> is not <tt class="docutils literal"><span class="pre">null</span></tt> and more than one sequence argument is
 given, then one element from each sequence is used to build the
 argument list for <tt class="docutils literal"><span class="pre">fn</span></tt>.</p>
 <blockquote>
 <dl class="docutils">
-<dt><a class="mochiref reference" href="#fn-map">map(fn, p, q, ...)</a></dt>
+<dt><a class="mochiref reference external" href="#fn-map">map(fn, p, q, ...)</a></dt>
 <dd>-&gt;  <tt class="docutils literal"><span class="pre">[fn(p[0],</span> <span class="pre">q[0],</span> <span class="pre">..),</span> <span class="pre">fn(p[1],</span> <span class="pre">q[1],</span> <span class="pre">...),</span> <span class="pre">...]</span></tt></dd>
 </dl>
 </blockquote>
@@ -893,24 +893,28 @@ argument list for <tt class="docutils literal"><span class="pre">fn</span></tt>.
 arguments, then the <tt class="docutils literal"><span class="pre">Array</span></tt> function is used.</p>
 <blockquote>
 <dl class="docutils">
-<dt><a class="mochiref reference" href="#fn-map">map(null, p, q, ...)</a></dt>
-<dd>-&gt; <a class="mochiref reference" href="Iter.html#fn-zip">MochiKit.Iter.zip(p, q, ...)</a>
+<dt><a class="mochiref reference external" href="#fn-map">map(null, p, q, ...)</a></dt>
+<dd>-&gt; <a class="mochiref reference external" href="Iter.html#fn-zip">MochiKit.Iter.zip(p, q, ...)</a>
 -&gt; <tt class="docutils literal"><span class="pre">[[p0,</span> <span class="pre">q0,</span> <span class="pre">...],</span> <span class="pre">[p1,</span> <span class="pre">q1,</span> <span class="pre">...],</span> <span class="pre">...];</span></tt></dd>
 </dl>
 </blockquote>
-<p>Since this is a common idiom, <a class="mochiref reference" href="#fn-zip">zip(p, q, ...)</a>
+<p>Since this is a common idiom, <a class="mochiref reference external" href="#fn-zip">zip(p, q, ...)</a>
 is actually a shortcut for this.</p>
+<p><tt class="docutils literal"><span class="pre">lst</span></tt> (or any of the optional extra arguments) can be a string,
+in which case they are first converted to a list of DOM elements by
+<a class="mochiref reference external" href="Selector.html#fn-finddocelements">MochiKit.Selector.findDocElements(lst)</a></p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.3.1+</dd>
+<dd>Available in MochiKit 1.3.1+
+Selector shortcut available in MochiKit 1.5+</dd>
 </dl>
 </blockquote>
 <p>
 <a name="fn-mean"></a>
-<a class="mochidef reference" href="#fn-mean">mean(lst[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-mean">mean(lst[, ...])</a>:</p>
 <blockquote>
 <p>Returns the arithmetic mean (average) of the argument list, or an array.
-This function applies <a class="mochiref reference" href="#fn-flattenarguments">flattenArguments()</a> to the argument list.</p>
+This function applies <a class="mochiref reference external" href="#fn-flattenarguments">flattenArguments()</a> to the argument list.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -918,10 +922,10 @@ This function applies <a class="mochiref reference" href="#fn-flattenarguments">
 </blockquote>
 <p>
 <a name="fn-median"></a>
-<a class="mochidef reference" href="#fn-median">median(lst[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-median">median(lst[, ...])</a>:</p>
 <blockquote>
 <p>Returns the median of the argument list, or an array. This function
-applies <a class="mochiref reference" href="#fn-flattenarguments">flattenArguments()</a> to the argument list.</p>
+applies <a class="mochiref reference external" href="#fn-flattenarguments">flattenArguments()</a> to the argument list.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -929,13 +933,13 @@ applies <a class="mochiref reference" href="#fn-flattenarguments">flattenArgumen
 </blockquote>
 <p>
 <a name="fn-merge"></a>
-<a class="mochidef reference" href="#fn-merge">merge(obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-merge">merge(obj[, ...])</a>:</p>
 <blockquote>
 <p>Create a new instance of <tt class="docutils literal"><span class="pre">Object</span></tt> that contains every property
 from all given objects. If a property is defined on more than one
 of the objects, the last property is used.</p>
-<p>This is a special form of <a class="mochiref reference" href="#fn-update">update(self, obj[, ...])</a>,
-specifically, it is defined as <a class="mochiref reference" href="#fn-partial">partial(update, null)</a>.</p>
+<p>This is a special form of <a class="mochiref reference external" href="#fn-update">update(self, obj[, ...])</a>,
+specifically, it is defined as <a class="mochiref reference external" href="#fn-partial">partial(update, null)</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -943,9 +947,9 @@ specifically, it is defined as <a class="mochiref reference" href="#fn-partial">
 </blockquote>
 <p>
 <a name="fn-method"></a>
-<a class="mochidef reference" href="#fn-method">method(self, func, ...)</a>:</p>
+<a class="mochidef reference external" href="#fn-method">method(self, func, ...)</a>:</p>
 <blockquote>
-<p>Alternate form of <a class="mochiref reference" href="#fn-bind">bind</a> that takes the object before
+<p>Alternate form of <a class="mochiref reference external" href="#fn-bind">bind</a> that takes the object before
 the function. These two calls are equivalent:</p>
 <pre class="literal-block">
 bind(&quot;method&quot;, myobject)
@@ -958,7 +962,7 @@ method(myobject, &quot;method&quot;)
 </blockquote>
 <p>
 <a name="fn-methodcaller"></a>
-<a class="mochidef reference" href="#fn-methodcaller">methodcaller(name[, args...])</a>:</p>
+<a class="mochidef reference external" href="#fn-methodcaller">methodcaller(name[, args...])</a>:</p>
 <blockquote>
 <p>Return a new function that calls a method on its argument,
 for example:</p>
@@ -973,11 +977,11 @@ assert( lst.join(&quot; &quot;) == &quot;this is lowercase&quot; );
 </blockquote>
 <p>
 <a name="fn-namefunctions"></a>
-<a class="mochidef reference" href="#fn-namefunctions">nameFunctions(namespace)</a>:</p>
+<a class="mochidef reference external" href="#fn-namefunctions">nameFunctions(namespace)</a>:</p>
 <blockquote>
 <p>Given a <tt class="docutils literal"><span class="pre">namespace</span></tt> (object or function) with a <tt class="docutils literal"><span class="pre">NAME</span></tt>
 property, find all methods in it and give them nice <tt class="docutils literal"><span class="pre">NAME</span></tt>
-properties too (for use with <a class="mochiref reference" href="#fn-repr">repr</a>). e.g.:</p>
+properties too (for use with <a class="mochiref reference external" href="#fn-repr">repr</a>). e.g.:</p>
 <pre class="literal-block">
 namespace = {
     NAME: &quot;Awesome&quot;,
@@ -993,7 +997,7 @@ assert( namespace.Dude.NAME == 'Awesome.Dude' );
 </blockquote>
 <p>
 <a name="fn-noop"></a>
-<a class="mochidef reference" href="#fn-noop">noop()</a>:</p>
+<a class="mochidef reference external" href="#fn-noop">noop()</a>:</p>
 <blockquote>
 <p>A function that performs no operation. Use this where you would
 otherwise use <tt class="docutils literal"><span class="pre">(function</span> <span class="pre">()</span> <span class="pre">{})</span></tt> in order to avoid Internet
@@ -1005,7 +1009,7 @@ Explorer cyclic garbage leakage.</p>
 </blockquote>
 <p>
 <a name="fn-objequal"></a>
-<a class="mochidef reference" href="#fn-objequal">objEqual(a, b)</a>:</p>
+<a class="mochidef reference external" href="#fn-objequal">objEqual(a, b)</a>:</p>
 <blockquote>
 <p>Return <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">compare(a,</span> <span class="pre">b)</span> <span class="pre">==</span> <span class="pre">0</span></tt></p>
 <dl class="docutils">
@@ -1015,7 +1019,7 @@ Explorer cyclic garbage leakage.</p>
 </blockquote>
 <p>
 <a name="fn-nodewalk"></a>
-<a class="mochidef reference" href="#fn-nodewalk">nodeWalk(node, visitor)</a>:</p>
+<a class="mochidef reference external" href="#fn-nodewalk">nodeWalk(node, visitor)</a>:</p>
 <blockquote>
 <p>Non-recursive generic node walking function (e.g. for a DOM).</p>
 <p>The walk order for nodeWalk is breadth first, meaning that all
@@ -1034,10 +1038,10 @@ should return an <tt class="docutils literal"><span class="pre">Array</span></tt
 </blockquote>
 <p>
 <a name="fn-objmax"></a>
-<a class="mochidef reference" href="#fn-objmax">objMax(obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-objmax">objMax(obj[, ...])</a>:</p>
 <blockquote>
-<p>Return the maximum object according to <a class="mochiref reference" href="#fn-compare">compare</a> out of
-the given arguments. This is similar to <a class="mochiref reference" href="#fn-listmax">listMax</a>,
+<p>Return the maximum object according to <a class="mochiref reference external" href="#fn-compare">compare</a> out of
+the given arguments. This is similar to <a class="mochiref reference external" href="#fn-listmax">listMax</a>,
 except is uses the arguments instead of a given <tt class="docutils literal"><span class="pre">Array</span></tt>-like.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -1046,10 +1050,10 @@ except is uses the arguments instead of a given <tt class="docutils literal"><sp
 </blockquote>
 <p>
 <a name="fn-objmin"></a>
-<a class="mochidef reference" href="#fn-objmin">objMin(obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-objmin">objMin(obj[, ...])</a>:</p>
 <blockquote>
-<p>Return the minimum object according to <a class="mochiref reference" href="#fn-compare">compare</a> out of
-the given arguments. This is similar to <a class="mochiref reference" href="#fn-listmin">listMin</a>,
+<p>Return the minimum object according to <a class="mochiref reference external" href="#fn-compare">compare</a> out of
+the given arguments. This is similar to <a class="mochiref reference external" href="#fn-listmin">listMin</a>,
 except it uses the arguments instead of a given <tt class="docutils literal"><span class="pre">Array</span></tt>-like.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -1058,10 +1062,10 @@ except it uses the arguments instead of a given <tt class="docutils literal"><sp
 </blockquote>
 <p>
 <a name="fn-operator"></a>
-<a class="mochidef reference" href="#fn-operator">operator</a>:</p>
+<a class="mochidef reference external" href="#fn-operator">operator</a>:</p>
 <blockquote>
-<p>A table of JavaScript's operators for usage with <a class="mochiref reference" href="#fn-map">map</a>,
-<a class="mochiref reference" href="#fn-filter">filter</a>, etc.</p>
+<p>A table of JavaScript's operators for usage with <a class="mochiref reference external" href="#fn-map">map</a>,
+<a class="mochiref reference external" href="#fn-filter">filter</a>, etc.</p>
 <p>Unary Logic Operators:</p>
 <blockquote>
 <table border="1" class="docutils">
@@ -1248,7 +1252,7 @@ except it uses the arguments instead of a given <tt class="docutils literal"><sp
 </tbody>
 </table>
 </blockquote>
-<p>Extended Comparators (uses <a class="mochiref reference" href="#fn-compare">compare</a>):</p>
+<p>Extended Comparators (uses <a class="mochiref reference external" href="#fn-compare">compare</a>):</p>
 <blockquote>
 <table border="1" class="docutils">
 <colgroup>
@@ -1327,7 +1331,7 @@ except it uses the arguments instead of a given <tt class="docutils literal"><sp
 </blockquote>
 <p>
 <a name="fn-parsequerystring"></a>
-<a class="mochidef reference" href="#fn-parsequerystring">parseQueryString(encodedString[, useArrays=false])</a>:</p>
+<a class="mochidef reference external" href="#fn-parsequerystring">parseQueryString(encodedString[, useArrays=false])</a>:</p>
 <blockquote>
 <p>Parse a name=value pair URL query string into an object with a
 property for each pair. e.g.:</p>
@@ -1349,7 +1353,7 @@ assert( args.foo[0] == &quot;one&quot; &amp;&amp; args.foo[1] == &quot;two&quot;
 </blockquote>
 <p>
 <a name="fn-partial"></a>
-<a class="mochidef reference" href="#fn-partial">partial(func, arg[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-partial">partial(func, arg[, ...])</a>:</p>
 <blockquote>
 <p>Return a partially applied function, e.g.:</p>
 <pre class="literal-block">
@@ -1361,13 +1365,13 @@ addOne = partial(addNumbers, 1);
 
 assert(addOne(2) == 3);
 </pre>
-<p><a class="mochiref reference" href="#fn-partial">partial</a> is a special form of <a class="mochiref reference" href="#fn-bind">bind</a> that
+<p><a class="mochiref reference external" href="#fn-partial">partial</a> is a special form of <a class="mochiref reference external" href="#fn-bind">bind</a> that
 does not alter the bound <tt class="docutils literal"><span class="pre">self</span></tt> (if any). It is equivalent to
 calling:</p>
 <pre class="literal-block">
 bind(func, undefined, arg[, ...]);
 </pre>
-<p>See the documentation for <a class="mochiref reference" href="#fn-bind">bind</a> for more details about
+<p>See the documentation for <a class="mochiref reference external" href="#fn-bind">bind</a> for more details about
 this facility.</p>
 <p>This could be used to implement, but is NOT currying.</p>
 <dl class="docutils">
@@ -1377,11 +1381,11 @@ this facility.</p>
 </blockquote>
 <p>
 <a name="fn-querystring"></a>
-<a class="mochidef reference" href="#fn-querystring">queryString(names, values)</a>:</p>
+<a class="mochidef reference external" href="#fn-querystring">queryString(names, values)</a>:</p>
 <blockquote>
 <p>Creates a URL query string from a pair of <tt class="docutils literal"><span class="pre">Array</span></tt>-like objects
 representing <tt class="docutils literal"><span class="pre">names</span></tt> and <tt class="docutils literal"><span class="pre">values</span></tt>. Each name=value pair will
-be URL encoded by <a class="mochiref reference" href="#fn-urlencode">urlEncode</a>. name=value pairs with a
+be URL encoded by <a class="mochiref reference external" href="#fn-urlencode">urlEncode</a>. name=value pairs with a
 value of <tt class="docutils literal"><span class="pre">undefined</span></tt> or <tt class="docutils literal"><span class="pre">null</span></tt> will be skipped. e.g.:</p>
 <pre class="literal-block">
 var keys = [&quot;foo&quot;, &quot;bar&quot;];
@@ -1390,15 +1394,15 @@ assert( queryString(keys, values) == &quot;foo=value%20one&amp;bar=two&quot; );
 </pre>
 <dl class="docutils">
 <dt>Alternate form 1:</dt>
-<dd><a class="mochiref reference" href="#fn-querystring">queryString(domElement)</a></dd>
+<dd><a class="mochiref reference external" href="#fn-querystring">queryString(domElement)</a></dd>
 </dl>
-<p>If <a class="mochiref reference" href="DOM.html">MochiKit.DOM</a> is loaded, one argument is given, and
+<p>If <a class="mochiref reference external" href="DOM.html">MochiKit.DOM</a> is loaded, one argument is given, and
 that argument is either a string or has a <tt class="docutils literal"><span class="pre">nodeType</span></tt> property
 greater than zero, then <tt class="docutils literal"><span class="pre">names</span></tt> and <tt class="docutils literal"><span class="pre">values</span></tt> will be the
-result of <a class="mochiref reference" href="DOM.html#fn-formcontents">MochiKit.DOM.formContents(domElement)</a>.</p>
+result of <a class="mochiref reference external" href="DOM.html#fn-formcontents">MochiKit.DOM.formContents(domElement)</a>.</p>
 <dl class="docutils">
 <dt>Alternate form 2:</dt>
-<dd><a class="mochiref reference" href="#fn-querystring">queryString({name: value, ...})</a></dd>
+<dd><a class="mochiref reference external" href="#fn-querystring">queryString({name: value, ...})</a></dd>
 </dl>
 <p>Note that when using the alternate form, the order of the
 name=value pairs in the resultant query string is dependent on how
@@ -1415,11 +1419,11 @@ assert( queryString({a: [1,2]}) === &quot;a=1&amp;a=2&quot; );
 </pre>
 <dl class="docutils">
 <dt>Alternate form 2 (MochiKit 1.4+):</dt>
-<dd><a class="mochiref reference" href="#fn-querystring">queryString([names, values])</a></dd>
+<dd><a class="mochiref reference external" href="#fn-querystring">queryString([names, values])</a></dd>
 </dl>
-<p>This form behaves identically to <a class="mochiref reference" href="#fn-querystring">queryString(names, values)</a>,
+<p>This form behaves identically to <a class="mochiref reference external" href="#fn-querystring">queryString(names, values)</a>,
 except it takes both arguments as a single Array. This mirrors the
-return value of <a class="mochiref reference" href="DOM.html#fn-formcontents">MochiKit.DOM.formContents</a>.</p>
+return value of <a class="mochiref reference external" href="DOM.html#fn-formcontents">MochiKit.DOM.formContents</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -1427,9 +1431,9 @@ return value of <a class="mochiref reference" href="DOM.html#fn-formcontents">Mo
 </blockquote>
 <p>
 <a name="fn-registercomparator"></a>
-<a class="mochidef reference" href="#fn-registercomparator">registerComparator(name, check, comparator[, override])</a>:</p>
+<a class="mochidef reference external" href="#fn-registercomparator">registerComparator(name, check, comparator[, override])</a>:</p>
 <blockquote>
-<p>Register a comparator for use with <a class="mochiref reference" href="#fn-compare">compare</a>.</p>
+<p>Register a comparator for use with <a class="mochiref reference external" href="#fn-compare">compare</a>.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">name</span></tt>:</dt>
 <dd>unique identifier describing the comparator.</dd>
@@ -1470,10 +1474,10 @@ comparator.  Otherwise, the lowest.</dd>
 </blockquote>
 <p>
 <a name="fn-registerjson"></a>
-<a class="mochidef reference" href="#fn-registerjson">registerJSON(name, check, simplifier[, override])</a>:</p>
+<a class="mochidef reference external" href="#fn-registerjson">registerJSON(name, check, simplifier[, override])</a>:</p>
 <blockquote>
 <p>Register a simplifier function for use with
-<a class="mochiref reference" href="#fn-serializejson">serializeJSON</a>.</p>
+<a class="mochiref reference external" href="#fn-serializejson">serializeJSON</a>.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">name</span></tt>:</dt>
 <dd>unique identifier describing the serialization.</dd>
@@ -1482,7 +1486,7 @@ comparator.  Otherwise, the lowest.</dd>
 can be simplified for serialization by <tt class="docutils literal"><span class="pre">simplifier</span></tt>.</dd>
 <dt><tt class="docutils literal"><span class="pre">simplifier</span></tt>:</dt>
 <dd><p class="first"><tt class="docutils literal"><span class="pre">function(obj)</span></tt> that returns a simpler object that can be
-further serialized by <a class="mochiref reference" href="#fn-serializejson">serializeJSON</a>. For example,
+further serialized by <a class="mochiref reference external" href="#fn-serializejson">serializeJSON</a>. For example,
 you could simplify <tt class="docutils literal"><span class="pre">Date</span></tt>-like objects to ISO 8601 timestamp
 strings with the following simplifier:</p>
 <pre class="literal-block">
@@ -1503,9 +1507,9 @@ serialization. Otherwise, the lowest.</dd>
 </blockquote>
 <p>
 <a name="fn-registerrepr"></a>
-<a class="mochidef reference" href="#fn-registerrepr">registerRepr(name, check, wrap[, override])</a>:</p>
+<a class="mochidef reference external" href="#fn-registerrepr">registerRepr(name, check, wrap[, override])</a>:</p>
 <blockquote>
-<p>Register a programmer representation function.  <a class="mochiref reference" href="#fn-repr">repr</a>
+<p>Register a programmer representation function.  <a class="mochiref reference external" href="#fn-repr">repr</a>
 functions should take one argument and return a string
 representation of it suitable for developers, primarily used when
 debugging.</p>
@@ -1518,10 +1522,10 @@ otherwise it will be used as the lowest.</p>
 </blockquote>
 <p>
 <a name="fn-repr"></a>
-<a class="mochidef reference" href="#fn-repr">repr(obj)</a>:</p>
+<a class="mochidef reference external" href="#fn-repr">repr(obj)</a>:</p>
 <blockquote>
 <p>Return a programmer representation for <tt class="docutils literal"><span class="pre">obj</span></tt>. See the
-<a class="reference" href="#programmer-representation">Programmer Representation</a> overview for more information about
+<a class="reference internal" href="#programmer-representation">Programmer Representation</a> overview for more information about
 this function.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -1530,7 +1534,7 @@ this function.</p>
 </blockquote>
 <p>
 <a name="fn-reversekeycomparator"></a>
-<a class="mochidef reference" href="#fn-reversekeycomparator">reverseKeyComparator(key)</a>:</p>
+<a class="mochidef reference external" href="#fn-reversekeycomparator">reverseKeyComparator(key)</a>:</p>
 <blockquote>
 <p>A comparator factory that compares <tt class="docutils literal"><span class="pre">a[key]</span></tt> with <tt class="docutils literal"><span class="pre">b[key]</span></tt> in
 reverse.  e.g.:</p>
@@ -1546,9 +1550,9 @@ assert(lst.toString() == &quot;bbb,cc,a&quot;);
 </blockquote>
 <p>
 <a name="fn-serializejson"></a>
-<a class="mochidef reference" href="#fn-serializejson">serializeJSON(anObject)</a>:</p>
+<a class="mochidef reference external" href="#fn-serializejson">serializeJSON(anObject)</a>:</p>
 <blockquote>
-<p>Serialize <tt class="docutils literal"><span class="pre">anObject</span></tt> in the JSON <a class="footnote-reference" href="#id7" id="id6" name="id6">[1]</a> format, see <a class="reference" href="#json-serialization">JSON
+<p>Serialize <tt class="docutils literal"><span class="pre">anObject</span></tt> in the JSON <a class="footnote-reference" href="#id7" id="id6">[1]</a> format, see <a class="reference internal" href="#json-serialization">JSON
 Serialization</a> for the coercion rules. For unserializable objects
 (functions that do not have an adapter, <tt class="docutils literal"><span class="pre">__json__</span></tt> method, or
 <tt class="docutils literal"><span class="pre">json</span></tt> method), this will return <tt class="docutils literal"><span class="pre">undefined</span></tt>.</p>
@@ -1561,7 +1565,7 @@ pickle, but it can not handle recursive object graphs.</p>
 </blockquote>
 <p>
 <a name="fn-setdefault"></a>
-<a class="mochidef reference" href="#fn-setdefault">setdefault(self, obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-setdefault">setdefault(self, obj[, ...])</a>:</p>
 <blockquote>
 <p>Mutate <tt class="docutils literal"><span class="pre">self</span></tt> by adding all properties from other object(s) that
 it does not already have set.</p>
@@ -1575,7 +1579,7 @@ and returned.</p>
 </blockquote>
 <p>
 <a name="fn-typematcher"></a>
-<a class="mochidef reference" href="#fn-typematcher">typeMatcher(typ[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-typematcher">typeMatcher(typ[, ...])</a>:</p>
 <blockquote>
 <p>Given a set of types (as string arguments), returns a
 <tt class="docutils literal"><span class="pre">function(obj[,</span> <span class="pre">...])</span></tt> that will return <tt class="docutils literal"><span class="pre">true</span></tt> if the types of
@@ -1587,7 +1591,7 @@ the given arguments are all members of that set.</p>
 </blockquote>
 <p>
 <a name="fn-update"></a>
-<a class="mochidef reference" href="#fn-update">update(self, obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-update">update(self, obj[, ...])</a>:</p>
 <blockquote>
 <p>Mutate <tt class="docutils literal"><span class="pre">self</span></tt> by replacing its key:value pairs with those from
 other object(s). Key:value pairs from later objects will overwrite
@@ -1596,7 +1600,7 @@ those from earlier objects.</p>
 and returned.</p>
 <p>This mutates <em>and returns</em> <tt class="docutils literal"><span class="pre">self</span></tt>, be warned.</p>
 <p>A version of this function that creates a new object is available
-as <a class="mochiref reference" href="#fn-merge">merge(a, b[, ...])</a></p>
+as <a class="mochiref reference external" href="#fn-merge">merge(a, b[, ...])</a></p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -1604,7 +1608,7 @@ as <a class="mochiref reference" href="#fn-merge">merge(a, b[, ...])</a></p>
 </blockquote>
 <p>
 <a name="fn-updatetree"></a>
-<a class="mochidef reference" href="#fn-updatetree">updatetree(self, obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-updatetree">updatetree(self, obj[, ...])</a>:</p>
 <blockquote>
 <p>Mutate <tt class="docutils literal"><span class="pre">self</span></tt> by replacing its key:value pairs with those from
 other object(s). If a given key has an object value in both
@@ -1620,7 +1624,7 @@ and returned.</p>
 </blockquote>
 <p>
 <a name="fn-urlencode"></a>
-<a class="mochidef reference" href="#fn-urlencode">urlEncode(unencoded)</a>:</p>
+<a class="mochidef reference external" href="#fn-urlencode">urlEncode(unencoded)</a>:</p>
 <blockquote>
 <p>Converts <tt class="docutils literal"><span class="pre">unencoded</span></tt> into a URL-encoded string. In this
 implementation, spaces are converted to %20 instead of &quot;+&quot;. e.g.:</p>
@@ -1634,7 +1638,7 @@ assert( URLencode(&quot;1+2=2&quot;) == &quot;1%2B2%3D2&quot;);
 </blockquote>
 <p>
 <a name="fn-values"></a>
-<a class="mochidef reference" href="#fn-values">values(obj)</a>:</p>
+<a class="mochidef reference external" href="#fn-values">values(obj)</a>:</p>
 <blockquote>
 <p>Return an <tt class="docutils literal"><span class="pre">Array</span></tt> of the property values of an object (in the
 order determined by <tt class="docutils literal"><span class="pre">for</span> <span class="pre">propName</span> <span class="pre">in</span> <span class="pre">obj</span></tt>).</p>
@@ -1645,7 +1649,7 @@ order determined by <tt class="docutils literal"><span class="pre">for</span> <s
 </blockquote>
 <p>
 <a name="fn-xfilter"></a>
-<a class="mochidef reference" href="#fn-xfilter">xfilter(fn, obj[, ...])</a>:</p>
+<a class="mochidef reference external" href="#fn-xfilter">xfilter(fn, obj[, ...])</a>:</p>
 <blockquote>
 <p>Returns a new <tt class="docutils literal"><span class="pre">Array</span></tt> composed of the arguments where
 <tt class="docutils literal"><span class="pre">fn(obj)</span></tt> returns a true value.</p>
@@ -1657,7 +1661,7 @@ order determined by <tt class="docutils literal"><span class="pre">for</span> <s
 </blockquote>
 <p>
 <a name="fn-xmap"></a>
-<a class="mochidef reference" href="#fn-xmap">xmap(fn, obj[, ...)</a>:</p>
+<a class="mochidef reference external" href="#fn-xmap">xmap(fn, obj[, ...)</a>:</p>
 <blockquote>
 <p>Return a new <tt class="docutils literal"><span class="pre">Array</span></tt> composed of <tt class="docutils literal"><span class="pre">fn(obj)</span></tt> for every <tt class="docutils literal"><span class="pre">obj</span></tt>
 given as an argument.</p>
@@ -1669,16 +1673,16 @@ given as an argument.</p>
 </blockquote>
 <p>
 <a name="fn-zip"></a>
-<a class="mochidef reference" href="#fn-zip">zip(p, q, ...)</a>:</p>
+<a class="mochidef reference external" href="#fn-zip">zip(p, q, ...)</a>:</p>
 <blockquote>
 <p>Returns an array where the n-th element is an array of the n-th
 elements from each of the arrays p, q, ...</p>
-<p>This is equivalent to calling <a class="mochiref reference" href="#fn-map">map(fn, p, q, ...)</a> with
+<p>This is equivalent to calling <a class="mochiref reference external" href="#fn-map">map(fn, p, q, ...)</a> with
 <tt class="docutils literal"><span class="pre">null</span></tt> as the first argument.</p>
 <blockquote>
 <dl class="docutils">
-<dt><a class="mochiref reference" href="#fn-zip">zip(p, q, ...)</a></dt>
-<dd>-&gt; <a class="mochiref reference" href="#fn-map">map(null, p, q, ...)</a>
+<dt><a class="mochiref reference external" href="#fn-zip">zip(p, q, ...)</a></dt>
+<dd>-&gt; <a class="mochiref reference external" href="#fn-map">map(null, p, q, ...)</a>
 -&gt; <tt class="docutils literal"><span class="pre">[[p0,</span> <span class="pre">q0,</span> <span class="pre">...],</span> <span class="pre">[p1,</span> <span class="pre">q1,</span> <span class="pre">...],</span> <span class="pre">...];</span></tt></dd>
 </dl>
 </blockquote>
@@ -1689,33 +1693,33 @@ elements from each of the arrays p, q, ...</p>
 </blockquote>
 </div>
 </div>
-<div class="section">
-<h1><a id="see-also" name="see-also">See Also</a></h1>
+<div class="section" id="see-also">
+<h1>See Also</h1>
 <table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a name="id7">[1]</a></td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id4">3</a>, <a class="fn-backref" href="#id5">4</a>, <a class="fn-backref" href="#id6">5</a>)</em> JSON, JavaScript Object Notation: <a class="reference" href="http://json.org/">http://json.org/</a></td></tr>
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id4">3</a>, <a class="fn-backref" href="#id5">4</a>, <a class="fn-backref" href="#id6">5</a>)</em> JSON, JavaScript Object Notation: <a class="reference external" href="http://json.org/">http://json.org/</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3" name="id8">[2]</a></td><td>Python's itertools
-module: <a class="reference" href="http://docs.python.org/lib/module-itertools.html">http://docs.python.org/lib/module-itertools.html</a></td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>Python's itertools
+module: <a class="reference external" href="http://docs.python.org/lib/module-itertools.html">http://docs.python.org/lib/module-itertools.html</a></td></tr>
 </tbody>
 </table>
 </div>
-<div class="section">
-<h1><a id="authors" name="authors">Authors</a></h1>
+<div class="section" id="authors">
+<h1>Authors</h1>
 <ul class="simple">
-<li>Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
+<li>Bob Ippolito &lt;<a class="reference external" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;</li>
 </ul>
 </div>
-<div class="section">
-<h1><a id="copyright" name="copyright">Copyright</a></h1>
-<p>Copyright 2005 Bob Ippolito &lt;<a class="reference" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;. This program is
+<div class="section" id="copyright">
+<h1>Copyright</h1>
+<p>Copyright 2005 Bob Ippolito &lt;<a class="reference external" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt;. This program is
 dual-licensed free software; you can redistribute it and/or modify it
-under the terms of the <a class="reference" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License
+under the terms of the <a class="reference external" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the <a class="reference external" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License
 v2.1</a>.</p>
 </div>
 </div>

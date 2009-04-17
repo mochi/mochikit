@@ -460,6 +460,9 @@ MochiKit.Base.update(MochiKit.Base, {
         var itr = MochiKit.Iter;
         var isArrayLike = m.isArrayLike;
         if (arguments.length <= 2) {
+            if (typeof(lst) == "string" && typeof(MochiKit.Selector) != "undefined") {
+                lst = MochiKit.Selector.findDocElements(lst);
+            }
             // allow an iterable to be passed
             if (!isArrayLike(lst)) {
                 if (itr) {
@@ -495,6 +498,9 @@ MochiKit.Base.update(MochiKit.Base, {
             }
             var length = null;
             for (var i = 1; i < arguments.length; i++) {
+                if (typeof(arguments[i]) == "string" && typeof(MochiKit.Selector) != "undefined") {
+                    arguments[i] = MochiKit.Selector.findDocElements(arguments[i]);
+                }
                 // allow iterables to be passed
                 if (!isArrayLike(arguments[i])) {
                     if (itr) {
