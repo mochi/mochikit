@@ -8,7 +8,8 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Signal', '1.5', ['Base', 'DOM', 'Style', 'Selector']);
+MochiKit.Base._module('Signal', '1.5', ['Base', 'DOM', 'Style']);
+// Selector is optional
 
 MochiKit.Signal._observers = [];
 
@@ -618,19 +619,14 @@ MochiKit.Base.update(MochiKit.Signal, {
         var self = MochiKit.Signal;
         if (typeof(src) == "string") {
 	    if (typeof(MochiKit.Selector) != "undefined"){
-		var ret = map(function(el){ return self.connect(el, sig, objOrFunc, funcOrStr); }, MochiKit.Selector.findDocElements(src));
-		if (ret.length == 0 && MochiKit.DOM.getElement(src)){
-		    throw new Error("The getElement shortcut has been deprecated, please use 'connect(\"#" + src + "\" ..' instead of 'connect(\"" + src + "\" ..'" );
-		} else if (ret.length == 1 && src.match('^[^\\s]+$')){
-		    // Match the old semantics of returning a single unique identifier rather than an array of uids
-		    return ret[0];
-		}
-		return ret;
+		return MochiKit.Selector.mapSelector(self.connect, arguments);
 	    } else {
 		throw new TypeError("src is a string but MochiKit.Selector not present");
 		//		src = MochiKit.DOM.getElement(src);
 	    }
-        }
+        } else if (MochiKit.Base.isArrayLike(src)) {
+	    return map(function(el){ return self.connect(el, sig, objOrFunc, funcOrStr); }, src);
+	}
 
         if (typeof(sig) != 'string') {
             throw new Error("'sig' must be a string");
@@ -718,7 +714,11 @@ MochiKit.Base.update(MochiKit.Signal, {
             // compatibility API
             var src = arguments[0];
             if (typeof(src) == "string") {
-                src = MochiKit.DOM.getElement(src);
+		if (typeof(MochiKit.Selector) != "undefined"){
+		    return MochiKit.Selector.mapSelector(self.disconnect, arguments);
+		} else {
+		    throw new TypeError("src is a string but MochiKit.Selector not present");
+		}
             }
             var sig = arguments[1];
             var obj = arguments[2];

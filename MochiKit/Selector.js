@@ -48,6 +48,17 @@ MochiKit.Base.update(MochiKit.Selector, {
         return MochiKit.Selector.findRelatedElements(MochiKit.DOM.currentDocument(), arguments);
     },
 
+    mapSelector: function(func, outer_args){
+        var ret = map(function(el){ return func.apply(null, MochiKit.Base.extend([el], outer_args, 1)); }, MochiKit.Selector.findDocElements(outer_args[0]));
+	if (ret.length == 0 && MochiKit.DOM.getElement(outer_args[0])){
+	    throw new Error("The getElement shortcut has been deprecated, please use 'connect(\"#" + outer_args[0] + "\" ..' instead of 'connect(\"" + outer_args[0] + "\" ..'" );
+	} else if (ret.length == 1 && outer_args[0].match('^[^\\s]+$')){
+	    // Magic? Match the old semantics of returning a single return value for an id
+	    return ret[0];
+	}
+	return ret;	
+    },
+
     __new__: function () {
         var m = MochiKit.Base;
 
