@@ -12,6 +12,12 @@ Synopsis
 ::
 
     MochiKit.Base.map(MochiKit.Visual.fade, $$('p.fademe'));
+    // Highlight all right hand cells of a row when the second column is clicked
+    forEach($$('tr td:nth-child(2)'), function(midcell){
+         connect(midcell, 'onclick', function(e){
+	     addElementClass('highlight', findRelatedElements(midcell, '~ td'));
+	 });
+    });
 
 
 Description
@@ -57,7 +63,9 @@ Many of CSS3 [1]_ selectors are supported:
       - ``*=`` substring containment
       - ``|=`` first part of hyphen deleimited (eg. lang|="en" matches lang="en-US") 
 - Pseudo-classes
-      - ``:root``, ``:nth-child``, ``:nth-last-child``, ``:nth-of-type``, ``:nth-last-of-type``, ``:first-child``, ``:last-child``, ``:first-of-type``, ``:last-of-type``, ``:only-child``, ``:only-of-type``, ``:empty``, ``:enabled``, ``:disabled``, ``:checked``, ``:not(<any other selector>)`` 
+      - ``:nth-child``, ``:nth-last-child``, ``:first-child``, ``:last-child``, ``:only-child``, ``:empty``, ``:enabled``, ``:disabled``, ``:checked``, ``:not(<any other selector>)`` 
+- Deprecated Pseudo-classes (to be removed in 1.5)
+      - ``:root``, ``:nth-of-type``, ``:nth-last-of-type``, ``:first-of-type``, ``:last-of-type``, ``:only-of-type``
 
 Multiple selectors can be concatenated, like this: ``P.quote[author~='Torvalds']``,
 in which case elements matching *all* the selectors are returned. Furthermore, such
@@ -87,29 +95,45 @@ API Reference
 Functions
 ---------
 
-:mochidef:`$$(expression[, ...])`:
+:mochidef:`findDocElements(expression[, ...])`:
     
     Performs a selection on the active document. Equivalent
-    to ``findChildElements(MochiKit.DOM.currentDocument(), [expression, ...])``
+    to ``findRelatedElements(MochiKit.DOM.currentDocument(), expression[, ...])``
 
     *Availability*:
         Available in MochiKit 1.4+
 
 
-:mochidef:`findChildElements(element, expressions)`:
+:mochidef:`findRelatedElements(element, expression[, ...])`:
 
-    Traverses the child nodes of ``element`` and returns the subset
-    of those that match any of the selector expressions in ``expressions``.
+    Performs a selection within the context of ``element`` and returns an array of
+    elements that match the CSS selector ``expression``. 
+    Each additional ``expression`` will concatenate matching items to the returned array.
 
-    Each expression can be a combination of simple expressions, by concatenating
+    An expression can be a combination of simple expressions, by concatenating
     them with spaces or combinators. In that case, normal CSS rules apply, each
-    simple expression is evaluated in turn and the results of that one is used
+    simple expression is evaluated in turn and the results of each expression is used
     as the scope for the succeeding expression (see :mochiref:`Selector.findElements`).
     Finally, the results of the last simple expression is returned as the search result.
 
     *Availability*:
         Available in MochiKit 1.4+
 
+:mochidef:`findChildElements(element)`:
+
+    An alias to ``findRelatedElements``.
+
+    *Availability*:
+        Available in MochiKit 1.4, deprecated in favor of
+        :mochiref:`MochiKit.Selector.findRelatedElements` in 1.5+
+
+
+:mochidef:`$$(expression[, ...])`:
+
+    An alias to ``findDocElements``.
+
+    *Availability*:
+        Available in MochiKit 1.4+
 
 Constructors
 -------------
@@ -128,6 +152,10 @@ Constructors
         var selector = new MochiKit.Selector.Selector('#someelementid');
         var searchResults = selector.findElements(rootElement);
 
+    *Deprecated*:
+        Use :mochiref:`findRelatedElements` instead. The Selector class will be
+        removed in version 1.5.
+
     *Availability*:
         Available in MochiKit 1.4+
 
@@ -145,6 +173,10 @@ Constructors
         the expression. If ``>`` only direct child nodes of ``scope`` are tested,
         if ``+`` only the next sibling (if any) of ``scope`` is tested and if
         ``~`` all succeeding siblings of ``scope`` are tested.
+
+    *Deprecated*:
+        Use :mochiref:`findRelatedElements` instead. The Selector class will be
+        removed in version 1.5.
 
     *Availability*:
         Available in MochiKit 1.4+
