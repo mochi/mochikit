@@ -59,6 +59,36 @@ MochiKit.Base.update(MochiKit.Selector, {
 	return ret;	
     },
 
+    connectEach: function(selector, sig, objOrFunc, funcOrStr) {
+        return MochiKit.Selector.mapSelector(MochiKit.Signal.connect, arguments);
+    },
+
+    visit: function(selector, func, /* optional */ obj) {
+        return MochiKit.Selector.mapSelector(MochiKit.Iter.forEach, arguments);	    
+    },
+
+    setClass: function(selector, className) {
+        return MochiKit.Selector.mapSelector(MochiKit.DOM.setElementClass, arguments);	    
+    },
+
+    addClass: function(selector, className) {
+        return MochiKit.Selector.mapSelector(MochiKit.DOM.addElementClass, arguments);	    
+    },
+
+    removeClass: function(selector, className) {
+        return MochiKit.Selector.mapSelector(MochiKit.DOM.removeElementClass, arguments);	    
+    },
+
+    toggleClass: function(selector, className) {
+        // Todo rearrange arguments
+        return MochiKit.Selector.mapSelector(MochiKit.DOM.toggleElementClass, arguments);	    
+    },
+
+    swapClass: function(selector, fromClass, toClass) {
+        return MochiKit.Selector.mapSelector(MochiKit.DOM.swapElementClass, arguments);	    
+    },
+
+
     __new__: function () {
         var m = MochiKit.Base;
 
