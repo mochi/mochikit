@@ -63,6 +63,34 @@ MochiKit.Base.update(MochiKit.Selector, {
         return MochiKit.Selector.mapSelector(MochiKit.Signal.connect, arguments);
     },
 
+/*
+    monitor: function(element, selector, sig, objOrFunc, funcOrStr) {
+	if (sig === "onmouseenter" || sig === .. etc.){
+            throw new Error("Cannot monitor mouse enter events")
+        }
+        if (selector starts with non child selector){
+            attach to document
+        } else {
+            attach to element
+        }
+        MochiKit.Signal.connect(docOrEl, sig, function(e){
+                // Inefficient search on selector
+                // Should do a 'reverse' selection
+                if (e.target() in findRelatedElements(selector, docOrEl){
+                    // Call the func with e.src() == e.target()
+                    ?? var destPair = MochiKit.Signal._getDestPair(objOrFunc, funcOrStr);
+                    ?? var obj = destPair[0];
+                    ?? var func = destPair[1];
+                    ?? if (typeof(obj) == 'undefined' || obj === null) {
+		    ??   obj = src;
+                    ??}
+                    ??obj.apply(funcOrString)
+                }
+
+            });
+    },
+*/
+
     visit: function(selector, func, /* optional */ obj) {
         return MochiKit.Selector.mapSelector(MochiKit.Iter.forEach, arguments);	    
     },
