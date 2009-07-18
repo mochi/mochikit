@@ -124,7 +124,7 @@ For the ``flags`` and ``type`` fields, the available values are:
 |         | ``toString()`` will be used. This is the default format type. |
 +---------+---------------------------------------------------------------+
 | ``r``   | The programmers representation format ``type``. The output    |
-|         | from :mochiref:`MochiKit.Base.repr()`` will be used.          |
+|         | from :mochiref:`MochiKit.Base.repr()` will be used.           |
 +---------+---------------------------------------------------------------+
 | ``b``   | The binary number format ``type``. Rounds the number to the   |
 |         | nearest integer and converts it to a base 2 representation.   |
@@ -155,6 +155,27 @@ For the ``flags`` and ``type`` fields, the available values are:
 API Reference
 =============
 
+Errors
+------
+
+:mochidef:`FormatPatternError`:
+
+    Thrown when a syntax error is encountered inside a format string
+    by the :mochiref:`formatter`, :mochiref:`format` or
+    :mochiref:`formatValue` functions. In addition to the normal
+    :mochiref:`MochiKit.Base.NamedError` functions, each object also
+    has the following properties set:
+
+    ``pattern``:
+        The invalid format pattern string.
+    ``pos``:
+        The position of the error in the format pattern (zero-indexed).
+    ``message``:
+        The detailed error message text.
+
+    *Availability*:
+        Available in MochiKit 1.5+
+
 Functions
 ---------
 
@@ -183,6 +204,9 @@ Functions
     by this function. For more information see
     `Formatting Text`_.
 
+    A :mochiref:`FormatPatternError` will be thrown if the formatting
+    pattern is recognized as invalid.
+
     *Availability*:
         Available in MochiKit 1.5+
 
@@ -195,6 +219,9 @@ Functions
     returned function takes as many arguments as the format
     ``pattern`` requires. For more information see
     `Formatting Text`_.
+
+    A :mochiref:`FormatPatternError` will be thrown if the formatting
+    pattern is recognized as invalid.
 
     *Availability*:
         Available in MochiKit 1.5+
@@ -209,6 +236,9 @@ Functions
     Note that ``spec`` is only a partial formatting pattern, detailing
     only how a particular value is to be formatted. For more information
     see `Formatting Text`_.
+
+    A :mochiref:`FormatPatternError` will be thrown if the partial
+    formatting pattern is recognized as invalid.
 
     *Availability*:
         Available in MochiKit 1.5+
@@ -307,17 +337,6 @@ Functions
     *Availability*:
         Available in MochiKit 1.5+
 
-Errors
-------
-
-:mochidef:`FormatPatternError`:
-
-    Thrown by a :mochiref:`Deferred` if ``.callback`` or ``.errback``
-    are called more than once.
-
-    *Availability*:
-        Available in MochiKit 1.5+
-
 
 See Also
 ========
@@ -336,7 +355,7 @@ Authors
 Copyright
 =========
 
-Copyright 2005-2008 by Bob Ippolito <bob@redivi.com> and Per Cederberg
+Copyright 2005-2009 by Bob Ippolito <bob@redivi.com> and Per Cederberg
 <cederberg@gmail.com>. This program is dual-licensed free software; you can
 redistribute it and/or modify it under the terms of the `MIT License`_ or the
 `Academic Free License v2.1`_.
