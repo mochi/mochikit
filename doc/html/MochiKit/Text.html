@@ -140,7 +140,7 @@ side to match the field <tt class="docutils literal"><span class="pre">width</sp
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">r</span></tt></td>
 <td>The programmers representation format <tt class="docutils literal"><span class="pre">type</span></tt>. The output
-from <a class="mochiref reference external" href="Base.html#fn-repr">MochiKit.Base.repr()`</a> will be used.</td>
+from <a class="mochiref reference external" href="Base.html#fn-repr">MochiKit.Base.repr()</a> will be used.</td>
 </tr>
 <tr><td><tt class="docutils literal"><span class="pre">b</span></tt></td>
 <td>The binary number format <tt class="docutils literal"><span class="pre">type</span></tt>. Rounds the number to the
@@ -178,6 +178,29 @@ character will be added to the end.</td>
 </div>
 <div class="section" id="api-reference">
 <h1>API Reference</h1>
+<div class="section" id="errors">
+<h2>Errors</h2>
+<p>
+<a name="fn-formatpatternerror"></a>
+<a class="mochidef reference external" href="#fn-formatpatternerror">FormatPatternError</a>:</p>
+<blockquote>
+<p>Thrown when a syntax error is encountered inside a format string
+by the <a class="mochiref reference external" href="#fn-formatter">formatter</a>, <a class="mochiref reference external" href="#fn-format">format</a> or
+<a class="mochiref reference external" href="#fn-formatvalue">formatValue</a> functions. In addition to the normal
+<a class="mochiref reference external" href="Base.html#fn-namederror">MochiKit.Base.NamedError</a> functions, each object also
+has the following properties set:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">pattern</span></tt>:</dt>
+<dd>The invalid format pattern string.</dd>
+<dt><tt class="docutils literal"><span class="pre">pos</span></tt>:</dt>
+<dd>The position of the error in the format pattern (zero-indexed).</dd>
+<dt><tt class="docutils literal"><span class="pre">message</span></tt>:</dt>
+<dd>The detailed error message text.</dd>
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.5+</dd>
+</dl>
+</blockquote>
+</div>
 <div class="section" id="functions">
 <h2>Functions</h2>
 <p>
@@ -210,6 +233,8 @@ If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt 
 returns the resulting string. The default locale is always used
 by this function. For more information see
 <a class="reference internal" href="#formatting-text">Formatting Text</a>.</p>
+<p>A <a class="mochiref reference external" href="#fn-formatpatternerror">FormatPatternError</a> will be thrown if the formatting
+pattern is recognized as invalid.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -225,6 +250,8 @@ used to adjust number formatting where appropriate. The
 returned function takes as many arguments as the format
 <tt class="docutils literal"><span class="pre">pattern</span></tt> requires. For more information see
 <a class="reference internal" href="#formatting-text">Formatting Text</a>.</p>
+<p>A <a class="mochiref reference external" href="#fn-formatpatternerror">FormatPatternError</a> will be thrown if the formatting
+pattern is recognized as invalid.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -240,6 +267,8 @@ number formatting where appropriate.</p>
 <p>Note that <tt class="docutils literal"><span class="pre">spec</span></tt> is only a partial formatting pattern, detailing
 only how a particular value is to be formatted. For more information
 see <a class="reference internal" href="#formatting-text">Formatting Text</a>.</p>
+<p>A <a class="mochiref reference external" href="#fn-formatpatternerror">FormatPatternError</a> will be thrown if the partial
+formatting pattern is recognized as invalid.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -353,20 +382,6 @@ must also be an Array.</p>
 </dl>
 </blockquote>
 </div>
-<div class="section" id="errors">
-<h2>Errors</h2>
-<p>
-<a name="fn-formatpatternerror"></a>
-<a class="mochidef reference external" href="#fn-formatpatternerror">FormatPatternError</a>:</p>
-<blockquote>
-<p>Thrown by a <a class="mochiref reference external" href="#fn-deferred">Deferred</a> if <tt class="docutils literal"><span class="pre">.callback</span></tt> or <tt class="docutils literal"><span class="pre">.errback</span></tt>
-are called more than once.</p>
-<dl class="docutils">
-<dt><em>Availability</em>:</dt>
-<dd>Available in MochiKit 1.5+</dd>
-</dl>
-</blockquote>
-</div>
 </div>
 <div class="section" id="see-also">
 <h1>See Also</h1>
@@ -393,7 +408,7 @@ are called more than once.</p>
 </div>
 <div class="section" id="copyright">
 <h1>Copyright</h1>
-<p>Copyright 2005-2008 by Bob Ippolito &lt;<a class="reference external" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt; and Per Cederberg
+<p>Copyright 2005-2009 by Bob Ippolito &lt;<a class="reference external" href="mailto:bob&#64;redivi.com">bob&#64;redivi.com</a>&gt; and Per Cederberg
 &lt;<a class="reference external" href="mailto:cederberg&#64;gmail.com">cederberg&#64;gmail.com</a>&gt;. This program is dual-licensed free software; you can
 redistribute it and/or modify it under the terms of the <a class="reference external" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a> or the
 <a class="reference external" href="http://www.opensource.org/licenses/afl-2.1.php">Academic Free License v2.1</a>.</p>

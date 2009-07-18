@@ -253,6 +253,8 @@ MochiKit.Text.format = function (pattern/*, ...*/) {
  *            LOCALE.en_US
  *
  * @return {String} the formatted output string
+ *
+ * @throws FormatPatternError if the format pattern was invalid
  */
 MochiKit.Text.formatValue = function (spec, value, locale) {
     var self = MochiKit.Text;
