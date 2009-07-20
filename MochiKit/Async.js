@@ -20,6 +20,7 @@ MochiKit.Async.Deferred = function (/* optional */ canceller) {
     this.canceller = canceller;
     this.silentlyCancelled = false;
     this.chained = false;
+    this.finalized = false;
 };
 
 MochiKit.Async.Deferred.prototype = {
@@ -65,7 +66,9 @@ MochiKit.Async.Deferred.prototype = {
         ***/
         this.fired = ((res instanceof Error) ? 1 : 0);
         this.results[this.fired] = res;
-        this._fire();
+        if (this.paused === 0) {
+            this._fire();
+        }
     },
 
     _check: function () {
@@ -129,7 +132,28 @@ MochiKit.Async.Deferred.prototype = {
         if (this.chained) {
             throw new Error("Chained Deferreds can not be re-used");
         }
+        if (this.finalized) {
+            throw new Error("Finalized Deferreds can not be re-used");
+        }
         this.chain.push([cb, eb]);
+        if (this.fired >= 0) {
+            this._fire();
+        }
+        return this;
+    },
+
+    /** @id MochiKit.Async.Deferred.prototype.setFinalizer */
+    setFinalizer: function (fn) {
+        if (this.chained) {
+            throw new Error("Chained Deferreds can not be re-used");
+        }
+        if (this.finalized) {
+            throw new Error("Finalized Deferreds can not be re-used");
+        }
+        if (arguments.length > 1) {
+            fn = MochiKit.Base.partial.apply(null, arguments);
+        }
+        this._finalizer = fn;
         if (this.fired >= 0) {
             this._fire();
         }
@@ -160,11 +184,8 @@ MochiKit.Async.Deferred.prototype = {
                 fired = ((res instanceof Error) ? 1 : 0);
                 if (res instanceof MochiKit.Async.Deferred) {
                     cb = function (res) {
-                        self._resback(res);
                         self.paused--;
-                        if ((self.paused === 0) && (self.fired >= 0)) {
-                            self._fire();
-                        }
+                        self._resback(res);
                     };
                     this.paused++;
                 }
@@ -178,6 +199,10 @@ MochiKit.Async.Deferred.prototype = {
         }
         this.fired = fired;
         this.results[fired] = res;
+        if (this.chain.length == 0 && this.paused === 0 && this._finalizer) {
+            this.finalized = true;
+            this._finalizer(res);
+        }
         if (cb && this.paused) {
             // this is for "tail recursion" in case the dependent deferred
             // is already fired
