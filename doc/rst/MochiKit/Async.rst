@@ -288,7 +288,7 @@ Constructors
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`Deferred.prototype.addBoth(func)`:
+:mochidef:`Deferred.prototype.addBoth(func[, ...])`:
 
     Add the same function as both a callback and an errback as the
     next element on the callback sequence. This is useful for code
@@ -342,7 +342,7 @@ Constructors
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`Deferred.prototype.addErrback(func)`:
+:mochidef:`Deferred.prototype.addErrback(func[, ...])`:
 
     Add a single errback to the end of the callback sequence.
 
@@ -358,6 +358,22 @@ Constructors
 
     *Availability*:
         Available in MochiKit 1.3.1+
+
+
+:mochidef:`Deferred.prototype.setFinalizer(func[, ...])`:
+
+    Sets the finalizer function of the callback sequence. The finalizer
+    will always be called last in the sequence, regardless of the number
+    of callbacks added afterwards. Note that the value returned by the
+    finalizer will always be ignored, and no new callbacks can be added
+    to the ``Deferred`` once finalized.
+
+    If additional arguments are given, then ``func`` will be replaced
+    with :mochiref:`MochiKit.Base.partial.apply(null,
+    arguments)`. 
+
+    *Availability*:
+        Available in MochiKit 1.5+
 
 
 :mochidef:`Deferred.prototype.callback([result])`:

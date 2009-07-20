@@ -20,6 +20,7 @@
   existing effects instead of completing them (as 'break' does).
 - Removed MochiKit.Visual.Color and getElementsComputedStyle compatibility
   aliases (obsolete since version 1.1, see #337).
+- Added the MochiKit.Async.Deferred.prototype.setFinalizer() function.
 
 2008-11-27      v1.4.2 (bug fix release)
 

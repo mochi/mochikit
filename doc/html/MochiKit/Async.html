@@ -310,7 +310,7 @@ handle that <tt class="docutils literal"><span class="pre">Error</span></tt> gra
 </blockquote>
 <p>
 <a name="fn-deferred.prototype.addboth"></a>
-<a class="mochidef reference external" href="#fn-deferred.prototype.addboth">Deferred.prototype.addBoth(func)</a>:</p>
+<a class="mochidef reference external" href="#fn-deferred.prototype.addboth">Deferred.prototype.addBoth(func[, ...])</a>:</p>
 <blockquote>
 <p>Add the same function as both a callback and an errback as the
 next element on the callback sequence. This is useful for code
@@ -365,7 +365,7 @@ chained, it can no longer accept new callbacks.</p>
 </blockquote>
 <p>
 <a name="fn-deferred.prototype.adderrback"></a>
-<a class="mochidef reference external" href="#fn-deferred.prototype.adderrback">Deferred.prototype.addErrback(func)</a>:</p>
+<a class="mochidef reference external" href="#fn-deferred.prototype.adderrback">Deferred.prototype.addErrback(func[, ...])</a>:</p>
 <blockquote>
 <p>Add a single errback to the end of the callback sequence.</p>
 <p>If additional arguments are given, then <tt class="docutils literal"><span class="pre">func</span></tt> will be replaced
@@ -379,6 +379,23 @@ can no longer accept new callbacks.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-deferred.prototype.setfinalizer"></a>
+<a class="mochidef reference external" href="#fn-deferred.prototype.setfinalizer">Deferred.prototype.setFinalizer(func[, ...])</a>:</p>
+<blockquote>
+<p>Sets the finalizer function of the callback sequence. The finalizer
+will always be called last in the sequence, regardless of the number
+of callbacks added afterwards. Note that the value returned by the
+finalizer will always be ignored, and no new callbacks can be added
+to the <tt class="docutils literal"><span class="pre">Deferred</span></tt> once finalized.</p>
+<p>If additional arguments are given, then <tt class="docutils literal"><span class="pre">func</span></tt> will be replaced
+with <a class="mochiref reference external" href="Base.html#fn-partial">MochiKit.Base.partial.apply(null,
+arguments)</a>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.5+</dd>
 </dl>
 </blockquote>
 <p>

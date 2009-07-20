@@ -129,6 +129,37 @@ try {
     d = succeed("ugh").addCallback(deferredFailure).addErrback(catchStuff);
     d = d.addCallback(testEqCallback("ugh", "dependent deferred fail"));
 
+    /* Test deferred finalizer */
+    var result = null;
+    var finalizer = function (res) {
+        result = res;
+    };
+
+    d = new Deferred();
+    d.setFinalizer(finalizer);
+    d.addCallback(increment);
+    d.callback(1);
+    is(result, 2, "finalizer called on success");
+
+    d = new Deferred();
+    d.setFinalizer(finalizer);
+    d.addCallback(throwStuff);
+    d.callback(1);
+    ok(result instanceof Error, "finalizer called on error");
+
+    d = new Deferred();
+    d.callback(1);
+    d.addCallback(increment);
+    d.setFinalizer(finalizer);
+    is(result, 2, "finalizer called when added to fired chain");
+
+    result = null;
+    d = new Deferred();
+    d.setFinalizer(finalizer);
+    d.addCallback(deferredIncrement);
+    d.callback(1);
+    is(result, 2, "finalizer called on deferred success");
+
     /*
         Test double-calling, double-failing, etc.
     */
@@ -188,7 +219,24 @@ try {
     } catch (e) {
         ok (e instanceof Error, "chained deferred not allowed to be re-used");
     }
- 
+
+    /* Test incorrect finalizer usage */
+    d = new Deferred();
+    d.setFinalizer(finalizer);
+    d.callback(1);
+    try {
+        d.addCallback(function () {});
+        neverHappen();
+    } catch (e) {
+        ok (e instanceof Error, "finalized deferred not allowed to be re-used");
+    }
+    try {
+        d.setFinalizer(function () {});
+        neverHappen();
+    } catch (e) {
+        ok (e instanceof Error, "finalized deferred not allowed to be re-used");
+    }
+
     /*
         evalJSONRequest test
     */
