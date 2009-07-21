@@ -112,7 +112,7 @@ MochiKit.Color.Color.prototype = {
 
     /** @id MochiKit.Color.Color.prototype.isLight */
     isLight: function () {
-        return this.asHSL().b > 0.5;
+        return this.asHSL().l > 0.5;
     },
 
     /** @id MochiKit.Color.Color.prototype.isDark */
