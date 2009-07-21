@@ -132,4 +132,9 @@ tests.test_Color = function (t) {
         '#ffffff',
         'HSV saturation'
     );
+
+    t.ok(Color.whiteColor().isLight(), "white is light");
+    t.ok(!Color.whiteColor().isDark(), "white isn't dark");
+    t.ok(!Color.blackColor().isLight(), "black isn't light");
+    t.ok(Color.blackColor().isDark(), "black is dark");
 };
