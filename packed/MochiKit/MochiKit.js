@@ -1831,7 +1831,7 @@ _214=30;
 }
 var _215=this.getMessages(_214);
 if(_215.length){
-var lst=map(function(m){
+var lst=MochiKit.Base.map(function(m){
 return "\n  ["+m.num+"] "+m.level+": "+m.info.join(" ");
 },_215);
 lst.unshift("LAST "+_215.length+" MESSAGES:");
@@ -4639,7 +4639,7 @@ var a=this.asRGB();
 var b=_4c7.asRGB();
 return MochiKit.Base.compare([a.r,a.g,a.b,a.a],[b.r,b.g,b.b,b.a]);
 },isLight:function(){
-return this.asHSL().b>0.5;
+return this.asHSL().l>0.5;
 },isDark:function(){
 return (!this.isLight());
 },toHSLString:function(){
