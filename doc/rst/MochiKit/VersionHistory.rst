@@ -27,6 +27,7 @@
 - Fixed MochiKit.Logging usage of map without a namespace (#338).
 - Fixed MochiKit.Color.Color.prototype.isLight() and isDark() to not
   return constant false and true values (#341).
+- Fixed incorrect z-index restore after MochiKit.DragAndDrop usage (#339).
 
 2008-11-27      v1.4.2 (bug fix release)
 
