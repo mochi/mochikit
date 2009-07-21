@@ -22,14 +22,38 @@ if (typeof(parent) != "undefined" && parent.TestRunner) {
 SimpleTest._tests = [];
 SimpleTest._stopOnLoad = true;
 SimpleTest._scopeCopy = {};
+SimpleTest._scopeFilter = { 'window': true,
+                            'document': true,
+                            'navigator': true,
+                            'location': true,
+                            'test': true,
+                            'console': true,
+                            'frames': true,
+                            'external': true,
+                            'Option': true,
+                            'Image': true,
+                            '_firebug': true,
+                            '_FirebugConsole': true,
+                            'XMLHttpRequest': true,
+                            'Audio': true,
+                            'XSLTProcessor': true,
+                            'scrollMaxX': true,
+                            'scrollMaxY': true,
+                            'clipboardData': true,
+                            'addEventListener': true,
+                            'clientInformation': true,
+                            'sessionStorage': true,
+                            'localStorage': true };
+
 
 /**
  * Saves a copy of the specified scope variables.
  */
 SimpleTest.saveScope = function (scope) {
-    SimpleTest._scopeCopy = {};
     for (var k in scope) {
-        SimpleTest._scopeCopy[k] = scope[k];
+        if (!(k in SimpleTest._scopeFilter)) {
+            SimpleTest._scopeCopy[k] = scope[k];
+        }
     }
 }
 
@@ -38,13 +62,8 @@ SimpleTest.saveScope = function (scope) {
  * any differences as test failures.
  */
 SimpleTest.verifyScope = function (scope) {
-    var filter = ['test', '_firebug','_FirebugConsole','XMLHttpRequest','Audio',
-                  'XSLTProcessor','Option','Image','scrollMaxX','scrollMaxY',
-                  'clipboardData','addEventListener','location','navigator',
-                  'console','clientInformation','frames','external',
-                  'sessionsStorage'];
     for (var k in scope) {
-        if (MochiKit.Base.findValue(filter, k) < 0) {
+        if (!(k in SimpleTest._scopeFilter)) {
             var v = scope[k];
             var old = SimpleTest._scopeCopy[k];
             if (v !== old && typeof(old) === "undefined") {
