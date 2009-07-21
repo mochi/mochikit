@@ -222,7 +222,7 @@ MochiKit.Logging.Logger.prototype = {
         }
         var messages = this.getMessages(howMany);
         if (messages.length) {
-            var lst = map(function (m) {
+            var lst = MochiKit.Base.map(function (m) {
                 return '\n  [' + m.num + '] ' + m.level + ': ' + m.info.join(' ');
             }, messages);
             lst.unshift('LAST ' + messages.length + ' MESSAGES:');

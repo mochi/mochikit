@@ -1,3 +1,7 @@
+2009-XX-YY      v1.4.3 (bug fix release)
+
+- Fixed MochiKit.Logging usage of map without a namespace (#338).
+
 2008-11-27      v1.4.2 (bug fix release)
 
 - Changed default packed version to contain all modules (since easy
