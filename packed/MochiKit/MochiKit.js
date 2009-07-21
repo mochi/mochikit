@@ -7151,7 +7151,7 @@ if(this.options.selectclass){
 MochiKit.DOM.addElementClass(this.element,this.options.selectclass);
 }
 if(this.options.zindex){
-this.originalZ=parseInt(MochiKit.Style.getStyle(this.element,"z-index")||"0");
+this.originalZ=MochiKit.Style.getStyle(this.element,"z-index");
 this.element.style.zIndex=this.options.zindex;
 }
 if(this.options.ghosting){
