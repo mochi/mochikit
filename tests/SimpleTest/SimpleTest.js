@@ -40,7 +40,9 @@ SimpleTest.saveScope = function (scope) {
 SimpleTest.verifyScope = function (scope) {
     var filter = ['test', '_firebug','_FirebugConsole','XMLHttpRequest','Audio',
                   'XSLTProcessor','Option','Image','scrollMaxX','scrollMaxY',
-                  'clipboardData','addEventListener','location','navigator'];
+                  'clipboardData','addEventListener','location','navigator',
+                  'console','clientInformation','frames','external',
+                  'sessionsStorage'];
     for (var k in scope) {
         if (MochiKit.Base.findValue(filter, k) < 0) {
             var v = scope[k];
