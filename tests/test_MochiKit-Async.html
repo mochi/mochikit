@@ -367,8 +367,14 @@ try {
     withLock("callLater", function () {
         return callLater(0.05, checkCallLater, t);
     });
-    withLock("wait", function () {
+    withLock("wait with arg", function () {
         return wait(0.05, t).addCallback(checkCallLater);
+    });
+    withLock("wait without arg", function () {
+        return wait(0.05).addCallback(function(res) {
+            is(typeof(res), "undefined", "wait default argument");
+            is(arguments.length, 1, "wait argument count");
+        });
     });
     withLock("loadJSONDoc", function () {
         var d = loadJSONDoc("test_MochiKit-Async.json");

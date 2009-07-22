@@ -2578,13 +2578,8 @@ d=d.addCallback(self.evalJSONRequest);
 return d;
 },wait:function(_2ca,_2cb){
 var d=new MochiKit.Async.Deferred();
-var m=MochiKit.Base;
-if(typeof (_2cb)!="undefined"){
-d.addCallback(function(){
-return _2cb;
-});
-}
-var _2ce=setTimeout(m.bind("callback",d),Math.floor(_2ca*1000));
+var cb=MochiKit.Base.bind("callback",d,_2cb);
+var _2ce=setTimeout(cb,Math.floor(_2ca*1000));
 d.canceller=function(){
 try{
 clearTimeout(_2ce);
