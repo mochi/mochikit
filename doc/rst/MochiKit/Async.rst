@@ -266,6 +266,11 @@ Constructors
     a value available, any new callbacks added will be called
     immediately.
 
+    If the initial callback value provided to the :mochiref:`Deferred`
+    is omitted, an ``undefined`` value will be passed instead. This
+    also happens if a callback or errback function does not return a
+    value.
+
     There are two other "advanced" details about this implementation
     that are useful:
 
@@ -292,7 +297,7 @@ Constructors
 
     Add the same function as both a callback and an errback as the
     next element on the callback sequence. This is useful for code
-    that you want to guarantee to run, e.g. a finalizer.
+    that you want to guarantee to run.
 
     If additional arguments are given, then ``func`` will be replaced
     with :mochiref:`MochiKit.Base.partial.apply(null,

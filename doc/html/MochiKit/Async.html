@@ -288,6 +288,10 @@ if (result instanceof Error) {
 the callback sequence. Since the <a class="mochiref reference external" href="#fn-deferred">Deferred</a> already has
 a value available, any new callbacks added will be called
 immediately.</p>
+<p>If the initial callback value provided to the <a class="mochiref reference external" href="#fn-deferred">Deferred</a>
+is omitted, an <tt class="docutils literal"><span class="pre">undefined</span></tt> value will be passed instead. This
+also happens if a callback or errback function does not return a
+value.</p>
 <p>There are two other &quot;advanced&quot; details about this implementation
 that are useful:</p>
 <p>Callbacks are allowed to return <a class="mochiref reference external" href="#fn-deferred">Deferred</a> instances, so
@@ -314,7 +318,7 @@ handle that <tt class="docutils literal"><span class="pre">Error</span></tt> gra
 <blockquote>
 <p>Add the same function as both a callback and an errback as the
 next element on the callback sequence. This is useful for code
-that you want to guarantee to run, e.g. a finalizer.</p>
+that you want to guarantee to run.</p>
 <p>If additional arguments are given, then <tt class="docutils literal"><span class="pre">func</span></tt> will be replaced
 with <a class="mochiref reference external" href="Base.html#fn-partial">MochiKit.Base.partial.apply(null,
 arguments)</a>. This differs from <a class="reference external" href="http://twistedmatrix.com/">Twisted</a>, because the result of

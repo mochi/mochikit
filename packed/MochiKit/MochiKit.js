@@ -2965,13 +2965,8 @@ d=d.addCallback(self.evalJSONRequest);
 return d;
 },wait:function(_326,_327){
 var d=new MochiKit.Async.Deferred();
-var m=MochiKit.Base;
-if(typeof (_327)!="undefined"){
-d.addCallback(function(){
-return _327;
-});
-}
-var _32a=setTimeout(m.bind("callback",d),Math.floor(_326*1000));
+var cb=MochiKit.Base.bind("callback",d,_327);
+var _32a=setTimeout(cb,Math.floor(_326*1000));
 d.canceller=function(){
 try{
 clearTimeout(_32a);
