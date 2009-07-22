@@ -432,13 +432,8 @@ MochiKit.Base.update(MochiKit.Async, {
     /** @id MochiKit.Async.wait */
     wait: function (seconds, /* optional */value) {
         var d = new MochiKit.Async.Deferred();
-        var m = MochiKit.Base;
-        if (typeof(value) != 'undefined') {
-            d.addCallback(function () { return value; });
-        }
-        var timeout = setTimeout(
-            m.bind("callback", d),
-            Math.floor(seconds * 1000));
+        var cb = MochiKit.Base.bind("callback", d, value);
+        var timeout = setTimeout(cb, Math.floor(seconds * 1000));
         d.canceller = function () {
             try {
                 clearTimeout(timeout);

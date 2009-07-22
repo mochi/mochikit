@@ -28,6 +28,7 @@
 - Fixed MochiKit.Color.Color.prototype.isLight() and isDark() to not
   return constant false and true values (#341).
 - Fixed incorrect z-index restore after MochiKit.DragAndDrop usage (#339).
+- Fixed MochiKit.Async.wait() handling of missing optional value (#345).
 
 2008-11-27      v1.4.2 (bug fix release)
 
