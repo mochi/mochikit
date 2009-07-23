@@ -436,8 +436,21 @@ tests.test_Signal = function (t) {
 	signal(hasSignals, 'signalTwo');
     t.is(i, 4, 'disconnectAll fired in a signal loop works');
     i = 0;
-    disconnectAll('signalOne');
-    disconnectAll('signalTwo');
+    disconnectAll(hasSignals, 'signalOne', 'signalTwo');
+
+    // Test reentrant signals (#346)
+    var toggle = function() {
+        disconnectAll(hasSignals, 'signalTwo');
+        signal(hasSignals, 'signalTwo');
+    };
+    connect(hasSignals, 'signalTwo', function() { i++; });
+    connect(hasSignals, 'signalOne', toggle);
+    connect(hasSignals, 'signalOne', function() { i++; });
+    connect(hasSignals, 'signalOne', function() { i++; });
+    signal(hasSignals, 'signalOne');
+    t.is(i, 2, 'disconnectAll & signal fired in an observer works');
+    i = 0;
+    disconnectAll(hasSignals, 'signalOne', 'signalTwo');
 
     var testfunc = function () { arguments.callee.count++; };
     testfunc.count = 0;

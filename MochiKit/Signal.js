@@ -715,7 +715,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                 var o = observers[i];
                 if (o.source === src && o.signal === sig && o.objOrFunc === obj && o.funcOrStr === func) {
                     self._disconnect(o);
-                    if (!self._lock) {
+                    if (self._lock === 0) {
                         observers.splice(i, 1);
                     } else {
                         self._dirty = true;
@@ -727,7 +727,7 @@ MochiKit.Base.update(MochiKit.Signal, {
             var idx = m.findIdentical(observers, ident);
             if (idx >= 0) {
                 self._disconnect(ident);
-                if (!self._lock) {
+                if (self._lock === 0) {
                     observers.splice(idx, 1);
                 } else {
                     self._dirty = true;
@@ -743,7 +743,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         var self = MochiKit.Signal;
         var observers = self._observers;
         var disconnect = self._disconnect;
-        var locked = self._lock;
+        var lock = self._lock;
         var dirty = self._dirty;
         if (typeof(funcOrStr) === 'undefined') {
             funcOrStr = null;
@@ -753,10 +753,10 @@ MochiKit.Base.update(MochiKit.Signal, {
             if (ident.objOrFunc === objOrFunc &&
                     (funcOrStr === null || ident.funcOrStr === funcOrStr)) {
                 disconnect(ident);
-                if (locked) {
-                    dirty = true;
-                } else {
+                if (lock === 0) {
                     observers.splice(i, 1);
+                } else {
+                    dirty = true;
                 }
             }
         }
@@ -774,7 +774,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         var disconnect = self._disconnect;
         var observers = self._observers;
         var i, ident;
-        var locked = self._lock;
+        var lock = self._lock;
         var dirty = self._dirty;
         if (signals.length === 0) {
             // disconnect all
@@ -782,7 +782,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                 ident = observers[i];
                 if (ident.source === src) {
                     disconnect(ident);
-                    if (!locked) {
+                    if (lock === 0) {
                         observers.splice(i, 1);
                     } else {
                         dirty = true;
@@ -798,7 +798,7 @@ MochiKit.Base.update(MochiKit.Signal, {
                 ident = observers[i];
                 if (ident.source === src && ident.signal in sigs) {
                     disconnect(ident);
-                    if (!locked) {
+                    if (lock === 0) {
                         observers.splice(i, 1);
                     } else {
                         dirty = true;
@@ -818,7 +818,7 @@ MochiKit.Base.update(MochiKit.Signal, {
         }
         var args = MochiKit.Base.extend(null, arguments, 2);
         var errors = [];
-        self._lock = true;
+        self._lock++;
         for (var i = 0; i < observers.length; i++) {
             var ident = observers[i];
             if (ident.source === src && ident.signal === sig &&
@@ -837,8 +837,8 @@ MochiKit.Base.update(MochiKit.Signal, {
                 }
             }
         }
-        self._lock = false;
-        if (self._dirty) {
+        self._lock--;
+        if (self._lock === 0 && self._dirty) {
             self._dirty = false;
             for (var i = observers.length - 1; i >= 0; i--) {
                 if (!observers[i].connected) {
@@ -861,7 +861,7 @@ MochiKit.Signal.__new__ = function (win) {
     var m = MochiKit.Base;
     this._document = document;
     this._window = win;
-    this._lock = false;
+    this._lock = 0;
     this._dirty = false;
 
     try {
