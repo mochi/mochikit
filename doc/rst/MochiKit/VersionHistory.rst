@@ -5,6 +5,8 @@
   return constant false and true values (#341).
 - Fixed incorrect z-index restore after MochiKit.DragAndDrop usage (#339).
 - Fixed MochiKit.Async.wait() handling of missing optional value (#345).
+- Fixed MochiKit.Signal.signal() re-entrancy locking when observers
+  both disconnect other observers and signal new events (#346).
 
 2008-11-27      v1.4.2 (bug fix release)
 

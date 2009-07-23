@@ -5463,7 +5463,7 @@ for(var i=_592.length-1;i>=0;i--){
 var o=_592[i];
 if(o.source===src&&o.signal===sig&&o.objOrFunc===obj&&o.funcOrStr===func){
 self._disconnect(o);
-if(!self._lock){
+if(self._lock===0){
 _592.splice(i,1);
 }else{
 self._dirty=true;
@@ -5475,7 +5475,7 @@ return true;
 var idx=m.findIdentical(_592,_590);
 if(idx>=0){
 self._disconnect(_590);
-if(!self._lock){
+if(self._lock===0){
 _592.splice(idx,1);
 }else{
 self._dirty=true;
@@ -5488,7 +5488,7 @@ return false;
 var self=MochiKit.Signal;
 var _59e=self._observers;
 var _59f=self._disconnect;
-var _5a0=self._lock;
+var lock=self._lock;
 var _5a1=self._dirty;
 if(typeof (_59c)==="undefined"){
 _59c=null;
@@ -5497,10 +5497,10 @@ for(var i=_59e.length-1;i>=0;i--){
 var _5a3=_59e[i];
 if(_5a3.objOrFunc===_59b&&(_59c===null||_5a3.funcOrStr===_59c)){
 _59f(_5a3);
-if(_5a0){
-_5a1=true;
-}else{
+if(lock===0){
 _59e.splice(i,1);
+}else{
+_5a1=true;
 }
 }
 }
@@ -5513,14 +5513,14 @@ var self=MochiKit.Signal;
 var _5a9=self._disconnect;
 var _5aa=self._observers;
 var i,_5ac;
-var _5ad=self._lock;
+var lock=self._lock;
 var _5ae=self._dirty;
 if(_5a7.length===0){
 for(i=_5aa.length-1;i>=0;i--){
 _5ac=_5aa[i];
 if(_5ac.source===src){
 _5a9(_5ac);
-if(!_5ad){
+if(lock===0){
 _5aa.splice(i,1);
 }else{
 _5ae=true;
@@ -5536,7 +5536,7 @@ for(i=_5aa.length-1;i>=0;i--){
 _5ac=_5aa[i];
 if(_5ac.source===src&&_5ac.signal in sigs){
 _5a9(_5ac);
-if(!_5ad){
+if(lock===0){
 _5aa.splice(i,1);
 }else{
 _5ae=true;
@@ -5551,7 +5551,7 @@ var _5b3=self._observers;
 src=MochiKit.DOM.getElement(src);
 var args=MochiKit.Base.extend(null,arguments,2);
 var _5b5=[];
-self._lock=true;
+self._lock++;
 for(var i=0;i<_5b3.length;i++){
 var _5b7=_5b3[i];
 if(_5b7.source===src&&_5b7.signal===sig&&_5b7.connected){
@@ -5563,8 +5563,8 @@ _5b5.push(e);
 }
 }
 }
-self._lock=false;
-if(self._dirty){
+self._lock--;
+if(self._lock===0&&self._dirty){
 self._dirty=false;
 for(var i=_5b3.length-1;i>=0;i--){
 if(!_5b3[i].connected){
@@ -5588,7 +5588,7 @@ MochiKit.Signal.__new__=function(win){
 var m=MochiKit.Base;
 this._document=document;
 this._window=win;
-this._lock=false;
+this._lock=0;
 this._dirty=false;
 try{
 this.connect(window,"onunload",this._unloadCache);

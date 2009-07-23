@@ -22,6 +22,8 @@
 return constant false and true values (#341).</li>
 <li>Fixed incorrect z-index restore after MochiKit.DragAndDrop usage (#339).</li>
 <li>Fixed MochiKit.Async.wait() handling of missing optional value (#345).</li>
+<li>Fixed MochiKit.Signal.signal() re-entrancy locking when observers
+both disconnect other observers and signal new events (#346).</li>
 </ul>
 <p>2008-11-27      v1.4.2 (bug fix release)</p>
 <ul class="simple">
