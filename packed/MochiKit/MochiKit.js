@@ -5806,7 +5806,7 @@ for(var i=_5e3.length-1;i>=0;i--){
 var o=_5e3[i];
 if(o.source===src&&o.signal===sig&&o.objOrFunc===obj&&o.funcOrStr===func){
 self._disconnect(o);
-if(!self._lock){
+if(self._lock===0){
 _5e3.splice(i,1);
 }else{
 self._dirty=true;
@@ -5818,7 +5818,7 @@ return true;
 var idx=m.findIdentical(_5e3,_5e1);
 if(idx>=0){
 self._disconnect(_5e1);
-if(!self._lock){
+if(self._lock===0){
 _5e3.splice(idx,1);
 }else{
 self._dirty=true;
@@ -5831,7 +5831,7 @@ return false;
 var self=MochiKit.Signal;
 var _5ef=self._observers;
 var _5f0=self._disconnect;
-var _5f1=self._lock;
+var lock=self._lock;
 var _5f2=self._dirty;
 if(typeof (_5ed)==="undefined"){
 _5ed=null;
@@ -5840,10 +5840,10 @@ for(var i=_5ef.length-1;i>=0;i--){
 var _5f4=_5ef[i];
 if(_5f4.objOrFunc===_5ec&&(_5ed===null||_5f4.funcOrStr===_5ed)){
 _5f0(_5f4);
-if(_5f1){
-_5f2=true;
-}else{
+if(lock===0){
 _5ef.splice(i,1);
+}else{
+_5f2=true;
 }
 }
 }
@@ -5858,14 +5858,14 @@ var self=MochiKit.Signal;
 var _5fa=self._disconnect;
 var _5fb=self._observers;
 var i,_5fd;
-var _5fe=self._lock;
+var lock=self._lock;
 var _5ff=self._dirty;
 if(_5f8.length===0){
 for(i=_5fb.length-1;i>=0;i--){
 _5fd=_5fb[i];
 if(_5fd.source===src){
 _5fa(_5fd);
-if(!_5fe){
+if(lock===0){
 _5fb.splice(i,1);
 }else{
 _5ff=true;
@@ -5881,7 +5881,7 @@ for(i=_5fb.length-1;i>=0;i--){
 _5fd=_5fb[i];
 if(_5fd.source===src&&_5fd.signal in sigs){
 _5fa(_5fd);
-if(!_5fe){
+if(lock===0){
 _5fb.splice(i,1);
 }else{
 _5ff=true;
@@ -5898,7 +5898,7 @@ src=MochiKit.DOM.getElement(src);
 }
 var args=MochiKit.Base.extend(null,arguments,2);
 var _606=[];
-self._lock=true;
+self._lock++;
 for(var i=0;i<_604.length;i++){
 var _608=_604[i];
 if(_608.source===src&&_608.signal===sig&&_608.connected){
@@ -5919,8 +5919,8 @@ _606.push(e);
 }
 }
 }
-self._lock=false;
-if(self._dirty){
+self._lock--;
+if(self._lock===0&&self._dirty){
 self._dirty=false;
 for(var i=_604.length-1;i>=0;i--){
 if(!_604[i].connected){
@@ -5942,7 +5942,7 @@ MochiKit.Signal.__new__=function(win){
 var m=MochiKit.Base;
 this._document=document;
 this._window=win;
-this._lock=false;
+this._lock=0;
 this._dirty=false;
 try{
 this.connect(window,"onunload",this._unloadCache);
