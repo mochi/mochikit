@@ -5528,7 +5528,7 @@ return this._mouse;
 }
 var m={};
 var e=this._event;
-if(this.type()&&(this.type().indexOf("mouse")===0||this.type().indexOf("click")!=-1||this.type()=="contextmenu")){
+if(this.type()&&(this.type().indexOf("mouse")===0||this.type().indexOf("drag")===0||this.type().indexOf("click")!=-1||this.type()=="contextmenu")){
 m.client=new MochiKit.Style.Coordinates(0,0);
 if(e.clientX||e.clientY){
 m.client.x=(!e.clientX||e.clientX<0)?0:e.clientX;
