@@ -266,6 +266,7 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
 
         if (this.type() && (
             this.type().indexOf('mouse') === 0 ||
+            this.type().indexOf('drag') === 0 ||
             this.type().indexOf('click') != -1 ||
             this.type() == 'contextmenu')) {
 
