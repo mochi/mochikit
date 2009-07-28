@@ -31,6 +31,7 @@
 - Fixed MochiKit.Async.wait() handling of missing optional value (#345).
 - Fixed MochiKit.Signal.signal() re-entrancy locking when observers
   both disconnect other observers and signal new events (#346).
+- Fixed possible exception throwing in MochiKit.Base.repr() (#353).
 
 2008-11-27      v1.4.2 (bug fix release)
 

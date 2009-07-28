@@ -625,8 +625,12 @@ return o.repr();
 return MochiKit.Base.reprRegistry.match(o);
 }
 catch(e){
+try{
 if(typeof (o.NAME)=="string"&&(o.toString==Function.prototype.toString||o.toString==Object.prototype.toString)){
 return o.NAME;
+}
+}
+catch(ignore){
 }
 }
 try{
