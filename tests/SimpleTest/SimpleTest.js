@@ -43,7 +43,8 @@ SimpleTest._scopeFilter = { 'window': true,
                             'addEventListener': true,
                             'clientInformation': true,
                             'sessionStorage': true,
-                            'localStorage': true };
+                            'localStorage': true,
+                            'media': true };
 
 
 /**
