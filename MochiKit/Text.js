@@ -138,8 +138,8 @@ MochiKit.Text.split = function (str, separator, max) {
     }
     separator = separator || '\n'
     var bits = str.split(separator);
-    if ((typeof(max) == "undefined") || max >= bits.length-1){
-	return bits;
+    if ((typeof(max) == "undefined") || max >= bits.length-1) {
+        return bits;
     }
     bits.splice(max, bits.length, bits.slice(max, bits.length).join(separator))
     return bits;
@@ -560,32 +560,22 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
  * @param {Number} precision the number of precision digits
  */
 MochiKit.Text._truncToPercent = function (value, precision) {
-    // TODO: This can be simplified by using the same helper function
-    //       as roundToFixed now does.
+    // TODO: This can be simplified by using MochiKit.Format._shiftNumber
+    //       as roundToFixed does.
     var str;
     if (precision >= 0) {
         str = MochiKit.Format.roundToFixed(value, precision + 2);
     } else {
         str = (value == null) ? "0" : value.toString();
     }
-    var fracPos = str.indexOf(".");
-    if (fracPos < 0) {
-        str = str + "00";
-    } else if (fracPos + 3 >= str.length) {
-        var fraction = str.substring(fracPos + 1);
-        while (fraction.length < 2) {
-            fraction = fraction + "0";
-        }
-        str = str.substring(0, fracPos) + fraction;
-    } else {
-        var fraction = str.substring(fracPos + 1);
-        str = str.substring(0, fracPos) + fraction.substring(0, 2) +
-              "." + fraction.substring(2);
+    var arr = MochiKit.Text.split(str, ".", 2);
+    var frac = MochiKit.Text.padRight(arr[1], 2, "0");
+    var whole = arr[0] + frac.substring(0, 2);
+    frac = frac.substring(2);
+    while (/^0[0-9]/.test(whole)) {
+        whole = whole.substring(1);
     }
-    while (str.length > 1 && str.charAt(0) == "0" && str.charAt(1) != ".") {
-        str = str.substring(1);
-    }
-    return str;
+    return (frac.length <= 0) ? whole : whole + "." + frac;
 }
 
 /**
