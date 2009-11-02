@@ -651,8 +651,10 @@ Basic Effects Classes & Constants
     parameter of the effect. Example::
 
         // I slide it up and then down again
-        slideUp('myelement', {afterFinish: function () {
-            slideDown('myelement');
+        slideUp('myelement', {
+            afterFinish: function () {
+                slideDown('myelement');
+            }
         });
 
     Specific ``internal`` events are also available: for each one listed above,
