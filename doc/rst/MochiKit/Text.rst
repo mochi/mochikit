@@ -300,21 +300,6 @@ Functions
         Available in MochiKit 1.5+
 
 
-:mochidef:`splitJoin(func, str, separator="\\n")`:
-
-    Splits ``str``, applies the ``func`` function on each part, and
-    finally joins the results back together again using the same
-    ``separator`` string. This is a convenience function for calling
-    ``String.prototype.split()``, :mochiref:`MochiKit.Base.map()` and
-    ``Array.prototype.join()`` separately.
-
-    It can be used to trim each line in a text string by calling
-    ``splitJoin(strip, str)``.
-
-    *Availability*:
-        Available in MochiKit 1.5+
-
-
 :mochidef:`startsWith(substr, str)`:
 
     Returns ``true`` if ``str`` starts with ``substr``, otherwise ``false``.

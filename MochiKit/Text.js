@@ -170,28 +170,6 @@ MochiKit.Text.rsplit = function (str, separator, max) {
 }
 
 /**
- * Splits a text string, applies a function and joins the results
- * back together again. This is a convenience function for calling
- * split(), map() and join() separately. It can be used to easily
- * trim each line in a text string (using the strip function), or to
- * translate a text word-by-word.
- *
- * @param {Function} func the function to apply
- * @param {String} str the string to split
- * @param {String} [separator] the separator character to use,
- *            defaults to newline
- *
- * @return {String} a string with the joined up results
- */
-MochiKit.Text.splitJoin = function (func, str, separator) {
-    if (str == null || str.length == 0) {
-        return str;
-    }
-    separator = separator || '\n'
-    return MochiKit.Base.map(func, str.split(separator)).join(separator);
-}
-
-/**
  * Creates a formatter function for the specified formatter pattern
  * and locale. The returned function takes as many arguments as the
  * formatter pattern requires. See separate documentation for

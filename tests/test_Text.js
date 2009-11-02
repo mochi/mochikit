@@ -55,11 +55,6 @@ tests.test_Text = function (t) {
     t.is(repr(truncate([1,2,3], 2)), repr([1,2]), "truncate array");
     t.is(repr(truncate([1,2,3,4,5], 4, [7])), repr([1,2,3,7]), "truncate array with tail");
 
-    // splitJoin tests
-    t.is(splitJoin(strip, "  abc   \n aa\t"), "abc\naa", "splitJoin with regular separator");
-    t.is(splitJoin(strip, "  abc   \n aa\t", "a"), "abcaa", "splitJoin with custom separator");
-    t.is(splitJoin(strip, null), null, "splitJoin with null string");
-
     // split and rsplit tests
     t.ok(objEqual(split("  abc   \n aa\t", " "), "  abc   \n aa\t".split(" ")), "split equivalence with str.split");
     t.ok(objEqual(rsplit("  abc   \n aa\t", " "), "  abc   \n aa\t".split(" ")), "rsplit equivalence with str.split");
