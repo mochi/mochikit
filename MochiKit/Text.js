@@ -431,7 +431,7 @@ MochiKit.Text._parseFormat = function (pattern, startPos, endPos) {
     var pos = text.indexOf(":");
     if (pos == 0) {
         info = self._parseFormatFlags(pattern, startPos + 1, endPos);
-        info.path = [0];
+        info.path = [];
     } else if (pos > 0) {
         info = self._parseFormatFlags(pattern, startPos + pos + 1, endPos);
         info.path = text.substring(0, pos).split(".");
@@ -442,17 +442,15 @@ MochiKit.Text._parseFormat = function (pattern, startPos, endPos) {
     var DIGITS = /^\d+$/;
     for (var i = 0; i < info.path.length; i++) {
         var e = info.path[i];
-        if (typeof(e) == "string") {
-            // TODO: replace with MochiKit.Format.strip?
-            e = e.replace(/^\s+/, "").replace(/\s+$/, "");
-            if (e == "" && info.path.length == 1) {
-                e = 0;
-            } else if (e == "") {
-                var msg = "format value path contains blanks";
-                throw new self.FormatPatternError(pattern, startPos, msg);
-            } else if (DIGITS.test(e)) {
-                e = parseInt(e);
-            }
+        // TODO: replace with MochiKit.Format.strip?
+        e = e.replace(/^\s+/, "").replace(/\s+$/, "");
+        if (e == "" && info.path.length == 1) {
+            e = 0;
+        } else if (e == "") {
+            var msg = "format value path contains blanks";
+            throw new self.FormatPatternError(pattern, startPos, msg);
+        } else if (DIGITS.test(e)) {
+            e = parseInt(e);
         }
         info.path[i] = e;
     }
