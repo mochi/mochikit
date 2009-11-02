@@ -842,8 +842,10 @@ life. The events are:</p>
 parameter of the effect. Example:</p>
 <pre class="literal-block">
 // I slide it up and then down again
-slideUp('myelement', {afterFinish: function () {
-    slideDown('myelement');
+slideUp('myelement', {
+    afterFinish: function () {
+        slideDown('myelement');
+    }
 });
 </pre>
 <p>Specific <tt class="docutils literal"><span class="pre">internal</span></tt> events are also available: for each one listed above,
