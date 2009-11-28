@@ -12,8 +12,10 @@
 
 <pre id="test">
 <script type="text/javascript">
-try {
-        
+if (typeof(tests) == 'undefined') { tests = {}; }
+
+tests.test_Async = function () {
+
     var increment = function (res) {
         return res + 1;
     }
@@ -286,7 +288,7 @@ try {
     d.callback(1);
     is( lst[0], 7, "auto-partial addCallback addBoth" );
     d.addCallback(function () { throw new Error(); });
-    ebTest = function(a, b) {
+    var ebTest = function(a, b) {
         map(bind(lst.push, lst), arguments);
     };
     d.addErrback(ebTest, "foo");
@@ -397,12 +399,12 @@ try {
 
     var t = (new Date().getTime());
     SimpleTest.waitForExplicitFinish();
-    checkCallLater = function (originalTime) {
+    var checkCallLater = function (originalTime) {
         is(originalTime, t, "argument passed in OK");
         is(arguments.length, 1, "argument count right");
     };
     var lock = new DeferredLock();
-    withLock = function (msg) {
+    var withLock = function (msg) {
         var cb = partial.apply(null, extend(null, arguments, 1));
         var d = lock.acquire().addCallback(cb);
         d.addErrback(ok, false, msg);
@@ -438,10 +440,15 @@ try {
         ok(true, "async suite finished");
         SimpleTest.finish();
     });
-            
-    
+}
+
+
+try {
+    SimpleTest.saveScope(this);
+    tests.test_Async();
+    // TODO: this should be called on finish instead...
+    SimpleTest.verifyScope(this);
 } catch (err) {
-    
     var s = "test suite failure!\n";
     var o = {};
     var k = null;
@@ -454,7 +461,6 @@ try {
     }
     ok ( false, s );
     SimpleTest.finish();
-
 }
 </script>
 </pre>
