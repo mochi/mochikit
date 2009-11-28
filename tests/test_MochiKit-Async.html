@@ -437,17 +437,14 @@ tests.test_Async = function () {
         return d;
     });
     lock.acquire().addCallback(function () {
-        ok(true, "async suite finished");
         SimpleTest.finish();
     });
 }
 
 
 try {
-    SimpleTest.saveScope(this);
+    SimpleTest.init(this);
     tests.test_Async();
-    // TODO: this should be called on finish instead...
-    SimpleTest.verifyScope(this);
 } catch (err) {
     var s = "test suite failure!\n";
     var o = {};

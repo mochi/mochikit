@@ -209,10 +209,8 @@ tests.test_Style = function () {
 
 
 try {
-    SimpleTest.saveScope(this);
+    SimpleTest.init(this);
     tests.test_Style();
-    SimpleTest.verifyScope(this);
-    ok( true, "test suite finished!");
 } catch (err) {
     var s = "test suite failure!\n";
     var o = {};

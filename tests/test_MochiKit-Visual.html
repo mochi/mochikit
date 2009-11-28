@@ -178,10 +178,8 @@ tests.test_Visual = function () {
 }
 
 try {
-    SimpleTest.saveScope(this);
+    SimpleTest.init(this);
     tests.test_Visual();
-    SimpleTest.verifyScope(this);
-    ok(true, "visual suite finished");
 } catch (err) {
     var s = "test suite failure!\n";
     var o = {};

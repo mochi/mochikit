@@ -276,10 +276,8 @@ tests.test_Selector = function () {
 
 
 try {
-    SimpleTest.saveScope(this);
+    SimpleTest.init(this);
     tests.test_Selector();
-    SimpleTest.verifyScope(this);
-    ok( true, "test suite finished!");
 } catch (err) {
     var s = "test suite failure!\n";
     var o = {};

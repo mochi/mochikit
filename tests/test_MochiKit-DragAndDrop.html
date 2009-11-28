@@ -29,10 +29,8 @@
 <script type="text/javascript" src="test_DragAndDrop.js"></script>
 <script type="text/javascript">
 try {
-    SimpleTest.saveScope(this);
+    SimpleTest.init(this);
     tests.test_DragAndDrop({ok:ok, is:is});
-    SimpleTest.verifyScope(this);
-    ok( true, "test suite finished!");
 } catch (err) {
     var s = "test suite failure!\n";
     var o = {};

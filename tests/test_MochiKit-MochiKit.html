@@ -24,6 +24,7 @@ SimpleTest.saveScope(this);
 <pre id="test">
 <script type="text/javascript">
 try {
+    SimpleTest.init(this);
     (function () {
         // Test import of MochiKit.Base
         var b = MochiKit.Base;
@@ -39,8 +40,6 @@ try {
             ok( true, "__export__ flag works");
         }
     })();
-    SimpleTest.verifyScope(this);
-    ok( true, "test suite finished!");
 } catch (err) {
     var s = "test suite failure!\n";
     var o = {};

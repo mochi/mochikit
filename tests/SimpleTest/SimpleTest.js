@@ -21,12 +21,14 @@ if (typeof(parent) != "undefined" && parent.TestRunner) {
 
 SimpleTest._tests = [];
 SimpleTest._stopOnLoad = true;
-SimpleTest._startTime = null;
+SimpleTest._startTime = new Date().getTime();
+SimpleTest._scope = null;
 SimpleTest._scopeCopy = {};
 SimpleTest._scopeFilter = { 'window': true,
                             'document': true,
                             'navigator': true,
                             'location': true,
+                            'onload': true,
                             'test': true,
                             'console': true,
                             'frames': true,
@@ -47,18 +49,49 @@ SimpleTest._scopeFilter = { 'window': true,
                             'localStorage': true,
                             'media': true };
 
-
 /**
- * Saves a copy of the specified scope variables.
+ * Initializes the testing engine for the specified global scope. This will
+ * ensure that the execution time is registered and that the global scope is
+ * checked for any unwanted variable pollution.
  */
-SimpleTest.saveScope = function (scope) {
-    for (var k in scope) {
+SimpleTest.init = function (globalScope) {
+    SimpleTest._scope = globalScope;
+    for (var k in globalScope) {
         if (!(k in SimpleTest._scopeFilter)) {
-            SimpleTest._scopeCopy[k] = scope[k];
+            SimpleTest._scopeCopy[k] = globalScope[k];
         }
     }
     SimpleTest._startTime = new Date().getTime();
 }
+
+/**
+ * Finishes the tests. This is automatically called, except when 
+ * SimpleTest.waitForExplicitFinish() has been invoked. This method will clock
+ * the test suite execution time and check the global scope for variable
+ * pollution.
+ */
+SimpleTest.finish = function () {
+    var time = new Date().getTime() - SimpleTest._startTime;
+    var mins = Math.floor(time / 60000);
+    var secs = Math.floor(time / 1000);
+    var millis = time % 1000;
+    var fmt = function (value, digits) {
+        var str = value.toString();
+        while (str.length < digits) {
+            str = "0" + str;
+        }
+        return str;
+    }
+    var delay = fmt(mins, 2) + ":" + fmt(secs, 2) + "." + fmt(millis, 3);
+    SimpleTest.verifyScope(SimpleTest._scope);
+    if (SimpleTest.results().fail <= 0) {
+        SimpleTest.ok(true, "test suite finished in " + delay);
+    } else {
+        SimpleTest.ok(false, "test suite failed in " + delay);
+    }
+    SimpleTest.showReport();
+    SimpleTest.talkToRunner();
+};
 
 /**
  * Verifies the specified scope against the stored copy and reports
@@ -225,32 +258,6 @@ SimpleTest.talkToRunner = function () {
     if (typeof(parent) != "undefined" && parent.TestRunner) {
         parent.TestRunner.testFinished(document);
     }
-};
-
-/**
- * Finishes the tests. This is automatically called, except when 
- * SimpleTest.waitForExplicitFinish() has been invoked.
-**/
-SimpleTest.finish = function () {
-    var time = new Date().getTime() - SimpleTest._startTime;
-    var mins = Math.floor(time / 60000);
-    var secs = Math.floor(time / 1000);
-    var millis = time % 1000;
-    var fmt = function (value, digits) {
-        var str = value.toString();
-        while (str.length < digits) {
-            str = "0" + str;
-        }
-        return str;
-    }
-    var delay = fmt(mins, 2) + ":" + fmt(secs, 2) + "." + fmt(millis, 3);
-    if (SimpleTest.results().fail <= 0) {
-        SimpleTest.ok(true, "test suite finished in " + delay);
-    } else {
-        SimpleTest.ok(false, "test suite failed in " + delay);
-    }
-    SimpleTest.showReport();
-    SimpleTest.talkToRunner();
 };
 
 /**
