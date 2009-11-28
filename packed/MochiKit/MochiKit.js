@@ -3879,7 +3879,7 @@ _423.ignoreAttrFilter=function(a){
 return (_423.ignoreAttr[a.name]!=a.value);
 };
 _423.compliant=false;
-_423.renames={"class":"className","checked":"defaultChecked","usemap":"useMap","for":"htmlFor","readonly":"readOnly","colspan":"colSpan","bgcolor":"bgColor","cellspacing":"cellSpacing","cellpadding":"cellPadding"};
+_423.renames={"class":"className","checked":"defaultChecked","usemap":"useMap","for":"htmlFor","readonly":"readOnly","colspan":"colSpan","rowspan":"rowSpan","bgcolor":"bgColor","cellspacing":"cellSpacing","cellpadding":"cellPadding"};
 }else{
 _423=function(node){
 return node.attributes;

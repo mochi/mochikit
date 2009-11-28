@@ -990,6 +990,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                 "for": "htmlFor",
                 "readonly": "readOnly",
                 "colspan": "colSpan",
+                "rowspan": "rowSpan",
                 "bgcolor": "bgColor",
                 "cellspacing": "cellSpacing",
                 "cellpadding": "cellPadding"
