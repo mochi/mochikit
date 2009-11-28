@@ -18,10 +18,8 @@ Please ignore this button: <input type="submit" id="submit" /><br />
 <script type="text/javascript" src="test_Signal.js"></script>
 <script type="text/javascript">
 try {
-    SimpleTest.saveScope(this);
+    SimpleTest.init(this);
     tests.test_Signal({ok:ok, is:is});
-    SimpleTest.verifyScope(this);
-    ok(true, "test suite finished!");
 } catch (err) {
     var s = "test suite failure!\n";
     var o = {};
