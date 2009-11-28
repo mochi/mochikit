@@ -13,7 +13,7 @@
 <pre id="test">
 <script type="text/javascript">
 try {
-
+    SimpleTest.init(this);
     for (var i = 0; i < 10000; i++) {
         var n = document.createElement("DIV");
         n.appendChild(document.createTextNode(""));
@@ -24,23 +24,8 @@ try {
         replaceChildNodes(n3, n2.childNodes);
     }
     ok( true, "Safari didn't crash! #213" );
-    ok( true, "test suite finished!");
-    
-    
 } catch (err) {
-    
-    var s = "test suite failure!\n";
-    var o = {};
-    var k = null;
-    for (k in err) {
-        // ensure unique keys?!
-        if (!o[k]) {
-            s +=  k + ": " + err[k] + "\n";
-            o[k] = err[k];
-        }
-    }
-    ok ( false, s );
-
+    SimpleTest.error(err);
 }
 </script>
 </pre>

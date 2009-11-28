@@ -16,17 +16,7 @@ try {
     SimpleTest.init(this);
     tests.test_Iter({ok:ok, is:is});
 } catch (err) {
-    var s = "test suite failure!\n";
-    var o = {};
-    var k = null;
-    for (k in err) {
-        // ensure unique keys?!
-        if (!o[k]) {
-            s +=  k + ": " + err[k] + "\n";
-            o[k] = err[k];
-        }
-    }
-    ok ( false, s );
+    SimpleTest.error(err);
 }
 </script>
 </pre>

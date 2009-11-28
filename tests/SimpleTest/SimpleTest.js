@@ -155,6 +155,16 @@ SimpleTest.eq = function (a, b, name) {
     }
 };
 
+/**
+ * Handles an error when executing the test suite.
+ */
+SimpleTest.error = function (err) {
+    var s = "error when running test suite:\n";
+    for (var k in err) {
+        s += k + ": " + err[k] + "\n";
+    }
+    ok(false, s);
+}
 
 /**
  * Makes a test report, returns it as a DIV element.
