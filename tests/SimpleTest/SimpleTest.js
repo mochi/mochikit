@@ -21,6 +21,7 @@ if (typeof(parent) != "undefined" && parent.TestRunner) {
 
 SimpleTest._tests = [];
 SimpleTest._stopOnLoad = true;
+SimpleTest._startTime = null;
 SimpleTest._scopeCopy = {};
 SimpleTest._scopeFilter = { 'window': true,
                             'document': true,
@@ -56,6 +57,7 @@ SimpleTest.saveScope = function (scope) {
             SimpleTest._scopeCopy[k] = scope[k];
         }
     }
+    SimpleTest._startTime = new Date().getTime();
 }
 
 /**
@@ -230,10 +232,42 @@ SimpleTest.talkToRunner = function () {
  * SimpleTest.waitForExplicitFinish() has been invoked.
 **/
 SimpleTest.finish = function () {
+    var time = new Date().getTime() - SimpleTest._startTime;
+    var mins = Math.floor(time / 60000);
+    var secs = Math.floor(time / 1000);
+    var millis = time % 1000;
+    var fmt = function (value, digits) {
+        var str = value.toString();
+        while (str.length < digits) {
+            str = "0" + str;
+        }
+        return str;
+    }
+    var delay = fmt(mins, 2) + ":" + fmt(secs, 2) + "." + fmt(millis, 3);
+    if (SimpleTest.results().fail <= 0) {
+        SimpleTest.ok(true, "test suite finished in " + delay);
+    } else {
+        SimpleTest.ok(false, "test suite failed in " + delay);
+    }
     SimpleTest.showReport();
     SimpleTest.talkToRunner();
 };
 
+/**
+ * Returns an object with the test results. This object will contain numeric
+ * properties for "count", "ok" and "fail".
+ */
+SimpleTest.results = function () {
+    var res = { count: SimpleTest._tests.length, ok: 0, fail: 0 };
+    for (var i = 0; i < SimpleTest._tests.length; i++) {
+        if (SimpleTest._tests[i].result) {
+            res.ok++;
+        } else {
+            res.fail++;
+        }
+    }
+    return res;
+}
 
 MochiKit.DOM.addLoadEvent(function() {
     if (SimpleTest._stopOnLoad) {
