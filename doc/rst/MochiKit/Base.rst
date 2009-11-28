@@ -592,17 +592,18 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`evalJSON(aJSONString)`:
+:mochidef:`evalJSON(jsonText)`:
 
-    Unserialize a JSON [1]_ represenation of an object.
+    Unserialize a JSON [1]_ representation of an object.
 
     Note that this uses the ``eval`` function of the interpreter, and
-    therefore trusts the contents of ``aJSONString`` to be safe.  This
+    therefore trusts the contents of ``jsonText`` to be safe.  This
     is acceptable when the JSON and JavaScript application originate
     from the same server, but in other scenarios it may not be the
     appropriate security model. Currently, a validating JSON parser is
-    beyond the scope of MochiKit, but there is one available from
-    json.org [1]_.
+    beyond the scope of MochiKit, but in most modern browsers the
+    ``JSON.parse`` function is built-in for this purpose. There is
+    also one available from json.org [1]_.
 
     *Availability*:
         Available in MochiKit 1.3.1+
