@@ -27,6 +27,7 @@ SimpleTest._scopeCopy = {};
 SimpleTest._scopeFilter = { 'window': true,
                             'document': true,
                             'navigator': true,
+                            'event': true,
                             'location': true,
                             'onload': true,
                             'test': true,
