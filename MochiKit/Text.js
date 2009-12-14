@@ -456,17 +456,17 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
     // TODO: replace with MochiKit.Format.rstrip?
     var flags = pattern.substring(startPos, endPos).replace(/\s+$/, "");
     while (flags.length > 0) {
-        var char = flags.charAt(0);
+        var chr = flags.charAt(0);
         var nextPos = 1;
-        switch (char) {
+        switch (chr) {
         case ">":
         case "<":
-            update(info, { align: char });
+            update(info, { align: chr });
             break;
         case "+":
         case "-":
         case " ":
-            update(info, { sign: char });
+            update(info, { sign: chr });
             break;
         case ",":
             update(info, { grouping: true });
@@ -477,7 +477,7 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
             nextPos = 1 + chars.length;
             break;
         case "0":
-            update(info, { padding: char });
+            update(info, { padding: chr });
             break;
         case "1":
         case "2":
@@ -494,25 +494,25 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
             break;
         case "s":
         case "r":
-            update(info, { format: char });
+            update(info, { format: chr });
             break;
         case "b":
-            update(info, { numeric: true, format: char, radix: 2 });
+            update(info, { numeric: true, format: chr, radix: 2 });
             break;
         case "o":
-            update(info, { numeric: true, format: char, radix: 8 });
+            update(info, { numeric: true, format: chr, radix: 8 });
             break;
         case "x":
         case "X":
-            update(info, { numeric: true, format: char, radix: 16 });
+            update(info, { numeric: true, format: chr, radix: 16 });
             break;
         case "d":
         case "f":
         case "%":
-            update(info, { numeric: true, format: char, radix: 10 });
+            update(info, { numeric: true, format: chr, radix: 10 });
             break;
         default:
-            var msg = "unsupported format flag: " + char;
+            var msg = "unsupported format flag: " + chr;
             throw new MochiKit.Text.FormatPatternError(pattern, startPos, msg);
         }
         flags = flags.substring(nextPos);
