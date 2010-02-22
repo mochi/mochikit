@@ -3935,6 +3935,7 @@ this.FIELDSET=_42f("fieldset");
 this.STRONG=_42f("strong");
 this.CANVAS=_42f("canvas");
 this.$=this.getElement;
+this.NBSP="\xa0";
 m.nameFunctions(this);
 }});
 MochiKit.DOM.__new__(((typeof (window)=="undefined")?this:window));
