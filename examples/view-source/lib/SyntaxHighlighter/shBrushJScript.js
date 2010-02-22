@@ -16,7 +16,7 @@ dp.sh.Brushes.JScript = function()
 		];
 
 	this.CssClass = 'dp-c';
-}
+};
 
 dp.sh.Brushes.JScript.prototype	= new dp.sh.Highlighter();
 dp.sh.Brushes.JScript.Aliases	= ['js', 'jscript', 'javascript'];

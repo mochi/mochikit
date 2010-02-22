@@ -66,7 +66,7 @@ dp.sh.Utils.Expand = function(sender)
 	
 	table.tBodies[0].className = 'show';
 	table.parentNode.style.height = '100%'; // containing div isn't getting updated properly when the TBODY is shown
-}
+};
 
 // opens a new windows and puts the original unformatted source code inside.
 dp.sh.Utils.ViewSource = function(sender)
@@ -78,7 +78,7 @@ dp.sh.Utils.ViewSource = function(sender)
 	
 	wnd.document.write('<pre>' + code + '</pre>');
 	wnd.document.close();
-}
+};
 
 // copies the original source code in to the clipboard (IE only)
 dp.sh.Utils.ToClipboard = function(sender)
@@ -94,7 +94,7 @@ dp.sh.Utils.ToClipboard = function(sender)
 		
 		alert(dp.sh.Strings.CopiedToClipboard);
 	}
-}
+};
 
 // creates an invisible iframe, puts the original source code inside and prints it
 dp.sh.Utils.PrintSource = function(sender)
@@ -121,7 +121,7 @@ dp.sh.Utils.PrintSource = function(sender)
 	iframe.contentWindow.print();
 	
 	td.removeChild(iframe);
-}
+};
 
 dp.sh.Utils.About = function()
 {
@@ -143,7 +143,7 @@ dp.sh.Utils.About = function()
 	
 	doc.close();
 	wnd.focus();
-}
+};
 
 //
 // Match object
@@ -154,7 +154,7 @@ dp.sh.Match = function(value, index, css)
 	this.index		= index;
 	this.length		= value.length;
 	this.css		= css;
-}
+};
 
 //
 // Highlighter object
@@ -165,7 +165,7 @@ dp.sh.Highlighter = function()
 	this.addControls = true;
 	this.collapse = false;
 	this.tabsToSpaces = true;
-}
+};
 
 // static callback for the match sorting
 dp.sh.Highlighter.SortCallback = function(m1, m2)
@@ -184,7 +184,7 @@ dp.sh.Highlighter.SortCallback = function(m1, m2)
 			return 1;
 	}
 	return 0;
-}
+};
 
 // gets a list of all matches for a given regular expression
 dp.sh.Highlighter.prototype.GetMatches = function(regex, css)
@@ -196,7 +196,7 @@ dp.sh.Highlighter.prototype.GetMatches = function(regex, css)
 	{
 		this.matches[this.matches.length] = new dp.sh.Match(match[0], match.index, css);
 	}
-}
+};
 
 dp.sh.Highlighter.prototype.AddBit = function(str, css)
 {
@@ -244,7 +244,7 @@ dp.sh.Highlighter.prototype.AddBit = function(str, css)
 		span.innerHTML = str;
 		this.div.appendChild(span);
 	}
-}
+};
 
 // checks if one match is inside any other match
 dp.sh.Highlighter.prototype.IsInside = function(match)
@@ -264,13 +264,13 @@ dp.sh.Highlighter.prototype.IsInside = function(match)
 	}
 	
 	return false;
-}
+};
 
 dp.sh.Highlighter.prototype.ProcessRegexList = function()
 {
 	for(var i = 0; i < this.regexList.length; i++)
 		this.GetMatches(this.regexList[i].regex, this.regexList[i].css);
-}
+};
 
 dp.sh.Highlighter.prototype.ProcessSmartTabs = function(code)
 {
@@ -319,7 +319,7 @@ dp.sh.Highlighter.prototype.ProcessSmartTabs = function(code)
 		result += ProcessLine(lines[i], tabSize) + '\n';
 	
 	return result;
-}
+};
 
 dp.sh.Highlighter.prototype.SwitchToTable = function()
 {
@@ -402,7 +402,7 @@ dp.sh.Highlighter.prototype.SwitchToTable = function()
 	}
 	
 	this.div.innerHTML	= '';
-}
+};
 
 dp.sh.Highlighter.prototype.Highlight = function(code)
 {
@@ -506,12 +506,12 @@ dp.sh.Highlighter.prototype.Highlight = function(code)
 	this.AddBit(this.code.substr(pos), null);
 
 	this.SwitchToTable();
-}
+};
 
 dp.sh.Highlighter.prototype.GetKeywords = function(str) 
 {
 	return '\\b' + str.replace(/ /g, '\\b|\\b') + '\\b';
-}
+};
 
 // highlightes all elements identified by name and gets source code from specified property
 dp.sh.HighlightAll = function(name, showGutter /* optional */, showControls /* optional */, collapseAll /* optional */, firstLine /* optional */)
@@ -619,4 +619,4 @@ dp.sh.HighlightAll = function(name, showGutter /* optional */, showControls /* o
 
 		element.parentNode.insertBefore(div, element);		
 	}	
-}
+};

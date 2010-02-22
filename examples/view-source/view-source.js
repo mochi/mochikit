@@ -58,7 +58,7 @@ var syntaxHighlight = function (filename) {
         if (elem.name != "code") {
             continue;
         }
-        var url = strip(scrapeText(elem))
+        var url = strip(scrapeText(elem));
         var d = doXHR(url).addCallback(
             partial(swapContents, elem)
         );

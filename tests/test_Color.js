@@ -123,7 +123,7 @@ tests.test_Color = function (t) {
         Color.fromRGB(0.5, 1, 0.5).toHexString(),
         "fromHSV alt form"
     );
-    hsv = Color.fromRGB(1, 1, 1).asHSV()
+    hsv = Color.fromRGB(1, 1, 1).asHSV();
     approx( hsv.h, 0, 'white hsv.h' );
     approx( hsv.s, 0, 'white hsv.s' );
     approx( hsv.v, 1, 'white hsv.v' );

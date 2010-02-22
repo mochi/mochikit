@@ -17,7 +17,7 @@ dp.sh.Brushes.Php = function()
 		];
 
 	this.CssClass = 'dp-c';
-}
+};
 
 dp.sh.Brushes.Php.prototype	= new dp.sh.Highlighter();
 dp.sh.Brushes.Php.Aliases	= ['php'];

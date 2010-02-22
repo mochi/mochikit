@@ -129,7 +129,7 @@ tests.test_Iter = function (t) {
         }
     }
 
-    var odd = partial(operator.and, 1)
+    var odd = partial(operator.and, 1);
 
     // empty
     var kv, key, k, v, subiter;

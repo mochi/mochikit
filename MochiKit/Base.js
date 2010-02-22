@@ -47,7 +47,7 @@ MochiKit.Base._module = function (name, version, deps) {
             throw 'MochiKit.' + name + ' depends on MochiKit.' + deps[i] + '!';
         }
     }
-}
+};
 
 MochiKit.Base._module("Base", "1.5", []);
 
@@ -351,7 +351,7 @@ MochiKit.Base.update(MochiKit.Base, {
         } else if (typeof(value) === "number" || value instanceof Number) {
             return !isNaN(value) && value != 0;
         } else if (value != null && typeof(value.length) === "number") {
-            return value.length !== 0
+            return value.length !== 0;
         } else {
             return value != null;
         }
@@ -1351,7 +1351,7 @@ MochiKit.Base._deprecated = function (module, name, target, version, exportable)
     };
     func.__export__ = (exportable === true);
     module[name] = func;
-}
+};
 
 MochiKit.Base.__new__ = function () {
     var m = this;

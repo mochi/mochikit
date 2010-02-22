@@ -23,7 +23,7 @@ InterpreterManager.prototype.initialize = function () {
         // detect broken eval, warn at some point if a namespace ever gets used
         this.doEval = function () {
             return eval(arguments[0]);
-        }
+        };
     }
     window.help = this.help;
     this.help.NAME = 'type help(func) for help on a MochiKit function';
@@ -132,7 +132,7 @@ InterpreterManager.prototype.moveHistory = function (dir) {
     } 
     this.historyPos += dir;
     elem.value = this.history[this.historyPos];
-}
+};
 
 InterpreterManager.prototype.runMultipleLines = function (text) {
     var lines = rstrip(text).replace("\r\n", "\n").split(/\n/);
@@ -140,7 +140,7 @@ InterpreterManager.prototype.runMultipleLines = function (text) {
         SPAN({"class": "code"}, ">>> ", izip(lines, imap(BR, cycle([null]))))
     );
     this.runCode(text);
-}
+};
 
 InterpreterManager.prototype.areaKeyDown = function (e) {
     var mod = e.modifier();
@@ -345,7 +345,7 @@ window.inspect = function (o) {
                             interpreterManager.showError(e);
                         }
                         return false;
-                    }
+                    };
                     return TR(null,
                         TD(null, A({href: "#", onclick: click}, kv[0])),
                         TD(null, repr(kv[1]))

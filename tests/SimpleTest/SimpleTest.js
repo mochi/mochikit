@@ -63,7 +63,7 @@ SimpleTest.init = function (globalScope) {
         }
     }
     SimpleTest._startTime = new Date().getTime();
-}
+};
 
 /**
  * Finishes the tests. This is automatically called, except when 
@@ -82,7 +82,7 @@ SimpleTest.finish = function () {
             str = "0" + str;
         }
         return str;
-    }
+    };
     var delay = fmt(mins, 2) + ":" + fmt(secs, 2) + "." + fmt(millis, 3);
     SimpleTest.verifyScope(SimpleTest._scope);
     if (SimpleTest.results().fail <= 0) {
@@ -115,7 +115,7 @@ SimpleTest.verifyScope = function (scope) {
             SimpleTest.ok(false, "scope modified, variable " + k + " has been removed");
         }
     }
-}
+};
 
 /**
  * Something like assert.
@@ -165,7 +165,7 @@ SimpleTest.error = function (err) {
         s += k + ": " + err[k] + "\n";
     }
     ok(false, s);
-}
+};
 
 /**
  * Makes a test report, returns it as a DIV element.
@@ -241,7 +241,7 @@ SimpleTest.showReport = function() {
         };
     } else {
         addNode = function (el) {
-            body.appendChild(el)
+            body.appendChild(el);
         };
     }
     addNode(togglePassed);
@@ -285,7 +285,7 @@ SimpleTest.results = function () {
         }
     }
     return res;
-}
+};
 
 MochiKit.DOM.addLoadEvent(function() {
     if (SimpleTest._stopOnLoad) {

@@ -131,7 +131,7 @@ tests.test_Base = function (t) {
 
     extend(a, three, 1);
     t.ok( objEqual(a, [2, 3]), "extend to an empty array" );
-    extend(a, three, 1)
+    extend(a, three, 1);
     t.ok( objEqual(a, [2, 3, 2, 3]), "extend to a non-empty array" );
 
     extend(b, three);
@@ -194,7 +194,7 @@ tests.test_Base = function (t) {
             {"test:int": "3"},
             {"test:int": "4"}
         ]
-    }
+    };
 
     var visitedNodes = [];
     nodeWalk(tree, function (node) {
@@ -270,12 +270,12 @@ tests.test_Base = function (t) {
     } catch (e) {
         t.is( e, NotFound, "non-matching raised correctly" );
     }
-    R.register("undefinedOrNull", isUndefinedOrNull, function () { return "undefinedOrNull" });
-    R.register("undefined", isUndefined, function () { return "undefined" });
+    R.register("undefinedOrNull", isUndefinedOrNull, function () { return "undefinedOrNull"; });
+    R.register("undefined", isUndefined, function () { return "undefined"; });
     t.is( R.match(undefined), "undefinedOrNull", "priorities are as documented" );
     t.ok( R.unregister("undefinedOrNull"), "removed adapter" );
     t.is( R.match(undefined), "undefined", "adapter was removed" );
-    R.register("undefinedOrNull", isUndefinedOrNull, function () { return "undefinedOrNull" }, true);
+    R.register("undefinedOrNull", isUndefinedOrNull, function () { return "undefinedOrNull"; }, true);
     t.is( R.match(undefined), "undefinedOrNull", "override works" );
     
     var a1 = {"a": 1, "b": 2, "c": 2};
@@ -401,7 +401,7 @@ tests.test_Base = function (t) {
     t.is( repr(MochiKit.Base), MochiKit.Base.__repr__(), "__repr__ protocol when repr is defined" );
     var o = {"NAME": "NAME"};
     t.is( repr(o), "NAME", "NAME protocol (obj)" );
-    o = function () { return "TACO" };
+    o = function () { return "TACO"; };
     o.NAME = "NAME";
     t.is( repr(o), "NAME", "NAME protocol (func)" );
     
@@ -506,7 +506,7 @@ tests.test_Base = function (t) {
 
     var fn = function () {
         return [this, concat(arguments)];
-    }
+    };
     t.is( methodcaller("toLowerCase")("FOO"), "foo", "methodcaller with a method name" );
     t.is( repr(methodcaller(fn, 2, 3)(1)), "[1, [2, 3]]", "methodcaller with a function" );
 
@@ -591,6 +591,6 @@ tests.test_Base = function (t) {
 
     var reprFunc = function (a, b) {
         return;
-    }
+    };
     t.is( repr(reprFunc), "function (a, b) {...}", "repr of function" );
 };

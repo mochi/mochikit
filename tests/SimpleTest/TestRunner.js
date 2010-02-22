@@ -154,6 +154,6 @@ TestRunner.makeSummary = function() {
         );
         row.onclick = toggle;
         var tbody = TestRunner._summaryDiv.getElementsByTagName("tbody")[0];
-        tbody.insertBefore(row, TestRunner._iframes[url]._row)
+        tbody.insertBefore(row, TestRunner._iframes[url]._row);
     }
 };

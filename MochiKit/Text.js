@@ -22,7 +22,7 @@ MochiKit.Base._module('Text', '1.5', ['Base', 'Format']);
  */
 MochiKit.Text.startsWith = function (substr, str) {
     return str != null && substr != null && str.indexOf(substr) == 0;
-}
+};
 
 /**
  * Checks if a text string ends with the specified substring. If
@@ -37,7 +37,7 @@ MochiKit.Text.startsWith = function (substr, str) {
 MochiKit.Text.endsWith = function (substr, str) {
     return str != null && substr != null &&
            str.lastIndexOf(substr) == Math.max(str.length - substr.length, 0);
-}
+};
 
 /**
  * Checks if a text string contains the specified substring. If
@@ -51,7 +51,7 @@ MochiKit.Text.endsWith = function (substr, str) {
  */
 MochiKit.Text.contains = function (substr, str) {
     return str != null && substr != null && str.indexOf(substr) >= 0;
-}
+};
 
 /**
  * Adds a character to the left-hand side of a string until it
@@ -71,7 +71,7 @@ MochiKit.Text.padLeft = function (str, minLength, fillChar) {
         str = fillChar + str;
     }
     return str;
-}
+};
 
 /**
  * Adds a character to the right-hand side of a string until it
@@ -91,7 +91,7 @@ MochiKit.Text.padRight = function (str, minLength, fillChar) {
         str += fillChar;
     }
     return str;
-}
+};
 
 /**
  * Returns a truncated copy of a string. If the string is shorter
@@ -119,7 +119,7 @@ MochiKit.Text.truncate = function (str, maxLength, tail) {
     } else {
         return str.slice(0, maxLength);
     }
-}
+};
 
 /**
  * Splits a text string using separator as the split point
@@ -136,14 +136,14 @@ MochiKit.Text.split = function (str, separator, max) {
     if (str == null || str.length == 0) {
         return str;
     }
-    separator = separator || '\n'
+    separator = separator || '\n';
     var bits = str.split(separator);
     if ((typeof(max) == "undefined") || max >= bits.length-1) {
         return bits;
     }
-    bits.splice(max, bits.length, bits.slice(max, bits.length).join(separator))
+    bits.splice(max, bits.length, bits.slice(max, bits.length).join(separator));
     return bits;
-}
+};
 
 /**
  * Splits a text string using separator as the split point
@@ -160,14 +160,14 @@ MochiKit.Text.rsplit = function (str, separator, max) {
     if (str == null || str.length == 0) {
         return str;
     }
-    separator = separator || '\n'
+    separator = separator || '\n';
     var bits = str.split(separator);
     if ((typeof(max) == "undefined") || max >= bits.length-1){
 	return bits;
     }
-    bits.splice(0, bits.length-max, bits.slice(0, bits.length-max).join(separator))
+    bits.splice(0, bits.length-max, bits.slice(0, bits.length-max).join(separator));
     return bits;
-}
+};
 
 /**
  * Creates a formatter function for the specified formatter pattern
@@ -201,8 +201,8 @@ MochiKit.Text.formatter = function (pattern, locale) {
             }
         }
         return res.join("");
-    }
-}
+    };
+};
 
 /**
  * Formats the specified arguments according to a formatter pattern.
@@ -219,7 +219,7 @@ MochiKit.Text.formatter = function (pattern, locale) {
 MochiKit.Text.format = function (pattern/*, ...*/) {
     var func = MochiKit.Text.formatter(pattern);
     return func.apply(this, MochiKit.Base.extend([], arguments, 1));
-}
+};
 
 /**
  * Format a value with the specified format specifier.
@@ -302,7 +302,7 @@ MochiKit.Text.formatValue = function (spec, value, locale) {
         str = self.padLeft(str, spec.width);
     }
     return str;
-}
+};
 
 /**
  * Adjust an already formatted numeric string for locale-specific
@@ -337,7 +337,7 @@ MochiKit.Text._localizeNumber = function (num, locale, grouping) {
         whole = whole.substring((whole.charAt(0) == "0") ? 1 : 0, pos);
     }
     return whole + res;
-}
+};
 
 /**
  * Parses a format pattern and returns an array of constant strings
@@ -389,7 +389,7 @@ MochiKit.Text._parsePattern = function (pattern) {
         parts.push(pattern.substring(start, pos));
     }
     return parts;
-}
+};
 
 /**
  * Parses a format instruction and returns a format info object.
@@ -436,7 +436,7 @@ MochiKit.Text._parseFormat = function (pattern, startPos, endPos) {
         info.path.unshift(0);
     }
     return info;
-}
+};
 
 /**
  * Parses a string with format flags and returns a format info object.
@@ -518,7 +518,7 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
         flags = flags.substring(nextPos);
     }
     return info;
-}
+};
 
 /**
  * Formats a value as a percentage. This method avoids multiplication
@@ -546,7 +546,7 @@ MochiKit.Text._truncToPercent = function (value, precision) {
         whole = whole.substring(1);
     }
     return (frac.length <= 0) ? whole : whole + "." + frac;
-}
+};
 
 /**
  * Creates a new format pattern error.
@@ -568,7 +568,7 @@ MochiKit.Text.FormatPatternError = function (pattern, pos, message) {
     this.pattern = pattern;
     this.pos = pos;
     this.message = message;
-}
+};
 MochiKit.Text.FormatPatternError.prototype =
     new MochiKit.Base.NamedError("MochiKit.Text.FormatPatternError");
 
