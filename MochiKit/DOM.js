@@ -1122,12 +1122,12 @@ MochiKit.Base.update(MochiKit.DOM, {
         this.STRONG = createDOMFunc("strong");
         /** @id MochiKit.DOM.CANVAS */
         this.CANVAS = createDOMFunc("canvas");
-
         /** @id MochiKit.DOM.$ */
         this.$ = this.getElement;
+        /** @id MochiKit.DOM.NBSP */
+        this.NBSP = "\u00a0";
 
         m.nameFunctions(this);
-
     }
 });
 

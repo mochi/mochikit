@@ -22,6 +22,7 @@
   aliases (obsolete since version 1.1, see #337).
 - Added the MochiKit.Async.Deferred.prototype.setFinalizer() function.
 - Added "rowSpan" attribute mapping in MochiKit.DOM for IE (#357).
+- Added MochiKit.DOM.NBSP string constant (#246).
 
 2009-XX-YY      v1.4.3 (bug fix release)
 

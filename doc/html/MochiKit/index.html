@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
 <title>MochiKit Documentation Index</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -28,7 +28,7 @@
 <li><a class="mochiref reference external" href="Format.html">MochiKit.Format</a> - string formatting goes here</li>
 <li><a class="mochiref reference external" href="Iter.html">MochiKit.Iter</a> - itertools for JavaScript; iteration made HARD,
 and then easy</li>
-<li><a class="mochiref reference external" href="Logging.html">MochiKit.Logging</a> - we're all tired of <tt class="docutils literal"><span class="pre">alert()</span></tt></li>
+<li><a class="mochiref reference external" href="Logging.html">MochiKit.Logging</a> - we're all tired of <tt class="docutils literal">alert()</tt></li>
 <li><a class="mochiref reference external" href="LoggingPane.html">MochiKit.LoggingPane</a> - interactive <a class="mochiref reference external" href="Logging.html">MochiKit.Logging</a>
 pane</li>
 <li><a class="mochiref reference external" href="Selector.html">MochiKit.Selector</a> - selecting elements by CSS selector syntax</li>
@@ -93,6 +93,7 @@ existing effects instead of completing them (as 'break' does).</li>
 aliases (obsolete since version 1.1, see #337).</li>
 <li>Added the MochiKit.Async.Deferred.prototype.setFinalizer() function.</li>
 <li>Added &quot;rowSpan&quot; attribute mapping in MochiKit.DOM for IE (#357).</li>
+<li>Added MochiKit.DOM.NBSP string constant (#246).</li>
 </ul>
 <p>2009-XX-YY      v1.4.3 (bug fix release)</p>
 <ul class="simple">
@@ -140,7 +141,7 @@ the source if they were previously bound.</li>
 <li>Fixed MochiKit.Signal.signal re-entrancy bug that could cause recently
 disconnected slots to get signaled.</li>
 <li>MochiKit.Base.evalJSON will now evaluate JSON that is wrapped in a
-<tt class="docutils literal"><span class="pre">/*</span> <span class="pre">comment</span> <span class="pre">block</span> <span class="pre">*/</span></tt>.</li>
+<tt class="docutils literal">/* comment block */</tt>.</li>
 <li>MochiKit.Color's HSV to RGB conversion code fixed to return the correct
 value (hsv.v for RGB values) in cases where saturation === 0.</li>
 <li>doXHR workaround for a Mozilla bug when calling XMLHttpRequest in certain
@@ -288,7 +289,7 @@ compatibility</li>
 height of an element in the document</li>
 <li>MochiKit.DOM's initialization is now compatible with
 HTMLUnit + JWebUnit + Rhino</li>
-<li>MochiKit.LoggingPane will now re-use a <tt class="docutils literal"><span class="pre">_MochiKit_LoggingPane</span></tt> DIV element
+<li>MochiKit.LoggingPane will now re-use a <tt class="docutils literal">_MochiKit_LoggingPane</tt> DIV element
 currently in the document instead of always creating one.</li>
 <li>MochiKit.Base now has operator.mul</li>
 <li>MochiKit.DOM.formContents correctly handles unchecked checkboxes that have
