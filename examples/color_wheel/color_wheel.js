@@ -57,7 +57,7 @@ var colorWheelOnLoad = function () {
     } else {
         colorFunc = function (color, alpha) {
             return color.colorWithAlpha(alpha).toRGBString();
-        }
+        };
     }
     // Per-frame animation
     var intervalFunc = function (cycle, timeout) {

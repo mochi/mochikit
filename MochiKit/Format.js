@@ -193,7 +193,7 @@ MochiKit.Format.truncToFixed = function (aNumber, precision) {
         fixed = MochiKit.Format._shiftNumber(fixed, 0);
     }
     return fixed;
-}
+};
 
 /** @id MochiKit.Format.roundToFixed */
 MochiKit.Format.roundToFixed = function (aNumber, precision) {
@@ -205,7 +205,7 @@ MochiKit.Format.roundToFixed = function (aNumber, precision) {
         fixed = MochiKit.Format._shiftNumber(str, -precision);
     }
     return fixed;
-}
+};
 
 /**
  * Converts a number to a fixed format string. This function handles
@@ -234,7 +234,7 @@ MochiKit.Format._numberToFixed = function (aNumber, precision) {
     } else {
         return whole;
     }
-}
+};
 
 /**
  * Shifts the decimal dot location in a fixed format number string.
@@ -275,7 +275,7 @@ MochiKit.Format._shiftNumber = function (num, exp) {
         num = "-" + num.substring(2);
     }
     return num;
-}
+};
 
 /** @id MochiKit.Format.percentFormat */
 MochiKit.Format.percentFormat = function (aNumber) {

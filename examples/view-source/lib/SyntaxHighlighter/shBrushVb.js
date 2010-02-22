@@ -23,7 +23,7 @@ dp.sh.Brushes.Vb = function()
 		];
 
 	this.CssClass = 'dp-vb';
-}
+};
 
 dp.sh.Brushes.Vb.prototype	= new dp.sh.Highlighter();
 dp.sh.Brushes.Vb.Aliases	= ['vb', 'vb.net'];

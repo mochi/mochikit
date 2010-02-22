@@ -34,7 +34,7 @@ dp.sh.Brushes.Sql = function()
 		];
 
 	this.CssClass = 'dp-sql';
-}
+};
 
 dp.sh.Brushes.Sql.prototype	= new dp.sh.Highlighter();
 dp.sh.Brushes.Sql.Aliases	= ['sql'];

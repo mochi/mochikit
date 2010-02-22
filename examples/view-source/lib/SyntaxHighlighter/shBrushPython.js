@@ -65,7 +65,7 @@ dp.sh.Brushes.Python = function()
 		];
 
 	this.CssClass = 'dp-py';
-}
+};
 
 dp.sh.Brushes.Python.prototype	= new dp.sh.Highlighter();
 dp.sh.Brushes.Python.Aliases	= ['py', 'python'];

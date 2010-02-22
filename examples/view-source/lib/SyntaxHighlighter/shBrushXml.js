@@ -1,7 +1,7 @@
 dp.sh.Brushes.Xml = function()
 {
 	this.CssClass = 'dp-xml';
-}
+};
 
 dp.sh.Brushes.Xml.prototype	= new dp.sh.Highlighter();
 dp.sh.Brushes.Xml.Aliases	= ['xml', 'xhtml', 'xslt', 'html', 'xhtml'];
@@ -58,4 +58,4 @@ dp.sh.Brushes.Xml.prototype.ProcessRegexList = function()
 	{
 		push(this.matches, new dp.sh.Match(match[1], match.index + match[0].indexOf(match[1]), 'tag-name'));
 	}
-}
+};

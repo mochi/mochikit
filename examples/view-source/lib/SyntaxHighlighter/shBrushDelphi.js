@@ -25,7 +25,7 @@ dp.sh.Brushes.Delphi = function()
 		];
 
 	this.CssClass = 'dp-delphi';
-}
+};
 
 dp.sh.Brushes.Delphi.prototype	= new dp.sh.Highlighter();
 dp.sh.Brushes.Delphi.Aliases	= ['delphi', 'pascal'];

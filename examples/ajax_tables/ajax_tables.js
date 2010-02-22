@@ -135,7 +135,7 @@ datatableFromXMLRequest = function (req) {
     var nodes = xml.getElementsByTagName("column");
     var rval = {"columns": map(scrapeText, nodes)};
     var rows = [];
-    nodes = xml.getElementsByTagName("row") 
+    nodes = xml.getElementsByTagName("row");
     for (var i = 0; i < nodes.length; i++) {
         var cells = nodes[i].getElementsByTagName("cell");
         rows.push(map(scrapeText, cells));

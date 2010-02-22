@@ -79,8 +79,8 @@ tests.test_Logging = function (t) {
 
     logger.baseLog(LogLevel.INFO, 'infoFoo');
     msg = logger.getMessages().pop();
-    t.is(msg.level, "INFO", "baseLog converts level")
+    t.is(msg.level, "INFO", "baseLog converts level");
     logger.baseLog(45, 'errorFoo');
     msg = logger.getMessages().pop();
-    t.is(msg.level, "ERROR", "baseLog converts ad-hoc level")
+    t.is(msg.level, "ERROR", "baseLog converts ad-hoc level");
 };
