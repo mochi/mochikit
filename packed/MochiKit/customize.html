@@ -3,6 +3,9 @@
     <title>MochiKit Customizer</title>
     <link type="text/css" rel="stylesheet" href="../../include/css/documentation.css" />
     <style type="text/css">
+      h3 {
+          margin-bottom: 3px;
+      }
       td {
           vertical-align: top;
       }
@@ -20,38 +23,132 @@
     </style>
     <script type="text/javascript" src="MochiKit.js"></script>
     <script type="text/javascript">
+
+// Versions available
+var VERSIONS = {
+    devel: { name: "Development" }
+}
+
 // Predefined module sets
 var SETS = {
     core: { name: "Non-Web Modules", deps: ["Base", "DateTime", "Format", "Text", "Iter"] },
     standard: { name: "Web Modules", deps: ["Base", "DateTime", "Format", "Text", "Iter", "Async", "Color", "DOM", "Logging", "LoggingPane", "Selector", "Signal", "Style"] },
     all: { name: "Extension Modules", deps: null }
 };
-var MODULES = { "Base": { deps: [], packed: "" } };
 
-// Starts loading the packed library
+// Module objects with dependencies and packed JS
+var MODULES = {};
+
+// Initializes the version array (and UI)
 function doInit() {
-    var url = $$("head script[src*=MochiKit.js]")[0].src;
-    var d = doSimpleXMLHttpRequest(url);
-    d.addCallback(doParseScript);
-    d.addErrback(function(err) {
-        alert("Error: " + err.toString());
-    });
+    doInjectScript("http://github.com/api/v2/json/commits/list/mochi/mochikit/" +
+                   "master/packed/MochiKit/MochiKit.js?callback=cbInit");
+    doInjectScript("http://github.com/api/v2/json/repos/show/mochi/mochikit/" +
+                   "tags?callback=cbInit");
+}
+
+// Callback for version info
+function cbInit(res) {
+    if (res.commits && res.commits.length > 0) {
+        var c = res.commits[0];
+        var name = "Development (" + c.committed_date.substring(0, 10) + ")";
+        VERSIONS.devel = { name: name, tree: c.tree };
+    } else if (res.tags) {
+        for (var name in res.tags) {
+            var m = /\d+(\.\d+)*/.exec(name);
+            if (m && m[0] >= "1.4.2") {
+                var id = m[0];
+                VERSIONS[id] = { name: "Version " + id, tree: res.tags[name] };
+            }
+        }
+    }
+    if (VERSIONS.devel.tree && keys(VERSIONS).length > 1) {
+        if (!/http/.test(window.location.protocol)) {
+            VERSIONS.local = { name: "Local File (packed version)", tree: "" };
+        }
+        var ids = keys(VERSIONS).sort().reverse();
+        var versions = $("packVersions");
+        var idx = 0;
+        for (var i = 0; i < ids.length; i++) {
+            var id = ids[i];
+            var ver = VERSIONS[id];
+            versions.appendChild(OPTION({ value: ver.tree }, ver.name));
+            if (window.location.hash == "#" + id) {
+                idx = i;
+            }
+        }
+        versions.selectedIndex = idx;
+        doLoadSource(versions.options[idx].value);
+    }
+}
+
+// Loads the source code for a specified tree id
+function doLoadSource(treeId) {
+    replaceChildNodes($("packSets"));
+    replaceChildNodes($("packModules"));
+    if (treeId) {
+        doInjectScript("http://github.com/api/v2/json/blob/show/mochi/mochikit/" +
+                       treeId + "/packed/MochiKit/MochiKit.js?callback=cbLoadSource");
+    } else {
+        var url = $$("head script[src*=MochiKit.js]")[0].src;
+        var d = doSimpleXMLHttpRequest(url);
+        d.addCallback(function (xhr) {
+            doParseSource(xhr.responseText);
+        });
+        d.addErrback(function (err) {
+            alert("Error: " + err.toString());
+        });
+    }
+}
+
+// Callback for the source loading
+function cbLoadSource(res) {
+    doParseSource(res.blob.data);
 }
 
 // Parses the packed library into modules
-function doParseScript(xhr) {
-    var src = xhr.responseText;
+function doParseSource(src) {
+
+    function moduleStart(src) {
+        var pos1 = src.indexOf("MochiKit.Base._module");
+        var pos2 = src.indexOf("MochiKit.Base._deps");
+        if (pos1 < 0) {
+            return pos2;
+        } else if (pos2 < 0) {
+            return pos1;
+        } else {
+            return Math.min(pos1, pos2);
+        }
+    }
+
+    function stringLiterals(str) {
+        var res = [];
+        var endPos = str.indexOf("\n");
+        var line = str.substring(0, (endPos > 0) ? endPos : str.length);
+        var matches = line.match(/"([^"]*)"|'([^']*)'/g);
+        for (var i = 0; matches != null && i < matches.length; i++) {
+            var name = matches[i];
+            res.push(name.substring(1, name.length - 1));
+        }
+        return res;
+    }
+
     var moduleName = "Base";
     var pos = 0;
-    while ((pos = src.indexOf("MochiKit.Base._module")) >= 0) {
+    MODULES = { "Base": { deps: [], packed: "" } };
+    while ((pos = moduleStart(src)) >= 0) {
         if (pos > 0) {
             MODULES[moduleName].packed += src.substring(0, pos);
             src = src.substring(pos);
         }
-        var names = doFindStringLiterals(src);
+        var names = stringLiterals(src);
         if (names.length > 0 && names[0] !== "Base") {
             moduleName = names[0];
-            MODULES[moduleName] = { deps: names.slice(2), packed: "" };
+            var deps = names.slice(1);
+            if (deps[0] != "Base") {
+                deps = deps.slice(1);
+            }
+            MODULES[moduleName] = { deps: deps, packed: "" };
         }
         pos = src.indexOf("MochiKit.Base._exportSymbols");
         pos = src.indexOf("\n", pos);
@@ -71,27 +168,16 @@ function doParseScript(xhr) {
         var s = SETS[key];
         s.size = 0;
         for (var i = 0; i < s.deps.length; i++) {
-            s.size += MODULES[s.deps[i]].size;
+            if (MODULES[s.deps[i]]) {
+                s.size += MODULES[s.deps[i]].size;
+            }
         }
     }
-    doRender();
-}
-
-// Find all string literals on the first line
-function doFindStringLiterals(str) {
-    var res = [];
-    var endPos = str.indexOf("\n");
-    var line = str.substring(0, (endPos > 0) ? endPos : str.length);
-    var matches = line.match(/"([^"]*)"|'([^']*)'/g);
-    for (var i = 0; matches != null && i < matches.length; i++) {
-        var name = matches[i];
-        res.push(name.substring(1, name.length - 1));
-    }
-    return res;
+    doRenderModules();
 }
 
 // Renders the module selection UI
-function doRender() {
+function doRenderModules() {
     var nf = numberFormatter("0.0 kB");
     var select = $("packSets");
     var cell = $("packModules");
@@ -106,7 +192,7 @@ function doRender() {
         for (var i = 0; i < s.deps.length; i++) {
             var name = s.deps[i];
             var m = MODULES[name];
-            if (m.dom == null) {
+            if (m && m.dom == null) {
                 m.dom = INPUT({ type: "checkbox" });
                 if (name == "Base") {
                     m.dom.disabled = true;
@@ -175,11 +261,13 @@ function doChangeModule(name) {
 function doCheckBoxes(names, checked) {
     for (var i = 0; i < names.length; i++) {
         var name = names[i];
-        var input = MODULES[name].dom;
-        if (input.checked != checked) {
-            input.checked = checked;
-            var color = checked ? '#aaffaa' : '#ffaaaa';
-            Highlight(input.parentNode, { startcolor: color });
+        if (MODULES[name]) {
+            var input = MODULES[name].dom;
+            if (input.checked != checked) {
+                input.checked = checked;
+                var color = checked ? '#aaffaa' : '#ffaaaa';
+                Highlight(input.parentNode, { startcolor: color });
+            }
         }
     }
 }
@@ -214,6 +302,16 @@ function doSubmit() {
     $("packData").value = packed;
     return true;
 }
+
+// Loads a JavaScript by adding it to the doc head element
+function doInjectScript(url) {
+    var head = document.getElementsByTagName("head")[0];
+    var script = createDOM("script", { type: "text/javascript", src: url });
+    script.onerror = function (msg) {
+        alert("Error: " + msg);
+    };
+    head.appendChild(script);
+}
     </script>
   </head>
   <body onload="doInit()">
@@ -227,6 +325,9 @@ function doSubmit() {
         <tbody>
           <tr>
             <td style="border-right: 1px solid rgb(204, 204, 204); padding-right: 10px;">
+              <h3>Version:</h3>
+              <select id="packVersions" onchange="doLoadSource(this.value);"></select>
+              <hr style="margin-top: 20px;">
               <h3>Module Sets:</h3>
               <select id="packSets"></select>
               <hr style="margin-top: 200px;">
