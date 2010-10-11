@@ -14,8 +14,8 @@ window.onload = global_init;
 function global_init() {
 	
 	if(typeof sIFR == "function"){		
-		sIFR.replaceElement(".sifr", named({sFlashSrc: "include/_js/ag_book_rounded.swf", sColor: "#4F5B62"}));	
-		sIFR.replaceElement("#main h1#title", named({sFlashSrc: "include/_js/ag_book_rounded.swf", sColor: "#4F5B62"}));
+		sIFR.replaceElement(".sifr", named({sFlashSrc: "include/js/ag_book_rounded.swf", sColor: "#4F5B62"}));	
+		sIFR.replaceElement("#main h1#title", named({sFlashSrc: "include/js/ag_book_rounded.swf", sColor: "#4F5B62"}));
 				
 	};			
 }
