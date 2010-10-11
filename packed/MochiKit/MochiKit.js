@@ -2091,7 +2091,7 @@ if(m){
 var fn=arguments.callee;
 var args=m.concat(arguments);
 rval.repr=function(){
-return [self.NAME,"(",map(m.repr,args).join(", "),")"].join("");
+return [self.NAME,"(",m.map(m.repr,args).join(", "),")"].join("");
 };
 }
 return rval;
@@ -2121,7 +2121,7 @@ return MochiKit.Format.twoDigitFloat(res);
 return "0";
 };
 MochiKit.Format.twoDigitFloat=function(_275){
-var res=roundToFixed(_275,2);
+var res=MochiKit.Format.roundToFixed(_275,2);
 if(res.indexOf(".00")>0){
 return res.substring(0,res.length-3);
 }else{

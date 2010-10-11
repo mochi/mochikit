@@ -104,7 +104,7 @@ MochiKit.Format.numberFormatter = function (pattern, placeholder/* = "" */, loca
             return [
                 self.NAME,
                 "(",
-                map(m.repr, args).join(", "),
+                m.map(m.repr, args).join(", "),
                 ")"
             ].join("");
         };
@@ -142,7 +142,7 @@ MochiKit.Format.twoDigitAverage = function (numerator, denominator) {
 
 /** @id MochiKit.Format.twoDigitFloat */
 MochiKit.Format.twoDigitFloat = function (aNumber) {
-    var res = roundToFixed(aNumber, 2);
+    var res = MochiKit.Format.roundToFixed(aNumber, 2);
     if (res.indexOf(".00") > 0) {
         return res.substring(0, res.length - 3);
     } else if (res.charAt(res.length - 1) == "0") {
