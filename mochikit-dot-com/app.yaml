@@ -1,0 +1,11 @@
+application: mochikit-dot-com
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /download
+  script: download.py
+
+- url: /.*
+  script: index.py

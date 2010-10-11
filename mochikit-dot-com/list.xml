@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rss version="2.0">
+  <channel>
+  <title>MochiKit Google Group</title>
+  <link>http://groups.google.com/group/mochikit</link>
+  <description>Discussions related to development of and with the MochiKit JavaScript library</description>
+  <language>en</language>
+  <item>
+  <title>Last call for MochiKit 1.4</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/f588cd4015a796b7/66b443eb4648d647?show_docid=66b443eb4648d647</link>
+  <description>
+  Hi everyone, &lt;br&gt; This is just to say that I&#39;m still planning to do the MochiKit 1.4 &lt;br&gt; release on the 21:st of October. All outstanding bugs remain fixed and &lt;br&gt; I&#39;ve heard of no test breakage. Please let me know if you find any &lt;br&gt; last-minute-issues. &lt;br&gt; Cheers &lt;br&gt; /Per
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/f588cd4015a796b7</guid>
+  <author>
+  cederb...@gmail.com
+  (Per Cederberg)
+  </author>
+  <pubDate>Fri, 17 Oct 2008 20:27:30 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Migrate to Google Code?</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/815c6de534b7802a/1829ef6e6529a149?show_docid=1829ef6e6529a149</link>
+  <description>
+  I&#39;ve been considering this for a while but didn&#39;t want to put forth &lt;br&gt; the effort at the time, but I think that with the release of 1.4 it &lt;br&gt; would be a good time to migrate from the Mochi Media hosted Trac and &lt;br&gt; SVN over to something else. My personal preference is Google Code &lt;br&gt; because we already use that for our other open source projects and it
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/815c6de534b7802a</guid>
+  <author>
+  b...@redivi.com
+  (Bob Ippolito)
+  </author>
+  <pubDate>Mon, 13 Oct 2008 16:17:35 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Why doesn&#39;t removeElement use the DOM Coercion rules?</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/00eef24f0636aa74/4ccc34e27f76d533?show_docid=4ccc34e27f76d533</link>
+  <description>
+  I don&#39;t know if I am &amp;quot;up in the night&amp;quot; on this or if it is an oversight, but &lt;br&gt; why doesn&#39;t removeElement use the DOM Coercion rules in the same way that &lt;br&gt; something like appendChildNodes does? Here&#39;s some sample code that &lt;br&gt; illustrates my problem: &lt;br&gt; function MyWidget() { &lt;br&gt; &lt;p&gt; var widgetDomRepresentation = DIV({style:&amp;quot;border:solid 1px&amp;quot;}, &amp;quot;Hi!&amp;quot;);
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/00eef24f0636aa74</guid>
+  <author>
+  thurber_min...@hotmail.com
+  (Jason Bunting)
+  </author>
+  <pubDate>Wed, 08 Oct 2008 23:01:58 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Preparing for a MochiKit 1.4 release</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/df11e8ab8f31bbdd/0e7738a6d43cbacf?show_docid=0e7738a6d43cbacf</link>
+  <description>
+  Hi everyone, &lt;br&gt; This is a long email in the series &amp;quot;why don&#39;t we release 1.4 &lt;br&gt; already?&amp;quot;. But at least I tried to shorten down the opinion pieces. &lt;br&gt; Personally I think it is important that we do a release of version &lt;br&gt; 1.4. Other projects (e.g. TurboGears) tend to depend on stable &lt;br&gt; releases. And it is good advertising for the project to have regular
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/df11e8ab8f31bbdd</guid>
+  <author>
+  cederb...@gmail.com
+  (Per Cederberg)
+  </author>
+  <pubDate>Wed, 08 Oct 2008 13:54:48 UT
+</pubDate>
+  </item>
+  <item>
+  <title>MochiKit.DOM.isChildNode and isParent</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/eca204e4b4c8d9ef/d417719f2e504dae?show_docid=d417719f2e504dae</link>
+  <description>
+  The two functions MochiKit.DOM.isChildNode and isParent have both been &lt;br&gt; added in version 1.4 of MochiKit (not yet stable). But they are &lt;br&gt; virtually identical (except for a few bugs I&#39;m in fixing right now). &lt;br&gt; The only difference, according to the API docs, as far as I can tell &lt;br&gt; is: &lt;br&gt; isChildNode(node, node) --&amp;gt; true
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/eca204e4b4c8d9ef</guid>
+  <author>
+  cederb...@gmail.com
+  (Per Cederberg)
+  </author>
+  <pubDate>Wed, 08 Oct 2008 13:51:16 UT
+</pubDate>
+  </item>
+  <item>
+  <title>MochiKit.Test and SimpleTest.js</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/536346d4e731b8ba/28aaee3a5207ac0c?show_docid=28aaee3a5207ac0c</link>
+  <description>
+  While fixing some stuff in MochiKit.Logging, I happened to notice the &lt;br&gt; existance of a MochiKit.Test package... It seems pretty similar to the &lt;br&gt; SimpleTest.js file used for powering the normal test suite when run &lt;br&gt; inside a browser, but it seems to only be used when standalone testing &lt;br&gt; is performed (e.g. from the scripts/rhinomochi.js file).
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/536346d4e731b8ba</guid>
+  <author>
+  cederb...@gmail.com
+  (Per Cederberg)
+  </author>
+  <pubDate>Wed, 08 Oct 2008 13:46:10 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Including MochiKit.DragAndDrop and MochiKit.Sortable in the packed version?</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/9fdb9f38dda62964/8920f3cb659868d0?show_docid=8920f3cb659868d0</link>
+  <description>
+  The packed version of MochiKit still doesn&#39;t include the modules &lt;br&gt; DragAndDrop and Sortable. I found a previous discussion of that in &lt;br&gt; this thread: &lt;br&gt; &lt;a target=&quot;_blank&quot; rel=nofollow href=&quot;http://groups.google.com/group/mochikit/browse_thread/thread/9d3a82cd7b165e73/70b954863b717c99&quot;&gt;[link]&lt;/a&gt; &lt;br&gt; None of the two modules have been much modified lately, so perhaps
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/9fdb9f38dda62964</guid>
+  <author>
+  cederb...@gmail.com
+  (Per Cederberg)
+  </author>
+  <pubDate>Wed, 08 Oct 2008 13:38:20 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Class inheritance</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/e85347dc938cf789/4cbff785ce3ef2d9?show_docid=4cbff785ce3ef2d9</link>
+  <description>
+  Ok, I&#39;ve searched through the archives for posts referencing the word &lt;br&gt; &amp;quot;inheritance&amp;quot; but most of them are just referring to prototype and the &lt;br&gt; lack of scope that JS gives you if you don&#39;t bindMethods(this) &lt;br&gt; I&#39;m asking about actual OO inheritance in this post, wherein a class &lt;br&gt; inherits methods from another class.
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/e85347dc938cf789</guid>
+  <author>
+  eamonn.kea...@so-4pt.net
+  (Akari no ryu)
+  </author>
+  <pubDate>Mon, 06 Oct 2008 15:40:53 UT
+</pubDate>
+  </item>
+  <item>
+  <title>How can I refresh a particular div in a document</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/5d82310439613904/8d751575176baa84?show_docid=8d751575176baa84</link>
+  <description>
+  Hi All, &lt;br&gt; I am new to AJAX and Mochikit. &lt;br&gt; I have the JSON objects(got from the XMLHttpRequest) and I want to &lt;br&gt; refresh a particular div of a document with the JSON data (without &lt;br&gt; refreshing the whole page). Needing help. &lt;br&gt; &lt;p&gt;Presently now I am doing everything on the fly &lt;br&gt; &lt;p&gt;Thanks, &lt;br&gt; Ranjan
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/5d82310439613904</guid>
+  <author>
+  ranjan.n...@gmail.com
+  (Ranjan)
+  </author>
+  <pubDate>Sat, 04 Oct 2008 14:56:02 UT
+</pubDate>
+  </item>
+  <item>
+  <title>MochiKit.Async.doXHR</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/7b68a758d423f37a/157a03ac445c8536?show_docid=157a03ac445c8536</link>
+  <description>
+  I&#39;ve been battling with this for a few hours now, been reading the &lt;br&gt; docs and read this groups mails on defferred.callback &lt;br&gt; None of that seems to help. &lt;br&gt; My code does the following: &lt;br&gt; &lt;p&gt;	this.interfaceTypes = { &lt;br&gt; &#39;lines&#39;:false, &lt;br&gt; &#39;regions&#39;:false, &lt;br&gt; &#39;points&#39;:false &lt;br&gt; }; &lt;br&gt; for(var i in this.interfaceTypes)
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/7b68a758d423f37a</guid>
+  <author>
+  eamonn.kea...@so-4pt.net
+  (Akari no ryu)
+  </author>
+  <pubDate>Thu, 02 Oct 2008 05:41:37 UT
+</pubDate>
+  </item>
+  <item>
+  <title>deferred.callback is not bound</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/38a72cafce2c8bcc/b0faf6be57381431?show_docid=b0faf6be57381431</link>
+  <description>
+  var d = new Deferred(); &lt;br&gt; d.addCallback(partial(log, &amp;quot;whee&amp;quot;)); &lt;br&gt; &lt;p&gt;succeed().addCallback(d.callba ck, 1); &lt;br&gt; &lt;p&gt;Blows up on line 92 of Async.js in: &lt;br&gt; &lt;p&gt;this._check(); &lt;br&gt; &lt;p&gt;&#39;this&#39; is &#39;window&#39;, which makes me think deferreds methods are not &lt;br&gt; bound? &lt;br&gt; if I call bindMethods(d); it -works- but still raises an exception.
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/38a72cafce2c8bcc</guid>
+  <author>
+  tjstebb...@gmail.com
+  (tjs)
+  </author>
+  <pubDate>Thu, 25 Sep 2008 02:03:21 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Formatting strings, numbers and stuff</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/4977bc9c9252bea0/b39ca4e418760e2a?show_docid=b39ca4e418760e2a</link>
+  <description>
+  I guess this is a question for Bob, but others might have some clues &lt;br&gt; here also. Thus sending it to the list. &lt;br&gt; I&#39;ve recently done some Python coding and found the % string formating &lt;br&gt; there very convenient. Now, as MochiKit is so inspired by Python, I &lt;br&gt; find it a bit odd that there is no generic string formatting similar
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/4977bc9c9252bea0</guid>
+  <author>
+  cederb...@gmail.com
+  (Per Cederberg)
+  </author>
+  <pubDate>Wed, 10 Sep 2008 12:55:09 UT
+</pubDate>
+  </item>
+  <item>
+  <title>Ajax Dom Replacement</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/c06e3ce39bf5f26e/3d14b1d89f4b7ee7?show_docid=3d14b1d89f4b7ee7</link>
+  <description>
+  I would like to change a DOM Object with a turbogears ajax call. &lt;br&gt; At the moment the ajax call returns a string with the html of the node &lt;br&gt; that should be replaced. How can I swap the existing DOM Object with &lt;br&gt; the new one I got from the ajax callback? &lt;br&gt; &lt;p&gt;InnerHTML replaces the inner part of the element, but I want to
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/c06e3ce39bf5f26e</guid>
+  <author>
+  g...@gregor-horvath.com
+  (gregor)
+  </author>
+  <pubDate>Mon, 08 Sep 2008 11:43:35 UT
+</pubDate>
+  </item>
+  <item>
+  <title>MochiKit Extensions</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/afc808cfc371cc3e/7dca8a95ba627237?show_docid=7dca8a95ba627237</link>
+  <description>
+  Hello Everyone, &lt;br&gt; &lt;p&gt;As said before, I&#39;m working on some extension modules for MochiKit. &lt;br&gt; Those are.. &lt;br&gt; &lt;p&gt;1) MochiKit.Query - provides jQuery style DOM manipulation/traversing &lt;br&gt; functionality &lt;br&gt; 2) MochiKit.Remote - an implementation of MochiKit.Async &lt;br&gt; 3) MochiKit.Extensions - extension helpers &lt;br&gt; &lt;p&gt;The Query module is based on MochiKit.Selector so selector features
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/afc808cfc371cc3e</guid>
+  <author>
+  mendapara.a...@gmail.com
+  (Amit Mendapara)
+  </author>
+  <pubDate>Tue, 02 Sep 2008 06:53:06 UT
+</pubDate>
+  </item>
+  <item>
+  <title>help with createDOM</title>
+  <link>http://groups.google.com/group/mochikit/browse_thread/thread/e8092b6a46e34c93/d69c5b5b5b6e9eb6?show_docid=d69c5b5b5b6e9eb6</link>
+  <description>
+  Hello, &lt;br&gt; &lt;p&gt;I&#39;m new to mochikit, i&#39;m trying to use it to create HTML fragments &lt;br&gt; with DOM api (i&#39;m using mochikit from SVN). &lt;br&gt; &lt;p&gt;The following code is working : &lt;br&gt; &lt;p&gt;//---------------------------- ------------------------------ ------ &lt;br&gt; var new_node = H1(&#39;hello&#39;); &lt;br&gt; var target = document.getElementById(&#39;title &#39;);
+  </description>
+  <guid isPermaLink="true">http://groups.google.com/group/mochikit/browse_thread/thread/e8092b6a46e34c93</guid>
+  <author>
+  bilb...@gmail.com
+  (bilboon@gmail.com)
+  </author>
+  <pubDate>Mon, 01 Sep 2008 17:20:33 UT
+</pubDate>
+  </item>
+  </channel>
+</rss>

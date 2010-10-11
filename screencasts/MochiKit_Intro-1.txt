@@ -1,0 +1,93 @@
+=====
+This is the script for the MochiKit 1.1 screencast.  The lines that start with >>> are meant to be shown in the Interpreter example, and ..: are links to be shown briefly in browser tabs.  Though the interpreter commands come after the text in this script, it's meant to be interleaved with it.  There will surely be ad-libbing while typing.
+=====
+
+..: http://mochikit.com/examples/interpreter/
+
+Hi, I'm Bob Ippolito, the primary author of a little thing called MochiKit and this is the MochiKit 1.1 Intro Screencast.
+
+>>> writeln(H1(null, "MochiKit 1.1 Intro Screencast", BR(), "Presented by Bob Ippolito"))
+
+..: http://mochikit.com/ 
+
+MochiKit is a lightweight JavaScript library whose sole purpose is to make JavaScript suck less.  JavaScript is passable as far as agile languages go, but it's very minimal.  On top of that, what's there tends to be broken.  Broken in slightly different ways across the two to twenty different browser implementations that you may care about.  MochiKit primarily cares about three baseline implementations: the latest version of Safari, Firefox 1.0, and IE 6.  There are plenty of regression tests and examples, so simply run them on your target platforms and let us know if you come across anything strange.  If it's reasonable, we'll fix it.
+
+..: http://mochikit.com/tests/
+
+..: http://mochikit.com/docs/
+
+Sign up to the mailing list, there's a little box to do so at the bottom of the mochikit.com front page.  It's a google group, so you can even read it with rss and not get any email.
+
+What we've done is taken ideas from other environments, primarily Python, and applied what we could to the JavaScript environment.  Along the way, we made sure to write documentation for everything and test what we could.
+
+MochiKit 1.1 is comprised of several different components for some of the JavaScript tasks you'll be faced with when conquering the various buzzwords of modern AJAX web 2.0 agile rapid application development.... on rails with JSON.
+
+Async is a bunch of functions for abstracting asynchronous tasks such as timers and XMLHttpRequest.  AJAX, but not so painful.  It's largely inspired by Twisted, an asynchronous framework for talking to HTTP enabled kitchen sinks or jabber enabling your linux toaster over SSL with Python.
+
+..: http://twistedmatrix.com/
+
+>>> callLater(3.0, partial(writeln, "This took 3 seconds to happen"))
+>>> blockOn(wait(3.0, "this just returns a value"))
+>>> blockOn(wait(300000, "not going to wait this long!"))
+>>> "doing anything here cancels"
+>>> blockOn(doSimpleXMLHttpRequest("../ajax_tables/domains.json"))
+>>> domains = _
+>>> keys(domains)
+>>> domains.columns
+
+Base is effectively the standard library, such as what you'd find as built-ins in Python.  This covers most of what any JavaScript interpreter should, but doesn't, ship with.  As you can see, the interpreter example I've been playing with doesn't display the useless toString, but instead a repr function.  It's cool.  Even cooler is that comparators in MochiKit work.
+
+>>> [1, 2, 3].toString()
+>>> [1, 2, 3]
+>>> [].toString()
+>>> []
+>>> [] == []
+>>> [1, 2] == [1, 2]
+>>> compare([], [])
+>>> compare([1, 2], [1, 2])
+>>> sorted([[2, 4], [1, 3], [5, 5, 5], [0]])
+>>> sorted(keys(navigator))
+
+DOM is a painless DOM manipulation library, implemented as a sort of domain specific language for representing HTML in JavaScript.  This is very similar in spirit to the stan syntax from Nevow, which you've probably never heard of.  MochiKit.DOM is probably my favorite part of MochiKit and it really makes writing view code just that much easier.
+
+..: http://nevow.com/
+
+>>> t = TABLE({border: 2}, TR(null, TD(null, "cell here")))
+>>> writeln(t)
+>>> scrapeText(t)
+>>> addElementClass(t, "error")
+>>> logo = IMG({src: "/images/i_logo.gif"})
+>>> swapDOM(t, logo)
+
+Color has a complete CSS3 color model with SVG colors, HSL, RGB and hex support... plus HSV.  As you may have noticed, the Color object is definitely Cocoa-inspired.
+
+..: http://developer.apple.com/cocoa/
+
+>>> Color.fromRGB(1, 0, 0)
+>>> _.toHSLString()
+>>> Color.fromName("chartreuse")
+>>> writeln(SPAN({style: {color: _.toRGBString()}}, "chartreuse looks like green to me"))
+>>> Color.blueColor()
+
+DateTime and Format do a bunch of date parsing and number formatting.  If you have an ISO 8601 tattoo, this is your kind of library.  I don't.  However, if you want to display how much money you expect to make from your web 2.0 startup acquisition or how much more productive you're going to be with MochiKit, then maybe Format will pique a little interest.
+
+>>> toISOTimestamp(new Date())
+>>> toISOTimestamp(new Date(), true)
+>>> isoTimestamp('2004-07')
+>>> numberFormatter("$#,###.00")(12903812943)
+>>> numberFormatter("#,###%")(100)
+
+Iter is simply a bunch of plumbing related to the iteration protocol and itertools from Python.  If you don't know what this is, and don't normally think inside out with functional style programming you probably don't care.  However, it's used by MochiKit.DOM, and has a few nice conveniences like sorted, reversed, sum, et cetera.
+
+>>> reversed(chain([5, 4, 3, 2], [1, 2, 3]))
+>>> sum([1, 1, 2, 3, 5, 8, 13])
+
+Logging and LoggingPane are a painless way to add unobtrusive logging features behind the scenes to your applications and have easy access to them.  The key here is that you don't have to toss any markup in your applications in order to support this, you get the information by way of a bookmarklet.  I'm honestly surprised that bookmarklet based debugging isn't more widespread.
+
+>>> log("where does this go?")
+>>> logWarning("maybe we should check the bookmarklet")
+
+
+And that's about it for the MochiKit 1.1 intro.  If you found that this was useful to you and would like to see a more in-depth screencast on any part of MochiKit in particular then pipe up on the mailing list!
+
+>>> window.location = "/"

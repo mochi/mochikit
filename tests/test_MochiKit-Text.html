@@ -1,0 +1,25 @@
+<html>
+<head>
+    <script type="text/javascript" src="../MochiKit/Base.js"></script>
+    <script type="text/javascript" src="../MochiKit/Format.js"></script>
+    <script type="text/javascript" src="../MochiKit/Text.js"></script>
+    <script type="text/javascript" src="../MochiKit/DOM.js"></script>
+    <script type="text/javascript" src="../MochiKit/Style.js"></script>
+    <script type="text/javascript" src="SimpleTest/SimpleTest.js"></script>
+    <link rel="stylesheet" type="text/css" href="SimpleTest/test.css">
+</head>
+<body>
+
+<pre id="test">
+<script type="text/javascript" src="test_Text.js"></script>
+<script type="text/javascript">
+try {
+    SimpleTest.init(this);
+    tests.test_Text({ok:ok, is:is});
+} catch (err) {
+    SimpleTest.error(err);
+}
+</script>
+</pre>
+</body>
+</html>

@@ -1,0 +1,15 @@
+
+# Contact info submission
+
+url: mochikit.com/
+site_owner: Mochi Media, Inc.
+address1: 3365 20th St. #1
+address2: 
+city: San Francisco
+state: CA
+country: USA
+postal_code: 94110
+phone_number: (415) 367-3788
+display_email: info@mochikit.com
+site_name: MochiKit.com
+site_description:  MochiKit is a highly documented and well tested suite of JavaScript libraries that will help you get things done, fast. It takes good ideas found in Python, Objective-C, etc. and adapts them to the crazy world of JavaScript.

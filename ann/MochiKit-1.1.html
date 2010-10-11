@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>MochiKit &ndash; A lightweight Javascript library</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="description" content="MochiKit is a highly documented and well tested suite of JavaScript libraries that will help you get things done, fast. It takes good ideas found in Python, Objective-C, etc. and adapts them to the crazy world of JavaScript." />
+        <link rel="stylesheet" href="../include/css/style.css" media="screen" />
+        <script type="text/javascript" src="../include/_js/MochiKit/MochiKit.js"></script>
+        <script type="text/javascript" src="../include/_js/global.js"></script>
+    </head>
+    <body id="ann">
+
+        <div id="header">
+            <h1><a href="index.html" title="I &hearts; MochiKit" alt="I &hearts; MochiKit">MochiKit - A lightweight Javascript library</a></h1>
+            <div id="navigation">
+                <ul>
+                    <li class="nav1"><a href="index.html">Home</a></li>
+                    <li class="nav2"><a href="about.html">About</a></li>
+                    <li class="nav3"><a href="blog.html">Blog</a></li>
+                    <li class="nav4"><a href="related.html">Projects</a></li>
+                </ul>
+            </div>
+            <div id="ad-bar">
+                <script type="text/javascript"><!--
+                    google_ad_client = "pub-2495099325867654";
+                    google_ad_width = 468;
+                    google_ad_height = 15;
+                    google_ad_format = "468x15_0ads_al";
+                    google_ad_channel ="8341646563";
+                    google_color_border = "FFFFFF";
+                    google_color_link = "8BA726";
+                    google_color_bg = "FFFFFF";
+                    google_color_text = "5C5D5F";
+                    google_color_url = "A1BB39";
+                //--></script>
+                <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                </script>
+            </div>
+        </div>
+
+        <div id="calloutsub">
+            <div id="calloutsub-inner">
+                <ul>
+                    <li class="subgnav1"><a href="download.html">Download MochiKit</a></li>
+                    <li class="subgnav2"><a href="doc/html/MochiKit/index.html">Read the Docs</a></li>
+                    <li class="subgnav3"><a href="demos.html">View the Demos</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="content">
+            <div id="main">
+                <h1 id="title">MochiKit 1.1 (2005-11-14)</h1>
+<p>
+    <a href="../index.html">MochiKit</a> 1.1 is now available
+    [<a href="../download.html">download</a>].
+    This release contains a bunch of bug fixes, performance enhancements,
+    cross-referenced and bookmarkable
+    <a href="../doc/html/MochiKit/index.html">documentation</a>,
+    and some convenient new APIs.
+</p>
+
+<p>
+    Also make sure to check out the new
+    <a href="../screencasts/MochiKit_Intro-1">MochiKit 1.1 Intro Screencast</a>!
+</p>
+
+<p>
+    <a href="../index.html">MochiKit</a> is still quite lightweight,
+    the entire library is just shy of
+    <tt class="docutils literal"><span class="pre">90k</span></tt>
+    (up from <tt class="docutils literal"><span class="pre">89k</span></tt>
+    in the 1.0 release).  Comparatively, this is the same size as the AJAX
+    edition of <a href="http://dojotoolkit.org/">Dojo Toolkit</a> 1.0.
+</p>
+
+<p>
+    <a href="../doc/html/MochiKit/DOM.html#fn-currentwindow">MochiKit.DOM.currentWindow</a>
+    and <a href="../doc/html/MochiKit/DOM.html#fn-currentdocument">currentDocument</a>
+    allow you to change the global
+    <tt class="docutils literal"><span class="pre">window</span></tt> and/or
+    <tt class="docutils literal"><span class="pre">document</span></tt> object used by all
+    <a href="../doc/html/MochiKit/DOM.html">MochiKit.DOM</a> functions,
+    which allows you to use mock DOM objects (great for testing),
+    deal in a separate window, frame, or XML document's objects, etc.
+</p>
+<p>
+    <a href="../doc/html/MochiKit/Async.html#fn-deferred.prototype.addcallback">MochiKit.Async.Deferred.prototype.addCallback</a>,
+    <a href="../doc/html/MochiKit/Async.html#fn-deferred.prototype.adderrback">addErrback</a>, and
+    <a href="../doc/html/MochiKit/Async.html#fn-deferred.prototype.addboth">addBoth</a> now accept additional arguments,
+    which will create a <a href="../doc/html/MochiKit/Base.html#fn-partial">partial</a> function.
+</p>
+
+<p>
+    <a href="../doc/html/MochiKit/Async.html#fn-dosimplexmlhttprequest">MochiKit.Async.doSimpleXMLHttpRequest</a>
+    will now use additional arguments to build a query string, via
+    <a href="../doc/html/MochiKit/Base.html#fn-querystring">MochiKit.Base.queryString</a>
+    and/or <a href="../doc/html/MochiKit/DOM.html#fn-formcontents">MochiKit.DOM.formContents</a>
+    depending on the arguments given.
+</p>
+
+<p>
+    There's a new <a href="../doc/html/MochiKit/Async.html#fn-deferredlock">MochiKit.Async.DeferredLock</a>
+    object to use for synchronizing <a href="../doc/html/MochiKit/Async.html#fn-deferred">Deferred</a> instances.
+</p>
+
+<p>
+    For a full list of changes, see <a href="../doc/html/MochiKit/index.html#version-history">Version History</a>.
+</p>
+
+    </div>
+
+            <div id="sidebar">
+
+                <div id="adblock" class="section">
+                    <div class="content">
+                        <script type="text/javascript"><!--
+                        google_ad_client = "pub-2495099325867654";
+                        google_ad_width = 160;
+                        google_ad_height = 600;
+                        google_ad_format = "160x600_as";
+                        google_ad_type = "text_image";
+                        google_ad_channel ="8712874650";
+                        google_color_border = "F7F8F8";
+                        google_color_bg = "F7F8F8";
+                        google_color_link = "4B81BC";
+                        google_color_text = "333333";
+                        google_color_url = "8BA726";
+                        //--></script>
+                        <script type="text/javascript"
+                          src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                        </script>
+                    </div>
+                    <div class="wrapper"></div>
+                </div>
+            </div>
+            <div class="clearer"></div>
+        </div>
+    
+    <div id="footer">
+        <div id="footer-left"><a href="http://mochimedia.com"><img src="../include/_img/img_mochimedia_01.gif" border="0" alt="Mochimedia" /></a><br/><p>Copyright &copy; Mochi Media, Inc.</p></div>
+        <div id="footer-right">
+            <a href="../about.html">About</a> |
+            <a href="../blog.html">Blog</a> |
+            <a href="http://groups.google.com/group/mochikit">Mailing List</a> |
+            <a href="../download.html">Download</a> |
+            <a href="../doc/html/MochiKit/index.html">Docs</a> |
+            <a href="../demos.html">Demos</a> |
+            <a href="../related.html">Projects</a>
+        </div>
+    </div>
+    </body>
+</html>

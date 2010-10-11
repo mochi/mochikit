@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>MochiKit - A lightweight Javascript library</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="description" content="MochiKit is a highly documented and well tested suite of JavaScript libraries that will help you get things done, fast. It takes good ideas found in Python, Objective-C, etc. and adapts them to the crazy world of JavaScript." />
+        <link rel="stylesheet" href="include/css/style.css" type="text/css" media="screen" />
+        <script type="text/javascript" src="include/_js/MochiKit/MochiKit.js"></script>
+        <script type="text/javascript" src="include/_js/global.js"></script>
+    </head>
+    <body id="demos">
+        <div id="header">
+            <h1><a href="index.html" title="I &hearts; MochiKit" alt="I &hearts; MochiKit">MochiKit - A lightweight Javascript library</a></h1>
+            <div id="navigation">
+                <ul>
+                    <li class="nav1"><a href="index.html">Home</a></li>
+                    <li class="nav2"><a href="about.html">About</a></li>
+                    <li class="nav3"><a href="blog.html">Blog</a></li>
+                    <li class="nav4"><a href="related.html">Projects</a></li>
+                </ul>
+            </div>
+
+            <div id="ad-bar">
+                <script type="text/javascript"><!--
+                    google_ad_client = "pub-2495099325867654";
+                    google_ad_width = 468;
+                    google_ad_height = 15;
+                    google_ad_format = "468x15_0ads_al";
+                    google_ad_channel ="8341646563";
+                    google_color_border = "FFFFFF";
+                    google_color_link = "8BA726";
+                    google_color_bg = "FFFFFF";
+                    google_color_text = "5C5D5F";
+                    google_color_url = "A1BB39";
+                //--></script>
+                <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                </script>
+            </div>
+        </div>
+        <div id="calloutsub">
+            <div id="calloutsub-inner">
+                <ul>
+                    <li class="subgnav1"><a href="download.html">Download MochiKit</a></li>
+                    <li class="subgnav2"><a href="doc/html/MochiKit/index.html">Read the Docs</a></li>
+                    <li class="subgnav3"><a href="demos.html">View the Demos</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="content">
+            <div id="main">
+                <h1 id="title">Show Me Some MochiKit</h1>
+
+                <p>
+                                        Currently, MochiKit development is focused on code and documentation.  We do plan on authoring more
+                                        examples and tutorials, but we hope that what's here will help you dive right in.
+                                    </p>
+                                    <h2><a href="examples/interpreter/index.html">Interpreter</a></h2>
+                                    <p>
+                                        A minimal JavaScript interactive interpreter showing off
+                                        some <a href="doc/html/MochiKit/DOM.html">MochiKit.DOM</a>
+                                        functionality.  Play with MochiKit right in your browser!
+                                    </p>
+                                    <h2><a href="examples/key_events/index.html">Key Events</a></h2>
+                                    <p>
+                                        An example demonstrating key handling using
+                                        <a href="doc/html/MochiKit/Signal.html">MochiKit.Signal</a>.
+                                    </p>
+                                    <h2><a href="examples/draggable/index.html">Draggable</a></h2>
+                                    <p>
+                                        An example demonstrating how to create a simple CSS based drag handler using
+                                        <a href="doc/html/MochiKit/Signal.html">MochiKit.Signal</a>.
+                                    </p>
+                                    <h2><a href="examples/logging_pane/index.html">Logging Pane</a></h2>
+                                    <p>
+                                        A simple page to demonstrate inline and pop-up (debuggingBookmarklet) modes of
+                                        <a href="doc/html/MochiKit/LoggingPane.html">MochiKit.LoggingPane</a>,
+                                        as well as the various <a href="doc/html/MochiKit/Logging.html">MochiKit.Logging</a>
+                                        log levels.
+                                    </p>
+                                    <h2><a href="examples/mochiregexp/index.html">MochiRegExp</a></h2>
+                                    <p>
+                                        A JavaScript Regular Expression (RegExp) Explorer built with <a href="doc/html/MochiKit/DOM.html">MochiKit.DOM</a> and <a href="doc/html/MochiKit/Async.html">MochiKit.Async</a>.
+                                    </p>
+                                    <h2><a href="examples/view-source/view-source.html">view-source</a></h2>
+                                    <p>
+                                        Uses <a href="doc/html/MochiKit/DOM.html">MochiKit.DOM</a> and <a href="doc/html/MochiKit/Async.html">MochiKit.Async</a> along with <a href="http://www.dreamprojections.com/SyntaxHighlighter/">dp.SyntaxHighlighter</a> to provide syntax highlighting for its own source code, and the sources for all of the other examples!  The source file path is read in from location.hash, and loaded with doSimpleXMLHttpRequest, and then inserted into the DOM with replaceChildNodes.
+                                    </p>
+                                    <h2><a href="examples/ajax_tables/index.html">AJAX Tables</a></h2>
+                                    <p>
+                                        Demonstrates a comprehensive MochiKit application, building on the sortable tables example.  This one includes extensive usage of <a href="doc/html/MochiKit/Async.html">MochiKit.Async</a> to load XML and JSON documents.
+                                        This example includes XMLHttpRequest-loaded documents, a simple DOM attribute templating language (implemented *entirely* in the example), and sortable tables.
+                                    </p>
+
+                                    <h2><a href="examples/sortable_tables/index.html">Sortable Tables</a></h2>
+                                    <p>
+                                        Demonstrates the ease of use of <a href="doc/html/MochiKit/DOM.html">MochiKit.DOM</a>.
+                                        It takes a plain old HTML table, and makes it sortable on the fly.  It even converts the dates
+                                        to <tt>Date</tt> objects, and does a proper sort of those too!  Other libraries might give you
+                                        sortable tables, but MochiKit makes it so easy that we simply do it from scratch as an example!
+                                    </p>
+                                    <h2><a href="examples/color_wheel/index.html">Color Wheel</a></h2>
+                                    <p>
+                                        Shows off the color support (the full CSS3 color model!)
+                                        in <a href="doc/html/MochiKit/Color.html">MochiKit.Color</a>.  For browsers that support CSS3 <tt>rgba()</tt>
+                                        colors (Safari), you'll see real alpha blending.  For other browsers, it will emulate alpha blending by
+                                        blending with the background color.
+                                    </p>
+                                    <h2><a href="examples/effects/index.html">MochiKit.Visual effects</a></h2>
+                                    <p>
+                                        Demos for each of the effects included with <a href="doc/html/MochiKit/Visual.html">MochiKit.Visual</a>.
+                                    </p>
+                                    <h2><a href="examples/rounded_corners/index.html">Rounded Corners</a></h2>
+                                    <p>
+                                        Want fancy looking HTML elements with rounded corners, but don't want to do any weird image hacks?  Do it in
+                                        JavaScript!  <a href="doc/html/MochiKit/Visual.html">MochiKit.Visual</a> makes it completely painless,
+                                        and this example shows it off.
+                                    </p>
+            </div>
+            <div id="sidebar">
+
+                <div id="adblock" class="section">
+                    <div class="content">
+                        <script type="text/javascript"><!--
+                        google_ad_client = "pub-2495099325867654";
+                        google_ad_width = 160;
+                        google_ad_height = 600;
+                        google_ad_format = "160x600_as";
+                        google_ad_type = "text_image";
+                        google_ad_channel ="8712874650";
+                        google_color_border = "F7F8F8";
+                        google_color_bg = "F7F8F8";
+                        google_color_link = "4B81BC";
+                        google_color_text = "333333";
+                        google_color_url = "8BA726";
+                        //--></script>
+                        <script type="text/javascript"
+                          src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                        </script>
+                    </div>
+                    <div class="wrapper"></div>
+                </div>
+            </div>
+            <div class="clearer"></div>
+        </div>
+
+    <div id="footer">
+        <div id="footer-left"><a href="http://mochimedia.com"><img src="include/_img/img_mochimedia_01.gif" border="0" alt="Mochimedia" /></a><br/><p>Copyright &copy; Mochi Media, Inc.</p></div>
+        <div id="footer-right">
+            <a href="about.html">About</a> |
+            <a href="blog.html">Blog</a> |
+            <a href="http://groups.google.com/group/mochikit">Mailing List</a> |
+            <a href="http://trac.mochikit.com/">Trac</a> |
+            <a href="download.html">Download</a> |
+            <a href="doc/html/MochiKit/index.html">Docs</a> |
+            <a href="demos.html">Demos</a> |
+            <a href="related.html">Projects</a>
+        </div>
+    </div>
+</body>
+</html>

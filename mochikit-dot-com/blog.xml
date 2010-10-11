@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	>
+
+<channel>
+	<title>from __future__ import *</title>
+	<atom:link href="http://bob.pythonmac.org/feed/" rel="self" type="application/rss+xml" />
+	<link>http://bob.pythonmac.org</link>
+	<description>Bob's Rants</description>
+	<pubDate>Sat, 11 Oct 2008 20:35:00 +0000</pubDate>
+	<generator>http://wordpress.org/?v=2.6.2</generator>
+	<language>en</language>
+			<item>
+		<title>simplejson 2.0.3</title>
+		<link>http://bob.pythonmac.org/archives/2008/10/11/simplejson-203/</link>
+		<comments>http://bob.pythonmac.org/archives/2008/10/11/simplejson-203/#comments</comments>
+		<pubDate>Sat, 11 Oct 2008 20:35:00 +0000</pubDate>
+		<dc:creator>bob</dc:creator>
+		
+		<category><![CDATA[python]]></category>
+
+		<category><![CDATA[simplejson]]></category>
+
+		<guid isPermaLink="false">http://bob.pythonmac.org/?p=248</guid>
+		<description><![CDATA[
+
+
+simplejson (documentation) is a simple, fast, complete, correct and extensible JSON (RFC 4627) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies, but features an optional C extension for speed-ups.
+simplejson 2.0.3 is an important bug-fix update:
+
+Fixes reference leaks in the encoding speedups (sorry about that!)
+Fixes doctest suite for Python 2.6
+More optimizations [...]]]></description>
+			<content:encoded><![CDATA[
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> (<a class="reference" href="http://simplejson.googlecode.com/svn/tags/simplejson-2.0.1/docs/index.html">documentation</a>) is a simple, fast, complete, correct and extensible <a class="reference" href="http://json.org/">JSON</a> (<a class="reference" href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies, but features an optional C extension for speed-ups.</p>
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> 2.0.3 is an <strong>important bug-fix update</strong>:</p>
+<ul class="simple">
+<li>Fixes <em>reference leaks</em> in the encoding speedups (sorry about that!)</li>
+<li>Fixes doctest suite for Python 2.6</li>
+<li>More optimizations for the decoder</li>
+</ul>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://bob.pythonmac.org/archives/2008/10/11/simplejson-203/feed/</wfw:commentRss>
+		</item>
+		<item>
+		<title>Mochi Media hiring for Python web developer job in San Francisco</title>
+		<link>http://bob.pythonmac.org/archives/2008/10/06/mochi-media-hiring-for-python-web-developer-job-in-san-francisco/</link>
+		<comments>http://bob.pythonmac.org/archives/2008/10/06/mochi-media-hiring-for-python-web-developer-job-in-san-francisco/#comments</comments>
+		<pubDate>Mon, 06 Oct 2008 21:57:11 +0000</pubDate>
+		<dc:creator>bob</dc:creator>
+		
+		<category><![CDATA[AJAX]]></category>
+
+		<category><![CDATA[Genshi]]></category>
+
+		<category><![CDATA[Mochi Media]]></category>
+
+		<category><![CDATA[MochiKit]]></category>
+
+		<category><![CDATA[PostgreSQL]]></category>
+
+		<category><![CDATA[Pylons]]></category>
+
+		<category><![CDATA[SQL]]></category>
+
+		<category><![CDATA[SQLAlchemy]]></category>
+
+		<category><![CDATA[erlang]]></category>
+
+		<category><![CDATA[javascript]]></category>
+
+		<category><![CDATA[mochiads]]></category>
+
+		<category><![CDATA[mochibot]]></category>
+
+		<category><![CDATA[mochiweb]]></category>
+
+		<category><![CDATA[nginx]]></category>
+
+		<category><![CDATA[python]]></category>
+
+		<category><![CDATA[simplejson]]></category>
+
+		<category><![CDATA[subversion]]></category>
+
+		<guid isPermaLink="false">http://bob.pythonmac.org/?p=246</guid>
+		<description><![CDATA[
+
+
+I don't often post about open jobs at Mochi Media on my blog, but it seems that most of the awesome people we have here found out about Mochi Media from me so I might as well ;)
+Web development at Mochi Media happens primarily in Python and Pylons with Genshi templates. We're currently using mostly [...]]]></description>
+			<content:encoded><![CDATA[
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<p>I don't often post about open jobs at <a class="reference" href="http://www.mochimedia.com/">Mochi Media</a> on my blog, but it seems that most of the awesome people we have here found out about <a class="reference" href="http://www.mochimedia.com/">Mochi Media</a> from me so I might as well ;)</p>
+<p>Web development at <a class="reference" href="http://www.mochimedia.com/">Mochi Media</a> happens primarily in Python and Pylons with Genshi templates. We're currently using mostly MochiKit for the JavaScript heavy lifting and we talk to all of our backend services (which are either Python or Erlang) via JSON. We're using a bunch of other cool technologies such as memcached, nginx, PostgreSQL, etc. We also often contribute a lot of what we do back to the open source community (e.g. MochiKit, MochiWeb, simplejson, etc.) and would love adding some more team members that were interested in helping out with our open source efforts too! We don't require experience with all of these frameworks and tools, we just need smart people that have a really solid understanding of web development in Python.</p>
+<p><a class="reference" href="http://www.mochimedia.com/">Mochi Media</a> runs <a class="reference" href="http://www.mochiads.com/">MochiAds</a>, a monetization platform for Flash games, and <a class="reference" href="http://www.mochibot.com/">MochiBot</a>, an analytics service for Flash content... so we've got tons and tons of data to work with and very interesting scale problems to address. Our primary service, <a class="reference" href="http://www.mochiads.com/">MochiAds</a>, is a monetization platform for Flash games... so part of the responsibilities of being a Mochi employee is to approve all the latest in Flash games for paid advertisements from our network ;) There's even an internal competition to see who approves the most games each week! You can check some of them out at <a class="reference" href="http://www.mochiads.com/games/">http://www.mochiads.com/games/</a></p>
+<p><a class="reference" href="http://www.mochimedia.com/">Mochi Media</a> was founded in 2005 by Jameson Hsu and myself, and we're backed by Accel Partners and Shasta Ventures. We've got a great team and are always looking to add the best people we can find. If you kick ass at Python and love building cool apps for the web, talk to us!</p>
+<p>This position is full-time and on-site in San Francisco, CA. We're very easily accessible by BART and Caltrain in SOMA, at 2nd st. and Mission st. More evidence that <a class="reference" href="http://www.mochimedia.com/">Mochi Media</a> is a cool place to work can be found on the mochimedia Flickr photostream: <a class="reference" href="http://flickr.com/photos/mochimedia">http://flickr.com/photos/mochimedia</a></p>
+<p>More info and application instructions are here: <a class="reference" href="http://www.mochimedia.com/about/careers/#webengineer">http://www.mochimedia.com/about/careers/#webengineer</a></p>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://bob.pythonmac.org/archives/2008/10/06/mochi-media-hiring-for-python-web-developer-job-in-san-francisco/feed/</wfw:commentRss>
+		</item>
+		<item>
+		<title>simplejson 2.0.2</title>
+		<link>http://bob.pythonmac.org/archives/2008/10/06/simplejson-202/</link>
+		<comments>http://bob.pythonmac.org/archives/2008/10/06/simplejson-202/#comments</comments>
+		<pubDate>Mon, 06 Oct 2008 21:30:26 +0000</pubDate>
+		<dc:creator>bob</dc:creator>
+		
+		<category><![CDATA[python]]></category>
+
+		<category><![CDATA[simplejson]]></category>
+
+		<guid isPermaLink="false">http://bob.pythonmac.org/?p=244</guid>
+		<description><![CDATA[
+
+
+simplejson (documentation) is a simple, fast, complete, correct and extensible JSON (RFC 4627) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies, but features an optional C extension for speed-ups.
+simplejson 2.0.2 is a minor update:
+
+Fixes MSVC2003 build regression
+Fixes Python 2.4 compatibility in _speedups.c
+
+
+]]></description>
+			<content:encoded><![CDATA[
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> (<a class="reference" href="http://simplejson.googlecode.com/svn/tags/simplejson-2.0.1/docs/index.html">documentation</a>) is a simple, fast, complete, correct and extensible <a class="reference" href="http://json.org/">JSON</a> (<a class="reference" href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies, but features an optional C extension for speed-ups.</p>
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> 2.0.2 is a minor update:</p>
+<ul class="simple">
+<li>Fixes MSVC2003 build regression</li>
+<li>Fixes Python 2.4 compatibility in _speedups.c</li>
+</ul>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://bob.pythonmac.org/archives/2008/10/06/simplejson-202/feed/</wfw:commentRss>
+		</item>
+		<item>
+		<title>Python 2.6 released, now with json! :)</title>
+		<link>http://bob.pythonmac.org/archives/2008/10/02/python-26-released-now-with-json/</link>
+		<comments>http://bob.pythonmac.org/archives/2008/10/02/python-26-released-now-with-json/#comments</comments>
+		<pubDate>Thu, 02 Oct 2008 18:16:11 +0000</pubDate>
+		<dc:creator>bob</dc:creator>
+		
+		<category><![CDATA[macosx]]></category>
+
+		<category><![CDATA[python]]></category>
+
+		<category><![CDATA[simplejson]]></category>
+
+		<guid isPermaLink="false">http://bob.pythonmac.org/?p=242</guid>
+		<description><![CDATA[
+
+
+Python 2.6 was released yesterday, which has tons of cool new features including a new json library and a new multiprocessing library. The json library is basically simplejson (from a few months ago) minus the Python 2.4/2.5 support and refactored to take advantage of the latest future-compatible features (such as the new str.format method instead [...]]]></description>
+			<content:encoded><![CDATA[
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<p><a class="reference" href="http://python.org/download/releases/2.6/">Python 2.6</a> was released yesterday, which has tons of <a class="reference" href="http://docs.python.org/whatsnew/2.6.html">cool new features</a> including a new <a class="reference" href="http://docs.python.org/library/json.html">json</a> library and a new <a class="reference" href="http://docs.python.org/library/multiprocessing.html">multiprocessing</a> library. The <a class="reference" href="http://docs.python.org/library/json.html">json</a> library is basically <a class="reference" href="http://www.undefined.org/python/#simplejson">simplejson</a> (from a few months ago) minus the Python 2.4/2.5 support and refactored to take advantage of the latest future-compatible features (such as the new <a class="reference" href="http://docs.python.org/library/stdtypes.html#str.format">str.format</a> method instead of using % format interpolation).</p>
+<p>The only downside is that I wasn't able to get the latest <a class="reference" href="http://www.undefined.org/python/#simplejson">simplejson</a> 2.0.1 performance enhancements into the first release of <a class="reference" href="http://python.org/download/releases/2.6/">Python 2.6</a>, but expect them for Python 2.6.1! Don't worry though, <a class="reference" href="http://www.undefined.org/python/#simplejson">simplejson</a> should install just fine with Python 2.6 if you need the speed. If not, you don't have any dependencies for JSON anymore, just change your imports:</p>
+<pre class="literal-block">
+# Use simplejson or Python 2.6 json, prefer simplejson.
+try:
+    import simplejson as json
+except ImportError:
+    import json
+
+print repr(json.dumps({'key': 'serialize this!'}))
+print repr(json.loads('{&quot;key&quot;: &quot;deserialize this!&quot;}'))
+</pre>
+<p>One of my favorite features in <a class="reference" href="http://docs.python.org/library/json.html">json</a>/<a class="reference" href="http://www.undefined.org/python/#simplejson">simplejson</a> is the shell command that will validate/pretty print JSON. Great for debugging, and it will be sweet to have it available on every box with Python 2.6+!</p>
+<!-- ::
+
+$ echo '{"json":"obj"}' | python-mjson.tool
+{
+    "json": "obj"
+} -->
+<p>A really cool tip if you're using Mac OS X is that you can access the string version of the pasteboard from the shell with pbpaste and pbcopy. This will take the JSON from your pasteboard and replace it with a pretty-printed version! If you're using <a class="reference" href="http://www.undefined.org/python/#simplejson">simplejson</a> just change <tt class="docutils literal"><span class="pre">json.tool</span></tt> to <tt class="docutils literal"><span class="pre">simplejson.tool</span></tt>. I'm sure this would be super handy in a text editor macro too:</p>
+<pre class="literal-block">
+$ pbpaste | python -mjson.tool | pbcopy
+</pre>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://bob.pythonmac.org/archives/2008/10/02/python-26-released-now-with-json/feed/</wfw:commentRss>
+		</item>
+		<item>
+		<title>Ad Serving in Erlang @ CUFP 2008</title>
+		<link>http://bob.pythonmac.org/archives/2008/09/29/ad-serving-in-erlang-cufp-2008/</link>
+		<comments>http://bob.pythonmac.org/archives/2008/09/29/ad-serving-in-erlang-cufp-2008/#comments</comments>
+		<pubDate>Mon, 29 Sep 2008 21:56:31 +0000</pubDate>
+		<dc:creator>bob</dc:creator>
+		
+		<category><![CDATA[Mochi Media]]></category>
+
+		<category><![CDATA[erlang]]></category>
+
+		<category><![CDATA[mochiads]]></category>
+
+		<category><![CDATA[mochiweb]]></category>
+
+		<category><![CDATA[cufp2008 cufp icfp functional programming fp]]></category>
+
+		<guid isPermaLink="false">http://bob.pythonmac.org/?p=239</guid>
+		<description><![CDATA[
+
+
+Slides from my Ad Serving in Erlang talk at CUFP 2008 are available here: http://undefined.org/cufp2008/
+I had a great time at ICFP and CUFP and it was really inspiring to see what other people are doing with functional programming. I look forward to attending in the future! I think I'll have to write an app in [...]]]></description>
+			<content:encoded><![CDATA[
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<p>Slides from my Ad Serving in Erlang talk at <a class="reference" href="http://cufp.galois.com/2008/main.html">CUFP 2008</a> are available here: <a class="reference" href="http://undefined.org/cufp2008/">http://undefined.org/cufp2008/</a></p>
+<p>I had a great time at <a class="reference" href="http://www.icfpconference.org/">ICFP</a> and <a class="reference" href="http://cufp.galois.com/">CUFP</a> and it was really inspiring to see what other people are doing with functional programming. I look forward to attending in the future! I think I'll have to write an app in <a class="reference" href="http://www.haskell.org/">Haskell</a> first though, so I can understand more of the <a class="reference" href="http://www.icfpconference.org/">ICFP</a> talks ;)</p>
+<p>If you're interested in <a class="reference" href="http://www.erlang.org/">Erlang</a> I also recommend that you check out my <a class="reference" href="http://bob.pythonmac.org/archives/category/erlang/">other erlang posts</a> particularly the video and slides from my <a class="reference" href="http://bob.pythonmac.org/archives/2008/03/08/exploring-erlang-c41-video/">Exploring Erlang &#64; C4[1]</a> talk!</p>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://bob.pythonmac.org/archives/2008/09/29/ad-serving-in-erlang-cufp-2008/feed/</wfw:commentRss>
+		</item>
+		<item>
+		<title>simplejson 2.0.1</title>
+		<link>http://bob.pythonmac.org/archives/2008/09/29/simplejson-201/</link>
+		<comments>http://bob.pythonmac.org/archives/2008/09/29/simplejson-201/#comments</comments>
+		<pubDate>Mon, 29 Sep 2008 21:37:13 +0000</pubDate>
+		<dc:creator>bob</dc:creator>
+		
+		<category><![CDATA[python]]></category>
+
+		<category><![CDATA[simplejson]]></category>
+
+		<guid isPermaLink="false">http://bob.pythonmac.org/?p=236</guid>
+		<description><![CDATA[
+
+
+simplejson (documentation) is a simple, fast, complete, correct and extensible JSON (RFC 4627) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies, but features an optional C extension for speed-ups.
+simplejson 2.0.1 is a minor update:
+
+Fixes long encoding regression introduced in 2.0.0
+Fixes MinGW build regression introduced in 2.0.0
+
+I didn't manage to do [...]]]></description>
+			<content:encoded><![CDATA[
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> (<a class="reference" href="http://simplejson.googlecode.com/svn/tags/simplejson-2.0.1/docs/index.html">documentation</a>) is a simple, fast, complete, correct and extensible <a class="reference" href="http://json.org/">JSON</a> (<a class="reference" href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies, but features an optional C extension for speed-ups.</p>
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> 2.0.1 is a minor update:</p>
+<ul class="simple">
+<li>Fixes long encoding regression introduced in 2.0.0</li>
+<li>Fixes MinGW build regression introduced in 2.0.0</li>
+</ul>
+<p>I didn't manage to do a <a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> 2.0.0 release notice here but that was a MAJOR update!</p>
+<ul class="simple">
+<li>optimized Python encoding path</li>
+<li>optimized Python decoding path</li>
+<li>optimized C encoding path</li>
+<li>optimized C decoding path</li>
+<li>switched to sphinx docs (nearly the same as the json module in python 2.6)</li>
+</ul>
+<p>Even without the C speedups, it's several times faster. With the C
+speedups, it's WAY faster. I highly recommend that everyone update
+their frameworks to use the latest code.</p>
+<p>For the primary benchmark I was concerned with (some internal data
+structures that Mochi uses) encoding is about 4x faster than cPickle
+(!), and decoding is just a tiny bit slower.</p>
+<p>There's little excuse to use other libraries now. The fastest
+alternative I'm aware of is cjson 1.0.5, which is currently a little
+faster than simplejson 2.0.0 when decoding but is actually slower than
+simplejson 2.0.0 at encoding (the more important path for people
+vending web services). In both cases, simplejson provides more
+flexibility (e.g. the decoding object_hook), so a slight speed cost
+when decoding is probably to be expected.</p>
+<p>There aren't really any API breaking changes, but when decoding a str
+input it will return str objects instead of unicode if the str is all
+ASCII with no escaped characters. I'm not aware of any scenario other
+than doctests where this could be a problem.</p>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://bob.pythonmac.org/archives/2008/09/29/simplejson-201/feed/</wfw:commentRss>
+		</item>
+		<item>
+		<title>simplejson 1.9.3</title>
+		<link>http://bob.pythonmac.org/archives/2008/09/23/simplejson-193/</link>
+		<comments>http://bob.pythonmac.org/archives/2008/09/23/simplejson-193/#comments</comments>
+		<pubDate>Tue, 23 Sep 2008 08:14:47 +0000</pubDate>
+		<dc:creator>bob</dc:creator>
+		
+		<category><![CDATA[python]]></category>
+
+		<category><![CDATA[simplejson]]></category>
+
+		<category><![CDATA[json]]></category>
+
+		<category><![CDATA[library]]></category>
+
+		<guid isPermaLink="false">http://bob.pythonmac.org/?p=235</guid>
+		<description><![CDATA[
+
+
+simplejson is a simple, fast, complete, correct and extensible JSON (RFC 4627) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies, but features an optional C extension for speed-ups.
+simplejson 1.9.3 is a minor update:
+
+Decoding is significantly faster (for our internal benchmarks)
+Misc. bug fixes
+
+
+]]></description>
+			<content:encoded><![CDATA[
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> is a simple, fast, complete, correct and extensible <a class="reference" href="http://json.org/">JSON</a> (<a class="reference" href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies, but features an optional C extension for speed-ups.</p>
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> 1.9.3 is a minor update:</p>
+<ul class="simple">
+<li>Decoding is significantly faster (for our internal benchmarks)</li>
+<li>Misc. bug fixes</li>
+</ul>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://bob.pythonmac.org/archives/2008/09/23/simplejson-193/feed/</wfw:commentRss>
+		</item>
+		<item>
+		<title>simplejson 1.9</title>
+		<link>http://bob.pythonmac.org/archives/2008/05/03/simplejson-19/</link>
+		<comments>http://bob.pythonmac.org/archives/2008/05/03/simplejson-19/#comments</comments>
+		<pubDate>Sat, 03 May 2008 20:49:55 +0000</pubDate>
+		<dc:creator>bob</dc:creator>
+		
+		<category><![CDATA[python]]></category>
+
+		<category><![CDATA[simplejson]]></category>
+
+		<category><![CDATA[json]]></category>
+
+		<category><![CDATA[library]]></category>
+
+		<guid isPermaLink="false">http://bob.pythonmac.org/?p=234</guid>
+		<description><![CDATA[
+
+
+simplejson is a simple, fast, complete, correct and extensible JSON (RFC 4627) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies.
+simplejson 1.9 is a minor update:
+
+Rewrote test suite with unittest and doctest (no more nosetest dependency)
+Better PEP 7 and PEP 8 source compliance
+Removed simplejson.jsonfilter demo module
+Misc. bug fixes
+
+There is one backwards [...]]]></description>
+			<content:encoded><![CDATA[
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> is a simple, fast, complete, correct and extensible <a class="reference" href="http://json.org/">JSON</a> (<a class="reference" href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies.</p>
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> 1.9 is a minor update:</p>
+<ul class="simple">
+<li>Rewrote test suite with unittest and doctest (no more nosetest dependency)</li>
+<li>Better PEP 7 and PEP 8 source compliance</li>
+<li>Removed simplejson.jsonfilter demo module</li>
+<li>Misc. bug fixes</li>
+</ul>
+<p>There is one backwards incompatible changes in this release:</p>
+<ul class="simple">
+<li>simplejson.jsonfilter is no longer included</li>
+</ul>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://bob.pythonmac.org/archives/2008/05/03/simplejson-19/feed/</wfw:commentRss>
+		</item>
+		<item>
+		<title>Google App Engine - Changes Everything</title>
+		<link>http://bob.pythonmac.org/archives/2008/04/08/google-app-engine-changes-everything/</link>
+		<comments>http://bob.pythonmac.org/archives/2008/04/08/google-app-engine-changes-everything/#comments</comments>
+		<pubDate>Tue, 08 Apr 2008 12:28:43 +0000</pubDate>
+		<dc:creator>bob</dc:creator>
+		
+		<category><![CDATA[Mochi Media]]></category>
+
+		<category><![CDATA[appengine]]></category>
+
+		<category><![CDATA[google]]></category>
+
+		<category><![CDATA[python]]></category>
+
+		<guid isPermaLink="false">http://bob.pythonmac.org/archives/2008/04/08/google-app-engine-changes-everything/</guid>
+		<description><![CDATA[
+
+
+I had the privilege last night of going to Google's Campfire One where the Google App Engine was launched, which is basically a service that I've been secretly hoping that Google would release for the past three years. App Engine is going to change everything -- as soon as they come up with a pricing [...]]]></description>
+			<content:encoded><![CDATA[
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<p>I had the privilege last night of going to Google's Campfire One where the Google App Engine was launched, which is basically a service that I've been secretly hoping that Google would release for the past three years. App Engine is going to change everything -- as soon as they come up with a pricing model, anyway. I'm sure whatever it is will be more than competitive with Amazon's offerings, which isn't really worth any price given that they can't keep it fully operational. Yesterday was the perfect day for EC2 to fall over again, they might as well shut it off altogether once Google gets this service into production ;)</p>
+<p>So why does <a class="reference" href="http://code.google.com/appengine/">Google App Engine</a> change everything? I don't have a lot of time to spend here but a few key points:</p>
+<blockquote>
+<ul class="simple">
+<li>Single sign-on for Google users. Everyone with a gmail account is already registered for your service. You have no idea how cool this actually is :)</li>
+<li>BIGTABLE. My god. I would've spent in excess of $100k to have access to this part of Google's infrastructure and <em>saved money</em>. Scaling SQL databases sucks. If you have the kind of access patterns that we do, databases designed for OLTP are simply not suitable and it's a real pain to try and make it work. The fact that schema is managed directly in the code and that schema upgrades look awfully painless is a huge extra bonus.</li>
+<li>Works locally, deploys globally</li>
+<li>Python and WSGI!</li>
+<li>No more going to the data center, provisioning bandwidth from telcos, etc.</li>
+<li>Payment is surely coming. No more PayPal or Verisign or whatever.</li>
+</ul>
+</blockquote>
+<p>In the same way that Google Apps (and Mac OS X) have enabled people to run without IT departments, Google App Engine is going to let them go big without an ops department. With the current imposed limits I can't prove this theory at <a class="reference" href="http://www.mochimedia.com/">Mochi Media</a>, since everything we do is beyond the scale of their current quotas, but maybe I'll allocate some of my &quot;infinite spare time&quot; to ditch this Wordpress crap and try it out for my blog while they sort that out :)</p>
+<p>The minus is that this project is actually probably pretty horrible for open source. Yahoo and the rest of the Hadoop team have their work cut out in making that stack competitive with this. If they don't, Google is going to own scale for a while. While MySQL and PostgreSQL still have some years left in them as people learn how to write scalable apps, I can't see that model lasting very long now that you don't have to be in Google's employ to use better solutions to the data problem.</p>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://bob.pythonmac.org/archives/2008/04/08/google-app-engine-changes-everything/feed/</wfw:commentRss>
+		</item>
+		<item>
+		<title>simplejson 1.8.1</title>
+		<link>http://bob.pythonmac.org/archives/2008/03/24/simplejson-181/</link>
+		<comments>http://bob.pythonmac.org/archives/2008/03/24/simplejson-181/#comments</comments>
+		<pubDate>Mon, 24 Mar 2008 15:40:59 +0000</pubDate>
+		<dc:creator>bob</dc:creator>
+		
+		<category><![CDATA[python]]></category>
+
+		<category><![CDATA[simplejson]]></category>
+
+		<guid isPermaLink="false">http://bob.pythonmac.org/?p=232</guid>
+		<description><![CDATA[
+
+
+simplejson is a simple, fast, complete, correct and extensible JSON (RFC 4627) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies.
+simplejson 1.8.1 is a major update:
+
+Optional C extension for accelerating the decoding of JSON strings
+Command line interface for pretty-printing JSON (via python -msimplejson)
+Decoding of integers and floats is now extensible (e.g. [...]]]></description>
+			<content:encoded><![CDATA[
+<div class="document">
+<!-- -*- mode: rst -*- -->
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> is a simple, fast, complete, correct and extensible <a class="reference" href="http://json.org/">JSON</a> (<a class="reference" href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a>) encoder/decoder for Python 2.3+.  It is pure Python code with no dependencies.</p>
+<p><a class="reference" href="http://undefined.org/python/#simplejson">simplejson</a> 1.8.1 is a major update:</p>
+<ul class="simple">
+<li>Optional C extension for accelerating the decoding of JSON strings</li>
+<li>Command line interface for pretty-printing JSON (via <tt class="docutils literal"><span class="pre">python</span> <span class="pre">-msimplejson</span></tt>)</li>
+<li>Decoding of integers and floats is now extensible (e.g. to use <tt class="docutils literal"><span class="pre">Decimal</span></tt>) via <tt class="docutils literal"><span class="pre">parse_int</span></tt>, <tt class="docutils literal"><span class="pre">parse_float</span></tt> options.</li>
+<li>Subversion and issue tracker moved to google code: <a class="reference" href="http://code.google.com/p/simplejson/">http://code.google.com/p/simplejson/</a></li>
+<li>Misc. bug fixes</li>
+</ul>
+<p>There is one incompatible change:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;/&quot;</span></tt> is no longer escaped, so if you're embedding JSON directly in HTML you'll want to use <tt class="docutils literal"><span class="pre">.replace(&quot;/&quot;,</span> <span class="pre">&quot;\\/&quot;)</span></tt> to prevent a close-tag attack. Sorry, but the in-HTML use case just isn't worth the bloat in everyone else's documents.</li>
+</ul>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://bob.pythonmac.org/archives/2008/03/24/simplejson-181/feed/</wfw:commentRss>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,14 @@
+Redirect seeother /ann/MochiKit-1.1 http://mochikit.com/ann/MochiKit-1.1.html
+Redirect seeother /screencasts/MochiKit_Intro-1 http://mochikit.com/screencasts/MochiKit_Intro-1.html
+Redirect seeother /docs http://mochikit.com/doc/html/MochiKit
+Redirect seeother /docs/ http://mochikit.com/doc/html/MochiKit/
+Redirect seeother /images/ http://mochikit.com/include/_img/
+
+php_value register_globals 0
+php_value error_reporting 2047
+php_value display_errors 1
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [S=1]
+
+DirectoryIndex index.html.php index.php index.html
