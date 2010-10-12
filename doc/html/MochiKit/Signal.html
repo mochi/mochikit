@@ -233,6 +233,19 @@ the signal. DOM objects can not implement this feature.</p>
 </dl>
 </blockquote>
 <p>
+<a name="fn-connectonce"></a>
+<a class="mochidef reference external" href="#fn-connectonce">connectOnce(src, signal, dest[, func])</a>:</p>
+<blockquote>
+<p>Similar to <a class="mochiref reference external" href="#fn-connect">connect()</a>, but disconnects the signal
+handler automatically once it has fired.</p>
+<p>The return value can be passed to <a class="mochiref reference external" href="#fn-disconnect">disconnect</a> to
+disconnect the signal handler (before it has fired).</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.5+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-disconnect"></a>
 <a class="mochidef reference external" href="#fn-disconnect">disconnect(ident)</a>:</p>
 <blockquote>

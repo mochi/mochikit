@@ -255,6 +255,18 @@ Signal API Reference
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`connectOnce(src, signal, dest[, func])`:
+
+    Similar to :mochiref:`connect()`, but disconnects the signal
+    handler automatically once it has fired.
+
+    The return value can be passed to :mochiref:`disconnect` to
+    disconnect the signal handler (before it has fired).
+
+    *Availability*:
+        Available in MochiKit 1.5+
+
+
 :mochidef:`disconnect(ident)`:
 
     To disconnect a signal, pass its ident returned by
