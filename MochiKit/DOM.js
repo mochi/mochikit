@@ -297,11 +297,11 @@ MochiKit.Base.update(MochiKit.DOM, {
     updateNodeAttributes: function (node, attrs) {
         var elem = node;
         var self = MochiKit.DOM;
+        var base = MochiKit.Base;
         if (typeof(node) == 'string') {
             elem = self.getElement(node);
         }
         if (attrs) {
-            var updatetree = MochiKit.Base.updatetree;
             if (self.attributeArray.compliant) {
                 // not IE, good.
                 for (var k in attrs) {
@@ -310,7 +310,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                         if (k == "style" && MochiKit.Style) {
                             MochiKit.Style.setStyle(elem, v);
                         } else {
-                            updatetree(elem[k], v);
+                            base.updatetree(elem[k], v);
                         }
                     } else if (k.substring(0, 2) == "on") {
                         if (typeof(v) == "string") {
@@ -320,8 +320,8 @@ MochiKit.Base.update(MochiKit.DOM, {
                     } else {
                         elem.setAttribute(k, v);
                     }
-                    if (typeof(elem[k]) == "string" && elem[k] != v) {
-                        // Also set property for weird attributes (see #302)
+                    if (base.isValue(elem[k]) && elem[k] != v) {
+                        // Also set property for weird attributes (see #302 & #335)
                         elem[k] = v;
                     }
                 }
@@ -340,7 +340,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                         if (k == "style" && MochiKit.Style) {
                             MochiKit.Style.setStyle(elem, v);
                         } else {
-                            updatetree(elem[k], v);
+                            base.updatetree(elem[k], v);
                         }
                     } else if (k.substring(0, 2) == "on") {
                         if (typeof(v) == "string") {
@@ -350,8 +350,8 @@ MochiKit.Base.update(MochiKit.DOM, {
                     } else {
                         elem.setAttribute(k, v);
                     }
-                    if (typeof(elem[k]) == "string" && elem[k] != v) {
-                        // Also set property for weird attributes (see #302)
+                    if (base.isValue(elem[k]) && elem[k] != v) {
+                        // Also set property for weird attributes (see #302 & #335)
                         elem[k] = v;
                     }
                 }

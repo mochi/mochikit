@@ -762,6 +762,16 @@ Functions
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`isValue(obj[, ...])`:
+
+    Returns ``true`` if all arguments are boolean, number or
+    string values (i.e. basic JavaScript values, not objects or
+    functions).
+
+    *Availability*:
+        Available in MochiKit 1.5+
+
+
 :mochidef:`itemgetter(name)`:
 
     Returns a ``function(obj)`` that returns ``obj[name]``

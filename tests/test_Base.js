@@ -108,6 +108,13 @@ tests.test_Base = function (t) {
     t.is( isUndefinedOrNull(undefined), true, "undefined is undefined or null" );
     t.is( isUndefinedOrNull({}.foo), true, "missing property is undefined or null" );
 
+    t.is( isValue(true, 4711, "str"), true, "boolean, number and string are basic values" );
+    t.is( isValue(null), false, "null is not a basic value" );
+    t.is( isValue(undefined), false, "undefined is not a basic value" );
+    t.is( isValue({}), false, "objects are not a basic values" );
+    t.is( isValue([]), false, "arrays are not a basic values" );
+    t.is( isValue(isValue), false, "functions are not a basic values" );
+
     t.is( isEmpty(null), true, "isEmpty null" );
     t.is( isEmpty([], [], ""), true, "isEmpty true" );
     t.is( isEmpty([], [1], ""), true, "isEmpty true" );
