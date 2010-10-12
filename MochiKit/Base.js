@@ -1410,6 +1410,8 @@ MochiKit.Base.__new__ = function () {
     m.isCallable = m.typeMatcher('function');
     /** @id MochiKit.Base.isUndefined */
     m.isUndefined = m.typeMatcher('undefined');
+    /** @id MochiKit.Base.isValue */
+    m.isValue = m.typeMatcher('boolean', 'number', 'string');
 
     /** @id MochiKit.Base.merge */
     m.merge = m.partial(m.update, null);

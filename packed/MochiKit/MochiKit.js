@@ -1100,6 +1100,7 @@ m.NotFound=new m.NamedError("MochiKit.Base.NotFound");
 m.listMax=m.partial(m.listMinMax,1);
 m.listMin=m.partial(m.listMinMax,-1);
 m.isCallable=m.typeMatcher("function");
+m.isValue=m.typeMatcher("boolean","number","string");
 m.isUndefined=m.typeMatcher("undefined");
 m.merge=m.partial(m.update,null);
 m.zip=m.partial(m.map,null);
