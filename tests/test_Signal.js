@@ -488,6 +488,7 @@ tests.test_Signal = function (t) {
     signal(hasSignals, 'signalTwo');
     t.is(testObj.countOne, 0, 'disconnectAllTo obj+str');
     t.is(testObj.countTwo, 1, 'disconnectAllTo obj+str');
+    disconnectAll(hasSignals);
 
     var has__Connect = {
           count: 0,
@@ -523,6 +524,7 @@ tests.test_Signal = function (t) {
     });
     signal(events, "test");
     t.is(events.failed, undefined, 'disconnected slots do not fire');
+    disconnectAll(events);
 
     var sink = {f: function (ev) { this.ev = ev; }};
     var src = {};
@@ -530,6 +532,7 @@ tests.test_Signal = function (t) {
     connect(src, 'signal', sink.f);
     signal(src, 'signal', 'worked');
     t.is(sink.ev, 'worked', 'custom signal does not re-bind methods');
+    disconnectAll(src);
 
     var lateObj = { fun: function() { this.value = 1; } };
     connect(src, 'signal', lateObj, "fun");
@@ -537,4 +540,5 @@ tests.test_Signal = function (t) {
     lateObj.fun = function() { this.value = 2; };
     signal(src, 'signal');
     t.is(lateObj.value, 2, 'connect uses late function binding');
+    disconnectAll(src);
 };
