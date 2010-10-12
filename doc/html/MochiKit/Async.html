@@ -417,13 +417,16 @@ on a <a class="mochiref reference external" href="#fn-deferred">Deferred</a>.</p
 </blockquote>
 <p>
 <a name="fn-deferred.prototype.cancel"></a>
-<a class="mochidef reference external" href="#fn-deferred.prototype.cancel">Deferred.prototype.cancel()</a>:</p>
+<a class="mochidef reference external" href="#fn-deferred.prototype.cancel">Deferred.prototype.cancel([error])</a>:</p>
 <blockquote>
 <p>Cancels a <a class="mochiref reference external" href="#fn-deferred">Deferred</a> that has not yet received a value,
 or is waiting on another <a class="mochiref reference external" href="#fn-deferred">Deferred</a> as its value.</p>
 <p>If a canceller is defined, the canceller is called.  If the
 canceller did not return an <tt class="docutils literal">Error</tt>, or there was no canceller,
 then the errback chain is started with <a class="mochiref reference external" href="#fn-cancellederror">CancelledError</a>.</p>
+<p>Since MochiKit 1.5, an optional <tt class="docutils literal">error</tt> argument can be used
+to send either a generic error message (<a class="mochiref reference external" href="#fn-genericerror">GenericError</a>)
+or any subclass of <tt class="docutils literal">Error</tt>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>

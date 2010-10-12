@@ -93,6 +93,22 @@ tests.test_Async = function () {
     d.addErrback(cancelledError);
     d.cancel();
 
+    // Cancel with string message
+    d = new Deferred(cancelled);
+    d.addCallback(neverHappen);
+    d.addErrback(function (res) {
+        ok(res instanceof GenericError, "GenericError used for cancel messages");
+    });
+    d.cancel("message");
+
+    // Cancel with error instance
+    d = new Deferred(cancelled);
+    d.addCallback(neverHappen);
+    d.addErrback(function (res) {
+        ok(res instanceof ReferenceError, "subclass of Error used for cancel messages");
+    });
+    d.cancel(new ReferenceError("error instance"));
+
     /*
         Test succeed / fail
     */

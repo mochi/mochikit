@@ -42,7 +42,7 @@ MochiKit.Async.Deferred.prototype = {
     _nextId: MochiKit.Base.counter(),
 
     /** @id MochiKit.Async.Deferred.prototype.cancel */
-    cancel: function () {
+    cancel: function (e) {
         var self = MochiKit.Async;
         if (this.fired == -1) {
             if (this.canceller) {
@@ -51,10 +51,15 @@ MochiKit.Async.Deferred.prototype = {
                 this.silentlyCancelled = true;
             }
             if (this.fired == -1) {
-                this.errback(new self.CancelledError(this));
+                if (typeof(e) === 'string') {
+                    e = new self.GenericError(e);
+                } else if (!(e instanceof Error)) {
+                    e = new self.CancelledError(this);
+                }
+                this.errback(e);
             }
         } else if ((this.fired === 0) && (this.results[0] instanceof self.Deferred)) {
-            this.results[0].cancel();
+            this.results[0].cancel(e);
         }
     },
 
