@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
 <title>MochiKit.Selector - Selecting elements by CSS selector syntax</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -47,19 +47,19 @@ using CSS selector syntax. In particular, it provides the
 current document.</p>
 <p>Many of CSS3 <a class="footnote-reference" href="#id3" id="id1">[1]</a> selectors are supported:</p>
 <ul>
-<li><p class="first">Select by tag name (<tt class="docutils literal"><span class="pre">A</span></tt>)</p>
+<li><p class="first">Select by tag name (<tt class="docutils literal">A</tt>)</p>
 </li>
-<li><p class="first">Select by class (<tt class="docutils literal"><span class="pre">.theclass</span></tt>)</p>
+<li><p class="first">Select by class (<tt class="docutils literal">.theclass</tt>)</p>
 </li>
-<li><p class="first">Select by id (<tt class="docutils literal"><span class="pre">#someid</span></tt>)</p>
+<li><p class="first">Select by id (<tt class="docutils literal">#someid</tt>)</p>
 </li>
 <li><dl class="first docutils">
 <dt>Combinators</dt>
 <dd><ul class="first last simple">
-<li>Descendant: <tt class="docutils literal"><span class="pre">E</span> <span class="pre">F</span></tt></li>
-<li>Child: <tt class="docutils literal"><span class="pre">E</span> <span class="pre">&gt;</span> <span class="pre">F</span></tt></li>
-<li>Immediate following sibling: <tt class="docutils literal"><span class="pre">E</span> <span class="pre">+</span> <span class="pre">F</span></tt></li>
-<li>Following sibling: <tt class="docutils literal"><span class="pre">E</span> <span class="pre">~</span> <span class="pre">F</span></tt></li>
+<li>Descendant: <tt class="docutils literal">E F</tt></li>
+<li>Child: <tt class="docutils literal">E &gt; F</tt></li>
+<li>Immediate following sibling: <tt class="docutils literal">E + F</tt></li>
+<li>Following sibling: <tt class="docutils literal">E ~ F</tt></li>
 </ul>
 </dd>
 </dl>
@@ -68,13 +68,13 @@ current document.</p>
 <dt>Attribute selectors</dt>
 <dd><ul class="first last simple">
 <li>simple &quot;has attribute&quot; (without operator)</li>
-<li><tt class="docutils literal"><span class="pre">=</span></tt> equal</li>
-<li><tt class="docutils literal"><span class="pre">!=</span></tt> not equal (not in CSS std.)</li>
-<li><tt class="docutils literal"><span class="pre">~=</span></tt> word containment</li>
-<li><tt class="docutils literal"><span class="pre">^=</span></tt> starts-with</li>
-<li><tt class="docutils literal"><span class="pre">$=</span></tt> ends-with</li>
-<li><tt class="docutils literal"><span class="pre">*=</span></tt> substring containment</li>
-<li><tt class="docutils literal"><span class="pre">|=</span></tt> first part of hyphen deleimited (eg. lang|=&quot;en&quot; matches lang=&quot;en-US&quot;)</li>
+<li><tt class="docutils literal">=</tt> equal</li>
+<li><tt class="docutils literal">!=</tt> not equal (not in CSS std.)</li>
+<li><tt class="docutils literal">~=</tt> word containment</li>
+<li><tt class="docutils literal">^=</tt> starts-with</li>
+<li><tt class="docutils literal">$=</tt> ends-with</li>
+<li><tt class="docutils literal">*=</tt> substring containment</li>
+<li><tt class="docutils literal">|=</tt> first part of hyphen deleimited (eg. lang|=&quot;en&quot; matches lang=&quot;en-US&quot;)</li>
 </ul>
 </dd>
 </dl>
@@ -82,7 +82,7 @@ current document.</p>
 <li><dl class="first docutils">
 <dt>Pseudo-classes</dt>
 <dd><ul class="first last simple">
-<li><tt class="docutils literal"><span class="pre">:nth-child</span></tt>, <tt class="docutils literal"><span class="pre">:nth-last-child</span></tt>, <tt class="docutils literal"><span class="pre">:first-child</span></tt>, <tt class="docutils literal"><span class="pre">:last-child</span></tt>, <tt class="docutils literal"><span class="pre">:only-child</span></tt>, <tt class="docutils literal"><span class="pre">:empty</span></tt>, <tt class="docutils literal"><span class="pre">:enabled</span></tt>, <tt class="docutils literal"><span class="pre">:disabled</span></tt>, <tt class="docutils literal"><span class="pre">:checked</span></tt>, <tt class="docutils literal"><span class="pre">:not(&lt;any</span> <span class="pre">other</span> <span class="pre">selector&gt;)</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">:nth-child</span></tt>, <tt class="docutils literal"><span class="pre">:nth-last-child</span></tt>, <tt class="docutils literal"><span class="pre">:first-child</span></tt>, <tt class="docutils literal"><span class="pre">:last-child</span></tt>, <tt class="docutils literal"><span class="pre">:only-child</span></tt>, <tt class="docutils literal">:empty</tt>, <tt class="docutils literal">:enabled</tt>, <tt class="docutils literal">:disabled</tt>, <tt class="docutils literal">:checked</tt>, <tt class="docutils literal"><span class="pre">:not(&lt;any</span> other selector&gt;)</tt></li>
 </ul>
 </dd>
 </dl>
@@ -90,7 +90,7 @@ current document.</p>
 <li><dl class="first docutils">
 <dt>Deprecated Pseudo-classes (to be removed in 1.5)</dt>
 <dd><ul class="first last simple">
-<li><tt class="docutils literal"><span class="pre">:root</span></tt>, <tt class="docutils literal"><span class="pre">:nth-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:nth-last-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:first-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:last-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:only-of-type</span></tt></li>
+<li><tt class="docutils literal">:root</tt>, <tt class="docutils literal"><span class="pre">:nth-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:nth-last-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:first-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:last-of-type</span></tt>, <tt class="docutils literal"><span class="pre">:only-of-type</span></tt></li>
 </ul>
 </dd>
 </dl>
@@ -101,10 +101,10 @@ in which case elements matching <em>all</em> the selectors are returned. Further
 concatenations can be <em>combined</em> by joining them with spaces and combinators.
 This invokes the regular CSS behaviour of matching parts of the combination in
 sequence, starting off each part from the elements returned by the preceeding part.</p>
-<p>For the <tt class="docutils literal"><span class="pre">:nth-*</span></tt> pseudoclasses, the <tt class="docutils literal"><span class="pre">an+b</span></tt> syntax is partially
+<p>For the <tt class="docutils literal"><span class="pre">:nth-*</span></tt> pseudoclasses, the <tt class="docutils literal">an+b</tt> syntax is partially
 supported, specifically a and b must be non-negative and only a is
-optional (this differs from the CSS std.) Also, <tt class="docutils literal"><span class="pre">odd</span></tt> and <tt class="docutils literal"><span class="pre">even</span></tt>
-are supported, e.g. <tt class="docutils literal"><span class="pre">table</span> <span class="pre">tr:nth-child(odd)</span></tt> gives you every
+optional (this differs from the CSS std.) Also, <tt class="docutils literal">odd</tt> and <tt class="docutils literal">even</tt>
+are supported, e.g. <tt class="docutils literal">table <span class="pre">tr:nth-child(odd)</span></tt> gives you every
 other row of table starting with the first one.</p>
 <p>For further documentation of CSS selectors, refer to the W3C CSS standard. <a class="footnote-reference" href="#id3" id="id2">[1]</a></p>
 <p>The original version of this module was ported from Prototype.</p>
@@ -113,8 +113,8 @@ fully guaranteed. The implementation is scheduled to be replaced with a new
 faster version (now in development) during the MochiKit 1.5 development
 cycle.</p>
 <p><strong>Note:</strong> Due to how Internet Explorer handles node attributes, some attribute
-selectors may not work as expected. In particular <tt class="docutils literal"><span class="pre">a[title]</span></tt> will not work
-as all <tt class="docutils literal"><span class="pre">A</span></tt> elements in the Internet Explorer DOM model have a title attribute
+selectors may not work as expected. In particular <tt class="docutils literal">a[title]</tt> will not work
+as all <tt class="docutils literal">A</tt> elements in the Internet Explorer DOM model have a title attribute
 regardless of whether it's specified in the markup or not.</p>
 </div>
 <div class="section" id="api-reference">
@@ -126,7 +126,7 @@ regardless of whether it's specified in the markup or not.</p>
 <a class="mochidef reference external" href="#fn-finddocelements">findDocElements(expression[, ...])</a>:</p>
 <blockquote>
 <p>Performs a selection on the active document. Equivalent
-to <tt class="docutils literal"><span class="pre">findChildElements(MochiKit.DOM.currentDocument(),</span> <span class="pre">[expression,</span> <span class="pre">...])</span></tt></p>
+to <tt class="docutils literal"><span class="pre">findChildElements(MochiKit.DOM.currentDocument(),</span> [expression, <span class="pre">...])</span></tt></p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -136,8 +136,8 @@ to <tt class="docutils literal"><span class="pre">findChildElements(MochiKit.DOM
 <a name="fn-findchildelements"></a>
 <a class="mochidef reference external" href="#fn-findchildelements">findChildElements(element, expressions)</a>:</p>
 <blockquote>
-<p>Traverses the child nodes of <tt class="docutils literal"><span class="pre">element</span></tt> and returns the subset
-of those that match any of the selector expressions in <tt class="docutils literal"><span class="pre">expressions</span></tt>.</p>
+<p>Traverses the child nodes of <tt class="docutils literal">element</tt> and returns the subset
+of those that match any of the selector expressions in <tt class="docutils literal">expressions</tt>.</p>
 <p>Each expression can be a combination of simple expressions, by concatenating
 them with spaces or combinators. In that case, normal CSS rules apply, each
 simple expression is evaluated in turn and the results of that one is used
@@ -152,7 +152,7 @@ Finally, the results of the last simple expression is returned as the search res
 <a name="fn-$$"></a>
 <a class="mochidef reference external" href="#fn-$$">$$(expression[, ...])</a>:</p>
 <blockquote>
-<p>An alias to <tt class="docutils literal"><span class="pre">findDocElements</span></tt>.</p>
+<p>An alias to <tt class="docutils literal">findDocElements</tt>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -187,17 +187,17 @@ removed in version 1.5.</dd>
 <a name="fn-selector.findelements"></a>
 <a class="mochidef reference external" href="#fn-selector.findelements">Selector.findElements(scope[, axis=&quot;&quot;])</a>:</p>
 <blockquote>
-<p>Performs a search on <tt class="docutils literal"><span class="pre">scope</span></tt>. The value of axis controls what relatives
-of <tt class="docutils literal"><span class="pre">scope</span></tt> are considered.</p>
+<p>Performs a search on <tt class="docutils literal">scope</tt>. The value of axis controls what relatives
+of <tt class="docutils literal">scope</tt> are considered.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">scope</span></tt>:</dt>
+<dt><tt class="docutils literal">scope</tt>:</dt>
 <dd>A DOM node that acts as a starting point for the search.</dd>
-<dt><tt class="docutils literal"><span class="pre">axis</span></tt>:</dt>
-<dd>One of <tt class="docutils literal"><span class="pre">&quot;&gt;&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;+&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;~&quot;</span></tt> or the empty string (default).
-If the empty string, all descendant nodes of <tt class="docutils literal"><span class="pre">scope</span></tt> are tested against
-the expression. If <tt class="docutils literal"><span class="pre">&gt;</span></tt> only direct child nodes of <tt class="docutils literal"><span class="pre">scope</span></tt> are tested,
-if <tt class="docutils literal"><span class="pre">+</span></tt> only the next sibling (if any) of <tt class="docutils literal"><span class="pre">scope</span></tt> is tested and if
-<tt class="docutils literal"><span class="pre">~</span></tt> all succeeding siblings of <tt class="docutils literal"><span class="pre">scope</span></tt> are tested.</dd>
+<dt><tt class="docutils literal">axis</tt>:</dt>
+<dd>One of <tt class="docutils literal">&quot;&gt;&quot;</tt>, <tt class="docutils literal">&quot;+&quot;</tt>, <tt class="docutils literal">&quot;~&quot;</tt> or the empty string (default).
+If the empty string, all descendant nodes of <tt class="docutils literal">scope</tt> are tested against
+the expression. If <tt class="docutils literal">&gt;</tt> only direct child nodes of <tt class="docutils literal">scope</tt> are tested,
+if <tt class="docutils literal">+</tt> only the next sibling (if any) of <tt class="docutils literal">scope</tt> is tested and if
+<tt class="docutils literal">~</tt> all succeeding siblings of <tt class="docutils literal">scope</tt> are tested.</dd>
 <dt><em>Deprecated</em>:</dt>
 <dd>Use <a class="mochiref reference external" href="#fn-findchildelements">findChildElements</a> instead. The Selector class will be
 removed in version 1.5.</dd>

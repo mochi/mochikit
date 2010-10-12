@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
 <title>MochiKit.DOM - painless DOM manipulation API</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -50,8 +50,8 @@ reasonable basis to build something that sucks a lot less.</p>
 <a class="footnote-reference" href="#id6" id="id2">[2]</a>.  This means you choose a tag, give it some attributes, then
 stuff it full of <em>whatever objects you want</em>. MochiKit.DOM isn't
 stupid, it knows that a string should be a text node, and that you
-want functions to be called, and that <tt class="docutils literal"><span class="pre">Array</span></tt>-like objects should be
-expanded, and stupid <tt class="docutils literal"><span class="pre">null</span></tt> values should be skipped.</p>
+want functions to be called, and that <tt class="docutils literal">Array</tt>-like objects should be
+expanded, and stupid <tt class="docutils literal">null</tt> values should be skipped.</p>
 <p>Hell, it will let you return strings from functions, and use iterators
 from <a class="mochiref reference external" href="Iter.html">MochiKit.Iter</a>. If that's not enough, just teach it
 new tricks with <a class="mochiref reference external" href="#fn-registerdomconverter">registerDOMConverter</a>. If you have never
@@ -74,25 +74,25 @@ backwards-compatibility)</li>
 <p>In order of precedence, <a class="mochiref reference external" href="#fn-createdom">createDOM</a> coerces given arguments
 to DOM nodes using the following rules:</p>
 <ol class="arabic simple">
-<li>Functions are called with a <tt class="docutils literal"><span class="pre">this</span></tt> and first argument of the
+<li>Functions are called with a <tt class="docutils literal">this</tt> and first argument of the
 parent node and their return value is subject to the following
 rules (even this one).</li>
-<li><tt class="docutils literal"><span class="pre">undefined</span></tt> and <tt class="docutils literal"><span class="pre">null</span></tt> are ignored.</li>
+<li><tt class="docutils literal">undefined</tt> and <tt class="docutils literal">null</tt> are ignored.</li>
 <li>If <a class="mochiref reference external" href="Iter.html">MochiKit.Iter</a> is loaded, iterables are flattened
 (as if they were passed in-line as nodes) and each return value is
 subject to these rules.</li>
-<li>Values that look like DOM nodes (objects with a <tt class="docutils literal"><span class="pre">.nodeType</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt>)
-are <tt class="docutils literal"><span class="pre">.appendChild</span></tt>'ed to the created DOM fragment.</li>
-<li>Strings are wrapped up with <tt class="docutils literal"><span class="pre">document.createTextNode</span></tt></li>
-<li>Objects that have a <tt class="docutils literal"><span class="pre">.dom(node)</span></tt> or <tt class="docutils literal"><span class="pre">.__dom__(node)</span></tt> method
+<li>Values that look like DOM nodes (objects with a <tt class="docutils literal">.nodeType &gt; 0</tt>)
+are <tt class="docutils literal">.appendChild</tt>'ed to the created DOM fragment.</li>
+<li>Strings are wrapped up with <tt class="docutils literal">document.createTextNode</tt></li>
+<li>Objects that have a <tt class="docutils literal">.dom(node)</tt> or <tt class="docutils literal">.__dom__(node)</tt> method
 are called with the parent node and their result is coerced using
 these rules.  (MochiKit 1.4+).</li>
-<li>Objects that are not strings are run through the <tt class="docutils literal"><span class="pre">domConverters</span></tt>
+<li>Objects that are not strings are run through the <tt class="docutils literal">domConverters</tt>
 <a class="mochiref reference external" href="Base.html#fn-adapterregistry">MochiKit.Base.AdapterRegistry</a> (see
 <a class="mochiref reference external" href="#fn-registerdomconverter">registerDOMConverter</a>).  The adapted value is subject
 to these same rules (e.g.  if the adapter returns a string, it
 will be coerced to a text node).</li>
-<li>If no adapter is available, <tt class="docutils literal"><span class="pre">.toString()</span></tt> is used to create a
+<li>If no adapter is available, <tt class="docutils literal">.toString()</tt> is used to create a
 text node.</li>
 </ol>
 </div>
@@ -182,7 +182,7 @@ inserted into the document DOM):</p>
 </div>
 <div class="section" id="dom-context">
 <h2>DOM Context</h2>
-<p>In order to prevent having to pass a <tt class="docutils literal"><span class="pre">window</span></tt> and/or <tt class="docutils literal"><span class="pre">document</span></tt>
+<p>In order to prevent having to pass a <tt class="docutils literal">window</tt> and/or <tt class="docutils literal">document</tt>
 variable to every MochiKit.DOM function (e.g. when working with a
 child window), MochiKit.DOM maintains a context variable for each of
 them. They are managed with the <a class="mochiref reference external" href="#fn-withwindow">withWindow</a> and
@@ -204,7 +204,7 @@ withWindow(child, function () {
 <dl class="docutils">
 <dt>Performance Tradeoff:</dt>
 <dd>DOM is much easier to get correct and more flexible than working
-directly with markup as strings. Modifying <tt class="docutils literal"><span class="pre">innerHTML</span></tt> is still
+directly with markup as strings. Modifying <tt class="docutils literal">innerHTML</tt> is still
 the fastest way to make document changes.</dd>
 <dt>Internet Explorer:</dt>
 <dd>Internet Explorer's DOM implementation is quite poor in comparison
@@ -212,7 +212,7 @@ to the other popular implementations. In order to avoid memory
 leaks due to circular references, you should use
 <a class="mochiref reference external" href="Signal.html#fn-connect">MochiKit.Signal.connect</a> for all of your event handling
 needs. Additionally, when creating tables with DOM, it is required
-to use a <tt class="docutils literal"><span class="pre">TBODY</span></tt> tag (see <a class="reference internal" href="#creating-dom-element-trees">Creating DOM Element Trees</a> for an
+to use a <tt class="docutils literal">TBODY</tt> tag (see <a class="reference internal" href="#creating-dom-element-trees">Creating DOM Element Trees</a> for an
 example of this).</dd>
 </dl>
 </div>
@@ -235,9 +235,9 @@ example of this).</dd>
 <a name="fn-addelementclass"></a>
 <a class="mochidef reference external" href="#fn-addelementclass">addElementClass(element, className)</a>:</p>
 <blockquote>
-<p>Ensure that the given <tt class="docutils literal"><span class="pre">element</span></tt> has <tt class="docutils literal"><span class="pre">className</span></tt> set as part of
+<p>Ensure that the given <tt class="docutils literal">element</tt> has <tt class="docutils literal">className</tt> set as part of
 its class attribute. This will not disturb other class names.
-<tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string
+<tt class="docutils literal">element</tt> is looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string
 identifiers are also acceptable.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -249,12 +249,12 @@ identifiers are also acceptable.</p>
 <a class="mochidef reference external" href="#fn-addloadevent">addLoadEvent(func)</a>:</p>
 <blockquote>
 <p>Note that <a class="mochiref reference external" href="#fn-addloadevent">addLoadEvent</a> can not be used in combination
-with <a class="mochiref reference external" href="Signal.html">MochiKit.Signal</a> if the <tt class="docutils literal"><span class="pre">onload</span></tt> event is
+with <a class="mochiref reference external" href="Signal.html">MochiKit.Signal</a> if the <tt class="docutils literal">onload</tt> event is
 connected.  Once an event is connected with
 <a class="mochiref reference external" href="Signal.html">MochiKit.Signal</a>, no other APIs may be used for that
 same event.</p>
-<p>This will stack <tt class="docutils literal"><span class="pre">window.onload</span></tt> functions on top of each other.
-Each function added will be called after <tt class="docutils literal"><span class="pre">onload</span></tt> in the order
+<p>This will stack <tt class="docutils literal">window.onload</tt> functions on top of each other.
+Each function added will be called after <tt class="docutils literal">onload</tt> in the order
 that they were added.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -269,14 +269,14 @@ that they were added.</p>
 <a class="mochiref reference external" href="Signal.html">MochiKit.Signal</a>. Once an event is connected with
 <a class="mochiref reference external" href="Signal.html">MochiKit.Signal</a>, no other APIs may be used for that
 same event.</p>
-<p>Set the property <tt class="docutils literal"><span class="pre">path</span></tt> of <tt class="docutils literal"><span class="pre">target</span></tt> to a function that calls
+<p>Set the property <tt class="docutils literal">path</tt> of <tt class="docutils literal">target</tt> to a function that calls
 the existing function at that property (if any), then calls
-<tt class="docutils literal"><span class="pre">func</span></tt>.</p>
-<p>If <tt class="docutils literal"><span class="pre">target[path]()</span></tt> returns exactly <tt class="docutils literal"><span class="pre">false</span></tt>, then <tt class="docutils literal"><span class="pre">func</span></tt>
+<tt class="docutils literal">func</tt>.</p>
+<p>If <tt class="docutils literal"><span class="pre">target[path]()</span></tt> returns exactly <tt class="docutils literal">false</tt>, then <tt class="docutils literal">func</tt>
 will not be called.</p>
-<p>If <tt class="docutils literal"><span class="pre">once</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then <tt class="docutils literal"><span class="pre">target[path]</span></tt> is set to <tt class="docutils literal"><span class="pre">null</span></tt>
+<p>If <tt class="docutils literal">once</tt> is <tt class="docutils literal">true</tt>, then <tt class="docutils literal">target[path]</tt> is set to <tt class="docutils literal">null</tt>
 after the function call stack has completed.</p>
-<p>If called several times for the same <tt class="docutils literal"><span class="pre">target[path]</span></tt>, it will
+<p>If called several times for the same <tt class="docutils literal">target[path]</tt>, it will
 create a stack of functions (instead of just a pair).</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -289,11 +289,11 @@ create a stack of functions (instead of just a pair).</p>
 <blockquote>
 <p>Append children to a DOM element using the <a class="reference internal" href="#dom-coercion-rules">DOM Coercion Rules</a>.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>A reference to the DOM element to add children to (if a string
 is given, <a class="mochiref reference external" href="#fn-getelement">getElement(node)</a> will be used to locate
 the node)</dd>
-<dt><tt class="docutils literal"><span class="pre">childNode</span></tt>...:</dt>
+<dt><tt class="docutils literal">childNode</tt>...:</dt>
 <dd>All additional arguments, if any, will be coerced into DOM
 nodes that are appended as children using the <a class="reference internal" href="#dom-coercion-rules">DOM Coercion
 Rules</a>.</dd>
@@ -310,11 +310,11 @@ Rules</a>.</dd>
 <p>Insert children into the DOM structure using the <a class="reference internal" href="#dom-coercion-rules">DOM Coercion
 Rules</a>.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>A reference to the DOM element you want to insert children
 before (if a string is given, <a class="mochiref reference external" href="#fn-getelement">getElement(node)</a>
 will be used to locate the node)</dd>
-<dt><tt class="docutils literal"><span class="pre">siblingNode</span></tt>...:</dt>
+<dt><tt class="docutils literal">siblingNode</tt>...:</dt>
 <dd>All additional arguments, if any, will be coerced into DOM
 nodes that are inserted as siblings using the <a class="reference internal" href="#dom-coercion-rules">DOM Coercion
 Rules</a>.</dd>
@@ -331,11 +331,11 @@ Rules</a>.</dd>
 <p>Insert children into the DOM structure using the <a class="reference internal" href="#dom-coercion-rules">DOM Coercion
 Rules</a>.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>A reference to the DOM element you want to insert children
 after (if a string is given, <a class="mochiref reference external" href="#fn-getelement">getElement(node)</a>
 will be used to locate the node)</dd>
-<dt><tt class="docutils literal"><span class="pre">siblingNode</span></tt>...:</dt>
+<dt><tt class="docutils literal">siblingNode</tt>...:</dt>
 <dd>All additional arguments, if any, will be coerced into DOM
 nodes that are inserted as siblings using the <a class="reference internal" href="#dom-coercion-rules">DOM Coercion
 Rules</a>.</dd>
@@ -354,61 +354,61 @@ Nevow`s <a class="footnote-reference" href="#id5" id="id3">[1]</a> stan <a class
 <p>Partially applied versions of this function for common tags are
 available as aliases:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">A</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">BUTTON</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">BR</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">CANVAS</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">DD</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">DIV</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">DL</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">DT</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">FIELDSET</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">FORM</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">H1</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">H2</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">H3</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">H4</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">H5</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">H6</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">HR</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">IMG</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">INPUT</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">LABEL</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">LEGEND</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">LI</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">OL</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">OPTGROUP</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">OPTION</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">P</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">PRE</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">SELECT</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">SPAN</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">STRONG</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">TABLE</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">TBODY</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">TD</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">TEXTAREA</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">TFOOT</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">TH</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">THEAD</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">TR</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">TT</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">UL</span></tt></li>
+<li><tt class="docutils literal">A</tt></li>
+<li><tt class="docutils literal">BUTTON</tt></li>
+<li><tt class="docutils literal">BR</tt></li>
+<li><tt class="docutils literal">CANVAS</tt></li>
+<li><tt class="docutils literal">DD</tt></li>
+<li><tt class="docutils literal">DIV</tt></li>
+<li><tt class="docutils literal">DL</tt></li>
+<li><tt class="docutils literal">DT</tt></li>
+<li><tt class="docutils literal">FIELDSET</tt></li>
+<li><tt class="docutils literal">FORM</tt></li>
+<li><tt class="docutils literal">H1</tt></li>
+<li><tt class="docutils literal">H2</tt></li>
+<li><tt class="docutils literal">H3</tt></li>
+<li><tt class="docutils literal">H4</tt></li>
+<li><tt class="docutils literal">H5</tt></li>
+<li><tt class="docutils literal">H6</tt></li>
+<li><tt class="docutils literal">HR</tt></li>
+<li><tt class="docutils literal">IMG</tt></li>
+<li><tt class="docutils literal">INPUT</tt></li>
+<li><tt class="docutils literal">LABEL</tt></li>
+<li><tt class="docutils literal">LEGEND</tt></li>
+<li><tt class="docutils literal">LI</tt></li>
+<li><tt class="docutils literal">OL</tt></li>
+<li><tt class="docutils literal">OPTGROUP</tt></li>
+<li><tt class="docutils literal">OPTION</tt></li>
+<li><tt class="docutils literal">P</tt></li>
+<li><tt class="docutils literal">PRE</tt></li>
+<li><tt class="docutils literal">SELECT</tt></li>
+<li><tt class="docutils literal">SPAN</tt></li>
+<li><tt class="docutils literal">STRONG</tt></li>
+<li><tt class="docutils literal">TABLE</tt></li>
+<li><tt class="docutils literal">TBODY</tt></li>
+<li><tt class="docutils literal">TD</tt></li>
+<li><tt class="docutils literal">TEXTAREA</tt></li>
+<li><tt class="docutils literal">TFOOT</tt></li>
+<li><tt class="docutils literal">TH</tt></li>
+<li><tt class="docutils literal">THEAD</tt></li>
+<li><tt class="docutils literal">TR</tt></li>
+<li><tt class="docutils literal">TT</tt></li>
+<li><tt class="docutils literal">UL</tt></li>
 </ul>
 <p>See <a class="reference internal" href="#creating-dom-element-trees">Creating DOM Element Trees</a> for a comprehensive example.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">name</span></tt>:</dt>
+<dt><tt class="docutils literal">name</tt>:</dt>
 <dd>The kind of fragment to create (e.g. 'span'), such as you
-would pass to <tt class="docutils literal"><span class="pre">document.createElement</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">attrs</span></tt>:</dt>
+would pass to <tt class="docutils literal">document.createElement</tt>.</dd>
+<dt><tt class="docutils literal">attrs</tt>:</dt>
 <dd><p class="first">An object whose properties will be used as the attributes
-(e.g. <tt class="docutils literal"><span class="pre">{'style':</span> <span class="pre">'display:block'}</span></tt>), or <tt class="docutils literal"><span class="pre">null</span></tt> if no
+(e.g. <tt class="docutils literal">{'style': 'display:block'}</tt>), or <tt class="docutils literal">null</tt> if no
 attributes need to be set.</p>
 <p>See <a class="mochiref reference external" href="#fn-updatenodeattributes">updateNodeAttributes</a> for more information.</p>
-<p class="last">For convenience, if <tt class="docutils literal"><span class="pre">attrs</span></tt> is a string, <tt class="docutils literal"><span class="pre">null</span></tt> is used
-and the string will be considered the first <tt class="docutils literal"><span class="pre">node</span></tt>.</p>
+<p class="last">For convenience, if <tt class="docutils literal">attrs</tt> is a string, <tt class="docutils literal">null</tt> is used
+and the string will be considered the first <tt class="docutils literal">node</tt>.</p>
 </dd>
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>...:</dt>
+<dt><tt class="docutils literal">node</tt>...:</dt>
 <dd>All additional arguments, if any, will be coerced into DOM
 nodes that are appended as children using the <a class="reference internal" href="#dom-coercion-rules">DOM Coercion
 Rules</a>.</dd>
@@ -429,11 +429,11 @@ lot of tags with a bunch of the same attributes or contents.</p>
 <p>See <a class="mochiref reference external" href="#fn-createdom">createDOM</a> for more detailed descriptions of the
 arguments.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">tag</span></tt>:</dt>
+<dt><tt class="docutils literal">tag</tt>:</dt>
 <dd>The name of the tag</dd>
-<dt><tt class="docutils literal"><span class="pre">attrs</span></tt>:</dt>
+<dt><tt class="docutils literal">attrs</tt>:</dt>
 <dd>Optionally specify the attributes to apply</dd>
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>...:</dt>
+<dt><tt class="docutils literal">node</tt>...:</dt>
 <dd>Optionally specify any children nodes it should have</dd>
 <dt><em>returns</em>:</dt>
 <dd>function that takes additional arguments and calls
@@ -446,8 +446,8 @@ arguments.</p>
 <a name="fn-currentdocument"></a>
 <a class="mochidef reference external" href="#fn-currentdocument">currentDocument()</a>:</p>
 <blockquote>
-<p>Return the current <tt class="docutils literal"><span class="pre">document</span></tt> <a class="reference internal" href="#dom-context">DOM Context</a>. This will always
-be the same as the global <tt class="docutils literal"><span class="pre">document</span></tt> unless
+<p>Return the current <tt class="docutils literal">document</tt> <a class="reference internal" href="#dom-context">DOM Context</a>. This will always
+be the same as the global <tt class="docutils literal">document</tt> unless
 <a class="mochiref reference external" href="#fn-withdocument">withDocument</a> or <a class="mochiref reference external" href="#fn-withwindow">withWindow</a> is currently
 executing.</p>
 <dl class="docutils">
@@ -459,8 +459,8 @@ executing.</p>
 <a name="fn-currentwindow"></a>
 <a class="mochidef reference external" href="#fn-currentwindow">currentWindow()</a>:</p>
 <blockquote>
-<p>Return the current <tt class="docutils literal"><span class="pre">window</span></tt> <a class="reference internal" href="#dom-context">DOM Context</a>. This will always be
-the same as the global <tt class="docutils literal"><span class="pre">window</span></tt> unless <a class="mochiref reference external" href="#fn-withwindow">withWindow</a> is
+<p>Return the current <tt class="docutils literal">window</tt> <a class="reference internal" href="#dom-context">DOM Context</a>. This will always be
+the same as the global <tt class="docutils literal">window</tt> unless <a class="mochiref reference external" href="#fn-withwindow">withWindow</a> is
 currently executing.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -471,9 +471,9 @@ currently executing.</p>
 <a name="fn-emithtml"></a>
 <a class="mochidef reference external" href="#fn-emithtml">emitHTML(dom[, lst])</a>:</p>
 <blockquote>
-<p>Convert a DOM tree to an <tt class="docutils literal"><span class="pre">Array</span></tt> of HTML string fragments. This should
+<p>Convert a DOM tree to an <tt class="docutils literal">Array</tt> of HTML string fragments. This should
 be used for debugging/testing purposes only.</p>
-<p>The DOM property <tt class="docutils literal"><span class="pre">innerHTML</span></tt> or <tt class="docutils literal"><span class="pre">cloneNode(true)</span></tt> method should
+<p>The DOM property <tt class="docutils literal">innerHTML</tt> or <tt class="docutils literal">cloneNode(true)</tt> method should
 be used for most purposes.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -484,8 +484,8 @@ be used for most purposes.</p>
 <a name="fn-escapehtml"></a>
 <a class="mochidef reference external" href="#fn-escapehtml">escapeHTML(s)</a>:</p>
 <blockquote>
-<p>Make a string safe for HTML, converting the usual suspects (<tt class="docutils literal"><span class="pre">&lt;</span></tt>,
-<tt class="docutils literal"><span class="pre">&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&amp;</span></tt>) to their HTML character entity equivalents.</p>
+<p>Make a string safe for HTML, converting the usual suspects (<tt class="docutils literal">&lt;</tt>,
+<tt class="docutils literal">&gt;</tt>, <tt class="docutils literal">&quot;</tt>, <tt class="docutils literal">&amp;</tt>) to their HTML character entity equivalents.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -496,7 +496,7 @@ be used for most purposes.</p>
 <a class="mochidef reference external" href="#fn-focusonload">focusOnLoad(element)</a>:</p>
 <blockquote>
 <p>Note that <a class="mochiref reference external" href="#fn-focusonload">focusOnLoad</a> can not be used in combination
-with <a class="mochiref reference external" href="Signal.html">MochiKit.Signal</a> if the <tt class="docutils literal"><span class="pre">onload</span></tt> event is
+with <a class="mochiref reference external" href="Signal.html">MochiKit.Signal</a> if the <tt class="docutils literal">onload</tt> event is
 connected.  Once an event is connected with
 <a class="mochiref reference external" href="Signal.html">MochiKit.Signal</a>, no other APIs may be used for that
 same event.</p>
@@ -510,9 +510,9 @@ same event.</p>
 <a name="fn-formcontents"></a>
 <a class="mochidef reference external" href="#fn-formcontents">formContents(elem=document.body)</a>:</p>
 <blockquote>
-<p>Search the DOM tree, starting at <tt class="docutils literal"><span class="pre">elem</span></tt>, for any elements with a
-<tt class="docutils literal"><span class="pre">name</span></tt> and <tt class="docutils literal"><span class="pre">value</span></tt> attribute. Return a 2-element <tt class="docutils literal"><span class="pre">Array</span></tt> of
-<tt class="docutils literal"><span class="pre">names</span></tt> and <tt class="docutils literal"><span class="pre">values</span></tt> suitable for use with
+<p>Search the DOM tree, starting at <tt class="docutils literal">elem</tt>, for any elements with a
+<tt class="docutils literal">name</tt> and <tt class="docutils literal">value</tt> attribute. Return a 2-element <tt class="docutils literal">Array</tt> of
+<tt class="docutils literal">names</tt> and <tt class="docutils literal">values</tt> suitable for use with
 <a class="mochiref reference external" href="Base.html#fn-querystring">MochiKit.Base.queryString</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -524,12 +524,12 @@ same event.</p>
 <a class="mochidef reference external" href="#fn-getelement">getElement(id[, ...])</a>:</p>
 <blockquote>
 <p>A small quick little function to encapsulate the
-<tt class="docutils literal"><span class="pre">getElementById</span></tt> method. It includes a check to ensure we can
+<tt class="docutils literal">getElementById</tt> method. It includes a check to ensure we can
 use that method.</p>
 <p>If the id isn't a string, it will be returned as-is.</p>
 <p>Also available as <a class="mochiref reference external" href="#fn-$">$(...)</a> for convenience and
 compatibility with other JavaScript frameworks.</p>
-<p>If multiple arguments are given, an <tt class="docutils literal"><span class="pre">Array</span></tt> will be returned.</p>
+<p>If multiple arguments are given, an <tt class="docutils literal">Array</tt> will be returned.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -539,12 +539,12 @@ compatibility with other JavaScript frameworks.</p>
 <a name="fn-getelementsbytagandclassname"></a>
 <a class="mochidef reference external" href="#fn-getelementsbytagandclassname">getElementsByTagAndClassName(tagName, className, parent=document)</a>:</p>
 <blockquote>
-<p>Returns an array of elements in <tt class="docutils literal"><span class="pre">parent</span></tt> that match the tag name
-and class name provided. If <tt class="docutils literal"><span class="pre">parent</span></tt> is a string, it will be
+<p>Returns an array of elements in <tt class="docutils literal">parent</tt> that match the tag name
+and class name provided. If <tt class="docutils literal">parent</tt> is a string, it will be
 looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>.</p>
-<p>If <tt class="docutils literal"><span class="pre">tagName</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt> or <tt class="docutils literal"><span class="pre">&quot;*&quot;</span></tt>, all elements will be
+<p>If <tt class="docutils literal">tagName</tt> is <tt class="docutils literal">null</tt> or <tt class="docutils literal">&quot;*&quot;</tt>, all elements will be
 searched for the matching class.</p>
-<p>If <tt class="docutils literal"><span class="pre">className</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, all elements matching the provided
+<p>If <tt class="docutils literal">className</tt> is <tt class="docutils literal">null</tt>, all elements matching the provided
 tag are returned.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -555,12 +555,12 @@ tag are returned.</p>
 <a name="fn-getfirstelementbytagandclassname"></a>
 <a class="mochidef reference external" href="#fn-getfirstelementbytagandclassname">getFirstElementByTagAndClassName(tagName, className, parent=document)</a>:</p>
 <blockquote>
-<p>Return the first element in <tt class="docutils literal"><span class="pre">parent</span></tt> that matches the tag name
-and class name provided. If <tt class="docutils literal"><span class="pre">parent</span></tt> is a string, it will be
+<p>Return the first element in <tt class="docutils literal">parent</tt> that matches the tag name
+and class name provided. If <tt class="docutils literal">parent</tt> is a string, it will be
 looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>.</p>
-<p>If <tt class="docutils literal"><span class="pre">tagName</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt> or <tt class="docutils literal"><span class="pre">&quot;*&quot;</span></tt>, all elements will be searched
+<p>If <tt class="docutils literal">tagName</tt> is <tt class="docutils literal">null</tt> or <tt class="docutils literal">&quot;*&quot;</tt>, all elements will be searched
 for the matching class.</p>
-<p>If <tt class="docutils literal"><span class="pre">className</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, the first element matching the provided
+<p>If <tt class="docutils literal">className</tt> is <tt class="docutils literal">null</tt>, the first element matching the provided
 tag will be returned.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -571,14 +571,14 @@ tag will be returned.</p>
 <a name="fn-getfirstparentbytagandclassname"></a>
 <a class="mochidef reference external" href="#fn-getfirstparentbytagandclassname">getFirstParentByTagAndClassName(elem, tagName='*', className=null)</a>:</p>
 <blockquote>
-<p>Returns the first parent of <tt class="docutils literal"><span class="pre">elem</span></tt> that matches the tag name and class
-name provided. If <tt class="docutils literal"><span class="pre">elem</span></tt> is a string, it will be looked up using
+<p>Returns the first parent of <tt class="docutils literal">elem</tt> that matches the tag name and class
+name provided. If <tt class="docutils literal">elem</tt> is a string, it will be looked up using
 <a class="mochiref reference external" href="#fn-getelement">getElement</a>.</p>
-<p>If <tt class="docutils literal"><span class="pre">tagName</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt> or <tt class="docutils literal"><span class="pre">&quot;*&quot;</span></tt>, all elements will be searched
+<p>If <tt class="docutils literal">tagName</tt> is <tt class="docutils literal">null</tt> or <tt class="docutils literal">&quot;*&quot;</tt>, all elements will be searched
 for the matching class.</p>
-<p>If <tt class="docutils literal"><span class="pre">className</span></tt> is <tt class="docutils literal"><span class="pre">null</span></tt>, the first element matching the provided
+<p>If <tt class="docutils literal">className</tt> is <tt class="docutils literal">null</tt>, the first element matching the provided
 tag name will be returned.</p>
-<p>If no match is found, <tt class="docutils literal"><span class="pre">null</span></tt> will be returned.</p>
+<p>If no match is found, <tt class="docutils literal">null</tt> will be returned.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>
@@ -589,19 +589,19 @@ tag name will be returned.</p>
 <a class="mochidef reference external" href="#fn-getnodeattribute">getNodeAttribute(node, attr)</a>:</p>
 <blockquote>
 <p>Get the value of the given attribute for a DOM element without
-ever raising an exception (will return <tt class="docutils literal"><span class="pre">null</span></tt> on exception).</p>
+ever raising an exception (will return <tt class="docutils literal">null</tt> on exception).</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>A reference to the DOM element to update (if a string is
 given, <a class="mochiref reference external" href="#fn-getelement">getElement(node)</a> will be used to locate the
 node)</dd>
-<dt><tt class="docutils literal"><span class="pre">attr</span></tt>:</dt>
+<dt><tt class="docutils literal">attr</tt>:</dt>
 <dd><p class="first">The name of the attribute</p>
 <p class="last">Note that it will do the right thing for IE, so don't do
-the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself.</p>
+the <tt class="docutils literal">class</tt> -&gt; <tt class="docutils literal">className</tt> hack yourself.</p>
 </dd>
 <dt><em>returns</em>:</dt>
-<dd>The attribute's value, or <tt class="docutils literal"><span class="pre">null</span></tt></dd>
+<dd>The attribute's value, or <tt class="docutils literal">null</tt></dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
 </dl>
@@ -610,8 +610,8 @@ the <tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt c
 <a name="fn-haselementclass"></a>
 <a class="mochidef reference external" href="#fn-haselementclass">hasElementClass(element, className[, ...])</a>:</p>
 <blockquote>
-<p>Return <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">className</span></tt> is found on the <tt class="docutils literal"><span class="pre">element</span></tt>.
-<tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string
+<p>Return <tt class="docutils literal">true</tt> if <tt class="docutils literal">className</tt> is found on the <tt class="docutils literal">element</tt>.
+<tt class="docutils literal">element</tt> is looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string
 identifiers are also acceptable.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -622,11 +622,11 @@ identifiers are also acceptable.</p>
 <a name="fn-ischildnode"></a>
 <a class="mochidef reference external" href="#fn-ischildnode">isChildNode(node, maybeParent)</a>:</p>
 <blockquote>
-<p>Determine whether <tt class="docutils literal"><span class="pre">node</span></tt> is a child node or decendant node of
-<tt class="docutils literal"><span class="pre">maybeParent</span></tt>. Returns <tt class="docutils literal"><span class="pre">true</span></tt> if so, and <tt class="docutils literal"><span class="pre">false</span></tt> if not.
+<p>Determine whether <tt class="docutils literal">node</tt> is a child node or decendant node of
+<tt class="docutils literal">maybeParent</tt>. Returns <tt class="docutils literal">true</tt> if so, and <tt class="docutils literal">false</tt> if not.
 A node is considered a child node of itself for the purposes of
 this function.</p>
-<p>If either <tt class="docutils literal"><span class="pre">node</span></tt> or <tt class="docutils literal"><span class="pre">maybeParent</span></tt> are strings, the related
+<p>If either <tt class="docutils literal">node</tt> or <tt class="docutils literal">maybeParent</tt> are strings, the related
 nodes will be looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -637,8 +637,8 @@ nodes will be looked up with <a class="mochiref reference external" href="#fn-ge
 <a name="fn-registerdomconverter"></a>
 <a class="mochidef reference external" href="#fn-registerdomconverter">registerDOMConverter(name, check, wrap[, override])</a>:</p>
 <blockquote>
-<p>Register an adapter to convert objects that match <tt class="docutils literal"><span class="pre">check(obj,</span>
-<span class="pre">ctx)</span></tt> to a DOM element, or something that can be converted to a
+<p>Register an adapter to convert objects that match <tt class="docutils literal">check(obj,
+ctx)</tt> to a DOM element, or something that can be converted to a
 DOM element (i.e. number, bool, string, function, iterable).</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -649,9 +649,9 @@ DOM element (i.e. number, bool, string, function, iterable).</p>
 <a name="fn-removeelement"></a>
 <a class="mochidef reference external" href="#fn-removeelement">removeElement(node)</a>:</p>
 <blockquote>
-<p>Remove and return <tt class="docutils literal"><span class="pre">node</span></tt> from a DOM tree.</p>
+<p>Remove and return <tt class="docutils literal">node</tt> from a DOM tree.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>the DOM element (or string id of one) to be removed</dd>
 <dt><em>returns</em></dt>
 <dd>The removed element</dd>
@@ -663,9 +663,9 @@ DOM element (i.e. number, bool, string, function, iterable).</p>
 <a name="fn-removeelementclass"></a>
 <a class="mochidef reference external" href="#fn-removeelementclass">removeElementClass(element, className)</a>:</p>
 <blockquote>
-<p>Ensure that the given <tt class="docutils literal"><span class="pre">element</span></tt> does not have <tt class="docutils literal"><span class="pre">className</span></tt> set
+<p>Ensure that the given <tt class="docutils literal">element</tt> does not have <tt class="docutils literal">className</tt> set
 as part of its class attribute. This will not disturb other class
-names.  <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so
+names.  <tt class="docutils literal">element</tt> is looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so
 string identifiers are also acceptable.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -677,10 +677,10 @@ string identifiers are also acceptable.</p>
 <a class="mochidef reference external" href="#fn-removeemptytextnodes">removeEmptyTextNodes(node)</a>:</p>
 <blockquote>
 <p>Remove all text node children that contain only whitespace from
-<tt class="docutils literal"><span class="pre">node</span></tt>. Useful in situations where such empty text nodes can
+<tt class="docutils literal">node</tt>. Useful in situations where such empty text nodes can
 interfere with DOM traversal.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>the DOM element (or string id of one) to remove whitespace child
 nodes from.</dd>
 <dt><em>Availability</em>:</dt>
@@ -694,11 +694,11 @@ nodes from.</dd>
 <p>Remove all children from the given DOM element, then append any
 given childNodes to it (by calling <a class="mochiref reference external" href="#fn-appendchildnodes">appendChildNodes</a>).</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>A reference to the DOM element to add children to (if a string
 is given, <a class="mochiref reference external" href="#fn-getelement">getElement(node)</a> will be used to locate
 the node)</dd>
-<dt><tt class="docutils literal"><span class="pre">childNode</span></tt>...:</dt>
+<dt><tt class="docutils literal">childNode</tt>...:</dt>
 <dd>All additional arguments, if any, will be coerced into DOM
 nodes that are appended as children using the <a class="reference internal" href="#dom-coercion-rules">DOM Coercion
 Rules</a>.</dd>
@@ -713,8 +713,8 @@ Rules</a>.</dd>
 <a class="mochidef reference external" href="#fn-scrapetext">scrapeText(node[, asArray=false])</a>:</p>
 <blockquote>
 <p>Walk a DOM tree in-order and scrape all of the text out of it as a
-<tt class="docutils literal"><span class="pre">string</span></tt>.</p>
-<p>If <tt class="docutils literal"><span class="pre">asArray</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then an <tt class="docutils literal"><span class="pre">Array</span></tt> will be returned
+<tt class="docutils literal">string</tt>.</p>
+<p>If <tt class="docutils literal">asArray</tt> is <tt class="docutils literal">true</tt>, then an <tt class="docutils literal">Array</tt> will be returned
 with each individual text node. These two are equivalent:</p>
 <pre class="literal-block">
 assert( scrapeText(node) == scrapeText(node, true).join(&quot;&quot;) );
@@ -728,8 +728,8 @@ assert( scrapeText(node) == scrapeText(node, true).join(&quot;&quot;) );
 <a name="fn-setelementclass"></a>
 <a class="mochidef reference external" href="#fn-setelementclass">setElementClass(element, className)</a>:</p>
 <blockquote>
-<p>Set the entire class attribute of <tt class="docutils literal"><span class="pre">element</span></tt> to <tt class="docutils literal"><span class="pre">className</span></tt>.
-<tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string
+<p>Set the entire class attribute of <tt class="docutils literal">element</tt> to <tt class="docutils literal">className</tt>.
+<tt class="docutils literal">element</tt> is looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string
 identifiers are also acceptable.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -745,25 +745,25 @@ ever raising an exception (will return null on exception). If
 setting more than one attribute, you should use
 <a class="mochiref reference external" href="#fn-updatenodeattributes">updateNodeAttributes</a>.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>A reference to the DOM element to update (if a string is
 given, <a class="mochiref reference external" href="#fn-getelement">getElement(node)</a> will be used to locate the
 node)</dd>
-<dt><tt class="docutils literal"><span class="pre">attr</span></tt>:</dt>
+<dt><tt class="docutils literal">attr</tt>:</dt>
 <dd><p class="first">The name of the attribute</p>
 <p>Note that it will do the right thing for IE, so don't do the
-<tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself.</p>
+<tt class="docutils literal">class</tt> -&gt; <tt class="docutils literal">className</tt> hack yourself.</p>
 <p class="last">Also note that the DOM element object property with the same
 name will also be set if not already identical to the attribute
 value. This is needed to compensate for weird attributes that
 distinguish between the property and attribute values (i.e. the
 &quot;value&quot; attribute for fields).</p>
 </dd>
-<dt><tt class="docutils literal"><span class="pre">value</span></tt>:</dt>
+<dt><tt class="docutils literal">value</tt>:</dt>
 <dd>The value of the attribute, may be an object to be merged
 (e.g. for setting style).</dd>
 <dt><em>returns</em>:</dt>
-<dd>The given DOM element or <tt class="docutils literal"><span class="pre">null</span></tt> on failure</dd>
+<dd>The given DOM element or <tt class="docutils literal">null</tt> on failure</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
 </dl>
@@ -772,15 +772,15 @@ distinguish between the property and attribute values (i.e. the
 <a name="fn-swapdom"></a>
 <a class="mochidef reference external" href="#fn-swapdom">swapDOM(dest, src)</a>:</p>
 <blockquote>
-<p>Replace <tt class="docutils literal"><span class="pre">dest</span></tt> in a DOM tree with <tt class="docutils literal"><span class="pre">src</span></tt>, returning <tt class="docutils literal"><span class="pre">src</span></tt>.</p>
+<p>Replace <tt class="docutils literal">dest</tt> in a DOM tree with <tt class="docutils literal">src</tt>, returning <tt class="docutils literal">src</tt>.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">dest</span></tt>:</dt>
+<dt><tt class="docutils literal">dest</tt>:</dt>
 <dd>a DOM element (or string id of one) to be replaced</dd>
-<dt><tt class="docutils literal"><span class="pre">src</span></tt>:</dt>
+<dt><tt class="docutils literal">src</tt>:</dt>
 <dd>the DOM element (or string id of one) to replace it with, or
-<tt class="docutils literal"><span class="pre">null</span></tt> if <tt class="docutils literal"><span class="pre">dest</span></tt> is to be removed (replaced with nothing).</dd>
+<tt class="docutils literal">null</tt> if <tt class="docutils literal">dest</tt> is to be removed (replaced with nothing).</dd>
 <dt><em>returns</em>:</dt>
-<dd>a DOM element (<tt class="docutils literal"><span class="pre">src</span></tt>)</dd>
+<dd>a DOM element (<tt class="docutils literal">src</tt>)</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
 </dl>
@@ -789,9 +789,9 @@ distinguish between the property and attribute values (i.e. the
 <a name="fn-swapelementclass"></a>
 <a class="mochidef reference external" href="#fn-swapelementclass">swapElementClass(element, fromClass, toClass)</a>:</p>
 <blockquote>
-<p>If <tt class="docutils literal"><span class="pre">fromClass</span></tt> is set on <tt class="docutils literal"><span class="pre">element</span></tt>, replace it with
-<tt class="docutils literal"><span class="pre">toClass</span></tt>.  This will not disturb other classes on that element.
-<tt class="docutils literal"><span class="pre">element</span></tt> is looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string
+<p>If <tt class="docutils literal">fromClass</tt> is set on <tt class="docutils literal">element</tt>, replace it with
+<tt class="docutils literal">toClass</tt>.  This will not disturb other classes on that element.
+<tt class="docutils literal">element</tt> is looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string
 identifiers are also acceptable.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -802,7 +802,7 @@ identifiers are also acceptable.</p>
 <a name="fn-toggleelementclass"></a>
 <a class="mochidef reference external" href="#fn-toggleelementclass">toggleElementClass(className[, element[, ...]])</a>:</p>
 <blockquote>
-<p>Toggle the presence of a given <tt class="docutils literal"><span class="pre">className</span></tt> in the class
+<p>Toggle the presence of a given <tt class="docutils literal">className</tt> in the class
 attribute of all given elements. All elements will be looked up
 with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string identifiers are acceptable.</p>
 <dl class="docutils">
@@ -816,7 +816,7 @@ with <a class="mochiref reference external" href="#fn-getelement">getElement</a>
 <blockquote>
 <p>Convert a DOM tree to a HTML string using <a class="mochiref reference external" href="#fn-emithtml">emitHTML</a>.
 This should be used for debugging/testing purposes only.</p>
-<p>The DOM property <tt class="docutils literal"><span class="pre">innerHTML</span></tt> or <tt class="docutils literal"><span class="pre">cloneNode(true)</span></tt> method should
+<p>The DOM property <tt class="docutils literal">innerHTML</tt> or <tt class="docutils literal">cloneNode(true)</tt> method should
 be used for most purposes.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -829,19 +829,19 @@ be used for most purposes.</p>
 <blockquote>
 <p>Update the attributes of a DOM element from a given object.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>A reference to the DOM element to update (if a string is
 given, <a class="mochiref reference external" href="#fn-getelement">getElement(node)</a> will be used to locate the
 node)</dd>
-<dt><tt class="docutils literal"><span class="pre">attrs</span></tt>:</dt>
+<dt><tt class="docutils literal">attrs</tt>:</dt>
 <dd><p class="first">An object whose properties will be used to set the attributes
-(e.g. <tt class="docutils literal"><span class="pre">{'class':</span> <span class="pre">'invisible'}</span></tt>), or <tt class="docutils literal"><span class="pre">null</span></tt> if no
+(e.g. <tt class="docutils literal">{'class': 'invisible'}</tt>), or <tt class="docutils literal">null</tt> if no
 attributes need to be set. If an object is given for the
-attribute value (e.g. <tt class="docutils literal"><span class="pre">{'style':</span> <span class="pre">{'display':</span> <span class="pre">'block'}}</span></tt>)
+attribute value (e.g. <tt class="docutils literal">{'style': {'display': <span class="pre">'block'}}</span></tt>)
 then <a class="mochiref reference external" href="Base.html#fn-updatetree">MochiKit.Base.updatetree</a> will be used to set
 that attribute.</p>
 <p>Note that it will do the right thing for IE, so don't do the
-<tt class="docutils literal"><span class="pre">class</span></tt> -&gt; <tt class="docutils literal"><span class="pre">className</span></tt> hack yourself, and it deals with
+<tt class="docutils literal">class</tt> -&gt; <tt class="docutils literal">className</tt> hack yourself, and it deals with
 setting &quot;on...&quot; event handlers correctly.</p>
 <p class="last">Also note that the DOM element object property with the same
 name will also be set if not already identical to the attribute
@@ -859,11 +859,11 @@ distinguish between the property and attribute values (i.e. the
 <a name="fn-withwindow"></a>
 <a class="mochidef reference external" href="#fn-withwindow">withWindow(win, func)</a>:</p>
 <blockquote>
-<p>Call <tt class="docutils literal"><span class="pre">func</span></tt> with the <tt class="docutils literal"><span class="pre">window</span></tt> <a class="reference internal" href="#dom-context">DOM Context</a> set to <tt class="docutils literal"><span class="pre">win</span></tt>
-and the <tt class="docutils literal"><span class="pre">document</span></tt> <a class="reference internal" href="#dom-context">DOM Context</a> set to <tt class="docutils literal"><span class="pre">win.document</span></tt>. When
-<tt class="docutils literal"><span class="pre">func()</span></tt> returns or throws an error, the <a class="reference internal" href="#dom-context">DOM Context</a> will be
+<p>Call <tt class="docutils literal">func</tt> with the <tt class="docutils literal">window</tt> <a class="reference internal" href="#dom-context">DOM Context</a> set to <tt class="docutils literal">win</tt>
+and the <tt class="docutils literal">document</tt> <a class="reference internal" href="#dom-context">DOM Context</a> set to <tt class="docutils literal">win.document</tt>. When
+<tt class="docutils literal">func()</tt> returns or throws an error, the <a class="reference internal" href="#dom-context">DOM Context</a> will be
 restored to its previous state.</p>
-<p>The return value of <tt class="docutils literal"><span class="pre">func()</span></tt> is returned by this function.</p>
+<p>The return value of <tt class="docutils literal">func()</tt> is returned by this function.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -873,10 +873,10 @@ restored to its previous state.</p>
 <a name="fn-withdocument"></a>
 <a class="mochidef reference external" href="#fn-withdocument">withDocument(doc, func)</a>:</p>
 <blockquote>
-<p>Call <tt class="docutils literal"><span class="pre">func</span></tt> with the <tt class="docutils literal"><span class="pre">doc</span></tt> <a class="reference internal" href="#dom-context">DOM Context</a> set to <tt class="docutils literal"><span class="pre">doc</span></tt>.
-When <tt class="docutils literal"><span class="pre">func()</span></tt> returns or throws an error, the <a class="reference internal" href="#dom-context">DOM Context</a>
+<p>Call <tt class="docutils literal">func</tt> with the <tt class="docutils literal">doc</tt> <a class="reference internal" href="#dom-context">DOM Context</a> set to <tt class="docutils literal">doc</tt>.
+When <tt class="docutils literal">func()</tt> returns or throws an error, the <a class="reference internal" href="#dom-context">DOM Context</a>
 will be restored to its previous state.</p>
-<p>The return value of <tt class="docutils literal"><span class="pre">func()</span></tt> is returned by this function.</p>
+<p>The return value of <tt class="docutils literal">func()</tt> is returned by this function.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -896,11 +896,11 @@ remain for backwards compability.</p>
 specified as either a string with the element's ID or the element
 object itself.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">cssProperty</span></tt>:</dt>
-<dd>MochiKit 1.3.1 expects camel case, e.g. <tt class="docutils literal"><span class="pre">backgroundColor</span></tt>.
+<dt><tt class="docutils literal">cssProperty</tt>:</dt>
+<dd>MochiKit 1.3.1 expects camel case, e.g. <tt class="docutils literal">backgroundColor</tt>.
 MochiKit 1.4+ expects CSS selector case, e.g. <tt class="docutils literal"><span class="pre">background-color</span></tt>,
 but will accept camel case for backwards-compatibility.</dd>
-<dt><tt class="docutils literal"><span class="pre">mozillaEquivalentCSS</span></tt>:</dt>
+<dt><tt class="docutils literal">mozillaEquivalentCSS</tt>:</dt>
 <dd>MochiKit 1.3.1 expects selector case.
 MochiKit 1.4+ ignores this argument.</dd>
 <dt><em>Availability</em>:</dt>
@@ -913,11 +913,11 @@ MochiKit 1.4+ ignores this argument.</dd>
 <a class="mochidef reference external" href="#fn-elementdimensions">elementDimensions(element)</a>:</p>
 <blockquote>
 <p>Return the absolute pixel width and height (including padding and border,
-but not margins) of <tt class="docutils literal"><span class="pre">element</span></tt> as an object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt>
-properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if <tt class="docutils literal"><span class="pre">element</span></tt> is not in the document.
-<tt class="docutils literal"><span class="pre">element</span></tt> may be specified as a string to be looked up with
+but not margins) of <tt class="docutils literal">element</tt> as an object with <tt class="docutils literal">w</tt> and <tt class="docutils literal">h</tt>
+properties, or <tt class="docutils literal">undefined</tt> if <tt class="docutils literal">element</tt> is not in the document.
+<tt class="docutils literal">element</tt> may be specified as a string to be looked up with
 <a class="mochiref reference external" href="#fn-getelement">getElement</a>, a DOM element, or trivially as an object with
-<tt class="docutils literal"><span class="pre">w</span></tt> and/or <tt class="docutils literal"><span class="pre">h</span></tt> properties.</p>
+<tt class="docutils literal">w</tt> and/or <tt class="docutils literal">h</tt> properties.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1, deprecated in favor of
@@ -928,14 +928,14 @@ properties, or <tt class="docutils literal"><span class="pre">undefined</span></
 <a name="fn-elementposition"></a>
 <a class="mochidef reference external" href="#fn-elementposition">elementPosition(element[, relativeTo={x: 0, y: 0}])</a>:</p>
 <blockquote>
-<p>Return the absolute pixel position of <tt class="docutils literal"><span class="pre">element</span></tt> in the document
-as an object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties, or <tt class="docutils literal"><span class="pre">undefined</span></tt> if
-<tt class="docutils literal"><span class="pre">element</span></tt> is not in the document. <tt class="docutils literal"><span class="pre">element</span></tt> may be specified
+<p>Return the absolute pixel position of <tt class="docutils literal">element</tt> in the document
+as an object with <tt class="docutils literal">x</tt> and <tt class="docutils literal">y</tt> properties, or <tt class="docutils literal">undefined</tt> if
+<tt class="docutils literal">element</tt> is not in the document. <tt class="docutils literal">element</tt> may be specified
 as a string to be looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, a DOM
-element, or trivially as an object with <tt class="docutils literal"><span class="pre">x</span></tt> and/or <tt class="docutils literal"><span class="pre">y</span></tt>
+element, or trivially as an object with <tt class="docutils literal">x</tt> and/or <tt class="docutils literal">y</tt>
 properties.</p>
-<p>If <tt class="docutils literal"><span class="pre">relativeTo</span></tt> is given, then its coordinates are subtracted from
-the absolute position of <tt class="docutils literal"><span class="pre">element</span></tt>, e.g.:</p>
+<p>If <tt class="docutils literal">relativeTo</tt> is given, then its coordinates are subtracted from
+the absolute position of <tt class="docutils literal">element</tt>, e.g.:</p>
 <pre class="literal-block">
 var elemPos = elementPosition(elem);
 var anotherElemPos = elementPosition(anotherElem);
@@ -943,9 +943,9 @@ var relPos = elementPosition(elem, anotherElem);
 assert( relPos.x == (elemPos.x - anotherElemPos.x) );
 assert( relPos.y == (elemPos.y - anotherElemPos.y) );
 </pre>
-<p><tt class="docutils literal"><span class="pre">relativeTo</span></tt> may be specified as a string to be looked up with
+<p><tt class="docutils literal">relativeTo</tt> may be specified as a string to be looked up with
 <a class="mochiref reference external" href="#fn-getelement">getElement</a>, a DOM element, or trivially as an object
-with <tt class="docutils literal"><span class="pre">x</span></tt> and/or <tt class="docutils literal"><span class="pre">y</span></tt> properties.</p>
+with <tt class="docutils literal">x</tt> and/or <tt class="docutils literal">y</tt> properties.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1, deprecated in favor of
@@ -957,7 +957,7 @@ with <tt class="docutils literal"><span class="pre">x</span></tt> and/or <tt cla
 <a class="mochidef reference external" href="#fn-getviewportdimensions">getViewportDimensions()</a>:</p>
 <blockquote>
 <p>Return the pixel width and height of the viewport as an object
-with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties. <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with
+with <tt class="docutils literal">w</tt> and <tt class="docutils literal">h</tt> properties. <tt class="docutils literal">element</tt> is looked up with
 <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string identifiers are also acceptable.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -973,7 +973,7 @@ with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class=
 <pre class="literal-block">
 partial(setDisplayForElement, &quot;none&quot;)
 </pre>
-<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt>
+<p>For information about the caveats of using a <tt class="docutils literal">style.display</tt>
 based show/hide mechanism, and a CSS based alternative, see
 <a class="reference external" href="Style.html#element-visibility">Element Visibility</a>.</p>
 </blockquote>
@@ -988,9 +988,9 @@ based show/hide mechanism, and a CSS based alternative, see
 <a name="fn-makeclipping"></a>
 <a class="mochidef reference external" href="#fn-makeclipping">makeClipping(element)</a>:</p>
 <blockquote>
-<p>Ensure that <tt class="docutils literal"><span class="pre">element.style.overflow</span> <span class="pre">=</span> <span class="pre">'hidden'</span></tt>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a
+<p>Ensure that <tt class="docutils literal">element.style.overflow = 'hidden'</tt>. If <tt class="docutils literal">element</tt> is a
 string, then it will be looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>.</p>
-<p>Returns the original values of <tt class="docutils literal"><span class="pre">overflow</span></tt>, <tt class="docutils literal"><span class="pre">overflow-y</span></tt> and
+<p>Returns the original values of <tt class="docutils literal">overflow</tt>, <tt class="docutils literal"><span class="pre">overflow-y</span></tt> and
 <tt class="docutils literal"><span class="pre">overflow-y</span></tt> so that they may be restored with
 <a class="mochiref reference external" href="#fn-undoclipping">undoClipping(element, overflow)</a>.</p>
 <dl class="docutils">
@@ -1003,8 +1003,8 @@ string, then it will be looked up with <a class="mochiref reference external" hr
 <a name="fn-makepositioned"></a>
 <a class="mochidef reference external" href="#fn-makepositioned">makePositioned(element)</a>:</p>
 <blockquote>
-<p>Ensure that <tt class="docutils literal"><span class="pre">element.style.position</span></tt> is set to <tt class="docutils literal"><span class="pre">&quot;relative&quot;</span></tt> if it
-is not set or is <tt class="docutils literal"><span class="pre">&quot;static&quot;</span></tt>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a
+<p>Ensure that <tt class="docutils literal">element.style.position</tt> is set to <tt class="docutils literal">&quot;relative&quot;</tt> if it
+is not set or is <tt class="docutils literal">&quot;static&quot;</tt>. If <tt class="docutils literal">element</tt> is a
 string, then it will be looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -1016,17 +1016,17 @@ string, then it will be looked up with <a class="mochiref reference external" hr
 <a name="fn-setelementdimensions"></a>
 <a class="mochidef reference external" href="#fn-setelementdimensions">setElementDimensions(element, dimensions[, units='px'])</a>:</p>
 <blockquote>
-<p>Sets the dimensions of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an object
-with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties.</p>
+<p>Sets the dimensions of <tt class="docutils literal">element</tt> in the document from an object
+with <tt class="docutils literal">w</tt> and <tt class="docutils literal">h</tt> properties.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>A reference to the DOM element to update (if a string is
 given, <a class="mochiref reference external" href="#fn-getelement">getElement(node)</a> will be used to locate the
 node)</dd>
-<dt><tt class="docutils literal"><span class="pre">dimensions</span></tt>:</dt>
-<dd>An object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties</dd>
-<dt><tt class="docutils literal"><span class="pre">units</span></tt>:</dt>
-<dd>Optionally set the units to use, default is <tt class="docutils literal"><span class="pre">px</span></tt></dd>
+<dt><tt class="docutils literal">dimensions</tt>:</dt>
+<dd>An object with <tt class="docutils literal">w</tt> and <tt class="docutils literal">h</tt> properties</dd>
+<dt><tt class="docutils literal">units</tt>:</dt>
+<dd>Optionally set the units to use, default is <tt class="docutils literal">px</tt></dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1, moved to
 <a class="mochiref reference external" href="Style.html#fn-setelementdimensions">MochiKit.Style.setElementDimensions</a> in 1.4+</dd>
@@ -1036,17 +1036,17 @@ node)</dd>
 <a name="fn-setelementposition"></a>
 <a class="mochidef reference external" href="#fn-setelementposition">setElementPosition(element, position[, units='px'])</a>:</p>
 <blockquote>
-<p>Sets the absolute position of <tt class="docutils literal"><span class="pre">element</span></tt> in the document from an
-object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties.</p>
+<p>Sets the absolute position of <tt class="docutils literal">element</tt> in the document from an
+object with <tt class="docutils literal">x</tt> and <tt class="docutils literal">y</tt> properties.</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">node</span></tt>:</dt>
+<dt><tt class="docutils literal">node</tt>:</dt>
 <dd>A reference to the DOM element to update (if a string is
 given, <a class="mochiref reference external" href="#fn-getelement">getElement(node)</a> will be used to locate the
 node)</dd>
-<dt><tt class="docutils literal"><span class="pre">position</span></tt>:</dt>
-<dd>An object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties</dd>
-<dt><tt class="docutils literal"><span class="pre">units</span></tt>:</dt>
-<dd>Optionally set the units to use, default is <tt class="docutils literal"><span class="pre">px</span></tt></dd>
+<dt><tt class="docutils literal">position</tt>:</dt>
+<dd>An object with <tt class="docutils literal">x</tt> and <tt class="docutils literal">y</tt> properties</dd>
+<dt><tt class="docutils literal">units</tt>:</dt>
+<dd>Optionally set the units to use, default is <tt class="docutils literal">px</tt></dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1, moved to
 <a class="mochiref reference external" href="Style.html#fn-setelementposition">MochiKit.Style.setElementPosition</a> in 1.4+</dd>
@@ -1056,7 +1056,7 @@ node)</dd>
 <a name="fn-setdisplayforelement"></a>
 <a class="mochidef reference external" href="#fn-setdisplayforelement">setDisplayForElement(display, element[, ...])</a>:</p>
 <blockquote>
-<p>Change the <tt class="docutils literal"><span class="pre">style.display</span></tt> for the given element(s). Usually
+<p>Change the <tt class="docutils literal">style.display</tt> for the given element(s). Usually
 used as the partial forms:</p>
 <ul class="simple">
 <li><a class="mochiref reference external" href="#fn-showelement">showElement(element, ...)</a></li>
@@ -1064,7 +1064,7 @@ used as the partial forms:</p>
 </ul>
 <p>Elements are looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string
 identifiers are acceptable.</p>
-<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt>
+<p>For information about the caveats of using a <tt class="docutils literal">style.display</tt>
 based show/hide mechanism, and a CSS based alternative, see
 <a class="reference external" href="Style.html#element-visibility">Element Visibility</a>.</p>
 <dl class="docutils">
@@ -1077,8 +1077,8 @@ based show/hide mechanism, and a CSS based alternative, see
 <a name="fn-setopacity"></a>
 <a class="mochidef reference external" href="#fn-setopacity">setOpacity(element, opacity)</a>:</p>
 <blockquote>
-<p>Sets <tt class="docutils literal"><span class="pre">opacity</span></tt> for <tt class="docutils literal"><span class="pre">element</span></tt>. Valid <tt class="docutils literal"><span class="pre">opacity</span></tt> values range
-from 0 (invisible) to 1 (opaque). <tt class="docutils literal"><span class="pre">element</span></tt> is looked up with
+<p>Sets <tt class="docutils literal">opacity</tt> for <tt class="docutils literal">element</tt>. Valid <tt class="docutils literal">opacity</tt> values range
+from 0 (invisible) to 1 (opaque). <tt class="docutils literal">element</tt> is looked up with
 <a class="mochiref reference external" href="#fn-getelement">getElement</a>, so string identifiers are also acceptable.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -1094,7 +1094,7 @@ from 0 (invisible) to 1 (opaque). <tt class="docutils literal"><span class="pre"
 <pre class="literal-block">
 partial(setDisplayForElement, &quot;block&quot;)
 </pre>
-<p>For information about the caveats of using a <tt class="docutils literal"><span class="pre">style.display</span></tt>
+<p>For information about the caveats of using a <tt class="docutils literal">style.display</tt>
 based show/hide mechanism, and a CSS based alternative, see
 <a class="reference external" href="Style.html#element-visibility">Element Visibility</a>.</p>
 <dl class="docutils">
@@ -1107,8 +1107,8 @@ based show/hide mechanism, and a CSS based alternative, see
 <a name="fn-undoclipping"></a>
 <a class="mochidef reference external" href="#fn-undoclipping">undoClipping(element, overflow)</a>:</p>
 <blockquote>
-<p>Restore the setting of <tt class="docutils literal"><span class="pre">element.style.overflow</span></tt> set by
-<a class="mochiref reference external" href="#fn-makeclipping">makeClipping(element)</a>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a string, then
+<p>Restore the setting of <tt class="docutils literal">element.style.overflow</tt> set by
+<a class="mochiref reference external" href="#fn-makeclipping">makeClipping(element)</a>. If <tt class="docutils literal">element</tt> is a string, then
 it will be looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -1120,8 +1120,8 @@ it will be looked up with <a class="mochiref reference external" href="#fn-getel
 <a name="fn-undopositioned"></a>
 <a class="mochidef reference external" href="#fn-undopositioned">undoPositioned(element)</a>:</p>
 <blockquote>
-<p>Restore the setting of <tt class="docutils literal"><span class="pre">element.style.position</span></tt> set by
-<a class="mochiref reference external" href="#fn-makepositioned">makePositioned(element)</a>. If <tt class="docutils literal"><span class="pre">element</span></tt> is a string, then
+<p>Restore the setting of <tt class="docutils literal">element.style.position</tt> set by
+<a class="mochiref reference external" href="#fn-makepositioned">makePositioned(element)</a>. If <tt class="docutils literal">element</tt> is a string, then
 it will be looked up with <a class="mochiref reference external" href="#fn-getelement">getElement</a>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -1138,8 +1138,8 @@ it will be looked up with <a class="mochiref reference external" href="#fn-getel
 <a name="fn-coordinates"></a>
 <a class="mochidef reference external" href="#fn-coordinates">Coordinates(x, y)</a>:</p>
 <blockquote>
-<p>Constructs an object with <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> properties. <tt class="docutils literal"><span class="pre">obj.toString()</span></tt>
-returns something like <tt class="docutils literal"><span class="pre">{x:</span> <span class="pre">0,</span> <span class="pre">y:</span> <span class="pre">42}</span></tt> for debugging.</p>
+<p>Constructs an object with <tt class="docutils literal">x</tt> and <tt class="docutils literal">y</tt> properties. <tt class="docutils literal">obj.toString()</tt>
+returns something like <tt class="docutils literal">{x: 0, y: 42}</tt> for debugging.</p>
 <p><em>Availability</em>:
 Available in MochiKit 1.3.1, moved to
 <a class="mochiref reference external" href="Style.html#fn-coordinates">MochiKit.Style.Coordinates</a> in 1.4+</p>
@@ -1148,8 +1148,8 @@ Available in MochiKit 1.3.1, moved to
 <a name="fn-dimensions"></a>
 <a class="mochidef reference external" href="#fn-dimensions">Dimensions(w, h)</a>:</p>
 <blockquote>
-<p>Constructs an object with <tt class="docutils literal"><span class="pre">w</span></tt> and <tt class="docutils literal"><span class="pre">h</span></tt> properties. <tt class="docutils literal"><span class="pre">obj.toString()</span></tt>
-returns something like <tt class="docutils literal"><span class="pre">{w:</span> <span class="pre">0,</span> <span class="pre">h:</span> <span class="pre">42}</span></tt> for debugging.</p>
+<p>Constructs an object with <tt class="docutils literal">w</tt> and <tt class="docutils literal">h</tt> properties. <tt class="docutils literal">obj.toString()</tt>
+returns something like <tt class="docutils literal">{w: 0, h: 42}</tt> for debugging.</p>
 <p><em>Availability</em>:
 Available in MochiKit 1.3.1, moved to
 <a class="mochiref reference external" href="Style.html#fn-dimensions">MochiKit.Style.Dimensions</a> in 1.4+</p>

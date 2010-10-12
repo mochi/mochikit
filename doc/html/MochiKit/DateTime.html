@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
 <title>MochiKit.DateTime - &quot;what time is it anyway?&quot;</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -44,7 +44,7 @@ representations of dates and timestamps. MochiKit.Date does that.</p>
 <a name="fn-isodate"></a>
 <a class="mochidef reference external" href="#fn-isodate">isoDate(str)</a>:</p>
 <blockquote>
-<p>Convert an ISO 8601 date (YYYY-MM-DD) to a <tt class="docutils literal"><span class="pre">Date</span></tt> object.</p>
+<p>Convert an ISO 8601 date (YYYY-MM-DD) to a <tt class="docutils literal">Date</tt> object.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -55,7 +55,7 @@ representations of dates and timestamps. MochiKit.Date does that.</p>
 <a class="mochidef reference external" href="#fn-isotimestamp">isoTimestamp(str)</a>:</p>
 <blockquote>
 <p>Convert any ISO 8601 <a class="footnote-reference" href="#id3" id="id1">[1]</a> timestamp (or something reasonably close
-to it) to a <tt class="docutils literal"><span class="pre">Date</span></tt> object. Will accept the &quot;de facto&quot; form:</p>
+to it) to a <tt class="docutils literal">Date</tt> object. Will accept the &quot;de facto&quot; form:</p>
 <blockquote>
 YYYY-MM-DD hh:mm:ss</blockquote>
 <p>or (the proper form):</p>
@@ -72,7 +72,7 @@ then the local timezone is used.</p>
 <a name="fn-toisotime"></a>
 <a class="mochidef reference external" href="#fn-toisotime">toISOTime(date)</a>:</p>
 <blockquote>
-<p>Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to a string in the form of hh:mm:ss</p>
+<p>Convert a <tt class="docutils literal">Date</tt> object to a string in the form of hh:mm:ss</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -82,7 +82,7 @@ then the local timezone is used.</p>
 <a name="fn-toisotimestamp"></a>
 <a class="mochidef reference external" href="#fn-toisotimestamp">toISOTimestamp(date, realISO=false)</a>:</p>
 <blockquote>
-<p>Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to something that's ALMOST but not quite
+<p>Convert a <tt class="docutils literal">Date</tt> object to something that's ALMOST but not quite
 an ISO 8601 [1]_timestamp. If it was a proper ISO timestamp it
 would be:</p>
 <blockquote>
@@ -91,7 +91,7 @@ YYYY-MM-DDThh:mm:ssZ</blockquote>
 <blockquote>
 YYYY-MM-DD hh:mm:ss</blockquote>
 <p>So, this function returns the latter form, despite its name,
-unless you pass <tt class="docutils literal"><span class="pre">true</span></tt> for <tt class="docutils literal"><span class="pre">realISO</span></tt>.</p>
+unless you pass <tt class="docutils literal">true</tt> for <tt class="docutils literal">realISO</tt>.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -101,7 +101,7 @@ unless you pass <tt class="docutils literal"><span class="pre">true</span></tt> 
 <a name="fn-toisodate"></a>
 <a class="mochidef reference external" href="#fn-toisodate">toISODate(date)</a>:</p>
 <blockquote>
-<p>Convert a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an ISO 8601 <a class="footnote-reference" href="#id3" id="id2">[1]</a> date string
+<p>Convert a <tt class="docutils literal">Date</tt> object to an ISO 8601 <a class="footnote-reference" href="#id3" id="id2">[1]</a> date string
 (YYYY-MM-DD)</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -112,7 +112,7 @@ unless you pass <tt class="docutils literal"><span class="pre">true</span></tt> 
 <a name="fn-americandate"></a>
 <a class="mochidef reference external" href="#fn-americandate">americanDate(str)</a>:</p>
 <blockquote>
-<p>Converts a MM/DD/YYYY date to a <tt class="docutils literal"><span class="pre">Date</span></tt> object</p>
+<p>Converts a MM/DD/YYYY date to a <tt class="docutils literal">Date</tt> object</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -122,7 +122,7 @@ unless you pass <tt class="docutils literal"><span class="pre">true</span></tt> 
 <a name="fn-topaddedamericandate"></a>
 <a class="mochidef reference external" href="#fn-topaddedamericandate">toPaddedAmericanDate(date)</a>:</p>
 <blockquote>
-<p>Converts a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an MM/DD/YYYY date, e.g. 01/01/2001</p>
+<p>Converts a <tt class="docutils literal">Date</tt> object to an MM/DD/YYYY date, e.g. 01/01/2001</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -132,7 +132,7 @@ unless you pass <tt class="docutils literal"><span class="pre">true</span></tt> 
 <a name="fn-toamericandate"></a>
 <a class="mochidef reference external" href="#fn-toamericandate">toAmericanDate(date)</a>:</p>
 <blockquote>
-<p>Converts a <tt class="docutils literal"><span class="pre">Date</span></tt> object to an M/D/YYYY date, e.g. 1/1/2001</p>
+<p>Converts a <tt class="docutils literal">Date</tt> object to an M/D/YYYY date, e.g. 1/1/2001</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>

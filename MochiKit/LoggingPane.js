@@ -224,7 +224,7 @@ MochiKit.LoggingPane.LoggingPane = function (inline/* = false */, logger/* = Moc
     /** @id MochiKit.LoggingPane.filterOnEnter */
     var filterOnEnter = bind(function (event) {
         event = event || window.event;
-        key = event.which || event.keyCode;
+        var key = event.which || event.keyCode;
         if (key == 13) {
             this.buildAndApplyFilter();
         }

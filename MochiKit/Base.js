@@ -675,6 +675,9 @@ MochiKit.Base.update(MochiKit.Base, {
         newfunc.im_self = im_self;
         newfunc.im_func = im_func;
         newfunc.im_preargs = im_preargs;
+        if (typeof(im_func.NAME) == 'string') {
+            newfunc.NAME = "bind(" + im_func.NAME + ",...)";
+        }
         return newfunc;
     },
 

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
 <title>MochiKit.Text - string formatting and helper functions</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -63,19 +63,19 @@ plain text:</p>
 The {0} and {1} positional values.
 Property values {name} and {value}.
 </pre>
-<p>The curly brace characters <tt class="docutils literal"><span class="pre">{</span></tt> and <tt class="docutils literal"><span class="pre">}</span></tt> are used to indicate a
+<p>The curly brace characters <tt class="docutils literal">{</tt> and <tt class="docutils literal">}</tt> are used to indicate a
 replacement field inside the pattern. Braces can be escaped by
-doubling, i.e. <tt class="docutils literal"><span class="pre">{{</span></tt> and <tt class="docutils literal"><span class="pre">}}</span></tt>. Inside the braces, the format
+doubling, i.e. <tt class="docutils literal">{{</tt> and <tt class="docutils literal">}}</tt>. Inside the braces, the format
 pattern contains a value locator and a an optional formatting
 specification, as such:</p>
 <pre class="literal-block">
 locator[:specification]
 </pre>
-<p>The <tt class="docutils literal"><span class="pre">locator</span></tt> part specifies which value (function argument) to
+<p>The <tt class="docutils literal">locator</tt> part specifies which value (function argument) to
 format, either by position in the argument list or by accessing
 properties in a value object. Both methods can be combined or deeply
-nested, using a dot (<tt class="docutils literal"><span class="pre">.</span></tt>) to separate the sub-parts.</p>
-<p>The <tt class="docutils literal"><span class="pre">specification</span></tt> part is optional and specifies which value
+nested, using a dot (<tt class="docutils literal">.</tt>) to separate the sub-parts.</p>
+<p>The <tt class="docutils literal">specification</tt> part is optional and specifies which value
 formatting to apply to the value. This is the only part of the
 formatting pattern used by the <a class="mochiref reference external" href="#fn-formatvalue">formatValue</a> function.
 The specification itself consists of a number of parts:</p>
@@ -84,16 +84,16 @@ The specification itself consists of a number of parts:</p>
 </pre>
 <p>All the various parts are optional and have the following meaning:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">flags</span></tt> specifies the text alignment and numeric sign, padding and
+<li><tt class="docutils literal">flags</tt> specifies the text alignment and numeric sign, padding and
 grouping flags. See the table below for available options.</li>
-<li><tt class="docutils literal"><span class="pre">width</span></tt> specifies the minimum field width.</li>
-<li><tt class="docutils literal"><span class="pre">precision</span></tt> indicates how many digits should be displayed after the
+<li><tt class="docutils literal">width</tt> specifies the minimum field width.</li>
+<li><tt class="docutils literal">precision</tt> indicates how many digits should be displayed after the
 decimal point in a floating point conversion. For a non-numeric
-<tt class="docutils literal"><span class="pre">type</span></tt> the field indicates the maximum field size.</li>
-<li><tt class="docutils literal"><span class="pre">type</span></tt> indicates the desired formatting type to use. See the table
+<tt class="docutils literal">type</tt> the field indicates the maximum field size.</li>
+<li><tt class="docutils literal">type</tt> indicates the desired formatting type to use. See the table
 below for available options.</li>
 </ul>
-<p>For the <tt class="docutils literal"><span class="pre">flags</span></tt> and <tt class="docutils literal"><span class="pre">type</span></tt> fields, the available values are:</p>
+<p>For the <tt class="docutils literal">flags</tt> and <tt class="docutils literal">type</tt> fields, the available values are:</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="13%" />
@@ -105,71 +105,71 @@ below for available options.</li>
 </tr>
 </thead>
 <tbody valign="top">
-<tr><td><tt class="docutils literal"><span class="pre">&gt;</span></tt></td>
-<td>Forces the field to be right-aligned if the <tt class="docutils literal"><span class="pre">width</span></tt> is
+<tr><td><tt class="docutils literal">&gt;</tt></td>
+<td>Forces the field to be right-aligned if the <tt class="docutils literal">width</tt> is
 larger than what is required by the formatted value. This is
 the default field alignment.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">&lt;</span></tt></td>
-<td>Forces the field to be left-aligned if the <tt class="docutils literal"><span class="pre">width</span></tt> is
+<tr><td><tt class="docutils literal">&lt;</tt></td>
+<td>Forces the field to be left-aligned if the <tt class="docutils literal">width</tt> is
 larger than what is required by the formatted value.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">+</span></tt></td>
-<td>Any number format <tt class="docutils literal"><span class="pre">type</span></tt> will force a sign character for
+<tr><td><tt class="docutils literal">+</tt></td>
+<td>Any number format <tt class="docutils literal">type</tt> will force a sign character for
 both positive and negative numbers.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">-</span></tt></td>
-<td>Any number format <tt class="docutils literal"><span class="pre">type</span></tt> will only use a sign character for
+<tr><td><tt class="docutils literal">-</tt></td>
+<td>Any number format <tt class="docutils literal">type</tt> will only use a sign character for
 negative numbers. This is the default sign handling.</td>
 </tr>
 <tr><td>&lt;blank&gt;</td>
-<td>Any number format <tt class="docutils literal"><span class="pre">type</span></tt> will use a space character as sign
-on positive numbers, but a normal <tt class="docutils literal"><span class="pre">-</span></tt> for negative numbers.</td>
+<td>Any number format <tt class="docutils literal">type</tt> will use a space character as sign
+on positive numbers, but a normal <tt class="docutils literal">-</tt> for negative numbers.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">0</span></tt></td>
-<td>Any number format <tt class="docutils literal"><span class="pre">type</span></tt> will be zero-padded on the left
-side to match the field <tt class="docutils literal"><span class="pre">width</span></tt>.</td>
+<tr><td><tt class="docutils literal">0</tt></td>
+<td>Any number format <tt class="docutils literal">type</tt> will be zero-padded on the left
+side to match the field <tt class="docutils literal">width</tt>.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">,</span></tt></td>
-<td>Any number format <tt class="docutils literal"><span class="pre">type</span></tt> will use locale-specific grouping
+<tr><td><tt class="docutils literal">,</tt></td>
+<td>Any number format <tt class="docutils literal">type</tt> will use locale-specific grouping
 (thousand separators).</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">s</span></tt></td>
-<td>The default string format <tt class="docutils literal"><span class="pre">type</span></tt>. The output from
-<tt class="docutils literal"><span class="pre">toString()</span></tt> will be used. This is the default format type.</td>
+<tr><td><tt class="docutils literal">s</tt></td>
+<td>The default string format <tt class="docutils literal">type</tt>. The output from
+<tt class="docutils literal">toString()</tt> will be used. This is the default format type.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">r</span></tt></td>
-<td>The programmers representation format <tt class="docutils literal"><span class="pre">type</span></tt>. The output
+<tr><td><tt class="docutils literal">r</tt></td>
+<td>The programmers representation format <tt class="docutils literal">type</tt>. The output
 from <a class="mochiref reference external" href="Base.html#fn-repr">MochiKit.Base.repr()</a> will be used.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">b</span></tt></td>
-<td>The binary number format <tt class="docutils literal"><span class="pre">type</span></tt>. Rounds the number to the
+<tr><td><tt class="docutils literal">b</tt></td>
+<td>The binary number format <tt class="docutils literal">type</tt>. Rounds the number to the
 nearest integer and converts it to a base 2 representation.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">d</span></tt></td>
-<td>The decimal or integer format <tt class="docutils literal"><span class="pre">type</span></tt>. Rounds the number to
+<tr><td><tt class="docutils literal">d</tt></td>
+<td>The decimal or integer format <tt class="docutils literal">type</tt>. Rounds the number to
 the nearest integer.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">o</span></tt></td>
-<td>The octal number format <tt class="docutils literal"><span class="pre">type</span></tt>. Rounds the number to the
+<tr><td><tt class="docutils literal">o</tt></td>
+<td>The octal number format <tt class="docutils literal">type</tt>. Rounds the number to the
 nearest integer and converts it to a base 8 representation.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">x</span></tt></td>
-<td>The hexadecimal number format <tt class="docutils literal"><span class="pre">type</span></tt>. Rounds the number to
+<tr><td><tt class="docutils literal">x</tt></td>
+<td>The hexadecimal number format <tt class="docutils literal">type</tt>. Rounds the number to
 the nearest integer and converts it to a base 16
 representation. Lower-case letters are used for digits a-f.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">X</span></tt></td>
-<td>The hexadecimal number format <tt class="docutils literal"><span class="pre">type</span></tt>. Rounds the number to
+<tr><td><tt class="docutils literal">X</tt></td>
+<td>The hexadecimal number format <tt class="docutils literal">type</tt>. Rounds the number to
 the nearest integer and converts it to a base 16
 representation. Upper-case letters are used for digits A-F.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">f</span></tt></td>
-<td>The fixed or floating point number format <tt class="docutils literal"><span class="pre">type</span></tt>.</td>
+<tr><td><tt class="docutils literal">f</tt></td>
+<td>The fixed or floating point number format <tt class="docutils literal">type</tt>.</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">%</span></tt></td>
-<td>The percent floating point number format <tt class="docutils literal"><span class="pre">type</span></tt>. The number
-will be multiplied by 100 and a locale-specific <tt class="docutils literal"><span class="pre">%</span></tt>
+<tr><td><tt class="docutils literal">%</tt></td>
+<td>The percent floating point number format <tt class="docutils literal">type</tt>. The number
+will be multiplied by 100 and a locale-specific <tt class="docutils literal">%</tt>
 character will be added to the end.</td>
 </tr>
 </tbody>
@@ -190,11 +190,11 @@ by the <a class="mochiref reference external" href="#fn-formatter">formatter</a>
 <a class="mochiref reference external" href="Base.html#fn-namederror">MochiKit.Base.NamedError</a> functions, each object also
 has the following properties set:</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">pattern</span></tt>:</dt>
+<dt><tt class="docutils literal">pattern</tt>:</dt>
 <dd>The invalid format pattern string.</dd>
-<dt><tt class="docutils literal"><span class="pre">pos</span></tt>:</dt>
+<dt><tt class="docutils literal">pos</tt>:</dt>
 <dd>The position of the error in the format pattern (zero-indexed).</dd>
-<dt><tt class="docutils literal"><span class="pre">message</span></tt>:</dt>
+<dt><tt class="docutils literal">message</tt>:</dt>
 <dd>The detailed error message text.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -207,8 +207,8 @@ has the following properties set:</p>
 <a name="fn-contains"></a>
 <a class="mochidef reference external" href="#fn-contains">contains(substr, str)</a>:</p>
 <blockquote>
-<p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">str</span></tt> contains <tt class="docutils literal"><span class="pre">substr</span></tt>, otherwise <tt class="docutils literal"><span class="pre">false</span></tt>.
-If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt class="docutils literal"><span class="pre">substr</span></tt> is null, <tt class="docutils literal"><span class="pre">false</span></tt> is returned.</p>
+<p>Returns <tt class="docutils literal">true</tt> if <tt class="docutils literal">str</tt> contains <tt class="docutils literal">substr</tt>, otherwise <tt class="docutils literal">false</tt>.
+If either <tt class="docutils literal">str</tt> or <tt class="docutils literal">substr</tt> is null, <tt class="docutils literal">false</tt> is returned.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -218,8 +218,8 @@ If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt 
 <a name="fn-endswith"></a>
 <a class="mochidef reference external" href="#fn-endswith">endsWith(substr, str)</a>:</p>
 <blockquote>
-<p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">str</span></tt> ends with <tt class="docutils literal"><span class="pre">substr</span></tt>, otherwise <tt class="docutils literal"><span class="pre">false</span></tt>.
-If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt class="docutils literal"><span class="pre">substr</span></tt> is null, <tt class="docutils literal"><span class="pre">false</span></tt> is returned.</p>
+<p>Returns <tt class="docutils literal">true</tt> if <tt class="docutils literal">str</tt> ends with <tt class="docutils literal">substr</tt>, otherwise <tt class="docutils literal">false</tt>.
+If either <tt class="docutils literal">str</tt> or <tt class="docutils literal">substr</tt> is null, <tt class="docutils literal">false</tt> is returned.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -229,7 +229,7 @@ If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt 
 <a name="fn-format"></a>
 <a class="mochidef reference external" href="#fn-format">format(pattern[, ...])</a>:</p>
 <blockquote>
-<p>Formats the values specified using a format <tt class="docutils literal"><span class="pre">pattern</span></tt> and
+<p>Formats the values specified using a format <tt class="docutils literal">pattern</tt> and
 returns the resulting string. The default locale is always used
 by this function. For more information see
 <a class="reference internal" href="#formatting-text">Formatting Text</a>.</p>
@@ -245,10 +245,10 @@ pattern is recognized as invalid.</p>
 <a class="mochidef reference external" href="#fn-formatter">formatter(pattern, locale=&quot;default&quot;)</a>:</p>
 <blockquote>
 <p>Returns a function that formats values according to a format
-<tt class="docutils literal"><span class="pre">pattern</span></tt>. The specified <tt class="docutils literal"><span class="pre">locale</span></tt> string or object will be
+<tt class="docutils literal">pattern</tt>. The specified <tt class="docutils literal">locale</tt> string or object will be
 used to adjust number formatting where appropriate. The
 returned function takes as many arguments as the format
-<tt class="docutils literal"><span class="pre">pattern</span></tt> requires. For more information see
+<tt class="docutils literal">pattern</tt> requires. For more information see
 <a class="reference internal" href="#formatting-text">Formatting Text</a>.</p>
 <p>A <a class="mochiref reference external" href="#fn-formatpatternerror">FormatPatternError</a> will be thrown if the formatting
 pattern is recognized as invalid.</p>
@@ -261,10 +261,10 @@ pattern is recognized as invalid.</p>
 <a name="fn-formatvalue"></a>
 <a class="mochidef reference external" href="#fn-formatvalue">formatValue(spec, value, locale=&quot;default&quot;)</a>:</p>
 <blockquote>
-<p>Formats a <tt class="docutils literal"><span class="pre">value</span></tt> with the format specifier <tt class="docutils literal"><span class="pre">spec</span></tt>. The
-specified <tt class="docutils literal"><span class="pre">locale</span></tt> string or object will be used to adjust
+<p>Formats a <tt class="docutils literal">value</tt> with the format specifier <tt class="docutils literal">spec</tt>. The
+specified <tt class="docutils literal">locale</tt> string or object will be used to adjust
 number formatting where appropriate.</p>
-<p>Note that <tt class="docutils literal"><span class="pre">spec</span></tt> is only a partial formatting pattern, detailing
+<p>Note that <tt class="docutils literal">spec</tt> is only a partial formatting pattern, detailing
 only how a particular value is to be formatted. For more information
 see <a class="reference internal" href="#formatting-text">Formatting Text</a>.</p>
 <p>A <a class="mochiref reference external" href="#fn-formatpatternerror">FormatPatternError</a> will be thrown if the partial
@@ -278,10 +278,10 @@ formatting pattern is recognized as invalid.</p>
 <a name="fn-padleft"></a>
 <a class="mochidef reference external" href="#fn-padleft">padLeft(str, minLength, fillChar=&quot; &quot;)</a>:</p>
 <blockquote>
-<p>Returns a string where <tt class="docutils literal"><span class="pre">fillChar</span></tt> has been prepended to <tt class="docutils literal"><span class="pre">str</span></tt>
-until the string length is at least <tt class="docutils literal"><span class="pre">minLength</span></tt> characters.
-If <tt class="docutils literal"><span class="pre">str</span></tt> is undefined or null, the returned string will only
-consist of repeated <tt class="docutils literal"><span class="pre">fillChar</span></tt> copies.</p>
+<p>Returns a string where <tt class="docutils literal">fillChar</tt> has been prepended to <tt class="docutils literal">str</tt>
+until the string length is at least <tt class="docutils literal">minLength</tt> characters.
+If <tt class="docutils literal">str</tt> is undefined or null, the returned string will only
+consist of repeated <tt class="docutils literal">fillChar</tt> copies.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -291,10 +291,10 @@ consist of repeated <tt class="docutils literal"><span class="pre">fillChar</spa
 <a name="fn-padright"></a>
 <a class="mochidef reference external" href="#fn-padright">padRight(str, minLength, fillChar=&quot; &quot;)</a>:</p>
 <blockquote>
-<p>Returns a string where <tt class="docutils literal"><span class="pre">fillChar</span></tt> has been appended to <tt class="docutils literal"><span class="pre">str</span></tt>
-until the string length is at least <tt class="docutils literal"><span class="pre">minLength</span></tt> characters.
-If <tt class="docutils literal"><span class="pre">str</span></tt> is undefined or null, the returned string will only
-consist of repeated <tt class="docutils literal"><span class="pre">fillChar</span></tt> copies.</p>
+<p>Returns a string where <tt class="docutils literal">fillChar</tt> has been appended to <tt class="docutils literal">str</tt>
+until the string length is at least <tt class="docutils literal">minLength</tt> characters.
+If <tt class="docutils literal">str</tt> is undefined or null, the returned string will only
+consist of repeated <tt class="docutils literal">fillChar</tt> copies.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -304,11 +304,11 @@ consist of repeated <tt class="docutils literal"><span class="pre">fillChar</spa
 <a name="fn-split"></a>
 <a class="mochidef reference external" href="#fn-split">split(str, separator=&quot;\n&quot; [, max])</a>:</p>
 <blockquote>
-<p>Splits <tt class="docutils literal"><span class="pre">str</span></tt> using a <tt class="docutils literal"><span class="pre">separator</span></tt> string.
-If <tt class="docutils literal"><span class="pre">max</span></tt> is given, at most <tt class="docutils literal"><span class="pre">max</span></tt> splits will be performed
-(giving at most <tt class="docutils literal"><span class="pre">max</span></tt> + 1 parts returned).</p>
-<p>If <tt class="docutils literal"><span class="pre">max</span></tt> is omitted, this is equivalent to the built in
-<tt class="docutils literal"><span class="pre">str.split(separator)</span></tt>.
+<p>Splits <tt class="docutils literal">str</tt> using a <tt class="docutils literal">separator</tt> string.
+If <tt class="docutils literal">max</tt> is given, at most <tt class="docutils literal">max</tt> splits will be performed
+(giving at most <tt class="docutils literal">max</tt> + 1 parts returned).</p>
+<p>If <tt class="docutils literal">max</tt> is omitted, this is equivalent to the built in
+<tt class="docutils literal">str.split(separator)</tt>.
 The difference to the built in method can be illustrated by:</p>
 <pre class="doctest-block">
 &gt;&gt;&gt; &quot;lovely bunch of coconuts&quot;.split(&quot; &quot;, 2)
@@ -327,8 +327,8 @@ The difference to the built in method can be illustrated by:</p>
 <a name="fn-rsplit"></a>
 <a class="mochidef reference external" href="#fn-rsplit">rsplit(str, separator=&quot;\n&quot; [, max])</a>:</p>
 <blockquote>
-<p>Splits <tt class="docutils literal"><span class="pre">str</span></tt> using a <tt class="docutils literal"><span class="pre">separator</span></tt> string.
-This is similar to <tt class="docutils literal"><span class="pre">split</span></tt>, except that if <tt class="docutils literal"><span class="pre">max</span></tt> is given,
+<p>Splits <tt class="docutils literal">str</tt> using a <tt class="docutils literal">separator</tt> string.
+This is similar to <tt class="docutils literal">split</tt>, except that if <tt class="docutils literal">max</tt> is given,
 splits are performed from the right hand side first</p>
 <pre class="doctest-block">
 &gt;&gt;&gt; MochiKit.Text.rsplit(&quot;lovely bunch of coconuts&quot;, &quot; &quot;, 2)
@@ -343,8 +343,8 @@ splits are performed from the right hand side first</p>
 <a name="fn-startswith"></a>
 <a class="mochidef reference external" href="#fn-startswith">startsWith(substr, str)</a>:</p>
 <blockquote>
-<p>Returns <tt class="docutils literal"><span class="pre">true</span></tt> if <tt class="docutils literal"><span class="pre">str</span></tt> starts with <tt class="docutils literal"><span class="pre">substr</span></tt>, otherwise <tt class="docutils literal"><span class="pre">false</span></tt>.
-If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt class="docutils literal"><span class="pre">substr</span></tt> is null, <tt class="docutils literal"><span class="pre">false</span></tt> is returned.</p>
+<p>Returns <tt class="docutils literal">true</tt> if <tt class="docutils literal">str</tt> starts with <tt class="docutils literal">substr</tt>, otherwise <tt class="docutils literal">false</tt>.
+If either <tt class="docutils literal">str</tt> or <tt class="docutils literal">substr</tt> is null, <tt class="docutils literal">false</tt> is returned.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.5+</dd>
@@ -354,11 +354,11 @@ If either <tt class="docutils literal"><span class="pre">str</span></tt> or <tt 
 <a name="fn-truncate"></a>
 <a class="mochidef reference external" href="#fn-truncate">truncate(str, maxLength, tail=&quot;&quot;)</a>:</p>
 <blockquote>
-<p>Returns a truncated copy of <tt class="docutils literal"><span class="pre">str</span></tt> with no more than <tt class="docutils literal"><span class="pre">maxLength</span></tt>
-characters. If <tt class="docutils literal"><span class="pre">str</span></tt> is truncated, <tt class="docutils literal"><span class="pre">tail</span></tt> will be appended  in
+<p>Returns a truncated copy of <tt class="docutils literal">str</tt> with no more than <tt class="docutils literal">maxLength</tt>
+characters. If <tt class="docutils literal">str</tt> is truncated, <tt class="docutils literal">tail</tt> will be appended  in
 the result string. Additional characters may be removed to make
-sure that the result has no more than <tt class="docutils literal"><span class="pre">maxLength</span></tt> characters.</p>
-<p>This function also works on Array objects, in which case <tt class="docutils literal"><span class="pre">tail</span></tt>
+sure that the result has no more than <tt class="docutils literal">maxLength</tt> characters.</p>
+<p>This function also works on Array objects, in which case <tt class="docutils literal">tail</tt>
 must also be an Array.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
