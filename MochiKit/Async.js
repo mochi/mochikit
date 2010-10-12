@@ -429,6 +429,38 @@ MochiKit.Base.update(MochiKit.Async, {
         return d;
     },
 
+    /** @id MochiKit.Async.loadScript */
+    loadScript: function (url) {
+        var d = new MochiKit.Async.Deferred();
+        var head = document.getElementsByTagName("head")[0];
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = url;
+        script.onload = function () {
+            script.onload = null;
+            script.onerror = null;
+            script.onreadystatechange = null;
+            d.callback();
+        };
+        script.onerror = function (msg) {
+            script.onload = null;
+            script.onerror = null;
+            script.onreadystatechange = null;
+            msg = "Failed to load script at " + url + ": " + msg;
+            d.errback(new URIError(msg, url));
+        }
+        script.onreadystatechange = function () {
+            if (script.readyState == "loaded" || script.readyState == "complete") {
+                script.onload();
+            } else {
+                // IE doesn't bother to report errors...
+                MochiKit.Async.callLater(10, script.onerror, "Script loading timed out")
+            }
+        };
+        head.appendChild(script);
+        return d;
+    },
+
     /** @id MochiKit.Async.wait */
     wait: function (seconds, /* optional */value) {
         var d = new MochiKit.Async.Deferred();

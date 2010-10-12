@@ -431,8 +431,18 @@ tests.test_Async = function () {
         d.addCallback(function (doc) {
             is(doc.passed,  true, "loadJSONDoc passed");
         });
-        d.addErrback(function (doc) {
-            ok(false, "loadJSONDoc failed");
+        d.addErrback(function (e) {
+            ok(false, "loadJSONDoc failed: " + e);
+        });
+        return d;
+    });
+    withLock("loadScript", function () {
+        var d = loadScript("empty.js");
+        d.addCallback(function () {
+            ok(true, "loadScript passed");
+        });
+        d.addErrback(function (e) {
+            ok(false, "loadScript failed: " + e);
         });
         return d;
     });

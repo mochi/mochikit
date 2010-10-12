@@ -699,6 +699,24 @@ Functions
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`loadScript(url)`:
+
+    Loads and evaluates an external JavaScript (possibly on another
+    server). The script will be added to the page ``<head>`` element.
+    Note that only trusted scripts should be added like this, since
+    they execute in the current page environment.
+
+    ``url``:
+        The URL to the JavaScript to load.
+
+    *returns*:
+        A new :mochiref:`Deferred` that will callback without value
+        on success, or with a ``URIError`` if the script failed to load.
+
+    *Availability*:
+        Available in MochiKit 1.5+
+
+
 :mochidef:`sendXMLHttpRequest(req[, sendContent])`:
 
     Set an ``onreadystatechange`` handler on an ``XMLHttpRequest``

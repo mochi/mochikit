@@ -728,6 +728,24 @@ JSON <a class="footnote-reference" href="#id10" id="id6">[4]</a> response upon s
 </dl>
 </blockquote>
 <p>
+<a name="fn-loadscript"></a>
+<a class="mochidef reference external" href="#fn-loadscript">loadScript(url)</a>:</p>
+<blockquote>
+<p>Loads and evaluates an external JavaScript (possibly on another
+server). The script will be added to the page <tt class="docutils literal">&lt;head&gt;</tt> element.
+Note that only trusted scripts should be added like this, since
+they execute in the current page environment.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal">url</tt>:</dt>
+<dd>The URL to the JavaScript to load.</dd>
+<dt><em>returns</em>:</dt>
+<dd>A new <a class="mochiref reference external" href="#fn-deferred">Deferred</a> that will callback without value
+on success, or with a <tt class="docutils literal">URIError</tt> if the script failed to load.</dd>
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.5+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-sendxmlhttprequest"></a>
 <a class="mochidef reference external" href="#fn-sendxmlhttprequest">sendXMLHttpRequest(req[, sendContent])</a>:</p>
 <blockquote>
