@@ -27,6 +27,7 @@
 - Added the MochiKit.Base.isValue() function.
 - Added MochiKit.Async.loadScript() function.
 - New optional error argument to Deferred.prototype.cancel().
+- Improved speed of MochiKit.Selector by using querySelectorAll() if possible.
 
 2009-XX-YY      v1.4.3 (bug fix release)
 

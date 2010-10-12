@@ -352,6 +352,12 @@ MochiKit.Base.update(MochiKit.Selector, {
             return res;
         };
         return MochiKit.Base.flattenArray(MochiKit.Base.map(function (expression) {
+            try {
+                var res = element.querySelectorAll(expression);
+                return Array.prototype.slice.call(res, 0);
+            } catch (ignore) {
+                // No querySelectorAll or extended expression syntax used
+            }
             var nextScope = "";
             var reducer = function (results, expr) {
                 var match = expr.match(/^[>+~]$/);
