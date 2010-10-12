@@ -41,10 +41,10 @@ var MODULES = {};
 
 // Initializes the version array (and UI)
 function doInit() {
-    doInjectScript("http://github.com/api/v2/json/commits/list/mochi/mochikit/" +
-                   "master/packed/MochiKit/MochiKit.js?callback=cbInit");
-    doInjectScript("http://github.com/api/v2/json/repos/show/mochi/mochikit/" +
-                   "tags?callback=cbInit");
+    MochiKit.Async.loadScript("http://github.com/api/v2/json/commits/list/mochi/mochikit/" +
+                              "master/packed/MochiKit/MochiKit.js?callback=cbInit");
+    MochiKit.Async.loadScript("http://github.com/api/v2/json/repos/show/mochi/mochikit/" +
+                              "tags?callback=cbInit");
 }
 
 // Callback for version info
@@ -87,8 +87,8 @@ function doLoadSource(treeId) {
     replaceChildNodes($("packSets"));
     replaceChildNodes($("packModules"));
     if (treeId) {
-        doInjectScript("http://github.com/api/v2/json/blob/show/mochi/mochikit/" +
-                       treeId + "/packed/MochiKit/MochiKit.js?callback=cbLoadSource");
+        MochiKit.Async.loadScript("http://github.com/api/v2/json/blob/show/mochi/mochikit/" +
+                                  treeId + "/packed/MochiKit/MochiKit.js?callback=cbLoadSource");
     } else {
         var url = $$("head script[src*=MochiKit.js]")[0].src;
         var d = doSimpleXMLHttpRequest(url);
@@ -301,16 +301,6 @@ function doSubmit() {
     packed += MODULES["Base"].packedTail;
     $("packData").value = packed;
     return true;
-}
-
-// Loads a JavaScript by adding it to the doc head element
-function doInjectScript(url) {
-    var head = document.getElementsByTagName("head")[0];
-    var script = createDOM("script", { type: "text/javascript", src: url });
-    script.onerror = function (msg) {
-        alert("Error: " + msg);
-    };
-    head.appendChild(script);
 }
     </script>
   </head>
