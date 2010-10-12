@@ -393,7 +393,7 @@ Constructors
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`Deferred.prototype.cancel()`:
+:mochidef:`Deferred.prototype.cancel([error])`:
 
     Cancels a :mochiref:`Deferred` that has not yet received a value,
     or is waiting on another :mochiref:`Deferred` as its value.
@@ -401,6 +401,10 @@ Constructors
     If a canceller is defined, the canceller is called.  If the
     canceller did not return an ``Error``, or there was no canceller,
     then the errback chain is started with :mochiref:`CancelledError`.
+
+    Since MochiKit 1.5, an optional ``error`` argument can be used
+    to send either a generic error message (:mochiref:`GenericError`)
+    or any subclass of ``Error``.
 
     *Availability*:
         Available in MochiKit 1.3.1+
