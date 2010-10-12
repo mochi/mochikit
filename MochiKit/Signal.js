@@ -673,6 +673,18 @@ MochiKit.Base.update(MochiKit.Signal, {
         return ident;
     },
 
+    /** @id MochiKit.Signal.connectOnce */
+    connectOnce: function (src, sig, objOrFunc/* optional */, funcOrStr) {
+        var self = MochiKit.Signal;
+        var ident1 = self.connect(src, sig, objOrFunc, funcOrStr);
+        var ident2;
+        ident2 = self.connect(src, sig, function() {
+            self.disconnect(ident1);
+            self.disconnect(ident2);
+        });
+        return ident1;
+    },
+
     _disconnect: function (ident) {
         // already disconnected
         if (!ident.connected) {

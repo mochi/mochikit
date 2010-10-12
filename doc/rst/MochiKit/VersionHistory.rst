@@ -23,6 +23,7 @@
 - Added the MochiKit.Async.Deferred.prototype.setFinalizer() function.
 - Added "rowSpan" attribute mapping in MochiKit.DOM for IE (#357).
 - Added MochiKit.DOM.NBSP string constant (#246).
+- Added the MochiKit.Signal.connectOnce() function.
 
 2009-XX-YY      v1.4.3 (bug fix release)
 

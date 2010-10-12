@@ -701,6 +701,14 @@ Functions
         Available in MochiKit 1.3.1+
 
 
+:mochidef:`isCallable(obj[, ...])`:
+
+    Returns ``true`` if all given arguments are functions.
+
+    *Availability*:
+        Available in MochiKit 1.3.1+
+
+
 :mochidef:`isDateLike(obj[, ...])`:
 
     Returns ``true`` if all given arguments are ``Date``-like (have a
@@ -731,6 +739,16 @@ Functions
 :mochidef:`isNull(obj[, ...])`:
 
     Returns ``true`` if all arguments are ``null``.
+
+    *Availability*:
+        Available in MochiKit 1.3.1+
+
+
+:mochidef:`isUndefined(obj[, ...])`:
+
+    Returns ``true`` if all arguments are undefined. Note that ``null``
+    values are NOT undefined in JavaScript (use
+    :mochiref:`isUndefinedOrNull` for that).
 
     *Availability*:
         Available in MochiKit 1.3.1+
