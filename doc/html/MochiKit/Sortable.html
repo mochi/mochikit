@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
 <title>MochiKit.Sortable - sortable with drag and drop lists</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../../js/toc.js"></script>
 </head>
 <body>
-<a href="http://mochikit.com"><img id="mainlink" src="../../../include/_img/g_logo_doc.gif" alt="MochiKit" /></a>
+<a href="http://mochikit.com"><img id="mainlink" src="../../../include/img/g_logo_doc.gif" alt="MochiKit" /></a>
 <a class='indexlink' href='index.html'>Back to docs index</a>
 <div class="document">
 <div class="section" id="name">
@@ -142,26 +142,26 @@ but it can be customized with options to use something else.</p>
 </tbody>
 </table>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">tag</span></tt>:</dt>
+<dt><tt class="docutils literal">tag</tt>:</dt>
 <dd>Name of the tag used to make the draggable elements. It matches all
 the childNodes of the Sortable element with this tag.</dd>
-<dt><tt class="docutils literal"><span class="pre">only</span></tt>:</dt>
+<dt><tt class="docutils literal">only</tt>:</dt>
 <dd>Class or array of classes used to filter the children, combined with
 the tag criteria.</dd>
-<dt><tt class="docutils literal"><span class="pre">format</span></tt>:</dt>
+<dt><tt class="docutils literal">format</tt>:</dt>
 <dd>Regular expression which serves as a match filter for serialization,
 on children' ids. For example, with the default value, you'll get
 ['1', '2', '3', '4'] with ids ['sort_1', 'sort_2', 'sort_3', 'sort_4'].</dd>
-<dt><tt class="docutils literal"><span class="pre">onChange</span></tt>:</dt>
+<dt><tt class="docutils literal">onChange</tt>:</dt>
 <dd>Callback called when an element moves between others in the Sortable.
 It's called for <em>each</em> movements, even if you don't release the mouse.</dd>
-<dt><tt class="docutils literal"><span class="pre">onUpdate</span></tt>:</dt>
+<dt><tt class="docutils literal">onUpdate</tt>:</dt>
 <dd>Callback called when the order changes in the Sortable. It's called
 only if the Sortable is modified, after you dropped an element.</dd>
-<dt><tt class="docutils literal"><span class="pre">tree</span></tt>:</dt>
+<dt><tt class="docutils literal">tree</tt>:</dt>
 <dd>Option for creating a Sortable tree. It's an experimental
 setting, that can be very slow even with a few elements. You
-can customize its behaviour with the <tt class="docutils literal"><span class="pre">treeTag</span></tt> option, that
+can customize its behaviour with the <tt class="docutils literal">treeTag</tt> option, that
 defines the node used to make branches in your tree (that
 contains leaves).</dd>
 </dl>
@@ -170,7 +170,7 @@ Refer to <a class="mochiref reference external" href="DragAndDrop.html">MochiKit
 <p>A bug with Internet Explorer rendering engine can cause a problem with the
 default effect used on start (the symptom being that the rows vanish).
 If you encounter this problem, pass <a class="mochiref reference external" href="Base.html#fn-noop">MochiKit.Base.noop</a>
-as the <tt class="docutils literal"><span class="pre">starteffect</span></tt> option.</p>
+as the <tt class="docutils literal">starteffect</tt> option.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.4+</dd>

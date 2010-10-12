@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
 <title>MochiKit.LoggingPane - Interactive MochiKit.Logging pane</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../../js/toc.js"></script>
 </head>
 <body>
-<a href="http://mochikit.com"><img id="mainlink" src="../../../include/_img/g_logo_doc.gif" alt="MochiKit" /></a>
+<a href="http://mochikit.com"><img id="mainlink" src="../../../include/img/g_logo_doc.gif" alt="MochiKit" /></a>
 <a class='indexlink' href='index.html'>Back to docs index</a>
 <div class="document">
 <div class="section" id="name">
@@ -55,27 +55,27 @@ used as the default
 <blockquote>
 <p>A listener for a <a class="mochiref reference external" href="Logging.html">MochiKit.Logging</a> logger with an
 interactive DOM representation.</p>
-<p>If <tt class="docutils literal"><span class="pre">inline</span></tt> is <tt class="docutils literal"><span class="pre">true</span></tt>, then the <tt class="docutils literal"><span class="pre">LoggingPane</span></tt> will be a
-<tt class="docutils literal"><span class="pre">DIV</span></tt> at the bottom of the document. Otherwise, it will be in a
+<p>If <tt class="docutils literal">inline</tt> is <tt class="docutils literal">true</tt>, then the <tt class="docutils literal">LoggingPane</tt> will be a
+<tt class="docutils literal">DIV</tt> at the bottom of the document. Otherwise, it will be in a
 pop-up window with a name based on the calling page's URL. If
 there is an element in the document with an id of
-<tt class="docutils literal"><span class="pre">_MochiKit_LoggingPane</span></tt>, it will be used instead of appending a
-new <tt class="docutils literal"><span class="pre">DIV</span></tt> to the body.</p>
-<p><tt class="docutils literal"><span class="pre">logger</span></tt> is the reference to the
+<tt class="docutils literal">_MochiKit_LoggingPane</tt>, it will be used instead of appending a
+new <tt class="docutils literal">DIV</tt> to the body.</p>
+<p><tt class="docutils literal">logger</tt> is the reference to the
 <a class="mochiref reference external" href="Logging.html#fn-logger">MochiKit.Logging.Logger</a> to listen to. If not
 specified, the global default logger is used.</p>
 <p>Properties:</p>
 <blockquote>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">win</span></tt>:</dt>
-<dd>Reference to the pop-up window (<tt class="docutils literal"><span class="pre">undefined</span></tt> if
-<tt class="docutils literal"><span class="pre">inline</span></tt>)</dd>
-<dt><tt class="docutils literal"><span class="pre">inline</span></tt>:</dt>
-<dd><tt class="docutils literal"><span class="pre">true</span></tt> if the <tt class="docutils literal"><span class="pre">LoggingPane</span></tt> is inline</dd>
-<dt><tt class="docutils literal"><span class="pre">colorTable</span></tt>:</dt>
+<dt><tt class="docutils literal">win</tt>:</dt>
+<dd>Reference to the pop-up window (<tt class="docutils literal">undefined</tt> if
+<tt class="docutils literal">inline</tt>)</dd>
+<dt><tt class="docutils literal">inline</tt>:</dt>
+<dd><tt class="docutils literal">true</tt> if the <tt class="docutils literal">LoggingPane</tt> is inline</dd>
+<dt><tt class="docutils literal">colorTable</tt>:</dt>
 <dd><p class="first">An object with property-&gt;value mappings for each log level
 and its color. May also be mutated on
-<tt class="docutils literal"><span class="pre">LoggingPane.prototype</span></tt> to affect all instances. For
+<tt class="docutils literal">LoggingPane.prototype</tt> to affect all instances. For
 example:</p>
 <pre class="last literal-block">
 MochiKit.LoggingPane.LoggingPane.prototype.colorTable = {
@@ -99,7 +99,7 @@ MochiKit.LoggingPane.LoggingPane.prototype.colorTable = {
 <a class="mochidef reference external" href="#fn-loggingpane.prototype.closepane">LoggingPane.prototype.closePane()</a>:</p>
 <blockquote>
 <p>Close the <a class="mochiref reference external" href="#fn-loggingpane">LoggingPane</a> (close the child window, or
-remove the <tt class="docutils literal"><span class="pre">_MochiKit_LoggingPane</span></tt> <tt class="docutils literal"><span class="pre">DIV</span></tt> from the document).</p>
+remove the <tt class="docutils literal">_MochiKit_LoggingPane</tt> <tt class="docutils literal">DIV</tt> from the document).</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>

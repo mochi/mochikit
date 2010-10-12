@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
 <title>MochiKit.Logging - we're all tired of alert()</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../../js/toc.js"></script>
 </head>
 <body>
-<a href="http://mochikit.com"><img id="mainlink" src="../../../include/_img/g_logo_doc.gif" alt="MochiKit" /></a>
+<a href="http://mochikit.com"><img id="mainlink" src="../../../include/img/g_logo_doc.gif" alt="MochiKit" /></a>
 <a class='indexlink' href='index.html'>Back to docs index</a>
 <div class="document">
 <div class="section" id="name">
@@ -58,7 +58,7 @@ MochiKit.Logging.logger.useNativeConsole = false;
 <h2>Bookmarklet Based Debugging</h2>
 <p>JavaScript is at a serious disadvantage without a standard console for
 &quot;print&quot; statements. Everything else has one. The closest thing that
-you get in a browser environment is the <tt class="docutils literal"><span class="pre">alert</span></tt> function, which is
+you get in a browser environment is the <tt class="docutils literal">alert</tt> function, which is
 absolutely evil.</p>
 <p>This leaves you with one reasonable solution: do your logging in the
 page somehow. The problem here is that you don't want to clutter the
@@ -70,7 +70,7 @@ whack it whenever you want to see what's in the logger. Of course,
 this means you must drink the MochiKit.Logging kool-aid. It's tangy
 and sweet, don't worry.</p>
 <p>Currently this uses <a class="mochiref reference external" href="LoggingPane.html">MochiKit.LoggingPane</a> if loaded and
-otherwise falls back to ugly <tt class="docutils literal"><span class="pre">alert</span></tt> messages.</p>
+otherwise falls back to ugly <tt class="docutils literal">alert</tt> messages.</p>
 </div>
 </div>
 <div class="section" id="api-reference">
@@ -84,15 +84,15 @@ otherwise falls back to ugly <tt class="docutils literal"><span class="pre">aler
 <p>Properties:</p>
 <blockquote>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">num</span></tt>:</dt>
+<dt><tt class="docutils literal">num</tt>:</dt>
 <dd>Identifier for the log message</dd>
-<dt><tt class="docutils literal"><span class="pre">level</span></tt>:</dt>
-<dd>Level of the log message (<tt class="docutils literal"><span class="pre">&quot;INFO&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;WARN&quot;</span></tt>,
-<tt class="docutils literal"><span class="pre">&quot;DEBUG&quot;</span></tt>, etc.)</dd>
-<dt><tt class="docutils literal"><span class="pre">info</span></tt>:</dt>
-<dd>All other arguments passed to log function as an <tt class="docutils literal"><span class="pre">Array</span></tt></dd>
-<dt><tt class="docutils literal"><span class="pre">timestamp</span></tt>:</dt>
-<dd><tt class="docutils literal"><span class="pre">Date</span></tt> object timestamping the log message</dd>
+<dt><tt class="docutils literal">level</tt>:</dt>
+<dd>Level of the log message (<tt class="docutils literal">&quot;INFO&quot;</tt>, <tt class="docutils literal">&quot;WARN&quot;</tt>,
+<tt class="docutils literal">&quot;DEBUG&quot;</tt>, etc.)</dd>
+<dt><tt class="docutils literal">info</tt>:</dt>
+<dd>All other arguments passed to log function as an <tt class="docutils literal">Array</tt></dd>
+<dt><tt class="docutils literal">timestamp</tt>:</dt>
+<dd><tt class="docutils literal">Date</tt> object timestamping the log message</dd>
 </dl>
 </blockquote>
 <dl class="docutils">
@@ -107,10 +107,10 @@ otherwise falls back to ugly <tt class="docutils literal"><span class="pre">aler
 <p>A basic logger object that has a buffer of recent messages plus a
 listener dispatch mechanism for &quot;real-time&quot; logging of important
 messages.</p>
-<p><tt class="docutils literal"><span class="pre">maxSize</span></tt> is the maximum number of entries in the log.  If
-<tt class="docutils literal"><span class="pre">maxSize</span> <span class="pre">&gt;=</span> <span class="pre">0</span></tt>, then the log will not buffer more than that many
+<p><tt class="docutils literal">maxSize</tt> is the maximum number of entries in the log.  If
+<tt class="docutils literal">maxSize &gt;= 0</tt>, then the log will not buffer more than that many
 messages. So if you don't like logging at all, be sure to pass
-<tt class="docutils literal"><span class="pre">0</span></tt>.</p>
+<tt class="docutils literal">0</tt>.</p>
 <p>There is a default logger available named &quot;logger&quot;, and several of
 its methods are also global functions:</p>
 <blockquote>
@@ -120,19 +120,19 @@ its methods are also global functions:</p>
 <col width="58%" />
 </colgroup>
 <tbody valign="top">
-<tr><td><tt class="docutils literal"><span class="pre">logger.log</span></tt></td>
+<tr><td><tt class="docutils literal">logger.log</tt></td>
 <td>-&gt; <a class="mochiref reference external" href="#fn-log">log</a></td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">logger.debug</span></tt></td>
+<tr><td><tt class="docutils literal">logger.debug</tt></td>
 <td>-&gt; <a class="mochiref reference external" href="#fn-logdebug">logDebug</a></td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">logger.warning</span></tt></td>
+<tr><td><tt class="docutils literal">logger.warning</tt></td>
 <td>-&gt; <a class="mochiref reference external" href="#fn-logwarning">logWarning</a></td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">logger.error</span></tt></td>
+<tr><td><tt class="docutils literal">logger.error</tt></td>
 <td>-&gt; <a class="mochiref reference external" href="#fn-logerror">logError</a></td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">logger.fatal</span></tt></td>
+<tr><td><tt class="docutils literal">logger.fatal</tt></td>
 <td>-&gt; <a class="mochiref reference external" href="#fn-logfatal">logFatal</a></td>
 </tr>
 </tbody>
@@ -148,36 +148,36 @@ its methods are also global functions:</p>
 <a class="mochidef reference external" href="#fn-logger.prototype.addlistener">Logger.prototype.addListener(ident, filter, listener)</a>:</p>
 <blockquote>
 <p>Add a listener for log messages.</p>
-<p><tt class="docutils literal"><span class="pre">ident</span></tt> is a unique identifier that may be used to remove the
+<p><tt class="docutils literal">ident</tt> is a unique identifier that may be used to remove the
 listener later on.</p>
-<p><tt class="docutils literal"><span class="pre">filter</span></tt> can be one of the following:</p>
+<p><tt class="docutils literal">filter</tt> can be one of the following:</p>
 <blockquote>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">null</span></tt>:</dt>
-<dd><tt class="docutils literal"><span class="pre">listener(msg)</span></tt> will be called for every log message
+<dt><tt class="docutils literal">null</tt>:</dt>
+<dd><tt class="docutils literal">listener(msg)</tt> will be called for every log message
 received.</dd>
-<dt><tt class="docutils literal"><span class="pre">string</span></tt>:</dt>
+<dt><tt class="docutils literal">string</tt>:</dt>
 <dd><a class="mochiref reference external" href="#fn-loglevelatleast">logLevelAtLeast(filter)</a> will be used as the
 function (see below).</dd>
-<dt><tt class="docutils literal"><span class="pre">function</span></tt>:</dt>
-<dd><tt class="docutils literal"><span class="pre">filter(msg)</span></tt> will be called for every msg, if it
-returns true then <tt class="docutils literal"><span class="pre">listener(msg)</span></tt> will be called.</dd>
+<dt><tt class="docutils literal">function</tt>:</dt>
+<dd><tt class="docutils literal">filter(msg)</tt> will be called for every msg, if it
+returns true then <tt class="docutils literal">listener(msg)</tt> will be called.</dd>
 </dl>
 </blockquote>
-<p><tt class="docutils literal"><span class="pre">listener</span></tt> is a function that takes one argument, a log
+<p><tt class="docutils literal">listener</tt> is a function that takes one argument, a log
 message. A log message is an object (<a class="mochiref reference external" href="#fn-logmessage">LogMessage</a>
 instance) that has at least these properties:</p>
 <blockquote>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">num</span></tt>:</dt>
+<dt><tt class="docutils literal">num</tt>:</dt>
 <dd>A counter that uniquely identifies a log message
 (per-logger)</dd>
-<dt><tt class="docutils literal"><span class="pre">level</span></tt>:</dt>
+<dt><tt class="docutils literal">level</tt>:</dt>
 <dd>A string or number representing the log level. If string,
-you may want to use <tt class="docutils literal"><span class="pre">LogLevel[level]</span></tt> for comparison.</dd>
-<dt><tt class="docutils literal"><span class="pre">info</span></tt>:</dt>
+you may want to use <tt class="docutils literal">LogLevel[level]</tt> for comparison.</dd>
+<dt><tt class="docutils literal">info</tt>:</dt>
 <dd>An Array of objects passed as additional arguments to the
-<tt class="docutils literal"><span class="pre">log</span></tt> function.</dd>
+<tt class="docutils literal">log</tt> function.</dd>
 </dl>
 </blockquote>
 <dl class="docutils">
@@ -265,8 +265,8 @@ used. Otherwise, it will be an alert with
 <a class="mochidef reference external" href="#fn-logger.prototype.getmessages">Logger.prototype.getMessages([howMany])</a>:</p>
 <blockquote>
 <p>Returns a list of messages from the message buffer, ordered
-from the oldest to the newest message. If <tt class="docutils literal"><span class="pre">howMany</span></tt> is
-specified, only the last <tt class="docutils literal"><span class="pre">howMany</span></tt> messages are returned.
+from the oldest to the newest message. If <tt class="docutils literal">howMany</tt> is
+specified, only the last <tt class="docutils literal">howMany</tt> messages are returned.
 Otherwise all messages in the buffer are returned.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
@@ -277,8 +277,8 @@ Otherwise all messages in the buffer are returned.</p>
 <a name="fn-logger.prototype.getmessagetext"></a>
 <a class="mochidef reference external" href="#fn-logger.prototype.getmessagetext">Logger.prototype.getMessageText([howMany])</a>:</p>
 <blockquote>
-<p>Get a string representing up to the last <tt class="docutils literal"><span class="pre">howMany</span></tt> messages in
-the message buffer. The default is <tt class="docutils literal"><span class="pre">30</span></tt>.</p>
+<p>Get a string representing up to the last <tt class="docutils literal">howMany</tt> messages in
+the message buffer. The default is <tt class="docutils literal">30</tt>.</p>
 <p>The message looks like this:</p>
 <pre class="literal-block">
 LAST {messages.length} MESSAGES:

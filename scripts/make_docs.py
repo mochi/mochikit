@@ -19,7 +19,7 @@ TEMPLATE = u"""%(html_prolog)s
 <script type="text/javascript" src="../../js/toc.js"></script>
 </head>
 <body>
-<a href="http://mochikit.com"><img id="mainlink" src="../../../include/_img/g_logo_doc.gif" alt="MochiKit" /></a>
+<a href="http://mochikit.com"><img id="mainlink" src="../../../include/img/g_logo_doc.gif" alt="MochiKit" /></a>
 %(index_link)s
 %(html_body)s
 </body>

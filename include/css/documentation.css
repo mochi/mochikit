@@ -6,7 +6,7 @@ body {
     color: #5C5D5F;
     margin: 0;
     font-family:  Verdana, Helvetica, sans-serif;
-    background: url("../_img/bg_docheader.gif") repeat-x;
+    background: url("../img/bg_docheader.gif") repeat-x;
 }
 
 /* ---- TYPOGRAPHY ----------------------*/
@@ -93,7 +93,7 @@ pre.literal-block {
 
 ul.simple { list-style: none; margin: 0em 0em 1em 1.3em; padding: 0;  }
 ul.simple li {
-    background: url("../_img/g_bullet.gif") no-repeat left .5em;
+    background: url("../img/g_bullet.gif") no-repeat left .5em;
     padding-left: 12px;
 }
 

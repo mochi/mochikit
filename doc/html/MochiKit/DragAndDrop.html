@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
 <title>MochiKit.DragAndDrop - drag and drop elements with MochiKit</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../../js/toc.js"></script>
 </head>
 <body>
-<a href="http://mochikit.com"><img id="mainlink" src="../../../include/_img/g_logo_doc.gif" alt="MochiKit" /></a>
+<a href="http://mochikit.com"><img id="mainlink" src="../../../include/img/g_logo_doc.gif" alt="MochiKit" /></a>
 <a class='indexlink' href='index.html'>Back to docs index</a>
 <div class="document">
 <div class="section" id="name">
@@ -65,30 +65,30 @@ through your pages, for richer interfaces.</p>
 <p>A object that can be drag with the mouse.</p>
 <p>You have the following options, with corresponding default values:</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">handle</span> <span class="pre">(false)</span></tt>:</dt>
+<dt><tt class="docutils literal">handle (false)</tt>:</dt>
 <dd>Option for giving the element where starting the drag. By
 default it's the element itself, but you can either put a
 class of a subelement or the id of another element as handle.</dd>
-<dt><tt class="docutils literal"><span class="pre">starteffect</span> <span class="pre">(MochiKit.Visual.Opacity)</span></tt>:</dt>
+<dt><tt class="docutils literal">starteffect (MochiKit.Visual.Opacity)</tt>:</dt>
 <dd>Function called once the drag has begun, taking the dragged
 element as argument. It's an effect by default but you can
 define any callback.</dd>
-<dt><tt class="docutils literal"><span class="pre">reverteffect</span> <span class="pre">(MochiKit.Visual.Move)</span></tt>:</dt>
+<dt><tt class="docutils literal">reverteffect (MochiKit.Visual.Move)</tt>:</dt>
 <dd>Effect applied when drag is cancelled. You have to define the
-<tt class="docutils literal"><span class="pre">revert</span></tt> option to enable the call. By default it brings the
+<tt class="docutils literal">revert</tt> option to enable the call. By default it brings the
 element back to its initial position, so you should know what
 you want when you modify this. The function should return an
 effect that can be cancelled.</dd>
-<dt><tt class="docutils literal"><span class="pre">endeffect</span> <span class="pre">(MochiKit.Visual.Opacity)</span></tt>:</dt>
+<dt><tt class="docutils literal">endeffect (MochiKit.Visual.Opacity)</tt>:</dt>
 <dd>Pending part of starteffect. If you have modified your element
 during start, you'd usually want to revert it in the function.</dd>
-<dt><tt class="docutils literal"><span class="pre">zindex</span> <span class="pre">(1000)</span></tt>:</dt>
+<dt><tt class="docutils literal">zindex (1000)</tt>:</dt>
 <dd>Zindex of the drag element. By default it brings it to front.</dd>
-<dt><tt class="docutils literal"><span class="pre">revert</span> <span class="pre">(false)</span></tt>:</dt>
+<dt><tt class="docutils literal">revert (false)</tt>:</dt>
 <dd>Indicate if the reverteffect function should be called. If you
 define a function here, this function will be called before
 reverteffect, with the element as first argument.</dd>
-<dt><tt class="docutils literal"><span class="pre">snap</span> <span class="pre">(false)</span></tt>:</dt>
+<dt><tt class="docutils literal">snap (false)</tt>:</dt>
 <dd>Define the behaviour of the drag element when moving. It can
 either be a function, a value or an array of two values. If
 it's a function, it should take the (x, y) position of the
@@ -96,19 +96,19 @@ element as arguments, and return the position draw in the
 browser. If its a value, it's used as a modulo for each
 coordinates. If it's an array, each value is applied for the
 corresponding coordinate.</dd>
-<dt><tt class="docutils literal"><span class="pre">selectclass</span> <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal">selectclass (null)</tt>:</dt>
 <dd>If defined, name of CSS class applied during the drag.</dd>
-<dt><tt class="docutils literal"><span class="pre">ghosting</span> <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal">ghosting (null)</tt>:</dt>
 <dd>Make a ghost from the draggable: clone it at start, then
 remove the clone at end.</dd>
-<dt><tt class="docutils literal"><span class="pre">onchange</span>&nbsp; <span class="pre">(MochiKit.Base.noop)</span></tt>:</dt>
+<dt><tt class="docutils literal">onchange&nbsp; (MochiKit.Base.noop)</tt>:</dt>
 <dd>Function called when updates are made on the draggable object.</dd>
-<dt><tt class="docutils literal"><span class="pre">scroll</span> <span class="pre">(false)</span></tt>:</dt>
-<dd>Element to scroll around, if precised. For example, <tt class="docutils literal"><span class="pre">window</span></tt>
+<dt><tt class="docutils literal">scroll (false)</tt>:</dt>
+<dd>Element to scroll around, if precised. For example, <tt class="docutils literal">window</tt>
 will allow the draggable to scroll in the page.</dd>
-<dt><tt class="docutils literal"><span class="pre">scrollSensitivity</span> <span class="pre">(20)</span></tt>:</dt>
+<dt><tt class="docutils literal">scrollSensitivity (20)</tt>:</dt>
 <dd>Scroll sensitivity, used when scroll is used.</dd>
-<dt><tt class="docutils literal"><span class="pre">scrollSpeed</span> <span class="pre">(15)</span></tt>:</dt>
+<dt><tt class="docutils literal">scrollSpeed (15)</tt>:</dt>
 <dd>Scroll speed, used when scroll is used.</dd>
 </dl>
 <p>A draggable generates some signals during its lifetime: start, drag and
@@ -134,27 +134,27 @@ connect(Draggables, 'start', onStart);
 <p>A object where you can drop a draggable.</p>
 <p>You have the following options, with corresponding default values:</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">greedy</span> <span class="pre">(true)</span></tt>:</dt>
+<dt><tt class="docutils literal">greedy (true)</tt>:</dt>
 <dd>Stop on this droppable when a draggable drops over it.</dd>
-<dt><tt class="docutils literal"><span class="pre">hoverclass</span> <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal">hoverclass (null)</tt>:</dt>
 <dd>If defined, name of CSS class applied when a draggable is
 hover the droppable element (hover state).</dd>
-<dt><tt class="docutils literal"><span class="pre">hoverfunc</span> <span class="pre">(MochiKit.Base.noop)</span></tt>:</dt>
+<dt><tt class="docutils literal">hoverfunc (MochiKit.Base.noop)</tt>:</dt>
 <dd>Function called on hover state.</dd>
-<dt><tt class="docutils literal"><span class="pre">accept</span> <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal">accept (null)</tt>:</dt>
 <dd>Array of CSS classes allowed to drop on this.</dd>
-<dt><tt class="docutils literal"><span class="pre">activeclass</span> <span class="pre">(null)</span></tt>:</dt>
+<dt><tt class="docutils literal">activeclass (null)</tt>:</dt>
 <dd>If defined, name of CSS class applied if a possible draggable
 begins its start (active state).</dd>
-<dt><tt class="docutils literal"><span class="pre">onactive</span> <span class="pre">(MochiKit.Base.noop)</span></tt>:</dt>
+<dt><tt class="docutils literal">onactive (MochiKit.Base.noop)</tt>:</dt>
 <dd>Function called on active state.</dd>
-<dt><tt class="docutils literal"><span class="pre">containment</span> <span class="pre">([])</span></tt>:</dt>
+<dt><tt class="docutils literal">containment <span class="pre">([])</span></tt>:</dt>
 <dd>Specify a list of elements to check for active state: only the
 children of the specified elements can be dropped. Mainly
 useful for Sortable.</dd>
-<dt><tt class="docutils literal"><span class="pre">onhover</span> <span class="pre">(MochiKit.Base.noop)</span></tt>:</dt>
+<dt><tt class="docutils literal">onhover (MochiKit.Base.noop)</tt>:</dt>
 <dd>Specific hover function, mainly used for Sortable.</dd>
-<dt><tt class="docutils literal"><span class="pre">ondrop</span> <span class="pre">(MochiKit.Base.noop)</span></tt>:</dt>
+<dt><tt class="docutils literal">ondrop (MochiKit.Base.noop)</tt>:</dt>
 <dd>Function called when a draggable is dropped. The function
 takes three arguments: the draggable element, the droppable
 element, and the event that raised the drop.</dd>
