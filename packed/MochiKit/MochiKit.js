@@ -1100,8 +1100,8 @@ m.NotFound=new m.NamedError("MochiKit.Base.NotFound");
 m.listMax=m.partial(m.listMinMax,1);
 m.listMin=m.partial(m.listMinMax,-1);
 m.isCallable=m.typeMatcher("function");
-m.isValue=m.typeMatcher("boolean","number","string");
 m.isUndefined=m.typeMatcher("undefined");
+m.isValue=m.typeMatcher("boolean","number","string");
 m.merge=m.partial(m.update,null);
 m.zip=m.partial(m.map,null);
 m.average=m.mean;
@@ -3329,11 +3329,11 @@ return null;
 },updateNodeAttributes:function(node,_38c){
 var elem=node;
 var self=MochiKit.DOM;
+var base=MochiKit.Base;
 if(typeof (node)=="string"){
 elem=self.getElement(node);
 }
 if(_38c){
-var _38f=MochiKit.Base.updatetree;
 if(self.attributeArray.compliant){
 for(var k in _38c){
 var v=_38c[k];
@@ -3341,7 +3341,7 @@ if(typeof (v)=="object"&&typeof (elem[k])=="object"){
 if(k=="style"&&MochiKit.Style){
 MochiKit.Style.setStyle(elem,v);
 }else{
-_38f(elem[k],v);
+base.updatetree(elem[k],v);
 }
 }else{
 if(k.substring(0,2)=="on"){
@@ -3353,7 +3353,7 @@ elem[k]=v;
 elem.setAttribute(k,v);
 }
 }
-if(typeof (elem[k])=="string"&&elem[k]!=v){
+if(base.isValue(elem[k])&&elem[k]!=v){
 elem[k]=v;
 }
 }
@@ -3372,7 +3372,7 @@ if(typeof (elem[k])=="object"&&typeof (v)=="object"){
 if(k=="style"&&MochiKit.Style){
 MochiKit.Style.setStyle(elem,v);
 }else{
-_38f(elem[k],v);
+base.updatetree(elem[k],v);
 }
 }else{
 if(k.substring(0,2)=="on"){
@@ -3386,7 +3386,7 @@ elem.setAttribute(k,v);
 }
 }
 }
-if(typeof (elem[k])=="string"&&elem[k]!=v){
+if(base.isValue(elem[k])&&elem[k]!=v){
 elem[k]=v;
 }
 }
