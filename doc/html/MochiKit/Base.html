@@ -729,6 +729,16 @@ compare(flattenArray([1, [2, 3, [4, 5]]]), [1, 2, 3, 4, 5]) == 0</blockquote>
 </dl>
 </blockquote>
 <p>
+<a name="fn-iscallable"></a>
+<a class="mochidef reference external" href="#fn-iscallable">isCallable(obj[, ...])</a>:</p>
+<blockquote>
+<p>Returns <tt class="docutils literal">true</tt> if all given arguments are functions.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-isdatelike"></a>
 <a class="mochidef reference external" href="#fn-isdatelike">isDateLike(obj[, ...])</a>:</p>
 <blockquote>
@@ -766,6 +776,18 @@ arguments are not empty <tt class="docutils literal">(obj.length &gt; 0)</tt></p
 <a class="mochidef reference external" href="#fn-isnull">isNull(obj[, ...])</a>:</p>
 <blockquote>
 <p>Returns <tt class="docutils literal">true</tt> if all arguments are <tt class="docutils literal">null</tt>.</p>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.3.1+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-isundefined"></a>
+<a class="mochidef reference external" href="#fn-isundefined">isUndefined(obj[, ...])</a>:</p>
+<blockquote>
+<p>Returns <tt class="docutils literal">true</tt> if all arguments are undefined. Note that <tt class="docutils literal">null</tt>
+values are NOT undefined in JavaScript (use
+<a class="mochiref reference external" href="#fn-isundefinedornull">isUndefinedOrNull</a> for that).</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
