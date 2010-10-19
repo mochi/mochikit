@@ -12,6 +12,7 @@
   rounding errors and other issues (#333).
 - Fixed MochiKit.Style.getElementPosition when using a 0,0 relative
   position (#332).
+- Fixed bug with empty iterators in MochiKit.Iter.chain (#2).
 - Added new MochiKit.Text module to eventually replace MochiKit.Format.
 - Added the MochiKit.Base.bool() function.
 - Added MochiKit.Visual.Transitions.spring for creating "springy" effects
@@ -28,6 +29,10 @@
 - Added MochiKit.Async.loadScript() function.
 - New optional error argument to Deferred.prototype.cancel().
 - Improved speed of MochiKit.Selector by using querySelectorAll() if possible.
+- Added MochiKit.Base.serializeJSON() support for toJSON() methods.
+  Note that this affects Date object serialization is some browsers.
+- Added state() method for MochiKit.Async.Deferred. Also clarified docs on
+  available properties.
 
 2009-XX-YY      v1.4.3 (bug fix release)
 

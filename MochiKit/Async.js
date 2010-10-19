@@ -26,20 +26,23 @@ MochiKit.Async.Deferred = function (/* optional */ canceller) {
 MochiKit.Async.Deferred.prototype = {
     /** @id MochiKit.Async.Deferred.prototype.repr */
     repr: function () {
-        var state;
-        if (this.fired == -1) {
-            state = 'unfired';
-        } else if (this.fired === 0) {
-            state = 'success';
-        } else {
-            state = 'error';
-        }
-        return 'Deferred(' + this.id + ', ' + state + ')';
+        return 'Deferred(' + this.id + ', ' + this.state() + ')';
     },
 
     toString: MochiKit.Base.forwardCall("repr"),
 
     _nextId: MochiKit.Base.counter(),
+
+    /** @id MochiKit.Async.Deferred.prototype.state */
+    state: function () {
+        if (this.fired == -1) {
+            return 'unfired';
+        } else if (this.fired === 0) {
+            return 'success';
+        } else {
+            return 'error';
+        }
+    },
 
     /** @id MochiKit.Async.Deferred.prototype.cancel */
     cancel: function (e) {

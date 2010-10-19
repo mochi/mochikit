@@ -464,7 +464,8 @@ tests.test_Base = function (t) {
             return "this was a date";
         }
     );
-    t.is( serializeJSON(new Date()), "\"this was a date\"", "json registry" );
+    var fakeDate = { getTime: function () { return new Date().getTime(); } };
+    t.is( serializeJSON(fakeDate), "\"this was a date\"", "json registry" );
     MochiKit.Base.jsonRegistry.unregister("isDateLike");
 
     var a = {"foo": {"bar": 12, "wibble": 13}};

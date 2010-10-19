@@ -151,11 +151,11 @@ argument into a JSON serialization:</p>
 <ol class="arabic simple">
 <li>Primitive types are returned as their JSON representation:
 <tt class="docutils literal">string</tt>, <tt class="docutils literal">number</tt>, <tt class="docutils literal">boolean</tt>, <tt class="docutils literal">null</tt>.</li>
-<li>If the object has a <tt class="docutils literal">__json__</tt> or <tt class="docutils literal">json</tt> method, then it is
-called with no arguments. If the result of this method is not the
-object itself, then the new object goes through rule processing
-again (e.g. it may return a string, which is then serialized in
-JSON format).</li>
+<li>If the object has a <tt class="docutils literal">toJSON</tt>, <tt class="docutils literal">__json__</tt> or <tt class="docutils literal">json</tt> method,
+then it is called with no arguments. If the result of this method
+is not the object itself, then the new object goes through rule
+processing again (e.g. it may return a string, which is then
+serialized in JSON format).</li>
 <li>If the object is <tt class="docutils literal">Array</tt>-like (has a <tt class="docutils literal">length</tt> property that is
 a number, and is not a function), then it is serialized as a JSON
 array.  Each element will be processed according to these rules in
@@ -1585,8 +1585,9 @@ assert(lst.toString() == &quot;bbb,cc,a&quot;);
 <blockquote>
 <p>Serialize <tt class="docutils literal">anObject</tt> in the JSON <a class="footnote-reference" href="#id7" id="id6">[1]</a> format, see <a class="reference internal" href="#json-serialization">JSON
 Serialization</a> for the coercion rules. For unserializable objects
-(functions that do not have an adapter, <tt class="docutils literal">__json__</tt> method, or
-<tt class="docutils literal">json</tt> method), this will return <tt class="docutils literal">undefined</tt>.</p>
+(functions that do not have an adapter, <tt class="docutils literal">toJSON</tt> method,
+<tt class="docutils literal">__json__</tt> method, or <tt class="docutils literal">json</tt> method), this will return
+<tt class="docutils literal">undefined</tt>.</p>
 <p>For those familiar with Python, JSON is similar in scope to
 pickle, but it can not handle recursive object graphs.</p>
 <dl class="docutils">

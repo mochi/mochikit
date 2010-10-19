@@ -163,9 +163,8 @@ Errors
 
 :mochidef:`GenericError`:
 
-    Results passed to ``.fail`` or ``.errback`` of a
-    :mochiref:`Deferred` are wrapped by this ``Error`` if ``!(result
-    instanceof Error)``.
+    Results passed to ``.errback`` of a :mochiref:`Deferred` are
+    wrapped by this ``Error`` if ``!(result instanceof Error)``.
 
     *Availability*:
         Available in MochiKit 1.3.1+
@@ -218,20 +217,9 @@ Constructors
             [myCallback, myErrback]
         ]
 
-    The :mochiref:`Deferred` also keeps track of its current status
-    (fired).  Its status may be one of the following three values:
-
-
-        ===== ================================
-        Value Condition
-        ===== ================================
-        -1    no value yet (initial condition)
-        0     success
-        1     error
-        ===== ================================
-
-    A :mochiref:`Deferred` will be in the error state if one of the
-    following conditions are met:
+    The :mochiref:`Deferred` also keeps track of its current state
+    (see the ``fired`` property below). A :mochiref:`Deferred` will
+    be in the error state if one of the following conditions are met:
 
     1. The result given to callback or errback is "``instanceof
        Error``"
@@ -289,8 +277,49 @@ Constructors
     handle that ``Error`` gracefully for cancellable
     :mochiref:`Deferred` instances.
 
+    *Object Properties*:
+
+    ``fired``:
+        the internal (read-only) status of the :mochiref:`Deferred`.
+        May have one of the following three values:
+
+        ===== ================================
+        Value Condition
+        ===== ================================
+        -1    no value yet (initial condition)
+        0     success
+        1     error
+        ===== ================================
+
+    ``chained``:
+        an internal (read-only) boolean indicating if this
+        :mochiref:`Deferred` is chained to another, i.e. its
+        results will propagate to another :mochiref:`Deferred`.
+        If ``true``, no more callbacks can be added.
+    ``finalized``:
+        an internal (read-only) boolean indicating if this
+        :mochiref:`Deferred` has been finalized. If ``true``,
+        no more callbacks can be added.
+
     *Availability*:
         Available in MochiKit 1.3.1+
+
+
+:mochidef:`Deferred.prototype.state()`:
+
+    Returns a textual representation of the current deferred state.
+    See also the ``fired`` property. The values returned are:
+
+        ========= ================================
+        Value     Condition
+        ========= ================================
+        'unfired' no result yet (initial condition)
+        'success' a successful result has been returned
+        'error'   an error has been returned
+        ========= ================================
+
+    *Availability*:
+        Available in MochiKit 1.5+
 
 
 :mochidef:`Deferred.prototype.addBoth(func[, ...])`:

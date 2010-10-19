@@ -159,11 +159,11 @@ argument into a JSON serialization:
 
 1.  Primitive types are returned as their JSON representation:
     ``string``, ``number``, ``boolean``, ``null``.
-2.  If the object has a ``__json__`` or ``json`` method, then it is
-    called with no arguments. If the result of this method is not the
-    object itself, then the new object goes through rule processing
-    again (e.g. it may return a string, which is then serialized in
-    JSON format).
+2.  If the object has a ``toJSON``, ``__json__`` or ``json`` method,
+    then it is called with no arguments. If the result of this method
+    is not the object itself, then the new object goes through rule
+    processing again (e.g. it may return a string, which is then
+    serialized in JSON format).
 3.  If the object is ``Array``-like (has a ``length`` property that is
     a number, and is not a function), then it is serialized as a JSON
     array.  Each element will be processed according to these rules in
@@ -1342,8 +1342,9 @@ Functions
 
     Serialize ``anObject`` in the JSON [1]_ format, see `JSON
     Serialization`_ for the coercion rules. For unserializable objects
-    (functions that do not have an adapter, ``__json__`` method, or
-    ``json`` method), this will return ``undefined``.
+    (functions that do not have an adapter, ``toJSON`` method,
+    ``__json__`` method, or ``json`` method), this will return
+    ``undefined``.
 
     For those familiar with Python, JSON is similar in scope to
     pickle, but it can not handle recursive object graphs.
