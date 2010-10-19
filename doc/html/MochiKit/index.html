@@ -83,6 +83,7 @@ via MochiKit.DOM.getElement.</li>
 rounding errors and other issues (#333).</li>
 <li>Fixed MochiKit.Style.getElementPosition when using a 0,0 relative
 position (#332).</li>
+<li>Fixed bug with empty iterators in MochiKit.Iter.chain (#2).</li>
 <li>Added new MochiKit.Text module to eventually replace MochiKit.Format.</li>
 <li>Added the MochiKit.Base.bool() function.</li>
 <li>Added MochiKit.Visual.Transitions.spring for creating &quot;springy&quot; effects</li>
@@ -99,6 +100,8 @@ aliases (obsolete since version 1.1, see #337).</li>
 <li>Added MochiKit.Async.loadScript() function.</li>
 <li>New optional error argument to Deferred.prototype.cancel().</li>
 <li>Improved speed of MochiKit.Selector by using querySelectorAll() if possible.</li>
+<li>Added MochiKit.Base.serializeJSON() support for toJSON() methods.
+Note that this affects Date object serialization is some browsers.</li>
 </ul>
 <p>2009-XX-YY      v1.4.3 (bug fix release)</p>
 <ul class="simple">

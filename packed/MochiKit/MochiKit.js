@@ -721,6 +721,12 @@ return "\""+res+"\"";
 }
 var me=arguments.callee;
 var _f6;
+if(typeof (o.toJSON)=="function"){
+_f6=o.toJSON();
+if(o!==_f6){
+return me(_f6);
+}
+}
 if(typeof (o.__json__)=="function"){
 _f6=o.__json__();
 if(o!==_f6){
