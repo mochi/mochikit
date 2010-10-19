@@ -31,6 +31,8 @@
 - Improved speed of MochiKit.Selector by using querySelectorAll() if possible.
 - Added MochiKit.Base.serializeJSON() support for toJSON() methods.
   Note that this affects Date object serialization is some browsers.
+- Added state() method for MochiKit.Async.Deferred. Also clarified docs on
+  available properties.
 
 2009-XX-YY      v1.4.3 (bug fix release)
 

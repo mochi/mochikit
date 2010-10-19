@@ -227,34 +227,9 @@ internal representation:</p>
     [myCallback, myErrback]
 ]
 </pre>
-<p>The <a class="mochiref reference external" href="#fn-deferred">Deferred</a> also keeps track of its current status
-(fired).  Its status may be one of the following three values:</p>
-<blockquote>
-<table border="1" class="docutils">
-<colgroup>
-<col width="14%" />
-<col width="86%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Value</th>
-<th class="head">Condition</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>-1</td>
-<td>no value yet (initial condition)</td>
-</tr>
-<tr><td>0</td>
-<td>success</td>
-</tr>
-<tr><td>1</td>
-<td>error</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
-<p>A <a class="mochiref reference external" href="#fn-deferred">Deferred</a> will be in the error state if one of the
-following conditions are met:</p>
+<p>The <a class="mochiref reference external" href="#fn-deferred">Deferred</a> also keeps track of its current state
+(see the <tt class="docutils literal">fired</tt> property below). A <a class="mochiref reference external" href="#fn-deferred">Deferred</a> will
+be in the error state if one of the following conditions are met:</p>
 <ol class="arabic simple">
 <li>The result given to callback or errback is &quot;<tt class="docutils literal">instanceof
 Error</tt>&quot;</li>
@@ -306,9 +281,80 @@ cancel will fire the <a class="mochiref reference external" href="#fn-deferred">
 returns a different <tt class="docutils literal">Error</tt>), so errbacks should be prepared to
 handle that <tt class="docutils literal">Error</tt> gracefully for cancellable
 <a class="mochiref reference external" href="#fn-deferred">Deferred</a> instances.</p>
+<p><em>Object Properties</em>:</p>
 <dl class="docutils">
+<dt><tt class="docutils literal">fired</tt>:</dt>
+<dd><p class="first">the internal (read-only) status of the <a class="mochiref reference external" href="#fn-deferred">Deferred</a>.
+May have one of the following three values:</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Value</th>
+<th class="head">Condition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>-1</td>
+<td>no value yet (initial condition)</td>
+</tr>
+<tr><td>0</td>
+<td>success</td>
+</tr>
+<tr><td>1</td>
+<td>error</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt><tt class="docutils literal">chained</tt>:</dt>
+<dd>an internal (read-only) boolean indicating if this
+<a class="mochiref reference external" href="#fn-deferred">Deferred</a> is chained to another, i.e. its
+results will propagate to another <a class="mochiref reference external" href="#fn-deferred">Deferred</a>.
+If <tt class="docutils literal">true</tt>, no more callbacks can be added.</dd>
+<dt><tt class="docutils literal">finalized</tt>:</dt>
+<dd>an internal (read-only) boolean indicating if this
+<a class="mochiref reference external" href="#fn-deferred">Deferred</a> has been finalized. If <tt class="docutils literal">true</tt>,
+no more callbacks can be added.</dd>
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-deferred.prototype.state"></a>
+<a class="mochidef reference external" href="#fn-deferred.prototype.state">Deferred.prototype.state()</a>:</p>
+<blockquote>
+<p>Returns a textual representation of the current deferred state.
+See also the <tt class="docutils literal">fired</tt> property. The values returned are:</p>
+<blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Value</th>
+<th class="head">Condition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>'unfired'</td>
+<td>no result yet (initial condition)</td>
+</tr>
+<tr><td>'success'</td>
+<td>a successful result has been returned</td>
+</tr>
+<tr><td>'error'</td>
+<td>an error has been returned</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.5+</dd>
 </dl>
 </blockquote>
 <p>
