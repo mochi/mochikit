@@ -13,6 +13,8 @@
 - Fixed MochiKit.Style.getElementPosition when using a 0,0 relative
   position (#332).
 - Fixed bug with empty iterators in MochiKit.Iter.chain (#2).
+- Modified MochiKit.DateTime.toISOTime() to handle the previously
+  undocumented ``realISO`` argument correctly.
 - Added new MochiKit.Text module to eventually replace MochiKit.Format.
 - Added the MochiKit.Base.bool() function.
 - Added MochiKit.Visual.Transitions.spring for creating "springy" effects

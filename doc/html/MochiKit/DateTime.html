@@ -70,9 +70,16 @@ then the local timezone is used.</p>
 </blockquote>
 <p>
 <a name="fn-toisotime"></a>
-<a class="mochidef reference external" href="#fn-toisotime">toISOTime(date)</a>:</p>
+<a class="mochidef reference external" href="#fn-toisotime">toISOTime(date, realISO=false)</a>:</p>
 <blockquote>
-<p>Convert a <tt class="docutils literal">Date</tt> object to a string in the form of hh:mm:ss</p>
+<p>Convert a <tt class="docutils literal">Date</tt> object to a string in the form:</p>
+<blockquote>
+hh:mm:ss</blockquote>
+<p>If <tt class="docutils literal">realISO</tt> is set to <tt class="docutils literal">true</tt>, the hours will always use
+two digits and the time will be reported for the UTC time zone
+instead (since MochiKit 1.5):</p>
+<blockquote>
+hh:mm:ssZ</blockquote>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
@@ -91,7 +98,8 @@ YYYY-MM-DDThh:mm:ssZ</blockquote>
 <blockquote>
 YYYY-MM-DD hh:mm:ss</blockquote>
 <p>So, this function returns the latter form, despite its name,
-unless you pass <tt class="docutils literal">true</tt> for <tt class="docutils literal">realISO</tt>.</p>
+unless you pass <tt class="docutils literal">true</tt> for <tt class="docutils literal">realISO</tt>. The <tt class="docutils literal">realISO</tt> flag
+will also convert the timestamp to the UTC time zone.</p>
 <dl class="docutils">
 <dt><em>Availability</em>:</dt>
 <dd>Available in MochiKit 1.3.1+</dd>
