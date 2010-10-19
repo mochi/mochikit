@@ -61,9 +61,17 @@ Functions
         Available in MochiKit 1.3.1+
 
 
-:mochidef:`toISOTime(date)`:
+:mochidef:`toISOTime(date, realISO=false)`:
 
-    Convert a ``Date`` object to a string in the form of hh:mm:ss
+    Convert a ``Date`` object to a string in the form:
+
+        hh:mm:ss
+
+    If ``realISO`` is set to ``true``, the hours will always use
+    two digits and the time will be reported for the UTC time zone
+    instead (since MochiKit 1.5):
+
+        hh:mm:ssZ
 
     *Availability*:
         Available in MochiKit 1.3.1+
@@ -82,7 +90,8 @@ Functions
         YYYY-MM-DD hh:mm:ss
 
     So, this function returns the latter form, despite its name,
-    unless you pass ``true`` for ``realISO``.
+    unless you pass ``true`` for ``realISO``. The ``realISO`` flag
+    will also convert the timestamp to the UTC time zone.
 
     *Availability*:
         Available in MochiKit 1.3.1+
