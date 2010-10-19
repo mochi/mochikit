@@ -280,15 +280,12 @@ MochiKit.Base.update(MochiKit.Iter, {
             next: function () {
                 while (argiter.length > 1) {
                     try {
-                        var result = argiter[0].next();
-                        return result;
+                        return argiter[0].next();
                     } catch (e) {
                         if (e != self.StopIteration) {
                             throw e;
                         }
                         argiter.shift();
-                        var result = argiter[0].next();
-                        return result;
                     }
                 }
                 if (argiter.length == 1) {
