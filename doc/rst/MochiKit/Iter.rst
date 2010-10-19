@@ -252,7 +252,8 @@ Functions
 
         var it = iter(iterable);
         try {
-            while (var o = it.next()) {
+            while (true) {
+                var o = it.next()
                 // use o
             }
         } catch (e) {

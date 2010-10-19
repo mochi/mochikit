@@ -46,6 +46,9 @@ tests.test_Iter = function (t) {
     c = chain(range(2), range(3));
     t.is( compare(list(c), [0, 1, 0, 1, 2]), 0, "chain(p, q)" );
 
+    c = chain([], [], [1]);
+    t.is( compare(list(c), [1]), 0, "chain([], [], [1])" );
+
     var lessThanFive = partial(operator.gt, 5);
     c = takewhile(lessThanFive, count());
     t.is( compare(list(c), [0, 1, 2, 3, 4]), 0, "takewhile()" );
