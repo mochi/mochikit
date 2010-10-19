@@ -353,16 +353,19 @@ Functions
     - ``H5``
     - ``H6``
     - ``HR``
+    - ``IFRAME``
     - ``IMG``
     - ``INPUT``
     - ``LABEL``
     - ``LEGEND``
     - ``LI``
+    - ``LINK``
     - ``OL``
     - ``OPTGROUP``
     - ``OPTION``
     - ``P``
     - ``PRE``
+    - ``SCRIPT``
     - ``SELECT``
     - ``SPAN``
     - ``STRONG``

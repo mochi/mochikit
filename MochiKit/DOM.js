@@ -1122,6 +1122,12 @@ MochiKit.Base.update(MochiKit.DOM, {
         this.STRONG = createDOMFunc("strong");
         /** @id MochiKit.DOM.CANVAS */
         this.CANVAS = createDOMFunc("canvas");
+        /** @id MochiKit.DOM.IFRAME */
+        this.IFRAME = createDOMFunc("iframe");
+        /** @id MochiKit.DOM.LINK */
+        this.LINK = createDOMFunc("link");
+        /** @id MochiKit.DOM.SCRIPT */
+        this.SCRIPT = createDOMFunc("script");
         /** @id MochiKit.DOM.$ */
         this.$ = this.getElement;
         /** @id MochiKit.DOM.NBSP */

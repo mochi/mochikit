@@ -35,6 +35,7 @@
   Note that this affects Date object serialization is some browsers.
 - Added state() method for MochiKit.Async.Deferred. Also clarified docs on
   available properties.
+- Added MochiKit.DOM.IFRAME, LINK and SCRIPT functions.
 
 2009-XX-YY      v1.4.3 (bug fix release)
 
