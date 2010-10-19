@@ -288,7 +288,8 @@ result of Mozilla's <tt class="docutils literal">document.evaluate</tt>).</p>
 <pre class="literal-block">
 var it = iter(iterable);
 try {
-    while (var o = it.next()) {
+    while (true) {
+        var o = it.next()
         // use o
     }
 } catch (e) {
