@@ -163,9 +163,8 @@ Errors
 
 :mochidef:`GenericError`:
 
-    Results passed to ``.fail`` or ``.errback`` of a
-    :mochiref:`Deferred` are wrapped by this ``Error`` if ``!(result
-    instanceof Error)``.
+    Results passed to ``.errback`` of a :mochiref:`Deferred` are
+    wrapped by this ``Error`` if ``!(result instanceof Error)``.
 
     *Availability*:
         Available in MochiKit 1.3.1+
