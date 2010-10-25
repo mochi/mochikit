@@ -410,7 +410,7 @@ MochiKit.Base.update(MochiKit.Iter, {
 
         var self = MochiKit.Iter;
         iterable = self.iter(iterable);
-        var rval = [];
+        rval = [];
         var a_val;
         try {
             while (true) {
