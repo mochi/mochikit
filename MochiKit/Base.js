@@ -1109,7 +1109,7 @@ MochiKit.Base.update(MochiKit.Base, {
         if (data.length === 0) {
             throw new TypeError('median() requires at least one argument');
         }
-        data.sort(compare);
+        data.sort(MochiKit.Base.compare);
         if (data.length % 2 == 0) {
             var upper = data.length / 2;
             return (data[upper] + data[upper - 1]) / 2;
