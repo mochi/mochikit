@@ -221,7 +221,7 @@ MochiKit.Format.roundToFixed = function (aNumber, precision) {
 MochiKit.Format._numberToFixed = function (aNumber, precision) {
     var str = aNumber.toString();
     var parts = str.split(/[eE]/);
-    var exp = (parts.length === 1) ? 0 : parseInt(parts[1]) || 0;
+    var exp = (parts.length === 1) ? 0 : parseInt(parts[1], 10) || 0;
     var fixed = MochiKit.Format._shiftNumber(parts[0], exp);
     parts = fixed.split(/\./);
     var whole = parts[0];

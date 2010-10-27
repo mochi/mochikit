@@ -428,7 +428,7 @@ MochiKit.Text._parseFormat = function (pattern, startPos, endPos) {
             var msg = "format value path contains blanks";
             throw new self.FormatPatternError(pattern, startPos, msg);
         } else if (DIGITS.test(e)) {
-            e = parseInt(e);
+            e = parseInt(e, 10);
         }
         info.path[i] = e;
     }
@@ -473,7 +473,7 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
             break;
         case ".":
             var chars = /^\d*/.exec(flags.substring(1))[0];
-            update(info, { precision: parseInt(chars) });
+            update(info, { precision: parseInt(chars, 10) });
             nextPos = 1 + chars.length;
             break;
         case "0":
@@ -489,7 +489,7 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
         case "8":
         case "9":
             var chars = /^\d*/.exec(flags)[0];
-            update(info, { width: parseInt(chars) });
+            update(info, { width: parseInt(chars, 10) });
             nextPos = chars.length;
             break;
         case "s":

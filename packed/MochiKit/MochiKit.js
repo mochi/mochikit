@@ -2188,7 +2188,7 @@ return _281;
 MochiKit.Format._numberToFixed=function(_284,_285){
 var str=_284.toString();
 var _287=str.split(/[eE]/);
-var exp=(_287.length===1)?0:parseInt(_287[1])||0;
+var exp=(_287.length===1)?0:parseInt(_287[1],10)||0;
 var _289=MochiKit.Format._shiftNumber(_287[0],exp);
 _287=_289.split(/\./);
 var _28a=_287[0];
@@ -2525,7 +2525,7 @@ var msg="format value path contains blanks";
 throw new self.FormatPatternError(_2c8,_2c9,msg);
 }else{
 if(_2cf.test(e)){
-e=parseInt(e);
+e=parseInt(e,10);
 }
 }
 }
@@ -2558,7 +2558,7 @@ _2d6(info,{grouping:true});
 break;
 case ".":
 var _2db=/^\d*/.exec(_2d8.substring(1))[0];
-_2d6(info,{precision:parseInt(_2db)});
+_2d6(info,{precision:parseInt(_2db,10)});
 _2da=1+_2db.length;
 break;
 case "0":
@@ -2574,7 +2574,7 @@ case "7":
 case "8":
 case "9":
 var _2db=/^\d*/.exec(_2d8)[0];
-_2d6(info,{width:parseInt(_2db)});
+_2d6(info,{width:parseInt(_2db,10)});
 _2da=_2db.length;
 break;
 case "s":
@@ -4090,8 +4090,8 @@ if(_441[0]=="even"){
 a=2;
 b=0;
 }else{
-a=_441[2]&&parseInt(_441)||null;
-b=parseInt(_441[3]);
+a=_441[2]&&parseInt(_441,10)||null;
+b=parseInt(_441[3],10);
 }
 }
 _43d.push("this.nthChild(element,"+a+","+b+","+!!_442.match("^nth-last")+","+!!_442.match("of-type$")+")");
@@ -4487,8 +4487,8 @@ c.y+=elem.offsetTop;
 _491=elem.offsetParent;
 if(_491!=elem){
 while(_491){
-c.x+=parseInt(_491.style.borderLeftWidth)||0;
-c.y+=parseInt(_491.style.borderTopWidth)||0;
+c.x+=parseInt(_491.style.borderLeftWidth,10)||0;
+c.y+=parseInt(_491.style.borderTopWidth,10)||0;
 c.x+=_491.offsetLeft;
 c.y+=_491.offsetTop;
 _491=_491.offsetParent;
@@ -7482,7 +7482,7 @@ MochiKit.Signal.disconnect(this.eventMouseDown);
 MochiKit.DragAndDrop.Draggables.unregister(this);
 },currentDelta:function(){
 var s=MochiKit.Style.getStyle;
-return [parseInt(s(this.element,"left")||"0"),parseInt(s(this.element,"top")||"0")];
+return [parseInt(s(this.element,"left")||"0",10),parseInt(s(this.element,"top")||"0",10)];
 },initDrag:function(_7f4){
 if(!_7f4.mouse().button.left){
 return;
