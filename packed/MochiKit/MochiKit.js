@@ -881,7 +881,7 @@ var data=MochiKit.Base.flattenArguments(arguments);
 if(data.length===0){
 throw new TypeError("median() requires at least one argument");
 }
-data.sort(compare);
+data.sort(MochiKit.Base.compare);
 if(data.length%2==0){
 var _125=data.length/2;
 return (data[_125]+data[_125-1])/2;
@@ -4838,7 +4838,7 @@ _4f9=new RegExp(_4e0.value);
 _4fa=new RegExp(_4e1.value);
 }
 catch(e){
-logDebug("Error in filter regex: "+e.message);
+MochiKit.Logging.logDebug("Error in filter regex: "+e.message);
 return null;
 }
 return function(msg){
@@ -4868,7 +4868,7 @@ try{
 _4dd.loggingPane=null;
 }
 catch(e){
-logFatal("Bookmarklet was closed incorrectly.");
+MochiKit.Logging.logFatal("Bookmarklet was closed incorrectly.");
 }
 if(_4d1){
 _4dd.parentNode.removeChild(_4dd);
