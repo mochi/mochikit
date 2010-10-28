@@ -133,12 +133,12 @@ MochiKit.Text.truncate = function (str, maxLength, tail) {
  * @return {Array} an array of parts of the string
  */
 MochiKit.Text.split = function (str, separator, max) {
-    if (str == null || str.length == 0) {
+    if (str == null) {
         return str;
     }
     separator = separator || '\n';
     var bits = str.split(separator);
-    if ((typeof(max) == "undefined") || max >= bits.length-1) {
+    if ((typeof(max) == "undefined") || max >= bits.length - 1) {
         return bits;
     }
     bits.splice(max, bits.length, bits.slice(max, bits.length).join(separator));
@@ -157,13 +157,13 @@ MochiKit.Text.split = function (str, separator, max) {
  * @return {Array} an array of parts of the string
  */
 MochiKit.Text.rsplit = function (str, separator, max) {
-    if (str == null || str.length == 0) {
+    if (str == null) {
         return str;
     }
     separator = separator || '\n';
     var bits = str.split(separator);
-    if ((typeof(max) == "undefined") || max >= bits.length-1){
-	return bits;
+    if ((typeof(max) == "undefined") || max >= bits.length - 1){
+        return bits;
     }
     bits.splice(0, bits.length-max, bits.slice(0, bits.length-max).join(separator));
     return bits;

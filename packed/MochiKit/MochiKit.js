@@ -2295,7 +2295,7 @@ return str.slice(0,_2a1);
 }
 };
 MochiKit.Text.split=function(str,_2a4,max){
-if(str==null||str.length==0){
+if(str==null){
 return str;
 }
 _2a4=_2a4||"\n";
@@ -2307,7 +2307,7 @@ bits.splice(max,bits.length,bits.slice(max,bits.length).join(_2a4));
 return bits;
 };
 MochiKit.Text.rsplit=function(str,_2a8,max){
-if(str==null||str.length==0){
+if(str==null){
 return str;
 }
 _2a8=_2a8||"\n";
