@@ -38,7 +38,7 @@ connect('myID', 'onclick', myObject, 'wasClicked');
 // the event is normalized, no more e = e || window.event!
 myObject.wasClicked = function(e) {
     var crossBrowserCoordinates = e.mouse().page;
-    // e.mouse().page is a MochiKit.Style.Coordinates object
+    // e.mouse().page is an object like this { x: &lt;number&gt;, y: &lt;number&gt;  }
 }
 
 // stops the default action for a click event
@@ -424,16 +424,17 @@ of control characters.</p>
 and <tt class="docutils literal">'oncontextmenu'</tt>:</p>
 <blockquote>
 <ul class="simple">
-<li><tt class="docutils literal">page</tt> is a <a class="mochiref reference external" href="Style.html#fn-coordinates">MochiKit.Style.Coordinates</a> object
-that represents the cursor position relative to the HTML
-document.  Equivalent to <tt class="docutils literal">pageX</tt> and <tt class="docutils literal">pageY</tt> in
-Safari, Mozilla, and Opera.</li>
-<li><tt class="docutils literal">client</tt> is a <a class="mochiref reference external" href="Style.html#fn-coordinates">MochiKit.Style.Coordinates</a>
-object that represents the cursor position relative to the
-visible portion of the HTML document. Equivalent to
-<tt class="docutils literal">clientX</tt> and <tt class="docutils literal">clientY</tt> on all browsers. Current versions of
-Safari incorrectly return clientX as relative to the canvas
-instead of relative to the viewport (<a class="reference external" href="http://bugs.webkit.org/show_bug.cgi?id=8707">Safari Bug 8707</a>).</li>
+<li><tt class="docutils literal">page</tt> is similar to a <a class="mochiref reference external" href="Style.html#fn-coordinates">MochiKit.Style.Coordinates</a>
+object with <tt class="docutils literal">x</tt> and <tt class="docutils literal">y</tt> properties that represent the cursor
+position relative to the HTML document.  Equivalent to
+<tt class="docutils literal">pageX</tt> and <tt class="docutils literal">pageY</tt> in Safari, Mozilla, and Opera.</li>
+<li><tt class="docutils literal">client</tt> is similar to a <a class="mochiref reference external" href="Style.html#fn-coordinates">MochiKit.Style.Coordinates</a>
+object with <tt class="docutils literal">x</tt> and <tt class="docutils literal">y</tt> properties that represent the cursor
+position relative to the visible portion of the HTML document.
+Equivalent to <tt class="docutils literal">clientX</tt> and <tt class="docutils literal">clientY</tt> on all browsers.
+Some versions of Safari incorrectly return clientX as relative
+to the canvas instead of relative to the viewport
+(<a class="reference external" href="http://bugs.webkit.org/show_bug.cgi?id=8707">Safari Bug 8707</a>).</li>
 </ul>
 </blockquote>
 <p>Properties for <tt class="docutils literal">'onmouseup'</tt>, <tt class="docutils literal">'onmousedown'</tt>, <tt class="docutils literal">'onclick'</tt>,
@@ -448,13 +449,14 @@ each property is <tt class="docutils literal">true</tt> if the mouse button was 
 <p>Properties for <tt class="docutils literal">'onmousewheel'</tt>:</p>
 <blockquote>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">mouse().wheel</span></tt> is a <a class="mochiref reference external" href="Style.html#fn-coordinates">MochiKit.Style.Coordinates</a>
-object containing the scroll wheel offset. The number will be
-positive when scrolling down (or to the right) and negative
-when scrolling up (or to the left). Note that only Safari 3
-currently supports horizontal scrolling. In other browsers,
-the <tt class="docutils literal">'y'</tt> component will contain the scroll offset for
-both directions.</li>
+<li><tt class="docutils literal"><span class="pre">mouse().wheel</span></tt> is similar to a
+<a class="mochiref reference external" href="Style.html#fn-coordinates">MochiKit.Style.Coordinates</a> object with <tt class="docutils literal">x</tt> and
+<tt class="docutils literal">y</tt> properties that contain the scroll wheel offset. The
+number will be positive when scrolling down (or to the right)
+and negative when scrolling up (or to the left). Note that
+only Safari 3 currently supports horizontal scrolling. In
+other browsers, the <tt class="docutils literal">'y'</tt> component will contain the scroll
+offset for both directions.</li>
 </ul>
 </blockquote>
 <p>Known browser bugs:</p>
