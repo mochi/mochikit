@@ -228,8 +228,8 @@ MochiKit.Base.update(MochiKit.Style, {
 
             if (parent != elem) {
                 while (parent) {
-                    c.x += parseInt(parent.style.borderLeftWidth) || 0;
-                    c.y += parseInt(parent.style.borderTopWidth) || 0;
+                    c.x += parseInt(parent.style.borderLeftWidth, 10) || 0;
+                    c.y += parseInt(parent.style.borderTopWidth, 10) || 0;
                     c.x += parent.offsetLeft;
                     c.y += parent.offsetTop;
                     parent = parent.offsetParent;

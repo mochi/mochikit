@@ -28,7 +28,7 @@ Signal for DOM events::
     // the event is normalized, no more e = e || window.event!
     myObject.wasClicked = function(e) {
         var crossBrowserCoordinates = e.mouse().page;
-        // e.mouse().page is a MochiKit.Style.Coordinates object
+        // e.mouse().page is an object like this { x: <number>, y: <number>  }
     }
 
     // stops the default action for a click event
@@ -426,17 +426,18 @@ DOM Custom Event Object Reference
     Properties for ``'onmouse*'``, ``'onclick'``, ``'ondblclick'``,
     and ``'oncontextmenu'``:
 
-        -   ``page`` is a :mochiref:`MochiKit.Style.Coordinates` object
-            that represents the cursor position relative to the HTML
-            document.  Equivalent to ``pageX`` and ``pageY`` in
-            Safari, Mozilla, and Opera.
+        -   ``page`` is similar to a :mochiref:`MochiKit.Style.Coordinates`
+            object with ``x`` and ``y`` properties that represent the cursor
+            position relative to the HTML document.  Equivalent to
+            ``pageX`` and ``pageY`` in Safari, Mozilla, and Opera.
 
-        -   ``client`` is a :mochiref:`MochiKit.Style.Coordinates`
-            object that represents the cursor position relative to the
-            visible portion of the HTML document. Equivalent to
-            ``clientX`` and ``clientY`` on all browsers. Current versions of
-            Safari incorrectly return clientX as relative to the canvas
-            instead of relative to the viewport (`Safari Bug 8707`_).
+        -   ``client`` is similar to a :mochiref:`MochiKit.Style.Coordinates`
+            object with ``x`` and ``y`` properties that represent the cursor
+            position relative to the visible portion of the HTML document.
+            Equivalent to ``clientX`` and ``clientY`` on all browsers.
+            Some versions of Safari incorrectly return clientX as relative
+            to the canvas instead of relative to the viewport
+            (`Safari Bug 8707`_).
 
     Properties for ``'onmouseup'``, ``'onmousedown'``, ``'onclick'``,
     and ``'ondblclick'``:
@@ -447,13 +448,14 @@ DOM Custom Event Object Reference
 
     Properties for ``'onmousewheel'``:
 
-        -   ``mouse().wheel`` is a :mochiref:`MochiKit.Style.Coordinates`
-            object containing the scroll wheel offset. The number will be
-            positive when scrolling down (or to the right) and negative
-            when scrolling up (or to the left). Note that only Safari 3
-            currently supports horizontal scrolling. In other browsers,
-            the ``'y'`` component will contain the scroll offset for
-            both directions.
+        -   ``mouse().wheel`` is similar to a
+            :mochiref:`MochiKit.Style.Coordinates` object with ``x`` and
+            ``y`` properties that contain the scroll wheel offset. The
+            number will be positive when scrolling down (or to the right)
+            and negative when scrolling up (or to the left). Note that
+            only Safari 3 currently supports horizontal scrolling. In
+            other browsers, the ``'y'`` component will contain the scroll
+            offset for both directions.
 
     Known browser bugs:
 

@@ -127,8 +127,8 @@ MochiKit.Selector.Selector.prototype = {
                             a = 2;
                             b = 0;
                         } else {
-                            a = match[2] && parseInt(match) || null;
-                            b = parseInt(match[3]);
+                            a = match[2] && parseInt(match, 10) || null;
+                            b = parseInt(match[3], 10);
                         }
                         conditions.push('this.nthChild(element,' + a + ',' + b
                                         + ',' + !!pseudoClass.match('^nth-last')    // Reverse

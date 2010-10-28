@@ -442,8 +442,8 @@ MochiKit.DragAndDrop.Draggable.prototype = {
     currentDelta: function () {
         var s = MochiKit.Style.getStyle;
         return [
-          parseInt(s(this.element, 'left') || '0'),
-          parseInt(s(this.element, 'top') || '0')];
+          parseInt(s(this.element, 'left') || '0', 10),
+          parseInt(s(this.element, 'top') || '0', 10)];
     },
 
     /** @id MochiKit.DragAndDrop.initDrag */
