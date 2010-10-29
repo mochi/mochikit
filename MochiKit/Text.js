@@ -127,9 +127,9 @@ MochiKit.Text.truncate = function (str, maxLength, tail) {
  * max + 1 elements in the returned list.
  *
  * @param {String} str the string to split
- * @param {String} [separator] the separator character to use,
+ * @param {String/RegExp} [separator] the separator char or regexp to use,
  *            defaults to newline
- * @param {Int} [max] the maximum number of parts to return
+ * @param {Number} [max] the maximum number of parts to return
  * @return {Array} an array of parts of the string
  */
 MochiKit.Text.split = function (str, separator, max) {
@@ -151,9 +151,9 @@ MochiKit.Text.split = function (str, separator, max) {
  * using splits from the right
  *
  * @param {String} str the string to split
- * @param {String} [separator] the separator character to use,
+ * @param {String/RegExp} [separator] the separator char or regexp to use,
  *            defaults to newline
- * @param {Int} [max] the maximum number of parts to return
+ * @param {Number} [max] the maximum number of parts to return
  * @return {Array} an array of parts of the string
  */
 MochiKit.Text.rsplit = function (str, separator, max) {
