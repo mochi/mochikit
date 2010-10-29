@@ -304,17 +304,18 @@ consist of repeated <tt class="docutils literal">fillChar</tt> copies.</p>
 <a name="fn-split"></a>
 <a class="mochidef reference external" href="#fn-split">split(str, separator=&quot;\n&quot; [, max])</a>:</p>
 <blockquote>
-<p>Splits <tt class="docutils literal">str</tt> using a <tt class="docutils literal">separator</tt> string.
+<p>Splits <tt class="docutils literal">str</tt> using a <tt class="docutils literal">separator</tt> string or regular expression.
 If <tt class="docutils literal">max</tt> is given, at most <tt class="docutils literal">max</tt> splits will be performed
 (giving at most <tt class="docutils literal">max</tt> + 1 parts returned).</p>
+<p>Returns an <tt class="docutils literal">Array</tt> with the input <tt class="docutils literal">str</tt> even if it was empty
+or no splits were made.</p>
 <p>If <tt class="docutils literal">max</tt> is omitted, this is equivalent to the built in
-<tt class="docutils literal">str.split(separator)</tt>.
-The difference to the built in method can be illustrated by:</p>
-<pre class="doctest-block">
+<tt class="docutils literal">str.split(separator)</tt>. The difference to the built in method
+can be illustrated by:</p>
+<pre class="literal-block">
 &gt;&gt;&gt; &quot;lovely bunch of coconuts&quot;.split(&quot; &quot;, 2)
 [&quot;lovely&quot;, &quot;bunch&quot;]
-</pre>
-<pre class="doctest-block">
+
 &gt;&gt;&gt; MochiKit.Text.split(&quot;lovely bunch of coconuts&quot;, &quot; &quot;, 2)
 [&quot;lovely&quot;, &quot;bunch&quot;, &quot;of coconuts&quot;]
 </pre>
@@ -327,10 +328,10 @@ The difference to the built in method can be illustrated by:</p>
 <a name="fn-rsplit"></a>
 <a class="mochidef reference external" href="#fn-rsplit">rsplit(str, separator=&quot;\n&quot; [, max])</a>:</p>
 <blockquote>
-<p>Splits <tt class="docutils literal">str</tt> using a <tt class="docutils literal">separator</tt> string.
+<p>Splits <tt class="docutils literal">str</tt> using a <tt class="docutils literal">separator</tt> string or regular expression.
 This is similar to <tt class="docutils literal">split</tt>, except that if <tt class="docutils literal">max</tt> is given,
-splits are performed from the right hand side first</p>
-<pre class="doctest-block">
+splits are performed from the right hand side first.</p>
+<pre class="literal-block">
 &gt;&gt;&gt; MochiKit.Text.rsplit(&quot;lovely bunch of coconuts&quot;, &quot; &quot;, 2)
 [&quot;lovely bunch&quot;, &quot;of&quot;, &quot;coconuts&quot;]
 </pre>
