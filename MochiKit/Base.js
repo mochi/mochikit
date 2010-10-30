@@ -8,15 +8,12 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(MochiKit) == 'undefined') {
-    MochiKit = {};
-}
+var MochiKit = MochiKit || {};
 if (typeof(MochiKit.__export__) == "undefined") {
     MochiKit.__export__ = true;
 }
-if (typeof(MochiKit.Base) == 'undefined') {
-    MochiKit.Base = {};
-}
+
+MochiKit.Base = MochiKit.Base || {};
 
 /**
  * Registers a new MochiKit module. This function will insert a new

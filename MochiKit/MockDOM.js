@@ -8,13 +8,9 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(MochiKit) == "undefined") {
-    MochiKit = {};
-}
+var MochiKit = MochiKit || {};
 
-if (typeof(MochiKit.MockDOM) == "undefined") {
-    MochiKit.MockDOM = {};
-}
+MochiKit.MockDOM = MochiKit.MockDOM || {};
 
 MochiKit.MockDOM.NAME = "MochiKit.MockDOM";
 MochiKit.MockDOM.VERSION = "1.5";
