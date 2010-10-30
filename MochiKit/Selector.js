@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Selector', '1.5', ['Base', 'DOM', 'Iter']);
+MochiKit.Base.module(MochiKit, 'Selector', '1.5', ['Base', 'DOM', 'Iter']);
 
 MochiKit.Selector.Selector = function (expression) {
     this.params = {classNames: [], pseudoClassNames: []};

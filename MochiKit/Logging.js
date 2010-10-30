@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Logging', '1.5', ['Base']);
+MochiKit.Base.module(MochiKit, 'Logging', '1.5', ['Base']);
 
     /** @id MochiKit.Logging.LogMessage */
 MochiKit.Logging.LogMessage = function (num, level, info) {

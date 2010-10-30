@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Signal', '1.5', ['Base', 'DOM']);
+MochiKit.Base.module(MochiKit, 'Signal', '1.5', ['Base', 'DOM']);
 
 MochiKit.Signal._observers = [];
 

@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('LoggingPane', '1.5', ['Base', 'Logging']);
+MochiKit.Base.module(MochiKit, 'LoggingPane', '1.5', ['Base', 'Logging']);
 
 /** @id MochiKit.LoggingPane.createLoggingPane */
 MochiKit.LoggingPane.createLoggingPane = function (inline/* = false */) {

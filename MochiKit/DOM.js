@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('DOM', '1.5', ['Base']);
+MochiKit.Base.module(MochiKit, 'DOM', '1.5', ['Base']);
 
 MochiKit.Base.update(MochiKit.DOM, {
 

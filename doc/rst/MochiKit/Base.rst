@@ -933,6 +933,35 @@ Functions
         Available in MochiKit 1.4+
 
 
+:mochidef:`module(parent, name, version, deps=[])`:
+
+    Creates a new ``name`` module in a ``parent`` namespace. This
+    function will create a new empty module object with ``NAME``,
+    ``VERSION``, ``toString`` and ``__repr__`` properties. It will
+    also verify that all the strings in ``deps`` are defined in
+    ``parent``, or an error will be thrown.
+
+    ``parent``:
+        The parent module or namespace (object). Use ``this`` or
+        ``window`` to create a global module.
+
+    ``name``:
+        The new module name.
+
+    ``version``:
+        The module version string, e.g. "1.5".
+
+    ``deps``:
+        The array of module dependencies, as strings.
+
+    Example::
+
+        module(MochiKit, 'Iter', '1.5', ['Base']);
+
+    *Availability*:
+        Available in MochiKit 1.5+
+
+
 :mochidef:`nameFunctions(namespace)`:
 
     Given a ``namespace`` (object or function) with a ``NAME``

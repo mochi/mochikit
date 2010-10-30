@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('DateTime', '1.5', ['Base']);
+MochiKit.Base.module(MochiKit, 'DateTime', '1.5', ['Base']);
 
 /** @id MochiKit.DateTime.isoDate */
 MochiKit.DateTime.isoDate = function (str) {

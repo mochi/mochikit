@@ -28,22 +28,23 @@ MochiKit.toString = function () {
 MochiKit.Base = MochiKit.Base || {};
 
 /**
- * Registers a new MochiKit module. This function will insert a new
- * property into the "MochiKit" object, making sure that all
- * dependency modules have already been inserted. It will also make
- * sure that the appropriate properties and default module functions
- * are defined.
+ * Creates a new module in a parent namespace. This function will
+ * create a new empty module object with "NAME", "VERSION",
+ * "toString" and "__repr__" properties. This object will be inserted into the parent object
+ * using the specified name (i.e. parent[name] = module). It will
+ * also verify that all the dependency modules are defined in the
+ * parent, or an error will be thrown.
  *
+ * @param {Object} parent the parent module (use "this" or "window" for
+ *            a global module)
  * @param {String} name the module name, e.g. "Base"
  * @param {String} version the module version, e.g. "1.5"
- * @param {Array} deps the array of module dependencies (as strings)
+ * @param {Array} [deps] the array of module dependencies (as strings)
  */
-MochiKit.Base._module = function (name, version, deps) {
-    if (!(name in MochiKit)) {
-        MochiKit[name] = {};
-    }
-    var module = MochiKit[name];
-    module.NAME = "MochiKit." + name;
+MochiKit.Base.module = function (parent, name, version, deps) {
+    var module = parent[name] = parent[name] || {};
+    var prefix = (parent.NAME ? parent.NAME + "." : "");
+    module.NAME = prefix + name;
     module.VERSION = version;
     module.__repr__ = function () {
         return "[" + this.NAME + " " + this.VERSION + "]";
@@ -51,14 +52,14 @@ MochiKit.Base._module = function (name, version, deps) {
     module.toString = function () {
         return this.__repr__();
     };
-    for (var i = 0; i < deps.length; i++) {
-        if (!(deps[i] in MochiKit)) {
-            throw 'MochiKit.' + name + ' depends on MochiKit.' + deps[i] + '!';
+    for (var i = 0; deps != null && i < deps.length; i++) {
+        if (!(deps[i] in parent)) {
+            throw module.NAME + ' depends on ' + prefix + deps[i] + '!';
         }
     }
 };
 
-MochiKit.Base._module("Base", "1.5", []);
+MochiKit.Base.module(MochiKit, "Base", "1.5", []);
 
 /** @id MochiKit.Base.update */
 MochiKit.Base.update = function (self, obj/*, ... */) {

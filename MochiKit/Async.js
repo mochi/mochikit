@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Async', '1.5', ['Base']);
+MochiKit.Base.module(MochiKit, 'Async', '1.5', ['Base']);
 
 /** @id MochiKit.Async.Deferred */
 MochiKit.Async.Deferred = function (/* optional */ canceller) {
