@@ -8,11 +8,23 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
+
+// MochiKit module (namespace)
 var MochiKit = MochiKit || {};
 if (typeof(MochiKit.__export__) == "undefined") {
     MochiKit.__export__ = true;
 }
+MochiKit.NAME = "MochiKit";
+MochiKit.VERSION = "1.5";
+MochiKit.__repr__ = function () {
+    return "[" + this.NAME + " " + this.VERSION + "]";
+};
+MochiKit.toString = function () {
+    return this.__repr__();
+};
 
+
+// MochiKit.Base module
 MochiKit.Base = MochiKit.Base || {};
 
 /**
