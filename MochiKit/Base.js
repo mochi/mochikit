@@ -1303,11 +1303,13 @@ MochiKit.Base._exportSymbols = function (globals, module) {
     if (MochiKit.__export__ === false || module.__export__ === false) {
         return;
     }
+    var filter = { toString: true, NAME: true, VERSION: true };
     for (var k in module) {
         var v = module[k];
         if (v != null) {
-            var okName = (k[0] !== "_" && k !== "toString");
-            if (v.__export__ === true || (v.__export__ !== false && okName)) {
+            var flagSet = (typeof(v.__export__) == 'boolean');
+            var nameValid = (k[0] !== "_" && !filter[k]);
+            if (flagSet ? v.__export__ : nameValid) {
                 globals[k] = module[k];
             }
         }
