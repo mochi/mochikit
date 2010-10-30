@@ -1036,6 +1036,28 @@ module(MochiKit, 'Iter', '1.5', ['Base']);
 </dl>
 </blockquote>
 <p>
+<a name="fn-moduleexport"></a>
+<a class="mochidef reference external" href="#fn-moduleexport">moduleExport(namespace, module/*, ...*/)</a>:</p>
+<blockquote>
+<p>Exports all symbols from one or more modules into <tt class="docutils literal">namespace</tt>.
+This is similar to <a class="mochiref reference external" href="#fn-update">update(self, obj[, ...])</a>, except
+for special handling of the <tt class="docutils literal">__export__</tt> flag, contained
+sub-modules (exported recursively), and names starting with
+<tt class="docutils literal">_</tt>.</p>
+<p>All symbols can be exported to global variables:</p>
+<pre class="literal-block">
+MochiKit.Base.moduleExport(this, MochiKit);
+</pre>
+<p>Or a few selected modules can be moved to a shortened name:</p>
+<pre class="literal-block">
+var dom = MochiKit.Base.moduleExport({}, MochiKit.Dom, MochiKit.Style);
+</pre>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.5+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-namefunctions"></a>
 <a class="mochidef reference external" href="#fn-namefunctions">nameFunctions(namespace)</a>:</p>
 <blockquote>

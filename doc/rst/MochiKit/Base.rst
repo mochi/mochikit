@@ -962,6 +962,26 @@ Functions
         Available in MochiKit 1.5+
 
 
+:mochidef:`moduleExport(namespace, module/*, ...*/)`:
+
+    Exports all symbols from one or more modules into ``namespace``.
+    This is similar to :mochiref:`update(self, obj[, ...])`, except
+    for special handling of the ``__export__`` flag, contained
+    sub-modules (exported recursively), and names starting with
+    ``_``.
+
+    All symbols can be exported to global variables::
+
+        MochiKit.Base.moduleExport(this, MochiKit);
+
+    Or a few selected modules can be moved to a shortened name::
+
+        var dom = MochiKit.Base.moduleExport({}, MochiKit.Dom, MochiKit.Style);
+
+    *Availability*:
+        Available in MochiKit 1.5+
+
+
 :mochidef:`nameFunctions(namespace)`:
 
     Given a ``namespace`` (object or function) with a ``NAME``

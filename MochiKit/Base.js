@@ -57,6 +57,7 @@ MochiKit.Base.module = function (parent, name, version, deps) {
             throw module.NAME + ' depends on ' + prefix + deps[i] + '!';
         }
     }
+    return module;
 };
 
 MochiKit.Base.module(MochiKit, "Base", "1.5", []);
@@ -1309,20 +1310,44 @@ MochiKit.Base.AdapterRegistry.prototype = {
     }
 };
 
-MochiKit.Base._exportSymbols = function (globals, module) {
-    if (MochiKit.__export__ === false || module.__export__ === false) {
-        return;
-    }
-    var filter = { toString: true, NAME: true, VERSION: true };
-    for (var k in module) {
-        var v = module[k];
-        if (v != null) {
-            var flagSet = (typeof(v.__export__) == 'boolean');
-            var nameValid = (k[0] !== "_" && !filter[k]);
-            if (flagSet ? v.__export__ : nameValid) {
-                globals[k] = module[k];
+/**
+ * Exports all symbols from one or more modules into the specified
+ * namespace (or scope). This is similar to MochiKit.Base.update(),
+ * except for special handling of the "__export__" flag, contained
+ * sub-modules (exported recursively), and names starting with "_".
+ *
+ * @param {Object} namespace the object or scope to modify
+ * @param {Object} module the module to export
+ */
+MochiKit.Base.moduleExport = function (namespace, module/*, ...*/) {
+    var SKIP = { toString: true, NAME: true, VERSION: true };
+    var mods = MochiKit.Base.extend([], arguments, 1);
+    while ((module = mods.shift()) != null) {
+        for (var k in module) {
+            var v = module[k];
+            if (v != null) {
+                var flagSet = (typeof(v.__export__) == 'boolean');
+                var nameValid = (k[0] !== "_" && !SKIP[k]);
+                if (flagSet ? v.__export__ : nameValid) {
+                    if (typeof(v) == 'object' && v.NAME && v.VERSION) {
+                        mods.push(v);
+                    } else {
+                        namespace[k] = module[k];
+                    }
+                }
             }
         }
+    }
+    return namespace;
+};
+
+/**
+ * Identical to moduleExport, but also considers the global and
+ * module-specific "__export__" flag.
+ */
+MochiKit.Base._exportSymbols = function (namespace, module) {
+    if (MochiKit.__export__ !== false && module.__export__ !== false) {
+        MochiKit.Base.moduleExport(namespace, module);
     }
 };
 

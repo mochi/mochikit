@@ -110,12 +110,12 @@ function cbLoadSource(res) {
 function doParseSource(src) {
 
     function moduleStart(src) {
-        var m = src.match(/MochiKit\.Base\._?module|MochiKit\.Base\._deps/);
+        var m = src.match(/MochiKit\.Base\.(_?module|_deps)/);
         return m ? m.index : -1;
     }
 
     function moduleEnd(src) {
-        var m = src.match(/MochiKit\.Base\._exportSymbols.*\n/);
+        var m = src.match(/MochiKit\.Base\.(_exportSymbols|moduleExport).*\n/);
         return m ? m.index + m[0].length : 0;
     }
 
