@@ -38,6 +38,7 @@
 - Added MochiKit.DOM.IFRAME, LINK and SCRIPT functions.
 - Removed MochiKit.Style dependency from MochiKit.Signal. This also subtly
   changes the mouse event coordinate values, but should be compatible.
+- Added new MochiKit.Base.module() and moduleExport() functions.
 
 2009-XX-YY      v1.4.3 (bug fix release)
 

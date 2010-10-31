@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Text', '1.5', ['Base', 'Format']);
+MochiKit.Base.module(MochiKit, 'Text', '1.5', ['Base', 'Format']);
 
 /**
  * Checks if a text string starts with the specified substring. If

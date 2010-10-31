@@ -6,7 +6,7 @@ See scriptaculous.js for full license.
 
 ***/
 
-MochiKit.Base._module('Sortable', '1.5', ['Base', 'Iter', 'DOM', 'Position', 'DragAndDrop']);
+MochiKit.Base.module(MochiKit, 'Sortable', '1.5', ['Base', 'Iter', 'DOM', 'Position', 'DragAndDrop']);
 
 MochiKit.Base.update(MochiKit.Sortable, {
     __export__: false,

@@ -1007,6 +1007,57 @@ assert( lst.join(&quot; &quot;) == &quot;this is lowercase&quot; );
 </dl>
 </blockquote>
 <p>
+<a name="fn-module"></a>
+<a class="mochidef reference external" href="#fn-module">module(parent, name, version, deps=[])</a>:</p>
+<blockquote>
+<p>Creates a new <tt class="docutils literal">name</tt> module in a <tt class="docutils literal">parent</tt> namespace. This
+function will create a new empty module object with <tt class="docutils literal">NAME</tt>,
+<tt class="docutils literal">VERSION</tt>, <tt class="docutils literal">toString</tt> and <tt class="docutils literal">__repr__</tt> properties. It will
+also verify that all the strings in <tt class="docutils literal">deps</tt> are defined in
+<tt class="docutils literal">parent</tt>, or an error will be thrown.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal">parent</tt>:</dt>
+<dd>The parent module or namespace (object). Use <tt class="docutils literal">this</tt> or
+<tt class="docutils literal">window</tt> to create a global module.</dd>
+<dt><tt class="docutils literal">name</tt>:</dt>
+<dd>The new module name.</dd>
+<dt><tt class="docutils literal">version</tt>:</dt>
+<dd>The module version string, e.g. &quot;1.5&quot;.</dd>
+<dt><tt class="docutils literal">deps</tt>:</dt>
+<dd>The array of module dependencies, as strings.</dd>
+</dl>
+<p>Example:</p>
+<pre class="literal-block">
+module(MochiKit, 'Iter', '1.5', ['Base']);
+</pre>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.5+</dd>
+</dl>
+</blockquote>
+<p>
+<a name="fn-moduleexport"></a>
+<a class="mochidef reference external" href="#fn-moduleexport">moduleExport(namespace, module/*, ...*/)</a>:</p>
+<blockquote>
+<p>Exports all symbols from one or more modules into <tt class="docutils literal">namespace</tt>.
+This is similar to <a class="mochiref reference external" href="#fn-update">update(self, obj[, ...])</a>, except
+for special handling of the <tt class="docutils literal">__export__</tt> flag, contained
+sub-modules (exported recursively), and names starting with
+<tt class="docutils literal">_</tt>.</p>
+<p>All symbols can be exported to global variables:</p>
+<pre class="literal-block">
+MochiKit.Base.moduleExport(this, MochiKit);
+</pre>
+<p>Or a few selected modules can be moved to a shortened name:</p>
+<pre class="literal-block">
+var dom = MochiKit.Base.moduleExport({}, MochiKit.Dom, MochiKit.Style);
+</pre>
+<dl class="docutils">
+<dt><em>Availability</em>:</dt>
+<dd>Available in MochiKit 1.5+</dd>
+</dl>
+</blockquote>
+<p>
 <a name="fn-namefunctions"></a>
 <a class="mochidef reference external" href="#fn-namefunctions">nameFunctions(namespace)</a>:</p>
 <blockquote>

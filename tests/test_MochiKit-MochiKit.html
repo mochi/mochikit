@@ -14,7 +14,7 @@ var MochiKit = {
     <script type="text/javascript" src="SimpleTest/SimpleTest.js"></script>        
     <script type="text/javascript">
 delete MochiKit.DOM;
-SimpleTest.saveScope(this);
+SimpleTest.init(this);
     </script>
     <script type="text/javascript" src="../MochiKit/MochiKit.js"></script>
     <link rel="stylesheet" type="text/css" href="SimpleTest/test.css">
@@ -24,7 +24,6 @@ SimpleTest.saveScope(this);
 <pre id="test">
 <script type="text/javascript">
 try {
-    SimpleTest.init(this);
     (function () {
         // Test import of MochiKit.Base
         var b = MochiKit.Base;

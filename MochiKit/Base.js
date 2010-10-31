@@ -8,33 +8,43 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-if (typeof(MochiKit) == 'undefined') {
-    MochiKit = {};
-}
+
+// MochiKit module (namespace)
+var MochiKit = MochiKit || {};
 if (typeof(MochiKit.__export__) == "undefined") {
     MochiKit.__export__ = true;
 }
-if (typeof(MochiKit.Base) == 'undefined') {
-    MochiKit.Base = {};
-}
+MochiKit.NAME = "MochiKit";
+MochiKit.VERSION = "1.5";
+MochiKit.__repr__ = function () {
+    return "[" + this.NAME + " " + this.VERSION + "]";
+};
+MochiKit.toString = function () {
+    return this.__repr__();
+};
+
+
+// MochiKit.Base module
+MochiKit.Base = MochiKit.Base || {};
 
 /**
- * Registers a new MochiKit module. This function will insert a new
- * property into the "MochiKit" object, making sure that all
- * dependency modules have already been inserted. It will also make
- * sure that the appropriate properties and default module functions
- * are defined.
+ * Creates a new module in a parent namespace. This function will
+ * create a new empty module object with "NAME", "VERSION",
+ * "toString" and "__repr__" properties. This object will be inserted into the parent object
+ * using the specified name (i.e. parent[name] = module). It will
+ * also verify that all the dependency modules are defined in the
+ * parent, or an error will be thrown.
  *
+ * @param {Object} parent the parent module (use "this" or "window" for
+ *            a global module)
  * @param {String} name the module name, e.g. "Base"
  * @param {String} version the module version, e.g. "1.5"
- * @param {Array} deps the array of module dependencies (as strings)
+ * @param {Array} [deps] the array of module dependencies (as strings)
  */
-MochiKit.Base._module = function (name, version, deps) {
-    if (!(name in MochiKit)) {
-        MochiKit[name] = {};
-    }
-    var module = MochiKit[name];
-    module.NAME = "MochiKit." + name;
+MochiKit.Base.module = function (parent, name, version, deps) {
+    var module = parent[name] = parent[name] || {};
+    var prefix = (parent.NAME ? parent.NAME + "." : "");
+    module.NAME = prefix + name;
     module.VERSION = version;
     module.__repr__ = function () {
         return "[" + this.NAME + " " + this.VERSION + "]";
@@ -42,14 +52,15 @@ MochiKit.Base._module = function (name, version, deps) {
     module.toString = function () {
         return this.__repr__();
     };
-    for (var i = 0; i < deps.length; i++) {
-        if (!(deps[i] in MochiKit)) {
-            throw 'MochiKit.' + name + ' depends on MochiKit.' + deps[i] + '!';
+    for (var i = 0; deps != null && i < deps.length; i++) {
+        if (!(deps[i] in parent)) {
+            throw module.NAME + ' depends on ' + prefix + deps[i] + '!';
         }
     }
+    return module;
 };
 
-MochiKit.Base._module("Base", "1.5", []);
+MochiKit.Base.module(MochiKit, "Base", "1.5", []);
 
 /** @id MochiKit.Base.update */
 MochiKit.Base.update = function (self, obj/*, ... */) {
@@ -1299,18 +1310,44 @@ MochiKit.Base.AdapterRegistry.prototype = {
     }
 };
 
-MochiKit.Base._exportSymbols = function (globals, module) {
-    if (MochiKit.__export__ === false || module.__export__ === false) {
-        return;
-    }
-    for (var k in module) {
-        var v = module[k];
-        if (v != null) {
-            var okName = (k[0] !== "_" && k !== "toString");
-            if (v.__export__ === true || (v.__export__ !== false && okName)) {
-                globals[k] = module[k];
+/**
+ * Exports all symbols from one or more modules into the specified
+ * namespace (or scope). This is similar to MochiKit.Base.update(),
+ * except for special handling of the "__export__" flag, contained
+ * sub-modules (exported recursively), and names starting with "_".
+ *
+ * @param {Object} namespace the object or scope to modify
+ * @param {Object} module the module to export
+ */
+MochiKit.Base.moduleExport = function (namespace, module/*, ...*/) {
+    var SKIP = { toString: true, NAME: true, VERSION: true };
+    var mods = MochiKit.Base.extend([], arguments, 1);
+    while ((module = mods.shift()) != null) {
+        for (var k in module) {
+            var v = module[k];
+            if (v != null) {
+                var flagSet = (typeof(v.__export__) == 'boolean');
+                var nameValid = (k[0] !== "_" && !SKIP[k]);
+                if (flagSet ? v.__export__ : nameValid) {
+                    if (typeof(v) == 'object' && v.NAME && v.VERSION) {
+                        mods.push(v);
+                    } else {
+                        namespace[k] = module[k];
+                    }
+                }
             }
         }
+    }
+    return namespace;
+};
+
+/**
+ * Identical to moduleExport, but also considers the global and
+ * module-specific "__export__" flag.
+ */
+MochiKit.Base._exportSymbols = function (namespace, module) {
+    if (MochiKit.__export__ !== false && module.__export__ !== false) {
+        MochiKit.Base.moduleExport(namespace, module);
     }
 };
 

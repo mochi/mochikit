@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Format', '1.5', ['Base']);
+MochiKit.Base.module(MochiKit, 'Format', '1.5', ['Base']);
 
 MochiKit.Format._numberFormatter = function (placeholder, header, footer, locale, isPercent, precision, leadingZeros, separatorAt, trailingZeros) {
     return function (num) {

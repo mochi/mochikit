@@ -8,7 +8,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base._module('Style', '1.5', ['Base', 'DOM']);
+MochiKit.Base.module(MochiKit, 'Style', '1.5', ['Base', 'DOM']);
 
 
 /** @id MochiKit.Style.Dimensions */
