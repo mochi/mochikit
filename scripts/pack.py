@@ -25,7 +25,6 @@ else:
         r"""(?mxs)MochiKit.MochiKit.SUBMODULES\s*=\s*\[([^\]]+)""",
         mk
     ).group(1).replace(' ', '').replace('"', '').split(','))
-    SUBMODULES.append('MochiKit')
 alltext = '\n'.join(
     [file(os.path.join(dirname, 'MochiKit/%s.js' % m)).read() for m in SUBMODULES])
 
