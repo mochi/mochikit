@@ -393,34 +393,26 @@ MochiKit.Text._parsePattern = function (pattern) {
 MochiKit.Text._parseFormat = function (pattern, startPos, endPos) {
     var self = MochiKit.Text;
     var text = pattern.substring(startPos, endPos);
-    var info;
-    var pos = text.indexOf(":");
-    if (pos == 0) {
-        info = self._parseFormatFlags(pattern, startPos + 1, endPos);
-        info.path = [];
-    } else if (pos > 0) {
-        info = self._parseFormatFlags(pattern, startPos + pos + 1, endPos);
-        info.path = text.substring(0, pos).split(".");
-    } else {
-        info = self._parseFormatFlags(pattern, endPos, endPos);
-        info.path = text.split(".");
-    }
-    var DIGITS = /^\d+$/;
+    var parts = self.split(text, ":", 1);
+    var path = parts[0];
+    var flagsPos = startPos + path.length + ((parts.length == 1) ? 0 : 1);
+    var info = self._parseFormatFlags(pattern, flagsPos, endPos);
+    info.path = (path == "") ? [] : path.split(".");
     for (var i = 0; i < info.path.length; i++) {
-        var e = info.path[i];
+        var v = info.path[i];
         // TODO: replace with MochiKit.Format.strip?
-        e = e.replace(/^\s+/, "").replace(/\s+$/, "");
-        if (e == "" && info.path.length == 1) {
-            e = 0;
-        } else if (e == "") {
+        v = v.replace(/^\s+/, "").replace(/\s+$/, "");
+        if (v == "" && info.path.length == 1) {
+            v = 0;
+        } else if (v == "") {
             var msg = "format value path contains blanks";
             throw new self.FormatPatternError(pattern, startPos, msg);
-        } else if (DIGITS.test(e)) {
-            e = parseInt(e, 10);
+        } else if (/^\d+$/.test(v)) {
+            v = parseInt(v, 10);
         }
-        info.path[i] = e;
+        info.path[i] = v;
     }
-    if (info.path.length < 0 || typeof(info.path[0]) != "number") {
+    if (info.path.length <= 0 || typeof(info.path[0]) != "number") {
         info.path.unshift(0);
     }
     return info;
