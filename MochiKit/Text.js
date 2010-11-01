@@ -352,41 +352,29 @@ MochiKit.Text._localizeNumber = function (num, locale, grouping) {
 MochiKit.Text._parsePattern = function (pattern) {
     var self = MochiKit.Text;
     var parts = [];
-    var start = 0;
-    var pos = 0;
-    for (pos = 0; pos < pattern.length; pos++) {
-        if (pattern.charAt(pos) == "{") {
-            if (pos + 1 >= pattern.length) {
-                var msg = "unescaped { char, should be escaped as {{";
-                throw new self.FormatPatternError(pattern, pos, msg);
-            } else if (pattern.charAt(pos + 1) == "{") {
-                parts.push(pattern.substring(start, pos + 1));
-                start = pos + 2;
-                pos++;
-            } else {
-                if (start < pos) {
-                    parts.push(pattern.substring(start, pos));
-                }
-                start = pattern.indexOf("}", pos) + 1;
-                if (start <= 0) {
-                    var msg = "unmatched { char, not followed by a } char";
-                    throw new self.FormatPatternError(pattern, pos, msg);
-                }
-                parts.push(self._parseFormat(pattern, pos + 1, start - 1));
-                pos = start - 1;
-            }
-        } else if (pattern.charAt(pos) == "}") {
-            if (pos + 1 >= pattern.length || pattern.charAt(pos + 1) != "}") {
-                var msg = "unescaped } char, should be escaped as }}";
-                throw new self.FormatPatternError(pattern, pos, msg);
-            }
-            parts.push(pattern.substring(start, pos + 1));
-            start = pos + 2;
-            pos++;
+    var re = /{[^{}]*}|{{?|}}?/g;
+    var lastPos = re.lastIndex = 0;
+    var m;
+    while ((m = re.exec(pattern)) != null) {
+        if (lastPos < m.index) {
+            parts.push(pattern.substring(lastPos, m.index))
+        }
+        var str = m[0];
+        lastPos = m.index + str.length;
+        if (self.startsWith("{", str) && self.endsWith("}", str)) {
+            parts.push(self._parseFormat(pattern, m.index + 1, lastPos - 1));
+        } else if (self.startsWith("{{", str) || self.startsWith("}}", str)) {
+            parts.push(str.substring(1));
+        } else if (self.startsWith("{", str)) {
+            var msg = "unescaped { char, should be escaped as {{";
+            throw new self.FormatPatternError(pattern, m.index, msg);
+        } else if (self.startsWith("}", str)) {
+            var msg = "unescaped } char, should be escaped as }}";
+            throw new self.FormatPatternError(pattern, m.index, msg);
         }
     }
-    if (start < pos) {
-        parts.push(pattern.substring(start, pos));
+    if (lastPos < pattern.length) {
+        parts.push(pattern.substring(lastPos));
     }
     return parts;
 };
