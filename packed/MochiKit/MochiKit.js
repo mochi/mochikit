@@ -185,6 +185,7 @@ _36.push([_38,v]);
 return _36;
 },_newNamedError:function(_3a,_3b,_3c){
 _3c.prototype=new MochiKit.Base.NamedError(_3a.NAME+"."+_3b);
+_3c.prototype.constructor=_3c;
 _3a[_3b]=_3c;
 },operator:{truth:function(a){
 return !!a;
@@ -1110,6 +1111,7 @@ this.message=name;
 this.name=name;
 };
 m.NamedError.prototype=new Error();
+m.NamedError.prototype.constructor=m.NamedError;
 m.update(m.NamedError.prototype,{repr:function(){
 if(this.message&&this.message!=this.name){
 return this.name+"("+m.repr(this.message)+")";
@@ -1440,7 +1442,7 @@ return rval;
 }
 var self=MochiKit.Iter;
 _1c2=self.iter(_1c2);
-var rval=[];
+rval=[];
 var _1c6;
 try{
 while(true){
@@ -3036,6 +3038,7 @@ this.callback(this.resultList);
 }
 };
 MochiKit.Async.DeferredList.prototype=new MochiKit.Async.Deferred();
+MochiKit.Async.DeferredList.prototype.constructor=MochiKit.Async.DeferredList;
 MochiKit.Async.DeferredList.prototype._cbDeferred=function(_34c,_34d,_34e){
 this.resultList[_34c]=[_34d,_34e];
 this.finishedCount+=1;
