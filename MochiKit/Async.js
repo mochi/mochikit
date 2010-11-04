@@ -571,6 +571,7 @@ MochiKit.Async.DeferredList = function (list, /* optional */fireOnOneCallback, f
 };
 
 MochiKit.Async.DeferredList.prototype = new MochiKit.Async.Deferred();
+MochiKit.Async.DeferredList.prototype.constructor = MochiKit.Async.DeferredList;
 
 MochiKit.Async.DeferredList.prototype._cbDeferred = function (index, succeeded, result) {
     this.resultList[index] = [succeeded, result];

@@ -251,6 +251,7 @@ MochiKit.Base.update(MochiKit.Base, {
 
     _newNamedError: function (module, name, func) {
         func.prototype = new MochiKit.Base.NamedError(module.NAME + "." + name);
+        func.prototype.constructor = func;
         module[name] = func;
     },
 
@@ -1429,6 +1430,7 @@ MochiKit.Base.__new__ = function () {
         this.name = name;
     };
     m.NamedError.prototype = new Error();
+    m.NamedError.prototype.constructor = m.NamedError;
     m.update(m.NamedError.prototype, {
         repr: function () {
             if (this.message && this.message != this.name) {
