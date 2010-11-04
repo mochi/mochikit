@@ -1102,7 +1102,7 @@ return encodeURIComponent(_169).replace(/\'/g,"%27");
 };
 }else{
 m.urlEncode=function(_16a){
-return escape(_16a).replace(/\+/g,"%2B").replace(/\"/g,"%22").rval.replace(/\'/g,"%27");
+return escape(_16a).replace(/\+/g,"%2B").replace(/\"/g,"%22").replace(/\'/g,"%27");
 };
 }
 m.NamedError=function(name){

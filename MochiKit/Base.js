@@ -1419,7 +1419,7 @@ MochiKit.Base.__new__ = function () {
             return escape(unencoded
                 ).replace(/\+/g, '%2B'
                 ).replace(/\"/g,'%22'
-                ).rval.replace(/\'/g, '%27');
+                ).replace(/\'/g, '%27');
         };
     }
 
