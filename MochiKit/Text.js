@@ -526,9 +526,9 @@ MochiKit.Text.FormatPatternError = function (pattern, pos, message) {
     this.pos = pos;
     this.message = message;
 };
-MochiKit.Text.FormatPatternError.prototype =
-    new MochiKit.Base.NamedError("MochiKit.Text.FormatPatternError");
 
+MochiKit.Text.FormatPatternError.prototype = new MochiKit.Base.NamedError("MochiKit.Text.FormatPatternError");
+MochiKit.Text.FormatPatternError.constructor = MochiKit.Text.FormatPatternError;
 
 //
 //XXX: Internet Explorer exception handling blows
