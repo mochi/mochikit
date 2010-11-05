@@ -352,41 +352,29 @@ MochiKit.Text._localizeNumber = function (num, locale, grouping) {
 MochiKit.Text._parsePattern = function (pattern) {
     var self = MochiKit.Text;
     var parts = [];
-    var start = 0;
-    var pos = 0;
-    for (pos = 0; pos < pattern.length; pos++) {
-        if (pattern.charAt(pos) == "{") {
-            if (pos + 1 >= pattern.length) {
-                var msg = "unescaped { char, should be escaped as {{";
-                throw new self.FormatPatternError(pattern, pos, msg);
-            } else if (pattern.charAt(pos + 1) == "{") {
-                parts.push(pattern.substring(start, pos + 1));
-                start = pos + 2;
-                pos++;
-            } else {
-                if (start < pos) {
-                    parts.push(pattern.substring(start, pos));
-                }
-                start = pattern.indexOf("}", pos) + 1;
-                if (start <= 0) {
-                    var msg = "unmatched { char, not followed by a } char";
-                    throw new self.FormatPatternError(pattern, pos, msg);
-                }
-                parts.push(self._parseFormat(pattern, pos + 1, start - 1));
-                pos = start - 1;
-            }
-        } else if (pattern.charAt(pos) == "}") {
-            if (pos + 1 >= pattern.length || pattern.charAt(pos + 1) != "}") {
-                var msg = "unescaped } char, should be escaped as }}";
-                throw new self.FormatPatternError(pattern, pos, msg);
-            }
-            parts.push(pattern.substring(start, pos + 1));
-            start = pos + 2;
-            pos++;
+    var re = /{[^{}]*}|{{?|}}?/g;
+    var lastPos = re.lastIndex = 0;
+    var m;
+    while ((m = re.exec(pattern)) != null) {
+        if (lastPos < m.index) {
+            parts.push(pattern.substring(lastPos, m.index))
+        }
+        var str = m[0];
+        lastPos = m.index + str.length;
+        if (self.startsWith("{", str) && self.endsWith("}", str)) {
+            parts.push(self._parseFormat(pattern, m.index + 1, lastPos - 1));
+        } else if (self.startsWith("{{", str) || self.startsWith("}}", str)) {
+            parts.push(str.substring(1));
+        } else if (self.startsWith("{", str)) {
+            var msg = "unescaped { char, should be escaped as {{";
+            throw new self.FormatPatternError(pattern, m.index, msg);
+        } else if (self.startsWith("}", str)) {
+            var msg = "unescaped } char, should be escaped as }}";
+            throw new self.FormatPatternError(pattern, m.index, msg);
         }
     }
-    if (start < pos) {
-        parts.push(pattern.substring(start, pos));
+    if (lastPos < pattern.length) {
+        parts.push(pattern.substring(lastPos));
     }
     return parts;
 };
@@ -405,34 +393,26 @@ MochiKit.Text._parsePattern = function (pattern) {
 MochiKit.Text._parseFormat = function (pattern, startPos, endPos) {
     var self = MochiKit.Text;
     var text = pattern.substring(startPos, endPos);
-    var info;
-    var pos = text.indexOf(":");
-    if (pos == 0) {
-        info = self._parseFormatFlags(pattern, startPos + 1, endPos);
-        info.path = [];
-    } else if (pos > 0) {
-        info = self._parseFormatFlags(pattern, startPos + pos + 1, endPos);
-        info.path = text.substring(0, pos).split(".");
-    } else {
-        info = self._parseFormatFlags(pattern, endPos, endPos);
-        info.path = text.split(".");
-    }
-    var DIGITS = /^\d+$/;
+    var parts = self.split(text, ":", 1);
+    var path = parts[0];
+    var flagsPos = startPos + path.length + ((parts.length == 1) ? 0 : 1);
+    var info = self._parseFormatFlags(pattern, flagsPos, endPos);
+    info.path = (path == "") ? [] : path.split(".");
     for (var i = 0; i < info.path.length; i++) {
-        var e = info.path[i];
+        var v = info.path[i];
         // TODO: replace with MochiKit.Format.strip?
-        e = e.replace(/^\s+/, "").replace(/\s+$/, "");
-        if (e == "" && info.path.length == 1) {
-            e = 0;
-        } else if (e == "") {
+        v = v.replace(/^\s+/, "").replace(/\s+$/, "");
+        if (v == "" && info.path.length == 1) {
+            v = 0;
+        } else if (v == "") {
             var msg = "format value path contains blanks";
             throw new self.FormatPatternError(pattern, startPos, msg);
-        } else if (DIGITS.test(e)) {
-            e = parseInt(e, 10);
+        } else if (/^\d+$/.test(v)) {
+            v = parseInt(v, 10);
         }
-        info.path[i] = e;
+        info.path[i] = v;
     }
-    if (info.path.length < 0 || typeof(info.path[0]) != "number") {
+    if (info.path.length <= 0 || typeof(info.path[0]) != "number") {
         info.path.unshift(0);
     }
     return info;
@@ -454,68 +434,45 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
     var info = { numeric: false, format: "s", width: 0, precision: -1,
                  align: ">", sign: "-", padding: " ", grouping: false };
     // TODO: replace with MochiKit.Format.rstrip?
-    var flags = pattern.substring(startPos, endPos).replace(/\s+$/, "");
-    while (flags.length > 0) {
-        var chr = flags.charAt(0);
-        var nextPos = 1;
-        switch (chr) {
-        case ">":
-        case "<":
-            update(info, { align: chr });
-            break;
-        case "+":
-        case "-":
-        case " ":
-            update(info, { sign: chr });
-            break;
-        case ",":
-            update(info, { grouping: true });
-            break;
-        case ".":
-            var chars = /^\d*/.exec(flags.substring(1))[0];
-            update(info, { precision: parseInt(chars, 10) });
-            nextPos = 1 + chars.length;
-            break;
-        case "0":
-            update(info, { padding: chr });
-            break;
-        case "1":
-        case "2":
-        case "3":
-        case "4":
-        case "5":
-        case "6":
-        case "7":
-        case "8":
-        case "9":
-            var chars = /^\d*/.exec(flags)[0];
-            update(info, { width: parseInt(chars, 10) });
-            nextPos = chars.length;
-            break;
-        case "s":
-        case "r":
-            update(info, { format: chr });
-            break;
-        case "b":
-            update(info, { numeric: true, format: chr, radix: 2 });
-            break;
-        case "o":
-            update(info, { numeric: true, format: chr, radix: 8 });
-            break;
-        case "x":
-        case "X":
-            update(info, { numeric: true, format: chr, radix: 16 });
-            break;
-        case "d":
-        case "f":
-        case "%":
-            update(info, { numeric: true, format: chr, radix: 10 });
-            break;
-        default:
-            var msg = "unsupported format flag: " + chr;
-            throw new MochiKit.Text.FormatPatternError(pattern, startPos, msg);
+    var text = pattern.substring(startPos, endPos).replace(/\s+$/, "");
+    var m = /^([<>+ 0,-]+)?(\d+)?(\.\d*)?([srbdoxXf%])?(.*)$/.exec(text);
+    var flags = m[1];
+    var width = m[2];
+    var precision = m[3];
+    var type = m[4];
+    var unmatched = m[5];
+    for (var i = 0; flags && i < flags.length; i++) {
+        var chr = flags.charAt(i);
+        if (chr == "<" || chr == ">") {
+            info.align = chr;
+        } else if (chr == "+" || chr == "-" || chr == " ") {
+            info.sign = chr;
+        } else if (chr == "0") {
+            info.padding = chr;
+        } else if (chr == ",") {
+            info.grouping = true;
         }
-        flags = flags.substring(nextPos);
+    }
+    if (width) {
+        info.width = parseInt(width, 10);
+    }
+    if (precision && precision.length > 1) {
+        info.precision = parseInt(precision.substring(1), 10);
+    }
+    if (type == "s" || type == "r") {
+        info.format = type;
+    } else if (type == "b") {
+        update(info, { numeric: true, format: type, radix: 2 });
+    } else if (type == "o") {
+        update(info, { numeric: true, format: type, radix: 8 });
+    } else if (type == "x" || type == "X") {
+        update(info, { numeric: true, format: type, radix: 16 });
+    } else if (type == "d" || type == "f" || type == "%") {
+        update(info, { numeric: true, format: type, radix: 10 });
+    }
+    if (unmatched) {
+        var msg = "unsupported format flag: " + unmatched.charAt(0);
+        throw new MochiKit.Text.FormatPatternError(pattern, startPos, msg);
     }
     return info;
 };
