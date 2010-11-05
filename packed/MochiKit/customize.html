@@ -15,7 +15,6 @@
       }
       input {
           margin: 0;
-          vertical-align: -3px;
       }
       .info {
           color: #888888;
@@ -79,6 +78,10 @@ function cbInit(res) {
         }
         versions.selectedIndex = idx;
         doLoadSource(versions.options[idx].value);
+    }
+    // Fix for Safari automatic unpack of downloaded files
+    if (/Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)) {
+        $("packCompress").value = 'rename-to-gz';
     }
 }
 
@@ -318,6 +321,7 @@ function doSubmit() {
               <hr style="margin-top: 200px;">
               <h3>Additional Options:</h3>
               <label><input id="packExport" checked="checked" type="checkbox"> Export Globals</label><br>
+              <label><input id="packCompress" name="compress" value="gz" checked="checked" type="checkbox"> GZIP Compression</label><br>
             </td>
             <td id="packModules" style="padding-left: 10px;">
             </td>
