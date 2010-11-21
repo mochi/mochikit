@@ -6,8 +6,8 @@ tests.test_Iter = function (t) {
     t.is( compare(list(range(6, 0, -1)), [6, 5, 4, 3, 2, 1]), 0, "list(range(6, 0, -1)");
     t.is( compare(list(range(6)), [0, 1, 2, 3, 4, 5]), 0, "list(range(6))" );
     var moreThanTwo = partial(operator.lt, 2);
-    t.is( sum(ifilter(moreThanTwo, range(6))), 12, "sum(ifilter(, range()))" ); 
-    t.is( sum(ifilterfalse(moreThanTwo, range(6))), 3, "sum(ifilterfalse(, range()))" ); 
+    t.is( sum(ifilter(moreThanTwo, range(6))), 12, "sum(ifilter(, range()))" );
+    t.is( sum(ifilterfalse(moreThanTwo, range(6))), 3, "sum(ifilterfalse(, range()))" );
 
     var c = count(10);
     t.is( compare([c.next(), c.next(), c.next()], [10, 11, 12]), 0, "count()" );
@@ -21,6 +21,17 @@ tests.test_Iter = function (t) {
     t.is( compare(list(range(5)), [0, 1, 2, 3, 4]), 0, "range(x)" );
     c = islice(range(10), 0, 10, 2);
     t.is( compare(list(c), [0, 2, 4, 6, 8]), 0, "islice(x, y, z)" );
+
+	var it = iter([1, 2, 3]);
+	c = islice(it, 2);
+	t.is( compare(list(c), [1, 2]), 0, "islice(it)");
+	// grab last elem
+	t.is( compare(list(it), [3]), 0, "islice stop ok");
+
+	// Test number of items consumed     SF #1171417
+	it = iter(range(10))
+	t.is( compare(list(islice(it, 3)), list(range(3))), 0, 'itertools. islice');
+	t.is( compare(list(it), list(range(3, 10))), 0, 'itertools. islice post iter');
 
     c = imap(operator.add, [1, 2, 3], [2, 4, 6]);
     t.is( compare(list(c), [3, 6, 9]), 0, "imap(fn, p, q)" );
