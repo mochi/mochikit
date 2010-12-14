@@ -307,8 +307,8 @@ MochiKit.DragAndDrop.Draggables = {
         // Mozilla-based browsers fire successive mousemove events with
         // the same coordinates, prevent needless redrawing (moz bug?)
         if (this._lastPointer &&
-	    this._lastPointer.page.x == pointer.page.x &&
-	    this._lastPointer.page.y == pointer.page.y) {
+            this._lastPointer.page.x == pointer.page.x &&
+            this._lastPointer.page.y == pointer.page.y) {
             return;
         }
         this._lastPointer = pointer;

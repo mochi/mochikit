@@ -15,12 +15,12 @@ tests.test_DateTime = function (t) {
     t.ok(objEqual(testDate, new Date("June 8, 2005")), "matches string date");
     t.is(toISODate(testDate), '2005-06-08', 'toISODate ok');
 
-	var testDate = isoDate('0500-12-12');
-	t.is(testDate.getFullYear(), 500, 'isoDate year ok for year < 1000');
-	t.is(testDate.getDate(), 12, 'isoDate day ok for year < 1000');
-	t.is(testDate.getMonth(), 11, 'isoDate month ok for year < 1000');
-	t.ok(objEqual(testDate, new Date("December 12, 0500")), "matches string date for year < 1000");
-	t.is(toISODate(testDate), '0500-12-12', 'toISODate ok for year < 1000');
+    var testDate = isoDate('0500-12-12');
+    t.is(testDate.getFullYear(), 500, 'isoDate year ok for year < 1000');
+    t.is(testDate.getDate(), 12, 'isoDate day ok for year < 1000');
+    t.is(testDate.getMonth(), 11, 'isoDate month ok for year < 1000');
+    t.ok(objEqual(testDate, new Date("December 12, 0500")), "matches string date for year < 1000");
+    t.is(toISODate(testDate), '0500-12-12', 'toISODate ok for year < 1000');
 
     t.is(compare(new Date("February 3, 2005"), new Date(2005, 1, 3)), 0, "dates compare eq");
     t.is(compare(new Date("February 3, 2005"), new Date(2005, 2, 3)), -1, "dates compare lt");
