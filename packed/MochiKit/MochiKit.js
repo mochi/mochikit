@@ -7409,7 +7409,7 @@ if(!this.activeDraggable){
 return;
 }
 var _7ed=_7ec.mouse();
-if(this._lastPointer&&(MochiKit.Base.repr(this._lastPointer.page)==MochiKit.Base.repr(_7ed.page))){
+if(this._lastPointer&&this._lastPointer.page.x==_7ed.page.x&&this._lastPointer.page.y==_7ed.page.y){
 return;
 }
 this._lastPointer=_7ed;
@@ -8035,5 +8035,5 @@ MochiKit.Base.nameFunctions(this);
 };
 MochiKit.Sortable.__new__();
 MochiKit.Base._exportSymbols(this,MochiKit.Sortable);
-
+
 
