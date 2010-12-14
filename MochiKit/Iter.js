@@ -222,13 +222,14 @@ MochiKit.Base.update(MochiKit.Iter, {
             },
             toString: m.forwardCall("repr"),
             next: function () {
+                if (start >= stop) {
+                    throw self.StopIteration;
+                }
+
                 var rval;
                 while (i < start) {
                     rval = seq.next();
                     i++;
-                }
-                if (start >= stop) {
-                    throw self.StopIteration;
                 }
                 start += step;
                 return rval;

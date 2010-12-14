@@ -1302,13 +1302,13 @@ step=arguments[3];
 return {repr:function(){
 return "islice("+["...",_194,stop,step].join(", ")+")";
 },toString:m.forwardCall("repr"),next:function(){
+if(_194>=stop){
+throw self.StopIteration;
+}
 var rval;
 while(i<_194){
 rval=seq.next();
 i++;
-}
-if(_194>=stop){
-throw self.StopIteration;
 }
 _194+=step;
 return rval;
@@ -1910,7 +1910,7 @@ var iso=str.split("-");
 if(iso.length===0){
 return null;
 }
-var date=new Date(iso[0],iso[1]-1,iso[2]);
+var date=new Date(parseInt(iso[0],10),parseInt(iso[1],10)-1,parseInt(iso[2],10));
 date.setFullYear(iso[0]);
 date.setMonth(iso[1]-1);
 date.setDate(iso[2]);
@@ -2614,6 +2614,7 @@ this.pos=pos;
 this.message=_2f4;
 };
 MochiKit.Text.FormatPatternError.prototype=new MochiKit.Base.NamedError("MochiKit.Text.FormatPatternError");
+MochiKit.Text.FormatPatternError.constructor=MochiKit.Text.FormatPatternError;
 if(MochiKit.__export__){
 formatter=MochiKit.Text.formatter;
 format=MochiKit.Text.format;
@@ -7408,7 +7409,7 @@ if(!this.activeDraggable){
 return;
 }
 var _7ed=_7ec.mouse();
-if(this._lastPointer&&(MochiKit.Base.repr(this._lastPointer.page)==MochiKit.Base.repr(_7ed.page))){
+if(this._lastPointer&&this._lastPointer.page.x==_7ed.page.x&&this._lastPointer.page.y==_7ed.page.y){
 return;
 }
 this._lastPointer=_7ed;

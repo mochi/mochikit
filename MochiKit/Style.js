@@ -6,6 +6,9 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 (c) 2005-2006 Bob Ippolito, Beau Hartshorne.  All rights Reserved.
 
+The MochiKit.Style.getElementPosition function is adapted from
+YAHOO.util.Dom.getXY v0.9.0. which is copyrighted by Yahoo! Inc.
+
 ***/
 
 MochiKit.Base.module(MochiKit, 'Style', '1.5', ['Base', 'DOM']);
