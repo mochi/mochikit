@@ -258,6 +258,11 @@ tests.test_Text = function (t) {
     t.is(format("{:<5x}", 31), "1f   ", "left-aligned hexadecimal format");
     t.is(format("{:>5x}", 31), "   1f", "right-aligned hexadecimal format");
 
+    // formatValue tests (mostly already tested above)
+    t.is(formatValue("%", 1.5), "150%", "formatValue percent");
+    t.is(formatValue(",08.4f", 1.5, "fr_FR"), "01,500 0", "formatValue locale");
+    t.is(formatValue(",.2%", 15, { separator: "_", decimal: ":", percent: "p"}), "1_500:00p", "formatValue custom locale");
+
     // formatter function tests
     var f = formatter("{1}{2}{0}{1}");
     t.is(f("a", "b", "c"), "bcab", "formatter function creation");

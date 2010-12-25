@@ -237,7 +237,7 @@ MochiKit.Text.format = function (pattern/*, ...*/) {
 MochiKit.Text.formatValue = function (spec, value, locale) {
     var self = MochiKit.Text;
     if (typeof(spec) === "string") {
-        spec = self._parseFormatFlags(spec, 0, spec.length - 1);
+        spec = self._parseFormatFlags(spec, 0, spec.length);
     }
     for (var i = 0; spec.path != null && i < spec.path.length; i++) {
         if (value != null) {
