@@ -250,7 +250,10 @@ MochiKit.Text.formatValue = function (spec, value, locale) {
         locale = MochiKit.Format.formatLocale(locale);
     }
     var str = "";
-    if (spec.numeric) {
+    if (spec.type == "number") {
+        if (value instanceof Number) {
+            value = value.valueOf();
+        }
         if (typeof(value) != "number" || isNaN(value)) {
             str = "";
         } else if (value === Number.POSITIVE_INFINITY) {
@@ -431,7 +434,7 @@ MochiKit.Text._parseFormat = function (pattern, startPos, endPos) {
  */
 MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
     var update = MochiKit.Base.update;
-    var info = { numeric: false, format: "s", width: 0, precision: -1,
+    var info = { type: "string", format: "s", width: 0, precision: -1,
                  align: ">", sign: "-", padding: " ", grouping: false };
     // TODO: replace with MochiKit.Format.rstrip?
     var text = pattern.substring(startPos, endPos).replace(/\s+$/, "");
@@ -462,13 +465,13 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
     if (type == "s" || type == "r") {
         info.format = type;
     } else if (type == "b") {
-        update(info, { numeric: true, format: type, radix: 2 });
+        update(info, { type: "number", format: type, radix: 2 });
     } else if (type == "o") {
-        update(info, { numeric: true, format: type, radix: 8 });
+        update(info, { type: "number", format: type, radix: 8 });
     } else if (type == "x" || type == "X") {
-        update(info, { numeric: true, format: type, radix: 16 });
+        update(info, { type: "number", format: type, radix: 16 });
     } else if (type == "d" || type == "f" || type == "%") {
-        update(info, { numeric: true, format: type, radix: 10 });
+        update(info, { type: "number", format: type, radix: 10 });
     }
     if (unmatched) {
         var msg = "unsupported format flag: " + unmatched.charAt(0);
