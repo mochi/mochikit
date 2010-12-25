@@ -531,7 +531,7 @@ MochiKit.Text.FormatPatternError.prototype = new MochiKit.Base.NamedError("Mochi
 MochiKit.Text.FormatPatternError.constructor = MochiKit.Text.FormatPatternError;
 
 //
-//XXX: Internet Explorer exception handling blows
+//XXX: Internet Explorer export fix
 //
 if (MochiKit.__export__) {
     formatter = MochiKit.Text.formatter;
