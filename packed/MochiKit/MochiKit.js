@@ -2336,7 +2336,7 @@ bits.splice(0,bits.length-max,bits.slice(0,bits.length-max).join(_2af));
 return bits;
 };
 MochiKit.Text.formatter=function(_2b2,_2b3){
-if(typeof (_2b3)=="undefined"){
+if(_2b3==null){
 _2b3=MochiKit.Format.formatLocale();
 }else{
 if(typeof (_2b3)=="string"){
@@ -2371,7 +2371,7 @@ if(_2bb!=null){
 _2bb=_2bb[spec.path[i]];
 }
 }
-if(typeof (_2bc)=="undefined"){
+if(_2bc==null){
 _2bc=MochiKit.Format.formatLocale();
 }else{
 if(typeof (_2bc)=="string"){
@@ -2437,7 +2437,7 @@ str=str+_2bc.percent;
 if(spec.format=="r"){
 str=MochiKit.Base.repr(_2bb);
 }else{
-str=(_2bb==null)?"null":_2bb.toString();
+str=(_2bb==null)?"":_2bb.toString();
 }
 str=self.truncate(str,spec.precision);
 }

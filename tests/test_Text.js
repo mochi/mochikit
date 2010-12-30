@@ -113,8 +113,8 @@ tests.test_Text = function (t) {
     var o = { toString: function() { return "toString"; },
               repr: function() { return "repr"; } };
     t.is(format("{:s}", o), "toString", "string format type");
-    t.is(format("{ :s }", null), "null", "null string format");
-    t.is(format("{:s}", undefined), "null", "undefined string format");
+    t.is(format("{ :s }", null), "", "null string format");
+    t.is(format("{:s}", undefined), "", "undefined string format");
     t.is(format("abc {:s}", 0.25), "abc 0.25", "number string format");
     t.is(format("{:4s}", 2), "   2", "padded string format");
     t.is(format("{:<4}", 2), "2   ", "left-aligned padded string format");

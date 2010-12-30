@@ -184,7 +184,7 @@ MochiKit.Text.rsplit = function (str, separator, max) {
  * @throws FormatPatternError if the format pattern was invalid
  */
 MochiKit.Text.formatter = function (pattern, locale) {
-    if (typeof(locale) == "undefined") {
+    if (locale == null) {
         locale = MochiKit.Format.formatLocale();
     } else if (typeof(locale) == "string") {
         locale = MochiKit.Format.formatLocale(locale);
@@ -232,7 +232,7 @@ MochiKit.Text.format = function (pattern/*, ...*/) {
  *
  * @return {String} the formatted output string
  *
- * @throws FormatPatternError if the format pattern was invalid
+ * @throws FormatPatternError if the format specifier was invalid
  */
 MochiKit.Text.formatValue = function (spec, value, locale) {
     var self = MochiKit.Text;
@@ -244,7 +244,7 @@ MochiKit.Text.formatValue = function (spec, value, locale) {
             value = value[spec.path[i]];
         }
     }
-    if (typeof(locale) == "undefined") {
+    if (locale == null) {
         locale = MochiKit.Format.formatLocale();
     } else if (typeof(locale) == "string") {
         locale = MochiKit.Format.formatLocale(locale);
@@ -294,7 +294,7 @@ MochiKit.Text.formatValue = function (spec, value, locale) {
         if (spec.format == "r") {
             str = MochiKit.Base.repr(value);
         } else {
-            str = (value == null) ? "null" : value.toString();
+            str = (value == null) ? "" : value.toString();
         }
         str = self.truncate(str, spec.precision);
     }
