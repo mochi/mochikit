@@ -2364,7 +2364,7 @@ return func.apply(this,MochiKit.Base.extend([],arguments,1));
 MochiKit.Text.formatValue=function(spec,_2bb,_2bc){
 var self=MochiKit.Text;
 if(typeof (spec)==="string"){
-spec=self._parseFormatFlags(spec,0,spec.length-1);
+spec=self._parseFormatFlags(spec,0,spec.length);
 }
 for(var i=0;spec.path!=null&&i<spec.path.length;i++){
 if(_2bb!=null){
@@ -2379,7 +2379,10 @@ _2bc=MochiKit.Format.formatLocale(_2bc);
 }
 }
 var str="";
-if(spec.numeric){
+if(spec.type=="number"){
+if(_2bb instanceof Number){
+_2bb=_2bb.valueOf();
+}
 if(typeof (_2bb)!="number"||isNaN(_2bb)){
 str="";
 }else{
@@ -2389,8 +2392,7 @@ str="\u221e";
 if(_2bb===Number.NEGATIVE_INFINITY){
 str="-\u221e";
 }else{
-var sign=(spec.sign==="-")?"":spec.sign;
-sign=(_2bb<0)?"-":sign;
+var sign=(_2bb<0)?"-":spec.sign;
 _2bb=Math.abs(_2bb);
 if(spec.format==="%"){
 str=self._truncToPercent(_2bb,spec.precision);
@@ -2423,7 +2425,7 @@ if(spec.padding=="0"){
 str=self.padLeft(str,spec.width-sign.length,"0");
 }
 }
-str=self._localizeNumber(str,_2bc,spec.grouping);
+str=self._localizeNumber(str,_2bc,spec.group);
 str=sign+str;
 }
 }
@@ -2459,7 +2461,7 @@ _2c5=_2c5.substring(1);
 }
 }
 if(frac.length>0){
-res+=frac;
+res=res+frac;
 }
 while(_2c3&&_2c5.length>3){
 var pos=_2c5.length-3;
@@ -2535,7 +2537,7 @@ return info;
 };
 MochiKit.Text._parseFormatFlags=function(_2dd,_2de,_2df){
 var _2e0=MochiKit.Base.update;
-var info={numeric:false,format:"s",width:0,precision:-1,align:">",sign:"-",padding:" ",grouping:false};
+var info={type:"string",format:"s",width:0,precision:-1,align:">",sign:"",padding:" ",group:false};
 var text=_2dd.substring(_2de,_2df).replace(/\s+$/,"");
 var m=/^([<>+ 0,-]+)?(\d+)?(\.\d*)?([srbdoxXf%])?(.*)$/.exec(text);
 var _2e4=m[1];
@@ -2549,13 +2551,13 @@ if(chr=="<"||chr==">"){
 info.align=chr;
 }else{
 if(chr=="+"||chr=="-"||chr==" "){
-info.sign=chr;
+info.sign=(chr=="-")?"":chr;
 }else{
 if(chr=="0"){
 info.padding=chr;
 }else{
 if(chr==","){
-info.grouping=true;
+info.group=true;
 }
 }
 }
@@ -2571,16 +2573,16 @@ if(type=="s"||type=="r"){
 info.format=type;
 }else{
 if(type=="b"){
-_2e0(info,{numeric:true,format:type,radix:2});
+_2e0(info,{type:"number",format:type,radix:2});
 }else{
 if(type=="o"){
-_2e0(info,{numeric:true,format:type,radix:8});
+_2e0(info,{type:"number",format:type,radix:8});
 }else{
 if(type=="x"||type=="X"){
-_2e0(info,{numeric:true,format:type,radix:16});
+_2e0(info,{type:"number",format:type,radix:16});
 }else{
 if(type=="d"||type=="f"||type=="%"){
-_2e0(info,{numeric:true,format:type,radix:10});
+_2e0(info,{type:"number",format:type,radix:10});
 }
 }
 }
