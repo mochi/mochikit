@@ -1066,6 +1066,8 @@ MochiKit.Base.update(MochiKit.DOM, {
         this.TFOOT = createDOMFunc("tfoot");
         /** @id MochiKit.DOM.TABLE */
         this.TABLE = createDOMFunc("table");
+        /** @id MochiKit.DOM.CAPTION */
+        this.CAPTION = createDOMFunc("caption");
         /** @id MochiKit.DOM.TH */
         this.TH = createDOMFunc("th");
         /** @id MochiKit.DOM.INPUT */
@@ -1128,6 +1130,24 @@ MochiKit.Base.update(MochiKit.DOM, {
         this.LINK = createDOMFunc("link");
         /** @id MochiKit.DOM.SCRIPT */
         this.SCRIPT = createDOMFunc("script");
+        /** @id MochiKit.DOM.NAV */
+        this.NAV = createDOMFunc("nav");
+        /** @id MochiKit.DOM.HEADER */
+        this.HEADER = createDOMFunc("header");
+        /** @id MochiKit.DOM.FOOTER */
+        this.FOOTER = createDOMFunc("footer");
+        /** @id MochiKit.DOM.MARK */
+        this.MARK = createDOMFunc("mark");
+        /** @id MochiKit.DOM.TIME */
+        this.TIME = createDOMFunc("time");
+        /** @id MochiKit.DOM.HGROUP */
+        this.HGROUP = createDOMFunc("hgroup");
+        /** @id MochiKit.DOM.ASIDE */
+        this.ASIDE = createDOMFunc("aside");
+        /** @id MochiKit.DOM.ARTICLE */
+        this.ARTICLE = createDOMFunc("article");
+        /** @id MochiKit.DOM.SECTION */
+        this.SECTION = createDOMFunc("section");
         /** @id MochiKit.DOM.$ */
         this.$ = this.getElement;
         /** @id MochiKit.DOM.NBSP */
