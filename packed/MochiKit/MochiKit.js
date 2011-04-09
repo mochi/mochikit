@@ -2336,7 +2336,7 @@ bits.splice(0,bits.length-max,bits.slice(0,bits.length-max).join(_2af));
 return bits;
 };
 MochiKit.Text.formatter=function(_2b2,_2b3){
-if(typeof (_2b3)=="undefined"){
+if(_2b3==null){
 _2b3=MochiKit.Format.formatLocale();
 }else{
 if(typeof (_2b3)=="string"){
@@ -2364,14 +2364,14 @@ return func.apply(this,MochiKit.Base.extend([],arguments,1));
 MochiKit.Text.formatValue=function(spec,_2bb,_2bc){
 var self=MochiKit.Text;
 if(typeof (spec)==="string"){
-spec=self._parseFormatFlags(spec,0,spec.length-1);
+spec=self._parseFormatFlags(spec,0,spec.length);
 }
 for(var i=0;spec.path!=null&&i<spec.path.length;i++){
 if(_2bb!=null){
 _2bb=_2bb[spec.path[i]];
 }
 }
-if(typeof (_2bc)=="undefined"){
+if(_2bc==null){
 _2bc=MochiKit.Format.formatLocale();
 }else{
 if(typeof (_2bc)=="string"){
@@ -2379,7 +2379,10 @@ _2bc=MochiKit.Format.formatLocale(_2bc);
 }
 }
 var str="";
-if(spec.numeric){
+if(spec.type=="number"){
+if(_2bb instanceof Number){
+_2bb=_2bb.valueOf();
+}
 if(typeof (_2bb)!="number"||isNaN(_2bb)){
 str="";
 }else{
@@ -2389,8 +2392,7 @@ str="\u221e";
 if(_2bb===Number.NEGATIVE_INFINITY){
 str="-\u221e";
 }else{
-var sign=(spec.sign==="-")?"":spec.sign;
-sign=(_2bb<0)?"-":sign;
+var sign=(_2bb<0)?"-":spec.sign;
 _2bb=Math.abs(_2bb);
 if(spec.format==="%"){
 str=self._truncToPercent(_2bb,spec.precision);
@@ -2423,7 +2425,7 @@ if(spec.padding=="0"){
 str=self.padLeft(str,spec.width-sign.length,"0");
 }
 }
-str=self._localizeNumber(str,_2bc,spec.grouping);
+str=self._localizeNumber(str,_2bc,spec.group);
 str=sign+str;
 }
 }
@@ -2435,7 +2437,7 @@ str=str+_2bc.percent;
 if(spec.format=="r"){
 str=MochiKit.Base.repr(_2bb);
 }else{
-str=(_2bb==null)?"null":_2bb.toString();
+str=(_2bb==null)?"":_2bb.toString();
 }
 str=self.truncate(str,spec.precision);
 }
@@ -2459,7 +2461,7 @@ _2c5=_2c5.substring(1);
 }
 }
 if(frac.length>0){
-res+=frac;
+res=res+frac;
 }
 while(_2c3&&_2c5.length>3){
 var pos=_2c5.length-3;
@@ -2535,7 +2537,7 @@ return info;
 };
 MochiKit.Text._parseFormatFlags=function(_2dd,_2de,_2df){
 var _2e0=MochiKit.Base.update;
-var info={numeric:false,format:"s",width:0,precision:-1,align:">",sign:"-",padding:" ",grouping:false};
+var info={type:"string",format:"s",width:0,precision:-1,align:">",sign:"",padding:" ",group:false};
 var text=_2dd.substring(_2de,_2df).replace(/\s+$/,"");
 var m=/^([<>+ 0,-]+)?(\d+)?(\.\d*)?([srbdoxXf%])?(.*)$/.exec(text);
 var _2e4=m[1];
@@ -2549,13 +2551,13 @@ if(chr=="<"||chr==">"){
 info.align=chr;
 }else{
 if(chr=="+"||chr=="-"||chr==" "){
-info.sign=chr;
+info.sign=(chr=="-")?"":chr;
 }else{
 if(chr=="0"){
 info.padding=chr;
 }else{
 if(chr==","){
-info.grouping=true;
+info.group=true;
 }
 }
 }
@@ -2571,16 +2573,16 @@ if(type=="s"||type=="r"){
 info.format=type;
 }else{
 if(type=="b"){
-_2e0(info,{numeric:true,format:type,radix:2});
+_2e0(info,{type:"number",format:type,radix:2});
 }else{
 if(type=="o"){
-_2e0(info,{numeric:true,format:type,radix:8});
+_2e0(info,{type:"number",format:type,radix:8});
 }else{
 if(type=="x"||type=="X"){
-_2e0(info,{numeric:true,format:type,radix:16});
+_2e0(info,{type:"number",format:type,radix:16});
 }else{
 if(type=="d"||type=="f"||type=="%"){
-_2e0(info,{numeric:true,format:type,radix:10});
+_2e0(info,{type:"number",format:type,radix:10});
 }
 }
 }
@@ -3928,51 +3930,65 @@ m._deprecated(this,"undoPositioned","MochiKit.Style.undoPositioned","1.4.1");
 m._deprecated(this,"Coordinates","MochiKit.Style.Coordinates","1.4");
 m._deprecated(this,"Dimensions","MochiKit.Style.Dimensions","1.4");
 var _43f=this.createDOMFunc;
-this.UL=_43f("ul");
-this.OL=_43f("ol");
-this.LI=_43f("li");
+this.A=_43f("a");
+this.ARTICLE=_43f("article");
+this.ASIDE=_43f("aside");
+this.BR=_43f("br");
+this.BUTTON=_43f("button");
+this.CANVAS=_43f("canvas");
+this.CAPTION=_43f("caption");
+this.DD=_43f("dd");
+this.DIV=_43f("div");
 this.DL=_43f("dl");
 this.DT=_43f("dt");
-this.DD=_43f("dd");
-this.TD=_43f("td");
-this.TR=_43f("tr");
-this.TBODY=_43f("tbody");
-this.THEAD=_43f("thead");
-this.TFOOT=_43f("tfoot");
-this.TABLE=_43f("table");
-this.TH=_43f("th");
-this.INPUT=_43f("input");
-this.SPAN=_43f("span");
-this.A=_43f("a");
-this.DIV=_43f("div");
-this.IMG=_43f("img");
-this.BUTTON=_43f("button");
-this.TT=_43f("tt");
-this.PRE=_43f("pre");
+this.FIELDSET=_43f("fieldset");
+this.FIGURE=_43f("figure");
+this.FIGCAPTION=_43f("figcaption");
+this.FOOTER=_43f("footer");
+this.FORM=_43f("form");
 this.H1=_43f("h1");
 this.H2=_43f("h2");
 this.H3=_43f("h3");
 this.H4=_43f("h4");
 this.H5=_43f("h5");
 this.H6=_43f("h6");
-this.BR=_43f("br");
+this.HEADER=_43f("header");
+this.HGROUP=_43f("hgroup");
 this.HR=_43f("hr");
-this.LABEL=_43f("label");
-this.TEXTAREA=_43f("textarea");
-this.FORM=_43f("form");
-this.P=_43f("p");
-this.SELECT=_43f("select");
-this.OPTION=_43f("option");
-this.OPTGROUP=_43f("optgroup");
-this.LEGEND=_43f("legend");
-this.FIELDSET=_43f("fieldset");
-this.STRONG=_43f("strong");
-this.CANVAS=_43f("canvas");
 this.IFRAME=_43f("iframe");
+this.IMG=_43f("img");
+this.INPUT=_43f("input");
+this.LABEL=_43f("label");
+this.LEGEND=_43f("legend");
+this.LI=_43f("li");
 this.LINK=_43f("link");
+this.MARK=_43f("mark");
+this.METER=_43f("meter");
+this.NAV=_43f("nav");
+this.OL=_43f("ol");
+this.OPTGROUP=_43f("optgroup");
+this.OPTION=_43f("option");
+this.P=_43f("p");
+this.PRE=_43f("pre");
+this.PROGRESS=_43f("progress");
 this.SCRIPT=_43f("script");
-this.$=this.getElement;
+this.SECTION=_43f("section");
+this.SELECT=_43f("select");
+this.SPAN=_43f("span");
+this.STRONG=_43f("strong");
+this.STYLE=_43f("style");
+this.TABLE=_43f("table");
+this.TBODY=_43f("tbody");
+this.TD=_43f("td");
+this.TEXTAREA=_43f("textarea");
+this.TFOOT=_43f("tfoot");
+this.TH=_43f("th");
+this.THEAD=_43f("thead");
+this.TR=_43f("tr");
+this.TT=_43f("tt");
+this.UL=_43f("ul");
 this.NBSP="\xa0";
+this.$=this.getElement;
 m.nameFunctions(this);
 }});
 MochiKit.DOM.__new__(((typeof (window)=="undefined")?this:window));

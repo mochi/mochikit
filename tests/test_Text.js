@@ -113,8 +113,8 @@ tests.test_Text = function (t) {
     var o = { toString: function() { return "toString"; },
               repr: function() { return "repr"; } };
     t.is(format("{:s}", o), "toString", "string format type");
-    t.is(format("{ :s }", null), "null", "null string format");
-    t.is(format("{:s}", undefined), "null", "undefined string format");
+    t.is(format("{ :s }", null), "", "null string format");
+    t.is(format("{:s}", undefined), "", "undefined string format");
     t.is(format("abc {:s}", 0.25), "abc 0.25", "number string format");
     t.is(format("{:4s}", 2), "   2", "padded string format");
     t.is(format("{:<4}", 2), "2   ", "left-aligned padded string format");
@@ -257,6 +257,11 @@ tests.test_Text = function (t) {
     t.is(format("{: 05x}", 31), " 001f", "spaced zero-padded hexadecimal format");
     t.is(format("{:<5x}", 31), "1f   ", "left-aligned hexadecimal format");
     t.is(format("{:>5x}", 31), "   1f", "right-aligned hexadecimal format");
+
+    // formatValue tests (mostly already tested above)
+    t.is(formatValue("%", 1.5), "150%", "formatValue percent");
+    t.is(formatValue(",08.4f", 1.5, "fr_FR"), "01,500 0", "formatValue locale");
+    t.is(formatValue(",.2%", 15, { separator: "_", decimal: ":", percent: "p"}), "1_500:00p", "formatValue custom locale");
 
     // formatter function tests
     var f = formatter("{1}{2}{0}{1}");

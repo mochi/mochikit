@@ -25,10 +25,9 @@ Synopsis
 Description
 ===========
 
-:mochiref:`MochiKit.Text` provides helper functions for creating or
-managing text (also known as strings). Formatting strings and
-stringifying numbers is boring, so a couple useful functions in that
-domain live here.
+MochiKit.Text provides helper functions for manipulating text (also
+known as strings). A generic mechanism for formatting text and numbers
+also live here.
 
 
 Dependencies
@@ -74,22 +73,29 @@ properties in a value object. Both methods can be combined or deeply
 nested, using a dot (``.``) to separate the sub-parts.
 
 The ``specification`` part is optional and specifies which value
-formatting to apply to the value. This is the only part of the
-formatting pattern used by the :mochiref:`formatValue` function.
-The specification itself consists of a number of parts:
+formatting to apply to the value.
+
+
+Format Specifications
+---------------------
+
+The format specification outlines how a value is to be converted
+into a text representation (a string). This is the only part of
+the formatting pattern accepted by the :mochiref:`formatValue`
+function. It consists of a number of parts:
 
 ::
 
     [flags][width][.precision][type]
 
-All the various parts are optional and have the following meaning:
+All the parts are optional and have the following meaning:
 
 * ``flags`` specifies the text alignment and numeric sign, padding and
   grouping flags. See the table below for available options.
-* ``width`` specifies the minimum field width.
-* ``precision`` indicates how many digits should be displayed after the
-  decimal point in a floating point conversion. For a non-numeric
-  ``type`` the field indicates the maximum field size.
+* ``width`` a number specifying the minimum field width.
+* ``precision`` a number indicating how many digits should be displayed
+  after the decimal point in a floating point conversion. For a
+  non-numeric ``type``, the field indicates the maximum field size.
 * ``type`` indicates the desired formatting type to use. See the table
   below for available options.
 

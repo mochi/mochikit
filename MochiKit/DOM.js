@@ -1042,48 +1042,38 @@ MochiKit.Base.update(MochiKit.DOM, {
 
         // shorthand for createDOM syntax
         var createDOMFunc = this.createDOMFunc;
-        /** @id MochiKit.DOM.UL */
-        this.UL = createDOMFunc("ul");
-        /** @id MochiKit.DOM.OL */
-        this.OL = createDOMFunc("ol");
-        /** @id MochiKit.DOM.LI */
-        this.LI = createDOMFunc("li");
+        /** @id MochiKit.DOM.A */
+        this.A = createDOMFunc("a");
+        /** @id MochiKit.DOM.ARTICLE */
+        this.ARTICLE = createDOMFunc("article");
+        /** @id MochiKit.DOM.ASIDE */
+        this.ASIDE = createDOMFunc("aside");
+        /** @id MochiKit.DOM.BR */
+        this.BR = createDOMFunc("br");
+        /** @id MochiKit.DOM.BUTTON */
+        this.BUTTON = createDOMFunc("button");
+        /** @id MochiKit.DOM.CANVAS */
+        this.CANVAS = createDOMFunc("canvas");
+        /** @id MochiKit.DOM.CAPTION */
+        this.CAPTION = createDOMFunc("caption");
+        /** @id MochiKit.DOM.DD */
+        this.DD = createDOMFunc("dd");
+        /** @id MochiKit.DOM.DIV */
+        this.DIV = createDOMFunc("div");
         /** @id MochiKit.DOM.DL */
         this.DL = createDOMFunc("dl");
         /** @id MochiKit.DOM.DT */
         this.DT = createDOMFunc("dt");
-        /** @id MochiKit.DOM.DD */
-        this.DD = createDOMFunc("dd");
-        /** @id MochiKit.DOM.TD */
-        this.TD = createDOMFunc("td");
-        /** @id MochiKit.DOM.TR */
-        this.TR = createDOMFunc("tr");
-        /** @id MochiKit.DOM.TBODY */
-        this.TBODY = createDOMFunc("tbody");
-        /** @id MochiKit.DOM.THEAD */
-        this.THEAD = createDOMFunc("thead");
-        /** @id MochiKit.DOM.TFOOT */
-        this.TFOOT = createDOMFunc("tfoot");
-        /** @id MochiKit.DOM.TABLE */
-        this.TABLE = createDOMFunc("table");
-        /** @id MochiKit.DOM.TH */
-        this.TH = createDOMFunc("th");
-        /** @id MochiKit.DOM.INPUT */
-        this.INPUT = createDOMFunc("input");
-        /** @id MochiKit.DOM.SPAN */
-        this.SPAN = createDOMFunc("span");
-        /** @id MochiKit.DOM.A */
-        this.A = createDOMFunc("a");
-        /** @id MochiKit.DOM.DIV */
-        this.DIV = createDOMFunc("div");
-        /** @id MochiKit.DOM.IMG */
-        this.IMG = createDOMFunc("img");
-        /** @id MochiKit.DOM.BUTTON */
-        this.BUTTON = createDOMFunc("button");
-        /** @id MochiKit.DOM.TT */
-        this.TT = createDOMFunc("tt");
-        /** @id MochiKit.DOM.PRE */
-        this.PRE = createDOMFunc("pre");
+        /** @id MochiKit.DOM.FIELDSET */
+        this.FIELDSET = createDOMFunc("fieldset");
+        /** @id MochiKit.DOM.FIGURE */
+        this.FIGURE = createDOMFunc("figure");
+        /** @id MochiKit.DOM.FIGCAPTION */
+        this.FIGCAPTION = createDOMFunc("figcaption");
+        /** @id MochiKit.DOM.FOOTER */
+        this.FOOTER = createDOMFunc("footer");
+        /** @id MochiKit.DOM.FORM */
+        this.FORM = createDOMFunc("form");
         /** @id MochiKit.DOM.H1 */
         this.H1 = createDOMFunc("h1");
         /** @id MochiKit.DOM.H2 */
@@ -1096,42 +1086,80 @@ MochiKit.Base.update(MochiKit.DOM, {
         this.H5 = createDOMFunc("h5");
         /** @id MochiKit.DOM.H6 */
         this.H6 = createDOMFunc("h6");
-        /** @id MochiKit.DOM.BR */
-        this.BR = createDOMFunc("br");
+        /** @id MochiKit.DOM.HEADER */
+        this.HEADER = createDOMFunc("header");
+        /** @id MochiKit.DOM.HGROUP */
+        this.HGROUP = createDOMFunc("hgroup");
         /** @id MochiKit.DOM.HR */
         this.HR = createDOMFunc("hr");
-        /** @id MochiKit.DOM.LABEL */
-        this.LABEL = createDOMFunc("label");
-        /** @id MochiKit.DOM.TEXTAREA */
-        this.TEXTAREA = createDOMFunc("textarea");
-        /** @id MochiKit.DOM.FORM */
-        this.FORM = createDOMFunc("form");
-        /** @id MochiKit.DOM.P */
-        this.P = createDOMFunc("p");
-        /** @id MochiKit.DOM.SELECT */
-        this.SELECT = createDOMFunc("select");
-        /** @id MochiKit.DOM.OPTION */
-        this.OPTION = createDOMFunc("option");
-        /** @id MochiKit.DOM.OPTGROUP */
-        this.OPTGROUP = createDOMFunc("optgroup");
-        /** @id MochiKit.DOM.LEGEND */
-        this.LEGEND = createDOMFunc("legend");
-        /** @id MochiKit.DOM.FIELDSET */
-        this.FIELDSET = createDOMFunc("fieldset");
-        /** @id MochiKit.DOM.STRONG */
-        this.STRONG = createDOMFunc("strong");
-        /** @id MochiKit.DOM.CANVAS */
-        this.CANVAS = createDOMFunc("canvas");
         /** @id MochiKit.DOM.IFRAME */
         this.IFRAME = createDOMFunc("iframe");
+        /** @id MochiKit.DOM.IMG */
+        this.IMG = createDOMFunc("img");
+        /** @id MochiKit.DOM.INPUT */
+        this.INPUT = createDOMFunc("input");
+        /** @id MochiKit.DOM.LABEL */
+        this.LABEL = createDOMFunc("label");
+        /** @id MochiKit.DOM.LEGEND */
+        this.LEGEND = createDOMFunc("legend");
+        /** @id MochiKit.DOM.LI */
+        this.LI = createDOMFunc("li");
         /** @id MochiKit.DOM.LINK */
         this.LINK = createDOMFunc("link");
+        /** @id MochiKit.DOM.MARK */
+        this.MARK = createDOMFunc("mark");
+        /** @id MochiKit.DOM.METER */
+        this.METER = createDOMFunc("meter");
+        /** @id MochiKit.DOM.NAV */
+        this.NAV = createDOMFunc("nav");
+        /** @id MochiKit.DOM.OL */
+        this.OL = createDOMFunc("ol");
+        /** @id MochiKit.DOM.OPTGROUP */
+        this.OPTGROUP = createDOMFunc("optgroup");
+        /** @id MochiKit.DOM.OPTION */
+        this.OPTION = createDOMFunc("option");
+        /** @id MochiKit.DOM.P */
+        this.P = createDOMFunc("p");
+        /** @id MochiKit.DOM.PRE */
+        this.PRE = createDOMFunc("pre");
+        /** @id MochiKit.DOM.PROGRESS */
+        this.PROGRESS = createDOMFunc("progress");
         /** @id MochiKit.DOM.SCRIPT */
         this.SCRIPT = createDOMFunc("script");
-        /** @id MochiKit.DOM.$ */
-        this.$ = this.getElement;
+        /** @id MochiKit.DOM.SECTION */
+        this.SECTION = createDOMFunc("section");
+        /** @id MochiKit.DOM.SELECT */
+        this.SELECT = createDOMFunc("select");
+        /** @id MochiKit.DOM.SPAN */
+        this.SPAN = createDOMFunc("span");
+        /** @id MochiKit.DOM.STRONG */
+        this.STRONG = createDOMFunc("strong");
+        /** @id MochiKit.DOM.STYLE */
+        this.STYLE = createDOMFunc("style");
+        /** @id MochiKit.DOM.TABLE */
+        this.TABLE = createDOMFunc("table");
+        /** @id MochiKit.DOM.TBODY */
+        this.TBODY = createDOMFunc("tbody");
+        /** @id MochiKit.DOM.TD */
+        this.TD = createDOMFunc("td");
+        /** @id MochiKit.DOM.TEXTAREA */
+        this.TEXTAREA = createDOMFunc("textarea");
+        /** @id MochiKit.DOM.TFOOT */
+        this.TFOOT = createDOMFunc("tfoot");
+        /** @id MochiKit.DOM.TH */
+        this.TH = createDOMFunc("th");
+        /** @id MochiKit.DOM.THEAD */
+        this.THEAD = createDOMFunc("thead");
+        /** @id MochiKit.DOM.TR */
+        this.TR = createDOMFunc("tr");
+        /** @id MochiKit.DOM.TT */
+        this.TT = createDOMFunc("tt");
+        /** @id MochiKit.DOM.UL */
+        this.UL = createDOMFunc("ul");
         /** @id MochiKit.DOM.NBSP */
         this.NBSP = "\u00a0";
+        /** @id MochiKit.DOM.$ */
+        this.$ = this.getElement;
 
         m.nameFunctions(this);
     }

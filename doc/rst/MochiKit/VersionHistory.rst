@@ -35,10 +35,12 @@
   Note that this affects Date object serialization is some browsers.
 - Added state() method for MochiKit.Async.Deferred. Also clarified docs on
   available properties.
-- Added MochiKit.DOM.IFRAME, LINK and SCRIPT functions.
 - Removed MochiKit.Style dependency from MochiKit.Signal. This also subtly
   changes the mouse event coordinate values, but should be compatible.
 - Added new MochiKit.Base.module() and moduleExport() functions.
+- Added new MochiKit.DOM creator functions; ARTICLE, ASIDE, CAPTION, FIGURE,
+  FIGCAPTION, FOOTER, HEADER, HGROUP, IFRAME, LINK, MARK, METER, NAV,
+  PROGRESS, SCRIPT and STYLE.
 
 2009-XX-YY      v1.4.3 (bug fix release)
 

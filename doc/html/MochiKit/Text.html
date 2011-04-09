@@ -35,10 +35,9 @@ assert( formatter(&quot;{:6.1%}&quot;)(0.125) == &quot; 12.5%&quot; );
 </div>
 <div class="section" id="description">
 <h1>Description</h1>
-<p><a class="mochiref reference external" href="Text.html">MochiKit.Text</a> provides helper functions for creating or
-managing text (also known as strings). Formatting strings and
-stringifying numbers is boring, so a couple useful functions in that
-domain live here.</p>
+<p>MochiKit.Text provides helper functions for manipulating text (also
+known as strings). A generic mechanism for formatting text and numbers
+also live here.</p>
 </div>
 <div class="section" id="dependencies">
 <h1>Dependencies</h1>
@@ -76,20 +75,25 @@ format, either by position in the argument list or by accessing
 properties in a value object. Both methods can be combined or deeply
 nested, using a dot (<tt class="docutils literal">.</tt>) to separate the sub-parts.</p>
 <p>The <tt class="docutils literal">specification</tt> part is optional and specifies which value
-formatting to apply to the value. This is the only part of the
-formatting pattern used by the <a class="mochiref reference external" href="#fn-formatvalue">formatValue</a> function.
-The specification itself consists of a number of parts:</p>
+formatting to apply to the value.</p>
+</div>
+<div class="section" id="format-specifications">
+<h2>Format Specifications</h2>
+<p>The format specification outlines how a value is to be converted
+into a text representation (a string). This is the only part of
+the formatting pattern accepted by the <a class="mochiref reference external" href="#fn-formatvalue">formatValue</a>
+function. It consists of a number of parts:</p>
 <pre class="literal-block">
 [flags][width][.precision][type]
 </pre>
-<p>All the various parts are optional and have the following meaning:</p>
+<p>All the parts are optional and have the following meaning:</p>
 <ul class="simple">
 <li><tt class="docutils literal">flags</tt> specifies the text alignment and numeric sign, padding and
 grouping flags. See the table below for available options.</li>
-<li><tt class="docutils literal">width</tt> specifies the minimum field width.</li>
-<li><tt class="docutils literal">precision</tt> indicates how many digits should be displayed after the
-decimal point in a floating point conversion. For a non-numeric
-<tt class="docutils literal">type</tt> the field indicates the maximum field size.</li>
+<li><tt class="docutils literal">width</tt> a number specifying the minimum field width.</li>
+<li><tt class="docutils literal">precision</tt> a number indicating how many digits should be displayed
+after the decimal point in a floating point conversion. For a
+non-numeric <tt class="docutils literal">type</tt>, the field indicates the maximum field size.</li>
 <li><tt class="docutils literal">type</tt> indicates the desired formatting type to use. See the table
 below for available options.</li>
 </ul>

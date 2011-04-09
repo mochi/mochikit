@@ -202,6 +202,14 @@ Internet Explorer:
 API Reference
 =============
 
+Constants
+---------
+
+:mochidef:`NBSP`:
+
+    A string containing ``"\u00a0"``, i.e. the Unicode non-breaking space
+    character.
+
 Functions
 ---------
 
@@ -337,14 +345,20 @@ Functions
     available as aliases:
 
     - ``A``
-    - ``BUTTON``
+    - ``ARTICLE``
+    - ``ASIDE``
     - ``BR``
+    - ``BUTTON``
     - ``CANVAS``
+    - ``CAPTION``
     - ``DD``
     - ``DIV``
     - ``DL``
     - ``DT``
     - ``FIELDSET``
+    - ``FIGURE``
+    - ``FIGCAPTION``
+    - ``FOOTER``
     - ``FORM``
     - ``H1``
     - ``H2``
@@ -352,6 +366,8 @@ Functions
     - ``H4``
     - ``H5``
     - ``H6``
+    - ``HEADER``
+    - ``HGROUP``
     - ``HR``
     - ``IFRAME``
     - ``IMG``
@@ -360,15 +376,21 @@ Functions
     - ``LEGEND``
     - ``LI``
     - ``LINK``
+    - ``MARK``
+    - ``METER``
+    - ``NAV``
     - ``OL``
     - ``OPTGROUP``
     - ``OPTION``
     - ``P``
     - ``PRE``
+    - ``PROGRESS``
     - ``SCRIPT``
+    - ``SECTION``
     - ``SELECT``
     - ``SPAN``
     - ``STRONG``
+    - ``STYLE``
     - ``TABLE``
     - ``TBODY``
     - ``TD``

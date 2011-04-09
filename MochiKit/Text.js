@@ -184,7 +184,7 @@ MochiKit.Text.rsplit = function (str, separator, max) {
  * @throws FormatPatternError if the format pattern was invalid
  */
 MochiKit.Text.formatter = function (pattern, locale) {
-    if (typeof(locale) == "undefined") {
+    if (locale == null) {
         locale = MochiKit.Format.formatLocale();
     } else if (typeof(locale) == "string") {
         locale = MochiKit.Format.formatLocale(locale);
@@ -232,25 +232,28 @@ MochiKit.Text.format = function (pattern/*, ...*/) {
  *
  * @return {String} the formatted output string
  *
- * @throws FormatPatternError if the format pattern was invalid
+ * @throws FormatPatternError if the format specifier was invalid
  */
 MochiKit.Text.formatValue = function (spec, value, locale) {
     var self = MochiKit.Text;
     if (typeof(spec) === "string") {
-        spec = self._parseFormatFlags(spec, 0, spec.length - 1);
+        spec = self._parseFormatFlags(spec, 0, spec.length);
     }
     for (var i = 0; spec.path != null && i < spec.path.length; i++) {
         if (value != null) {
             value = value[spec.path[i]];
         }
     }
-    if (typeof(locale) == "undefined") {
+    if (locale == null) {
         locale = MochiKit.Format.formatLocale();
     } else if (typeof(locale) == "string") {
         locale = MochiKit.Format.formatLocale(locale);
     }
     var str = "";
-    if (spec.numeric) {
+    if (spec.type == "number") {
+        if (value instanceof Number) {
+            value = value.valueOf();
+        }
         if (typeof(value) != "number" || isNaN(value)) {
             str = "";
         } else if (value === Number.POSITIVE_INFINITY) {
@@ -258,8 +261,7 @@ MochiKit.Text.formatValue = function (spec, value, locale) {
         } else if (value === Number.NEGATIVE_INFINITY) {
             str = "-\u221e";
         } else {
-            var sign = (spec.sign === "-") ? "" : spec.sign;
-            sign = (value < 0) ? "-" : sign;
+            var sign = (value < 0) ? "-" : spec.sign;
             value = Math.abs(value);
             if (spec.format === "%") {
                 str = self._truncToPercent(value, spec.precision);
@@ -282,7 +284,7 @@ MochiKit.Text.formatValue = function (spec, value, locale) {
             } else if (spec.padding == "0") {
                 str = self.padLeft(str, spec.width - sign.length, "0");
             }
-            str = self._localizeNumber(str, locale, spec.grouping);
+            str = self._localizeNumber(str, locale, spec.group);
             str = sign + str;
         }
         if (str !== "" && spec.format === "%") {
@@ -292,7 +294,7 @@ MochiKit.Text.formatValue = function (spec, value, locale) {
         if (spec.format == "r") {
             str = MochiKit.Base.repr(value);
         } else {
-            str = (value == null) ? "null" : value.toString();
+            str = (value == null) ? "" : value.toString();
         }
         str = self.truncate(str, spec.precision);
     }
@@ -312,16 +314,16 @@ MochiKit.Text.formatValue = function (spec, value, locale) {
  *
  * @param {String} num the formatted number string
  * @param {Object} locale the formatting locale to use
- * @param {Boolean} grouping the grouping flag
+ * @param {Boolean} group the grouping flag
  *
  * @return {String} the localized number string
  */
-MochiKit.Text._localizeNumber = function (num, locale, grouping) {
+MochiKit.Text._localizeNumber = function (num, locale, group) {
     var parts = num.split(/\./);
     var whole = parts[0];
     var frac = (parts.length == 1) ? "" : parts[1];
     var res = (frac.length > 0) ? locale.decimal : "";
-    while (grouping && frac.length > 3) {
+    while (group && frac.length > 3) {
         res = res + frac.substring(0, 3) + locale.separator;
         frac = frac.substring(3);
         if (whole.charAt(0) == "0") {
@@ -329,9 +331,9 @@ MochiKit.Text._localizeNumber = function (num, locale, grouping) {
         }
     }
     if (frac.length > 0) {
-        res += frac;
+        res = res + frac;
     }
-    while (grouping && whole.length > 3) {
+    while (group && whole.length > 3) {
         var pos = whole.length - 3;
         res = locale.separator + whole.substring(pos) + res;
         whole = whole.substring((whole.charAt(0) == "0") ? 1 : 0, pos);
@@ -431,8 +433,8 @@ MochiKit.Text._parseFormat = function (pattern, startPos, endPos) {
  */
 MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
     var update = MochiKit.Base.update;
-    var info = { numeric: false, format: "s", width: 0, precision: -1,
-                 align: ">", sign: "-", padding: " ", grouping: false };
+    var info = { type: "string", format: "s", width: 0, precision: -1,
+                 align: ">", sign: "", padding: " ", group: false };
     // TODO: replace with MochiKit.Format.rstrip?
     var text = pattern.substring(startPos, endPos).replace(/\s+$/, "");
     var m = /^([<>+ 0,-]+)?(\d+)?(\.\d*)?([srbdoxXf%])?(.*)$/.exec(text);
@@ -446,11 +448,11 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
         if (chr == "<" || chr == ">") {
             info.align = chr;
         } else if (chr == "+" || chr == "-" || chr == " ") {
-            info.sign = chr;
+            info.sign = (chr == "-") ? "" : chr;
         } else if (chr == "0") {
             info.padding = chr;
         } else if (chr == ",") {
-            info.grouping = true;
+            info.group = true;
         }
     }
     if (width) {
@@ -462,13 +464,13 @@ MochiKit.Text._parseFormatFlags = function (pattern, startPos, endPos) {
     if (type == "s" || type == "r") {
         info.format = type;
     } else if (type == "b") {
-        update(info, { numeric: true, format: type, radix: 2 });
+        update(info, { type: "number", format: type, radix: 2 });
     } else if (type == "o") {
-        update(info, { numeric: true, format: type, radix: 8 });
+        update(info, { type: "number", format: type, radix: 8 });
     } else if (type == "x" || type == "X") {
-        update(info, { numeric: true, format: type, radix: 16 });
+        update(info, { type: "number", format: type, radix: 16 });
     } else if (type == "d" || type == "f" || type == "%") {
-        update(info, { numeric: true, format: type, radix: 10 });
+        update(info, { type: "number", format: type, radix: 10 });
     }
     if (unmatched) {
         var msg = "unsupported format flag: " + unmatched.charAt(0);
@@ -531,7 +533,7 @@ MochiKit.Text.FormatPatternError.prototype = new MochiKit.Base.NamedError("Mochi
 MochiKit.Text.FormatPatternError.constructor = MochiKit.Text.FormatPatternError;
 
 //
-//XXX: Internet Explorer exception handling blows
+//XXX: Internet Explorer export fix
 //
 if (MochiKit.__export__) {
     formatter = MochiKit.Text.formatter;

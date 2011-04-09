@@ -20,10 +20,10 @@ MochiKit.DateTime.isoDate = function (str) {
     if (iso.length === 0) {
         return null;
     }
-	var date = new Date(parseInt(iso[0], 10), parseInt(iso[1], 10) - 1, parseInt(iso[2], 10));
-	date.setFullYear(iso[0]);
-	date.setMonth(iso[1] - 1);
-	date.setDate(iso[2]);
+    var date = new Date(parseInt(iso[0], 10), parseInt(iso[1], 10) - 1, parseInt(iso[2], 10));
+    date.setFullYear(iso[0]);
+    date.setMonth(iso[1] - 1);
+    date.setDate(iso[2]);
     return date;
 };
 
@@ -113,7 +113,7 @@ MochiKit.DateTime.toISODate = function (date) {
         return null;
     }
     var _padTwo = MochiKit.DateTime._padTwo;
-	var _padFour = MochiKit.DateTime._padFour;
+    var _padFour = MochiKit.DateTime._padFour;
     return [
         _padFour(date.getFullYear()),
         _padTwo(date.getMonth() + 1),
@@ -136,14 +136,14 @@ MochiKit.DateTime._padTwo = function (n) {
 };
 
 MochiKit.DateTime._padFour = function(n) {
-	switch(n.toString().length) {
-		case 1: return "000" + n; break;
-		case 2: return "00" + n; break;
-		case 3: return "0" + n; break;
-		case 4:
-		default:
-			return n;
-	}
+    switch(n.toString().length) {
+        case 1: return "000" + n; break;
+        case 2: return "00" + n; break;
+        case 3: return "0" + n; break;
+        case 4:
+        default:
+            return n;
+    }
 };
 
 /** @id MochiKit.DateTime.toPaddedAmericanDate */
