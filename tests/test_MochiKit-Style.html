@@ -81,6 +81,16 @@ tests.test_Style = function () {
     is(pos.x, 123, 'passthrough x position');
     is(pos.y, 321, 'passthrough y position');
 
+    // Coordinates object (0,100)
+    pos = getElementPosition({x: 0, y: 100});
+    is(pos.x, 0, 'passthrough x position (using 0,100 element)');
+    is(pos.y, 100, 'passthrough y position (using 0,100 element)');
+
+    // Coordinates object (100,0)
+    pos = getElementPosition({x: 100, y: 0});
+    is(pos.x, 100, 'passthrough x position (using 100,0 element)');
+    is(pos.y, 0, 'passthrough y position (using 100,0 element)');
+
     // Coordinates object with relativeTo
     pos = getElementPosition({x: 123, y: 321}, {x: 100, y: 50});
     is(pos.x, 23, 'passthrough x position (using relativeTo parameter)');
