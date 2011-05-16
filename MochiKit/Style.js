@@ -200,7 +200,7 @@ MochiKit.Base.update(MochiKit.Style, {
         var de = d.documentElement;
         var b = d.body;
 
-        if (!elem.parentNode && elem.x && elem.y) {
+        if (isCoordinates(elem)) {
             /* it's just a MochiKit.Style.Coordinates object */
             c.x += elem.x || 0;
             c.y += elem.y || 0;
