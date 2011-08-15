@@ -43,12 +43,19 @@
         </div></div>
         <div id="content">
             <div id="main">
-                <h1 id="title">MochiKit Blog</h1>
+                <h1 id="title">Is MochiKit Dead?</h1>
 
-                <div class="post" id="blog_entries">
-                    <div>
-                        <h2>loading&#x2026;</h2>
-                    </div>
+                <div class="post">
+                <p>
+                    MochiKit is "feature complete" at 1.4 and not currently
+                    in active development. It has done what we've
+                    needed it to do for a number of years so we haven't
+                    bothered to make any major changes to it.
+                </p>
+                <p>
+                    Contributions and improvements are welcome on
+                    <a href="https://github.com/mochi/mochikit">GitHub</a>!
+                </p>
                 </div>
             </div>
 
@@ -78,20 +85,6 @@
 <!-- JSONP bridge to blog and mailing list data -->
 <script type="text/javascript">
 function jsonp_loaded(data) {
-    function trunc_summary (desc, limit, link) {
-        if (desc.length > limit) {
-            desc = desc.substr(0, limit - 1) + "\u2026";
-        }
-        return P(null, desc, " (", A({href: link}, "more"), ")");
-    }
-    function blog_entry (entry) {
-        return DIV(null,
-            H2(null,
-                A({href: entry.link}, entry.title),
-                SPAN(null, entry.updated)),
-            trunc_summary(entry.summary, 200, entry.link));
-    }
-    replaceChildNodes('blog_entries', map(blog_entry, islice(data.blog, 3)));
     function list_entry (entry) {
         return LI(null,
             SPAN(null, entry.updated),
