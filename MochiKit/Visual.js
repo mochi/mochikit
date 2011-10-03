@@ -1700,8 +1700,8 @@ MochiKit.Visual.squish = function (element, /* optional */ options) {
     var elemClip;
     options = b.update({
         restoreAfterFinish: true,
-        scaleMode: {originalHeight: elementDimensions.w,
-                    originalWidth: elementDimensions.h},
+        scaleMode: {originalHeight: elementDimensions.h,
+                    originalWidth: elementDimensions.w},
         beforeSetupInternal: function (effect) {
             elemClip = s.makeClipping(effect.element);
         },

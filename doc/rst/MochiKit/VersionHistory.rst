@@ -13,6 +13,7 @@
 - Fixed MochiKit.Style.getElementPosition when using a 0,0 relative
   position (#332).
 - Fixed bug with empty iterators in MochiKit.Iter.chain (#2).
+- Fixed inverted width and height in MochiKit.Visual.squish().
 - Modified MochiKit.DateTime.toISOTime() to handle the previously
   undocumented ``realISO`` argument correctly.
 - Added new MochiKit.Text module to eventually replace MochiKit.Format.
@@ -41,6 +42,8 @@
 - Added new MochiKit.DOM creator functions; ARTICLE, ASIDE, CAPTION, FIGURE,
   FIGCAPTION, FOOTER, HEADER, HGROUP, IFRAME, LINK, MARK, METER, NAV,
   PROGRESS, SCRIPT and STYLE.
+- Fixed MochiKit.Async.XHR issue in Firefox and Chrome for local resources
+  (issue #11).
 
 2009-XX-YY      v1.4.3 (bug fix release)
 

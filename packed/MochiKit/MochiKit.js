@@ -2836,7 +2836,7 @@ catch(e){
 var _315=null;
 try{
 _315=this.status;
-if(!_315&&m.isNotEmpty(this.responseText)){
+if(!_315&&(this.response||m.isNotEmpty(this.responseText))){
 _315=304;
 }
 }
@@ -4479,7 +4479,7 @@ var _49f=null;
 var d=MochiKit.DOM._document;
 var de=d.documentElement;
 var b=d.body;
-if(!elem.parentNode&&elem.x&&elem.y){
+if(_49b(elem)){
 c.x+=elem.x||0;
 c.y+=elem.y||0;
 }else{
@@ -7140,7 +7140,7 @@ var b=MochiKit.Base;
 var s=MochiKit.Style;
 var _790=s.getElementDimensions(_78b,true);
 var _791;
-_78c=b.update({restoreAfterFinish:true,scaleMode:{originalHeight:_790.w,originalWidth:_790.h},beforeSetupInternal:function(_792){
+_78c=b.update({restoreAfterFinish:true,scaleMode:{originalHeight:_790.h,originalWidth:_790.w},beforeSetupInternal:function(_792){
 _791=s.makeClipping(_792.element);
 },afterFinishInternal:function(_793){
 s.hideElement(_793.element);
