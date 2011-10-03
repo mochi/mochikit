@@ -282,7 +282,7 @@ MochiKit.Base.update(MochiKit.Async, {
             var status = null;
             try {
                 status = this.status;
-                if (!status && m.isNotEmpty(this.responseText)) {
+                if (!status && (this.response || m.isNotEmpty(this.responseText))) {
                     // 0 or undefined seems to mean cached or local
                     status = 304;
                 }
