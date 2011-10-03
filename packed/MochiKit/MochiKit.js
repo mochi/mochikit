@@ -2836,7 +2836,7 @@ catch(e){
 var _315=null;
 try{
 _315=this.status;
-if(!_315&&m.isNotEmpty(this.responseText)){
+if(!_315&&(this.response||m.isNotEmpty(this.responseText))){
 _315=304;
 }
 }

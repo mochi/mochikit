@@ -42,6 +42,8 @@
 - Added new MochiKit.DOM creator functions; ARTICLE, ASIDE, CAPTION, FIGURE,
   FIGCAPTION, FOOTER, HEADER, HGROUP, IFRAME, LINK, MARK, METER, NAV,
   PROGRESS, SCRIPT and STYLE.
+- Fixed MochiKit.Async.XHR issue in Firefox and Chrome for local resources
+  (issue #11).
 
 2009-XX-YY      v1.4.3 (bug fix release)
 
