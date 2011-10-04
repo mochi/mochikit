@@ -586,6 +586,9 @@ Functions
         'text/xml' to force XMLHttpRequest to attempt to parse responseXML.
         Default is no override.
 
+    ``responseType``:
+        The response type for the request. Default is the empty string.
+
     *returns*:
         :mochiref:`Deferred` that will callback with the
         ``XMLHttpRequest`` instance on success
