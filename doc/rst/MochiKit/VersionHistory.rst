@@ -1,4 +1,4 @@
-2009-XX-YY      v1.5
+20XX-YY-ZZ      v1.5
 
 - Changed MochiKit.Signal.signal to support DOM source objects with custom
   arguments, instead of always wrapping into Event object.
@@ -45,7 +45,7 @@
 - Fixed MochiKit.Async.XHR issue in Firefox and Chrome for local resources
   (issue #11).
 
-2009-XX-YY      v1.4.3 (bug fix release)
+20XX-YY-ZZ      v1.4.3 (bug fix release)
 
 - Fixed MochiKit.Logging usage of map without a namespace (#338).
 - Fixed MochiKit.Color.Color.prototype.isLight() and isDark() to not
