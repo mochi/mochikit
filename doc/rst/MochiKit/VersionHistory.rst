@@ -44,6 +44,7 @@
   PROGRESS, SCRIPT and STYLE.
 - Fixed MochiKit.Async.XHR issue in Firefox and Chrome for local resources
   (issue #11).
+- Added new "responseType" option to MochiKit.Async.doXHR().
 
 20XX-YY-ZZ      v1.4.3 (bug fix release)
 
