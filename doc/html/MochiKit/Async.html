@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.9: http://docutils.sourceforge.net/" />
 <title>MochiKit.Async - manage asynchronous tasks</title>
 
 <link rel="stylesheet" href="../../../include/css/documentation.css" type="text/css" />
@@ -628,6 +628,12 @@ such as <tt class="docutils literal">{'Accept': 'text/xml'}</tt> or as an Array 
 <dd>An override mime type. The typical use of this is to pass
 'text/xml' to force XMLHttpRequest to attempt to parse responseXML.
 Default is no override.</dd>
+<dt><tt class="docutils literal">responseType</tt>:</dt>
+<dd>An override response type for the request. This can be used to force
+different parsing of the response in the browser, e.g. using
+'arraybuffer' to load binary data efficiently. Accepted values are
+<tt class="docutils literal">'arraybuffer'</tt>, <tt class="docutils literal">'blob'</tt>, <tt class="docutils literal">'document'</tt>, <tt class="docutils literal">'json'</tt>, and
+<tt class="docutils literal">'text'</tt>. Default is no override.</dd>
 <dt><em>returns</em>:</dt>
 <dd><a class="mochiref reference external" href="#fn-deferred">Deferred</a> that will callback with the
 <tt class="docutils literal">XMLHttpRequest</tt> instance on success</dd>

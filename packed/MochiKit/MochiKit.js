@@ -2920,6 +2920,9 @@ var _32a=_328[1];
 req.setRequestHeader(name,_32a);
 }
 }
+if("responseType" in opts&&"responseType" in req){
+req.responseType=opts.responseType;
+}
 return self.sendXMLHttpRequest(req,opts.sendContent);
 },_buildURL:function(url){
 if(arguments.length>1){

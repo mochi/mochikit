@@ -586,6 +586,13 @@ Functions
         'text/xml' to force XMLHttpRequest to attempt to parse responseXML.
         Default is no override.
 
+    ``responseType``:
+        An override response type for the request. This can be used to force
+        different parsing of the response in the browser, e.g. using
+        'arraybuffer' to load binary data efficiently. Accepted values are
+        ``'arraybuffer'``, ``'blob'``, ``'document'``, ``'json'``, and
+        ``'text'``. Default is no override.
+
     *returns*:
         :mochiref:`Deferred` that will callback with the
         ``XMLHttpRequest`` instance on success
