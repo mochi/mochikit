@@ -634,6 +634,8 @@ different parsing of the response in the browser, e.g. using
 'arraybuffer' to load binary data efficiently. Accepted values are
 <tt class="docutils literal">'arraybuffer'</tt>, <tt class="docutils literal">'blob'</tt>, <tt class="docutils literal">'document'</tt>, <tt class="docutils literal">'json'</tt>, and
 <tt class="docutils literal">'text'</tt>. Default is no override.</dd>
+<dt><tt class="docutils literal">withCredentials</tt>:</dt>
+<dd>Set the boolean withCredentials property of the XMLHttpRequest object, to indicate to the browser that cookies will be sent with the request, and to look for the Access-Control-Allow-Credentials header.</dd>
 <dt><em>returns</em>:</dt>
 <dd><a class="mochiref reference external" href="#fn-deferred">Deferred</a> that will callback with the
 <tt class="docutils literal">XMLHttpRequest</tt> instance on success</dd>
