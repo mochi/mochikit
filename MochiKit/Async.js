@@ -371,7 +371,8 @@ MochiKit.Base.update(MochiKit.Async, {
             password: undefined,
             headers: undefined,
             mimeType: undefined,
-            responseType: undefined
+            responseType: undefined,
+            withCredentials: undefined
             */
         }, opts);
         var self = MochiKit.Async;
@@ -407,6 +408,9 @@ MochiKit.Base.update(MochiKit.Async, {
         }
         if ("responseType" in opts && "responseType" in req) {
             req.responseType = opts.responseType;
+        }
+        if (opts.withCredentials) {
+            req.withCredentials = 'true';
         }
         return self.sendXMLHttpRequest(req, opts.sendContent);
     },

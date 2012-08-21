@@ -2923,6 +2923,9 @@ req.setRequestHeader(name,_32a);
 if("responseType" in opts&&"responseType" in req){
 req.responseType=opts.responseType;
 }
+if(opts.withCredentials){
+req.withCredentials="true";
+}
 return self.sendXMLHttpRequest(req,opts.sendContent);
 },_buildURL:function(url){
 if(arguments.length>1){
