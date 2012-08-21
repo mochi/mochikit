@@ -40,30 +40,31 @@ var MODULES = {};
 
 // Initializes the version array (and UI)
 function doInit() {
-    MochiKit.Async.loadScript("http://github.com/api/v2/json/commits/list/mochi/mochikit/" +
-                              "master/packed/MochiKit/MochiKit.js?callback=cbInit");
-    MochiKit.Async.loadScript("http://github.com/api/v2/json/repos/show/mochi/mochikit/" +
-                              "tags?callback=cbInit");
+    MochiKit.Async.loadScript("https://api.github.com/repos/mochi/mochikit/commits?callback=cbInit");
+    MochiKit.Async.loadScript("https://api.github.com/repos/mochi/mochikit/git/refs/tags?callback=cbInit");
 }
 
 // Callback for version info
 function cbInit(res) {
-    if (res.commits && res.commits.length > 0) {
-        var c = res.commits[0];
-        var name = "Development (" + c.committed_date.substring(0, 10) + ")";
-        VERSIONS.devel = { name: name, tree: c.tree };
-    } else if (res.tags) {
-        for (var name in res.tags) {
-            var m = /\d+(\.\d+)*/.exec(name);
+    res = res && res.data;
+    if (res && res[0] && res[0].commit) {
+        var sha = res[0].sha;
+        var dttm = res[0].commit.committer.date;
+        var name = "Development (" + dttm.substring(0, 10) + ")";
+        VERSIONS.devel = { name: name, ref: sha };
+    } else if (res && res.length > 0) {
+        for (var i = 0; i < res.length; i++) {
+            var ref = res[i].ref
+            var m = /\d+(\.\d+)*/.exec(ref);
             if (m && m[0] >= "1.4.2") {
                 var id = m[0];
-                VERSIONS[id] = { name: "Version " + id, tree: res.tags[name] };
+                VERSIONS[id] = { name: "Version " + id, ref: ref };
             }
         }
     }
-    if (VERSIONS.devel.tree && keys(VERSIONS).length > 1) {
+    if (VERSIONS.devel.ref && keys(VERSIONS).length > 1) {
         if (!/http/.test(window.location.protocol)) {
-            VERSIONS.local = { name: "Local File (packed version)", tree: "" };
+            VERSIONS.local = { name: "Local File (packed version)", ref: "" };
         }
         var ids = keys(VERSIONS).sort().reverse();
         var versions = $("packVersions");
@@ -71,7 +72,7 @@ function cbInit(res) {
         for (var i = 0; i < ids.length; i++) {
             var id = ids[i];
             var ver = VERSIONS[id];
-            versions.appendChild(OPTION({ value: ver.tree }, ver.name));
+            versions.appendChild(OPTION({ value: ver.ref }, ver.name));
             if (window.location.hash == "#" + id) {
                 idx = i;
             }
@@ -79,19 +80,20 @@ function cbInit(res) {
         versions.selectedIndex = idx;
         doLoadSource(versions.options[idx].value);
     }
-    // Fix for Safari automatic unpack of downloaded files
+
+    // Fix for automatic unpack of downloaded files
     if (/Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)) {
         $("packCompress").value = 'rename-to-gz';
     }
 }
 
-// Loads the source code for a specified tree id
-function doLoadSource(treeId) {
+// Loads the source code for a specified Git reference (commit/tag/branch)
+function doLoadSource(ref) {
     replaceChildNodes($("packSets"));
     replaceChildNodes($("packModules"));
-    if (treeId) {
-        MochiKit.Async.loadScript("http://github.com/api/v2/json/blob/show/mochi/mochikit/" +
-                                  treeId + "/packed/MochiKit/MochiKit.js?callback=cbLoadSource");
+    if (ref) {
+        MochiKit.Async.loadScript("https://api.github.com/repos/mochi/mochikit/contents/packed/MochiKit/MochiKit.js" +
+                                  "?ref=" + ref + "&callback=cbLoadSource");
     } else {
         var url = $$("head script[src*=MochiKit.js]")[0].src;
         var d = doSimpleXMLHttpRequest(url);
@@ -106,7 +108,14 @@ function doLoadSource(treeId) {
 
 // Callback for the source loading
 function cbLoadSource(res) {
-    doParseSource(res.blob.data);
+    res = res && res.data;
+    if (res && res.content) {
+        var data = res.content;
+        if (res.encoding == "base64") {
+            data = fromBase64(data);
+        }
+        doParseSource(data);
+    }
 }
 
 // Parses the packed library into modules
@@ -299,6 +308,33 @@ function doSubmit() {
     packed += MODULES["Base"].packedTail;
     $("packData").value = packed;
     return true;
+}
+
+// The set of Base64 characters
+var base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+// Decodes a Base64 encoded string, using raw character codes
+function fromBase64(str) {
+    var res = [];
+    str = str.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+    var i = 0;
+    while (i < str.length) {
+        var enc1 = base64Chars.indexOf(str.charAt(i++));
+        var enc2 = base64Chars.indexOf(str.charAt(i++));
+        var enc3 = base64Chars.indexOf(str.charAt(i++));
+        var enc4 = base64Chars.indexOf(str.charAt(i++));
+        var b1 = (enc1 << 2) | (enc2 >> 4);
+        var b2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+        var b3 = ((enc3 & 3) << 6) | enc4;
+        res.push(String.fromCharCode(b1));
+        if (enc3 != 64) {
+            res.push(String.fromCharCode(b2));
+        }
+        if (enc4 != 64) {
+            res.push(String.fromCharCode(b3));
+        }
+    }
+    return res.join("");
 }
     </script>
   </head>
