@@ -1,5 +1,6 @@
-20XX-YY-ZZ      v1.5
+2013-01-05      v1.5
 
+- Fixed element measurement for table cells in Firefox (#18)
 - Changed MochiKit.Signal.signal to support DOM source objects with custom
   arguments, instead of always wrapping into Event object.
 - Removed the Dojo and JSAN integrations, since they are not maintained.
