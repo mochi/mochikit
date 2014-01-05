@@ -9,11 +9,11 @@ import sys
 import shutil
 import subprocess
 dirname = os.path.dirname(os.path.dirname(__file__))
-mk = file(os.path.join(dirname, 'MochiKit/MochiKit.js')).read()
+mk = file(os.path.join(dirname, 'MochiKit/MochiKit.js'), "rU").read()
 if len(sys.argv) > 1:
     outf = sys.stdout
 else:
-    outf = file(os.path.join(dirname, 'packed/MochiKit/MochiKit.js'), 'w')
+    outf = file(os.path.join(dirname, 'packed/MochiKit/MochiKit.js'), 'wb')
 VERSION = re.search(
     r"""(?mxs)MochiKit.MochiKit.VERSION\s*=\s*['"]([^'"]+)""",
     mk
@@ -26,9 +26,9 @@ else:
         mk
     ).group(1).replace(' ', '').replace('"', '').split(','))
 alltext = '\n'.join(
-    [file(os.path.join(dirname, 'MochiKit/%s.js' % m)).read() for m in SUBMODULES])
+    [file(os.path.join(dirname, 'MochiKit/%s.js' % m), "rU").read() for m in SUBMODULES])
 
-tf = file(os.path.join(dirname, 'packed/_scratch.js'), 'w')
+tf = file(os.path.join(dirname, 'packed/_scratch.js'), 'wb')
 tf.write(alltext)
 tf.flush()
 p = subprocess.Popen(

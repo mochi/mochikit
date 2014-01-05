@@ -4639,7 +4639,7 @@ var _4c1=1;
 }
 _4bc-=Math.round((parseFloat(self.getStyle(elem,"paddingLeft"))||0)+(parseFloat(self.getStyle(elem,"paddingRight"))||0)+_4c0*(parseFloat(self.getStyle(elem,"borderLeftWidth"))||0)+_4c1*(parseFloat(self.getStyle(elem,"borderRightWidth"))||0));
 if(_4be){
-if(/Gecko|Opera/.test(navigator.userAgent)&&!/Konqueror|AppleWebKit|KHTML/.test(navigator.userAgent)){
+if(/Opera/.test(navigator.userAgent)&&!/Konqueror|AppleWebKit|KHTML/.test(navigator.userAgent)){
 var _4c2=0;
 }else{
 if(/MSIE/.test(navigator.userAgent)){
