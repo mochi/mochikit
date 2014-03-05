@@ -61,11 +61,7 @@
 
             <div id="sidebar">
                 <h1 class="sifr">Mailing List</h1>
-                <ul id="list_entries">
-                    <li>
-                        <span>loading&#x2026;</span>
-                    </li>
-                </ul>
+                <a href="http://groups.google.com/group/mochikit">groups.google.com/group/mochikit</a>
             </div>
             <div class="clearer"></div>
         </div>
@@ -82,18 +78,5 @@
             <a href="related.html">Projects</a>
         </div>
     </div>
-<!-- JSONP bridge to blog and mailing list data -->
-<script type="text/javascript">
-function jsonp_loaded(data) {
-    function list_entry (entry) {
-        return LI(null,
-            SPAN(null, entry.updated),
-            A({href: entry.link}, entry.title),
-            DIV({"class": "clearer"}));
-    }
-    replaceChildNodes('list_entries', map(list_entry, islice(data.list, 5)));
-}
-</script>
-<script src="http://mochikit-dot-com.appspot.com/?jsonp=jsonp_loaded" type="text/javascript"></script>
     </body>
 </html>
