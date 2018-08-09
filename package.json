@@ -1,0 +1,12 @@
+{
+    "scripts": {
+        "build": "cd scripts && py build.py && npm run pack",
+        "make-docs": "cd scripts && py make_docs.py",
+        "pack": "cd scripts && py pack.py",
+        "serve-init": "cd scripts && node serve_init.js",
+        "serve-tests": "npm run serve-init && ./node_modules/.bin/serve tests"
+    },
+    "devDependencies": {
+        "serve": "^9.4.2"
+    }
+}
