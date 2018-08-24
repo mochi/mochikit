@@ -178,18 +178,6 @@ MochiKit.Base.update(MochiKit.Async, {
     }
 });
 
-/** @id MochiKit.Async.gatherResults */
-MochiKit.Async.gatherResults = function (deferredList) {
-    var d = new MochiKit.Async.DeferredList(deferredList, false, true, false);
-    d.addCallback(function (results) {
-        var ret = [];
-        for (var i = 0; i < results.length; i++) {
-            ret.push(results[i][1]);
-        }
-        return ret;
-    });
-    return d;
-};
 
 /** @id MochiKit.Async.maybeDeferred */
 MochiKit.Async.maybeDeferred = function (func) {
