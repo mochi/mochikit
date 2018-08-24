@@ -286,6 +286,7 @@ Deferred.prototype.callbacksFor = function(state) {
     }
 
     return list;
+    //s
 };
 
 //Lazy experiment: will need to implement an internal function
