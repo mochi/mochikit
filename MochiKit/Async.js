@@ -390,51 +390,6 @@ MochiKit.Base.update(MochiKit.Async, {
 });
 
 
-/** @id MochiKit.Async.DeferredLock */
-MochiKit.Async.DeferredLock = function () {
-    this.waiting = [];
-    this.locked = false;
-    this.id = this._nextId();
-};
-
-MochiKit.Async.DeferredLock.prototype = {
-    __class__: MochiKit.Async.DeferredLock,
-    /** @id MochiKit.Async.DeferredLock.prototype.acquire */
-    acquire: function () {
-        var d = new MochiKit.Async.Deferred();
-        if (this.locked) {
-            this.waiting.push(d);
-        } else {
-            this.locked = true;
-            d.callback(this);
-        }
-        return d;
-    },
-    /** @id MochiKit.Async.DeferredLock.prototype.release */
-    release: function () {
-        if (!this.locked) {
-            throw TypeError("Tried to release an unlocked DeferredLock");
-        }
-        this.locked = false;
-        if (this.waiting.length > 0) {
-            this.locked = true;
-            this.waiting.shift().callback(this);
-        }
-    },
-    _nextId: MochiKit.Base.counter(),
-    repr: function () {
-        var state;
-        if (this.locked) {
-            state = 'locked, ' + this.waiting.length + ' waiting';
-        } else {
-            state = 'unlocked';
-        }
-        return 'DeferredLock(' + this.id + ', ' + state + ')';
-    },
-    toString: MochiKit.Base.forwardCall("repr")
-
-};
-
 /** @id MochiKit.Async.DeferredList */
 MochiKit.Async.DeferredList = function (list, /* optional */fireOnOneCallback, fireOnOneErrback, consumeErrors, canceller) {
 
