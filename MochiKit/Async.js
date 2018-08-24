@@ -7,13 +7,8 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 (c) 2005 Bob Ippolito.  All rights Reserved.
 
 ***/
-
 MochiKit.Base.module(MochiKit, 'Async', '1.5', ['Base']);
 MochiKit.Base.update(MochiKit.Async, {
-    /** @id MochiKit.Async.evalJSONRequest */
-    evalJSONRequest: function (req) {
-        return MochiKit.Base.evalJSON(req.responseText);
-    },
 
     /** @id MochiKit.Async.succeed */
     succeed: function (/* optional */result) {
