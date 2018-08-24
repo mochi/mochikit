@@ -391,54 +391,6 @@ MochiKit.Base.update(MochiKit.Async, {
 
 
 /** @id MochiKit.Async.DeferredList */
-MochiKit.Async.DeferredList = function (list, /* optional */fireOnOneCallback, fireOnOneErrback, consumeErrors, canceller) {
-
-    // call parent constructor
-    MochiKit.Async.Deferred.apply(this, [canceller]);
-
-    this.list = list;
-    var resultList = [];
-    this.resultList = resultList;
-
-    this.finishedCount = 0;
-    this.fireOnOneCallback = fireOnOneCallback;
-    this.fireOnOneErrback = fireOnOneErrback;
-    this.consumeErrors = consumeErrors;
-
-    var cb = MochiKit.Base.bind(this._cbDeferred, this);
-    for (var i = 0; i < list.length; i++) {
-        var d = list[i];
-        resultList.push(undefined);
-        d.addCallback(cb, i, true);
-        d.addErrback(cb, i, false);
-    }
-
-    if (list.length === 0 && !fireOnOneCallback) {
-        this.callback(this.resultList);
-    }
-
-};
-
-MochiKit.Async.DeferredList.prototype = new MochiKit.Async.Deferred();
-MochiKit.Async.DeferredList.prototype.constructor = MochiKit.Async.DeferredList;
-
-MochiKit.Async.DeferredList.prototype._cbDeferred = function (index, succeeded, result) {
-    this.resultList[index] = [succeeded, result];
-    this.finishedCount += 1;
-    if (this.fired == -1) {
-        if (succeeded && this.fireOnOneCallback) {
-            this.callback([index, result]);
-        } else if (!succeeded && this.fireOnOneErrback) {
-            this.errback(result);
-        } else if (this.finishedCount == this.list.length) {
-            this.callback(this.resultList);
-        }
-    }
-    if (!succeeded && this.consumeErrors) {
-        result = null;
-    }
-    return result;
-};
 
 /** @id MochiKit.Async.gatherResults */
 MochiKit.Async.gatherResults = function (deferredList) {
