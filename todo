@@ -1,3 +1,0 @@
-@low find out if element.style.visibility is an int or string,
-and make the change in MochiKit.DOM.isHidden
-
