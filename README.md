@@ -1,5 +1,8 @@
 # MochiKit
 
+## A quick warning ⚠
+This library is undergoing a **huge** change, for consistent tested behaviour, use the /packed/MochiKit.legacy.js in deployment. This new version has been "read-tested" by me, meaning it **should** work but proper testing has not yet been implemented. Think of this as a new major version of MochiKit that is still in the dev stage. The current state of this new redo is `UNSTABLE_UNUSABLE`.
+
 ## Making JavaScript better and easier.
 
 ## What MochiKit is
