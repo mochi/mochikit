@@ -8,8 +8,6 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-MochiKit.Base.module(MochiKit, 'Color', '1.5', ['Base', 'DOM', 'Style']);
-
 /** @id MochiKit.Color.Color */
 MochiKit.Color.Color = function (red, green, blue, alpha) {
     if (typeof(alpha) == 'undefined' || alpha === null) {
