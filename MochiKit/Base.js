@@ -8,107 +8,13 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 ***/
 
-
+//TODO: redo this
 // MochiKit module (namespace)
 var MochiKit = MochiKit || {};
-if (typeof(MochiKit.__export__) == "undefined") {
-    MochiKit.__export__ = true;
-}
-MochiKit.NAME = "MochiKit";
-MochiKit.VERSION = "1.5";
-MochiKit.__repr__ = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
-};
-MochiKit.toString = function () {
-    return this.__repr__();
-};
-
-
 // MochiKit.Base module
 MochiKit.Base = MochiKit.Base || {};
 
-/**
- * Creates a new module in a parent namespace. This function will
- * create a new empty module object with "NAME", "VERSION",
- * "toString" and "__repr__" properties. This object will be inserted into the parent object
- * using the specified name (i.e. parent[name] = module). It will
- * also verify that all the dependency modules are defined in the
- * parent, or an error will be thrown.
- *
- * @param {Object} parent the parent module (use "this" or "window" for
- *            a global module)
- * @param {String} name the module name, e.g. "Base"
- * @param {String} version the module version, e.g. "1.5"
- * @param {Array} [deps] the array of module dependencies (as strings)
- */
-MochiKit.Base.module = function (parent, name, version, deps) {
-    var module = parent[name] = parent[name] || {};
-    var prefix = (parent.NAME ? parent.NAME + "." : "");
-    module.NAME = prefix + name;
-    module.VERSION = version;
-    module.__repr__ = function () {
-        return "[" + this.NAME + " " + this.VERSION + "]";
-    };
-    module.toString = function () {
-        return this.__repr__();
-    };
-    for (var i = 0; deps != null && i < deps.length; i++) {
-        if (!(deps[i] in parent)) {
-            throw module.NAME + ' depends on ' + prefix + deps[i] + '!';
-        }
-    }
-    return module;
-};
-
-MochiKit.Base.module(MochiKit, "Base", "1.5", []);
-
-/** @id MochiKit.Base.update */
-MochiKit.Base.update = function (self, obj/*, ... */) {
-    if (self === null || self === undefined) {
-        self = {};
-    }
-    for (var i = 1; i < arguments.length; i++) {
-        var o = arguments[i];
-        if (typeof(o) != 'undefined' && o !== null) {
-            for (var k in o) {
-                self[k] = o[k];
-            }
-        }
-    }
-    return self;
-};
-
 MochiKit.Base.update(MochiKit.Base, {
-    /** @id MochiKit.Base.camelize */
-    camelize: function (selector) {
-        /* from dojo.style.toCamelCase */
-        var arr = selector.split('-');
-        var cc = arr[0];
-        for (var i = 1; i < arr.length; i++) {
-            cc += arr[i].charAt(0).toUpperCase() + arr[i].substring(1);
-        }
-        return cc;
-    },
-
-    /** @id MochiKit.Base.counter */
-    counter: function (n/* = 1 */) {
-        if (arguments.length === 0) {
-            n = 1;
-        }
-        return function () {
-            return n++;
-        };
-    },
-
-    /** @id MochiKit.Base.clone */
-    clone: function (obj) {
-        var me = arguments.callee;
-        if (arguments.length == 1) {
-            me.prototype = obj;
-            return new me();
-        }
-    },
-    
     _flattenArray: function (res, lst) {
         for (var i = 0; i < lst.length; i++) {
             var o = lst[i];
@@ -214,24 +120,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return self;
     },
 
-    /** @id MochiKit.Base.keys */
-    keys: function (obj) {
-        var rval = [];
-        for (var prop in obj) {
-            rval.push(prop);
-        }
-        return rval;
-    },
-
-    /** @id MochiKit.Base.values */
-    values: function (obj) {
-        var rval = [];
-        for (var prop in obj) {
-            rval.push(obj[prop]);
-        }
-        return rval;
-    },
-
      /** @id MochiKit.Base.items */
     items: function (obj) {
         var rval = [];
@@ -254,21 +142,6 @@ MochiKit.Base.update(MochiKit.Base, {
         func.prototype.constructor = func;
         module[name] = func;
     },
-
-    /** @id MochiKit.Base.forwardCall */
-    forwardCall: function (func) {
-        return function () {
-            return this[func].apply(this, arguments);
-        };
-    },
-
-    /** @id MochiKit.Base.itemgetter */
-    itemgetter: function (func) {
-        return function (arg) {
-            return arg[func];
-        };
-    },
-
     /** @id MochiKit.Base.bool */
     bool: function (value) {
         if (typeof(value) === "boolean" || value instanceof Boolean) {
@@ -500,24 +373,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return rval;
     },
 
-
-    _wrapDumbFunction: function (func) {
-        return function () {
-            // fast path!
-            switch (arguments.length) {
-                case 0: return func();
-                case 1: return func(arguments[0]);
-                case 2: return func(arguments[0], arguments[1]);
-                case 3: return func(arguments[0], arguments[1], arguments[2]);
-            }
-            var args = [];
-            for (var i = 0; i < arguments.length; i++) {
-                args.push("arguments[" + i + "]");
-            }
-            return eval("(func(" + args.join(",") + "))");
-        };
-    },
-
     /** @id MochiKit.Base.methodcaller */
     methodcaller: function (func/*, args... */) {
         var args = MochiKit.Base.extend(null, arguments, 1);
@@ -562,53 +417,6 @@ MochiKit.Base.update(MochiKit.Base, {
     },
 
     /** @id MochiKit.Base.bind */
-    bind: function (func, self/* args... */) {
-        if (typeof(func) == "string") {
-            func = self[func];
-        }
-        var im_func = func.im_func;
-        var im_preargs = func.im_preargs;
-        var im_self = func.im_self;
-        var m = MochiKit.Base;
-        if (typeof(func) == "function" && typeof(func.apply) == "undefined") {
-            // this is for cases where JavaScript sucks ass and gives you a
-            // really dumb built-in function like alert() that doesn't have
-            // an apply
-            func = m._wrapDumbFunction(func);
-        }
-        if (typeof(im_func) != 'function') {
-            im_func = func;
-        }
-        if (typeof(self) != 'undefined') {
-            im_self = self;
-        }
-        if (typeof(im_preargs) == 'undefined') {
-            im_preargs = [];
-        } else  {
-            im_preargs = im_preargs.slice();
-        }
-        m.extend(im_preargs, arguments, 2);
-        var newfunc = function () {
-            var args = arguments;
-            var me = arguments.callee;
-            if (me.im_preargs.length > 0) {
-                args = m.concat(me.im_preargs, args);
-            }
-            var self = me.im_self;
-            if (!self) {
-                self = this;
-            }
-            return me.im_func.apply(self, args);
-        };
-        newfunc.im_self = im_self;
-        newfunc.im_func = im_func;
-        newfunc.im_preargs = im_preargs;
-        if (typeof(im_func.NAME) == 'string') {
-            newfunc.NAME = "bind(" + im_func.NAME + ",...)";
-        }
-        return newfunc;
-    },
-
     /** @id MochiKit.Base.bindLate */
     bindLate: function (func, self/* args... */) {
         var m = MochiKit.Base;
@@ -704,47 +512,6 @@ MochiKit.Base.update(MochiKit.Base, {
         MochiKit.Base.reprRegistry.register(name, check, wrap, override);
     },
 
-    /** @id MochiKit.Base.repr */
-    repr: function (o) {
-        if (typeof(o) == "undefined") {
-            return "undefined";
-        } else if (o === null) {
-            return "null";
-        }
-        try {
-            if (typeof(o.__repr__) == 'function') {
-                return o.__repr__();
-            } else if (typeof(o.repr) == 'function' && o.repr != arguments.callee) {
-                return o.repr();
-            }
-            return MochiKit.Base.reprRegistry.match(o);
-        } catch (e) {
-            try {
-                if (typeof(o.NAME) == 'string' && (
-                        o.toString == Function.prototype.toString ||
-                        o.toString == Object.prototype.toString
-                    )) {
-                    return o.NAME;
-                }
-            } catch (ignore) {
-            }
-        }
-        try {
-            var ostring = (o + "");
-        } catch (e) {
-            return "[" + typeof(o) + "]";
-        }
-        if (typeof(o) == "function") {
-            ostring = ostring.replace(/^\s+/, "").replace(/\s+/g, " ");
-            ostring = ostring.replace(/,(\S)/, ", $1");
-            var idx = ostring.indexOf("{");
-            if (idx != -1) {
-                ostring = ostring.substr(0, idx) + "{...}";
-            }
-        }
-        return ostring;
-    },
-
     /** @id MochiKit.Base.reprArrayLike */
     reprArrayLike: function (o) {
         var m = MochiKit.Base;
@@ -762,20 +529,9 @@ MochiKit.Base.update(MochiKit.Base, {
             ).replace(/[\r]/g, "\\r");
     },
 
-    /** @id MochiKit.Base.reprNumber */
-    reprNumber: function (o) {
-        return o + "";
-    },
-
     /** @id MochiKit.Base.registerJSON */
     registerJSON: function (name, check, wrap, /* optional */override) {
         MochiKit.Base.jsonRegistry.register(name, check, wrap, override);
-    },
-
-
-    /** @id MochiKit.Base.evalJSON */
-    evalJSON: function (jsonText) {
-        return eval("(" + MochiKit.Base._filterJSON(jsonText) + ")");
     },
 
     _filterJSON: function (s) {
@@ -1002,34 +758,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return -1;
     },
 
-    /** @id MochiKit.Base.mean */
-    mean: function(/* lst... */) {
-        /* http://www.nist.gov/dads/HTML/mean.html */
-        var sum = 0;
-
-        var m = MochiKit.Base;
-        var args = m.extend(null, arguments);
-        var count = args.length;
-
-        while (args.length) {
-            var o = args.shift();
-            if (o && typeof(o) == "object" && typeof(o.length) == "number") {
-                count += o.length - 1;
-                for (var i = o.length - 1; i >= 0; i--) {
-                    sum += o[i];
-                }
-            } else {
-                sum += o;
-            }
-        }
-
-        if (count <= 0) {
-            throw new TypeError('mean() requires at least one argument');
-        }
-
-        return sum/count;
-    },
-
     /** @id MochiKit.Base.median */
     median: function(/* lst... */) {
         /* http://www.nist.gov/dads/HTML/median.html */
@@ -1061,18 +789,6 @@ MochiKit.Base.update(MochiKit.Base, {
             }
         }
         return -1;
-    },
-
-    /** @id MochiKit.Base.nodeWalk */
-    nodeWalk: function (node, visitor) {
-        var nodes = [node];
-        var extend = MochiKit.Base.extend;
-        while (nodes.length) {
-            var res = visitor(nodes.shift());
-            if (res) {
-                extend(nodes, res);
-            }
-        }
     },
 
 
@@ -1143,89 +859,8 @@ MochiKit.Base.update(MochiKit.Base, {
             }
         }
         return rval.join("&");
-    },
-
-
-    /** @id MochiKit.Base.parseQueryString */
-    parseQueryString: function (encodedString, useArrays) {
-        // strip a leading '?' from the encoded string
-        var qstr = (encodedString.charAt(0) == "?")
-            ? encodedString.substring(1)
-            : encodedString;
-        var pairs = qstr.replace(/\+/g, "%20").split(/\&amp\;|\&\#38\;|\&#x26;|\&/);
-        var o = {};
-        var decode;
-        if (typeof(decodeURIComponent) != "undefined") {
-            decode = decodeURIComponent;
-        } else {
-            decode = unescape;
-        }
-        if (useArrays) {
-            for (var i = 0; i < pairs.length; i++) {
-                var pair = pairs[i].split("=");
-                var name = decode(pair.shift());
-                if (!name) {
-                    continue;
-                }
-                var arr = o[name];
-                if (!(arr instanceof Array)) {
-                    arr = [];
-                    o[name] = arr;
-                }
-                arr.push(decode(pair.join("=")));
-            }
-        } else {
-            for (var i = 0; i < pairs.length; i++) {
-                pair = pairs[i].split("=");
-                var name = pair.shift();
-                if (!name) {
-                    continue;
-                }
-                o[decode(name)] = decode(pair.join("="));
-            }
-        }
-        return o;
     }
 });
-
-/** @id MochiKit.Base.AdapterRegistry */
-MochiKit.Base.AdapterRegistry = function () {
-    this.pairs = [];
-};
-
-MochiKit.Base.AdapterRegistry.prototype = {
-    /** @id MochiKit.Base.AdapterRegistry.prototype.register */
-    register: function (name, check, wrap, /* optional */ override) {
-        if (override) {
-            this.pairs.unshift([name, check, wrap]);
-        } else {
-            this.pairs.push([name, check, wrap]);
-        }
-    },
-
-    /** @id MochiKit.Base.AdapterRegistry.prototype.match */
-    match: function (/* ... */) {
-        for (var i = 0; i < this.pairs.length; i++) {
-            var pair = this.pairs[i];
-            if (pair[1].apply(this, arguments)) {
-                return pair[2].apply(this, arguments);
-            }
-        }
-        throw MochiKit.Base.NotFound;
-    },
-
-    /** @id MochiKit.Base.AdapterRegistry.prototype.unregister */
-    unregister: function (name) {
-        for (var i = 0; i < this.pairs.length; i++) {
-            var pair = this.pairs[i];
-            if (pair[0] == name) {
-                this.pairs.splice(i, 1);
-                return true;
-            }
-        }
-        return false;
-    }
-};
 
 /**
  * Exports all symbols from one or more modules into the specified
@@ -1401,5 +1036,3 @@ MochiKit.Base.__new__ = function () {
 };
 
 MochiKit.Base.__new__();
-
-MochiKit.Base._exportSymbols(this, MochiKit.Base);
