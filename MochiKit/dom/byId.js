@@ -1,3 +1,3 @@
-export default function byId(id, dom) {
+export default function byID(id, dom) {
     return dom.getElementById(id);
 }
