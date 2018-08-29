@@ -29,3 +29,10 @@ if (typeof console.log === 'function') {
 }
 
 export default MochiKit;
+
+//Also export the submodules.
+export {
+    async,
+    dom,
+    repr
+};
