@@ -17,6 +17,8 @@ let MochiKit = { async, dom, repr };
 MochiKit.version = {
     /*major:x, minor:x, patch:x*/
 };
+
+//Full build meaning all packages have been imported:
 MochiKit.name = '[MochiKit full-build]';
 
 if (typeof console.log === 'function') {
