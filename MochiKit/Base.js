@@ -1,19 +1,3 @@
-/***
-
-MochiKit.Base 1.5
-
-See <http://mochikit.com/> for documentation, downloads, license, etc.
-
-(c) 2005 Bob Ippolito.  All rights Reserved.
-
-***/
-
-//TODO: redo this
-// MochiKit module (namespace)
-var MochiKit = MochiKit || {};
-// MochiKit.Base module
-MochiKit.Base = MochiKit.Base || {};
-
 MochiKit.Base.update(MochiKit.Base, {
     _flattenArray: function (res, lst) {
         for (var i = 0; i < lst.length; i++) {
@@ -49,39 +33,6 @@ MochiKit.Base.update(MochiKit.Base, {
         }
         return res;
     },
-
-    /** @id MochiKit.Base.extend */
-    extend: function (self, obj, /* optional */skip) {
-        // Extend an array with an array-like object starting
-        // from the skip index
-        if (!skip) {
-            skip = 0;
-        }
-        if (obj) {
-            // allow iterable fall-through, but skip the full isArrayLike
-            // check for speed, this is called often.
-            var l = obj.length;
-            if (typeof(l) != 'number' /* !isArrayLike(obj) */) {
-                if (typeof(MochiKit.Iter) != "undefined") {
-                    obj = MochiKit.Iter.list(obj);
-                    l = obj.length;
-                } else {
-                    throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
-                }
-            }
-            if (!self) {
-                self = [];
-            }
-            for (var i = skip; i < l; i++) {
-                self.push(obj[i]);
-            }
-        }
-        // This mutates, but it's convenient to return because
-        // it's often used like a constructor when turning some
-        // ghetto array-like to a real array
-        return self;
-    },
-
 
     /** @id MochiKit.Base.updatetree */
     updatetree: function (self, obj/*, ...*/) {
@@ -120,129 +71,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return self;
     },
 
-     /** @id MochiKit.Base.items */
-    items: function (obj) {
-        var rval = [];
-        var e;
-        for (var prop in obj) {
-            var v;
-            try {
-                v = obj[prop];
-            } catch (e) {
-                continue;
-            }
-            rval.push([prop, v]);
-        }
-        return rval;
-    },
-
-
-    _newNamedError: function (module, name, func) {
-        func.prototype = new MochiKit.Base.NamedError(module.NAME + "." + name);
-        func.prototype.constructor = func;
-        module[name] = func;
-    },
-    /** @id MochiKit.Base.bool */
-    bool: function (value) {
-        if (typeof(value) === "boolean" || value instanceof Boolean) {
-            return value.valueOf();
-        } else if (typeof(value) === "string" || value instanceof String) {
-            return value.length > 0 && value != "false" && value != "null" &&
-                   value != "undefined" && value != "0";
-        } else if (typeof(value) === "number" || value instanceof Number) {
-            return !isNaN(value) && value != 0;
-        } else if (value != null && typeof(value.length) === "number") {
-            return value.length !== 0;
-        } else {
-            return value != null;
-        }
-    },
-
-    /** @id MochiKit.Base.typeMatcher */
-    typeMatcher: function (/* typ */) {
-        var types = {};
-        for (var i = 0; i < arguments.length; i++) {
-            var typ = arguments[i];
-            types[typ] = typ;
-        }
-        return function () {
-            for (var i = 0; i < arguments.length; i++) {
-                if (!(typeof(arguments[i]) in types)) {
-                    return false;
-                }
-            }
-            return true;
-        };
-    },
-
-    /** @id MochiKit.Base.isNull */
-    isNull: function (/* ... */) {
-        for (var i = 0; i < arguments.length; i++) {
-            if (arguments[i] !== null) {
-                return false;
-            }
-        }
-        return true;
-    },
-
-    /** @id MochiKit.Base.isUndefinedOrNull */
-    isUndefinedOrNull: function (/* ... */) {
-        for (var i = 0; i < arguments.length; i++) {
-            var o = arguments[i];
-            if (!(typeof(o) == 'undefined' || o === null)) {
-                return false;
-            }
-        }
-        return true;
-    },
-
-    /** @id MochiKit.Base.isEmpty */
-    isEmpty: function (obj) {
-        return !MochiKit.Base.isNotEmpty.apply(this, arguments);
-    },
-
-    /** @id MochiKit.Base.isNotEmpty */
-    isNotEmpty: function (obj) {
-        for (var i = 0; i < arguments.length; i++) {
-            var o = arguments[i];
-            if (!(o && o.length)) {
-                return false;
-            }
-        }
-        return true;
-    },
-
-    /** @id MochiKit.Base.isArrayLike */
-    isArrayLike: function () {
-        for (var i = 0; i < arguments.length; i++) {
-            var o = arguments[i];
-            var typ = typeof(o);
-            if (
-                (typ != 'object' && !(typ == 'function' && typeof(o.item) == 'function')) ||
-                o === null ||
-                typeof(o.length) != 'number' ||
-                o.nodeType === 3 ||
-                o.nodeType === 4
-            ) {
-                return false;
-            }
-        }
-        return true;
-    },
-
-    /** @id MochiKit.Base.isDateLike */
-    isDateLike: function () {
-        for (var i = 0; i < arguments.length; i++) {
-            var o = arguments[i];
-            if (typeof(o) != "object" || o === null
-                    || typeof(o.getTime) != 'function') {
-                return false;
-            }
-        }
-        return true;
-    },
-
-
     /** @id MochiKit.Base.xmap */
     xmap: function (fn/*, obj... */) {
         if (fn === null) {
@@ -253,73 +81,6 @@ MochiKit.Base.update(MochiKit.Base, {
             rval.push(fn(arguments[i]));
         }
         return rval;
-    },
-
-    /** @id MochiKit.Base.map */
-    map: function (fn, lst/*, lst... */) {
-        var m = MochiKit.Base;
-        var itr = MochiKit.Iter;
-        var isArrayLike = m.isArrayLike;
-        if (arguments.length <= 2) {
-            // allow an iterable to be passed
-            if (!isArrayLike(lst)) {
-                if (itr) {
-                    // fast path for map(null, iterable)
-                    lst = itr.list(lst);
-                    if (fn === null) {
-                        return lst;
-                    }
-                } else {
-                    throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
-                }
-            }
-            // fast path for map(null, lst)
-            if (fn === null) {
-                return m.extend(null, lst);
-            }
-            // disabled fast path for map(fn, lst)
-            /*
-            if (false && typeof(Array.prototype.map) == 'function') {
-                // Mozilla fast-path
-                return Array.prototype.map.call(lst, fn);
-            }
-            */
-            var rval = [];
-            for (var i = 0; i < lst.length; i++) {
-                rval.push(fn(lst[i]));
-            }
-            return rval;
-        } else {
-            // default for map(null, ...) is zip(...)
-            if (fn === null) {
-                fn = Array;
-            }
-            var length = null;
-            for (var i = 1; i < arguments.length; i++) {
-                // allow iterables to be passed
-                if (!isArrayLike(arguments[i])) {
-                    if (itr) {
-                        return itr.list(itr.imap.apply(null, arguments));
-                    } else {
-                        throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
-                    }
-                }
-                // find the minimum length
-                var l = arguments[i].length;
-                if (length === null || length > l) {
-                    length = l;
-                }
-            }
-            rval = [];
-            for (var i = 0; i < length; i++) {
-                var args = [];
-                for (var j = 1; j < arguments.length; j++) {
-                    args.push(arguments[j][i]);
-                }
-                rval.push(fn.apply(this, args));
-            }
-            return rval;
-        }
     },
 
     /** @id MochiKit.Base.xfilter */
@@ -372,73 +133,7 @@ MochiKit.Base.update(MochiKit.Base, {
         }
         return rval;
     },
-
-    /** @id MochiKit.Base.methodcaller */
-    methodcaller: function (func/*, args... */) {
-        var args = MochiKit.Base.extend(null, arguments, 1);
-        if (typeof(func) == "function") {
-            return function (obj) {
-                return func.apply(obj, args);
-            };
-        } else {
-            return function (obj) {
-                return obj[func].apply(obj, args);
-            };
-        }
-    },
-
-    /** @id MochiKit.Base.method */
-    method: function (self, func) {
-        var m = MochiKit.Base;
-        return m.bind.apply(this, m.extend([func, self], arguments, 2));
-    },
-
-    /** @id MochiKit.Base.compose */
-    compose: function (f1, f2/*, f3, ... fN */) {
-        var fnlist = [];
-        var m = MochiKit.Base;
-        if (arguments.length === 0) {
-            throw new TypeError("compose() requires at least one argument");
-        }
-        for (var i = 0; i < arguments.length; i++) {
-            var fn = arguments[i];
-            if (typeof(fn) != "function") {
-                throw new TypeError(m.repr(fn) + " is not a function");
-            }
-            fnlist.push(fn);
-        }
-        return function () {
-            var args = arguments;
-            for (var i = fnlist.length - 1; i >= 0; i--) {
-                args = [fnlist[i].apply(this, args)];
-            }
-            return args[0];
-        };
-    },
-
-    /** @id MochiKit.Base.bind */
-    /** @id MochiKit.Base.bindLate */
-    bindLate: function (func, self/* args... */) {
-        var m = MochiKit.Base;
-        var args = arguments;
-        if (typeof(func) === "string") {
-            args = m.extend([m.forwardCall(func)], arguments, 1);
-            return m.bind.apply(this, args);
-        }
-        return m.bind.apply(this, args);
-    },
-
-    /** @id MochiKit.Base.bindMethods */
-    bindMethods: function (self) {
-        var bind = MochiKit.Base.bind;
-        for (var k in self) {
-            var func = self[k];
-            if (typeof(func) == 'function') {
-                self[k] = bind(func, self);
-            }
-        }
-    },
-
+    
     /** @id MochiKit.Base.registerComparator */
     registerComparator: function (name, check, comparator, /* optional */ override) {
         MochiKit.Base.comparatorRegistry.register(name, check, comparator, override);
@@ -505,11 +200,6 @@ MochiKit.Base.update(MochiKit.Base, {
             }
         }
         return rval;
-    },
-
-    /** @id MochiKit.Base.registerRepr */
-    registerRepr: function (name, check, wrap, /* optional */override) {
-        MochiKit.Base.reprRegistry.register(name, check, wrap, override);
     },
 
     /** @id MochiKit.Base.reprArrayLike */
@@ -657,28 +347,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return -1;
     },
 
-
-    /** @id MochiKit.Base.nameFunctions */
-    nameFunctions: function (namespace) {
-        var base = namespace.NAME;
-        if (typeof(base) == 'undefined') {
-            base = '';
-        } else {
-            base = base + '.';
-        }
-        for (var name in namespace) {
-            var o = namespace[name];
-            if (typeof(o) == 'function' && typeof(o.NAME) == 'undefined') {
-                try {
-                    o.NAME = base + name;
-                } catch (e) {
-                    // pass
-                }
-            }
-        }
-    },
-
-
     /** @id MochiKit.Base.queryString */
     queryString: function (names, values) {
         // check to see if names is a string or a DOM element, and if
@@ -727,47 +395,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return rval.join("&");
     }
 });
-
-/**
- * Exports all symbols from one or more modules into the specified
- * namespace (or scope). This is similar to MochiKit.Base.update(),
- * except for special handling of the "__export__" flag, contained
- * sub-modules (exported recursively), and names starting with "_".
- *
- * @param {Object} namespace the object or scope to modify
- * @param {Object} module the module to export
- */
-MochiKit.Base.moduleExport = function (namespace, module/*, ...*/) {
-    var SKIP = { toString: true, NAME: true, VERSION: true };
-    var mods = MochiKit.Base.extend([], arguments, 1);
-    while ((module = mods.shift()) != null) {
-        for (var k in module) {
-            var v = module[k];
-            if (v != null) {
-                var flagSet = (typeof(v.__export__) == 'boolean');
-                var nameValid = (k[0] !== "_" && !SKIP[k]);
-                if (flagSet ? v.__export__ : nameValid) {
-                    if (typeof(v) == 'object' && v.NAME && v.VERSION) {
-                        mods.push(v);
-                    } else {
-                        namespace[k] = module[k];
-                    }
-                }
-            }
-        }
-    }
-    return namespace;
-};
-
-/**
- * Identical to moduleExport, but also considers the global and
- * module-specific "__export__" flag.
- */
-MochiKit.Base._exportSymbols = function (namespace, module) {
-    if (MochiKit.__export__ !== false && module.__export__ !== false) {
-        MochiKit.Base.moduleExport(namespace, module);
-    }
-};
 
 MochiKit.Base.__new__ = function () {
     var m = this;
