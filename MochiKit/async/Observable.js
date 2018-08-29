@@ -75,4 +75,13 @@ export default class Observable {
             self.unobserve(next);
         };
     }
+
+    notifyFirst(param) {
+        let [first] = this.observers;
+
+        if(first) {
+            //Ignore empty list
+            first.next(param);
+        }
+    }
 }
