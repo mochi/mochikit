@@ -12,6 +12,8 @@
  * modules are included in the bundles. 
  */
 export { default as all } from './all';
+export { default as asyncCatch } from './asyncCatch';
+export { default as asyncThen } from './asyncThen';
 export { default as callLater } from './callLater';
 export { default as catchSilent } from './catchSilent';
 export { default as chain } from './chain';
