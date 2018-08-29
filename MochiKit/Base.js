@@ -593,12 +593,6 @@ MochiKit.Base.update(MochiKit.Base, {
         };
     },
 
-    /** @id MochiKit.Base.partial */
-    partial: function (func) {
-        var m = MochiKit.Base;
-        return m.bind.apply(this, m.extend([func, undefined], arguments, 1));
-    },
-
     /** @id MochiKit.Base.listMinMax */
     listMinMax: function (which, lst) {
         if (lst.length === 0) {
