@@ -518,17 +518,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return "[" + m.map(m.repr, o).join(", ") + "]";
     },
 
-    /** @id MochiKit.Base.reprString */
-    reprString: function (o) {
-        return ('"' + o.replace(/(["\\])/g, '\\$1') + '"'
-            ).replace(/[\f]/g, "\\f"
-            ).replace(/[\b]/g, "\\b"
-            ).replace(/[\n]/g, "\\n"
-            ).replace(/[\t]/g, "\\t"
-            ).replace(/[\v]/g, "\\v"
-            ).replace(/[\r]/g, "\\r");
-    },
-
     /** @id MochiKit.Base.registerJSON */
     registerJSON: function (name, check, wrap, /* optional */override) {
         MochiKit.Base.jsonRegistry.register(name, check, wrap, override);

@@ -160,7 +160,8 @@ export default class MessageEmitter {
     }
 
     conjoin(map) {
-        for(let val, key of Object.keys(map)) {
+        let val;
+        for(let key of Object.keys(map)) {
             val = map[key];
             this.on(key, val);
         }
@@ -173,7 +174,8 @@ export default class MessageEmitter {
      * @param {!Map} map 
      */
     conjoinMap(map) {
-        for(let val, key of map.keys()) {
+        let val;
+        for(let key of map.keys()) {
             val = map.get(key);
             this.on(key, val);
         }
@@ -274,9 +276,10 @@ export default class MessageEmitter {
     }
 
     messagesMap() {
-        let map = new Map();
+        let map = new Map(),
+        set;
 
-        for(let set, msg of this.messages) {
+        for(let msg of this.messages) {
             if(set = map.get(msg.event)) {
                 set.add(msg);
             } else {

@@ -1,4 +1,4 @@
-export default function mean(...args/* lst... */) {
+export default function mean(...args /* lst... */) {
     /* http://www.nist.gov/dads/HTML/mean.html */
     var sum = 0;
 
@@ -7,7 +7,7 @@ export default function mean(...args/* lst... */) {
 
     while (args.length) {
         var o = args.shift();
-        if (o && typeof(o) == "object" && typeof(o.length) == "number") {
+        if (o && typeof o == 'object' && typeof o.length == 'number') {
             count += o.length - 1;
             for (var i = o.length - 1; i >= 0; i--) {
                 sum += o[i];
@@ -21,5 +21,5 @@ export default function mean(...args/* lst... */) {
         throw new TypeError('mean() requires at least one argument');
     }
 
-    return sum/count;
+    return sum / count;
 }

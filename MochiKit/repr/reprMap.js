@@ -3,9 +3,9 @@
  * @param {!Map} map 
  */
 export default function reprMap(map) {
-    let items = '';
+    let items = '', val;
 
-    for(let val, key of map.keys()) {
+    for(let key of map.keys()) {
         val = map.get(key);
         items += `${key} => ${val} `;
     }

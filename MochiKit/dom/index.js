@@ -1,3 +1,5 @@
+export { ownerDocument } from './ownerDocument';
+
 function createShortcut(tag) {
     return function(attrs, doc = document) {
         return doc.createElement(tag, attrs);

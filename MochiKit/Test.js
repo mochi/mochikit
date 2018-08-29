@@ -34,7 +34,7 @@ MochiKit.Test.Suite.prototype = {
     },
     traceback: function (e) {
         var items = MochiKit.Iter.sorted(MochiKit.Base.items(e));
-        print("not ok " + this.testIndex + " - Error thrown");
+        this.print("not ok " + this.testIndex + " - Error thrown");
         for (var i = 0; i < items.length; i++) {
             var kv = items[i];
             if (kv[0] == "stack") {
