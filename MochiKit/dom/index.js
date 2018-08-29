@@ -1,12 +1,4 @@
-export { default as $ } from './$';
-export { default as $$ } from './$$';
-export { default as byClass } from './byClass';
-export { default as byID } from './byID';
-export { default as byTag } from './byTag';
-export { default as NBSP } from './NBSP';
-
-function createShortcut(tag) {
-    return function (attrds, doc = document) {
+function createShortcut(tag) {    return function (attrds, doc = document) {
         return doc.createElement(tag, attrs);
     }
 }
