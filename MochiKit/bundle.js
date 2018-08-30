@@ -22,6 +22,9 @@
             //added using .catch, an error will still
             //be thrown.
             this.__error_handlers__ = [];
+
+            //Was the Deferred object cancelled without
+            //calli
             this.silentlyCancelled = false;
             this.value = undefined;
             this.canceller = canceller;
@@ -862,6 +865,15 @@
         whenSettled: whenSettled
     });
 
+    function ownerDocument(el) {
+        if (!el) {
+            return null;
+        }
+
+        let { ownerDocument, defaultView } = el;
+        return ownerDocument || defaultView || el.nodeType === 9 && el || null;
+    }
+
     function createShortcut(tag) {
         return function(attrs, doc = document) {
             return doc.createElement(tag, attrs);
@@ -1089,7 +1101,8 @@
         UL: UL,
         VAR: VAR,
         VIDEO: VIDEO,
-        WBR: WBR
+        WBR: WBR,
+        ownerDocument: ownerDocument
     });
 
     function reprArray(array) {

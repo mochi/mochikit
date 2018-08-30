@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "build": "cd MochiKit && rollup index.js --name \"mochikit\" --format umd"
+    }
+}

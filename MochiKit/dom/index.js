@@ -1,4 +1,7 @@
-export { ownerDocument } from './ownerDocument';
+export { default as ownerDocument } from './ownerDocument';
+export { default as purify } from "./purify";
+export { default as removeMatching } from "./removeMatching";
+export { default as Visibility } from "./Visibility";
 
 function createShortcut(tag) {
     return function(attrs, doc = document) {
