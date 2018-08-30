@@ -12,9 +12,10 @@ import * as async from './async/index.js';
 import * as dom from './dom/index.js';
 import * as repr from './repr/index.js';
 import * as base from './base/index.js';
+import * as func from './func/index.js';
 
 //Collect the variables in MochiKit.
-let MochiKit = { async, dom, repr, base };
+let MochiKit = { async, dom, repr, base, func };
 MochiKit.version = {
     /*major:x, minor:x, patch:x*/
 };

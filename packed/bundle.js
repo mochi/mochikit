@@ -1,4 +1,4 @@
-/*Bundled with Rollup at "Thu Aug 30 2018 20:05:56 GMT+0100 (British Summer Time)".*/
+/*Bundled with Rollup at "Thu Aug 30 2018 22:00:56 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
@@ -1478,6 +1478,25 @@ var mochikit = (function () {
         WBR: WBR
     });
 
+    function getRepr(object) {
+        let repr = object && object.__repr__;
+        return repr && typeof repr === 'function' && repr.call(object);
+    }
+
+    function hasRepr(object) {
+        let repr = object && object.__repr__;
+        return repr && typeof repr === 'function';
+    }
+
+    function registerRepr(obj, val) {
+        if(obj) {
+            //val + '' = toString call
+            return obj.__repr__ = val + '';
+        }
+
+        return null;
+    }
+
     function reprArray(array) {
         if(!Array.isArray(array)) {
             throw new Error('Expected an array.');
@@ -1501,6 +1520,13 @@ var mochikit = (function () {
 
         //Don't allow bogus __repr__ methods pass thru.
         return `function "${func.name}"(${func.length}) ${typeof func.__repr__ === 'function' ? func.__repr__() : `function ${func.name} \{...\}`}`;
+    }
+
+    function reprGeneric(object) {
+        let len = object && typeof object === 'number',
+        type = getType(object).slice(8, -1);
+
+        return object ? `${type}${len ? `(${object.length})` : '(void)'} generic-type(${typeof object})` : '(void)(void) generic-type(void)';
     }
 
     function reprKeys(object) {
@@ -1535,16 +1561,27 @@ var mochikit = (function () {
         return `${typeof object}${(hasLen = typeof (len = object.length) === 'number') ? `(${len})` : '(void)'}`;
     }
 
+    function stringRepr () {
+        return function () {
+            return getRepr(this.toString());
+        }
+    }
+
 
 
     var repr = /*#__PURE__*/Object.freeze({
+        getRepr: getRepr,
+        hasRepr: hasRepr,
+        registerRepr: registerRepr,
         reprArray: reprArray,
         reprArrayLike: reprArrayLike,
         reprFunction: reprFunction,
+        reprGeneric: reprGeneric,
         reprKeys: reprKeys,
         reprMap: reprMap,
         reprSet: reprSet,
-        reprType: reprType
+        reprType: reprType,
+        stringRepr: stringRepr
     });
 
     class AdapterRegistry {

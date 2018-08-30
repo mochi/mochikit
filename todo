@@ -10,3 +10,4 @@ TODO medium: cherry pick the best methods from older modules, maybe recreating t
 TODO low: add all DOM createElement shorthand elements like A, DIV, ARTICLE methods.
 TODO low: throw an example of using <script type=module> and es6 modules when revamping docs.
 TODO low: maybe make a dom chain api like jQuery.
+TODO medium: finish the Color class
