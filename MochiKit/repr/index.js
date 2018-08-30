@@ -1,3 +1,6 @@
+export { default as getRepr } from './getRepr';
+export { default as hasRepr } from './hasRepr';
+export { default as registerRepr } from './registerRepr';
 export { default as reprArray } from './reprArray';
 export { default as reprArrayLike } from './reprArrayLike';
 export { default as reprFunction } from './reprFunction';
