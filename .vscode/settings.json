@@ -1,4 +1,5 @@
 {
     "todo-tree.flat": false,
-    "todo-tree.expanded": true
+    "todo-tree.expanded": true,
+    "npm-scripts.showStartNotification": false
 }

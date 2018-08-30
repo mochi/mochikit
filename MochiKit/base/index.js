@@ -38,3 +38,5 @@ export { default as update } from './update';
 export { default as values } from './values';
 export { default as warnDeprecated } from './warnDeprecated';
 export { default as without } from './without';
+
+export const __repr__ = '[MochiKit.Base]';
