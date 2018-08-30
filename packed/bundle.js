@@ -1,8 +1,6 @@
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global.mochikit = factory());
-}(this, (function () { 'use strict';
+/*Bundled with Rollup at "Thu Aug 30 2018 20:05:56 GMT+0100 (British Summer Time)".*/
+var mochikit = (function () {
+    'use strict';
 
     const PENDING = 0,
         REJECTED = 1,
@@ -22,9 +20,6 @@
             //added using .catch, an error will still
             //be thrown.
             this.__error_handlers__ = [];
-
-            //Was the Deferred object cancelled without
-            //calli
             this.silentlyCancelled = false;
             this.value = undefined;
             this.canceller = canceller;
@@ -824,11 +819,11 @@
      * so you can do:
      * @example
      * import { all, chain, Deferred } from 'mochikit/async';
-     * 
+     *
      * This should work with modern-day module bundlers
      * like Rollup, because it uses a technique called
      * 'tree shaking' which basically means only the needed
-     * modules are included in the bundles. 
+     * modules are included in the bundles.
      */
 
     const __repr__ = '[MochiKit.Async]';
@@ -862,7 +857,11 @@
         succeedAfter: succeedAfter,
         tap: tap,
         tapFinally: tapFinally,
-        whenSettled: whenSettled
+        whenSettled: whenSettled,
+        PENDING: PENDING,
+        REJECTED: REJECTED,
+        RESOLVED: RESOLVED,
+        SETTLED: SETTLED
     });
 
     function ownerDocument(el) {
@@ -872,6 +871,358 @@
 
         let { ownerDocument, defaultView } = el;
         return ownerDocument || defaultView || el.nodeType === 9 && el || null;
+    }
+
+    function empty(node) {
+        let first;
+        switch(node.nodeType) {
+            //Element:
+            case 1:
+            //fast track.
+            node.innerHTML = '';
+            
+            default:
+            //Cache the firstChild call.
+            if(node.removeChild && (first = node.firstChild)) {
+                while(first) {
+                    node.removeChild(first);
+                    //Recompute the value:
+                    first = node.firstChild;
+                }
+            }
+        }
+
+        return node;
+    }
+
+    function clearRoot(node) {
+        let doc = ownerDocument(node);
+        return doc && empty(doc);
+    }
+
+    function cloneTree(node, deep) {
+        //Get the tree from the node.
+        let root = node.getRootNode();
+        return root.cloneNode(deep);
+    }
+
+    function getBody (doc) {
+        let val = ownerDocument(doc);
+        return val && val.body || null;
+    }
+
+    const ostr = Object.prototype.toString;
+
+    function getType(a) {
+        switch(a) {
+            case null:
+            case undefined:
+            return `[object ${a === null ? 'Null' : 'Undefined'}]`;
+            //Allow faster results for booleans:
+            case true:
+            case false:
+            return '[object Boolean]';
+            case NaN:
+            case Infinity:
+            return '[object Number]';
+        }
+
+        if(a === '') {
+            return '[object String]';
+        }
+
+        return ostr.call(a);
+    }
+
+    function isObject(a) {
+        return getType(a) === '[object Object]';
+    }
+
+    function isNumber(a) {
+        return getType(a) === '[object Number]';
+    }
+
+    function isNode(node) {
+        return typeof node === 'object' && isNumber(node.nodeType) && !isObject(node);
+    }
+
+    function isDocument(doc) {
+        return isNode(doc) && doc.nodeType === 9; 
+    }
+
+    function isEmpty(node) {
+        return node.childNodes.length === 0;
+    }
+
+    function isFragment(doc) {
+        return isNode(doc) && doc.nodeType === 11; 
+    }
+
+    var nodeTypeMap = {
+        1: 'element',
+        3: 'text',
+        4: 'cdata_section',
+        7: 'processing_instruction',
+        8: 'comment',
+        9: 'document',
+        10: 'document_type',
+        11: 'document_fragment'
+    };
+
+    function nodeType(node) {
+        return nodeTypeMap[node.nodeType] || null;
+    }
+
+    let spaceRe = /\s+/;
+
+    function off(node, event, func) {
+        if(spaceRe.test(event)) {
+            //Multiple events.
+            for(let actualEvent of event) {
+                node.removeEventListener(actualEvent, func);
+            }
+        } else {
+            node.removeEventListener(event, func);
+        }
+
+        return node;
+    }
+
+    let spaceRe$1 = /\s+/;
+
+    function on(node, event, func) {
+        if(spaceRe$1.test(event)) {
+            //Multiple events.
+            for(let actualEvent of event) {
+                node.addEventListener(actualEvent, func);
+            }
+        } else {
+            node.addEventListener(event, func);
+        }
+
+        return node;
+    }
+
+    function removeMatching(selector, dom) {
+        let el = dom.querySelectorAll(selector);
+
+        //Classic iteration: some qSA impls might return a non-iterable.
+        for(let parent, index = 0, len = el.length; index < len; ++index) {
+            if(parent = el.parentNode) {
+                parent.removeChild(el[index]);
+            }
+        }
+
+        return el;
+    }
+
+    function purify(tree) {
+        removeMatching('script', tree);
+        removeMatching('style', tree);
+        removeMatching('link', tree);
+        //TODO: remove [style]
+        return tree;
+    }
+
+    function removeScripts(node) {
+        return removeMatching('script', node);
+    }
+
+    function rootChildren(node) {
+        let val = ownerDocument(node);
+        return val && val.childNodes || null;
+    }
+
+    function counter(n/* = 1 */) {
+        if (n == null) {
+            n = 1;
+        }
+        return function () {
+            return n++;
+        };
+    }
+
+    const _counter = counter(0);
+
+    class Visibility {
+        constructor(el) {
+            this.element = el;
+
+            //Customize these:
+            this.hiddenDisplay = 'hidden';
+            this.visibleDisplay = 'block';
+            this.hiddenVisibility = 'hidden';
+            this.visibleVisibility = 'visible';
+
+            this.modifiable = true;
+            this.token = _counter();
+        }
+
+        show() {
+            return this.setDisplay(this.visibleDisplay);
+        }
+
+        hide() {
+            return this.setDisplay(this.hiddenDisplay);
+        }
+
+        isHiddenInAnyWay() {
+            return this.isHidden() || this.isInvisible();
+        }
+
+        invisible() {
+            return this.setVisibility(this.hiddenVisibility);
+        }
+
+        visible() {
+            return this.setVisibility(this.visibleVisibility);
+        }
+
+        isInvisible() {
+            return this.getVisibility() === this.hiddenVisibility;
+        }
+
+        isVisible() {
+            return this.getVisibility() === this.visibleVisibility;
+        }
+
+        setVisibility(val) {
+            if (!this.isLocked()) {
+                this.element.style.visibility = val;
+            }
+
+            return this;
+        }
+
+        getVisibility() {
+            return this.element.style.visibility;
+        }
+
+        isHidden() {
+            return this.getDisplay() === this.hiddenDisplay;
+        }
+
+        isVisible() {
+            return this.getDisplay() === this.visibleDisplay;
+        }
+
+        toggle() {
+            this.isHidden() ? this.show() : this.hide();
+            return this;
+        }
+
+        hideAfter(timeout) {
+            return this.taskAfter('hide', timeout);
+        }
+
+        showAfter(timeout) {
+            return this.taskAfter('show', timeout);
+        }
+
+        toggleAfter(timeout) {
+            return this.taskAfter('toggle', timeout);
+        }
+
+        taskAfter(method, timeout) {
+            let self = this;
+            this.timeoutID = setTimeout(
+                () => ((self.timeoutID = null), self[method]()),
+                timeout
+            );
+            return this;
+        }
+
+        getDisplay() {
+            return this.element.style.display;
+        }
+
+        setDisplay(val) {
+            if (!this.isLocked()) {
+                this.element.style.display = val;
+            }
+
+            return this;
+        }
+
+        cancelTimeout() {
+            clearTimeout(this.timeoutID);
+            return this;
+        }
+
+        timeoutActive() {
+            return this.timeoutID != null;
+        }
+
+        lock() {
+            this.modifiable = false;
+            return this;
+        }
+
+        unlock() {
+            this.modifiable = true;
+            return this;
+        }
+
+        isLocked() {
+            return !this.modifiable;
+        }
+
+        isModifiable() {
+            return !this.isLocked();
+        }
+
+        clone() {
+            let vis = new Visibility();
+            vis.modifiable = this.modifiable;
+            vis.timeoutID = this.timeoutID;
+            vis.visibleDisplay = this.visibleDisplay;
+            vis.element = this.element;
+            vis.hiddenDisplay = this.hiddenDisplay;
+            return vis;
+        }
+
+        fromParent() {
+            return new Visibility(this.element.parentNode);
+        }
+
+        fromChildAt(index) {
+            return new Visibility(this.element.childNodes[+index]);
+        }
+
+        fromFirstMatch(selector) {
+            return new Visibility(this.element.querySelector(selector));
+        }
+
+        clearContent() {
+            this.element.innerHTML = '';
+            return this;
+        }
+
+        cloneWithEl(el) {
+            let vis = this.clone();
+            vis.element = el;
+            return vis;
+        }
+
+        setShowStates(display, visibility) {
+            this.visibleDisplay = display;
+            this.visibleVisibility = visibility;
+            return this;
+        }
+
+        getShowStates() {
+            return [this.visibleDisplay, this.visibleVisibility];
+        }
+
+        setHiddenStates(display, visibility) {
+            this.hiddenVisibility = visibility;
+            this.hiddenDisplay = display;
+            return this;
+        }
+
+        getHiddenStates() {
+            return [this.visibleVisibility, this.hiddenVisibility];
+        }
     }
 
     function createShortcut(tag) {
@@ -991,7 +1342,30 @@
         VIDEO = createShortcut('VIDEO'),
         WBR = createShortcut('WBR');
 
+    //dom index.js
+
+    const __repr__$1 = '[MochiKit.DOM]';
+
     var dom = /*#__PURE__*/Object.freeze({
+        __repr__: __repr__$1,
+        clearRoot: clearRoot,
+        cloneTree: cloneTree,
+        empty: empty,
+        getBody: getBody,
+        isDocument: isDocument,
+        isEmpty: isEmpty,
+        isFragment: isFragment,
+        isNode: isNode,
+        nodeType: nodeType,
+        nodeTypeMap: nodeTypeMap,
+        off: off,
+        on: on,
+        ownerDocument: ownerDocument,
+        purify: purify,
+        removeMatching: removeMatching,
+        removeScripts: removeScripts,
+        rootChildren: rootChildren,
+        Visibility: Visibility,
         A: A,
         ABBR: ABBR,
         ADDRESS: ADDRESS,
@@ -1101,8 +1475,7 @@
         UL: UL,
         VAR: VAR,
         VIDEO: VIDEO,
-        WBR: WBR,
-        ownerDocument: ownerDocument
+        WBR: WBR
     });
 
     function reprArray(array) {
@@ -1174,6 +1547,510 @@
         reprType: reprType
     });
 
+    class AdapterRegistry {
+        constructor() {
+            this.pairs = [];
+        }
+
+            /** @id MochiKit.Base.AdapterRegistry.prototype.register */
+            register(name, check, wrap, override) {
+                if (override) {
+                    this.pairs.unshift([name, check, wrap]);
+                } else {
+                    this.pairs.push([name, check, wrap]);
+                }
+            }
+        
+            /** @id MochiKit.Base.AdapterRegistry.prototype.match */
+            match(/* ... */) {
+                for (var i = 0; i < this.pairs.length; i++) {
+                    var pair = this.pairs[i];
+                    if (pair[1].apply(this, arguments)) {
+                        return pair[2].apply(this, arguments);
+                    }
+                }
+                throw MochiKit.Base.NotFound;
+            }
+        
+            /** @id MochiKit.Base.AdapterRegistry.prototype.unregister */
+            unregister(name) {
+                for (var i = 0; i < this.pairs.length; i++) {
+                    var pair = this.pairs[i];
+                    if (pair[0] == name) {
+                        this.pairs.splice(i, 1);
+                        return true;
+                    }
+                }
+                return false;
+            }
+    }
+
+    function apply(func, args) {
+        switch(args.length) {
+            case 0: return func.call(this);
+            case 1: return func.call(this, args[0]);
+            case 2: return func.call(this, args[0], args[1]);
+            case 3: return func.call(this, args[0], args[1], args[2]);
+            case 4: return func.call(this, args[0], args[1], args[2], args[3]);
+            case 5: return func.call(this, args[0], args[1], args[2], args[3], args[4]);
+            case 6: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5]);
+            case 7: return func.call(this, args[0], arga[1], args[2], args[3], args[4], args[5], args[6]);
+            case 8: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+            case 9: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
+            case 10: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]);
+            //Probably still optimized in es6 compliant engines,
+            //This will be transpiled to .apply call with Babel, tho:
+            default: return func.call(this, ...args);
+        }
+    }
+
+    function bind(func, ctx, ...args) {
+        return function (...nargs) {
+            return func.call(ctx, ...args, ...nargs);
+        }
+    }
+
+    function bindAll(object, ctx) {
+        let val, keys = Object.keys(object);
+        ctx = ctx === undefined ? object : ctx;
+
+        for(let key of keys) {
+            val = object[key];
+
+            if(typeof val === 'function') {
+                object[key] = val.bind();
+            }
+        }
+
+        return object;
+    }
+
+    function bindRight(func, ctx, ...args) {
+        return function (...nargs) {
+            return func.call(ctx, ...nargs, ...args);
+        }
+    }
+
+    function camelize(selector) {
+        /* from dojo.style.toCamelCase */
+        var arr = selector.split('-');
+        var cc = arr[0];
+        for (var i = 1; i < arr.length; i++) {
+            cc += arr[[i][0]].toUpperCase() + arr[i].substring(1);
+        }
+        return cc;
+    }
+
+    function compose(functions) {
+        return function (val, ...args) {
+            for(let func of functions) {
+                val = func.call(this, val, ...args);
+            }
+
+            return val;
+        }
+    }
+
+    function keys(obj) {
+        var rval = [];
+        for (var prop in obj) {
+            rval.push(prop);
+        }
+        return rval;
+    }
+
+    function entries(object) {
+        return keys(object).map((key) => [key, object[key]]);
+    }
+
+    //This is a big boy, can't find any other way :(
+    let specialRe = /(\'|\"|\\|\n|\r|\t|\\b|\f|\v|\0)/g;
+    function escapeSpecial(str) {
+        //This is ugly af:
+        return (str + '').replace(specialRe, (match) => {
+            switch(match) {
+                case '\0':
+                return '\\0';
+                case '\'':
+                return '\\\'';
+                case '\"':
+                return '\\"';
+                case '\n':
+                return '\\n';
+                case '\r':
+                return '\\r';
+                case '\t':
+                return '\\t';
+                case '\b':
+                return '\\b';
+                case '\f':
+                return '\\f';
+                case '\v':
+                return '\\v';
+                case '\0':
+                return '\\0';
+            }
+        });
+    }
+
+    //This might be removed.
+    var evalJSON = JSON.parse;
+
+    function forwardCall(func) {
+        return function () {
+            return this[func].apply(this, arguments);
+        };
+    }
+
+    function identity(a) {
+        return a;
+    }
+
+    function isArrayLike(obj) {
+        return obj && isFinite
+    }
+
+    function isBoolean(a) {
+        return getType(a) === '[object Boolean]';
+    }
+
+    function isDateLike(obj) {
+        return typeof obj === 'object' && typeof obj.getTime === 'function';
+    }
+
+    function isEmpty$1(arrayLike) {
+        return isArrayLike(arrayLike) && arrayLike.length === 0;
+    }
+
+    function isNotEmpty(arrayLike) {
+        return !isEmpty$1(arrayLike);
+    }
+
+    function isNull(...args) {
+        return args.every((a) => a === null);
+    }
+
+    function isString(a) {
+        return getType(a) === '[object String]';
+    }
+
+    function isUndefined(...args) {
+        return args.every((a) => a === undefined);
+    }
+
+    function itemgetter(func) {
+        return function (arg) {
+            return arg[func];
+        };
+    }
+
+    function limit(func, amount) {
+        --i;
+        let done, cache, i = 0;
+
+        return function (...nargs) {
+            if(done) {
+                return cache;
+            }
+
+            if(i++ < amount) {
+                //Keep going:
+                return func.call(this, ...nargs);
+            } else {
+                //Hit the limit:
+                done = true;
+                cache = func.call(this, ...nargs);
+            }
+        }
+    }
+
+    function mean(...args /* lst... */) {
+        /* http://www.nist.gov/dads/HTML/mean.html */
+        var sum = 0;
+
+        var m = MochiKit.Base;
+        var count = args.length;
+
+        while (args.length) {
+            var o = args.shift();
+            if (o && typeof o == 'object' && typeof o.length == 'number') {
+                count += o.length - 1;
+                for (var i = o.length - 1; i >= 0; i--) {
+                    sum += o[i];
+                }
+            } else {
+                sum += o;
+            }
+        }
+
+        if (count <= 0) {
+            throw new TypeError('mean() requires at least one argument');
+        }
+
+        return sum / count;
+    }
+
+    function nodeWalk(node, visitor) {
+        var nodes = [node];
+        var extend = MochiKit.Base.extend;
+        while (nodes.length) {
+            var res = visitor(nodes.shift());
+            if (res) {
+                extend(nodes, res);
+            }
+        }
+    }
+
+    function noop () {}
+
+    function once(func) {
+        let done = false, val;
+
+        return function (...nargs) {
+            if(done) {
+                return val;
+            }
+
+            done = true;
+            val = func.call(this, ...nargs);
+            return val;
+        }
+    }
+
+    //Curriable operator methods:
+    const truth = (a) => !!a,
+    lognot = (a) => !a,
+    not = (a) => ~a,
+    neg = (a) => -a,
+    add = (a, b) => a + b,
+    sub = (a, b) => a - b,
+    div = (a, b) => a / b,
+    mod = (a, b) => a % b,
+    mul = (a, b) => a * b,
+    and = (a, b) => a && b,
+    or = (a, b) => a || b,
+    xor = (a, b) => a ^ b,
+    lshift = (a, b) => a << b,
+    rshift = (a, b) => a >> b,
+    zrshift = (a, b)=> a >>> b,
+    eq = (a, b) => a == b,
+    ne = (a, b) => a != b,
+    gt = (a, b) => a > b,
+    ge = (a, b) => a >= b,
+    lt = (a, b) => a < b,
+    le = (a, b) => a <= b,
+    seq = (a, b) => a === b,
+    sne = (a, b) => a !== b,
+    // ceq,
+    // cne,
+    // cgt,
+    // cge,
+    // clt,
+    // cle
+    //Think the docs got these wrong:
+    logand = (a, b) => a & b,
+    logor = (a, b) => a | b,
+
+    //Useful for indexOf
+    ioempty = (a) => a === -1,
+    iofound = (a) => a !== -1;
+
+    function parseQueryString(encodedString, useArrays) {
+        // strip a leading '?' from the encoded string
+        var qstr = (encodedString.charAt(0) == "?")
+            ? encodedString.substring(1)
+            : encodedString;
+        var pairs = qstr.replace(/\+/g, "%20").split(/\&amp\;|\&\#38\;|\&#x26;|\&/);
+        var o = {};
+        var decode;
+        if (typeof(decodeURIComponent) != "undefined") {
+            decode = decodeURIComponent;
+        } else {
+            decode = unescape;
+        }
+        if (useArrays) {
+            for (var i = 0; i < pairs.length; i++) {
+                var pair = pairs[i].split("=");
+                var name = decode(pair.shift());
+                if (!name) {
+                    continue;
+                }
+                var arr = o[name];
+                if (!(arr instanceof Array)) {
+                    arr = [];
+                    o[name] = arr;
+                }
+                arr.push(decode(pair.join("=")));
+            }
+        } else {
+            for (var i = 0; i < pairs.length; i++) {
+                pair = pairs[i].split("=");
+                var name = pair.shift();
+                if (!name) {
+                    continue;
+                }
+                o[decode(name)] = decode(pair.join("="));
+            }
+        }
+        return o;
+    }
+
+    function partial(func, ...args) {
+        return function (...nargs) {
+            return func.call(this, ...args, ...nargs);
+        }
+    }
+
+    function partialRight(func, ...args) {
+        return function (...nargs) {
+            return func.call(this, ...nargs, ...args);
+        }
+    }
+
+    function provide(namespace, root) {
+        let split = (namespace + '').split(/\s+/g), val;
+
+        if(segment.length <= 1) {
+            throw new Error('Invalid namespace, . char probably asbsent');
+        }
+
+        for(let segment of split) {
+            if(!root) {
+                val = root[segment] = {};
+            }
+        }
+
+        return val;
+    }
+
+    function times(func, amount) {
+        let isFunc = typeof func === 'function',
+        accum = [];
+        
+        for(let i = 0; i < amount; ++i) {
+            accum.push(isFunc ? func(i, amount, accum) : func);
+        }
+
+        return accum;
+    }
+
+    /** @id MochiKit.Base.update */
+    function update(self, obj /*, ... */) {
+        if (self === null || self === undefined) {
+            self = {};
+        }
+        for (var i = 1; i < arguments.length; i++) {
+            var o = arguments[i];
+            if (typeof (o) != 'undefined' && o !== null) {
+                for (var k in o) {
+                    self[k] = o[k];
+                }
+            }
+        }
+        return self;
+    }
+
+    function values(obj) {
+        var rval = [];
+        for (var prop in obj) {
+            rval.push(obj[prop]);
+        }
+        return rval;
+    }
+
+    function warnDeprecated(method, depfrom, altfunc, message, fallbackval) {
+        //Compute the msg once for heavily used methods:
+        let depmsg = `The "${method}" is deprecated ${depfrom ? `from ${depfrom} onwards` : ''}. ${altfunc ? `Instead use ${altfunc}` : ''}${message ? `\n${message}` : ''}`;
+        return function () {
+            console.error(depmsg);
+            return fallbackval;
+        }
+    }
+
+    function without(array, ...values) {
+        return array.filter((item) => {
+            for(let value of values) {
+                if(value === item) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+    }
+
+    const __repr__$2 = '[MochiKit.Base]';
+
+    var base = /*#__PURE__*/Object.freeze({
+        __repr__: __repr__$2,
+        AdapterRegistry: AdapterRegistry,
+        apply: apply,
+        bind: bind,
+        bindAll: bindAll,
+        bindRight: bindRight,
+        camelize: camelize,
+        compose: compose,
+        counter: counter,
+        entries: entries,
+        escapeSpecial: escapeSpecial,
+        evalJSON: evalJSON,
+        forwardCall: forwardCall,
+        identity: identity,
+        isArrayLike: isArrayLike,
+        isBoolean: isBoolean,
+        isDateLike: isDateLike,
+        isEmpty: isEmpty$1,
+        isNotEmpty: isNotEmpty,
+        isNull: isNull,
+        isNumber: isNumber,
+        isObject: isObject,
+        isString: isString,
+        isUndefined: isUndefined,
+        itemgetter: itemgetter,
+        keys: keys,
+        limit: limit,
+        mean: mean,
+        nodeWalk: nodeWalk,
+        noop: noop,
+        once: once,
+        parseQueryString: parseQueryString,
+        partial: partial,
+        partialRight: partialRight,
+        provide: provide,
+        times: times,
+        update: update,
+        values: values,
+        warnDeprecated: warnDeprecated,
+        without: without,
+        truth: truth,
+        lognot: lognot,
+        not: not,
+        neg: neg,
+        add: add,
+        sub: sub,
+        div: div,
+        mod: mod,
+        mul: mul,
+        and: and,
+        or: or,
+        xor: xor,
+        lshift: lshift,
+        rshift: rshift,
+        zrshift: zrshift,
+        eq: eq,
+        ne: ne,
+        gt: gt,
+        ge: ge,
+        lt: lt,
+        le: le,
+        seq: seq,
+        sne: sne,
+        logand: logand,
+        logor: logor,
+        ioempty: ioempty,
+        iofound: iofound
+    });
+
     /***
 
     MochiKit.MochiKit 1.5
@@ -1185,23 +2062,23 @@
     ***/
 
     //Collect the variables in MochiKit.
-    let MochiKit = { async, dom, repr };
-    MochiKit.version = {
+    let MochiKit$1 = { async, dom, repr, base };
+    MochiKit$1.version = {
         /*major:x, minor:x, patch:x*/
     };
 
     //Full build meaning all packages have been imported:
-    MochiKit.name = '[MochiKit full-build]';
+    MochiKit$1.name = '[MochiKit full-build]';
 
     if (typeof console.log === 'function') {
         let {
             version: { major, minor, patch }
-        } = MochiKit;
+        } = MochiKit$1;
         console.log(`MochiKit version ${major}.${minor}.${patch} loaded!`);
     }
 
     //Alias
 
-    return MochiKit;
+    return MochiKit$1;
 
-})));
+}());

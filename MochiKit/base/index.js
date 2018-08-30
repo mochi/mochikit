@@ -28,7 +28,7 @@ export { default as mean } from './mean';
 export { default as nodeWalk } from './nodeWalk';
 export { default as noop } from './noop';
 export { default as once } from './once';
-export { default as operators } from './operators';
+export * from './operators';
 export { default as parseQueryString } from './parseQueryString';
 export { default as partial } from './partial';
 export { default as partialRight } from './partialRight';

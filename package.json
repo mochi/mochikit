@@ -1,10 +1,5 @@
 {
     "scripts": {
-        "_build": "cd MochiKit && rollup index.js --name \"mochikit\" --format",
-        "build-umd": "npm run _build umd > bundle.js",
-        "build-cjs": "npm run _build cjs > bundle.js",
-        "build-amd": "npm run _build amd > bundle.js",
-        "build-iife": "npm run _build iife > bundle.js",
-        "build-es": "npm run _build es > bundle.js"
+        "build": "rollup -c"
     }
 }

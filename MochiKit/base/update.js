@@ -1,5 +1,5 @@
 /** @id MochiKit.Base.update */
-function update(self, obj /*, ... */) {
+export default function update(self, obj /*, ... */) {
     if (self === null || self === undefined) {
         self = {};
     }

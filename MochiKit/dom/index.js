@@ -1,3 +1,4 @@
+//dom index.js
 export { default as clearRoot } from './clearRoot';
 export { default as cloneTree } from './cloneTree';
 export { default as empty } from './empty';
