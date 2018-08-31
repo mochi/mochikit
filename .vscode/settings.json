@@ -1,3 +1,9 @@
 {
+<<<<<<< HEAD
     "python.linting.enabled": false
+=======
+    "todo-tree.flat": false,
+    "todo-tree.expanded": true,
+    "npm-scripts.showStartNotification": false
+>>>>>>> 82b1904cd94eab193a95b089863079fbebbe174e
 }

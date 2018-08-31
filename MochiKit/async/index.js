@@ -5,13 +5,15 @@
  * so you can do:
  * @example
  * import { all, chain, Deferred } from 'mochikit/async';
- * 
+ *
  * This should work with modern-day module bundlers
  * like Rollup, because it uses a technique called
  * 'tree shaking' which basically means only the needed
- * modules are included in the bundles. 
+ * modules are included in the bundles.
  */
 export { default as all } from './all';
+export { default as asyncCatch } from './asyncCatch';
+export { default as asyncThen } from './asyncThen';
 export { default as callLater } from './callLater';
 export { default as catchSilent } from './catchSilent';
 export { default as chain } from './chain';
@@ -33,6 +35,7 @@ export { default as prevent } from './prevent';
 export { default as reject } from './reject';
 export { default as resolve } from './resolve';
 export { default as simpleXHR } from './simpleXHR';
+export * from './states';
 export { default as succeedAfter } from './succeedAfter';
 export { default as tap } from './tap';
 export { default as tapFinally } from './tapFinally';

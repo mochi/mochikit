@@ -1,0 +1,38 @@
+//Curriable operator methods:
+export const truth = (a) => !!a,
+lognot = (a) => !a,
+identity = (a) => a,
+not = (a) => ~a,
+neg = (a) => -a,
+add = (a, b) => a + b,
+sub = (a, b) => a - b,
+div = (a, b) => a / b,
+mod = (a, b) => a % b,
+mul = (a, b) => a * b,
+and = (a, b) => a && b,
+or = (a, b) => a || b,
+xor = (a, b) => a ^ b,
+lshift = (a, b) => a << b,
+rshift = (a, b) => a >> b,
+zrshift = (a, b)=> a >>> b,
+eq = (a, b) => a == b,
+ne = (a, b) => a != b,
+gt = (a, b) => a > b,
+ge = (a, b) => a >= b,
+lt = (a, b) => a < b,
+le = (a, b) => a <= b,
+seq = (a, b) => a === b,
+sne = (a, b) => a !== b,
+// ceq,
+// cne,
+// cgt,
+// cge,
+// clt,
+// cle
+//Think the docs got these wrong:
+logand = (a, b) => a & b,
+logor = (a, b) => a | b,
+
+//Useful for indexOf
+ioempty = (a) => a === -1,
+iofound = (a) => a !== -1
