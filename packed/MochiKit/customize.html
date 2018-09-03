@@ -21,6 +21,40 @@
       }
     </style>
     <script type="text/javascript" src="MochiKit.js"></script>
+  </head>
+  <body>
+    <a href="https://mochi.github.io/mochikit/"><img id="mainlink" src="../../include/img/g_logo_doc.gif" alt="I &hearts; MochiKit" title="I &hearts; MochiKit" /></a>
+    <div class="document">
+      <div class="section">
+        <h1>MochiKit Customizer</h1>
+        <form id="form">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="border-right: 1px solid rgb(204, 204, 204); padding-right: 10px;">
+                            <h3>Version:</h3>
+                            <select id="packVersions"></select>
+                            <hr style="margin-top: 20px;">
+                            <h3>Module Sets:</h3>
+                            <select id="packSets"></select>
+                            <hr style="margin-top: 200px;">
+                            <h3>Additional Options:</h3>
+                            <label><input id="packExport" checked="checked" type="checkbox"> Export Globals</label><br>
+                        </td>
+                        <td id="packModules" style="padding-left: 10px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-top: 20px;">
+                        <button type="submit">Create Customized MochiKit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <a id="packDownload" style="display: none" download="MochiKit.js"></a>
+        </form>
+      </div>
+    </div>
     <script type="text/javascript">
 
 // Versions available
@@ -37,12 +71,6 @@ var SETS = {
 
 // Module objects with dependencies and packed JS
 var MODULES = {};
-
-// Initializes the version array (and UI)
-function doInit() {
-    MochiKit.Async.loadScript("https://api.github.com/repos/mochi/mochikit/commits?callback=cbInit");
-    MochiKit.Async.loadScript("https://api.github.com/repos/mochi/mochikit/git/refs/tags?callback=cbInit");
-}
 
 // Callback for version info
 function cbInit(res) {
@@ -80,11 +108,6 @@ function cbInit(res) {
         versions.selectedIndex = idx;
         doLoadSource(versions.options[idx].value);
     }
-
-    // Fix for automatic unpack of downloaded files
-    if (/Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)) {
-        $("packCompress").value = 'rename-to-gz';
-    }
 }
 
 // Loads the source code for a specified Git reference (commit/tag/branch)
@@ -93,7 +116,7 @@ function doLoadSource(ref) {
     replaceChildNodes($("packModules"));
     if (ref) {
         MochiKit.Async.loadScript("https://api.github.com/repos/mochi/mochikit/contents/packed/MochiKit/MochiKit.js" +
-                                  "?ref=" + ref + "&callback=cbLoadSource");
+                                    "?ref=" + ref + "&callback=cbLoadSource");
     } else {
         var url = $$("head script[src*=MochiKit.js]")[0].src;
         var d = doSimpleXMLHttpRequest(url);
@@ -293,20 +316,28 @@ function doUpdateCustom() {
     replaceChildNodes(option, "Selected Modules \u2014 " + nf(size / 1024));
 }
 
-function doSubmit() {
-    var packed = "";
+function doSubmit(e) {
+    e.preventDefault();
+    var parts = [];
     if (!$("packExport").checked) {
-        packed += "// Config options\n";
-        packed += "MochiKit={__export__:false};\n\n";
+        parts.push(
+            "// Config options\n",
+            "MochiKit={__export__:false};\n\n"
+        );
     }
     for (var id in MODULES) {
         var m = MODULES[id];
         if (m.dom.checked) {
-            packed += m.packed;
+            parts.push(m.packed);
         }
     }
-    packed += MODULES["Base"].packedTail;
-    $("packData").value = packed;
+    parts.push(MODULES["Base"].packedTail);
+    var blob = new Blob(parts, {type: "application/octet-stream"});
+    var url = window.URL.createObjectURL(blob);
+    var el = $("packDownload");
+    el.href = url;
+    el.click();
+    window.URL.revokeObjectURL(url);
     return true;
 }
 
@@ -336,42 +367,18 @@ function fromBase64(str) {
     }
     return res.join("");
 }
-    </script>
-  </head>
-  <body onload="doInit()">
-    <a href="http://mochikit.com/"><img id="mainlink" src="../../include/img/g_logo_doc.gif" alt="I &hearts; MochiKit" title="I &hearts; MochiKit" /></a>
-    <div class="document">
-      <div class="section">
-        <h1>MochiKit Customizer</h1>
 
-    <form action="http://mochikit-dot-com.appspot.com/download" method="POST" onsubmit="return doSubmit();">
-      <table>
-        <tbody>
-          <tr>
-            <td style="border-right: 1px solid rgb(204, 204, 204); padding-right: 10px;">
-              <h3>Version:</h3>
-              <select id="packVersions" onchange="doLoadSource(this.value);"></select>
-              <hr style="margin-top: 20px;">
-              <h3>Module Sets:</h3>
-              <select id="packSets"></select>
-              <hr style="margin-top: 200px;">
-              <h3>Additional Options:</h3>
-              <label><input id="packExport" checked="checked" type="checkbox"> Export Globals</label><br>
-              <label><input id="packCompress" name="compress" value="gz" checked="checked" type="checkbox"> GZIP Compression</label><br>
-            </td>
-            <td id="packModules" style="padding-left: 10px;">
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2" style="padding-top: 20px;">
-              <button type="submit">Create Customized MochiKit</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <input id="packData" type="hidden" name="data" value="" />
-    </form>
-      </div>
-    </div>
-  </body>
+// Initializes the version array (and UI)
+function doInit() {
+    MochiKit.Async.loadScript("https://api.github.com/repos/mochi/mochikit/commits?callback=cbInit");
+    MochiKit.Async.loadScript("https://api.github.com/repos/mochi/mochikit/git/refs/tags?callback=cbInit");
+    connect("form", "onsubmit", doSubmit);
+    connect("packVersions", "onchange", function (e) {
+        doLoadSource(e.target().value);
+    });
+}
+
+doInit();
+        </script>
+    </body>
 </html>
