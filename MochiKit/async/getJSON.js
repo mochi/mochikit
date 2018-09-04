@@ -1,3 +1,3 @@
-export default function getJSON(url) {
-    fetch(url).then((r) => r.json());
+export default function getJSON(url, options) {
+    fetch(url, options).then((r) => r.json());
 }

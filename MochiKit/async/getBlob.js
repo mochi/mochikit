@@ -1,3 +1,3 @@
-export default function getBlob(url) {
-    fetch(url).then((r) => r.blob());
+export default function getBlob(url, options) {
+    fetch(url, options).then((r) => r.blob());
 }

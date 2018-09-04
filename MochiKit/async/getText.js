@@ -1,3 +1,3 @@
-export default function getText(url) {
-    fetch(url).then((r) => r.text());
+export default function getText(url, options) {
+    fetch(url, options).then((r) => r.text());
 }

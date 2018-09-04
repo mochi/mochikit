@@ -1,3 +1,3 @@
-export default function getForm(url) {
-    fetch(url).then((r) => r.formData());
+export default function getForm(url, options) {
+    fetch(url, options).then((r) => r.formData());
 }

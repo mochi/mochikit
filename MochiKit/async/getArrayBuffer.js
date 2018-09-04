@@ -1,3 +1,3 @@
-export default function getArrayBuffer(url) {
-    fetch(url).then((r) => r.arrayBuffer());
+export default function getArrayBuffer(url, options) {
+    fetch(url, options).then((r) => r.arrayBuffer());
 }
