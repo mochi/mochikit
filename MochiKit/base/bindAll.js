@@ -6,7 +6,7 @@ export default function bindAll(object, ctx) {
         val = object[key];
 
         if(typeof val === 'function') {
-            object[key] = val.bind()
+            object[key] = val.bind();
         }
     }
 

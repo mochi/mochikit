@@ -202,17 +202,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return rval;
     },
 
-    /** @id MochiKit.Base.reprArrayLike */
-    reprArrayLike: function (o) {
-        var m = MochiKit.Base;
-        return "[" + m.map(m.repr, o).join(", ") + "]";
-    },
-
-    /** @id MochiKit.Base.registerJSON */
-    registerJSON: function (name, check, wrap, /* optional */override) {
-        MochiKit.Base.jsonRegistry.register(name, check, wrap, override);
-    },
-
     _filterJSON: function (s) {
         var m = s.match(/^\s*\/\*(.*)\*\/\s*$/);
         return (m) ? m[1] : s;
