@@ -11,3 +11,4 @@ TODO low: add all DOM createElement shorthand elements like A, DIV, ARTICLE meth
 TODO low: throw an example of using <script type=module> and es6 modules when revamping docs.
 TODO low: maybe make a dom chain api like jQuery.
 TODO medium: finish the Color class
+TODO high: the color class is really messed up
