@@ -22,14 +22,6 @@ MochiKit.version = {
 
 //Full build meaning all packages have been imported:
 MochiKit.name = '[MochiKit full-build]';
-
-if (typeof console.log === 'function') {
-    let {
-        version: { major, minor, patch }
-    } = MochiKit;
-    console.log(`MochiKit version ${major}.${minor}.${patch} loaded!`);
-}
-
 export default MochiKit;
 
 //Also export the submodules.
