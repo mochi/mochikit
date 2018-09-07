@@ -1,4 +1,4 @@
-/*Bundled with Rollup at "Fri Sep 07 2018 21:42:11 GMT+0100 (British Summer Time)".*/
+/*Bundled with Rollup at "Fri Sep 07 2018 22:52:57 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
@@ -1275,6 +1275,12 @@ var mochikit = (function () {
         }
     }
 
+    var primitives = new Map().
+    set('boolean', true)
+    .set('number', true)
+    .set('function', true)
+    .set('symbol', true);
+
     function provide(namespace, root) {
         let split = (namespace + '').split(/\s+/g), val;
 
@@ -1387,6 +1393,7 @@ var mochikit = (function () {
         parseQueryString: parseQueryString,
         partial: partial,
         partialRight: partialRight,
+        primitives: primitives,
         provide: provide,
         times: times,
         update: update,
@@ -2849,10 +2856,10 @@ var mochikit = (function () {
         }
     }
 
-    const __expr__ = '[MochiKit.Func]';
+    const __repr__$4 = '[MochiKit.Func]';
 
     var func = /*#__PURE__*/Object.freeze({
-        __expr__: __expr__,
+        __repr__: __repr__$4,
         arity: arity,
         copyFunction: copyFunction,
         ctor: ctor,
@@ -2869,6 +2876,281 @@ var mochikit = (function () {
         stepRight: stepRight,
         unary: unary,
         wrap: wrap
+    });
+
+    //Typescript rocks...
+    function isStream(object) {
+        return (
+            object &&
+            typeof object.write === 'function' &&
+            typeof object.end === 'function' &&
+            typeof object.on === 'function' &&
+            typeof object.off === 'function'
+        );
+    }
+
+    const OFF = 0,
+        ERROR = 10,
+        WARN = 20,
+        INFO = 30,
+        DEBUG = 40,
+        TRACE = 50;
+
+    var Level = /*#__PURE__*/Object.freeze({
+        OFF: OFF,
+        ERROR: ERROR,
+        WARN: WARN,
+        INFO: INFO,
+        DEBUG: DEBUG,
+        TRACE: TRACE
+    });
+
+    class HandlerList {
+        constructor() {
+            this.handlers = [];
+        }
+
+        addHandler(func) {
+            if(typeof func !== 'function') {
+                throw new Error('Not a function.');
+            }
+
+            this.handlers.push(func);
+            return this;
+        }
+
+        fire(data) {
+            this.handlers.forEach((a) => a(data));
+        }
+
+        isEmpty() {
+            return this.handlers.length === 0;
+        }
+
+        isNotEmpty() {
+            return !this.isEmpty();
+        }
+
+        clear() {
+            this.handlers = [];
+            return this;
+        }
+    }
+
+    //This is just a barebones version of log.ts,
+
+    class Logger {
+        constructor(stream) {
+            if(!isStream(stream)) {
+                throw new Error('Expected a WritableStream');
+            }
+
+            this.stream = stream;
+            this.messages = 0;
+            this.level = OFF;
+            this.handlers = new HandlerList();
+        }
+
+        addHandler(func) {
+            this.handlers.addHandler(func);
+            return this;
+        }
+
+        fireHandlers(func) {
+            this.handlers.fire();
+        }
+
+        isHandlersEmpty() {
+            return this.handlers.isEmpty();
+        }
+
+        isHandlersNotEmpty() {
+            return !this.isHandlersEmpty();
+        }
+
+        clearHandlers() {
+            this.handlers.clear();
+            return this;
+        }
+
+        isLevelAvailable(level) {
+            return this.level !== OFF && ~~level <= this.level;
+        }
+
+        isErrorAvailable() {
+            return this.isLevelAvailable(ERROR);
+        }
+
+        isWarnAvailable() {
+            return this.isLevelAvailable(WARN);
+        }
+
+        isInfoAvailable() {
+            return this.isLevelAvailable(INFO);
+        }
+
+        isDebugAvailable() {
+            return this.isLevelAvailable(DEBUG);
+        }
+
+        isTraceAvailable() {
+            return this.isLevelAvailable(TRACE);
+        }
+
+        isOff() {
+            return this.level === OFF;
+        }
+
+        isOn() {
+            return !this.isOff();
+        }
+
+        log(level, data) {
+            if(this.isLevelAvailable(level)) {
+                this.stream.write(data);
+                this.addMessage();
+            }
+            
+            return this;
+        }
+
+        addMessage() {
+            ++this.messages;
+        }
+
+        error(data) {
+            return this.log(ERROR, data);
+        }
+
+        warn(data) {
+            return this.log(WARN, data);
+        }
+
+        info(data) {
+            return this.log(INFO, data);
+        }
+
+        debug(data) {
+            return this.log(DEBUG, data);
+        }
+
+        trace(data) {
+            return this.log(TRACE, data);
+        }
+
+        logError(data) {
+            return this.log(ERROR, `ERROR: ${data}`); 
+        }
+
+        logWarn(data) {
+            return this.log(WARN, `WARN: ${data}`);
+        }
+
+        logInfo(data) {
+            return this.log(INFO, `INFO: ${data}`);
+        }
+
+        logTrace(data) {
+            return this.log(TRACE, `TRACE: ${data}`);
+        }
+
+        logDebug(data) {
+            return this.log(DEBUG, `DEBUG: ${data}`);
+        }
+
+        clone() {
+            let lgr = new Logger(this.stream);
+            lgr.level = this.level;
+            return lgr;
+        }
+
+        __repr__() {
+            return `Logger(${this.level}, ${this.messages})`;
+        }
+
+        reset() {
+            this.level = OFF;
+            this.messages = 0;
+            return this;
+        }
+
+        equals(lgr) {
+            return this.matchingLevel(lgr) && this.matchingMessages(lgr);
+        }
+
+        matchingLevel(lgr) {
+            return lgr.level === this.level; 
+        }
+
+        matchingMessages(lgr) {
+            return lgr.messages === this.messages;
+        }
+    }
+
+    class LogMessage {
+        constructor(level, data, logger) {
+            this.level = level;
+            this.data = data;
+            this.logger = logger;
+            this.timestamp = Date.now();
+        }
+    }
+
+    function isLogMessage(...args) {
+        return args.every((a) => a instanceof LogMessage);
+    }
+
+    function printMessage(msg) {
+        console.log(`LEVEL: ${msg.level}\nHAS_LOGGER: ${!!msg.logger}\nDATA:\n${msg.data}`); 
+    }
+
+    const __repr__$5 = '[MochiKit.Logger]';
+    let currentLogger = new Logger({
+        write(data) {
+            console.log(data);
+        },
+
+        on() {},
+        off() {},
+        end() {}
+    }),
+    logError = logMethod(ERROR),
+    logWarn = logMethod(WARN),
+    logInfo = logMethod(INFO),
+    logDebug = logMethod(DEBUG),
+    logTrace = logMethod(TRACE);
+
+
+    function logMethod(level) {
+        return function(data) {
+            return consoleLogger.log(level, data);
+        };
+    }
+
+    function setCurrentLogger(stream) {
+        currentLogger.stream = stream;
+    }
+
+    function getCurrentLogger(stream) {
+        return currentLogger;
+    }
+
+    var logging = /*#__PURE__*/Object.freeze({
+        __repr__: __repr__$5,
+        logMethod: logMethod,
+        logError: logError,
+        logWarn: logWarn,
+        logInfo: logInfo,
+        logDebug: logDebug,
+        logTrace: logTrace,
+        Level: Level,
+        Logger: Logger,
+        setCurrentLogger: setCurrentLogger,
+        getCurrentLogger: getCurrentLogger,
+        isLogMessage: isLogMessage,
+        isStream: isStream,
+        LogMessage: LogMessage,
+        printMessage: printMessage
     });
 
     function getRepr(object) {
@@ -2960,9 +3242,10 @@ var mochikit = (function () {
         }
     }
 
-
+    const __repr__$6 = '[MochiKit.Repr]';
 
     var repr = /*#__PURE__*/Object.freeze({
+        __repr__: __repr__$6,
         getRepr: getRepr,
         hasRepr: hasRepr,
         registerRepr: registerRepr,
@@ -2988,7 +3271,7 @@ var mochikit = (function () {
     ***/
 
     //Collect the variables in MochiKit.
-    let MochiKit$1 = { async, base, color, dom, func, repr };
+    let MochiKit$1 = { async, base, color, dom, func, logging, repr };
     MochiKit$1.version = {
         /*major:x, minor:x, patch:x*/
     };

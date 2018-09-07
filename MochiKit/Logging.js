@@ -18,20 +18,6 @@ MochiKit.Logging.LogMessage = function (num, level, info) {
     this.timestamp = new Date();
 };
 
-MochiKit.Logging.LogMessage.prototype = {
-     /** @id MochiKit.Logging.LogMessage.prototype.repr */
-    repr: function () {
-        var m = MochiKit.Base;
-        return 'LogMessage(' +
-            m.map(
-                m.repr,
-                [this.num, this.level, this.info]
-            ).join(', ') + ')';
-    },
-    /** @id MochiKit.Logging.LogMessage.prototype.toString */
-    toString: MochiKit.Base.forwardCall("repr")
-};
-
 MochiKit.Base.update(MochiKit.Logging, {
     /** @id MochiKit.Logging.logLevelAtLeast */
     logLevelAtLeast: function (minLevel) {
@@ -48,31 +34,10 @@ MochiKit.Base.update(MochiKit.Logging, {
         };
     },
 
-    /** @id MochiKit.Logging.isLogMessage */
-    isLogMessage: function (/* ... */) {
-        var LogMessage = MochiKit.Logging.LogMessage;
-        for (var i = 0; i < arguments.length; i++) {
-            if (!(arguments[i] instanceof LogMessage)) {
-                return false;
-            }
-        }
-        return true;
-    },
-
     /** @id MochiKit.Logging.compareLogMessage */
     compareLogMessage: function (a, b) {
         return MochiKit.Base.compare([a.level, a.info], [b.level, b.info]);
     },
-
-    /** @id MochiKit.Logging.alertListener */
-    alertListener: function (msg) {
-        alert(
-            "num: " + msg.num +
-            "\nlevel: " +  msg.level +
-            "\ninfo: " + msg.info.join(" ")
-        );
-    }
-
 });
 
 /** @id MochiKit.Logging.Logger */
@@ -88,98 +53,6 @@ MochiKit.Logging.Logger = function (/* optional */maxSize) {
 };
 
 MochiKit.Logging.Logger.prototype = {
-    /** @id MochiKit.Logging.Logger.prototype.clear */
-    clear: function () {
-        this._messages.splice(0, this._messages.length);
-    },
-
-    /** @id MochiKit.Logging.Logger.prototype.logToConsole */
-    logToConsole: function (msg) {
-        if (typeof(window) != "undefined" && window.console
-                && window.console.log) {
-            // Safari and FireBug 0.4
-            // Percent replacement is a workaround for cute Safari crashing bug
-            window.console.log(msg.replace(/%/g, '\uFF05'));
-        } else if (typeof(opera) != "undefined" && opera.postError) {
-            // Opera
-            opera.postError(msg);
-        } else if (typeof(Debug) != "undefined" && Debug.writeln) {
-            // IE Web Development Helper (?)
-            // http://www.nikhilk.net/Entry.aspx?id=93
-            Debug.writeln(msg);
-        } else if (typeof(debug) != "undefined" && debug.trace) {
-            // Atlas framework (?)
-            // http://www.nikhilk.net/Entry.aspx?id=93
-            debug.trace(msg);
-        }
-    },
-
-    /** @id MochiKit.Logging.Logger.prototype.dispatchListeners */
-    dispatchListeners: function (msg) {
-        for (var k in this.listeners) {
-            var pair = this.listeners[k];
-            if (pair.ident != k || (pair[0] && !pair[0](msg))) {
-                continue;
-            }
-            pair[1](msg);
-        }
-    },
-
-    /** @id MochiKit.Logging.Logger.prototype.addListener */
-    addListener: function (ident, filter, listener) {
-        if (typeof(filter) == 'string') {
-            filter = MochiKit.Logging.logLevelAtLeast(filter);
-        }
-        var entry = [filter, listener];
-        entry.ident = ident;
-        this.listeners[ident] = entry;
-    },
-
-    /** @id MochiKit.Logging.Logger.prototype.removeListener */
-    removeListener: function (ident) {
-        delete this.listeners[ident];
-    },
-
-    /** @id MochiKit.Logging.Logger.prototype.baseLog */
-    baseLog: function (level, message/*, ...*/) {
-        if (typeof(level) == "number") {
-            if (level >= MochiKit.Logging.LogLevel.FATAL) {
-                level = 'FATAL';
-            } else if (level >= MochiKit.Logging.LogLevel.ERROR) {
-                level = 'ERROR';
-            } else if (level >= MochiKit.Logging.LogLevel.WARNING) {
-                level = 'WARNING';
-            } else if (level >= MochiKit.Logging.LogLevel.INFO) {
-                level = 'INFO';
-            } else {
-                level = 'DEBUG';
-            }
-        }
-        var msg = new MochiKit.Logging.LogMessage(
-            this.counter,
-            level,
-            MochiKit.Base.extend(null, arguments, 1)
-        );
-        this._messages.push(msg);
-        this.dispatchListeners(msg);
-        if (this.useNativeConsole) {
-            this.logToConsole(msg.level + ": " + msg.info.join(" "));
-        }
-        this.counter += 1;
-        while (this.maxSize >= 0 && this._messages.length > this.maxSize) {
-            this._messages.shift();
-        }
-    },
-
-    /** @id MochiKit.Logging.Logger.prototype.getMessages */
-    getMessages: function (howMany) {
-        var firstMsg = 0;
-        if (!(typeof(howMany) == 'undefined' || howMany === null)) {
-            firstMsg = Math.max(0, this._messages.length - howMany);
-        }
-        return this._messages.slice(firstMsg);
-    },
-
     /** @id MochiKit.Logging.Logger.prototype.getMessageText */
     getMessageText: function (howMany) {
         if (typeof(howMany) == 'undefined' || howMany === null) {

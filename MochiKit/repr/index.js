@@ -1,3 +1,4 @@
+export const __repr__ = '[MochiKit.Repr]';
 export { default as getRepr } from './getRepr';
 export { default as hasRepr } from './hasRepr';
 export { default as registerRepr } from './registerRepr';

@@ -35,6 +35,7 @@ export * from './operators';
 export { default as parseQueryString } from './parseQueryString';
 export { default as partial } from './partial';
 export { default as partialRight } from './partialRight';
+export { default as primitives } from './primitives.js';
 export { default as provide } from './provide';
 export { default as times } from './times';
 export { default as update } from './update';

@@ -13,10 +13,11 @@ import * as base from './base/index.js';
 import * as color from './color/index.js';
 import * as dom from './dom/index.js';
 import * as func from './func/index.js';
+import * as logging from './logging/index.js';
 import * as repr from './repr/index.js';
 
 //Collect the variables in MochiKit.
-let MochiKit = { async, base, color, dom, func, repr };
+let MochiKit = { async, base, color, dom, func, logging, repr };
 MochiKit.version = {
     /*major:x, minor:x, patch:x*/
 };
