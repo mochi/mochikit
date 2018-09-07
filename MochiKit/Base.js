@@ -71,18 +71,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return self;
     },
 
-    /** @id MochiKit.Base.xmap */
-    xmap: function (fn/*, obj... */) {
-        if (fn === null) {
-            return MochiKit.Base.extend(null, arguments, 1);
-        }
-        var rval = [];
-        for (var i = 1; i < arguments.length; i++) {
-            rval.push(fn(arguments[i]));
-        }
-        return rval;
-    },
-
     /** @id MochiKit.Base.xfilter */
     xfilter: function (fn/*, obj... */) {
         var rval = [];
@@ -435,13 +423,6 @@ MochiKit.Base.__new__ = function () {
     m.listMax = m.partial(m.listMinMax, 1);
     /** @id MochiKit.Base.listMin */
     m.listMin = m.partial(m.listMinMax, -1);
-
-    /** @id MochiKit.Base.isCallable */
-    m.isCallable = m.typeMatcher('function');
-    /** @id MochiKit.Base.isUndefined */
-    m.isUndefined = m.typeMatcher('undefined');
-    /** @id MochiKit.Base.isValue */
-    m.isValue = m.typeMatcher('boolean', 'number', 'string');
 
     /** @id MochiKit.Base.merge */
     m.merge = m.partial(m.update, null);

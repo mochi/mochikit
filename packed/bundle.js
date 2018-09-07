@@ -1,4 +1,4 @@
-/*Bundled with Rollup at "Thu Aug 30 2018 22:00:56 GMT+0100 (British Summer Time)".*/
+/*Bundled with Rollup at "Fri Sep 07 2018 19:28:40 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
@@ -390,24 +390,24 @@ var mochikit = (function () {
         return deferred;
     }
 
-    function getArrayBuffer(url) {
-        fetch(url).then((r) => r.arrayBuffer());
+    function getArrayBuffer(url, options) {
+        fetch(url, options).then((r) => r.arrayBuffer());
     }
 
-    function getBlob(url) {
-        fetch(url).then((r) => r.blob());
+    function getBlob(url, options) {
+        fetch(url, options).then((r) => r.blob());
     }
 
-    function getForm(url) {
-        fetch(url).then((r) => r.formData());
+    function getForm(url, options) {
+        fetch(url, options).then((r) => r.formData());
     }
 
-    function getJSON(url) {
-        fetch(url).then((r) => r.json());
+    function getJSON(url, options) {
+        fetch(url, options).then((r) => r.json());
     }
 
-    function getText(url) {
-        fetch(url).then((r) => r.text());
+    function getText(url, options) {
+        fetch(url, options).then((r) => r.text());
     }
 
     function isPromise(promise) {
@@ -935,7 +935,7 @@ var mochikit = (function () {
     }
 
     function isObject(a) {
-        return getType(a) === '[object Object]';
+        return a && getType(a) === '[object Object]';
     }
 
     function isNumber(a) {
@@ -1584,42 +1584,49 @@ var mochikit = (function () {
         stringRepr: stringRepr
     });
 
+    class NotFoundError extends Error {
+        constructor(msg) {
+            super(msg);
+            this.name = 'NotFoundError';
+        }
+    }
+
     class AdapterRegistry {
         constructor() {
             this.pairs = [];
         }
 
-            /** @id MochiKit.Base.AdapterRegistry.prototype.register */
-            register(name, check, wrap, override) {
-                if (override) {
-                    this.pairs.unshift([name, check, wrap]);
-                } else {
-                    this.pairs.push([name, check, wrap]);
+        /** @id MochiKit.Base.AdapterRegistry.prototype.register */
+        register(name, check, wrap, override) {
+            if (override) {
+                this.pairs.unshift([name, check, wrap]);
+            } else {
+                this.pairs.push([name, check, wrap]);
+            }
+        }
+
+        /** @id MochiKit.Base.AdapterRegistry.prototype.match */
+        match(/* ... */) {
+            for (var i = 0; i < this.pairs.length; i++) {
+                var pair = this.pairs[i];
+                if (pair[1].apply(this, arguments)) {
+                    return pair[2].apply(this, arguments);
                 }
             }
-        
-            /** @id MochiKit.Base.AdapterRegistry.prototype.match */
-            match(/* ... */) {
-                for (var i = 0; i < this.pairs.length; i++) {
-                    var pair = this.pairs[i];
-                    if (pair[1].apply(this, arguments)) {
-                        return pair[2].apply(this, arguments);
-                    }
+            throw new NotFoundError();
+        }
+
+        /** @id MochiKit.Base.AdapterRegistry.prototype.unregister */
+        unregister(name) {
+            for (var i = 0; i < this.pairs.length; i++) {
+                var pair = this.pairs[i];
+                if (pair[0] == name) {
+                    this.pairs.splice(i, 1);
+                    return true;
                 }
-                throw MochiKit.Base.NotFound;
             }
-        
-            /** @id MochiKit.Base.AdapterRegistry.prototype.unregister */
-            unregister(name) {
-                for (var i = 0; i < this.pairs.length; i++) {
-                    var pair = this.pairs[i];
-                    if (pair[0] == name) {
-                        this.pairs.splice(i, 1);
-                        return true;
-                    }
-                }
-                return false;
-            }
+            return false;
+        }
     }
 
     function apply(func, args) {
@@ -1744,7 +1751,7 @@ var mochikit = (function () {
     }
 
     function isArrayLike(obj) {
-        return obj && isFinite
+        return obj && isFinite(obj.length);
     }
 
     function isBoolean(a) {
@@ -1768,11 +1775,17 @@ var mochikit = (function () {
     }
 
     function isString(a) {
-        return getType(a) === '[object String]';
+        return a === '' ? true : getType(a) === '[object String]';
     }
 
     function isUndefined(...args) {
         return args.every((a) => a === undefined);
+    }
+
+    function isValue(obj) {
+        //Why check null for typeof?
+        let type = obj == null ? null : typeof obj;
+        return type === 'boolean' || type === 'number' || type === 'string';
     }
 
     function itemgetter(func) {
@@ -1804,13 +1817,11 @@ var mochikit = (function () {
     function mean(...args /* lst... */) {
         /* http://www.nist.gov/dads/HTML/mean.html */
         var sum = 0;
-
-        var m = MochiKit.Base;
         var count = args.length;
 
         while (args.length) {
             var o = args.shift();
-            if (o && typeof o == 'object' && typeof o.length == 'number') {
+            if (o.length !== 0) {
                 count += o.length - 1;
                 for (var i = o.length - 1; i >= 0; i--) {
                     sum += o[i];
@@ -1820,7 +1831,7 @@ var mochikit = (function () {
             }
         }
 
-        if (count <= 0) {
+        if (count === 0) {
             throw new TypeError('mean() requires at least one argument');
         }
 
@@ -2032,6 +2043,7 @@ var mochikit = (function () {
         escapeSpecial: escapeSpecial,
         evalJSON: evalJSON,
         forwardCall: forwardCall,
+        getType: getType,
         identity: identity,
         isArrayLike: isArrayLike,
         isBoolean: isBoolean,
@@ -2043,12 +2055,14 @@ var mochikit = (function () {
         isObject: isObject,
         isString: isString,
         isUndefined: isUndefined,
+        isValue: isValue,
         itemgetter: itemgetter,
         keys: keys,
         limit: limit,
         mean: mean,
         nodeWalk: nodeWalk,
         noop: noop,
+        NotFoundError: NotFoundError,
         once: once,
         parseQueryString: parseQueryString,
         partial: partial,
@@ -2088,6 +2102,187 @@ var mochikit = (function () {
         iofound: iofound
     });
 
+    function arity(func, amount) {
+        switch (amount) {
+            case 0:
+                return function() {
+                    return func.call(this);
+                };
+            case 1:
+                return function($a) {
+                    return func.call(this, $a);
+                };
+            case 2:
+                return function($a, $b) {
+                    return func.call(this, $a, $b);
+                };
+            case 3:
+                return function($a, $b, $c) {
+                    return func.call(this, $a, $b, $c);
+                };
+            case 4:
+                return function($a, $b, $c, $d) {
+                    return func.call(this, $a, $b, $c, $d);
+                };
+            case 5:
+                return function($a, $b, $c, $d, $e) {
+                    return func.call(this, $a, $b, $c, $d, $e);
+                };
+            case 6:
+                return function($a, $b, $c, $d, $e, $f) {
+                    return func.call(this, $a, $b, $c, $d, $e, $f);
+                };
+            case 7:
+                return function($a, $b, $c, $d, $e, $f, $g) {
+                    return func.call(this, $a, $b, $c, $d, $e, $f, $g);
+                };
+            case 8:
+                return function($a, $b, $c, $d, $e, $f, $g, $h) {
+                    return func.call(this, $a, $b, $c, $d, $e, $f, $g, $h);
+                };
+            case 9:
+                return function($a, $b, $c, $d, $e, $f, $g, $h, $i) {
+                    return func.call(this, $a, $b, $c, $d, $e, $f, $g, $h, $i);
+                };
+            case 10:
+                return function($a, $b, $c, $d, $e, $f, $g, $h, $i, $j) {
+                    return func.call(this, $a, $b, $c, $d, $e, $f, $g, $h, $i, $j);
+                };
+
+            default:
+                throw new Error('Out of range');
+        }
+    }
+
+    function copyFunction(func) {
+        return function (...args) {
+            return func.call(this, ...args);
+        }
+    }
+
+    function ctor (classFunc) {
+        return new classFunc();
+    }
+
+    function everyArg(func) {
+        return function (...args) {
+            let cache, i = 0, len = args.length;
+
+            for(; i < len; ++i) {
+                if(!func.call(this, args, cache)) {
+                    return false;
+                }
+            }
+
+            //Prevent empty args from passing:
+            return len !== 0;
+        }
+    }
+
+    function flip(func) {
+        return function (...args) {
+            return func.call(this, ...args.reverse());
+        }
+    }
+
+    function pipe(func, ...functions) {
+        return function (val, ...args) {
+            for(let func of functions) {
+                val = func.call(this, val, ...args);
+            }
+
+            return val;
+        }
+    }
+
+    function flow(functions) {
+        return pipe(functions[0], ...functions.slice(1));
+    }
+
+    function invert(func) {
+        return function (...args) {
+            return !func.call(this, ...args);
+        }
+    }
+
+    function mapCtors(...ctors) {
+        return ctors.map(ctor);
+    }
+
+    function nodeCallback(func, onerror) {
+        return function (err, ...data) {
+            if(err) {
+                onerror(err, data);
+            } else {
+                func(...data);
+            }
+        }
+    }
+
+    function passArgs(func) {
+        return function (...args) {
+            return func.call(this, args);
+        }
+    }
+
+    function passTimes(func) {
+        let times = -1; 
+        return function (...args) {
+            return func.call(this, times, args);
+        }
+    }
+
+    function step(...functions) {
+        let i = 0, cache, run = length === i, {length} = functions; 
+        return function (...args) {
+            if(!run || i >= length) {
+                return cache;
+            }
+
+            cache = functions[i].call(this, args, cache);
+            ++i;
+            return cache;
+        }
+    }
+
+    function stepRight(...functions) {
+        return step(...functions.reverse());
+    }
+
+    function unary(func) {
+        return function (val) {
+            return func.call(this, val);
+        }
+    }
+
+    function wrap(value, func) {
+        return function (...args) {
+            return func.call(this, value, ...args);
+        }
+    }
+
+    const __expr__ = '[MochiKit.Func]';
+
+    var func = /*#__PURE__*/Object.freeze({
+        __expr__: __expr__,
+        arity: arity,
+        copyFunction: copyFunction,
+        ctor: ctor,
+        everyArg: everyArg,
+        flip: flip,
+        flow: flow,
+        invert: invert,
+        mapCtor: mapCtors,
+        nodeCallback: nodeCallback,
+        passArgs: passArgs,
+        passTimes: passTimes,
+        pipe: pipe,
+        step: step,
+        stepRight: stepRight,
+        unary: unary,
+        wrap: wrap
+    });
+
     /***
 
     MochiKit.MochiKit 1.5
@@ -2099,20 +2294,13 @@ var mochikit = (function () {
     ***/
 
     //Collect the variables in MochiKit.
-    let MochiKit$1 = { async, dom, repr, base };
+    let MochiKit$1 = { async, dom, repr, base, func };
     MochiKit$1.version = {
         /*major:x, minor:x, patch:x*/
     };
 
     //Full build meaning all packages have been imported:
     MochiKit$1.name = '[MochiKit full-build]';
-
-    if (typeof console.log === 'function') {
-        let {
-            version: { major, minor, patch }
-        } = MochiKit$1;
-        console.log(`MochiKit version ${major}.${minor}.${patch} loaded!`);
-    }
 
     //Alias
 
