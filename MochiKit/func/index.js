@@ -15,4 +15,4 @@ export { default as stepRight } from './stepRight';
 export { default as unary } from './unary';
 export { default as wrap } from './wrap';
 
-export const __expr__ = '[MochiKit.Func]';
+export const __repr__ = '[MochiKit.Func]';

@@ -70,57 +70,6 @@ MochiKit.Base.update(MochiKit.Base, {
         }
         return self;
     },
-
-    /** @id MochiKit.Base.xfilter */
-    xfilter: function (fn/*, obj... */) {
-        var rval = [];
-        if (fn === null) {
-            fn = MochiKit.Base.operator.truth;
-        }
-        for (var i = 1; i < arguments.length; i++) {
-            var o = arguments[i];
-            if (fn(o)) {
-                rval.push(o);
-            }
-        }
-        return rval;
-    },
-
-    /** @id MochiKit.Base.filter */
-    filter: function (fn, lst, self) {
-        var rval = [];
-        // allow an iterable to be passed
-        var m = MochiKit.Base;
-        if (!m.isArrayLike(lst)) {
-            if (MochiKit.Iter) {
-                lst = MochiKit.Iter.list(lst);
-            } else {
-                throw new TypeError("Argument not an array-like and MochiKit.Iter not present");
-            }
-        }
-        if (fn === null) {
-            fn = m.operator.truth;
-        }
-        if (typeof(Array.prototype.filter) == 'function') {
-            // Mozilla fast-path
-            return Array.prototype.filter.call(lst, fn, self);
-        } else if (typeof(self) == 'undefined' || self === null) {
-            for (var i = 0; i < lst.length; i++) {
-                var o = lst[i];
-                if (fn(o)) {
-                    rval.push(o);
-                }
-            }
-        } else {
-            for (var i = 0; i < lst.length; i++) {
-                o = lst[i];
-                if (fn.call(self, o)) {
-                    rval.push(o);
-                }
-            }
-        }
-        return rval;
-    },
     
     /** @id MochiKit.Base.registerComparator */
     registerComparator: function (name, check, comparator, /* optional */ override) {

@@ -14,7 +14,9 @@ export { default as hslToRGB } from './hslToRGB.js';
 export { default as hslValue } from './hslValue.js';
 export { default as hsvToRGB } from './hsvToRGB.js';
 export { default as isColor } from './isColor.js';
-export { default as namedColors } from './namedColors.js';
+export * from './namedColors.js';
 export { default as rgbToHSL } from './rgbToHSL.js';
 export { default as rgbToHSV } from './rgbToHSV.js';
 export { default as toColorPart } from './toColorPart.js';
+
+export const __repr__ = '[MochiKit.Color]';

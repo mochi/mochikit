@@ -1,4 +1,4 @@
-import { transparent } from "./colors";
+import { transparentColor as transparent } from './colors';
 import fromHexString from "./fromHexString";
 import * as colors from './colors';
 

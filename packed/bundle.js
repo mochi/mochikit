@@ -1,4 +1,4 @@
-/*Bundled with Rollup at "Fri Sep 07 2018 19:28:40 GMT+0100 (British Summer Time)".*/
+/*Bundled with Rollup at "Fri Sep 07 2018 21:42:11 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
@@ -864,6 +864,1258 @@ var mochikit = (function () {
         SETTLED: SETTLED
     });
 
+    class NotFoundError extends Error {
+        constructor(msg) {
+            super(msg);
+            this.name = 'NotFoundError';
+        }
+    }
+
+    class AdapterRegistry {
+        constructor() {
+            this.pairs = [];
+        }
+
+        /** @id MochiKit.Base.AdapterRegistry.prototype.register */
+        register(name, check, wrap, override) {
+            if (override) {
+                this.pairs.unshift([name, check, wrap]);
+            } else {
+                this.pairs.push([name, check, wrap]);
+            }
+        }
+
+        /** @id MochiKit.Base.AdapterRegistry.prototype.match */
+        match(/* ... */) {
+            for (var i = 0; i < this.pairs.length; i++) {
+                var pair = this.pairs[i];
+                if (pair[1].apply(this, arguments)) {
+                    return pair[2].apply(this, arguments);
+                }
+            }
+            throw new NotFoundError();
+        }
+
+        /** @id MochiKit.Base.AdapterRegistry.prototype.unregister */
+        unregister(name) {
+            for (var i = 0; i < this.pairs.length; i++) {
+                var pair = this.pairs[i];
+                if (pair[0] == name) {
+                    this.pairs.splice(i, 1);
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    function apply(func, args) {
+        switch(args.length) {
+            case 0: return func.call(this);
+            case 1: return func.call(this, args[0]);
+            case 2: return func.call(this, args[0], args[1]);
+            case 3: return func.call(this, args[0], args[1], args[2]);
+            case 4: return func.call(this, args[0], args[1], args[2], args[3]);
+            case 5: return func.call(this, args[0], args[1], args[2], args[3], args[4]);
+            case 6: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5]);
+            case 7: return func.call(this, args[0], arga[1], args[2], args[3], args[4], args[5], args[6]);
+            case 8: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+            case 9: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
+            case 10: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]);
+            //Probably still optimized in es6 compliant engines,
+            //This will be transpiled to .apply call with Babel, tho:
+            default: return func.call(this, ...args);
+        }
+    }
+
+    function bind(func, ctx, ...args) {
+        return function (...nargs) {
+            return func.call(ctx, ...args, ...nargs);
+        }
+    }
+
+    function bindAll(object, ctx) {
+        let val, keys = Object.keys(object);
+        ctx = ctx === undefined ? object : ctx;
+
+        for(let key of keys) {
+            val = object[key];
+
+            if(typeof val === 'function') {
+                object[key] = val.bind();
+            }
+        }
+
+        return object;
+    }
+
+    function bindRight(func, ctx, ...args) {
+        return function (...nargs) {
+            return func.call(ctx, ...nargs, ...args);
+        }
+    }
+
+    function camelize(selector) {
+        /* from dojo.style.toCamelCase */
+        var arr = selector.split('-');
+        var cc = arr[0];
+        for (var i = 1; i < arr.length; i++) {
+            cc += arr[[i][0]].toUpperCase() + arr[i].substring(1);
+        }
+        return cc;
+    }
+
+    function compose(functions) {
+        return function (val, ...args) {
+            for(let func of functions) {
+                val = func.call(this, val, ...args);
+            }
+
+            return val;
+        }
+    }
+
+    function counter(n/* = 1 */) {
+        if (n == null) {
+            n = 1;
+        }
+        return function () {
+            return n++;
+        };
+    }
+
+    function keys(obj) {
+        var rval = [];
+        for (var prop in obj) {
+            rval.push(prop);
+        }
+        return rval;
+    }
+
+    function entries(object) {
+        return keys(object).map((key) => [key, object[key]]);
+    }
+
+    //This is a big boy, can't find any other way :(
+    let specialRe = /(\'|\"|\\|\n|\r|\t|\\b|\f|\v|\0)/g;
+    function escapeSpecial(str) {
+        //This is ugly af:
+        return (str + '').replace(specialRe, (match) => {
+            switch(match) {
+                case '\0':
+                return '\\0';
+                case '\'':
+                return '\\\'';
+                case '\"':
+                return '\\"';
+                case '\n':
+                return '\\n';
+                case '\r':
+                return '\\r';
+                case '\t':
+                return '\\t';
+                case '\b':
+                return '\\b';
+                case '\f':
+                return '\\f';
+                case '\v':
+                return '\\v';
+                case '\0':
+                return '\\0';
+            }
+        });
+    }
+
+    //This might be removed.
+    var evalJSON = JSON.parse;
+
+    function forwardCall(func) {
+        return function () {
+            return this[func].apply(this, arguments);
+        };
+    }
+
+    const ostr = Object.prototype.toString;
+
+    function getType(a) {
+        switch(a) {
+            case null:
+            case undefined:
+            return `[object ${a === null ? 'Null' : 'Undefined'}]`;
+            //Allow faster results for booleans:
+            case true:
+            case false:
+            return '[object Boolean]';
+            case NaN:
+            case Infinity:
+            return '[object Number]';
+        }
+
+        if(a === '') {
+            return '[object String]';
+        }
+
+        return ostr.call(a);
+    }
+
+    function identity(a) {
+        return a;
+    }
+
+    function isArrayLike(obj) {
+        return obj && isFinite(obj.length);
+    }
+
+    function isBoolean(a) {
+        return getType(a) === '[object Boolean]';
+    }
+
+    function isDateLike(obj) {
+        return typeof obj === 'object' && typeof obj.getTime === 'function';
+    }
+
+    function isEmpty(arrayLike) {
+        return isArrayLike(arrayLike) && arrayLike.length === 0;
+    }
+
+    function isNotEmpty(arrayLike) {
+        return !isEmpty(arrayLike);
+    }
+
+    function isNull(...args) {
+        return args.every((a) => a === null);
+    }
+
+    function isNumber(a) {
+        return getType(a) === '[object Number]';
+    }
+
+    function isObject(a) {
+        return a && getType(a) === '[object Object]';
+    }
+
+    function isString(a) {
+        return a === '' ? true : getType(a) === '[object String]';
+    }
+
+    function isUndefined(...args) {
+        return args.every((a) => a === undefined);
+    }
+
+    function isValue(obj) {
+        //Why check null for typeof?
+        let type = obj == null ? null : typeof obj;
+        return type === 'boolean' || type === 'number' || type === 'string';
+    }
+
+    function itemgetter(func) {
+        return function (arg) {
+            return arg[func];
+        };
+    }
+
+    function limit(func, amount) {
+        --i;
+        let done, cache, i = 0;
+
+        return function (...nargs) {
+            if(done) {
+                return cache;
+            }
+
+            if(i++ < amount) {
+                //Keep going:
+                return func.call(this, ...nargs);
+            } else {
+                //Hit the limit:
+                done = true;
+                cache = func.call(this, ...nargs);
+            }
+        }
+    }
+
+    function mean(...args /* lst... */) {
+        /* http://www.nist.gov/dads/HTML/mean.html */
+        var sum = 0;
+        var count = args.length;
+
+        while (args.length) {
+            var o = args.shift();
+            if (o.length !== 0) {
+                count += o.length - 1;
+                for (var i = o.length - 1; i >= 0; i--) {
+                    sum += o[i];
+                }
+            } else {
+                sum += o;
+            }
+        }
+
+        if (count === 0) {
+            throw new TypeError('mean() requires at least one argument');
+        }
+
+        return sum / count;
+    }
+
+    function nodeWalk(node, visitor) {
+        var nodes = [node];
+        var extend = MochiKit.Base.extend;
+        while (nodes.length) {
+            var res = visitor(nodes.shift());
+            if (res) {
+                extend(nodes, res);
+            }
+        }
+    }
+
+    function noop () {}
+
+    function once(func) {
+        let done = false, val;
+
+        return function (...nargs) {
+            if(done) {
+                return val;
+            }
+
+            done = true;
+            val = func.call(this, ...nargs);
+            return val;
+        }
+    }
+
+    //Curriable operator methods:
+    const truth = (a) => !!a,
+    lognot = (a) => !a,
+    not = (a) => ~a,
+    neg = (a) => -a,
+    add = (a, b) => a + b,
+    sub = (a, b) => a - b,
+    div = (a, b) => a / b,
+    mod = (a, b) => a % b,
+    mul = (a, b) => a * b,
+    and = (a, b) => a && b,
+    or = (a, b) => a || b,
+    xor = (a, b) => a ^ b,
+    lshift = (a, b) => a << b,
+    rshift = (a, b) => a >> b,
+    zrshift = (a, b)=> a >>> b,
+    eq = (a, b) => a == b,
+    ne = (a, b) => a != b,
+    gt = (a, b) => a > b,
+    ge = (a, b) => a >= b,
+    lt = (a, b) => a < b,
+    le = (a, b) => a <= b,
+    seq = (a, b) => a === b,
+    sne = (a, b) => a !== b,
+    // ceq,
+    // cne,
+    // cgt,
+    // cge,
+    // clt,
+    // cle
+    //Think the docs got these wrong:
+    logand = (a, b) => a & b,
+    logor = (a, b) => a | b,
+
+    //Useful for indexOf
+    ioempty = (a) => a === -1,
+    iofound = (a) => a !== -1;
+
+    function parseQueryString(encodedString, useArrays) {
+        // strip a leading '?' from the encoded string
+        var qstr = (encodedString.charAt(0) == "?")
+            ? encodedString.substring(1)
+            : encodedString;
+        var pairs = qstr.replace(/\+/g, "%20").split(/\&amp\;|\&\#38\;|\&#x26;|\&/);
+        var o = {};
+        var decode;
+        if (typeof(decodeURIComponent) != "undefined") {
+            decode = decodeURIComponent;
+        } else {
+            decode = unescape;
+        }
+        if (useArrays) {
+            for (var i = 0; i < pairs.length; i++) {
+                var pair = pairs[i].split("=");
+                var name = decode(pair.shift());
+                if (!name) {
+                    continue;
+                }
+                var arr = o[name];
+                if (!(arr instanceof Array)) {
+                    arr = [];
+                    o[name] = arr;
+                }
+                arr.push(decode(pair.join("=")));
+            }
+        } else {
+            for (var i = 0; i < pairs.length; i++) {
+                pair = pairs[i].split("=");
+                var name = pair.shift();
+                if (!name) {
+                    continue;
+                }
+                o[decode(name)] = decode(pair.join("="));
+            }
+        }
+        return o;
+    }
+
+    function partial(func, ...args) {
+        return function (...nargs) {
+            return func.call(this, ...args, ...nargs);
+        }
+    }
+
+    function partialRight(func, ...args) {
+        return function (...nargs) {
+            return func.call(this, ...nargs, ...args);
+        }
+    }
+
+    function provide(namespace, root) {
+        let split = (namespace + '').split(/\s+/g), val;
+
+        if(segment.length <= 1) {
+            throw new Error('Invalid namespace, . char probably asbsent');
+        }
+
+        for(let segment of split) {
+            if(!root) {
+                val = root[segment] = {};
+            }
+        }
+
+        return val;
+    }
+
+    function times(func, amount) {
+        let isFunc = typeof func === 'function',
+        accum = [];
+        
+        for(let i = 0; i < amount; ++i) {
+            accum.push(isFunc ? func(i, amount, accum) : func);
+        }
+
+        return accum;
+    }
+
+    /** @id MochiKit.Base.update */
+    function update(self, obj /*, ... */) {
+        if (self === null || self === undefined) {
+            self = {};
+        }
+        for (var i = 1; i < arguments.length; i++) {
+            var o = arguments[i];
+            if (typeof (o) != 'undefined' && o !== null) {
+                for (var k in o) {
+                    self[k] = o[k];
+                }
+            }
+        }
+        return self;
+    }
+
+    function values(obj) {
+        var rval = [];
+        for (var prop in obj) {
+            rval.push(obj[prop]);
+        }
+        return rval;
+    }
+
+    function warnDeprecated(method, depfrom, altfunc, message, fallbackval) {
+        //Compute the msg once for heavily used methods:
+        let depmsg = `The "${method}" is deprecated ${depfrom ? `from ${depfrom} onwards` : ''}. ${altfunc ? `Instead use ${altfunc}` : ''}${message ? `\n${message}` : ''}`;
+        return function () {
+            console.error(depmsg);
+            return fallbackval;
+        }
+    }
+
+    function without(array, ...values) {
+        return array.filter((item) => {
+            for(let value of values) {
+                if(value === item) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+    }
+
+    const __repr__$1 = '[MochiKit.Base]';
+
+    var base = /*#__PURE__*/Object.freeze({
+        __repr__: __repr__$1,
+        AdapterRegistry: AdapterRegistry,
+        apply: apply,
+        bind: bind,
+        bindAll: bindAll,
+        bindRight: bindRight,
+        camelize: camelize,
+        compose: compose,
+        counter: counter,
+        entries: entries,
+        escapeSpecial: escapeSpecial,
+        evalJSON: evalJSON,
+        forwardCall: forwardCall,
+        getType: getType,
+        identity: identity,
+        isArrayLike: isArrayLike,
+        isBoolean: isBoolean,
+        isDateLike: isDateLike,
+        isEmpty: isEmpty,
+        isNotEmpty: isNotEmpty,
+        isNull: isNull,
+        isNumber: isNumber,
+        isObject: isObject,
+        isString: isString,
+        isUndefined: isUndefined,
+        isValue: isValue,
+        itemgetter: itemgetter,
+        keys: keys,
+        limit: limit,
+        mean: mean,
+        nodeWalk: nodeWalk,
+        noop: noop,
+        NotFoundError: NotFoundError,
+        once: once,
+        parseQueryString: parseQueryString,
+        partial: partial,
+        partialRight: partialRight,
+        provide: provide,
+        times: times,
+        update: update,
+        values: values,
+        warnDeprecated: warnDeprecated,
+        without: without,
+        truth: truth,
+        lognot: lognot,
+        not: not,
+        neg: neg,
+        add: add,
+        sub: sub,
+        div: div,
+        mod: mod,
+        mul: mul,
+        and: and,
+        or: or,
+        xor: xor,
+        lshift: lshift,
+        rshift: rshift,
+        zrshift: zrshift,
+        eq: eq,
+        ne: ne,
+        gt: gt,
+        ge: ge,
+        lt: lt,
+        le: le,
+        seq: seq,
+        sne: sne,
+        logand: logand,
+        logor: logor,
+        ioempty: ioempty,
+        iofound: iofound
+    });
+
+    function clampColorComponent(v, scale) {
+        v *= scale;
+        return v < 0 ? 0 : v > scale ? scale : v;
+    }
+
+    class Color {
+        constructor(red, green, blue, alpha) {
+            if (alpha == null) {
+                alpha = 1.0;
+            }
+            this.rgb = {
+                r: red,
+                g: green,
+                b: blue,
+                a: alpha
+            };
+        }
+    }
+
+    const third = 1.0 / 3.0,
+    third2 = third * 2;
+    function createFactory(r, g, b) {
+        return function (a) {
+            return new Color(r, g, b, a);
+        };
+    }
+
+    function createLockedFactory(r, g, b, a) {
+        let factory = createFactory(r, g, b);
+        
+        return function () {
+            return factory(a);
+        };
+    }
+
+    const blackColor = createFactory(0, 0, 0),
+    blueColor = createFactory(0, 0, 1),
+    brownColor = createFactory(0.6, 0.4, 0.2),
+    cyanColor = createFactory(0, 1, 1),
+    darkGrayColor = createFactory(third, third, third),
+    grayColor = createFactory(0.5, 0.5, 0.5),
+    greenColor = createFactory(0, 1, 0),
+    lightGrayColor = createFactory(third2, third2, third2),
+    magentaColor = createFactory(1, 0, 1),
+    orangeColor = createFactory(1, 0.5, 0),
+    purpleColor = createFactory(0.5, 0, 0.5),
+    redColor = createFactory(1, 0, 0),
+    transparentColor = createLockedFactory(0, 0, 0, 0),
+    whiteColor = createFactory(1, 1, 1),
+    yellowColor = createFactory(1, 1, 0);
+
+    var colors = /*#__PURE__*/Object.freeze({
+        blackColor: blackColor,
+        blueColor: blueColor,
+        brownColor: brownColor,
+        cyanColor: cyanColor,
+        darkGrayColor: darkGrayColor,
+        grayColor: grayColor,
+        greenColor: greenColor,
+        lightGrayColor: lightGrayColor,
+        magentaColor: magentaColor,
+        orangeColor: orangeColor,
+        purpleColor: purpleColor,
+        redColor: redColor,
+        transparentColor: transparentColor,
+        whiteColor: whiteColor,
+        yellowColor: yellowColor
+    });
+
+    function fromColorString(pre, method, scales, colorCode) {
+        // parses either HSL or RGB
+        if (colorCode.indexOf(pre) === 0) {
+            colorCode = colorCode.substring(colorCode.indexOf("(", 3) + 1, colorCode.length - 1);
+        }
+        var colorChunks = colorCode.split(/\s*,\s*/);
+        var colorFloats = [];
+        for (var i = 0; i < colorChunks.length; i++) {
+            var c = colorChunks[i];
+            var val;
+            var three = c.substring(c.length - 3);
+            if (c.charAt(c.length - 1) == '%') {
+                val = 0.01 * parseFloat(c.substring(0, c.length - 1));
+            } else if (three == "deg") {
+                val = parseFloat(c) / 360.0;
+            } else if (three == "rad") {
+                val = parseFloat(c) / (Math.PI * 2);
+            } else {
+                val = scales[i] * parseFloat(c);
+            }
+            colorFloats.push(val);
+        }
+        return this[method].apply(this, colorFloats);
+    }
+
+    function fromHexString(hexCode) {
+        if (hexCode[0] == '#') {
+            hexCode = hexCode.substring(1);
+        }
+        var components = [];
+        var i, hex;
+        if (hexCode.length == 3) {
+            for (i = 0; i < 3; i++) {
+                hex = hexCode.substr(i, 1);
+                components.push(parseInt(hex + hex, 16) / 255.0);
+            }
+        } else {
+            for (i = 0; i < 6; i += 2) {
+                hex = hexCode.substr(i, 2);
+                components.push(parseInt(hex, 16) / 255.0);
+            }
+        }
+
+        let [r, g, b, a] = components;
+        return new Color(r, g, b, a);
+    }
+
+    function hslToRGB(hue, saturation, lightness, alpha) {
+        if (arguments.length == 1) {
+            var hsl = hue;
+            hue = hsl.h;
+            saturation = hsl.s;
+            lightness = hsl.l;
+            alpha = hsl.a;
+        }
+        var red;
+        var green;
+        var blue;
+        if (saturation === 0) {
+            red = lightness;
+            green = lightness;
+            blue = lightness;
+        } else {
+            var m2;
+            if (lightness <= 0.5) {
+                m2 = lightness * (1.0 + saturation);
+            } else {
+                m2 = lightness + saturation - (lightness * saturation);
+            }
+            var m1 = (2.0 * lightness) - m2;
+            var f = MochiKit.Color._hslValue;
+            var h6 = hue * 6.0;
+            red = f(m1, m2, h6 + 2);
+            green = f(m1, m2, h6);
+            blue = f(m1, m2, h6 - 2);
+        }
+        return {
+            r: red,
+            g: green,
+            b: blue,
+            a: alpha
+        };
+    }
+
+    function fromRGB(red, green, blue, alpha) {
+        if (arguments.length == 1) {
+            var rgb = red;
+            red = rgb.r;
+            green = rgb.g;
+            blue = rgb.b;
+            if (typeof(rgb.a) == 'undefined') {
+                alpha = undefined;
+            } else {
+                alpha = rgb.a;
+            }
+        }
+        return new Color(red, green, blue, alpha);
+    }
+
+    function fromHSL(...args/*hue, saturation, lightness, alpha*/) {
+        return fromRGB(hslToRGB(...args));
+    }
+
+    var fromHSLString = partial(fromColorString, 'hsl', 'fromHSL', [1.0/360.0, 0.01, 0.01, 1]);
+
+    function hsvToRGB(hue, saturation, value, alpha) {
+        if (arguments.length == 1) {
+            var hsv = hue;
+            hue = hsv.h;
+            saturation = hsv.s;
+            value = hsv.v;
+            alpha = hsv.a;
+        }
+        var red;
+        var green;
+        var blue;
+        if (saturation === 0) {
+            red = value;
+            green = value;
+            blue = value;
+        } else {
+            var i = Math.floor(hue * 6);
+            var f = (hue * 6) - i;
+            var p = value * (1 - saturation);
+            var q = value * (1 - (saturation * f));
+            var t = value * (1 - (saturation * (1 - f)));
+            switch (i) {
+                case 1: red = q; green = value; blue = p; break;
+                case 2: red = p; green = value; blue = t; break;
+                case 3: red = p; green = q; blue = value; break;
+                case 4: red = t; green = p; blue = value; break;
+                case 5: red = value; green = p; blue = q; break;
+                case 6: // fall through
+                case 0: red = value; green = t; blue = p; break;
+            }
+        }
+
+        return new Color(red, green, blue, alpha);
+    }
+
+    function fromHSV(...args /* hue, saturation, value, alpha */) {
+        return fromRGB(hsvToRGB(...args));
+    }
+
+    function fromName(name) {
+        var htmlColor = colors[name.toLowerCase()];
+        if (typeof(htmlColor) == 'string') {
+            return fromHexString(htmlColor);
+        } else if (name == "transparent") {
+            return transparentColor();
+        }
+        return null;
+    }
+
+    const result = 1.0/255;
+    var fromRGBString = partial(fromColorString, 'rgb', 'fromrgb', [result, result, result, 1]);
+
+    function fromString(colorString) {
+        var three = colorString.substr(0, 3);
+        if (three == "rgb") {
+            return fromRGBString(colorString);
+        } else if (three == "hsl") {
+            return fromHSLString(colorString);
+        } else if (colorString.charAt(0) == "#") {
+            return fromHexString(colorString);
+        }
+        return fromName(colorString);
+    }
+
+    function hslValue(n1, n2, hue) {
+        if (hue > 6.0) {
+            hue -= 6.0;
+        } else if (hue < 0.0) {
+            hue += 6.0;
+        }
+        var val;
+        if (hue < 1.0) {
+            val = n1 + (n2 - n1) * hue;
+        } else if (hue < 3.0) {
+            val = n2;
+        } else if (hue < 4.0) {
+            val = n1 + (n2 - n1) * (4.0 - hue);
+        } else {
+            val = n1;
+        }
+        return val;
+    }
+
+    function isColor(...args) {
+        return args.every((a) => a && a instanceof Color);
+    }
+
+    const aliceblue = '#f0f8ff',
+        antiquewhiteHex = '#faebd7',
+        aquaHex = '#00ffff',
+        aquamarineHex = '#7fffd4',
+        azureHex = '#f0ffff',
+        beigeHex = '#f5f5dc',
+        bisqueHex = '#ffe4c4',
+        blackHex = '#000000',
+        blanchedalmondHex = '#ffebcd',
+        blueHex = '#0000ff',
+        bluevioletHex = '#8a2be2',
+        brownHex = '#a52a2a',
+        burlywoodHex = '#deb887',
+        cadetblueHex = '#5f9ea0',
+        chartreuseHex = '#7fff00',
+        chocolateHex = '#d2691e',
+        coralHex = '#ff7f50',
+        cornflowerblueHex = '#6495ed',
+        cornsilkHex = '#fff8dc',
+        crimsonHex = '#dc143c',
+        cyanHex = '#00ffff',
+        darkblueHex = '#00008b',
+        darkcyanHex = '#008b8b',
+        darkgoldenrodHex = '#b8860b',
+        darkgrayHex = '#a9a9a9',
+        darkgreenHex = '#006400',
+        darkgreyHex = '#a9a9a9',
+        darkkhakiHex = '#bdb76b',
+        darkmagentaHex = '#8b008b',
+        darkolivegreenHex = '#556b2f',
+        darkorangeHex = '#ff8c00',
+        darkorchidHex = '#9932cc',
+        darkredHex = '#8b0000',
+        darksalmonHex = '#e9967a',
+        darkseagreenHex = '#8fbc8f',
+        darkslateblueHex = '#483d8b',
+        darkslategrayHex = '#2f4f4f',
+        darkslategreyHex = '#2f4f4f',
+        darkturquoiseHex = '#00ced1',
+        darkvioletHex = '#9400d3',
+        deeppinkHex = '#ff1493',
+        deepskyblueHex = '#00bfff',
+        dimgrayHex = '#696969',
+        dimgreyHex = '#696969',
+        dodgerblueHex = '#1e90ff',
+        firebrickHex = '#b22222',
+        floralwhiteHex = '#fffaf0',
+        forestgreenHex = '#228b22',
+        fuchsiaHex = '#ff00ff',
+        gainsboroHex = '#dcdcdc',
+        ghostwhiteHex = '#f8f8ff',
+        goldHex = '#ffd700',
+        goldenrodHex = '#daa520',
+        grayHex = '#808080',
+        greenHex = '#008000',
+        greenyellowHex = '#adff2f',
+        greyHex = '#808080',
+        honeydewHex = '#f0fff0',
+        hotpinkHex = '#ff69b4',
+        indianredHex = '#cd5c5c',
+        indigoHex = '#4b0082',
+        ivoryHex = '#fffff0',
+        khakiHex = '#f0e68c',
+        lavenderHex = '#e6e6fa',
+        lavenderblushHex = '#fff0f5',
+        lawngreenHex = '#7cfc00',
+        lemonchiffonHex = '#fffacd',
+        lightblueHex = '#add8e6',
+        lightcoralHex = '#f08080',
+        lightcyanHex = '#e0ffff',
+        lightgoldenrodyellowHex = '#fafad2',
+        lightgrayHex = '#d3d3d3',
+        lightgreenHex = '#90ee90',
+        lightgreyHex = '#d3d3d3',
+        lightpinkHex = '#ffb6c1',
+        lightsalmonHex = '#ffa07a',
+        lightseagreenHex = '#20b2aa',
+        lightskyblueHex = '#87cefa',
+        lightslategrayHex = '#778899',
+        lightslategreyHex = '#778899',
+        lightsteelblueHex = '#b0c4de',
+        lightyellowHex = '#ffffe0',
+        limeHex = '#00ff00',
+        limegreenHex = '#32cd32',
+        linenHex = '#faf0e6',
+        magentaHex = '#ff00ff',
+        maroonHex = '#800000',
+        mediumaquamarineHex = '#66cdaa',
+        mediumblueHex = '#0000cd',
+        mediumorchidHex = '#ba55d3',
+        mediumpurpleHex = '#9370db',
+        mediumseagreenHex = '#3cb371',
+        mediumslateblueHex = '#7b68ee',
+        mediumspringgreenHex = '#00fa9a',
+        mediumturquoiseHex = '#48d1cc',
+        mediumvioletredHex = '#c71585',
+        midnightblueHex = '#191970',
+        mintcreamHex = '#f5fffa',
+        mistyroseHex = '#ffe4e1',
+        moccasinHex = '#ffe4b5',
+        navajowhiteHex = '#ffdead',
+        navyHex = '#000080',
+        oldlaceHex = '#fdf5e6',
+        oliveHex = '#808000',
+        olivedrabHex = '#6b8e23',
+        orangeHex = '#ffa500',
+        orangeredHex = '#ff4500',
+        orchidHex = '#da70d6',
+        palegoldenrodHex = '#eee8aa',
+        palegreenHex = '#98fb98',
+        paleturquoiseHex = '#afeeee',
+        palevioletredHex = '#db7093',
+        papayawhipHex = '#ffefd5',
+        peachpuffHex = '#ffdab9',
+        peruHex = '#cd853f',
+        pinkHex = '#ffc0cb',
+        plumHex = '#dda0dd',
+        powderblueHex = '#b0e0e6',
+        purpleHex = '#800080',
+        redHex = '#ff0000',
+        rosybrownHex = '#bc8f8f',
+        royalblueHex = '#4169e1',
+        saddlebrownHex = '#8b4513',
+        salmonHex = '#fa8072',
+        sandybrownHex = '#f4a460',
+        seagreenHex = '#2e8b57',
+        seashellHex = '#fff5ee',
+        siennaHex = '#a0522d',
+        silverHex = '#c0c0c0',
+        skyblueHex = '#87ceeb',
+        slateblueHex = '#6a5acd',
+        slategrayHex = '#708090',
+        slategreyHex = '#708090',
+        snowHex = '#fffafa',
+        springgreenHex = '#00ff7f',
+        steelblueHex = '#4682b4',
+        tanHex = '#d2b48c',
+        tealHex = '#008080',
+        thistleHex = '#d8bfd8',
+        tomatoHex = '#ff6347',
+        turquoiseHex = '#40e0d0',
+        violetHex = '#ee82ee',
+        wheatHex = '#f5deb3',
+        whiteHex = '#ffffff',
+        whitesmokeHex = '#f5f5f5',
+        yellowHex = '#ffff00',
+        yellowgreenHex = '#9acd32';
+
+    function rgbToHSL(red, green, blue, alpha) {
+        if (arguments.length == 1) {
+            var rgb = red;
+            red = rgb.r;
+            green = rgb.g;
+            blue = rgb.b;
+            alpha = rgb.a;
+        }
+        var max = Math.max(red, Math.max(green, blue));
+        var min = Math.min(red, Math.min(green, blue));
+        var hue;
+        var saturation;
+        var lightness = (max + min) / 2.0;
+        var delta = max - min;
+        if (delta === 0) {
+            hue = 0;
+            saturation = 0;
+        } else {
+            if (lightness <= 0.5) {
+                saturation = delta / (max + min);
+            } else {
+                saturation = delta / (2 - max - min);
+            }
+            if (red == max) {
+                hue = (green - blue) / delta;
+            } else if (green == max) {
+                hue = 2 + ((blue - red) / delta);
+            } else {
+                hue = 4 + ((red - green) / delta);
+            }
+            hue /= 6;
+            if (hue < 0) {
+                hue += 1;
+            }
+            if (hue > 1) {
+                hue -= 1;
+            }
+
+        }
+        return {
+            h: hue,
+            s: saturation,
+            l: lightness,
+            a: alpha
+        };
+    }
+
+    function rgbToHSV(red, green, blue, alpha) {
+            if (arguments.length == 1) {
+                var rgb = red;
+                red = rgb.r;
+                green = rgb.g;
+                blue = rgb.b;
+                alpha = rgb.a;
+            }
+            var max = Math.max(Math.max(red, green), blue);
+            var min = Math.min(Math.min(red, green), blue);
+            var hue;
+            var saturation;
+            var value = max;
+            if (min == max) {
+                hue = 0;
+                saturation = 0;
+            } else {
+                var delta = (max - min);
+                saturation = delta / max;
+
+                if (red == max) {
+                    hue = (green - blue) / delta;
+                } else if (green == max) {
+                    hue = 2 + ((blue - red) / delta);
+                } else {
+                    hue = 4 + ((red - green) / delta);
+                }
+                hue /= 6;
+                if (hue < 0) {
+                    hue += 1;
+                }
+                if (hue > 1) {
+                    hue -= 1;
+                }
+            }
+            return {
+                h: hue,
+                s: saturation,
+                v: value,
+                a: alpha
+            };
+        }
+
+    function toColorPart(num) {
+        num = Math.round(num);
+        var digits = num.toString(16);
+        if (num < 16) {
+            return '0' + digits;
+        }
+        return digits;
+    }
+
+    const __repr__$2 = '[MochiKit.Color]';
+
+    var color = /*#__PURE__*/Object.freeze({
+        __repr__: __repr__$2,
+        clampColorComponent: clampColorComponent,
+        Color: Color,
+        fromColorString: fromColorString,
+        fromHexString: fromHexString,
+        fromHSL: fromHSL,
+        fromHSLString: fromHSLString,
+        fromHSV: fromHSV,
+        fromName: fromName,
+        fromRGB: fromRGB,
+        fromRGBString: fromRGBString,
+        fromString: fromString,
+        hslToRGB: hslToRGB,
+        hslValue: hslValue,
+        hsvToRGB: hsvToRGB,
+        isColor: isColor,
+        rgbToHSL: rgbToHSL,
+        rgbToHSV: rgbToHSV,
+        toColorPart: toColorPart,
+        blackColor: blackColor,
+        blueColor: blueColor,
+        brownColor: brownColor,
+        cyanColor: cyanColor,
+        darkGrayColor: darkGrayColor,
+        grayColor: grayColor,
+        greenColor: greenColor,
+        lightGrayColor: lightGrayColor,
+        magentaColor: magentaColor,
+        orangeColor: orangeColor,
+        purpleColor: purpleColor,
+        redColor: redColor,
+        transparentColor: transparentColor,
+        whiteColor: whiteColor,
+        yellowColor: yellowColor,
+        aliceblue: aliceblue,
+        antiquewhiteHex: antiquewhiteHex,
+        aquaHex: aquaHex,
+        aquamarineHex: aquamarineHex,
+        azureHex: azureHex,
+        beigeHex: beigeHex,
+        bisqueHex: bisqueHex,
+        blackHex: blackHex,
+        blanchedalmondHex: blanchedalmondHex,
+        blueHex: blueHex,
+        bluevioletHex: bluevioletHex,
+        brownHex: brownHex,
+        burlywoodHex: burlywoodHex,
+        cadetblueHex: cadetblueHex,
+        chartreuseHex: chartreuseHex,
+        chocolateHex: chocolateHex,
+        coralHex: coralHex,
+        cornflowerblueHex: cornflowerblueHex,
+        cornsilkHex: cornsilkHex,
+        crimsonHex: crimsonHex,
+        cyanHex: cyanHex,
+        darkblueHex: darkblueHex,
+        darkcyanHex: darkcyanHex,
+        darkgoldenrodHex: darkgoldenrodHex,
+        darkgrayHex: darkgrayHex,
+        darkgreenHex: darkgreenHex,
+        darkgreyHex: darkgreyHex,
+        darkkhakiHex: darkkhakiHex,
+        darkmagentaHex: darkmagentaHex,
+        darkolivegreenHex: darkolivegreenHex,
+        darkorangeHex: darkorangeHex,
+        darkorchidHex: darkorchidHex,
+        darkredHex: darkredHex,
+        darksalmonHex: darksalmonHex,
+        darkseagreenHex: darkseagreenHex,
+        darkslateblueHex: darkslateblueHex,
+        darkslategrayHex: darkslategrayHex,
+        darkslategreyHex: darkslategreyHex,
+        darkturquoiseHex: darkturquoiseHex,
+        darkvioletHex: darkvioletHex,
+        deeppinkHex: deeppinkHex,
+        deepskyblueHex: deepskyblueHex,
+        dimgrayHex: dimgrayHex,
+        dimgreyHex: dimgreyHex,
+        dodgerblueHex: dodgerblueHex,
+        firebrickHex: firebrickHex,
+        floralwhiteHex: floralwhiteHex,
+        forestgreenHex: forestgreenHex,
+        fuchsiaHex: fuchsiaHex,
+        gainsboroHex: gainsboroHex,
+        ghostwhiteHex: ghostwhiteHex,
+        goldHex: goldHex,
+        goldenrodHex: goldenrodHex,
+        grayHex: grayHex,
+        greenHex: greenHex,
+        greenyellowHex: greenyellowHex,
+        greyHex: greyHex,
+        honeydewHex: honeydewHex,
+        hotpinkHex: hotpinkHex,
+        indianredHex: indianredHex,
+        indigoHex: indigoHex,
+        ivoryHex: ivoryHex,
+        khakiHex: khakiHex,
+        lavenderHex: lavenderHex,
+        lavenderblushHex: lavenderblushHex,
+        lawngreenHex: lawngreenHex,
+        lemonchiffonHex: lemonchiffonHex,
+        lightblueHex: lightblueHex,
+        lightcoralHex: lightcoralHex,
+        lightcyanHex: lightcyanHex,
+        lightgoldenrodyellowHex: lightgoldenrodyellowHex,
+        lightgrayHex: lightgrayHex,
+        lightgreenHex: lightgreenHex,
+        lightgreyHex: lightgreyHex,
+        lightpinkHex: lightpinkHex,
+        lightsalmonHex: lightsalmonHex,
+        lightseagreenHex: lightseagreenHex,
+        lightskyblueHex: lightskyblueHex,
+        lightslategrayHex: lightslategrayHex,
+        lightslategreyHex: lightslategreyHex,
+        lightsteelblueHex: lightsteelblueHex,
+        lightyellowHex: lightyellowHex,
+        limeHex: limeHex,
+        limegreenHex: limegreenHex,
+        linenHex: linenHex,
+        magentaHex: magentaHex,
+        maroonHex: maroonHex,
+        mediumaquamarineHex: mediumaquamarineHex,
+        mediumblueHex: mediumblueHex,
+        mediumorchidHex: mediumorchidHex,
+        mediumpurpleHex: mediumpurpleHex,
+        mediumseagreenHex: mediumseagreenHex,
+        mediumslateblueHex: mediumslateblueHex,
+        mediumspringgreenHex: mediumspringgreenHex,
+        mediumturquoiseHex: mediumturquoiseHex,
+        mediumvioletredHex: mediumvioletredHex,
+        midnightblueHex: midnightblueHex,
+        mintcreamHex: mintcreamHex,
+        mistyroseHex: mistyroseHex,
+        moccasinHex: moccasinHex,
+        navajowhiteHex: navajowhiteHex,
+        navyHex: navyHex,
+        oldlaceHex: oldlaceHex,
+        oliveHex: oliveHex,
+        olivedrabHex: olivedrabHex,
+        orangeHex: orangeHex,
+        orangeredHex: orangeredHex,
+        orchidHex: orchidHex,
+        palegoldenrodHex: palegoldenrodHex,
+        palegreenHex: palegreenHex,
+        paleturquoiseHex: paleturquoiseHex,
+        palevioletredHex: palevioletredHex,
+        papayawhipHex: papayawhipHex,
+        peachpuffHex: peachpuffHex,
+        peruHex: peruHex,
+        pinkHex: pinkHex,
+        plumHex: plumHex,
+        powderblueHex: powderblueHex,
+        purpleHex: purpleHex,
+        redHex: redHex,
+        rosybrownHex: rosybrownHex,
+        royalblueHex: royalblueHex,
+        saddlebrownHex: saddlebrownHex,
+        salmonHex: salmonHex,
+        sandybrownHex: sandybrownHex,
+        seagreenHex: seagreenHex,
+        seashellHex: seashellHex,
+        siennaHex: siennaHex,
+        silverHex: silverHex,
+        skyblueHex: skyblueHex,
+        slateblueHex: slateblueHex,
+        slategrayHex: slategrayHex,
+        slategreyHex: slategreyHex,
+        snowHex: snowHex,
+        springgreenHex: springgreenHex,
+        steelblueHex: steelblueHex,
+        tanHex: tanHex,
+        tealHex: tealHex,
+        thistleHex: thistleHex,
+        tomatoHex: tomatoHex,
+        turquoiseHex: turquoiseHex,
+        violetHex: violetHex,
+        wheatHex: wheatHex,
+        whiteHex: whiteHex,
+        whitesmokeHex: whitesmokeHex,
+        yellowHex: yellowHex,
+        yellowgreenHex: yellowgreenHex
+    });
+
     function ownerDocument(el) {
         if (!el) {
             return null;
@@ -911,37 +2163,6 @@ var mochikit = (function () {
         return val && val.body || null;
     }
 
-    const ostr = Object.prototype.toString;
-
-    function getType(a) {
-        switch(a) {
-            case null:
-            case undefined:
-            return `[object ${a === null ? 'Null' : 'Undefined'}]`;
-            //Allow faster results for booleans:
-            case true:
-            case false:
-            return '[object Boolean]';
-            case NaN:
-            case Infinity:
-            return '[object Number]';
-        }
-
-        if(a === '') {
-            return '[object String]';
-        }
-
-        return ostr.call(a);
-    }
-
-    function isObject(a) {
-        return a && getType(a) === '[object Object]';
-    }
-
-    function isNumber(a) {
-        return getType(a) === '[object Number]';
-    }
-
     function isNode(node) {
         return typeof node === 'object' && isNumber(node.nodeType) && !isObject(node);
     }
@@ -950,7 +2171,7 @@ var mochikit = (function () {
         return isNode(doc) && doc.nodeType === 9; 
     }
 
-    function isEmpty(node) {
+    function isEmpty$1(node) {
         return node.childNodes.length === 0;
     }
 
@@ -1031,15 +2252,6 @@ var mochikit = (function () {
     function rootChildren(node) {
         let val = ownerDocument(node);
         return val && val.childNodes || null;
-    }
-
-    function counter(n/* = 1 */) {
-        if (n == null) {
-            n = 1;
-        }
-        return function () {
-            return n++;
-        };
     }
 
     const _counter = counter(0);
@@ -1344,16 +2556,16 @@ var mochikit = (function () {
 
     //dom index.js
 
-    const __repr__$1 = '[MochiKit.DOM]';
+    const __repr__$3 = '[MochiKit.DOM]';
 
     var dom = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$1,
+        __repr__: __repr__$3,
         clearRoot: clearRoot,
         cloneTree: cloneTree,
         empty: empty,
         getBody: getBody,
         isDocument: isDocument,
-        isEmpty: isEmpty,
+        isEmpty: isEmpty$1,
         isFragment: isFragment,
         isNode: isNode,
         nodeType: nodeType,
@@ -1476,630 +2688,6 @@ var mochikit = (function () {
         VAR: VAR,
         VIDEO: VIDEO,
         WBR: WBR
-    });
-
-    function getRepr(object) {
-        let repr = object && object.__repr__;
-        return repr && typeof repr === 'function' && repr.call(object);
-    }
-
-    function hasRepr(object) {
-        let repr = object && object.__repr__;
-        return repr && typeof repr === 'function';
-    }
-
-    function registerRepr(obj, val) {
-        if(obj) {
-            //val + '' = toString call
-            return obj.__repr__ = val + '';
-        }
-
-        return null;
-    }
-
-    function reprArray(array) {
-        if(!Array.isArray(array)) {
-            throw new Error('Expected an array.');
-        }
-
-        return `array(${array.length}) [${array.join(', ')}]`;
-    }
-
-    function reprArrayLike(arrayLike) {
-        if(!arrayLike || !isFinite(arrayLike.length)) {
-            throw new Error('Expected a function');
-        }
-
-        return `array-like(${array.length}) [${array.join(', ')}]`;
-    }
-
-    function reprFunction(func) {
-        if(typeof func !== 'function') {
-            throw new Error('Expected a function');
-        }
-
-        //Don't allow bogus __repr__ methods pass thru.
-        return `function "${func.name}"(${func.length}) ${typeof func.__repr__ === 'function' ? func.__repr__() : `function ${func.name} \{...\}`}`;
-    }
-
-    function reprGeneric(object) {
-        let len = object && typeof object === 'number',
-        type = getType(object).slice(8, -1);
-
-        return object ? `${type}${len ? `(${object.length})` : '(void)'} generic-type(${typeof object})` : '(void)(void) generic-type(void)';
-    }
-
-    function reprKeys(object) {
-        let keys = Object.keys(object);
-        return `keys(${keys.length}) { ${keys.join(', ')} }`;
-    }
-
-    /**
-     * 
-     * @param {!Map} map 
-     */
-    function reprMap(map) {
-        let items = '', val;
-
-        for(let key of map.keys()) {
-            val = map.get(key);
-            items += `${key} => ${val} `;
-        }
-        return `Map(${map.size}) { ${items.replace(/\s$/, '')} }`;
-    }
-
-    /**
-     * 
-     * @param {!Set} set 
-     */
-    function reprSet(set) {
-        return `Set(${set.size}) [ ${Array.from(set.values())} ]`;
-    }
-
-    function reprType(object) {
-        let len, hasLen;
-        return `${typeof object}${(hasLen = typeof (len = object.length) === 'number') ? `(${len})` : '(void)'}`;
-    }
-
-    function stringRepr () {
-        return function () {
-            return getRepr(this.toString());
-        }
-    }
-
-
-
-    var repr = /*#__PURE__*/Object.freeze({
-        getRepr: getRepr,
-        hasRepr: hasRepr,
-        registerRepr: registerRepr,
-        reprArray: reprArray,
-        reprArrayLike: reprArrayLike,
-        reprFunction: reprFunction,
-        reprGeneric: reprGeneric,
-        reprKeys: reprKeys,
-        reprMap: reprMap,
-        reprSet: reprSet,
-        reprType: reprType,
-        stringRepr: stringRepr
-    });
-
-    class NotFoundError extends Error {
-        constructor(msg) {
-            super(msg);
-            this.name = 'NotFoundError';
-        }
-    }
-
-    class AdapterRegistry {
-        constructor() {
-            this.pairs = [];
-        }
-
-        /** @id MochiKit.Base.AdapterRegistry.prototype.register */
-        register(name, check, wrap, override) {
-            if (override) {
-                this.pairs.unshift([name, check, wrap]);
-            } else {
-                this.pairs.push([name, check, wrap]);
-            }
-        }
-
-        /** @id MochiKit.Base.AdapterRegistry.prototype.match */
-        match(/* ... */) {
-            for (var i = 0; i < this.pairs.length; i++) {
-                var pair = this.pairs[i];
-                if (pair[1].apply(this, arguments)) {
-                    return pair[2].apply(this, arguments);
-                }
-            }
-            throw new NotFoundError();
-        }
-
-        /** @id MochiKit.Base.AdapterRegistry.prototype.unregister */
-        unregister(name) {
-            for (var i = 0; i < this.pairs.length; i++) {
-                var pair = this.pairs[i];
-                if (pair[0] == name) {
-                    this.pairs.splice(i, 1);
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
-    function apply(func, args) {
-        switch(args.length) {
-            case 0: return func.call(this);
-            case 1: return func.call(this, args[0]);
-            case 2: return func.call(this, args[0], args[1]);
-            case 3: return func.call(this, args[0], args[1], args[2]);
-            case 4: return func.call(this, args[0], args[1], args[2], args[3]);
-            case 5: return func.call(this, args[0], args[1], args[2], args[3], args[4]);
-            case 6: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5]);
-            case 7: return func.call(this, args[0], arga[1], args[2], args[3], args[4], args[5], args[6]);
-            case 8: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
-            case 9: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
-            case 10: return func.call(this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9]);
-            //Probably still optimized in es6 compliant engines,
-            //This will be transpiled to .apply call with Babel, tho:
-            default: return func.call(this, ...args);
-        }
-    }
-
-    function bind(func, ctx, ...args) {
-        return function (...nargs) {
-            return func.call(ctx, ...args, ...nargs);
-        }
-    }
-
-    function bindAll(object, ctx) {
-        let val, keys = Object.keys(object);
-        ctx = ctx === undefined ? object : ctx;
-
-        for(let key of keys) {
-            val = object[key];
-
-            if(typeof val === 'function') {
-                object[key] = val.bind();
-            }
-        }
-
-        return object;
-    }
-
-    function bindRight(func, ctx, ...args) {
-        return function (...nargs) {
-            return func.call(ctx, ...nargs, ...args);
-        }
-    }
-
-    function camelize(selector) {
-        /* from dojo.style.toCamelCase */
-        var arr = selector.split('-');
-        var cc = arr[0];
-        for (var i = 1; i < arr.length; i++) {
-            cc += arr[[i][0]].toUpperCase() + arr[i].substring(1);
-        }
-        return cc;
-    }
-
-    function compose(functions) {
-        return function (val, ...args) {
-            for(let func of functions) {
-                val = func.call(this, val, ...args);
-            }
-
-            return val;
-        }
-    }
-
-    function keys(obj) {
-        var rval = [];
-        for (var prop in obj) {
-            rval.push(prop);
-        }
-        return rval;
-    }
-
-    function entries(object) {
-        return keys(object).map((key) => [key, object[key]]);
-    }
-
-    //This is a big boy, can't find any other way :(
-    let specialRe = /(\'|\"|\\|\n|\r|\t|\\b|\f|\v|\0)/g;
-    function escapeSpecial(str) {
-        //This is ugly af:
-        return (str + '').replace(specialRe, (match) => {
-            switch(match) {
-                case '\0':
-                return '\\0';
-                case '\'':
-                return '\\\'';
-                case '\"':
-                return '\\"';
-                case '\n':
-                return '\\n';
-                case '\r':
-                return '\\r';
-                case '\t':
-                return '\\t';
-                case '\b':
-                return '\\b';
-                case '\f':
-                return '\\f';
-                case '\v':
-                return '\\v';
-                case '\0':
-                return '\\0';
-            }
-        });
-    }
-
-    //This might be removed.
-    var evalJSON = JSON.parse;
-
-    function forwardCall(func) {
-        return function () {
-            return this[func].apply(this, arguments);
-        };
-    }
-
-    function identity(a) {
-        return a;
-    }
-
-    function isArrayLike(obj) {
-        return obj && isFinite(obj.length);
-    }
-
-    function isBoolean(a) {
-        return getType(a) === '[object Boolean]';
-    }
-
-    function isDateLike(obj) {
-        return typeof obj === 'object' && typeof obj.getTime === 'function';
-    }
-
-    function isEmpty$1(arrayLike) {
-        return isArrayLike(arrayLike) && arrayLike.length === 0;
-    }
-
-    function isNotEmpty(arrayLike) {
-        return !isEmpty$1(arrayLike);
-    }
-
-    function isNull(...args) {
-        return args.every((a) => a === null);
-    }
-
-    function isString(a) {
-        return a === '' ? true : getType(a) === '[object String]';
-    }
-
-    function isUndefined(...args) {
-        return args.every((a) => a === undefined);
-    }
-
-    function isValue(obj) {
-        //Why check null for typeof?
-        let type = obj == null ? null : typeof obj;
-        return type === 'boolean' || type === 'number' || type === 'string';
-    }
-
-    function itemgetter(func) {
-        return function (arg) {
-            return arg[func];
-        };
-    }
-
-    function limit(func, amount) {
-        --i;
-        let done, cache, i = 0;
-
-        return function (...nargs) {
-            if(done) {
-                return cache;
-            }
-
-            if(i++ < amount) {
-                //Keep going:
-                return func.call(this, ...nargs);
-            } else {
-                //Hit the limit:
-                done = true;
-                cache = func.call(this, ...nargs);
-            }
-        }
-    }
-
-    function mean(...args /* lst... */) {
-        /* http://www.nist.gov/dads/HTML/mean.html */
-        var sum = 0;
-        var count = args.length;
-
-        while (args.length) {
-            var o = args.shift();
-            if (o.length !== 0) {
-                count += o.length - 1;
-                for (var i = o.length - 1; i >= 0; i--) {
-                    sum += o[i];
-                }
-            } else {
-                sum += o;
-            }
-        }
-
-        if (count === 0) {
-            throw new TypeError('mean() requires at least one argument');
-        }
-
-        return sum / count;
-    }
-
-    function nodeWalk(node, visitor) {
-        var nodes = [node];
-        var extend = MochiKit.Base.extend;
-        while (nodes.length) {
-            var res = visitor(nodes.shift());
-            if (res) {
-                extend(nodes, res);
-            }
-        }
-    }
-
-    function noop () {}
-
-    function once(func) {
-        let done = false, val;
-
-        return function (...nargs) {
-            if(done) {
-                return val;
-            }
-
-            done = true;
-            val = func.call(this, ...nargs);
-            return val;
-        }
-    }
-
-    //Curriable operator methods:
-    const truth = (a) => !!a,
-    lognot = (a) => !a,
-    not = (a) => ~a,
-    neg = (a) => -a,
-    add = (a, b) => a + b,
-    sub = (a, b) => a - b,
-    div = (a, b) => a / b,
-    mod = (a, b) => a % b,
-    mul = (a, b) => a * b,
-    and = (a, b) => a && b,
-    or = (a, b) => a || b,
-    xor = (a, b) => a ^ b,
-    lshift = (a, b) => a << b,
-    rshift = (a, b) => a >> b,
-    zrshift = (a, b)=> a >>> b,
-    eq = (a, b) => a == b,
-    ne = (a, b) => a != b,
-    gt = (a, b) => a > b,
-    ge = (a, b) => a >= b,
-    lt = (a, b) => a < b,
-    le = (a, b) => a <= b,
-    seq = (a, b) => a === b,
-    sne = (a, b) => a !== b,
-    // ceq,
-    // cne,
-    // cgt,
-    // cge,
-    // clt,
-    // cle
-    //Think the docs got these wrong:
-    logand = (a, b) => a & b,
-    logor = (a, b) => a | b,
-
-    //Useful for indexOf
-    ioempty = (a) => a === -1,
-    iofound = (a) => a !== -1;
-
-    function parseQueryString(encodedString, useArrays) {
-        // strip a leading '?' from the encoded string
-        var qstr = (encodedString.charAt(0) == "?")
-            ? encodedString.substring(1)
-            : encodedString;
-        var pairs = qstr.replace(/\+/g, "%20").split(/\&amp\;|\&\#38\;|\&#x26;|\&/);
-        var o = {};
-        var decode;
-        if (typeof(decodeURIComponent) != "undefined") {
-            decode = decodeURIComponent;
-        } else {
-            decode = unescape;
-        }
-        if (useArrays) {
-            for (var i = 0; i < pairs.length; i++) {
-                var pair = pairs[i].split("=");
-                var name = decode(pair.shift());
-                if (!name) {
-                    continue;
-                }
-                var arr = o[name];
-                if (!(arr instanceof Array)) {
-                    arr = [];
-                    o[name] = arr;
-                }
-                arr.push(decode(pair.join("=")));
-            }
-        } else {
-            for (var i = 0; i < pairs.length; i++) {
-                pair = pairs[i].split("=");
-                var name = pair.shift();
-                if (!name) {
-                    continue;
-                }
-                o[decode(name)] = decode(pair.join("="));
-            }
-        }
-        return o;
-    }
-
-    function partial(func, ...args) {
-        return function (...nargs) {
-            return func.call(this, ...args, ...nargs);
-        }
-    }
-
-    function partialRight(func, ...args) {
-        return function (...nargs) {
-            return func.call(this, ...nargs, ...args);
-        }
-    }
-
-    function provide(namespace, root) {
-        let split = (namespace + '').split(/\s+/g), val;
-
-        if(segment.length <= 1) {
-            throw new Error('Invalid namespace, . char probably asbsent');
-        }
-
-        for(let segment of split) {
-            if(!root) {
-                val = root[segment] = {};
-            }
-        }
-
-        return val;
-    }
-
-    function times(func, amount) {
-        let isFunc = typeof func === 'function',
-        accum = [];
-        
-        for(let i = 0; i < amount; ++i) {
-            accum.push(isFunc ? func(i, amount, accum) : func);
-        }
-
-        return accum;
-    }
-
-    /** @id MochiKit.Base.update */
-    function update(self, obj /*, ... */) {
-        if (self === null || self === undefined) {
-            self = {};
-        }
-        for (var i = 1; i < arguments.length; i++) {
-            var o = arguments[i];
-            if (typeof (o) != 'undefined' && o !== null) {
-                for (var k in o) {
-                    self[k] = o[k];
-                }
-            }
-        }
-        return self;
-    }
-
-    function values(obj) {
-        var rval = [];
-        for (var prop in obj) {
-            rval.push(obj[prop]);
-        }
-        return rval;
-    }
-
-    function warnDeprecated(method, depfrom, altfunc, message, fallbackval) {
-        //Compute the msg once for heavily used methods:
-        let depmsg = `The "${method}" is deprecated ${depfrom ? `from ${depfrom} onwards` : ''}. ${altfunc ? `Instead use ${altfunc}` : ''}${message ? `\n${message}` : ''}`;
-        return function () {
-            console.error(depmsg);
-            return fallbackval;
-        }
-    }
-
-    function without(array, ...values) {
-        return array.filter((item) => {
-            for(let value of values) {
-                if(value === item) {
-                    return true;
-                }
-            }
-
-            return false;
-        });
-    }
-
-    const __repr__$2 = '[MochiKit.Base]';
-
-    var base = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$2,
-        AdapterRegistry: AdapterRegistry,
-        apply: apply,
-        bind: bind,
-        bindAll: bindAll,
-        bindRight: bindRight,
-        camelize: camelize,
-        compose: compose,
-        counter: counter,
-        entries: entries,
-        escapeSpecial: escapeSpecial,
-        evalJSON: evalJSON,
-        forwardCall: forwardCall,
-        getType: getType,
-        identity: identity,
-        isArrayLike: isArrayLike,
-        isBoolean: isBoolean,
-        isDateLike: isDateLike,
-        isEmpty: isEmpty$1,
-        isNotEmpty: isNotEmpty,
-        isNull: isNull,
-        isNumber: isNumber,
-        isObject: isObject,
-        isString: isString,
-        isUndefined: isUndefined,
-        isValue: isValue,
-        itemgetter: itemgetter,
-        keys: keys,
-        limit: limit,
-        mean: mean,
-        nodeWalk: nodeWalk,
-        noop: noop,
-        NotFoundError: NotFoundError,
-        once: once,
-        parseQueryString: parseQueryString,
-        partial: partial,
-        partialRight: partialRight,
-        provide: provide,
-        times: times,
-        update: update,
-        values: values,
-        warnDeprecated: warnDeprecated,
-        without: without,
-        truth: truth,
-        lognot: lognot,
-        not: not,
-        neg: neg,
-        add: add,
-        sub: sub,
-        div: div,
-        mod: mod,
-        mul: mul,
-        and: and,
-        or: or,
-        xor: xor,
-        lshift: lshift,
-        rshift: rshift,
-        zrshift: zrshift,
-        eq: eq,
-        ne: ne,
-        gt: gt,
-        ge: ge,
-        lt: lt,
-        le: le,
-        seq: seq,
-        sne: sne,
-        logand: logand,
-        logor: logor,
-        ioempty: ioempty,
-        iofound: iofound
     });
 
     function arity(func, amount) {
@@ -2283,6 +2871,112 @@ var mochikit = (function () {
         wrap: wrap
     });
 
+    function getRepr(object) {
+        let repr = object && object.__repr__;
+        return repr && typeof repr === 'function' && repr.call(object);
+    }
+
+    function hasRepr(object) {
+        let repr = object && object.__repr__;
+        return repr && typeof repr === 'function';
+    }
+
+    function registerRepr(obj, val) {
+        if(obj) {
+            //val + '' = toString call
+            return obj.__repr__ = val + '';
+        }
+
+        return null;
+    }
+
+    function reprArray(array) {
+        if(!Array.isArray(array)) {
+            throw new Error('Expected an array.');
+        }
+
+        return `array(${array.length}) [${array.join(', ')}]`;
+    }
+
+    function reprArrayLike(arrayLike) {
+        if(!arrayLike || !isFinite(arrayLike.length)) {
+            throw new Error('Expected a function');
+        }
+
+        return `array-like(${array.length}) [${array.join(', ')}]`;
+    }
+
+    function reprFunction(func) {
+        if(typeof func !== 'function') {
+            throw new Error('Expected a function');
+        }
+
+        //Don't allow bogus __repr__ methods pass thru.
+        return `function "${func.name}"(${func.length}) ${typeof func.__repr__ === 'function' ? func.__repr__() : `function ${func.name} \{...\}`}`;
+    }
+
+    function reprGeneric(object) {
+        let len = object && typeof object === 'number',
+        type = getType(object).slice(8, -1);
+
+        return object ? `${type}${len ? `(${object.length})` : '(void)'} generic-type(${typeof object})` : '(void)(void) generic-type(void)';
+    }
+
+    function reprKeys(object) {
+        let keys = Object.keys(object);
+        return `keys(${keys.length}) { ${keys.join(', ')} }`;
+    }
+
+    /**
+     * 
+     * @param {!Map} map 
+     */
+    function reprMap(map) {
+        let items = '', val;
+
+        for(let key of map.keys()) {
+            val = map.get(key);
+            items += `${key} => ${val} `;
+        }
+        return `Map(${map.size}) { ${items.replace(/\s$/, '')} }`;
+    }
+
+    /**
+     * 
+     * @param {!Set} set 
+     */
+    function reprSet(set) {
+        return `Set(${set.size}) [ ${Array.from(set.values())} ]`;
+    }
+
+    function reprType(object) {
+        let len, hasLen;
+        return `${typeof object}${(hasLen = typeof (len = object.length) === 'number') ? `(${len})` : '(void)'}`;
+    }
+
+    function stringRepr () {
+        return function () {
+            return getRepr(this.toString());
+        }
+    }
+
+
+
+    var repr = /*#__PURE__*/Object.freeze({
+        getRepr: getRepr,
+        hasRepr: hasRepr,
+        registerRepr: registerRepr,
+        reprArray: reprArray,
+        reprArrayLike: reprArrayLike,
+        reprFunction: reprFunction,
+        reprGeneric: reprGeneric,
+        reprKeys: reprKeys,
+        reprMap: reprMap,
+        reprSet: reprSet,
+        reprType: reprType,
+        stringRepr: stringRepr
+    });
+
     /***
 
     MochiKit.MochiKit 1.5
@@ -2294,7 +2988,7 @@ var mochikit = (function () {
     ***/
 
     //Collect the variables in MochiKit.
-    let MochiKit$1 = { async, dom, repr, base, func };
+    let MochiKit$1 = { async, base, color, dom, func, repr };
     MochiKit$1.version = {
         /*major:x, minor:x, patch:x*/
     };
