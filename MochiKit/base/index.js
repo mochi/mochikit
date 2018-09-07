@@ -29,6 +29,7 @@ export { default as itemgetter } from './itemgetter';
 export { default as keys } from './keys';
 export { default as limit } from './limit';
 export { default as mean } from './mean';
+export { default as median } from './median.js';
 export { default as nodeWalk } from './nodeWalk';
 export { default as noop } from './noop';
 export { default as NotFoundError } from './NotFoundError.js';

@@ -1,22 +1,4 @@
 MochiKit.Base.update(MochiKit.Base, {
-    /** @id MochiKit.Base.flattenArguments */
-    flattenArguments: function (lst/* ...*/) {
-        var res = [];
-        var m = MochiKit.Base;
-        var args = m.extend(null, arguments);
-        while (args.length) {
-            var o = args.shift();
-            if (o && typeof(o) == "object" && typeof(o.length) == "number") {
-                for (var i = o.length - 1; i >= 0; i--) {
-                    args.unshift(o[i]);
-                }
-            } else {
-                res.push(o);
-            }
-        }
-        return res;
-    },
-
     /** @id MochiKit.Base.registerComparator */
     registerComparator: function (name, check, comparator, /* optional */ override) {
         MochiKit.Base.comparatorRegistry.register(name, check, comparator, override);

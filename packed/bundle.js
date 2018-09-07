@@ -1,4 +1,4 @@
-/*Bundled with Rollup at "Fri Sep 07 2018 22:52:57 GMT+0100 (British Summer Time)".*/
+/*Bundled with Rollup at "Sat Sep 08 2018 00:07:49 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
@@ -1029,6 +1029,25 @@ var mochikit = (function () {
     //This might be removed.
     var evalJSON = JSON.parse;
 
+    function extend(ar1, ar2) {
+        for(let item of ar2) {
+            ar1[ar1.length] = item;
+            ++ar1.length;
+        }
+
+        return ar1
+    }
+
+    function flattenArray(array) {
+        let flattened = [];
+
+        for(let item of array) {
+            Array.isArray(item) ? flattened.push(...item) : flattened.push(item);
+        }
+
+        return flattened;
+    }
+
     function forwardCall(func) {
         return function () {
             return this[func].apply(this, arguments);
@@ -1156,6 +1175,20 @@ var mochikit = (function () {
         }
 
         return sum / count;
+    }
+
+    function median(/* lst... */) {
+        /* http://www.nist.gov/dads/HTML/median.html */
+        if (data.length === 0) {
+            throw new TypeError('median() requires at least one argument');
+        }
+        data.sort((a, b) => a + b);
+        if (data.length % 2 == 0) {
+            var upper = data.length / 2;
+            return (data[upper] + data[upper - 1]) / 2;
+        } else {
+            return data[(data.length - 1) / 2];
+        }
     }
 
     function nodeWalk(node, visitor) {
@@ -1297,6 +1330,18 @@ var mochikit = (function () {
         return val;
     }
 
+    function setdefault(src, target) {
+        let keys = Object.keys(src);
+
+        keys.forEach((key) => {
+            if(!(key in target)) {
+                target[key] = src[key];
+            }
+        });
+
+        return target;
+    }
+
     function times(func, amount) {
         let isFunc = typeof func === 'function',
         accum = [];
@@ -1368,6 +1413,8 @@ var mochikit = (function () {
         entries: entries,
         escapeSpecial: escapeSpecial,
         evalJSON: evalJSON,
+        extend: extend,
+        flattenArray: flattenArray,
         forwardCall: forwardCall,
         getType: getType,
         identity: identity,
@@ -1386,6 +1433,7 @@ var mochikit = (function () {
         keys: keys,
         limit: limit,
         mean: mean,
+        median: median,
         nodeWalk: nodeWalk,
         noop: noop,
         NotFoundError: NotFoundError,
@@ -1395,6 +1443,7 @@ var mochikit = (function () {
         partialRight: partialRight,
         primitives: primitives,
         provide: provide,
+        setdefault: setdefault,
         times: times,
         update: update,
         values: values,
