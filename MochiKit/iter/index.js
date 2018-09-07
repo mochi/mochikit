@@ -1,0 +1,1 @@
+export const __repr__ = '[MochiKit.Iter]';

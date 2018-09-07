@@ -1,0 +1,14 @@
+**THIS FILE SHOULD BE IGNORED. IT IS INCLUDED FOR MY VSCODE SETUP WITH THE "TODO TREE" EXTENSION**.
+
+SYNTAX: "TODO: {severity}"
+TODO low: make a lib.d.ts TypeScript definition file for compat with VSCode.
+TODO high: revamp the Base, which looks like a huge project.
+TODO high: revamp all submodules to import functions from the Base **NOT `import Base from './Base';** because that breaks tree-shaking.
+TODO medium: start using Rollup and add npm tasks for it.
+TODO low: kill off all the python scripts and replace them with js ones.
+TODO medium: cherry pick the best methods from older modules, maybe recreating them all.
+TODO low: add all DOM createElement shorthand elements like A, DIV, ARTICLE methods.
+TODO low: throw an example of using <script type=module> and es6 modules when revamping docs.
+TODO low: maybe make a dom chain api like jQuery.
+TODO medium: finish the Color class
+TODO high: the color class is really messed up

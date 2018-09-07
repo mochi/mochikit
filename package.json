@@ -1,0 +1,8 @@
+{
+    "scripts": {
+        "build": "rollup -c"
+    },
+    "dependencies": {
+        "jshint": "^2.9.6"
+    }
+}

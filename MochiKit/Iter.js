@@ -778,11 +778,4 @@ MochiKit.Iter.__new__ = function () {
 
 MochiKit.Iter.__new__();
 
-//
-// XXX: Internet Explorer blows
-//
-if (MochiKit.__export__) {
-    reduce = MochiKit.Iter.reduce;
-}
-
 MochiKit.Base._exportSymbols(this, MochiKit.Iter);
