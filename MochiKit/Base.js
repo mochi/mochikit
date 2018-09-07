@@ -1,21 +1,4 @@
 MochiKit.Base.update(MochiKit.Base, {
-    _flattenArray: function (res, lst) {
-        for (var i = 0; i < lst.length; i++) {
-            var o = lst[i];
-            if (o instanceof Array) {
-                arguments.callee(res, o);
-            } else {
-                res.push(o);
-            }
-        }
-        return res;
-    },
-
-    /** @id MochiKit.Base.flattenArray */
-    flattenArray: function (lst) {
-        return MochiKit.Base._flattenArray([], lst);
-    },
-
     /** @id MochiKit.Base.flattenArguments */
     flattenArguments: function (lst/* ...*/) {
         var res = [];
@@ -34,43 +17,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return res;
     },
 
-    /** @id MochiKit.Base.updatetree */
-    updatetree: function (self, obj/*, ...*/) {
-        if (self === null || self === undefined) {
-            self = {};
-        }
-        for (var i = 1; i < arguments.length; i++) {
-            var o = arguments[i];
-            if (typeof(o) != 'undefined' && o !== null) {
-                for (var k in o) {
-                    var v = o[k];
-                    if (typeof(self[k]) == 'object' && typeof(v) == 'object') {
-                        arguments.callee(self[k], v);
-                    } else {
-                        self[k] = v;
-                    }
-                }
-            }
-        }
-        return self;
-    },
-
-    /** @id MochiKit.Base.setdefault */
-    setdefault: function (self, obj/*, ...*/) {
-        if (self === null || self === undefined) {
-            self = {};
-        }
-        for (var i = 1; i < arguments.length; i++) {
-            var o = arguments[i];
-            for (var k in o) {
-                if (!(k in self)) {
-                    self[k] = o[k];
-                }
-            }
-        }
-        return self;
-    },
-    
     /** @id MochiKit.Base.registerComparator */
     registerComparator: function (name, check, comparator, /* optional */ override) {
         MochiKit.Base.comparatorRegistry.register(name, check, comparator, override);
@@ -157,16 +103,6 @@ MochiKit.Base.update(MochiKit.Base, {
         return (MochiKit.Base.compare(self, arr) === 0);
     },
 
-    /** @id MochiKit.Base.concat */
-    concat: function (/* lst... */) {
-        var rval = [];
-        var extend = MochiKit.Base.extend;
-        for (var i = 0; i < arguments.length; i++) {
-            extend(rval, arguments[i]);
-        }
-        return rval;
-    },
-
     /** @id MochiKit.Base.keyComparator */
     keyComparator: function (key/* ... */) {
         // fast-path for single key comparisons
@@ -222,116 +158,10 @@ MochiKit.Base.update(MochiKit.Base, {
     /** @id MochiKit.Base.objMin */
     objMin: function (/* obj... */) {
         return MochiKit.Base.listMinMax(-1, arguments);
-    },
-
-    /** @id MochiKit.Base.findIdentical */
-    findIdentical: function (lst, value, start/* = 0 */, /* optional */end) {
-        if (typeof(end) == "undefined" || end === null) {
-            end = lst.length;
-        }
-        if (typeof(start) == "undefined" || start === null) {
-            start = 0;
-        }
-        for (var i = start; i < end; i++) {
-            if (lst[i] === value) {
-                return i;
-            }
-        }
-        return -1;
-    },
-
-    /** @id MochiKit.Base.median */
-    median: function(/* lst... */) {
-        /* http://www.nist.gov/dads/HTML/median.html */
-        var data = MochiKit.Base.flattenArguments(arguments);
-        if (data.length === 0) {
-            throw new TypeError('median() requires at least one argument');
-        }
-        data.sort(MochiKit.Base.compare);
-        if (data.length % 2 == 0) {
-            var upper = data.length / 2;
-            return (data[upper] + data[upper - 1]) / 2;
-        } else {
-            return data[(data.length - 1) / 2];
-        }
-    },
-
-    /** @id MochiKit.Base.findValue */
-    findValue: function (lst, value, start/* = 0 */, /* optional */end) {
-        if (typeof(end) == "undefined" || end === null) {
-            end = lst.length;
-        }
-        if (typeof(start) == "undefined" || start === null) {
-            start = 0;
-        }
-        var cmp = MochiKit.Base.compare;
-        for (var i = start; i < end; i++) {
-            if (cmp(lst[i], value) === 0) {
-                return i;
-            }
-        }
-        return -1;
-    },
-
-    /** @id MochiKit.Base.queryString */
-    queryString: function (names, values) {
-        // check to see if names is a string or a DOM element, and if
-        // MochiKit.DOM is available.  If so, drop it like it's a form
-        // Ugliest conditional in MochiKit?  Probably!
-        if (typeof(MochiKit.DOM) != "undefined" && arguments.length == 1
-            && (typeof(names) == "string" || (
-                typeof(names.nodeType) != "undefined" && names.nodeType > 0
-            ))
-        ) {
-            var kv = MochiKit.DOM.formContents(names);
-            names = kv[0];
-            values = kv[1];
-        } else if (arguments.length == 1) {
-            // Allow the return value of formContents to be passed directly
-            if (typeof(names.length) == "number" && names.length == 2) {
-                return arguments.callee(names[0], names[1]);
-            }
-            var o = names;
-            names = [];
-            values = [];
-            for (var k in o) {
-                var v = o[k];
-                if (typeof(v) == "function") {
-                    continue;
-                } else if (MochiKit.Base.isArrayLike(v)){
-                    for (var i = 0; i < v.length; i++) {
-                        names.push(k);
-                        values.push(v[i]);
-                    }
-                } else {
-                    names.push(k);
-                    values.push(v);
-                }
-            }
-        }
-        var rval = [];
-        var len = Math.min(names.length, values.length);
-        var urlEncode = MochiKit.Base.urlEncode;
-        for (var i = 0; i < len; i++) {
-            v = values[i];
-            if (typeof(v) != 'undefined' && v !== null) {
-                rval.push(urlEncode(names[i]) + "=" + urlEncode(v));
-            }
-        }
-        return rval.join("&");
     }
 });
 
 MochiKit.Base.__new__ = function () {
-    var m = this;
-
-    /** @id MochiKit.Base.noop */
-    m.noop = m.operator.identity;
-
-    // Backwards compat
-    m._deprecated(m, 'forward', 'MochiKit.Base.forwardCall', '1.3');
-    m._deprecated(m, 'find', 'MochiKit.Base.findValue', '1.3');
-
     if (typeof(encodeURIComponent) != "undefined") {
         /** @id MochiKit.Base.urlEncode */
         m.urlEncode = function (unencoded) {
