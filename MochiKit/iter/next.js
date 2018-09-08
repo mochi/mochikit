@@ -1,7 +1,7 @@
-import isIterable from "./isIterable";
+import isIterator from "./isIterator";
 
 export default function next(iter) {
-    if(isIterable(iter)) {
+    if(isIterator(iter)) {
         try {
             iter.next();
         } catch (err) {

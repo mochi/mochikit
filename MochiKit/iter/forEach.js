@@ -1,10 +1,10 @@
-import isIterable from './isIterable';
+import isIterator from './isIterator';
 
 export default function forEach(iter, predicate) {
-    let value, cachedValue, index = 0, done = isIterable(iter) ? iter.done : true;
+    let value, cachedValue, index = 0, done = isIterator(iter) ? iter.done : true;
 
     while(!done) {
-        //Add support for older iterators that return the value.
+        //Add support for generators that don't return the value.
         value = (cachedValue = iter.next()) === iter ? cachedValue : iter.value;
         predicate(value, index);
         done = iter.done;

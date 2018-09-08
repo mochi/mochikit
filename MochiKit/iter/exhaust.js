@@ -1,7 +1,7 @@
-import isIterable from "./isIterable";
+import isIterator from "./isIterator";
 
 export default function exhaust(iter) {
-    let done = isIterable(iter) ? iter.done : true;
+    let done = isIterator(iter) ? iter.done : true;
 
     while(!done) {
         iter.next();

@@ -50,41 +50,6 @@ MochiKit.Base.update(MochiKit.Iter, {
         }
     },
 
-    /** @id MochiKit.Iter.cycle */
-    cycle: function (p) {
-        var self = MochiKit.Iter;
-        var m = MochiKit.Base;
-        var lst = [];
-        var iterator = self.iter(p);
-        return {
-            repr: function () { return "cycle(...)"; },
-            toString: m.forwardCall("repr"),
-            next: function () {
-                try {
-                    var rval = iterator.next();
-                    lst.push(rval);
-                    return rval;
-                } catch (e) {
-                    if (e != self.StopIteration) {
-                        throw e;
-                    }
-                    if (lst.length === 0) {
-                        this.next = function () {
-                            throw self.StopIteration;
-                        };
-                    } else {
-                        var i = -1;
-                        this.next = function () {
-                            i = (i + 1) % lst.length;
-                            return lst[i];
-                        };
-                    }
-                    return this.next();
-                }
-            }
-        };
-    },
-
     /** @id MochiKit.Iter.izip */
     izip: function (p, q/*, ...*/) {
         var m = MochiKit.Base;
@@ -196,19 +161,6 @@ MochiKit.Base.update(MochiKit.Iter, {
             toString: m.forwardCall("repr"),
             next: function () {
                 return fun.apply(this, map(next, iterables));
-            }
-        };
-    },
-
-    /** @id MochiKit.Iter.applymap */
-    applymap: function (fun, seq, self) {
-        seq = MochiKit.Iter.iter(seq);
-        var m = MochiKit.Base;
-        return {
-            repr: function () { return "applymap(...)"; },
-            toString: m.forwardCall("repr"),
-            next: function () {
-                return fun.apply(self, seq.next());
             }
         };
     },
@@ -336,40 +288,6 @@ MochiKit.Base.update(MochiKit.Iter, {
             rval.push(_tee(i, sync, iterable));
         }
         return rval;
-    },
-
-    /** @id MochiKit.Iter.sorted */
-    sorted: function (iterable, /* optional */cmp) {
-        var rval = MochiKit.Iter.list(iterable);
-        if (arguments.length == 1) {
-            cmp = MochiKit.Base.compare;
-        }
-        rval.sort(cmp);
-        return rval;
-    },
-
-    /** @id MochiKit.Iter.iextend */
-    iextend: function (lst, iterable) {
-        var m = MochiKit.Base;
-        var self = MochiKit.Iter;
-        if (m.isArrayLike(iterable) && !self.isIterable(iterable)) {
-            // fast-path for array-like
-            for (var i = 0; i < iterable.length; i++) {
-                lst.push(iterable[i]);
-            }
-        } else {
-            iterable = self.iter(iterable);
-            try {
-                while (true) {
-                    lst.push(iterable.next());
-                }
-            } catch (e) {
-                if (e != self.StopIteration) {
-                    throw e;
-                }
-            }
-        }
-        return lst;
     },
 
     /** @id MochiKit.Iter.groupby */
