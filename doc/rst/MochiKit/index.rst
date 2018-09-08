@@ -43,12 +43,12 @@ Screencasts
 
 - `MochiKit 1.1 Intro`__
 
-.. __: http://mochikit.com/screencasts/MochiKit_Intro-1
+.. __: https://mochi.github.io/mochikit/screencasts/MochiKit_Intro-1
 
 See Also
 ========
 
-.. _`mochikit.com`: http://mochikit.com/
+.. _`mochikit.com`: https://mochi.github.io/mochikit/
 .. _`MochiKit Wiki`: http://trac.mochikit.com/wiki
 .. _`MochiKit tag on del.icio.us`: http://del.icio.us/tag/mochikit
 .. _`MochiKit tag on Technorati`: http://technorati.com/tag/mochikit

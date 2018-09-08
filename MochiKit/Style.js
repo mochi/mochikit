@@ -2,7 +2,7 @@
 
 MochiKit.Style 1.5
 
-See <http://mochikit.com/> for documentation, downloads, license, etc.
+See <https://mochi.github.io/mochikit/> for documentation, downloads, license, etc.
 
 (c) 2005-2006 Bob Ippolito, Beau Hartshorne.  All rights Reserved.
 

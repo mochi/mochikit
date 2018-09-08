@@ -37,14 +37,14 @@ if __name__ == "__main__":
         mod = ET.SubElement(root, "page")
         mod.attrib.update(dict(title="MochiKit.%s" % modulename, 
                                type="package", 
-                               url="http://mochikit.com/doc/html/MochiKit/%s.html" % modulename))
+                               url="https://mochi.github.io/mochikit/doc/html/MochiKit/%s.html" % modulename))
 
         for a in doc.findall("//{http://www.w3.org/1999/xhtml}a"):
             if a.attrib.get("class",None) == "mochidef reference":
                 fun = ET.SubElement(mod, "page")
                 fun.attrib.update(dict(title=a.text),
                                        type="method",
-                                       url="http://mochikit.com/doc/html/MochiKit/%s.html%s" % (modulename, a.attrib["href"]))
+                                       url="https://mochi.github.io/mochikit/doc/html/MochiKit/%s.html%s" % (modulename, a.attrib["href"]))
     tree = ET.ElementTree(root)
     tree.write(sys.stdout, encoding="UTF-8")
 
