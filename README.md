@@ -1,5 +1,7 @@
 # MochiKit
 
+[![Build Status](https://travis-ci.org/w0298i/mochikit.svg?branch=master)](https://travis-ci.org/w0298i/mochikit)
+
 ## A quick warning ⚠
 This library is undergoing a **huge** change, for consistent tested behaviour, use the /packed/MochiKit.legacy.js in deployment. This new version has been "read-tested" by me, meaning it **should** work but proper testing has not yet been implemented. Think of this as a new major version of MochiKit that is still in the dev stage. The current state of this new redo is `UNSTABLE_USABLE`. Please do not use the .js files in the top dir of MochiKit either, as when methods are converted to es6, the older method is removed to keep up.
 
