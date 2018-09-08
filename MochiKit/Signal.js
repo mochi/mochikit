@@ -2,7 +2,7 @@
 
 MochiKit.Signal 1.5
 
-See <http://mochikit.com/> for documentation, downloads, license, etc.
+See <https://mochi.github.io/mochikit/> for documentation, downloads, license, etc.
 
 (c) 2006 Jonathan Gardner, Beau Hartshorne, Bob Ippolito.  All rights Reserved.
 

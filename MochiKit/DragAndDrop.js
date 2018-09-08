@@ -1,7 +1,7 @@
 /***
 MochiKit.DragAndDrop 1.5
 
-See <http://mochikit.com/> for documentation, downloads, license, etc.
+See <https://mochi.github.io/mochikit/> for documentation, downloads, license, etc.
 
 Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
     Mochi-ized By Thomas Herve (_firstname_@nimail.org)

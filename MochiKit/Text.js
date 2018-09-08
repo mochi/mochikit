@@ -2,7 +2,7 @@
 
 MochiKit.Text 1.5
 
-See <http://mochikit.com/> for documentation, downloads, license, etc.
+See <https://mochi.github.io/mochikit/> for documentation, downloads, license, etc.
 
 (c) 2008 Per Cederberg.  All rights Reserved.
 
