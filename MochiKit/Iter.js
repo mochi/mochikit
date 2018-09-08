@@ -16,12 +16,6 @@ MochiKit.Base.update(MochiKit.Iter, {
         MochiKit.Iter.iteratorRegistry.register(name, check, iterfactory, override);
     },
 
-    /** @id MochiKit.Iter.isIterable */
-    isIterable: function(o) {
-        return o != null &&
-               (typeof(o.next) == "function" || typeof(o.iter) == "function");
-    },
-
     /** @id MochiKit.Iter.iter */
     iter: function (iterable, /* optional */ sentinel) {
         var self = MochiKit.Iter;
@@ -54,19 +48,6 @@ MochiKit.Base.update(MochiKit.Iter, {
             }
             throw e;
         }
-    },
-
-    /** @id MochiKit.Iter.count */
-    count: function (n) {
-        if (!n) {
-            n = 0;
-        }
-        var m = MochiKit.Base;
-        return {
-            repr: function () { return "count(" + n + ")"; },
-            toString: m.forwardCall("repr"),
-            next: m.counter(n)
-        };
     },
 
     /** @id MochiKit.Iter.cycle */
@@ -102,40 +83,6 @@ MochiKit.Base.update(MochiKit.Iter, {
                 }
             }
         };
-    },
-
-    /** @id MochiKit.Iter.repeat */
-    repeat: function (elem, /* optional */n) {
-        var m = MochiKit.Base;
-        if (typeof(n) == 'undefined') {
-            return {
-                repr: function () {
-                    return "repeat(" + m.repr(elem) + ")";
-                },
-                toString: m.forwardCall("repr"),
-                next: function () {
-                    return elem;
-                }
-            };
-        }
-        return {
-            repr: function () {
-                return "repeat(" + m.repr(elem) + ", " + n + ")";
-            },
-            toString: m.forwardCall("repr"),
-            next: function () {
-                if (n <= 0) {
-                    throw MochiKit.Iter.StopIteration;
-                }
-                n -= 1;
-                return elem;
-            }
-        };
-    },
-
-    /** @id MochiKit.Iter.next */
-    next: function (iterator) {
-        return iterator.next();
     },
 
     /** @id MochiKit.Iter.izip */
@@ -391,181 +338,6 @@ MochiKit.Base.update(MochiKit.Iter, {
         return rval;
     },
 
-    /** @id MochiKit.Iter.list */
-    list: function (iterable) {
-        // Fast-path for Array and Array-like
-        var rval;
-        if (iterable instanceof Array) {
-            return iterable.slice();
-        } 
-        // this is necessary to avoid a Safari crash
-        if (typeof(iterable) == "function" &&
-                !(iterable instanceof Function) &&
-                typeof(iterable.length) == 'number') {
-            rval = [];
-            for (var i = 0; i < iterable.length; i++) {
-                rval.push(iterable[i]);
-            }
-            return rval;
-        }
-
-        var self = MochiKit.Iter;
-        iterable = self.iter(iterable);
-        rval = [];
-        var a_val;
-        try {
-            while (true) {
-                a_val = iterable.next();
-                rval.push(a_val);
-            }
-        } catch (e) {
-            if (e != self.StopIteration) {
-                throw e;
-            }
-            return rval;
-        }
-        // mozilla warnings aren't too bright
-        return undefined;
-    },
-
-
-    /** @id MochiKit.Iter.reduce */
-    reduce: function (fn, iterable, /* optional */initial) {
-        var i = 0;
-        var x = initial;
-        var self = MochiKit.Iter;
-        iterable = self.iter(iterable);
-        if (arguments.length < 3) {
-            try {
-                x = iterable.next();
-            } catch (e) {
-                if (e == self.StopIteration) {
-                    e = new TypeError("reduce() of empty sequence with no initial value");
-                }
-                throw e;
-            }
-            i++;
-        }
-        try {
-            while (true) {
-                x = fn(x, iterable.next());
-            }
-        } catch (e) {
-            if (e != self.StopIteration) {
-                throw e;
-            }
-        }
-        return x;
-    },
-
-    /** @id MochiKit.Iter.range */
-    range: function (/* [start,] stop[, step] */) {
-        var start = 0;
-        var stop = 0;
-        var step = 1;
-        if (arguments.length == 1) {
-            stop = arguments[0];
-        } else if (arguments.length == 2) {
-            start = arguments[0];
-            stop = arguments[1];
-        } else if (arguments.length == 3) {
-            start = arguments[0];
-            stop = arguments[1];
-            step = arguments[2];
-        } else {
-            throw new TypeError("range() takes 1, 2, or 3 arguments!");
-        }
-        if (step === 0) {
-            throw new TypeError("range() step must not be 0");
-        }
-        return {
-            next: function () {
-                if ((step > 0 && start >= stop) || (step < 0 && start <= stop)) {
-                    throw MochiKit.Iter.StopIteration;
-                }
-                var rval = start;
-                start += step;
-                return rval;
-            },
-            repr: function () {
-                return "range(" + [start, stop, step].join(", ") + ")";
-            },
-            toString: MochiKit.Base.forwardCall("repr")
-        };
-    },
-
-    /** @id MochiKit.Iter.sum */
-    sum: function (iterable, start/* = 0 */) {
-        if (typeof(start) == "undefined" || start === null) {
-            start = 0;
-        }
-        var x = start;
-        var self = MochiKit.Iter;
-        iterable = self.iter(iterable);
-        try {
-            while (true) {
-                x += iterable.next();
-            }
-        } catch (e) {
-            if (e != self.StopIteration) {
-                throw e;
-            }
-        }
-        return x;
-    },
-
-    /** @id MochiKit.Iter.exhaust */
-    exhaust: function (iterable) {
-        var self = MochiKit.Iter;
-        iterable = self.iter(iterable);
-        try {
-            while (true) {
-                iterable.next();
-            }
-        } catch (e) {
-            if (e != self.StopIteration) {
-                throw e;
-            }
-        }
-    },
-
-    /** @id MochiKit.Iter.forEach */
-    forEach: function (iterable, func, /* optional */obj) {
-        var m = MochiKit.Base;
-        var self = MochiKit.Iter;
-        if (arguments.length > 2) {
-            func = m.bind(func, obj);
-        }
-        // fast path for array
-        if (m.isArrayLike(iterable) && !self.isIterable(iterable)) {
-            try {
-                for (var i = 0; i < iterable.length; i++) {
-                    func(iterable[i]);
-                }
-            } catch (e) {
-                if (e != self.StopIteration) {
-                    throw e;
-                }
-            }
-        } else {
-            self.exhaust(self.imap(func, iterable));
-        }
-    },
-
-    /** @id MochiKit.Iter.every */
-    every: function (iterable, func) {
-        var self = MochiKit.Iter;
-        try {
-            self.ifilterfalse(func, iterable).next();
-            return false;
-        } catch (e) {
-            if (e != self.StopIteration) {
-                throw e;
-            }
-            return true;
-        }
-    },
-
     /** @id MochiKit.Iter.sorted */
     sorted: function (iterable, /* optional */cmp) {
         var rval = MochiKit.Iter.list(iterable);
@@ -574,27 +346,6 @@ MochiKit.Base.update(MochiKit.Iter, {
         }
         rval.sort(cmp);
         return rval;
-    },
-
-    /** @id MochiKit.Iter.reversed */
-    reversed: function (iterable) {
-        var rval = MochiKit.Iter.list(iterable);
-        rval.reverse();
-        return rval;
-    },
-
-    /** @id MochiKit.Iter.some */
-    some: function (iterable, func) {
-        var self = MochiKit.Iter;
-        try {
-            self.ifilter(func, iterable).next();
-            return true;
-        } catch (e) {
-            if (e != self.StopIteration) {
-                throw e;
-            }
-            return false;
-        }
     },
 
     /** @id MochiKit.Iter.iextend */
@@ -710,21 +461,6 @@ MochiKit.Base.update(MochiKit.Iter, {
             prev_key = key;
         }
         return result;
-    },
-
-    /** @id MochiKit.Iter.arrayLikeIter */
-    arrayLikeIter: function (iterable) {
-        var i = 0;
-        return {
-            repr: function () { return "arrayLikeIter(...)"; },
-            toString: MochiKit.Base.forwardCall("repr"),
-            next: function () {
-                if (i >= iterable.length) {
-                    throw MochiKit.Iter.StopIteration;
-                }
-                return iterable[i++];
-            }
-        };
     },
 
     /** @id MochiKit.Iter.hasIterateNext */
