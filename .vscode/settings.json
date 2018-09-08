@@ -7,6 +7,7 @@
         "idiv",
         "idivide",
         "iextend",
+        "ifilter",
         "iidentity",
         "iioempty",
         "iiofound",
@@ -32,6 +33,7 @@
         "logor",
         "lshift",
         "mochi",
+        "repr",
         "rshift",
         "takewhile",
         "zrshift"

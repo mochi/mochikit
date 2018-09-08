@@ -4,5 +4,8 @@
     },
     "dependencies": {
         "jshint": "^2.9.6"
+    },
+    "devDependencies": {
+        "mocha": "^5.2.0"
     }
 }

@@ -63,92 +63,6 @@ MochiKit.Base.update(MochiKit.Iter, {
         };
     },
 
-    /** @id MochiKit.Iter.ifilter */
-    ifilter: function (pred, seq) {
-        var m = MochiKit.Base;
-        seq = MochiKit.Iter.iter(seq);
-        if (pred === null) {
-            pred = m.operator.truth;
-        }
-        return {
-            repr: function () { return "ifilter(...)"; },
-            toString: m.forwardCall("repr"),
-            next: function () {
-                while (true) {
-                    var rval = seq.next();
-                    if (pred(rval)) {
-                        return rval;
-                    }
-                }
-                // mozilla warnings aren't too bright
-                return undefined;
-            }
-        };
-    },
-
-    /** @id MochiKit.Iter.ifilterfalse */
-    ifilterfalse: function (pred, seq) {
-        var m = MochiKit.Base;
-        seq = MochiKit.Iter.iter(seq);
-        if (pred === null) {
-            pred = m.operator.truth;
-        }
-        return {
-            repr: function () { return "ifilterfalse(...)"; },
-            toString: m.forwardCall("repr"),
-            next: function () {
-                while (true) {
-                    var rval = seq.next();
-                    if (!pred(rval)) {
-                        return rval;
-                    }
-                }
-                // mozilla warnings aren't too bright
-                return undefined;
-            }
-        };
-    },
-
-    /** @id MochiKit.Iter.islice */
-    islice: function (seq/*, [start,] stop[, step] */) {
-        var self = MochiKit.Iter;
-        var m = MochiKit.Base;
-        seq = self.iter(seq);
-        var start = 0;
-        var stop = 0;
-        var step = 1;
-        var i = -1;
-        if (arguments.length == 2) {
-            stop = arguments[1];
-        } else if (arguments.length == 3) {
-            start = arguments[1];
-            stop = arguments[2];
-        } else {
-            start = arguments[1];
-            stop = arguments[2];
-            step = arguments[3];
-        }
-        return {
-            repr: function () {
-                return "islice(" + ["...", start, stop, step].join(", ") + ")";
-            },
-            toString: m.forwardCall("repr"),
-            next: function () {
-                if (start >= stop) {
-                    throw self.StopIteration;
-                }
-
-                var rval;
-                while (i < start) {
-                    rval = seq.next();
-                    i++;
-                }
-                start += step;
-                return rval;
-            }
-        };
-    },
-
     /** @id MochiKit.Iter.imap */
     imap: function (fun, p, q/*, ...*/) {
         var m = MochiKit.Base;
@@ -161,40 +75,6 @@ MochiKit.Base.update(MochiKit.Iter, {
             toString: m.forwardCall("repr"),
             next: function () {
                 return fun.apply(this, map(next, iterables));
-            }
-        };
-    },
-
-    /** @id MochiKit.Iter.chain */
-    chain: function (p, q/*, ...*/) {
-        // dumb fast path
-        var self = MochiKit.Iter;
-        var m = MochiKit.Base;
-        if (arguments.length == 1) {
-            return self.iter(arguments[0]);
-        }
-        var argiter = m.map(self.iter, arguments);
-        return {
-            repr: function () { return "chain(...)"; },
-            toString: m.forwardCall("repr"),
-            next: function () {
-                while (argiter.length > 1) {
-                    try {
-                        return argiter[0].next();
-                    } catch (e) {
-                        if (e != self.StopIteration) {
-                            throw e;
-                        }
-                        argiter.shift();
-                    }
-                }
-                if (argiter.length == 1) {
-                    // optimize last element
-                    var arg = argiter.shift();
-                    this.next = m.bind("next", arg);
-                    return this.next();
-                }
-                throw self.StopIteration;
             }
         };
     },

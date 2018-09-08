@@ -7,7 +7,7 @@ export default function ifilter(iter, predicate) {
     array = list(iter);
 
     for(let item of array) {
-        if(predicate(item, index, array) == true) {
+        if(predicate(item, index, array) === false) {
             filtered.push(item);
         }
 
