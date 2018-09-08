@@ -1,5 +1,3 @@
-import Iterator from "./Iterator";
-
 export default class RepeatIterator {
     constructor(value) {
         this.value = value;

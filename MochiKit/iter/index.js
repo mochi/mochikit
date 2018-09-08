@@ -11,7 +11,7 @@ export { default as CountIterator } from './CountIterator.js';
 export { default as cycle } from './cycle.js';
 export { default as CycleIterator } from './CycleIterator.js';
 export { default as every } from './every.js';
-export { default as EVeryIterator } from './EVeryIterator.js';
+export { default as EveryIterator } from './EveryIterator.js';
 export { default as exhaust } from './exhaust.js';
 export { default as exhaustLimited } from './exhaustLimited.js';
 export { default as forEach } from './forEach.js';
