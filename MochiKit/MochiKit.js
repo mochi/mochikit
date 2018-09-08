@@ -1,12 +1,3 @@
-/***
-
-MochiKit.MochiKit 1.5
-
-See <http://mochikit.com/> for documentation, downloads, license, etc.
-
-(c) 2005 Bob Ippolito.  All rights Reserved.
-
-***/
 //Must be precise with Rollup. It doesn't understand /(index.js) shorthand afaik.
 import * as async from './async/index.js';
 import * as base from './base/index.js';

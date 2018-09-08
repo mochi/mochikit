@@ -10,88 +10,6 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 
 MochiKit.Base.module(MochiKit, 'Text', '1.5', ['Base', 'Format']);
 
-/**
- * Checks if a text string starts with the specified substring. If
- * either of the two strings is null, false will be returned.
- *
- * @param {String} substr the substring to search for
- * @param {String} str the string to search in
- *
- * @return {Boolean} true if the string starts with the substring, or
- *         false otherwise
- */
-MochiKit.Text.startsWith = function (substr, str) {
-    return str != null && substr != null && str.indexOf(substr) == 0;
-};
-
-/**
- * Checks if a text string ends with the specified substring. If
- * either of the two strings is null, false will be returned.
- *
- * @param {String} substr the substring to search for
- * @param {String} str the string to search in
- *
- * @return {Boolean} true if the string ends with the substring, or
- *         false otherwise
- */
-MochiKit.Text.endsWith = function (substr, str) {
-    return str != null && substr != null &&
-           str.lastIndexOf(substr) == Math.max(str.length - substr.length, 0);
-};
-
-/**
- * Checks if a text string contains the specified substring. If
- * either of the two strings is null, false will be returned.
- *
- * @param {String} substr the substring to search for
- * @param {String} str the string to search in
- *
- * @return {Boolean} true if the string contains the substring, or
- *         false otherwise
- */
-MochiKit.Text.contains = function (substr, str) {
-    return str != null && substr != null && str.indexOf(substr) >= 0;
-};
-
-/**
- * Adds a character to the left-hand side of a string until it
- * reaches the specified minimum length.
- *
- * @param {String} str the string to process
- * @param {Number} minLength the requested minimum length
- * @param {String} fillChar the padding character to add, defaults
- *            to a space
- *
- * @return {String} the padded string
- */
-MochiKit.Text.padLeft = function (str, minLength, fillChar) {
-    str = str || "";
-    fillChar = fillChar || " ";
-    while (str.length < minLength) {
-        str = fillChar + str;
-    }
-    return str;
-};
-
-/**
- * Adds a character to the right-hand side of a string until it
- * reaches the specified minimum length.
- *
- * @param {String} str the string to process
- * @param {Number} minLength the requested minimum length
- * @param {String} fillChar the padding character to add, defaults
- *            to a space
- *
- * @return {String} the padded string
- */
-MochiKit.Text.padRight = function (str, minLength, fillChar) {
-    str = str || "";
-    fillChar = fillChar || " ";
-    while (str.length < minLength) {
-        str += fillChar;
-    }
-    return str;
-};
 
 /**
  * Returns a truncated copy of a string. If the string is shorter
@@ -119,30 +37,6 @@ MochiKit.Text.truncate = function (str, maxLength, tail) {
     } else {
         return str.slice(0, maxLength);
     }
-};
-
-/**
- * Splits a text string using separator as the split point
- * If max is given, at most max splits are done, giving at most
- * max + 1 elements in the returned list.
- *
- * @param {String} str the string to split
- * @param {String/RegExp} [separator] the separator char or regexp to use,
- *            defaults to newline
- * @param {Number} [max] the maximum number of parts to return
- * @return {Array} an array of parts of the string
- */
-MochiKit.Text.split = function (str, separator, max) {
-    if (str == null) {
-        return str;
-    }
-    separator = separator || '\n';
-    var bits = str.split(separator);
-    if ((typeof(max) == "undefined") || max >= bits.length - 1) {
-        return bits;
-    }
-    bits.splice(max, bits.length, bits.slice(max, bits.length).join(separator));
-    return bits;
 };
 
 /**
@@ -531,15 +425,6 @@ MochiKit.Text.FormatPatternError = function (pattern, pos, message) {
 
 MochiKit.Text.FormatPatternError.prototype = new MochiKit.Base.NamedError("MochiKit.Text.FormatPatternError");
 MochiKit.Text.FormatPatternError.constructor = MochiKit.Text.FormatPatternError;
-
-//
-//XXX: Internet Explorer export fix
-//
-if (MochiKit.__export__) {
-    formatter = MochiKit.Text.formatter;
-    format = MochiKit.Text.format;
-    formatValue = MochiKit.Text.formatValue;
-}
 
 
 MochiKit.Base.nameFunctions(MochiKit.Text);
