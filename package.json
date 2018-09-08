@@ -1,11 +1,9 @@
 {
     "scripts": {
-        "build": "rollup -c"
-    },
-    "dependencies": {
-        "jshint": "^2.9.6"
+        "test": "./node_modules/.bin/mocha ./test/*.test.js"
     },
     "devDependencies": {
-        "mocha": "^5.2.0"
+        "mocha": "^5.2.0",
+        "jshint": "^2.9.6"
     }
 }
