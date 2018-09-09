@@ -11,44 +11,6 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base.module(MochiKit, 'Iter', '1.5', ['Base']);
 
 MochiKit.Base.update(MochiKit.Iter, {
-    /** @id MochiKit.Iter.registerIteratorFactory */
-    registerIteratorFactory: function (name, check, iterfactory, /* optional */ override) {
-        MochiKit.Iter.iteratorRegistry.register(name, check, iterfactory, override);
-    },
-
-    /** @id MochiKit.Iter.iter */
-    iter: function (iterable, /* optional */ sentinel) {
-        var self = MochiKit.Iter;
-        if (arguments.length == 2) {
-            return self.takewhile(
-                function (a) { return a != sentinel; },
-                iterable
-            );
-        }
-        if (typeof(iterable.next) == 'function') {
-            return iterable;
-        } else if (typeof(iterable.iter) == 'function') {
-            return iterable.iter();
-        /*
-        }  else if (typeof(iterable.__iterator__) == 'function') {
-            //
-            // XXX: We can't support JavaScript 1.7 __iterator__ directly
-            //      because of Object.prototype.__iterator__
-            //
-            return iterable.__iterator__();
-        */
-        }
-
-        try {
-            return self.iteratorRegistry.match(iterable);
-        } catch (e) {
-            var m = MochiKit.Base;
-            if (e == m.NotFound) {
-                e = new TypeError(typeof(iterable) + ": " + m.repr(iterable) + " is not iterable");
-            }
-            throw e;
-        }
-    },
 
     /** @id MochiKit.Iter.izip */
     izip: function (p, q/*, ...*/) {

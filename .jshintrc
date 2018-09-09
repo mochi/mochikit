@@ -1,4 +1,14 @@
 {
     "esversion": 6,
-    "module": true
+    "module": true,
+    "devel": true,
+    "varstmt": true,
+    "dojo": true,
+    "browser": true,
+    "node": true,
+    "worker": true,
+    "futurehostile": true,
+    "eqeqeq": true,
+    "freeze": true,
+    "nonstandard": false
 }
