@@ -26,6 +26,7 @@ export * from './ioperators.js';
 export { default as isIterable } from './isIterable.js';
 export { default as isIterator } from './isIterator.js';
 export { default as islice } from './islice.js';
+export { default as iter } from './iter.js';
 export { default as itimes } from './itimes.js';
 export { default as KeyIterator } from './KeyIterator.js';
 export { default as keyIterator } from './keyIterator.js';

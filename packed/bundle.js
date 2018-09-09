@@ -1,8 +1,8 @@
-/*Bundled with Rollup at "Sat Sep 08 2018 22:43:46 GMT+0100 (British Summer Time)".*/
+/*Bundled with Rollup at "Sun Sep 09 2018 10:01:10 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
-    const undefined;
+    let undefined;
 
     const PENDING = 0,
         REJECTED = 1,
@@ -3427,6 +3427,38 @@ var mochikit = (function () {
         return list(iter).slice(start, stop);
     }
 
+    function getRepr(object) {
+        let repr = object && object.__repr__;
+        return repr && typeof repr === 'function' && repr.call(object);
+    }
+
+    function iter(iterable, /* optional */ sentinel) {
+        if (arguments.length >= 2) {
+            return self.takewhile(
+                function (a) { return a != sentinel; },
+                iterable
+            );
+        }
+        if (typeof(iterable.next) == 'function') {
+            return iterable;
+        } else if (typeof(iterable.iter) == 'function') {
+            return iterable.iter();
+        }
+
+        //TODO: make AdapterRegistry not throw on error.
+        try {
+            return iter.registry.match(iterable);
+        } catch(err) {
+            if(err instanceof NotFoundError) {
+                throw new TypeError(`${getRepr(iterable)} is not iterable (not found in registry).`);
+            }
+
+            throw err;
+        }
+    }
+
+    iter.registry = new AdapterRegistry();
+
     function itimes(iter, amount) {
         return pipeNext(iter, (value) => value * amount);
     }
@@ -3608,7 +3640,7 @@ var mochikit = (function () {
 
     const __repr__$6 = '[MochiKit.Iter]';
 
-    var iter = /*#__PURE__*/Object.freeze({
+    var iter$1 = /*#__PURE__*/Object.freeze({
         __repr__: __repr__$6,
         any: any,
         applyMap: applyMap,
@@ -3635,6 +3667,7 @@ var mochikit = (function () {
         isIterable: hasSymbolIterator,
         isIterator: isIterator,
         islice: islice,
+        iter: iter,
         itimes: itimes,
         KeyIterator: KeyIterator,
         keyIterator: keyIterator,
@@ -3965,11 +3998,6 @@ var mochikit = (function () {
         printMessage: printMessage
     });
 
-    function getRepr(object) {
-        let repr = object && object.__repr__;
-        return repr && typeof repr === 'function' && repr.call(object);
-    }
-
     function hasRepr(object) {
         let repr = object && object.__repr__;
         return repr && typeof repr === 'function';
@@ -4082,7 +4110,7 @@ var mochikit = (function () {
         datetime,
         dom, 
         func, 
-        iter, 
+        iter: iter$1, 
         logging, 
         repr 
     };
