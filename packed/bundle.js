@@ -1,4 +1,4 @@
-/** Experimental es6 refactor bundled using Rollup (version "0.65.2") at "Sun Sep 09 2018 20:48:04 GMT+0100 (British Summer Time)".*/
+/** Experimental es6 refactor bundled using Rollup (version "0.65.2") at "Sun Sep 09 2018 22:51:48 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
@@ -2301,6 +2301,115 @@ var mochikit = (function () {
         yellowgreenHex: yellowgreenHex
     });
 
+    function extendWithArray(array, newArray) {
+        for(let index = 0, len = array.length; index < len; ++index) {
+            newArray.push(array[index]);
+        }
+
+        return newArray;
+    }
+
+    function arrayLikeToObject(arrayLike) {
+        return extendWithArray(arrayLike, {});
+    }
+
+    function arrayToList(array, List) {
+        let list = new List();
+
+        for(let item of array) {
+            list.add(item);
+        }
+
+        return list;
+    }
+
+    function arrayToSet(array) {
+        return arrayToList(array, Set);
+    }
+
+    function arrayToWeakSet(array) {
+        return arrayToList(array, WeakSet);
+    }
+
+    function cloneArray(array) {
+        return extendWithArray(array, []);
+    }
+
+    function transformKeyed(keyed, KeyedCollection) {
+        let collection = new KeyedCollection();
+
+        for(let [key, set] of keyed.entries()) {
+            collection.set(key, set);
+        }
+
+        return collection;
+    }
+
+    function cloneMap(set) {
+        return transformKeyed(set, Map);
+    }
+
+    function transformList(list, List) {
+        let newList = new List();
+
+        for(let item of list) {
+            newList.add(item);
+        }
+
+        return newList;
+    }
+
+    function cloneSet(set) {
+        return transformList(set, Set);
+    }
+
+    function mapToWeakMap(map) {
+        return transformKeyed(map, WeakMap);
+    }
+
+    function objectToKeyed(object, KeyedCollection) {
+        let instance = new KeyedCollection(),
+        keys = Object.keys(object);
+
+        for(let key of keys) {
+            instance.set(key, object[key]);
+        }
+
+        return instance;
+    }
+
+    function objectToMap(object) {
+        return objectToKeyed(object, Map);
+    }
+
+    function objectToWeakMap(object) {
+        return objectToKeyed(object, WeakMap);
+    }
+
+    function setToWeakSet(set) {
+        return transformList(set, WeakSet);
+    }
+
+    const __repr__$3 = '[MochiKit.Data]';
+
+    var data$1 = /*#__PURE__*/Object.freeze({
+        __repr__: __repr__$3,
+        arrayLikeToObject: arrayLikeToObject,
+        arrayToList: arrayToList,
+        arrayToSet: arrayToSet,
+        arrayToWeakSet: arrayToWeakSet,
+        cloneArray: cloneArray,
+        cloneMap: cloneMap,
+        cloneSet: cloneSet,
+        mapToWeakMap: mapToWeakMap,
+        objectToKeyed: objectToKeyed,
+        objectToMap: objectToMap,
+        objectToWeakMap: objectToWeakMap,
+        setToWeakSet: setToWeakSet,
+        transformKeyed: transformKeyed,
+        transformList: transformList
+    });
+
     function americanDate(d) {
         d = d + "";
         if (typeof(d) !== "string" || d.length === 0) {
@@ -2451,10 +2560,10 @@ var mochikit = (function () {
         ].join('/');
     }
 
-    const __repr__$3 = '[MochiKit.DateTime]';
+    const __repr__$4 = '[MochiKit.DateTime]';
 
     var datetime = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$3,
+        __repr__: __repr__$4,
         americanDate: americanDate,
         isoDate: isoDate,
         isoRegExp: re,
@@ -2908,10 +3017,10 @@ var mochikit = (function () {
 
     //dom index.js
 
-    const __repr__$4 = '[MochiKit.DOM]';
+    const __repr__$5 = '[MochiKit.DOM]';
 
     var dom = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$4,
+        __repr__: __repr__$5,
         clearRoot: clearRoot,
         cloneTree: cloneTree,
         empty: empty,
@@ -3201,10 +3310,10 @@ var mochikit = (function () {
         }
     }
 
-    const __repr__$5 = '[MochiKit.Func]';
+    const __repr__$6 = '[MochiKit.Func]';
 
     var func = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$5,
+        __repr__: __repr__$6,
         arity: arity,
         copyFunction: copyFunction,
         ctor: ctor,
@@ -3770,10 +3879,10 @@ var mochikit = (function () {
         return new ValueIterator(object);
     }
 
-    const __repr__$6 = '[MochiKit.Iter]';
+    const __repr__$7 = '[MochiKit.Iter]';
 
     var iter$1 = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$6,
+        __repr__: __repr__$7,
         any: any,
         applyMap: applyMap,
         ArrayIterator: ArrayIterator,
@@ -4081,7 +4190,7 @@ var mochikit = (function () {
         console.log(`LEVEL: ${msg.level}\nHAS_LOGGER: ${!!msg.logger}\nDATA:\n${msg.data}`); 
     }
 
-    const __repr__$7 = '[MochiKit.Logger]';
+    const __repr__$8 = '[MochiKit.Logger]';
     let currentLogger = new Logger({
         write(data) {
             console.log(data);
@@ -4113,7 +4222,7 @@ var mochikit = (function () {
     }
 
     var logging = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$7,
+        __repr__: __repr__$8,
         logMethod: logMethod,
         logError: logError,
         logWarn: logWarn,
@@ -4214,10 +4323,10 @@ var mochikit = (function () {
         }
     }
 
-    const __repr__$8 = '[MochiKit.Repr]';
+    const __repr__$9 = '[MochiKit.Repr]';
 
     var repr = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$8,
+        __repr__: __repr__$9,
         getRepr: getRepr,
         hasRepr: hasRepr,
         registerRepr: registerRepr,
@@ -4239,6 +4348,7 @@ var mochikit = (function () {
         async, 
         base, 
         color, 
+        data: data$1,
         datetime,
         dom, 
         func, 

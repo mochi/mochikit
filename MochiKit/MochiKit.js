@@ -2,6 +2,7 @@
 import * as async from './async/index.js';
 import * as base from './base/index.js';
 import * as color from './color/index.js';
+import * as data from './data/index.js';
 import * as datetime from './datetime/index.js';
 import * as dom from './dom/index.js';
 import * as func from './func/index.js';
@@ -14,6 +15,7 @@ let MochiKit = {
     async, 
     base, 
     color, 
+    data,
     datetime,
     dom, 
     func, 
