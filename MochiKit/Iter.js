@@ -259,57 +259,5 @@ MochiKit.Base.update(MochiKit.Iter, {
             prev_key = key;
         }
         return result;
-    },
-
-    /** @id MochiKit.Iter.hasIterateNext */
-    hasIterateNext: function (iterable) {
-        return (iterable && typeof(iterable.iterateNext) == "function");
-    },
-
-    /** @id MochiKit.Iter.iterateNextIter */
-    iterateNextIter: function (iterable) {
-        return {
-            repr: function () { return "iterateNextIter(...)"; },
-            toString: MochiKit.Base.forwardCall("repr"),
-            next: function () {
-                var rval = iterable.iterateNext();
-                if (rval === null || rval === undefined) {
-                    throw MochiKit.Iter.StopIteration;
-                }
-                return rval;
-            }
-        };
     }
 });
-
-
-MochiKit.Iter.__new__ = function () {
-    var m = MochiKit.Base;
-    // Re-use StopIteration if exists (e.g. SpiderMonkey)
-    if (typeof(StopIteration) != "undefined") {
-        this.StopIteration = StopIteration;
-    } else {
-        /** @id MochiKit.Iter.StopIteration */
-        this.StopIteration = new m.NamedError("StopIteration");
-    }
-    this.iteratorRegistry = new m.AdapterRegistry();
-    // Register the iterator factory for arrays
-    this.registerIteratorFactory(
-        "arrayLike",
-        m.isArrayLike,
-        this.arrayLikeIter
-    );
-
-    this.registerIteratorFactory(
-        "iterateNext",
-        this.hasIterateNext,
-        this.iterateNextIter
-    );
-
-    m.nameFunctions(this);
-
-};
-
-MochiKit.Iter.__new__();
-
-MochiKit.Base._exportSymbols(this, MochiKit.Iter);

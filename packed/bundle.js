@@ -1,6 +1,8 @@
-/*Bundled with Rollup at "Sat Sep 08 2018 20:17:55 GMT+0100 (British Summer Time)".*/
+/*Bundled with Rollup at "Sat Sep 08 2018 22:43:46 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
+
+    const undefined;
 
     const PENDING = 0,
         REJECTED = 1,

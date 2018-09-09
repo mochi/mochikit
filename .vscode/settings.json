@@ -1,6 +1,7 @@
 {
     "python.linting.enabled": false,
     "cSpell.words": [
+        "datetime",
         "dropwhile",
         "iadd",
         "iand",
