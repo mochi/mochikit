@@ -1,4 +1,4 @@
-/** Experimental es6 refactor bundled using Rollup (version "0.65.2") at "Sun Sep 09 2018 22:51:48 GMT+0100 (British Summer Time)".*/
+/** Experimental es6 refactor bundled using Rollup (version "0.65.2") at "Sun Sep 09 2018 20:48:04 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
@@ -2367,6 +2367,63 @@ var mochikit = (function () {
         return transformKeyed(map, WeakMap);
     }
 
+    function isIterator(object) {
+        return object && typeof object.next === 'function';
+    }
+
+    function iextend(accumulator, iter) {
+        let value,
+        cachedValue,
+        done = isIterator(iter) ? iter.done : true;
+
+        while(!done) {
+            value = (cachedValue = iter.next()) === iter ? iter.value : cachedValue;
+            accumulator.push(value);
+            done = iter.done;
+        }
+
+        return accumulator;
+    }
+
+    //Like .exhaust but collects results:
+    function list(iter) {
+        return iextend([], iter);
+    }
+
+    function NamedTuple(defaults = [], repr) {
+        return class Tuple extends Set {
+            constructor(iterable) {
+                super(iterable);
+
+                if(repr == null) {
+                    this.__repr__ = function () {
+                        return `NamedTuple(${this.size})`;
+                    };
+                } else {
+                    this.__repr__ = repr;
+                }
+
+                this.defaults = defaults;
+                let len = defaults.length || defaults.size || 0;
+
+                //This might work, not too sure:
+                //looks like it would, but I'm not 100% tbch.
+                if (len !== 0) {
+                    //Allow Sets and Arrays for defaults:
+                    let items = list(this.values()),
+                    defaultArray = list(defaults),
+                    needsFilling = items.length < len;
+
+                    if(needsFilling) {
+                        for(let index = items.length - 1; index < len; ++index) {
+                            this.add(defaultArray[index]);
+                        }
+                    }
+                }
+            }
+        };
+    }
+
     function objectToKeyed(object, KeyedCollection) {
         let instance = new KeyedCollection(),
         keys = Object.keys(object);
@@ -2402,6 +2459,7 @@ var mochikit = (function () {
         cloneMap: cloneMap,
         cloneSet: cloneSet,
         mapToWeakMap: mapToWeakMap,
+        NamedTuple: NamedTuple,
         objectToKeyed: objectToKeyed,
         objectToMap: objectToMap,
         objectToWeakMap: objectToWeakMap,
@@ -3331,29 +3389,6 @@ var mochikit = (function () {
         unary: unary,
         wrap: wrap
     });
-
-    function isIterator(object) {
-        return object && typeof object.next === 'function';
-    }
-
-    function iextend(accumulator, iter) {
-        let value,
-        cachedValue,
-        done = isIterator(iter) ? iter.done : true;
-
-        while(!done) {
-            value = (cachedValue = iter.next()) === iter ? iter.value : cachedValue;
-            accumulator.push(value);
-            done = iter.done;
-        }
-
-        return accumulator;
-    }
-
-    //Like .exhaust but collects results:
-    function list(iter) {
-        return iextend([], iter);
-    }
 
     //The original Iter/some.
     function any(iter, predicate) {
