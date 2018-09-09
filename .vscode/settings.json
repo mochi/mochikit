@@ -1,6 +1,7 @@
 {
     "python.linting.enabled": false,
     "cSpell.words": [
+        "basicop",
         "datetime",
         "dropwhile",
         "esversion",
@@ -41,6 +42,7 @@
         "lshift",
         "mochi",
         "mochikit",
+        "pyoperators",
         "repr",
         "rshift",
         "takewhile",
