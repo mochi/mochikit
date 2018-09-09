@@ -19,6 +19,7 @@ export { default as catchSilent } from './catchSilent';
 export { default as chain } from './chain';
 export { default as defer } from './defer';
 export { default as Deferred } from './Deferred';
+export { default as DeferredList } from './DeferredList.js';
 export { default as double } from './double';
 export { default as failAfter } from './failAfter';
 export { default as getArrayBuffer } from './getArrayBuffer';

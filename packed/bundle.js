@@ -1,4 +1,4 @@
-/** Experimental es6 refactor bundled using Rollup (version "0.65.2") at "Sun Sep 09 2018 10:13:07 GMT+0100 (British Summer Time)".*/
+/** Experimental es6 refactor bundled using Rollup (version "0.65.2") at "Sun Sep 09 2018 19:31:34 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
@@ -381,15 +381,125 @@ var mochikit = (function () {
         setTimeout(func, 0);
     }
 
-    function double(promise, condition, yes, no) {
-        promise.then((value) => {
-            return condition(value, promise) ? yes(value, promise) : no(value, promise); 
-        });
+    function succeedAfter(deferred, timeout) {
+        setTimeout((t) => deferred.resolve(t), timeout);
+        return deferred;
     }
 
     function failAfter(deferred, timeout) {
         setTimeout((t) => deferred.reject(t), timeout);
         return deferred;
+    }
+
+    class DeferredList {
+        constructor() {
+            /** @type {!Deferred[]} */
+            this.promises = [];
+        }
+
+        add(...promises) {
+            for(let promise of promises) {
+                if(!(promise instanceof Deferred)) {
+                    throw new TypeError('Expected a Deferred.');
+                }
+
+                this.promises.push(promise);
+            }
+
+            return this;
+        }
+
+        fire(callback) {
+            for(let promise of this.promises) {
+                promise.fire(callback);
+            }
+
+            return this;
+        }
+
+        succeedAfter(timeout) {
+            for(let promise of this.promises) {
+                succeedAfter(promise, timeout);
+            }
+
+            return this;
+        }
+
+        failAfter(timeout) {
+            for(let promise of this.promises) {
+                failAfter(promise, timeout);
+            }
+        }
+
+        allRejected() {
+            return this.promises.every((promise) => promise.isRejected());
+        }
+
+        allResolved() {
+            return this.promises.every((promise) => promise.isResolved());
+        }
+
+        allSettled() {
+            return this.promises.every((promise) => promise.isSettled());
+        }
+
+        succeedAfterWith(timeout, value) {
+            for(let promise of this.promises) {
+                setTimeout(() => promise.resolve(value), timeout); //jshint ignore:line
+            }
+
+            return this;
+        }
+
+        failAfterWith(timeout, value) {
+            for(let promise of this.promises) {
+                setTimeout(() => promise.reject(value), timeout); //jshint ignore:line
+            }
+
+            return this;
+        }
+
+        [Symbol.iterator]() {
+            return this.promises[Symbol.iterator]();
+        }
+
+        flip() {
+            for(let promise of this.promises) {
+                promise.flip();
+            }
+
+            return this;
+        }
+
+        first() {
+            return this.promises[0] || null; 
+        }
+
+        last() {
+            return this.promises[this.size() - 1] || null;
+        }
+
+        isEmpty() {
+            return this.size() !== 0;
+        }
+
+        isNotEmpty() {
+            return !this.isEmpty();
+        }
+
+        __repr__() {
+            return `DeferredList(${this.size()})`;
+        }
+
+        size() {
+            return this.promises.length;
+        }
+    }
+
+    function double(promise, condition, yes, no) {
+        promise.then((value) => {
+            return condition(value, promise) ? yes(value, promise) : no(value, promise); 
+        });
     }
 
     function getArrayBuffer(url, options) {
@@ -789,11 +899,6 @@ var mochikit = (function () {
         return xhr;
     }
 
-    function succeedAfter(deferred, timeout) {
-        setTimeout((t) => deferred.resolve(t), timeout);
-        return deferred;
-    }
-
     function tap(promise, func) {
         return promise.then((value) => {
             func(value, promise);
@@ -840,6 +945,7 @@ var mochikit = (function () {
         chain: chain,
         defer: defer,
         Deferred: Deferred,
+        DeferredList: DeferredList,
         double: double,
         failAfter: failAfter,
         getArrayBuffer: getArrayBuffer,
@@ -1719,6 +1825,15 @@ var mochikit = (function () {
         return fromName(colorString);
     }
 
+    class HSLColor {
+        constructor(h, s, l, opacity = 1) {
+            this.h = +h;
+            this.s = +s;
+            this.l = +l;
+            this.opacity = opacity;
+        }
+    }
+
     function hslValue(n1, n2, hue) {
         if (hue > 6.0) {
             hue -= 6.0;
@@ -1736,6 +1851,15 @@ var mochikit = (function () {
             val = n1;
         }
         return val;
+    }
+
+    class HSVColor {
+        constructor(h, s, v, opacity = 1) {
+            this.h = +h;
+            this.s = +s;
+            this.v = +v;
+            this.opacity = opacity;
+        }
     }
 
     function isColor(...args) {
@@ -2004,8 +2128,10 @@ var mochikit = (function () {
         fromRGB: fromRGB,
         fromRGBString: fromRGBString,
         fromString: fromString,
+        HSLColor: HSLColor,
         hslToRGB: hslToRGB,
         hslValue: hslValue,
+        HSVColor: HSVColor,
         hsvToRGB: hsvToRGB,
         isColor: isColor,
         rgbToHSL: rgbToHSL,
