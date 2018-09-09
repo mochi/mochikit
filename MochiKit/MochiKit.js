@@ -1,5 +1,6 @@
 //Must be precise with Rollup. It doesn't understand /(index.js) shorthand afaik.
 import * as async from './async/index.js';
+import * as asyncnet from './asyncnet/index.js';
 import * as base from './base/index.js';
 import * as color from './color/index.js';
 import * as data from './data/index.js';
@@ -13,6 +14,7 @@ import * as repr from './repr/index.js';
 //Collect the variables in MochiKit.
 let MochiKit = { 
     async, 
+    asyncnet,
     base, 
     color, 
     data,

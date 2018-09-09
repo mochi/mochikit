@@ -1,3 +1,5 @@
+import Deferred from "../async/Deferred";
+
 export default class ImageLoader {
     constructor() {
         this.failed = new Set();
@@ -6,7 +8,7 @@ export default class ImageLoader {
 
     load(imgurl, document, attributes) {
         let self = this;
-        return new Promise((resolve, reject) => {
+        return new Deferred((resolve, reject) => {
             let el = document.createElement('img', attributes);
             el.onload = resolve;
             el.onerror = reject;

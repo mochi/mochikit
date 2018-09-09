@@ -972,6 +972,45 @@ var mochikit = (function () {
         SETTLED: SETTLED
     });
 
+    class ImageLoader {
+        constructor() {
+            this.failed = new Set();
+            this.loaded = new Set();
+        }
+
+        load(imgurl, document, attributes) {
+            let self = this;
+            return new Deferred((resolve, reject) => {
+                let el = document.createElement('img', attributes);
+                el.onload = resolve;
+                el.onerror = reject;
+                el.url = imgurl;
+                el.addEventListener('load', () => self.loaded.add(imgurl));
+                el.addEventListener('error', () => self.failed.add(imgurl));
+            });
+        }
+
+        createLoader(imgurl, document, attributes) {
+            let self = this;
+            return function boundLoader() {
+                return self.load(imgurl, document, attributes);
+            };
+        }
+
+        loadAfterDOM(imgurl, document, attributes) {
+            let self = this;
+            document.addEventListener('DOMContentLoaded', () => self.load(imgurl, document, attributes));
+            return this;
+        }
+    }
+
+    const __repr__$1 = '[MochiKit.AsyncNet]';
+
+    var asyncnet = /*#__PURE__*/Object.freeze({
+        __repr__: __repr__$1,
+        ImageLoader: ImageLoader
+    });
+
     class NotFoundError extends Error {
         constructor(msg) {
             super(msg);
@@ -1507,10 +1546,10 @@ var mochikit = (function () {
         });
     }
 
-    const __repr__$1 = '[MochiKit.Base]';
+    const __repr__$2 = '[MochiKit.Base]';
 
     var base = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$1,
+        __repr__: __repr__$2,
         AdapterRegistry: AdapterRegistry,
         apply: apply,
         bind: bind,
@@ -2113,10 +2152,10 @@ var mochikit = (function () {
         return digits;
     }
 
-    const __repr__$2 = '[MochiKit.Color]';
+    const __repr__$3 = '[MochiKit.Color]';
 
     var color = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$2,
+        __repr__: __repr__$3,
         clampColorComponent: clampColorComponent,
         Color: Color,
         fromColorString: fromColorString,
@@ -2447,10 +2486,10 @@ var mochikit = (function () {
         return transformList(set, WeakSet);
     }
 
-    const __repr__$3 = '[MochiKit.Data]';
+    const __repr__$4 = '[MochiKit.Data]';
 
     var data$1 = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$3,
+        __repr__: __repr__$4,
         arrayLikeToObject: arrayLikeToObject,
         arrayToList: arrayToList,
         arrayToSet: arrayToSet,
@@ -2618,10 +2657,10 @@ var mochikit = (function () {
         ].join('/');
     }
 
-    const __repr__$4 = '[MochiKit.DateTime]';
+    const __repr__$5 = '[MochiKit.DateTime]';
 
     var datetime = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$4,
+        __repr__: __repr__$5,
         americanDate: americanDate,
         isoDate: isoDate,
         isoRegExp: re,
@@ -3075,10 +3114,10 @@ var mochikit = (function () {
 
     //dom index.js
 
-    const __repr__$5 = '[MochiKit.DOM]';
+    const __repr__$6 = '[MochiKit.DOM]';
 
     var dom = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$5,
+        __repr__: __repr__$6,
         clearRoot: clearRoot,
         cloneTree: cloneTree,
         empty: empty,
@@ -3368,10 +3407,10 @@ var mochikit = (function () {
         }
     }
 
-    const __repr__$6 = '[MochiKit.Func]';
+    const __repr__$7 = '[MochiKit.Func]';
 
     var func = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$6,
+        __repr__: __repr__$7,
         arity: arity,
         copyFunction: copyFunction,
         ctor: ctor,
@@ -3914,10 +3953,10 @@ var mochikit = (function () {
         return new ValueIterator(object);
     }
 
-    const __repr__$7 = '[MochiKit.Iter]';
+    const __repr__$8 = '[MochiKit.Iter]';
 
     var iter$1 = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$7,
+        __repr__: __repr__$8,
         any: any,
         applyMap: applyMap,
         ArrayIterator: ArrayIterator,
@@ -4225,7 +4264,7 @@ var mochikit = (function () {
         console.log(`LEVEL: ${msg.level}\nHAS_LOGGER: ${!!msg.logger}\nDATA:\n${msg.data}`); 
     }
 
-    const __repr__$8 = '[MochiKit.Logger]';
+    const __repr__$9 = '[MochiKit.Logger]';
     let currentLogger = new Logger({
         write(data) {
             console.log(data);
@@ -4257,7 +4296,7 @@ var mochikit = (function () {
     }
 
     var logging = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$8,
+        __repr__: __repr__$9,
         logMethod: logMethod,
         logError: logError,
         logWarn: logWarn,
@@ -4358,10 +4397,10 @@ var mochikit = (function () {
         }
     }
 
-    const __repr__$9 = '[MochiKit.Repr]';
+    const __repr__$a = '[MochiKit.Repr]';
 
     var repr = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$9,
+        __repr__: __repr__$a,
         getRepr: getRepr,
         hasRepr: hasRepr,
         registerRepr: registerRepr,
@@ -4381,6 +4420,7 @@ var mochikit = (function () {
     //Collect the variables in MochiKit.
     let MochiKit$1 = { 
         async, 
+        asyncnet,
         base, 
         color, 
         data: data$1,
