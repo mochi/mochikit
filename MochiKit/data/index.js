@@ -7,6 +7,7 @@ export { default as cloneArray } from './cloneArray.js';
 export { default as cloneMap } from './cloneMap.js';
 export { default as cloneSet } from './cloneSet.js';
 export { default as mapToWeakMap } from './mapToWeakMap.js';
+export { default as NamedTuple } from './NamedTuple.js';
 export { default as objectToKeyed } from './objectToKeyed.js';
 export { default as objectToMap } from './objectToMap.js';
 export { default as objectToWeakMap } from './objectToWeakMap.js';
