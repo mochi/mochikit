@@ -3,7 +3,8 @@
         "test": "./node_modules/.bin/mocha ./test/*.test.js"
     },
     "devDependencies": {
-        "mocha": "^5.2.0",
-        "jshint": "^2.9.6"
+        "@types/rollup": "^0.54.0",
+        "jshint": "^2.9.6",
+        "mocha": "^5.2.0"
     }
 }

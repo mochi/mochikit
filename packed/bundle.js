@@ -1,4 +1,4 @@
-/*Bundled with Rollup at "Sun Sep 09 2018 10:01:10 GMT+0100 (British Summer Time)".*/
+/** Experimental es6 refactor bundled using Rollup (version "0.65.2") at "Sun Sep 09 2018 10:13:07 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
@@ -3428,8 +3428,14 @@ var mochikit = (function () {
     }
 
     function getRepr(object) {
-        let repr = object && object.__repr__;
-        return repr && typeof repr === 'function' && repr.call(object);
+        let repr = object && object.__repr__,
+            type = repr ? typeof repr : false;
+
+        return type === 'function'
+            ? repr.call(object)
+            : type === 'string'
+                ? repr
+                : null;
     }
 
     function iter(iterable, /* optional */ sentinel) {
