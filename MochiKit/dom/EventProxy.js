@@ -28,5 +28,7 @@ export default class EventProxy {
         return `EventProxy`
     }
 
-    size()
+    size() {
+        return this.events.length;
+    }
 }

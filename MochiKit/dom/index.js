@@ -1,6 +1,14 @@
-//dom index.js
+export { default as appendAll } from './appendAll.js';
+export { default as appendEl } from './appendEl.js';
+export { default as ChildIterator } from './ChildIterator.js';
+export { default as childIter } from './childIter.js';
+export { default as clearE } from './clearE.js';
 export { default as clearRoot } from './clearRoot';
 export { default as cloneTree } from './cloneTree';
+export { default as createE } from './createE.js';
+export { default as eachli } from './eachli.js';
+export { default as emptyOn } from './emptyOn.js';
+export { default as filterC } from './filterC.js';
 export { default as empty } from './empty';
 export { default as EventProxy } from './EventProxy.js';
 export { default as getBody } from './getBody';
@@ -13,11 +21,17 @@ export { default as nodeTypeMap } from './nodeTypeMap';
 export { default as off } from './off';
 export { default as on } from './on';
 export { default as ownerDocument } from './ownerDocument';
+export { default as prepend } from './prepend.js';
 export { default as purify } from './purify';
 export { default as removeMatching } from './removeMatching';
 export { default as removeScripts } from './removeScripts';
 export { default as rootChildren } from './rootChildren';
+export { default as setChildren } from './setChildren.js';
+export { default as show } from './show.js';
+export { default as sizeE } from './sizeE.js';
+export { default as someE } from './someE.js';
 export { default as Visibility } from './Visibility';
+export { default as withoutTag } from './withoutTag.js';
 export * from './tags';
 
 export const __repr__ = '[MochiKit.DOM]';

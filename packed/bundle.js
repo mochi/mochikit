@@ -1,4 +1,4 @@
-/** Experimental es6 refactor bundled using Rollup (version "0.65.2") at "Sun Sep 09 2018 20:48:04 GMT+0100 (British Summer Time)".*/
+/** Experimental es6 refactor bundled using Rollup (version "0.65.2") at "Mon Sep 10 2018 20:08:07 GMT+0100 (British Summer Time)".*/
 var mochikit = (function () {
     'use strict';
 
@@ -972,45 +972,6 @@ var mochikit = (function () {
         SETTLED: SETTLED
     });
 
-    class ImageLoader {
-        constructor() {
-            this.failed = new Set();
-            this.loaded = new Set();
-        }
-
-        load(imgurl, document, attributes) {
-            let self = this;
-            return new Deferred((resolve, reject) => {
-                let el = document.createElement('img', attributes);
-                el.onload = resolve;
-                el.onerror = reject;
-                el.url = imgurl;
-                el.addEventListener('load', () => self.loaded.add(imgurl));
-                el.addEventListener('error', () => self.failed.add(imgurl));
-            });
-        }
-
-        createLoader(imgurl, document, attributes) {
-            let self = this;
-            return function boundLoader() {
-                return self.load(imgurl, document, attributes);
-            };
-        }
-
-        loadAfterDOM(imgurl, document, attributes) {
-            let self = this;
-            document.addEventListener('DOMContentLoaded', () => self.load(imgurl, document, attributes));
-            return this;
-        }
-    }
-
-    const __repr__$1 = '[MochiKit.AsyncNet]';
-
-    var asyncnet = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$1,
-        ImageLoader: ImageLoader
-    });
-
     class NotFoundError extends Error {
         constructor(msg) {
             super(msg);
@@ -1546,10 +1507,10 @@ var mochikit = (function () {
         });
     }
 
-    const __repr__$2 = '[MochiKit.Base]';
+    const __repr__$1 = '[MochiKit.Base]';
 
     var base = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$2,
+        __repr__: __repr__$1,
         AdapterRegistry: AdapterRegistry,
         apply: apply,
         bind: bind,
@@ -2152,10 +2113,10 @@ var mochikit = (function () {
         return digits;
     }
 
-    const __repr__$3 = '[MochiKit.Color]';
+    const __repr__$2 = '[MochiKit.Color]';
 
     var color = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$3,
+        __repr__: __repr__$2,
         clampColorComponent: clampColorComponent,
         Color: Color,
         fromColorString: fromColorString,
@@ -2486,10 +2447,10 @@ var mochikit = (function () {
         return transformList(set, WeakSet);
     }
 
-    const __repr__$4 = '[MochiKit.Data]';
+    const __repr__$3 = '[MochiKit.Data]';
 
     var data$1 = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$4,
+        __repr__: __repr__$3,
         arrayLikeToObject: arrayLikeToObject,
         arrayToList: arrayToList,
         arrayToSet: arrayToSet,
@@ -2657,10 +2618,10 @@ var mochikit = (function () {
         ].join('/');
     }
 
-    const __repr__$5 = '[MochiKit.DateTime]';
+    const __repr__$4 = '[MochiKit.DateTime]';
 
     var datetime = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$5,
+        __repr__: __repr__$4,
         americanDate: americanDate,
         isoDate: isoDate,
         isoRegExp: re,
@@ -2673,6 +2634,77 @@ var mochikit = (function () {
         toISOTimestamp: toISOTimestamp,
         toPaddedAmericanDate: toPaddedAmericanDate
     });
+
+    function forEach(iter, predicate) {
+        let value, cachedValue, index = 0, done = isIterator(iter) ? iter.done : true;
+
+        while(!done) {
+            //Add support for generators that don't return the value.
+            value = (cachedValue = iter.next()) === iter ? cachedValue : iter.value;
+            predicate(value, index);
+            done = iter.done;
+            ++index;
+        }
+
+        return iter; 
+    }
+
+    function appendE(parent, el) {
+        parent.appendChild(el);
+        return parent;
+    }
+
+    function appendAllE(el, children) {
+        forEach(children, (child) => appendE(el, child));
+        return el;
+    }
+
+    class ArrayIterator {
+        constructor(array) {
+            this.array = array;
+            this.done = false;
+            this.index = 0;
+        }
+
+        next() {
+            if(!this.done) {
+                let {array, index} = this;
+                //Could be an empty array,
+                //or iteration is done:
+                if(index >= array.length) {
+                    this.done = true;
+                } else {
+                    this.value = array[index];
+                    ++this.index;
+                }
+            }
+
+            return this;
+        }
+
+        __repr__() {
+            return `ArrayIterator(index = ${this.index}, done = ${this.done}, length = ${this.array.length})`;
+        }
+    }
+
+    class ChildIterator extends ArrayIterator {
+        constructor(el) {
+            super(el.children);
+        }
+
+        __repr__() {
+            return `ChildIterator(...)`;
+        }
+    }
+
+    function childIterE(el) {
+        return new ChildIterator(el);
+    }
+
+    function clearE(el) {
+        el.innerHTML = '';
+        return el;
+    }
 
     function ownerDocument(el) {
         if (!el) {
@@ -2716,6 +2748,89 @@ var mochikit = (function () {
         return root.cloneNode(deep);
     }
 
+    function createE(tag, attributes, html, document) {
+        html = html == null ? '' : html;
+        attributes = attributes == null ? html : attributes;
+        let el = document.createElement(tag, attributes);
+        el.innerHTML = html;
+        return el;
+    }
+
+    function eachliE(element, predicate) {
+        if(element.tagName !== 'UL') {
+            return element;
+        }
+
+        forEach(element.children, (...args) => {
+            args[0].tagName === 'LI' && predicate(...args);
+        });
+
+        return element;
+    }
+
+    let spaceRe = /\s+/;
+
+    function on(node, event, func) {
+        if(spaceRe.test(event)) {
+            //Multiple events.
+            for(let actualEvent of event) {
+                node.addEventListener(actualEvent, func);
+            }
+        } else {
+            node.addEventListener(event, func);
+        }
+
+        return node;
+    }
+
+    function emptyOn(element, event) {
+        on(element, event, () => element.innerHTML = '');
+        return element;
+    }
+
+    function filterC(el, predicate, deep) {
+        let clone = el.cloneNode(deep);
+        forEach(el.children, (...args) => {
+            !predicate(...args) && clone.removeChild(args[0]);
+        });
+        return clone;
+    }
+
+    class EventProxy {
+        constructor(element) {
+            this.events = [];
+            this.element = element;
+        }
+
+        addEventListener(event, handler) {
+            this.element.addEventListener(event, handler);
+            this.events.push({ event, handler });
+            return this;
+        }
+
+        removeEventListener(event, handler) {
+            this.element.removeEventListener(event, handler);
+            this.events = this.events.filter((obj) => obj.event !== event && obj.handler !== handler);
+            return this;   
+        }
+
+        hasEventListener(event, handler) {
+            return this.events.find((item) => item.event === event && item.handler === handler);
+        }
+
+        [Symbol.iterator]() {
+            return this.events[Symbol.iterator]();
+        }
+
+        __repr__() {
+            return `EventProxy`
+        }
+
+        size() {
+            return this.events.length;
+        }
+    }
+
     function getBody (doc) {
         let val = ownerDocument(doc);
         return val && val.body || null;
@@ -2752,10 +2867,10 @@ var mochikit = (function () {
         return nodeTypeMap[node.nodeType] || null;
     }
 
-    let spaceRe = /\s+/;
+    let spaceRe$1 = /\s+/;
 
     function off(node, event, func) {
-        if(spaceRe.test(event)) {
+        if(spaceRe$1.test(event)) {
             //Multiple events.
             for(let actualEvent of event) {
                 node.removeEventListener(actualEvent, func);
@@ -2767,19 +2882,14 @@ var mochikit = (function () {
         return node;
     }
 
-    let spaceRe$1 = /\s+/;
+    function prependE(parent, el) {
+        let first = parent.firstChild;
 
-    function on(node, event, func) {
-        if(spaceRe$1.test(event)) {
-            //Multiple events.
-            for(let actualEvent of event) {
-                node.addEventListener(actualEvent, func);
-            }
-        } else {
-            node.addEventListener(event, func);
+        if(first) {
+            parent.insertBefore(el, first);
         }
 
-        return node;
+        return parent;
     }
 
     function removeMatching(selector, dom) {
@@ -2810,6 +2920,57 @@ var mochikit = (function () {
     function rootChildren(node) {
         let val = ownerDocument(node);
         return val && val.childNodes || null;
+    }
+
+    function setChildrenE(el, children) {
+        empty(el);
+        forEach(children, (child) => appendE(e, child));
+        return el;
+    }
+
+    function show(element) {
+        element.style.display = 'inherit';
+    }
+
+    function sizeE(el) {
+        return el.children.length;
+    }
+
+    class SomeIterator {
+        constructor(array, predicate) {
+            this.index = 0;
+            this.array = array;
+            this.done = false;
+            this.predicate = predicate;
+        }
+
+        next() {
+            if(!this.done) {
+                if(this.index >= this.array.length) {
+                    //Done.
+                    this.done = true;
+                } else {
+                    let {array, index, predicate} = this,
+                    item = array[index];
+
+                    this.value = predicate(item, index, array, this);
+                }
+            }
+
+            return this;
+        }
+
+        __repr__() {
+            return `SomeIterator(done = ${this.done}, index = ${this.index})`;
+        }
+    }
+
+    function some(array, predicate) {
+        return new SomeIterator(array, predicate);
+    }
+
+    function someE(nodeList, predicate) {
+        return some(nodeList, predicate);
     }
 
     const _counter = counter(0);
@@ -2995,6 +3156,16 @@ var mochikit = (function () {
         }
     }
 
+    function withoutTagE(el, tag) {
+        forEach(el.children, (child) => {
+            if(child.tagName === tag) {
+                el.removeChild(child);
+            }
+        });
+
+        return el;
+    }
+
     function createShortcut(tag) {
         return function(attrs, doc = document) {
             return doc.createElement(tag, attrs);
@@ -3112,15 +3283,23 @@ var mochikit = (function () {
         VIDEO = createShortcut('VIDEO'),
         WBR = createShortcut('WBR');
 
-    //dom index.js
-
-    const __repr__$6 = '[MochiKit.DOM]';
+    const __repr__$5 = '[MochiKit.DOM]';
 
     var dom = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$6,
+        __repr__: __repr__$5,
+        appendAll: appendAllE,
+        appendEl: appendE,
+        ChildIterator: ChildIterator,
+        childIter: childIterE,
+        clearE: clearE,
         clearRoot: clearRoot,
         cloneTree: cloneTree,
+        createE: createE,
+        eachli: eachliE,
+        emptyOn: emptyOn,
+        filterC: filterC,
         empty: empty,
+        EventProxy: EventProxy,
         getBody: getBody,
         isDocument: isDocument,
         isEmpty: isEmpty$1,
@@ -3131,11 +3310,17 @@ var mochikit = (function () {
         off: off,
         on: on,
         ownerDocument: ownerDocument,
+        prepend: prependE,
         purify: purify,
         removeMatching: removeMatching,
         removeScripts: removeScripts,
         rootChildren: rootChildren,
+        setChildren: setChildrenE,
+        show: show,
+        sizeE: sizeE,
+        someE: someE,
         Visibility: Visibility,
+        withoutTag: withoutTagE,
         A: A,
         ABBR: ABBR,
         ADDRESS: ADDRESS,
@@ -3407,10 +3592,10 @@ var mochikit = (function () {
         }
     }
 
-    const __repr__$7 = '[MochiKit.Func]';
+    const __repr__$6 = '[MochiKit.Func]';
 
     var func = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$7,
+        __repr__: __repr__$6,
         arity: arity,
         copyFunction: copyFunction,
         ctor: ctor,
@@ -3437,34 +3622,6 @@ var mochikit = (function () {
     function applyMap(func, items) {
         for(let item of items) {
             func.call(this, item);
-        }
-    }
-
-    class ArrayIterator {
-        constructor(array) {
-            this.array = array;
-            this.done = false;
-            this.index = 0;
-        }
-
-        next() {
-            if(!this.done) {
-                let {array, index} = this;
-                //Could be an empty array,
-                //or iteration is done:
-                if(index >= array.length) {
-                    this.done = true;
-                } else {
-                    this.value = array[index];
-                    ++this.index;
-                }
-            }
-
-            return this;
-        }
-
-        __repr__() {
-            return `ArrayIterator(index = ${this.index}, done = ${this.done}, length = ${this.array.length})`;
         }
     }
 
@@ -3576,20 +3733,6 @@ var mochikit = (function () {
         }
 
         return iter;
-    }
-
-    function forEach(iter, predicate) {
-        let value, cachedValue, index = 0, done = isIterator(iter) ? iter.done : true;
-
-        while(!done) {
-            //Add support for generators that don't return the value.
-            value = (cachedValue = iter.next()) === iter ? cachedValue : iter.value;
-            predicate(value, index);
-            done = iter.done;
-            ++index;
-        }
-
-        return iter; 
     }
 
     class GenIterator {
@@ -3863,39 +4006,6 @@ var mochikit = (function () {
         return list(iter).reverse();
     }
 
-    class SomeIterator {
-        constructor(array, predicate) {
-            this.index = 0;
-            this.array = array;
-            this.done = false;
-            this.predicate = predicate;
-        }
-
-        next() {
-            if(!this.done) {
-                if(this.index >= this.array.length) {
-                    //Done.
-                    this.done = true;
-                } else {
-                    let {array, index, predicate} = this,
-                    item = array[index];
-
-                    this.value = predicate(item, index, array, this);
-                }
-            }
-
-            return this;
-        }
-
-        __repr__() {
-            return `SomeIterator(done = ${this.done}, index = ${this.index})`;
-        }
-    }
-
-    function some(array, predicate) {
-        return new SomeIterator(array, predicate);
-    }
-
     function sortedArrayLike(arrayLike, sortMethod) {
         //TODO: make sort function
         return Array.from(arrayLike).sort(sortMethod);
@@ -3953,10 +4063,10 @@ var mochikit = (function () {
         return new ValueIterator(object);
     }
 
-    const __repr__$8 = '[MochiKit.Iter]';
+    const __repr__$7 = '[MochiKit.Iter]';
 
     var iter$1 = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$8,
+        __repr__: __repr__$7,
         any: any,
         applyMap: applyMap,
         ArrayIterator: ArrayIterator,
@@ -4007,7 +4117,7 @@ var mochikit = (function () {
         sumIter: sumIter,
         sumIterClamped: sumIterClamped,
         ValueIterator: ValueIterator,
-        valueIterator: valueIterator,
+        ival: valueIterator,
         iadd: iadd,
         iand: iand,
         idiv: idiv,
@@ -4264,7 +4374,7 @@ var mochikit = (function () {
         console.log(`LEVEL: ${msg.level}\nHAS_LOGGER: ${!!msg.logger}\nDATA:\n${msg.data}`); 
     }
 
-    const __repr__$9 = '[MochiKit.Logger]';
+    const __repr__$8 = '[MochiKit.Logger]';
     let currentLogger = new Logger({
         write(data) {
             console.log(data);
@@ -4296,7 +4406,7 @@ var mochikit = (function () {
     }
 
     var logging = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$9,
+        __repr__: __repr__$8,
         logMethod: logMethod,
         logError: logError,
         logWarn: logWarn,
@@ -4397,10 +4507,10 @@ var mochikit = (function () {
         }
     }
 
-    const __repr__$a = '[MochiKit.Repr]';
+    const __repr__$9 = '[MochiKit.Repr]';
 
     var repr = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$a,
+        __repr__: __repr__$9,
         getRepr: getRepr,
         hasRepr: hasRepr,
         registerRepr: registerRepr,
@@ -4420,7 +4530,6 @@ var mochikit = (function () {
     //Collect the variables in MochiKit.
     let MochiKit$1 = { 
         async, 
-        asyncnet,
         base, 
         color, 
         data: data$1,
