@@ -51,4 +51,4 @@ export { default as sumArrayLikeClamped } from './sumArrayLikeClamped.js';
 export { default as sumIter } from './sumIter.js';
 export { default as sumIterClamped } from './sumIterClamped.js';
 export { default as ValueIterator } from './ValueIterator.js';
-export { default as valueIterator } from './valueIterator.js';
+export { default as ival } from './ival.js';
