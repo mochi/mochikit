@@ -5,14 +5,14 @@ const uglify = require('rollup-plugin-uglify-es');
 
 for (let item of targetCategories) {
     let inoptions = {
-        'input': `../MochiKit/${item}/index.js`,
+        'input': `${item === 'MochiKit' ? '../MochiKit/MochiKit.js' : `../MochiKit/${item}/index.js`}`,
         'treeshake': false,
         'plugins': []
     }, outoptions = {
         'format': 'iife',
         'file': `${item}.js`,
         'dir': '../packed/',
-        'name': `mochikit.${item}`,
+        'name': `${item === 'MochiKit' ? 'mochikit' : `mochikit.${item}`}`,
         'banner': `/**
   * @license
   * MochiKit <https://mochi.github.io/mochikit> 
