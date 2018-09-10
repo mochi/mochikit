@@ -43,6 +43,7 @@
         "lognot",
         "logor",
         "lshift",
+        "minified",
         "mochi",
         "mochikit",
         "outoptions",

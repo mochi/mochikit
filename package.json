@@ -3,11 +3,12 @@
         "test": "./node_modules/.bin/mocha ./test/*.test.js",
         "rollup": "./node_modules/.bin/rollup",
         "build": "npm run rollup -c",
-        "watch": "npm run build --watch",
+        "watch": "npm run build --watch"
     },
     "devDependencies": {
         "@types/rollup": "^0.54.0",
         "jshint": "^2.9.6",
-        "mocha": "^5.2.0"
+        "mocha": "^5.2.0",
+        "rollup-plugin-uglify-es": "0.0.1"
     }
 }

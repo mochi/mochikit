@@ -1,8 +1,10 @@
-/*! MochiKit
-        Making JavaScript better and easier with a consistent, clean API.
-        Built at "Mon Sep 10 2018 16:55:30 GMT+0100 (British Summer Time)".
-        Command line options: "async base color data datetime dom func iter logging repr"
-*/
+/**
+  * @license
+  * MochiKit <https://mochi.github.io/mochikit> 
+  * Making JavaScript better and easier with a consistent, clean API.
+  * Built at "Mon Sep 10 2018 17:22:17 GMT+0100 (British Summer Time)".
+  * Command line options: "async base color data datetime dom func iter logging repr"
+ */
 this.mochikit = this.mochikit || {};
 this.mochikit.func = (function (exports) {
     'use strict';
