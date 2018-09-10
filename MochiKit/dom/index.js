@@ -2,6 +2,7 @@
 export { default as clearRoot } from './clearRoot';
 export { default as cloneTree } from './cloneTree';
 export { default as empty } from './empty';
+export { default as EventProxy } from './EventProxy.js';
 export { default as getBody } from './getBody';
 export { default as isDocument } from './isDocument';
 export { default as isEmpty } from './isEmpty';
