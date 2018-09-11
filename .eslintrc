@@ -1,0 +1,12 @@
+{
+    "rules": {
+        "eqeqeq":"warn",
+        "no-empty-function": "off",
+        "camelcase": "warn",
+        "no-extend-native":"error",
+        "no-extra-bind": "warn",
+        "no-extra-boolean-cast": "warn",
+        "no-extra-label": "warn"
+        
+    }
+}
