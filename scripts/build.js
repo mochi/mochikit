@@ -1,7 +1,7 @@
 const rollup = require('rollup');
 const uglify = require('rollup-plugin-uglify-es');
 
-if(require.name === 'main') {
+if(require.main === module) {
     const [, , ...targetCategories] = process.argv;
     buildMochiKit(targetCategories);
 }
