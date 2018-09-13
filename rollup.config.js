@@ -3,7 +3,7 @@ const { VERSION } = require('rollup');
 module.exports = {
     'input': './MochiKit/index.js',
     'output': {
-        'file': 'bundle.js',
+        'file': 'MochiKit.js',
         'format': 'iife',
         'dir': 'packed',
         'name': 'mochikit',
