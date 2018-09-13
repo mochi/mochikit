@@ -6,12 +6,12 @@ if(require.main === module) {
     buildMochiKit(targetCategories);
 }
 
-module.exports = function buildMochiKit(args) {
+function buildMochiKit(args) {
     //
     args = Array.isArray(args) ? args : args.split(/\s+/);
     //A string representation of the arguments.
     const strargv = args.join(' ').replace(/.+\/?build\s+/, '');
-    for (let item of targetCategories) {
+    for (let item of args) {
         let inoptions = {
                 input: `${
                     item === 'MochiKit'
@@ -56,3 +56,5 @@ module.exports = function buildMochiKit(args) {
             });
     }
 }
+
+module.exports = buildMochiKit;
