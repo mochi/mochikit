@@ -1,7 +1,13 @@
+import counter from '../base/counter';
+let uuidCounter = counter();
 //Base class. Do not use directly:
 export default class Widget {
     constructor(element) {
         this.element = element;
+        this.uuid = uuidCounter();
+        this.clickable = this.element.click;
+        this.focusable = this.element.focus;
+        this.blurable = this.element.blur;
         this[Symbol.species] = Widget;
     }
 
@@ -81,6 +87,17 @@ export default class Widget {
         }
 
         return this;
+    }
+
+    childrenWidgets() {
+        let collector = [],
+        children = this.children();
+
+        for(let child of children) {
+            collector.push(new this[Symbol.species](child));
+        }
+
+        return collector;
     }
 
     detatched() {
@@ -169,5 +186,29 @@ export default class Widget {
             this.element.innerHTML = value;
             return this;
         }
+    }
+
+    click() {
+        if(this.clickable) {
+            this.element.click();
+        }
+
+        return this;
+    }
+
+    focus() {
+        if(this.focusable) {
+            this.element.focus();
+        }
+
+        return this;
+    }
+
+    blur() {
+        if(this.blurable) {
+            this.element.blur();
+        }
+
+        return this;
     }
 }
