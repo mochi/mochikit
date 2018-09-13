@@ -1,4 +1,3 @@
-export default function succeedAfter(deferred, timeout) {
-    setTimeout((t) => deferred.resolve(t), timeout);
-    return deferred;
+export default function succeedAfter(timeout) {
+    return new Promise((resolve, a) => setTimeout(resolve, timeout));
 }

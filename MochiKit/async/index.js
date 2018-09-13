@@ -11,15 +11,13 @@
  * 'tree shaking' which basically means only the needed
  * modules are included in the bundles.
  */
-export { default as all } from './all';
+
 export { default as asyncCatch } from './asyncCatch';
 export { default as asyncThen } from './asyncThen';
 export { default as callLater } from './callLater';
 export { default as catchSilent } from './catchSilent';
 export { default as chain } from './chain';
 export { default as defer } from './defer';
-export { default as Deferred } from './Deferred';
-export { default as DeferredList } from './DeferredList.js';
 export { default as double } from './double';
 export { default as failAfter } from './failAfter';
 export { default as getArrayBuffer } from './getArrayBuffer';
@@ -33,10 +31,7 @@ export { default as isThenable } from './isThenable';
 export { default as Message } from './Message';
 export { default as MessageEmitter } from './MessageEmitter';
 export { default as prevent } from './prevent';
-export { default as reject } from './reject';
-export { default as resolve } from './resolve';
 export { default as simpleXHR } from './simpleXHR';
-export * from './states';
 export { default as succeedAfter } from './succeedAfter';
 export { default as tap } from './tap';
 export { default as tapFinally } from './tapFinally';
