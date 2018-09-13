@@ -1,12 +1,12 @@
+import IteratorValue from "./IteratorValue";
+
 export default class CountIterator {
     constructor(n = 0) {
         this.n = n;
-        this.done = false;
     }
     
     next() {
-        this.value = this.n;
-        return this;
+        return new IteratorValue(false, ++this.n);
     }
     
     __repr__() {

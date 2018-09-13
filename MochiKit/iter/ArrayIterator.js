@@ -1,24 +1,18 @@
+import IteratorValue from "./IteratorValue";
+
 export default class ArrayIterator {
     constructor(array) {
         this.array = array;
-        this.done = false;
         this.index = 0;
     }
 
     next() {
-        if(!this.done) {
-            let {array, index} = this;
-            //Could be an empty array,
-            //or iteration is done:
-            if(index >= array.length) {
-                this.done = true;
-            } else {
-                this.value = array[index];
-                ++this.index;
-            }
+        if(this.index < this.array.length) {
+            ++this.index;
+            return new IteratorValue(false, this.array[this.index]);
+        } else {
+            return new IteratorValue(true);
         }
-
-        return this;
     }
 
     __repr__() {

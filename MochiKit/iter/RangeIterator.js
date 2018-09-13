@@ -1,18 +1,20 @@
+import IteratorValue from "./IteratorValue";
+
 export default class RangeIterator {
     constructor(start, end) {
         this.start = start;
         this.end = end;
-        this.done = false;
+        this.iterDone = false;
         this.index = start;
     }
 
     next() {
-        if(!this.done) {
+        if(!this.iterDone) {
             //Check if we hit the end index.
             if(this.index >= this.end) {
-                this.done = true;
+                return new IteratorValue(true);
             } else {
-                this.value = ++this.index;
+                return new IteratorValue(false, ++this.index);
             }
         }
 

@@ -1,3 +1,5 @@
+import IteratorValue from "./IteratorValue";
+
 export default class CycleIterator {
     constructor(...items) {
         this.items = items;
@@ -10,10 +12,10 @@ export default class CycleIterator {
             //Reset index.
             this.index = 0;
         }
-
-        this.value = this.items[index];
-
-        return this;
+        
+        let val = new IteratorValue(false, index);
+        ++this.index;
+        return val;
     }
 
     __repr__() {

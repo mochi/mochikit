@@ -1,12 +1,14 @@
+import IteratorValue from "./IteratorValue";
+
 export default class RepeatIterator {
     constructor(value) {
-        this.value = value;
-        this.done = false;
+        this.iterValue = value;
+        this.iterDone = false;
     }
 
     next() {
         //No-op, value is already set.
-        return this;
+        return new IteratorValue(this.iterDone, this.iterValue);
     }
 
     __repr__() {
