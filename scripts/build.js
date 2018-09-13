@@ -1,7 +1,23 @@
 const rollup = require('rollup');
 const uglify = require('rollup-plugin-uglify-es');
 
-if(require.main === module) {
+class Banner {
+    constructor(strargv) {
+        this.strargv = strargv;
+    }
+
+    render() {
+        return `/**
+        * @license
+        * MochiKit <https://mochi.github.io/mochikit> 
+        * Making JavaScript better and easier with a consistent, clean API.
+        * Built at "${new Date()}".
+        * Command line options: "${this.strargv}"
+       */`;
+    }
+}
+
+if (require.main === module) {
     const [, , ...targetCategories] = process.argv;
     buildMochiKit(targetCategories);
 }
@@ -27,33 +43,27 @@ function buildMochiKit(args) {
                 name: `${
                     item === 'MochiKit' ? 'mochikit' : `mochikit.${item}`
                 }`,
-                banner: `/**
-  * @license
-  * MochiKit <https://mochi.github.io/mochikit> 
-  * Making JavaScript better and easier with a consistent, clean API.
-  * Built at "${new Date()}".
-  * Command line options: "${strargv}"
- */`
+                banner: new Banner(strargv).render()
             };
 
-        async function build() {
-            const bundle = await rollup.rollup(inoptions).catch((e) => { throw e; });
-            await bundle.write(outoptions).catch((e) => { throw e; });
-        }
-
-        build()
-            .catch(err => {
-                throw `at category "${item}" unminifed stage: ${err}`;
-            })
-            .then(err => {
-                //Build the minified build now.
-                outoptions.file = `${item}.min.js`;
-                inoptions.plugins.push(uglify());
-                build().catch(err => {
-                    throw `at category "${item}" minify stage: ${err}`;
-                });
-            });
+        build(inoptions, outoptions)
+        .then(() => console.log(`[SUCCESS] "${item}" was built.`));
     }
+}
+
+function build(inoptions, outoptions) {
+    //Why am I getting uncaught promise errors from this?
+    //I'm pretty sure I'm catching the promise. 
+    //Think Rollup needs to up their game here. 
+    return handlePromise(rollup
+        .rollup(inoptions)
+        .then(bundle => {
+            handlePromise(bundle.write(outoptions));
+        }));
+}
+
+function handlePromise(promise) {
+    return promise.catch((e) => { throw e; });
 }
 
 module.exports = buildMochiKit;

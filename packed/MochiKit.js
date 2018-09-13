@@ -1,346 +1,12 @@
 /**
-  * @license
-  * MochiKit <https://mochi.github.io/mochikit> 
-  * Making JavaScript better and easier with a consistent, clean API.
-  * Built at "Mon Sep 10 2018 17:27:05 GMT+0100 (British Summer Time)".
-  * Command line options: "MochiKit"
- */
+        * @license
+        * MochiKit <https://mochi.github.io/mochikit> 
+        * Making JavaScript better and easier with a consistent, clean API.
+        * Built at "Thu Sep 13 2018 22:46:51 GMT+0100 (British Summer Time)".
+        * Command line options: "MochiKit"
+       */
 var mochikit = (function () {
     'use strict';
-
-    const PENDING = 0,
-        REJECTED = 1,
-        RESOLVED = 2,
-        SETTLED = 3;
-
-    let id = 0;
-
-    class Deferred {
-        constructor (callback, canceller) {
-            this.id = ++id;
-            this.chain = [];
-        
-            //Allow the Deferred to be 'tapped',
-            //meaning a .catch handler can be added,
-            //but if no error catching handlers were
-            //added using .catch, an error will still
-            //be thrown.
-            this.__error_handlers__ = [];
-            this.silentlyCancelled = false;
-            this.value = undefined;
-            this.canceller = canceller;
-            this.state = PENDING;
-        
-            //Add support for shorthand Deferred creation.
-            if (typeof callback === 'function') {
-                this.fire(callback);
-            }
-        }
-
-        fire (callback) {
-            let self = this;
-        
-            //Make bound functions for 'this':
-            function boundReject(value) {
-                self.reject(value);
-            }
-        
-            function boundResolve(value) {
-                self.resolve(value);
-            }
-        
-            try {
-                callback(boundResolve, boundReject);
-            } catch (error) {
-                boundReject(error);
-            }
-        
-            return this;
-        }
-
-        cancel () {
-            if (this.isSettled()) {
-                //Might add custom AsyncError class:
-                throw new Error('Cannot cancel a settled promise.');
-            }
-        
-            if (this.canceller) {
-                this.canceller(this, this.value);
-            } else {
-                this.silentlyCancelled = true;
-            }
-        
-            return this;
-        }
-
-        clearChain () {
-            this.chain = [];
-            return this;
-        }
-
-        isEmpty () {
-            return this.chain.length === 0;
-        }
-
-        isResolved () {
-            return this.state === RESOLVED;
-        }
-
-        isRejected () {
-            return this.state === REJECTED;
-        }
-
-        isSettled () {
-            return this.isRejected() || this.isResolved();
-        }
-
-        reject (value) {
-            this.value = value;
-            this.state = REJECTED;
-        
-            //Stimulate a value map without disrupting
-            //the chain value.
-            let chainValue = value;
-        
-            for (let errfunc of this.__error_handlers__) {
-                chainValue = errfunc(chainValue);
-            }
-        
-            if (!this.anyFor(REJECTED)) {
-                if (value instanceof Error) {
-                    //Interpolate the error message to
-                    //provide context.
-                    value.message = `Uncaught Deferred: ${value.message}`;
-                } else {
-                    value = new Error(value);
-                }
-        
-                throw value;
-            }
-        
-            this.fireCallbacks();
-        }
-
-        anyFor(state) {
-            for (let [, $state] of this.chain) {
-                if ($state === state) {
-                    return true;
-                }
-            }
-        
-            return false;
-        }
-
-        then(func, errfunc) {
-            if (typeof func === 'function') {
-                this.addCallback(func, RESOLVED);
-            }
-        
-            if (typeof errfunc === 'function') {
-                this.addCallback(func, REJECTED);
-            }
-        
-            return this;
-        }
-
-        catch(errfunc) {
-            return this.then(null, errfunc);
-        }
-
-        finally(func) {
-            if (typeof func === 'function') {
-                this.addCallback(func, SETTLED);
-            }
-
-            return this;
-        }
-
-        flip() {
-            let newChain = [];
-            for (let [callback, state] of this.chain) {
-                if (state === REJECTED) {
-                    newChain.push([callback, RESOLVED]);
-                } else if (state === RESOLVED) {
-                    newChain.push([callback, REJECTED]);
-                } else {
-                    //We have a SETTLED state here,
-                    //just keep it as that.
-                    newChain.push([callback, state]);
-                }
-            }
-
-            this.chain = newChain;
-            return this;
-        }
-
-        addCallback(callback, state) {
-            if (state !== RESOLVED && state !== REJECTED && state !== SETTLED) {
-                throw new Error('The provided state is not a valid state.');
-            }
-
-            if (this.state === state) {
-                //The state matches.
-                //Fire the callback.
-                this.fireCallback(callback);
-            } else {
-                this.chain.push([callback, state]);
-            }
-
-            return this;
-        }
-
-        fireCallbacks() {
-            for (let [callback, state] of this.chain) {
-                if (this.correctState(state)) {
-                    this.fireCallback(callback);
-                }
-            }
-
-            return this;
-        }
-
-        correctState(state) {
-            return (
-                (state === REJECTED && this.isRejected()) ||
-                (state === RESOLVED && this.isResolved()) ||
-                (state === SETTLED && this.isSettled())
-            );
-        }
-
-        fireCallback(callback) {
-            this.value = callback(this.value);
-            return this;
-        }
-
-        resolve(value) {
-            this.value = value;
-            this.state = RESOLVED;
-            this.fireCallbacks();
-        }
-
-        rejectAfter(timeout, value) {
-            return this.actionAfter('reject', timeout, value);
-        }
-
-        resolveAfter(timeout, value) {
-            return this.actionAfter('resolve', timeout, value);
-        }
-
-        actionAfter(action, timeout, value) {
-            let self = this,
-                method = action === REJECTED ? 'reject' : 'resolve';
-
-            setTimeout(function(timestamp) {
-                self[method](value === undefined ? timestamp : value);
-            }, timeout);
-        }
-
-        forEach(func) {
-            this.then(function(array) {
-                let len;
-                //Determine if the value is an array-like object.
-                if (
-                    array &&
-                    typeof (len = array.length) === 'number' &&
-                    isFinite(len)
-                ) {
-                    //Use a classic for-each loop, as if it is an array-like object,
-                    //it might not have implemented Symbol.iterator.
-
-                    for (let index = 0; index < len; ++index) {
-                        func(array[index], index, array);
-                    }
-                }
-
-                return array;
-            });
-        }
-
-        callbacksFor(state) {
-            if (state !== RESOLVED && state !== REJECTED && state !== SETTLED) {
-                throw new Error('The provided state is not a valid state.');
-            }
-
-            let list = [];
-
-            for (let [func, $state] of this.chain) {
-                if ($state === state) {
-                    list.push(func);
-                }
-            }
-
-            return list;
-        }
-
-        clone() {
-            let deferred = new Deferred(null, this.canceller);
-            deferred.chain = this.chain;
-            deferred.state = this.state;
-            deferred.__error_handlers__ = this.__error_handlers__;
-            deferred.id = this.id;
-            deferred.silentlyCancelled = this.silentlyCancelled;
-            return deferred;
-        }
-
-        toPromise() {
-            let self = this;
-
-            return new Promise(function(resolve, reject) {
-                self.tap(resolve).tapCatch(reject);
-            });
-        }
-
-        tapFinally(func) {
-            return this.finally(function(value) {
-                func(value);
-                return value;
-            });
-        }
-
-        tap(func) {
-            return this.then(function(value) {
-                //Prevent the value from being changed
-                //by the callback, as it is a lazy function
-                //meaning it performs operations without
-                //returning a value.
-                func(value);
-                return value;
-            });
-        }
-
-        tapCatch(errfunc) {
-            if (this.state === REJECTED) {
-                errfunc(this.value);
-            } else {
-                this.__error_handlers__.push(errfunc);
-            }
-
-            return this;
-        }
-
-        catchSilent(errfunc) {
-            return this.catch(function() {});
-        }
-    }
-
-    //promises = Deferred
-    function all(promises) {
-        return new Deferred((resolve, reject) => {
-            let unresolved = promises.length - 1,
-            values = [];
-
-            for(let deferred of promises) {
-                deferred.tap((value) => {
-                    --unresolved;
-                    values.push(value);
-                    if(unresolved === 0) {
-                        resolve(values);
-                    }
-                }),tapCatch(reject);
-                //Reject at the first broken Deferred.
-            }
-        });
-    }
 
     //Useful for catching async callbacks:
     function asyncCatch(asyncFunction, onerror) {
@@ -385,125 +51,14 @@ var mochikit = (function () {
         setTimeout(func, 0);
     }
 
-    function succeedAfter(deferred, timeout) {
-        setTimeout((t) => deferred.resolve(t), timeout);
-        return deferred;
-    }
-
-    function failAfter(deferred, timeout) {
-        setTimeout((t) => deferred.reject(t), timeout);
-        return deferred;
-    }
-
-    class DeferredList {
-        constructor() {
-            /** @type {!Deferred[]} */
-            this.promises = [];
-        }
-
-        add(...promises) {
-            for(let promise of promises) {
-                if(!(promise instanceof Deferred)) {
-                    throw new TypeError('Expected a Deferred.');
-                }
-
-                this.promises.push(promise);
-            }
-
-            return this;
-        }
-
-        fire(callback) {
-            for(let promise of this.promises) {
-                promise.fire(callback);
-            }
-
-            return this;
-        }
-
-        succeedAfter(timeout) {
-            for(let promise of this.promises) {
-                succeedAfter(promise, timeout);
-            }
-
-            return this;
-        }
-
-        failAfter(timeout) {
-            for(let promise of this.promises) {
-                failAfter(promise, timeout);
-            }
-        }
-
-        allRejected() {
-            return this.promises.every((promise) => promise.isRejected());
-        }
-
-        allResolved() {
-            return this.promises.every((promise) => promise.isResolved());
-        }
-
-        allSettled() {
-            return this.promises.every((promise) => promise.isSettled());
-        }
-
-        succeedAfterWith(timeout, value) {
-            for(let promise of this.promises) {
-                setTimeout(() => promise.resolve(value), timeout); //jshint ignore:line
-            }
-
-            return this;
-        }
-
-        failAfterWith(timeout, value) {
-            for(let promise of this.promises) {
-                setTimeout(() => promise.reject(value), timeout); //jshint ignore:line
-            }
-
-            return this;
-        }
-
-        [Symbol.iterator]() {
-            return this.promises[Symbol.iterator]();
-        }
-
-        flip() {
-            for(let promise of this.promises) {
-                promise.flip();
-            }
-
-            return this;
-        }
-
-        first() {
-            return this.promises[0] || null; 
-        }
-
-        last() {
-            return this.promises[this.size() - 1] || null;
-        }
-
-        isEmpty() {
-            return this.size() !== 0;
-        }
-
-        isNotEmpty() {
-            return !this.isEmpty();
-        }
-
-        __repr__() {
-            return `DeferredList(${this.size()})`;
-        }
-
-        size() {
-            return this.promises.length;
-        }
-    }
-
     function double(promise, condition, yes, no) {
         promise.then((value) => {
             return condition(value, promise) ? yes(value, promise) : no(value, promise); 
         });
+    }
+
+    function failAfter(deferred, timeout) {
+        return new Promise((a, reject) => setTimeout(reject, timeout));
     }
 
     function getArrayBuffer(url, options) {
@@ -866,14 +421,6 @@ var mochikit = (function () {
         });
     }
 
-    function reject(value) {
-        return new Deferred().reject(value);
-    }
-
-    function resolve(value) {
-        return new Deferred().resolve(value);
-    }
-
     function simpleXHR(
         url,
         method,
@@ -901,6 +448,10 @@ var mochikit = (function () {
 
         xhr.send();
         return xhr;
+    }
+
+    function succeedAfter(timeout) {
+        return new Promise((resolve, a) => setTimeout(resolve, timeout));
     }
 
     function tap(promise, func) {
@@ -941,15 +492,12 @@ var mochikit = (function () {
 
     var async = /*#__PURE__*/Object.freeze({
         __repr__: __repr__,
-        all: all,
         asyncCatch: asyncCatch,
         asyncThen: asyncThen,
         callLater: callLater,
         catchSilent: catchSilent,
         chain: chain,
         defer: defer,
-        Deferred: Deferred,
-        DeferredList: DeferredList,
         double: double,
         failAfter: failAfter,
         getArrayBuffer: getArrayBuffer,
@@ -963,56 +511,11 @@ var mochikit = (function () {
         Message: Message,
         MessageEmitter: MessageEmitter,
         prevent: prevent,
-        reject: reject,
-        resolve: resolve,
         simpleXHR: simpleXHR,
         succeedAfter: succeedAfter,
         tap: tap,
         tapFinally: tapFinally,
-        whenSettled: whenSettled,
-        PENDING: PENDING,
-        REJECTED: REJECTED,
-        RESOLVED: RESOLVED,
-        SETTLED: SETTLED
-    });
-
-    class ImageLoader {
-        constructor() {
-            this.failed = new Set();
-            this.loaded = new Set();
-        }
-
-        load(imgurl, document, attributes) {
-            let self = this;
-            return new Deferred((resolve, reject) => {
-                let el = document.createElement('img', attributes);
-                el.onload = resolve;
-                el.onerror = reject;
-                el.url = imgurl;
-                el.addEventListener('load', () => self.loaded.add(imgurl));
-                el.addEventListener('error', () => self.failed.add(imgurl));
-            });
-        }
-
-        createLoader(imgurl, document, attributes) {
-            let self = this;
-            return function boundLoader() {
-                return self.load(imgurl, document, attributes);
-            };
-        }
-
-        loadAfterDOM(imgurl, document, attributes) {
-            let self = this;
-            document.addEventListener('DOMContentLoaded', () => self.load(imgurl, document, attributes));
-            return this;
-        }
-    }
-
-    const __repr__$1 = '[MochiKit.AsyncNet]';
-
-    var asyncnet = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$1,
-        ImageLoader: ImageLoader
+        whenSettled: whenSettled
     });
 
     class NotFoundError extends Error {
@@ -1550,10 +1053,10 @@ var mochikit = (function () {
         });
     }
 
-    const __repr__$2 = '[MochiKit.Base]';
+    const __repr__$1 = '[MochiKit.Base]';
 
     var base = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$2,
+        __repr__: __repr__$1,
         AdapterRegistry: AdapterRegistry,
         apply: apply,
         bind: bind,
@@ -2156,10 +1659,10 @@ var mochikit = (function () {
         return digits;
     }
 
-    const __repr__$3 = '[MochiKit.Color]';
+    const __repr__$2 = '[MochiKit.Color]';
 
     var color = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$3,
+        __repr__: __repr__$2,
         clampColorComponent: clampColorComponent,
         Color: Color,
         fromColorString: fromColorString,
@@ -2374,6 +1877,19 @@ var mochikit = (function () {
         return arrayToList(array, WeakSet);
     }
 
+    class ChainMap {
+        constructor(...maps) {
+            //maps = (!Weak)Map();
+            this.maps = maps;
+            let self = this;
+            this.proxy = new Proxy({}, {
+                set(obj, prop, value) {
+                    self.maps.forEach((map) => map[prop] = value);
+                }
+            });    
+        }
+    }
+
     function cloneArray(array) {
         return extendWithArray(array, []);
     }
@@ -2490,17 +2006,19 @@ var mochikit = (function () {
         return transformList(set, WeakSet);
     }
 
-    const __repr__$4 = '[MochiKit.Data]';
+    const __repr__$3 = '[MochiKit.Data]';
 
     var data$1 = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$4,
+        __repr__: __repr__$3,
         arrayLikeToObject: arrayLikeToObject,
         arrayToList: arrayToList,
         arrayToSet: arrayToSet,
         arrayToWeakSet: arrayToWeakSet,
+        ChainMap: ChainMap,
         cloneArray: cloneArray,
         cloneMap: cloneMap,
         cloneSet: cloneSet,
+        extendWithArray: extendWithArray,
         mapToWeakMap: mapToWeakMap,
         NamedTuple: NamedTuple,
         objectToKeyed: objectToKeyed,
@@ -2661,10 +2179,10 @@ var mochikit = (function () {
         ].join('/');
     }
 
-    const __repr__$5 = '[MochiKit.DateTime]';
+    const __repr__$4 = '[MochiKit.DateTime]';
 
     var datetime = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$5,
+        __repr__: __repr__$4,
         americanDate: americanDate,
         isoDate: isoDate,
         isoRegExp: re,
@@ -2677,6 +2195,81 @@ var mochikit = (function () {
         toISOTimestamp: toISOTimestamp,
         toPaddedAmericanDate: toPaddedAmericanDate
     });
+
+    function forEach(iter, predicate) {
+        let value, cachedValue, index = 0, done = isIterator(iter) ? iter.done : true;
+
+        while(!done) {
+            //Add support for generators that don't return the value.
+            value = (cachedValue = iter.next()) === iter ? cachedValue : iter.value;
+            predicate(value, index);
+            done = iter.done;
+            ++index;
+        }
+
+        return iter; 
+    }
+
+    function appendE(parent, el) {
+        parent.appendChild(el);
+        return parent;
+    }
+
+    function appendAllE(el, children) {
+        forEach(children, (child) => appendE(el, child));
+        return el;
+    }
+
+    class IteratorValue {
+        constructor(done, value, iterator) {
+            this.done = done;
+            this.value = value;
+            this.src = iterator;
+        }
+
+        __repr__() {
+            return `IteratorValue(done = ${this.done})`;
+        }
+    }
+
+    class ArrayIterator {
+        constructor(array) {
+            this.array = array;
+            this.index = 0;
+        }
+
+        next() {
+            if(this.index < this.array.length) {
+                ++this.index;
+                return new IteratorValue(false, this.array[this.index]);
+            } else {
+                return new IteratorValue(true);
+            }
+        }
+
+        __repr__() {
+            return `ArrayIterator(index = ${this.index}, done = ${this.done}, length = ${this.array.length})`;
+        }
+    }
+
+    class ChildIterator extends ArrayIterator {
+        constructor(el) {
+            super(el.children);
+        }
+
+        __repr__() {
+            return `ChildIterator(...)`;
+        }
+    }
+
+    function childIterE(el) {
+        return new ChildIterator(el);
+    }
+
+    function clearE(el) {
+        el.innerHTML = '';
+        return el;
+    }
 
     function ownerDocument(el) {
         if (!el) {
@@ -2720,6 +2313,89 @@ var mochikit = (function () {
         return root.cloneNode(deep);
     }
 
+    function createE(tag, attributes, html, document) {
+        html = html == null ? '' : html;
+        attributes = attributes == null ? html : attributes;
+        let el = document.createElement(tag, attributes);
+        el.innerHTML = html;
+        return el;
+    }
+
+    function eachliE(element, predicate) {
+        if(element.tagName !== 'UL') {
+            return element;
+        }
+
+        forEach(element.children, (...args) => {
+            args[0].tagName === 'LI' && predicate(...args);
+        });
+
+        return element;
+    }
+
+    let spaceRe = /\s+/;
+
+    function on(node, event, func) {
+        if(spaceRe.test(event)) {
+            //Multiple events.
+            for(let actualEvent of event) {
+                node.addEventListener(actualEvent, func);
+            }
+        } else {
+            node.addEventListener(event, func);
+        }
+
+        return node;
+    }
+
+    function emptyOn(element, event) {
+        on(element, event, () => element.innerHTML = '');
+        return element;
+    }
+
+    function filterC(el, predicate, deep) {
+        let clone = el.cloneNode(deep);
+        forEach(el.children, (...args) => {
+            !predicate(...args) && clone.removeChild(args[0]);
+        });
+        return clone;
+    }
+
+    class EventProxy {
+        constructor(element) {
+            this.events = [];
+            this.element = element;
+        }
+
+        addEventListener(event, handler) {
+            this.element.addEventListener(event, handler);
+            this.events.push({ event, handler });
+            return this;
+        }
+
+        removeEventListener(event, handler) {
+            this.element.removeEventListener(event, handler);
+            this.events = this.events.filter((obj) => obj.event !== event && obj.handler !== handler);
+            return this;   
+        }
+
+        hasEventListener(event, handler) {
+            return this.events.find((item) => item.event === event && item.handler === handler);
+        }
+
+        [Symbol.iterator]() {
+            return this.events[Symbol.iterator]();
+        }
+
+        __repr__() {
+            return `EventProxy`
+        }
+
+        size() {
+            return this.events.length;
+        }
+    }
+
     function getBody (doc) {
         let val = ownerDocument(doc);
         return val && val.body || null;
@@ -2756,10 +2432,10 @@ var mochikit = (function () {
         return nodeTypeMap[node.nodeType] || null;
     }
 
-    let spaceRe = /\s+/;
+    let spaceRe$1 = /\s+/;
 
     function off(node, event, func) {
-        if(spaceRe.test(event)) {
+        if(spaceRe$1.test(event)) {
             //Multiple events.
             for(let actualEvent of event) {
                 node.removeEventListener(actualEvent, func);
@@ -2771,19 +2447,14 @@ var mochikit = (function () {
         return node;
     }
 
-    let spaceRe$1 = /\s+/;
+    function prependE(parent, el) {
+        let first = parent.firstChild;
 
-    function on(node, event, func) {
-        if(spaceRe$1.test(event)) {
-            //Multiple events.
-            for(let actualEvent of event) {
-                node.addEventListener(actualEvent, func);
-            }
-        } else {
-            node.addEventListener(event, func);
+        if(first) {
+            parent.insertBefore(el, first);
         }
 
-        return node;
+        return parent;
     }
 
     function removeMatching(selector, dom) {
@@ -2814,6 +2485,57 @@ var mochikit = (function () {
     function rootChildren(node) {
         let val = ownerDocument(node);
         return val && val.childNodes || null;
+    }
+
+    function setChildrenE(el, children) {
+        empty(el);
+        forEach(children, (child) => appendE(e, child));
+        return el;
+    }
+
+    function show(element) {
+        element.style.display = 'inherit';
+    }
+
+    function sizeE(el) {
+        return el.children.length;
+    }
+
+    class SomeIterator {
+        constructor(array, predicate) {
+            this.index = 0;
+            this.array = array;
+            this.done = false;
+            this.predicate = predicate;
+        }
+
+        next() {
+            if(!this.done) {
+                if(this.index >= this.array.length) {
+                    //Done.
+                    this.done = true;
+                } else {
+                    let {array, index, predicate} = this,
+                    item = array[index];
+
+                    this.value = predicate(item, index, array, this);
+                }
+            }
+
+            return this;
+        }
+
+        __repr__() {
+            return `SomeIterator(done = ${this.done}, index = ${this.index})`;
+        }
+    }
+
+    function some(array, predicate) {
+        return new SomeIterator(array, predicate);
+    }
+
+    function someE(nodeList, predicate) {
+        return some(nodeList, predicate);
     }
 
     const _counter = counter(0);
@@ -2999,6 +2721,16 @@ var mochikit = (function () {
         }
     }
 
+    function withoutTagE(el, tag) {
+        forEach(el.children, (child) => {
+            if(child.tagName === tag) {
+                el.removeChild(child);
+            }
+        });
+
+        return el;
+    }
+
     function createShortcut(tag) {
         return function(attrs, doc = document) {
             return doc.createElement(tag, attrs);
@@ -3116,15 +2848,23 @@ var mochikit = (function () {
         VIDEO = createShortcut('VIDEO'),
         WBR = createShortcut('WBR');
 
-    //dom index.js
-
-    const __repr__$6 = '[MochiKit.DOM]';
+    const __repr__$5 = '[MochiKit.DOM]';
 
     var dom = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$6,
+        __repr__: __repr__$5,
+        appendAll: appendAllE,
+        appendEl: appendE,
+        ChildIterator: ChildIterator,
+        childIter: childIterE,
+        clearE: clearE,
         clearRoot: clearRoot,
         cloneTree: cloneTree,
+        createE: createE,
+        eachli: eachliE,
+        emptyOn: emptyOn,
+        filterC: filterC,
         empty: empty,
+        EventProxy: EventProxy,
         getBody: getBody,
         isDocument: isDocument,
         isEmpty: isEmpty$1,
@@ -3135,11 +2875,17 @@ var mochikit = (function () {
         off: off,
         on: on,
         ownerDocument: ownerDocument,
+        prepend: prependE,
         purify: purify,
         removeMatching: removeMatching,
         removeScripts: removeScripts,
         rootChildren: rootChildren,
+        setChildren: setChildrenE,
+        show: show,
+        sizeE: sizeE,
+        someE: someE,
         Visibility: Visibility,
+        withoutTag: withoutTagE,
         A: A,
         ABBR: ABBR,
         ADDRESS: ADDRESS,
@@ -3411,10 +3157,10 @@ var mochikit = (function () {
         }
     }
 
-    const __repr__$7 = '[MochiKit.Func]';
+    const __repr__$6 = '[MochiKit.Func]';
 
     var func = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$7,
+        __repr__: __repr__$6,
         arity: arity,
         copyFunction: copyFunction,
         ctor: ctor,
@@ -3444,34 +3190,6 @@ var mochikit = (function () {
         }
     }
 
-    class ArrayIterator {
-        constructor(array) {
-            this.array = array;
-            this.done = false;
-            this.index = 0;
-        }
-
-        next() {
-            if(!this.done) {
-                let {array, index} = this;
-                //Could be an empty array,
-                //or iteration is done:
-                if(index >= array.length) {
-                    this.done = true;
-                } else {
-                    this.value = array[index];
-                    ++this.index;
-                }
-            }
-
-            return this;
-        }
-
-        __repr__() {
-            return `ArrayIterator(index = ${this.index}, done = ${this.done}, length = ${this.array.length})`;
-        }
-    }
-
     function arrayLikeIter(arrayLike) {
         return new ArrayIterator(arrayLike);
     }
@@ -3495,10 +3213,10 @@ var mochikit = (function () {
                 //Reset index.
                 this.index = 0;
             }
-
-            this.value = this.items[index];
-
-            return this;
+            
+            let val = new IteratorValue(false, index);
+            ++this.index;
+            return val;
         }
 
         __repr__() {
@@ -3513,12 +3231,10 @@ var mochikit = (function () {
     class CountIterator {
         constructor(n = 0) {
             this.n = n;
-            this.done = false;
         }
         
         next() {
-            this.value = this.n;
-            return this;
+            return new IteratorValue(false, ++this.n);
         }
         
         __repr__() {
@@ -3530,30 +3246,28 @@ var mochikit = (function () {
         return new CountIterator(n);
     }
 
-    function cycle(items) {
-        return new CycleIterator(...items);
-    }
-
     class EveryIterator {
         constructor(array, predicate) {
             this.array = array;
             this.predicate = predicate;
             this.index = 0;
+            this.returnedFalse = false;
         }
 
         next() {
-            if(!this.done) {
+            if(!this.returnedFalse) {
                 let {array, index, predicate} = this,
                 item = array[index];
                 
-                this.done = predicate(item, index, array);
+                let val = this.returnedFalse = !predicate(item, index, array);
+                return new IteratorValue(false, val);
             }
 
-            return this;
+            return new IteratorValue(true);
         }
 
         __repr__() {
-            return `EveryIterator(...)`;
+            return `EveryIterator(index = ${this.index})`;
         }
     }
 
@@ -3582,41 +3296,19 @@ var mochikit = (function () {
         return iter;
     }
 
-    function forEach(iter, predicate) {
-        let value, cachedValue, index = 0, done = isIterator(iter) ? iter.done : true;
-
-        while(!done) {
-            //Add support for generators that don't return the value.
-            value = (cachedValue = iter.next()) === iter ? cachedValue : iter.value;
-            predicate(value, index);
-            done = iter.done;
-            ++index;
-        }
-
-        return iter; 
+    function KeyIterator(object) {
+        return function* () {
+            //This is lazy.
+            for(let key in object) {
+                if(object.hasOwnProperty(key)) {
+                    yield key;
+                }
+            }
+        };
     }
 
-    class GenIterator {
-        constructor(generator) {
-            this.generator = generator;
-            this.done = generator.done;
-            this.value = generator.value;
-        }
-
-        __repr__() {
-            return `GenIterator(done = ${this.done})`;
-        }
-
-        next() {
-            this.generator.next();
-            this.done = this.generator.done;
-            this.value = this.generator.value;
-            return this;
-        }    
-    }
-
-    function genToIter(generator) {
-        return new GenIterator(generator);
+    function keyIterator(object) {
+        return new KeyIterator(object);
     }
 
     function guardIterator(itr, guard) {
@@ -3670,25 +3362,13 @@ var mochikit = (function () {
     }
 
     class PipedIterator {
-        constructor(iter, pipeFunction) {
-            this.pipeFunction = pipeFunction;
+        constructor(iter, pipe) {
+            this.pipe = pipe;
             this.iter = iter;
-            this.done = iter.done;
-
-            //Try to use the iter's __repr__ if possible.
-            if (typeof iter.__repr__ === 'function') {
-                this.__repr__ = function() {
-                    return this.iter.__repr__();
-                };
-            }
         }
 
         next() {
-            if (!this.done) {
-                this.value = this.pipeFunction(this.iter.next(), this.iter, this);
-                this.done = this.iter.done;
-            }
-            return this;
+            return this.pipe(this.iter.next());
         }
 
         __repr__() {
@@ -3696,8 +3376,8 @@ var mochikit = (function () {
         }
     }
 
-    function pipeNext(iter, pipeFunction) {
-        return new PipedIterator(iter, pipeFunction);
+    function pipeNext(iter, pipe) {
+        return new PipedIterator(iter, pipe);
     }
 
     function pipe$1(func) {
@@ -3782,35 +3462,53 @@ var mochikit = (function () {
         return pipeNext(iter, (value) => value * amount);
     }
 
-    class KeyIterator extends ArrayIterator {
+    class ValueIterator extends ArrayIterator {
         constructor(object) {
-            super(Object.keys(object));
-        } 
+            //TODO: make Base.values function
+            super(Object.keys(object).map((a) => object[a]));
+        }
 
         __repr__() {
-            return `KeyIterator(size = ${this.array.length}, done = ${this.done}, index = ${this.index})`;
+            return `ValueIterator(size = ${this.array.length}, done = ${this.done}, index = ${this.index})`;
         }
     }
 
-    function keyIterator(object) {
-        return new KeyIterator(object);
+    function valueIterator(object) {
+        return new ValueIterator(object);
+    }
+
+    function negateIter(iter) {
+        return new PipedIterator(iter, (value) => -value);
+    }
+
+    function next(iter) {
+        if(isIterator(iter)) {
+            try {
+                iter.next();
+            } catch (err) {
+                return err;
+            }
+
+            //pass-thru for no error.
+            return iter.value;
+        }
     }
 
     class RangeIterator {
         constructor(start, end) {
             this.start = start;
             this.end = end;
-            this.done = false;
+            this.iterDone = false;
             this.index = start;
         }
 
         next() {
-            if(!this.done) {
+            if(!this.iterDone) {
                 //Check if we hit the end index.
                 if(this.index >= this.end) {
-                    this.done = true;
+                    return new IteratorValue(true);
                 } else {
-                    this.value = ++this.index;
+                    return new IteratorValue(false, ++this.index);
                 }
             }
 
@@ -3847,13 +3545,13 @@ var mochikit = (function () {
 
     class RepeatIterator {
         constructor(value) {
-            this.value = value;
-            this.done = false;
+            this.iterValue = value;
+            this.iterDone = false;
         }
 
         next() {
             //No-op, value is already set.
-            return this;
+            return new IteratorValue(this.iterDone, this.iterValue);
         }
 
         __repr__() {
@@ -3867,39 +3565,6 @@ var mochikit = (function () {
 
     function reversed(iter) {
         return list(iter).reverse();
-    }
-
-    class SomeIterator {
-        constructor(array, predicate) {
-            this.index = 0;
-            this.array = array;
-            this.done = false;
-            this.predicate = predicate;
-        }
-
-        next() {
-            if(!this.done) {
-                if(this.index >= this.array.length) {
-                    //Done.
-                    this.done = true;
-                } else {
-                    let {array, index, predicate} = this,
-                    item = array[index];
-
-                    this.value = predicate(item, index, array, this);
-                }
-            }
-
-            return this;
-        }
-
-        __repr__() {
-            return `SomeIterator(done = ${this.done}, index = ${this.index})`;
-        }
-    }
-
-    function some(array, predicate) {
-        return new SomeIterator(array, predicate);
     }
 
     function sortedArrayLike(arrayLike, sortMethod) {
@@ -3944,25 +3609,10 @@ var mochikit = (function () {
         return sumArrayLikeClamped(list(iter));
     }
 
-    class ValueIterator extends ArrayIterator {
-        constructor(object) {
-            //TODO: make Base.values function
-            super(Object.keys(object).map((a) => object[a]));
-        }
-
-        __repr__() {
-            return `ValueIterator(size = ${this.array.length}, done = ${this.done}, index = ${this.index})`;
-        }
-    }
-
-    function valueIterator(object) {
-        return new ValueIterator(object);
-    }
-
-    const __repr__$8 = '[MochiKit.Iter]';
+    const __repr__$7 = '[MochiKit.Iter]';
 
     var iter$1 = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$8,
+        __repr__: __repr__$7,
         any: any,
         applyMap: applyMap,
         ArrayIterator: ArrayIterator,
@@ -3971,15 +3621,12 @@ var mochikit = (function () {
         chain: chain$1,
         count: count,
         CountIterator: CountIterator,
-        cycle: cycle,
-        CycleIterator: CycleIterator,
         every: every,
         EveryIterator: EveryIterator,
         exhaust: exhaust,
         exhaustLimited: exhaustLimited,
         forEach: forEach,
-        GenIterator: GenIterator,
-        genToIterator: genToIter,
+        getKeyIterator: keyIterator,
         guardIterator: guardIterator,
         hasSymbolIterator: hasSymbolIterator,
         iextend: iextend,
@@ -3989,12 +3636,14 @@ var mochikit = (function () {
         isIterator: isIterator,
         islice: islice,
         iter: iter,
+        IteratorValue: IteratorValue,
         itimes: itimes,
+        ival: valueIterator,
         KeyIterator: KeyIterator,
-        keyIterator: keyIterator,
         list: list,
+        negateIter: negateIter,
+        next: next,
         PipedIterator: PipedIterator,
-        pipeNext: pipeNext,
         range: range,
         RangeIterator: RangeIterator,
         reduceArrayLike: reduceArrayLike,
@@ -4013,7 +3662,6 @@ var mochikit = (function () {
         sumIter: sumIter,
         sumIterClamped: sumIterClamped,
         ValueIterator: ValueIterator,
-        ival: valueIterator,
         iadd: iadd,
         iand: iand,
         idiv: idiv,
@@ -4270,7 +3918,7 @@ var mochikit = (function () {
         console.log(`LEVEL: ${msg.level}\nHAS_LOGGER: ${!!msg.logger}\nDATA:\n${msg.data}`); 
     }
 
-    const __repr__$9 = '[MochiKit.Logger]';
+    const __repr__$8 = '[MochiKit.Logger]';
     let currentLogger = new Logger({
         write(data) {
             console.log(data);
@@ -4302,7 +3950,7 @@ var mochikit = (function () {
     }
 
     var logging = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$9,
+        __repr__: __repr__$8,
         logMethod: logMethod,
         logError: logError,
         logWarn: logWarn,
@@ -4403,10 +4051,10 @@ var mochikit = (function () {
         }
     }
 
-    const __repr__$a = '[MochiKit.Repr]';
+    const __repr__$9 = '[MochiKit.Repr]';
 
     var repr = /*#__PURE__*/Object.freeze({
-        __repr__: __repr__$a,
+        __repr__: __repr__$9,
         getRepr: getRepr,
         hasRepr: hasRepr,
         registerRepr: registerRepr,
@@ -4426,7 +4074,6 @@ var mochikit = (function () {
     //Collect the variables in MochiKit.
     let MochiKit$1 = { 
         async, 
-        asyncnet,
         base, 
         color, 
         data: data$1,
