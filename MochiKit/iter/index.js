@@ -24,7 +24,7 @@ export { default as isIterable } from './isIterable.js';
 export { default as isIterator } from './isIterator.js';
 export { default as islice } from './islice.js';
 export { default as iter } from './iter.js';
-export { default as iteratorValue } from './iteratorValue.js';
+export { default as IteratorValue } from './IteratorValue.js';
 export { default as itimes } from './itimes.js';
 export { default as ival } from './ival.js';
 export { default as KeyIterator } from './KeyIterator.js';

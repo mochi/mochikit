@@ -7,7 +7,6 @@ if(require.main === module) {
 }
 
 function buildMochiKit(args) {
-    //
     args = Array.isArray(args) ? args : args.split(/\s+/);
     //A string representation of the arguments.
     const strargv = args.join(' ').replace(/.+\/?build\s+/, '');
@@ -38,8 +37,8 @@ function buildMochiKit(args) {
             };
 
         async function build() {
-            const bundle = await rollup.rollup(inoptions);
-            await bundle.write(outoptions);
+            const bundle = await rollup.rollup(inoptions).catch((e) => { throw e; });
+            await bundle.write(outoptions).catch((e) => { throw e; });
         }
 
         build()
