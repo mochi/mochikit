@@ -51,6 +51,7 @@
         "repr",
         "rshift",
         "takewhile",
+        "tbch",
         "tostr",
         "treeshake",
         "zrshift"
