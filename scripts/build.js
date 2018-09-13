@@ -46,24 +46,29 @@ function buildMochiKit(args) {
                 banner: new Banner(strargv).render()
             };
 
-        build(inoptions, outoptions)
-        .then(() => console.log(`[SUCCESS] "${item}" was built.`));
+        build(inoptions, outoptions).then(() =>
+            console.log(`[SUCCESS] "${item}" was built.`)
+        );
     }
 }
 
 function build(inoptions, outoptions) {
     //Why am I getting uncaught promise errors from this?
-    //I'm pretty sure I'm catching the promise. 
-    //Think Rollup needs to up their game here. 
-    return handlePromise(rollup
-        .rollup(inoptions)
-        .then(bundle => {
-            handlePromise(bundle.write(outoptions));
-        }));
+    //I'm pretty sure I'm catching the promise.
+    //Think Rollup needs to up their game here.
+    return handlePromise(
+        //TODO: make this cleaner.
+        rollup.rollup(inoptions).then(bundle => {
+            handlePromise(bundle.write(outoptions))
+            .then(() => console.log(`Built "${inoptions.file}".`));
+        })
+    );
 }
 
 function handlePromise(promise) {
-    return promise.catch((e) => { throw e; });
+    return promise.catch(e => {
+        throw e;
+    });
 }
 
 module.exports = buildMochiKit;
