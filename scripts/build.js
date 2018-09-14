@@ -60,7 +60,7 @@ function build(inoptions, outoptions) {
         //TODO: make this cleaner.
         rollup.rollup(inoptions).then(bundle => {
             handlePromise(bundle.write(outoptions))
-            .then(() => console.log(`Built "${inoptions.file}".`));
+            .then(() => console.log(`Built "${inoptions.input}".`));
         })
     );
 }

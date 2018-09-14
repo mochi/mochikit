@@ -6,8 +6,11 @@
     },
     "devDependencies": {
         "@types/rollup": "^0.54.0",
+        "babel-preset-env": "^1.7.0",
+        "babel-preset-es2015": "^6.24.1",
         "jshint": "^2.9.6",
         "mocha": "^5.2.0",
         "rollup-plugin-uglify-es": "0.0.1"
-    }
+    },
+    "dependencies": {}
 }
