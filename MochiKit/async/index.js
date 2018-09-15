@@ -33,6 +33,5 @@ export { default as simpleXHR } from './simpleXHR';
 export { default as succeedAfter } from './succeedAfter';
 export { default as tap } from './tap';
 export { default as tapFinally } from './tapFinally';
-export { default as whenSettled } from './whenSettled';
 
 export const __repr__ = '[MochiKit.Async]';
