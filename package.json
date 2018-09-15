@@ -1,7 +1,8 @@
 {
     "scripts": {
         "test": "nyc mocha --require babel-core/register --require babel-polyfill \"./test/*.test.js\"",
-        "build": "rollup -c",
+        "build": "cd scripts && node build MochiKit",
+        "build-all": "cd scripts && node build MochiKit async base color data datetime dom func iter logging repr",
         "watch": "npm run build --watch"
     },
     "devDependencies": {

@@ -1,10 +1,10 @@
 /**
-  * @license
-  * MochiKit <https://mochi.github.io/mochikit> 
-  * Making JavaScript better and easier with a consistent, clean API.
-  * Built at "Mon Sep 10 2018 17:22:17 GMT+0100 (British Summer Time)".
-  * Command line options: "async base color data datetime dom func iter logging repr"
- */
+        * @license
+        * MochiKit <https://mochi.github.io/mochikit> 
+        * Making JavaScript better and easier with a consistent, clean API.
+        * Built at "Sat Sep 15 2018 22:54:07 GMT+0100 (British Summer Time)".
+        * Command line options: "MochiKit async base color data datetime dom func iter logging repr"
+       */
 this.mochikit = this.mochikit || {};
 this.mochikit.iter = (function (exports) {
     'use strict';
@@ -43,27 +43,31 @@ this.mochikit.iter = (function (exports) {
         }
     }
 
+    class IteratorValue {
+        constructor(done, value, iterator) {
+            this.done = done;
+            this.value = value;
+            this.src = iterator;
+        }
+
+        __repr__() {
+            return `IteratorValue(done = ${this.done})`;
+        }
+    }
+
     class ArrayIterator {
         constructor(array) {
             this.array = array;
-            this.done = false;
             this.index = 0;
         }
 
         next() {
-            if(!this.done) {
-                let {array, index} = this;
-                //Could be an empty array,
-                //or iteration is done:
-                if(index >= array.length) {
-                    this.done = true;
-                } else {
-                    this.value = array[index];
-                    ++this.index;
-                }
+            if(this.index < this.array.length) {
+                ++this.index;
+                return new IteratorValue(false, this.array[this.index]);
+            } else {
+                return new IteratorValue(true);
             }
-
-            return this;
         }
 
         __repr__() {
@@ -94,10 +98,10 @@ this.mochikit.iter = (function (exports) {
                 //Reset index.
                 this.index = 0;
             }
-
-            this.value = this.items[index];
-
-            return this;
+            
+            let val = new IteratorValue(false, index);
+            ++this.index;
+            return val;
         }
 
         __repr__() {
@@ -112,12 +116,10 @@ this.mochikit.iter = (function (exports) {
     class CountIterator {
         constructor(n = 0) {
             this.n = n;
-            this.done = false;
         }
         
         next() {
-            this.value = this.n;
-            return this;
+            return new IteratorValue(false, ++this.n);
         }
         
         __repr__() {
@@ -129,30 +131,28 @@ this.mochikit.iter = (function (exports) {
         return new CountIterator(n);
     }
 
-    function cycle(items) {
-        return new CycleIterator(...items);
-    }
-
     class EveryIterator {
         constructor(array, predicate) {
             this.array = array;
             this.predicate = predicate;
             this.index = 0;
+            this.returnedFalse = false;
         }
 
         next() {
-            if(!this.done) {
+            if(!this.returnedFalse) {
                 let {array, index, predicate} = this,
                 item = array[index];
                 
-                this.done = predicate(item, index, array);
+                let val = this.returnedFalse = !predicate(item, index, array);
+                return new IteratorValue(false, val);
             }
 
-            return this;
+            return new IteratorValue(true);
         }
 
         __repr__() {
-            return `EveryIterator(...)`;
+            return `EveryIterator(index = ${this.index})`;
         }
     }
 
@@ -195,27 +195,19 @@ this.mochikit.iter = (function (exports) {
         return iter; 
     }
 
-    class GenIterator {
-        constructor(generator) {
-            this.generator = generator;
-            this.done = generator.done;
-            this.value = generator.value;
-        }
-
-        __repr__() {
-            return `GenIterator(done = ${this.done})`;
-        }
-
-        next() {
-            this.generator.next();
-            this.done = this.generator.done;
-            this.value = this.generator.value;
-            return this;
-        }    
+    function KeyIterator(object) {
+        return function* () {
+            //This is lazy.
+            for(let key in object) {
+                if(object.hasOwnProperty(key)) {
+                    yield key;
+                }
+            }
+        };
     }
 
-    function genToIter(generator) {
-        return new GenIterator(generator);
+    function keyIterator(object) {
+        return new KeyIterator(object);
     }
 
     function guardIterator(itr, guard) {
@@ -269,25 +261,13 @@ this.mochikit.iter = (function (exports) {
     }
 
     class PipedIterator {
-        constructor(iter, pipeFunction) {
-            this.pipeFunction = pipeFunction;
+        constructor(iter, pipe) {
+            this.pipe = pipe;
             this.iter = iter;
-            this.done = iter.done;
-
-            //Try to use the iter's __repr__ if possible.
-            if (typeof iter.__repr__ === 'function') {
-                this.__repr__ = function() {
-                    return this.iter.__repr__();
-                };
-            }
         }
 
         next() {
-            if (!this.done) {
-                this.value = this.pipeFunction(this.iter.next(), this.iter, this);
-                this.done = this.iter.done;
-            }
-            return this;
+            return this.pipe(this.iter.next());
         }
 
         __repr__() {
@@ -295,8 +275,8 @@ this.mochikit.iter = (function (exports) {
         }
     }
 
-    function pipeNext(iter, pipeFunction) {
-        return new PipedIterator(iter, pipeFunction);
+    function pipeNext(iter, pipe) {
+        return new PipedIterator(iter, pipe);
     }
 
     //Curriable operator methods:
@@ -465,35 +445,53 @@ this.mochikit.iter = (function (exports) {
         return pipeNext(iter, (value) => value * amount);
     }
 
-    class KeyIterator extends ArrayIterator {
+    class ValueIterator extends ArrayIterator {
         constructor(object) {
-            super(Object.keys(object));
-        } 
+            //TODO: make Base.values function
+            super(Object.keys(object).map((a) => object[a]));
+        }
 
         __repr__() {
-            return `KeyIterator(size = ${this.array.length}, done = ${this.done}, index = ${this.index})`;
+            return `ValueIterator(size = ${this.array.length}, done = ${this.done}, index = ${this.index})`;
         }
     }
 
-    function keyIterator(object) {
-        return new KeyIterator(object);
+    function valueIterator(object) {
+        return new ValueIterator(object);
+    }
+
+    function negateIter(iter) {
+        return new PipedIterator(iter, (value) => -value);
+    }
+
+    function next(iter) {
+        if(isIterator(iter)) {
+            try {
+                iter.next();
+            } catch (err) {
+                return err;
+            }
+
+            //pass-thru for no error.
+            return iter.value;
+        }
     }
 
     class RangeIterator {
         constructor(start, end) {
             this.start = start;
             this.end = end;
-            this.done = false;
+            this.iterDone = false;
             this.index = start;
         }
 
         next() {
-            if(!this.done) {
+            if(!this.iterDone) {
                 //Check if we hit the end index.
                 if(this.index >= this.end) {
-                    this.done = true;
+                    return new IteratorValue(true);
                 } else {
-                    this.value = ++this.index;
+                    return new IteratorValue(false, ++this.index);
                 }
             }
 
@@ -530,13 +528,13 @@ this.mochikit.iter = (function (exports) {
 
     class RepeatIterator {
         constructor(value) {
-            this.value = value;
-            this.done = false;
+            this.iterValue = value;
+            this.iterDone = false;
         }
 
         next() {
             //No-op, value is already set.
-            return this;
+            return new IteratorValue(this.iterDone, this.iterValue);
         }
 
         __repr__() {
@@ -627,21 +625,6 @@ this.mochikit.iter = (function (exports) {
         return sumArrayLikeClamped(list(iter));
     }
 
-    class ValueIterator extends ArrayIterator {
-        constructor(object) {
-            //TODO: make Base.values function
-            super(Object.keys(object).map((a) => object[a]));
-        }
-
-        __repr__() {
-            return `ValueIterator(size = ${this.array.length}, done = ${this.done}, index = ${this.index})`;
-        }
-    }
-
-    function valueIterator(object) {
-        return new ValueIterator(object);
-    }
-
     const __repr__ = '[MochiKit.Iter]';
 
     exports.__repr__ = __repr__;
@@ -653,15 +636,12 @@ this.mochikit.iter = (function (exports) {
     exports.chain = chain;
     exports.count = count;
     exports.CountIterator = CountIterator;
-    exports.cycle = cycle;
-    exports.CycleIterator = CycleIterator;
     exports.every = every;
     exports.EveryIterator = EveryIterator;
     exports.exhaust = exhaust;
     exports.exhaustLimited = exhaustLimited;
     exports.forEach = forEach;
-    exports.GenIterator = GenIterator;
-    exports.genToIterator = genToIter;
+    exports.getKeyIterator = keyIterator;
     exports.guardIterator = guardIterator;
     exports.hasSymbolIterator = hasSymbolIterator;
     exports.iextend = iextend;
@@ -671,12 +651,14 @@ this.mochikit.iter = (function (exports) {
     exports.isIterator = isIterator;
     exports.islice = islice;
     exports.iter = iter;
+    exports.IteratorValue = IteratorValue;
     exports.itimes = itimes;
+    exports.ival = valueIterator;
     exports.KeyIterator = KeyIterator;
-    exports.keyIterator = keyIterator;
     exports.list = list;
+    exports.negateIter = negateIter;
+    exports.next = next;
     exports.PipedIterator = PipedIterator;
-    exports.pipeNext = pipeNext;
     exports.range = range;
     exports.RangeIterator = RangeIterator;
     exports.reduceArrayLike = reduceArrayLike;
@@ -695,7 +677,6 @@ this.mochikit.iter = (function (exports) {
     exports.sumIter = sumIter;
     exports.sumIterClamped = sumIterClamped;
     exports.ValueIterator = ValueIterator;
-    exports.ival = valueIterator;
     exports.iadd = iadd;
     exports.iand = iand;
     exports.idiv = idiv;

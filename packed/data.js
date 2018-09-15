@@ -1,10 +1,10 @@
 /**
-  * @license
-  * MochiKit <https://mochi.github.io/mochikit> 
-  * Making JavaScript better and easier with a consistent, clean API.
-  * Built at "Mon Sep 10 2018 17:22:17 GMT+0100 (British Summer Time)".
-  * Command line options: "async base color data datetime dom func iter logging repr"
- */
+        * @license
+        * MochiKit <https://mochi.github.io/mochikit> 
+        * Making JavaScript better and easier with a consistent, clean API.
+        * Built at "Sat Sep 15 2018 22:54:07 GMT+0100 (British Summer Time)".
+        * Command line options: "MochiKit async base color data datetime dom func iter logging repr"
+       */
 this.mochikit = this.mochikit || {};
 this.mochikit.data = (function (exports) {
     'use strict';
@@ -37,6 +37,19 @@ this.mochikit.data = (function (exports) {
 
     function arrayToWeakSet(array) {
         return arrayToList(array, WeakSet);
+    }
+
+    class ChainMap {
+        constructor(...maps) {
+            //maps = (!Weak)Map();
+            this.maps = maps;
+            let self = this;
+            this.proxy = new Proxy({}, {
+                set(obj, prop, value) {
+                    self.maps.forEach((map) => map[prop] = value);
+                }
+            });    
+        }
     }
 
     function cloneArray(array) {
@@ -162,9 +175,11 @@ this.mochikit.data = (function (exports) {
     exports.arrayToList = arrayToList;
     exports.arrayToSet = arrayToSet;
     exports.arrayToWeakSet = arrayToWeakSet;
+    exports.ChainMap = ChainMap;
     exports.cloneArray = cloneArray;
     exports.cloneMap = cloneMap;
     exports.cloneSet = cloneSet;
+    exports.extendWithArray = extendWithArray;
     exports.mapToWeakMap = mapToWeakMap;
     exports.NamedTuple = NamedTuple;
     exports.objectToKeyed = objectToKeyed;

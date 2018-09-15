@@ -1,5 +1,8 @@
 /dist
-.project
-.vscode
+
+# Install modules using `npm install`.
 node_modules
 package-lock.json
+.project
+.vscode
+.nyc_output

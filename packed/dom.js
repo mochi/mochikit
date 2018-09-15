@@ -1,13 +1,92 @@
 /**
-  * @license
-  * MochiKit <https://mochi.github.io/mochikit> 
-  * Making JavaScript better and easier with a consistent, clean API.
-  * Built at "Mon Sep 10 2018 17:22:17 GMT+0100 (British Summer Time)".
-  * Command line options: "async base color data datetime dom func iter logging repr"
- */
+        * @license
+        * MochiKit <https://mochi.github.io/mochikit> 
+        * Making JavaScript better and easier with a consistent, clean API.
+        * Built at "Sat Sep 15 2018 22:54:07 GMT+0100 (British Summer Time)".
+        * Command line options: "MochiKit async base color data datetime dom func iter logging repr"
+       */
 this.mochikit = this.mochikit || {};
 this.mochikit.dom = (function (exports) {
     'use strict';
+
+    function isIterator(object) {
+        return object && typeof object.next === 'function';
+    }
+
+    function forEach(iter, predicate) {
+        let value, cachedValue, index = 0, done = isIterator(iter) ? iter.done : true;
+
+        while(!done) {
+            //Add support for generators that don't return the value.
+            value = (cachedValue = iter.next()) === iter ? cachedValue : iter.value;
+            predicate(value, index);
+            done = iter.done;
+            ++index;
+        }
+
+        return iter; 
+    }
+
+    function appendE(parent, el) {
+        parent.appendChild(el);
+        return parent;
+    }
+
+    function appendAllE(el, children) {
+        forEach(children, (child) => appendE(el, child));
+        return el;
+    }
+
+    class IteratorValue {
+        constructor(done, value, iterator) {
+            this.done = done;
+            this.value = value;
+            this.src = iterator;
+        }
+
+        __repr__() {
+            return `IteratorValue(done = ${this.done})`;
+        }
+    }
+
+    class ArrayIterator {
+        constructor(array) {
+            this.array = array;
+            this.index = 0;
+        }
+
+        next() {
+            if(this.index < this.array.length) {
+                ++this.index;
+                return new IteratorValue(false, this.array[this.index]);
+            } else {
+                return new IteratorValue(true);
+            }
+        }
+
+        __repr__() {
+            return `ArrayIterator(index = ${this.index}, done = ${this.done}, length = ${this.array.length})`;
+        }
+    }
+
+    class ChildIterator extends ArrayIterator {
+        constructor(el) {
+            super(el.children);
+        }
+
+        __repr__() {
+            return `ChildIterator(...)`;
+        }
+    }
+
+    function childIterE(el) {
+        return new ChildIterator(el);
+    }
+
+    function clearE(el) {
+        el.innerHTML = '';
+        return el;
+    }
 
     function ownerDocument(el) {
         if (!el) {
@@ -49,6 +128,89 @@ this.mochikit.dom = (function (exports) {
         //Get the tree from the node.
         let root = node.getRootNode();
         return root.cloneNode(deep);
+    }
+
+    function createE(tag, attributes, html, document) {
+        html = html == null ? '' : html;
+        attributes = attributes == null ? html : attributes;
+        let el = document.createElement(tag, attributes);
+        el.innerHTML = html;
+        return el;
+    }
+
+    function eachliE(element, predicate) {
+        if(element.tagName !== 'UL') {
+            return element;
+        }
+
+        forEach(element.children, (...args) => {
+            args[0].tagName === 'LI' && predicate(...args);
+        });
+
+        return element;
+    }
+
+    let spaceRe = /\s+/;
+
+    function on(node, event, func) {
+        if(spaceRe.test(event)) {
+            //Multiple events.
+            for(let actualEvent of event) {
+                node.addEventListener(actualEvent, func);
+            }
+        } else {
+            node.addEventListener(event, func);
+        }
+
+        return node;
+    }
+
+    function emptyOn(element, event) {
+        on(element, event, () => element.innerHTML = '');
+        return element;
+    }
+
+    function filterC(el, predicate, deep) {
+        let clone = el.cloneNode(deep);
+        forEach(el.children, (...args) => {
+            !predicate(...args) && clone.removeChild(args[0]);
+        });
+        return clone;
+    }
+
+    class EventProxy {
+        constructor(element) {
+            this.events = [];
+            this.element = element;
+        }
+
+        addEventListener(event, handler) {
+            this.element.addEventListener(event, handler);
+            this.events.push({ event, handler });
+            return this;
+        }
+
+        removeEventListener(event, handler) {
+            this.element.removeEventListener(event, handler);
+            this.events = this.events.filter((obj) => obj.event !== event && obj.handler !== handler);
+            return this;   
+        }
+
+        hasEventListener(event, handler) {
+            return this.events.find((item) => item.event === event && item.handler === handler);
+        }
+
+        [Symbol.iterator]() {
+            return this.events[Symbol.iterator]();
+        }
+
+        __repr__() {
+            return `EventProxy`
+        }
+
+        size() {
+            return this.events.length;
+        }
     }
 
     function getBody (doc) {
@@ -118,10 +280,10 @@ this.mochikit.dom = (function (exports) {
         return nodeTypeMap[node.nodeType] || null;
     }
 
-    let spaceRe = /\s+/;
+    let spaceRe$1 = /\s+/;
 
     function off(node, event, func) {
-        if(spaceRe.test(event)) {
+        if(spaceRe$1.test(event)) {
             //Multiple events.
             for(let actualEvent of event) {
                 node.removeEventListener(actualEvent, func);
@@ -133,19 +295,14 @@ this.mochikit.dom = (function (exports) {
         return node;
     }
 
-    let spaceRe$1 = /\s+/;
+    function prependE(parent, el) {
+        let first = parent.firstChild;
 
-    function on(node, event, func) {
-        if(spaceRe$1.test(event)) {
-            //Multiple events.
-            for(let actualEvent of event) {
-                node.addEventListener(actualEvent, func);
-            }
-        } else {
-            node.addEventListener(event, func);
+        if(first) {
+            parent.insertBefore(el, first);
         }
 
-        return node;
+        return parent;
     }
 
     function removeMatching(selector, dom) {
@@ -176,6 +333,57 @@ this.mochikit.dom = (function (exports) {
     function rootChildren(node) {
         let val = ownerDocument(node);
         return val && val.childNodes || null;
+    }
+
+    function setChildrenE(el, children) {
+        empty(el);
+        forEach(children, (child) => appendE(e, child));
+        return el;
+    }
+
+    function show(element) {
+        element.style.display = 'inherit';
+    }
+
+    function sizeE(el) {
+        return el.children.length;
+    }
+
+    class SomeIterator {
+        constructor(array, predicate) {
+            this.index = 0;
+            this.array = array;
+            this.done = false;
+            this.predicate = predicate;
+        }
+
+        next() {
+            if(!this.done) {
+                if(this.index >= this.array.length) {
+                    //Done.
+                    this.done = true;
+                } else {
+                    let {array, index, predicate} = this,
+                    item = array[index];
+
+                    this.value = predicate(item, index, array, this);
+                }
+            }
+
+            return this;
+        }
+
+        __repr__() {
+            return `SomeIterator(done = ${this.done}, index = ${this.index})`;
+        }
+    }
+
+    function some(array, predicate) {
+        return new SomeIterator(array, predicate);
+    }
+
+    function someE(nodeList, predicate) {
+        return some(nodeList, predicate);
     }
 
     function counter(n/* = 1 */) {
@@ -370,6 +578,16 @@ this.mochikit.dom = (function (exports) {
         }
     }
 
+    function withoutTagE(el, tag) {
+        forEach(el.children, (child) => {
+            if(child.tagName === tag) {
+                el.removeChild(child);
+            }
+        });
+
+        return el;
+    }
+
     function createShortcut(tag) {
         return function(attrs, doc = document) {
             return doc.createElement(tag, attrs);
@@ -487,14 +705,22 @@ this.mochikit.dom = (function (exports) {
         VIDEO = createShortcut('VIDEO'),
         WBR = createShortcut('WBR');
 
-    //dom index.js
-
     const __repr__ = '[MochiKit.DOM]';
 
     exports.__repr__ = __repr__;
+    exports.appendAll = appendAllE;
+    exports.appendEl = appendE;
+    exports.ChildIterator = ChildIterator;
+    exports.childIter = childIterE;
+    exports.clearE = clearE;
     exports.clearRoot = clearRoot;
     exports.cloneTree = cloneTree;
+    exports.createE = createE;
+    exports.eachli = eachliE;
+    exports.emptyOn = emptyOn;
+    exports.filterC = filterC;
     exports.empty = empty;
+    exports.EventProxy = EventProxy;
     exports.getBody = getBody;
     exports.isDocument = isDocument;
     exports.isEmpty = isEmpty;
@@ -505,11 +731,17 @@ this.mochikit.dom = (function (exports) {
     exports.off = off;
     exports.on = on;
     exports.ownerDocument = ownerDocument;
+    exports.prepend = prependE;
     exports.purify = purify;
     exports.removeMatching = removeMatching;
     exports.removeScripts = removeScripts;
     exports.rootChildren = rootChildren;
+    exports.setChildren = setChildrenE;
+    exports.show = show;
+    exports.sizeE = sizeE;
+    exports.someE = someE;
     exports.Visibility = Visibility;
+    exports.withoutTag = withoutTagE;
     exports.A = A;
     exports.ABBR = ABBR;
     exports.ADDRESS = ADDRESS;
