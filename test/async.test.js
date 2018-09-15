@@ -43,7 +43,7 @@ describe('async', () => {
     let stubPromise = Promise.resolve(2),
         noop = () => {},
         fakePromise = new FakePromise(),
-        rstubPromise = Promise.reject(2);
+        rstubPromise = Promise.reject(2).catch(noop);
 
     describe('#asyncCatch', () => {
         it('should catch a function that returns a promise', (done) => {
