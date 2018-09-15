@@ -1,3 +1,3 @@
-export default function failAfter(deferred, timeout) {
+export default function failAfter(timeout) {
     return new Promise((a, reject) => setTimeout(reject, timeout));
 }

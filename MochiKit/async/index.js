@@ -28,8 +28,6 @@ export { default as getText } from './getText';
 export { default as isAsync } from './isAsync';
 export { default as isPromise } from './isPromise';
 export { default as isThenable } from './isThenable';
-export { default as Message } from './Message';
-export { default as MessageEmitter } from './MessageEmitter';
 export { default as prevent } from './prevent';
 export { default as simpleXHR } from './simpleXHR';
 export { default as succeedAfter } from './succeedAfter';

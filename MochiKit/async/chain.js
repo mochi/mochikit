@@ -1,5 +1,5 @@
 export default function chain(promise, functions) {
-    promise.then((value) => {
+    return promise.then((value) => {
         //Allow the original value to be referenced:
         let chainValue = value;
 
