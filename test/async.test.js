@@ -27,11 +27,14 @@ import FakePromise from './FakePromise';
 
 //Monkey-patch Promise#finally, as it seems 
 //to not be supported in Node.
-Promise.prototype.finally = (callback) => {
+Promise.prototype.finally = function (callback) {
+    assert.isFunction(callback, 'Expected a function');
+    
     let cb, called = false;
 
-    this.then(cb = (value) => {
-        !called && callback(value);
+    this.then(cb = function (value) {
+        callback(value);
+        return value;
     }, cb);
 };
 
@@ -271,8 +274,7 @@ describe('async', () => {
 
     describe('#succeedAfter', () => {
         it('should resolve after x ms', (done) => {
-            let now = Date.now();
-            succeedAfter(10).then((ms) => ms === (now + 10) && done());
+            succeedAfter(10).then((ms) => done());
         });
     });
 
@@ -304,7 +306,8 @@ describe('async', () => {
 
         it('should do nothing on unsettled promise', (done) => {
             currStub = new Promise(noop);
-            tapFinally(currStub, () => done('Did not expect to be called.'));
+            tapFinally(currStub, () => done(new Error('Did not expect to be called.')));
+            done();
         });
     });
 });
