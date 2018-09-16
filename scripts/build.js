@@ -7,13 +7,14 @@ class Banner {
     }
 
     render() {
-        return `/**
-        * @license
-        * MochiKit <https://mochi.github.io/mochikit> 
-        * Making JavaScript better and easier with a consistent, clean API.
-        * Built at "${new Date()}".
-        * Command line options: "${this.strargv}"
-       */`;
+        return `\
+/**
+ * @license
+ * MochiKit <https://mochi.github.io/mochikit> 
+ * Making JavaScript better and easier with a consistent, clean API.
+ * Built at "${new Date()}".
+ * Command line options: "${this.strargv}"
+ */`;
     }
 }
 
