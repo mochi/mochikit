@@ -40,11 +40,16 @@ export { default as partial } from './partial';
 export { default as partialRight } from './partialRight';
 export { default as primitives } from './primitives.js';
 export { default as provide } from './provide';
+export { default as pyOperator } from './pyOperator.js';
+export * from './pyoperators.js';
 export { default as setdefault } from './setdefault.js';
+export * from './stubs.js';
 export { default as times } from './times';
 export { default as update } from './update';
 export { default as values } from './values';
 export { default as warnDeprecated } from './warnDeprecated';
 export { default as without } from './without';
+export { default as xfilter } from './xfilter.js';
+export { default as xmap } from './xmap.js';
 
 export const __repr__ = '[MochiKit.Base]';

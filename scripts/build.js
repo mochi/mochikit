@@ -68,7 +68,7 @@ function build(inoptions, outoptions) {
 
 function handlePromise(promise) {
     return promise.catch(e => {
-        throw e;
+        console.error(e);
     });
 }
 

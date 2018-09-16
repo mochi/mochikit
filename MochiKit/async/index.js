@@ -20,6 +20,7 @@ export { default as chain } from './chain';
 export { default as defer } from './defer';
 export { default as double } from './double';
 export { default as failAfter } from './failAfter';
+export { default as fetch } from './fetch.js';
 export { default as getArrayBuffer } from './getArrayBuffer';
 export { default as getBlob } from './getBlob';
 export { default as getForm } from './getForm';

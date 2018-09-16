@@ -2,7 +2,7 @@
  * @license
  * MochiKit <https://mochi.github.io/mochikit> 
  * Making JavaScript better and easier with a consistent, clean API.
- * Built at "Sun Sep 16 2018 11:45:19 GMT+0100 (British Summer Time)".
+ * Built at "Sun Sep 16 2018 13:22:03 GMT+0100 (British Summer Time)".
  * Command line options: "MochiKit async base color data datetime dom func iter logging repr"
  */
 var mochikit = (function () {
@@ -186,6 +186,7 @@ var mochikit = (function () {
         defer: defer,
         double: double,
         failAfter: failAfter,
+        fetch: fetch$1,
         getArrayBuffer: getArrayBuffer,
         getBlob: getBlob,
         getForm: getForm,
@@ -594,6 +595,37 @@ var mochikit = (function () {
     ioempty = (a) => a === -1,
     iofound = (a) => a !== -1;
 
+    var operators = /*#__PURE__*/Object.freeze({
+        truth: truth,
+        lognot: lognot,
+        identity: identity$1,
+        not: not,
+        neg: neg,
+        add: add,
+        sub: sub,
+        div: div,
+        mod: mod,
+        mul: mul,
+        and: and,
+        or: or,
+        xor: xor,
+        lshift: lshift,
+        rshift: rshift,
+        zrshift: zrshift,
+        eq: eq,
+        ne: ne,
+        gt: gt,
+        ge: ge,
+        lt: lt,
+        le: le,
+        seq: seq,
+        sne: sne,
+        logand: logand,
+        logor: logor,
+        ioempty: ioempty,
+        iofound: iofound
+    });
+
     function parseQueryString(encodedString, useArrays) {
         // strip a leading '?' from the encoded string
         var qstr = (encodedString.charAt(0) == "?")
@@ -668,6 +700,22 @@ var mochikit = (function () {
         return val;
     }
 
+    var pyoperators = new Map()
+    .set('//', (a, b) => ~~(a / b))
+    .set('and', (a, b) => a && b)
+    .set('or', (a, b) => a || b)
+    .set('not', (a) => !a)
+    .set('is', (a, b) => a === b)
+    .set('is not', (a, b) => a !== b)
+    .set('in', (a, b) => a in b)
+    .set('not in', (a, b) => !(a in b));
+
+    function pyOperator(op1, operator, op2) {
+        let op = pyoperators.get(operator),
+        basicop = operators[operator];
+        return op ? op(op1, op2) : basicop ? basicop(op1, op2) : null;
+    }
+
     function setdefault(src, target) {
         let keys = Object.keys(src);
 
@@ -679,6 +727,11 @@ var mochikit = (function () {
 
         return target;
     }
+
+    const stubFalse = () => false,
+        stubTrue = () => true,
+        stubArray = () => [],
+        stubObject = () => ({});
 
     function times(func, amount) {
         let isFunc = typeof func === 'function',
@@ -736,6 +789,14 @@ var mochikit = (function () {
         });
     }
 
+    function xfilter(fn, ...args) {
+        return args.filter(fn);
+    }
+
+    function xmap(fn, ...args) {
+        return args.map(fn);
+    }
+
     const __repr__$1 = '[MochiKit.Base]';
 
     var base = /*#__PURE__*/Object.freeze({
@@ -781,12 +842,15 @@ var mochikit = (function () {
         partialRight: partialRight,
         primitives: primitives,
         provide: provide,
+        pyOperator: pyOperator,
         setdefault: setdefault,
         times: times,
         update: update,
         values: values,
         warnDeprecated: warnDeprecated,
         without: without,
+        xfilter: xfilter,
+        xmap: xmap,
         truth: truth,
         lognot: lognot,
         not: not,
@@ -813,7 +877,11 @@ var mochikit = (function () {
         logand: logand,
         logor: logor,
         ioempty: ioempty,
-        iofound: iofound
+        iofound: iofound,
+        stubFalse: stubFalse,
+        stubTrue: stubTrue,
+        stubArray: stubArray,
+        stubObject: stubObject
     });
 
     function clampColorComponent(v, scale) {
@@ -1996,24 +2064,28 @@ var mochikit = (function () {
         return root.cloneNode(deep);
     }
 
+    function createDOM(tag, attrs = {}, dom = document, ...children) {
+        let el = document.createElement(tag, attrs);
+
+        for(let child of children) {
+            el.appendChild(child);
+        }
+
+        return el;
+    }
+
+    function createDOMFunc(...args) {
+        return function (...nargs) {
+            return createDOM(...args, ...nargs);
+        }
+    }
+
     function createE(tag, attributes, html, document) {
         html = html == null ? '' : html;
         attributes = attributes == null ? html : attributes;
         let el = document.createElement(tag, attributes);
         el.innerHTML = html;
         return el;
-    }
-
-    function eachliE(element, predicate) {
-        if(element.tagName !== 'UL') {
-            return element;
-        }
-
-        forEach(element.children, (...args) => {
-            args[0].tagName === 'LI' && predicate(...args);
-        });
-
-        return element;
     }
 
     let spaceRe = /\s+/;
@@ -2031,17 +2103,51 @@ var mochikit = (function () {
         return node;
     }
 
+    function disableDrag(element) {
+        on(element, 'ondragstart ondrop', stubFalse);
+    }
+
+    function eachliE(element, predicate) {
+        if(element.tagName !== 'UL') {
+            return element;
+        }
+
+        forEach(element.children, (...args) => {
+            args[0].tagName === 'LI' && predicate(...args);
+        });
+
+        return element;
+    }
+
     function emptyOn(element, event) {
         on(element, event, () => element.innerHTML = '');
         return element;
     }
 
-    function filterC(el, predicate, deep) {
-        let clone = el.cloneNode(deep);
-        forEach(el.children, (...args) => {
-            !predicate(...args) && clone.removeChild(args[0]);
-        });
-        return clone;
+    let spaceRe$1 = /\s+/;
+
+    function off(node, event, func) {
+        if(spaceRe$1.test(event)) {
+            //Multiple events.
+            for(let actualEvent of event) {
+                node.removeEventListener(actualEvent, func);
+            }
+        } else {
+            node.removeEventListener(event, func);
+        }
+
+        return node;
+    }
+
+    function enableDrag(element) {
+        off(element, 'ondragstart ondrop', stubFalse);
+    }
+
+    function escapeHTML(s) {
+        return s && s.replace(/&/g, "&amp;"
+        ).replace(/"/g, "&quot;"
+        ).replace(/</g, "&lt;"
+        ).replace(/>/g, "&gt;");
     }
 
     class EventProxy {
@@ -2079,9 +2185,54 @@ var mochikit = (function () {
         }
     }
 
+    class EveryIterator {
+        constructor(array, predicate) {
+            this.array = array;
+            this.predicate = predicate;
+            this.index = 0;
+            this.returnedFalse = false;
+        }
+
+        next() {
+            if(!this.returnedFalse) {
+                let {array, index, predicate} = this,
+                item = array[index];
+                
+                let val = this.returnedFalse = !predicate(item, index, array);
+                return new IteratorValue(false, val);
+            }
+
+            return new IteratorValue(true);
+        }
+
+        __repr__() {
+            return `EveryIterator(index = ${this.index})`;
+        }
+    }
+
+    function every(array, predicate) {
+        return new EveryIterator(array, predicate);
+    }
+
+    function everyE(nodeList, predicate) {
+        return every(nodeList, predicate);
+    }
+
+    function filterC(el, predicate, deep) {
+        let clone = el.cloneNode(deep);
+        forEach(el.children, (...args) => {
+            !predicate(...args) && clone.removeChild(args[0]);
+        });
+        return clone;
+    }
+
     function getBody (doc) {
         let val = ownerDocument(doc);
         return val && val.body || null;
+    }
+
+    function hide(element) {
+        element.style.display = 'none';
     }
 
     function isNode(node) {
@@ -2100,6 +2251,12 @@ var mochikit = (function () {
         return isNode(doc) && doc.nodeType === 11; 
     }
 
+    function isHidden(element) {
+        return element.style.display !== 'none' &&
+        element.style.opacity != 0 &&
+        element.style.visibility !== 'hidden'; 
+    }
+
     var nodeTypeMap = {
         1: 'element',
         3: 'text',
@@ -2115,21 +2272,6 @@ var mochikit = (function () {
         return nodeTypeMap[node.nodeType] || null;
     }
 
-    let spaceRe$1 = /\s+/;
-
-    function off(node, event, func) {
-        if(spaceRe$1.test(event)) {
-            //Multiple events.
-            for(let actualEvent of event) {
-                node.removeEventListener(actualEvent, func);
-            }
-        } else {
-            node.removeEventListener(event, func);
-        }
-
-        return node;
-    }
-
     function prependE(parent, el) {
         let first = parent.firstChild;
 
@@ -2138,6 +2280,28 @@ var mochikit = (function () {
         }
 
         return parent;
+    }
+
+    //Put regex outside so it isn't recreated on every call.
+    let re$1 = /\S/;
+
+    function removeEmptyTextNodes(element, document = document) {
+        let cn = element.childNodes;
+
+        if(cn) {
+            for(let i = 0, l = cn.length; i < l; ++i) {
+                let node = cn[i];
+
+                //TEXT_NODE
+                if(nodeType(node) === 3 && !re$1.test(node.nodeValue)) {
+                    element.removeChild(node);
+                }
+
+                removeEmptyTextNodes(cn[i]);
+            }
+        }
+
+        return element;
     }
 
     function removeMatching(selector, dom) {
@@ -2153,21 +2317,28 @@ var mochikit = (function () {
         return el;
     }
 
-    function purify(tree) {
-        removeMatching('script', tree);
-        removeMatching('style', tree);
-        removeMatching('link', tree);
-        //TODO: remove [style]
-        return tree;
-    }
-
-    function removeScripts(node) {
-        return removeMatching('script', node);
-    }
-
     function rootChildren(node) {
         let val = ownerDocument(node);
         return val && val.childNodes || null;
+    }
+
+    function scrapeText(node, asArray) {
+        let array = [],
+        cn = node.childNodes;
+
+        if(cn) {
+            //use classic for-loop for bad dom impls:
+            for(let i = 0, l = c.length; i < l; ++i) {
+                scrapeText(cn[i]);
+            }
+
+            let val = node.nodeValue;
+            if(typeof val === 'string') {
+                array.push(val);
+            }
+        }
+
+        return asArray ? array : array.join('');
     }
 
     function setChildrenE(el, children) {
@@ -2219,6 +2390,130 @@ var mochikit = (function () {
 
     function someE(nodeList, predicate) {
         return some(nodeList, predicate);
+    }
+
+    function createShortcut(tag) {
+        return function(attrs, doc = document) {
+            return doc.createElement(tag, attrs);
+        };
+    }
+
+    const A = createShortcut('A'),
+        ABBR = createShortcut('ABBR'),
+        ADDRESS = createShortcut('ADDRESS'),
+        AREA = createShortcut('AREA'),
+        ARTICLE = createShortcut('ARTICLE'),
+        ASIDE = createShortcut('ASIDE'),
+        AUDIO = createShortcut('AUDIO'),
+        B = createShortcut('B'),
+        BASE = createShortcut('BASE'),
+        BDI = createShortcut('BDI'),
+        BDO = createShortcut('BDO'),
+        BLOCKQUOTE = createShortcut('BLOCKQUOTE'),
+        BODY = createShortcut('BODY'),
+        BR = createShortcut('BR'),
+        BUTTON = createShortcut('BUTTON'),
+        CANVAS = createShortcut('CANVAS'),
+        CAPTION = createShortcut('CAPTION'),
+        CITE = createShortcut('CITE'),
+        CODE = createShortcut('CODE'),
+        COL = createShortcut('COL'),
+        COLGROUP = createShortcut('COLGROUP'),
+        DATA = createShortcut('DATA'),
+        DATALIST = createShortcut('DATALIST'),
+        DD = createShortcut('DD'),
+        DEL = createShortcut('DEL'),
+        DETAILS = createShortcut('DETAILS'),
+        DFN = createShortcut('DFN'),
+        DIALOG = createShortcut('DIALOG'),
+        DIV = createShortcut('DIV'),
+        DL = createShortcut('DL'),
+        DT = createShortcut('DT'),
+        EM = createShortcut('EM'),
+        EMBED = createShortcut('EMBED'),
+        FIELDSET = createShortcut('FIELDSET'),
+        FIGCAPTION = createShortcut('FIGCAPTION'),
+        FIGURE = createShortcut('FIGURE'),
+        FOOTER = createShortcut('FOOTER'),
+        FORM = createShortcut('FORM'),
+        H1 = createShortcut('H1'),
+        H2 = createShortcut('H2'),
+        H3 = createShortcut('H3'),
+        H4 = createShortcut('H4'),
+        H5 = createShortcut('H5'),
+        H6 = createShortcut('H6'),
+        HEAD = createShortcut('HEAD'),
+        HEADER = createShortcut('HEADER'),
+        HR = createShortcut('HR'),
+        HTML = createShortcut('HTML'),
+        I = createShortcut('I'),
+        IFRAME = createShortcut('IFRAME'),
+        IMG = createShortcut('IMG'),
+        INPUT = createShortcut('INPUT'),
+        INS = createShortcut('INS'),
+        KBD = createShortcut('KBD'),
+        LABEL = createShortcut('LABEL'),
+        LEGEND = createShortcut('LEGEND'),
+        LI = createShortcut('LI'),
+        LINK = createShortcut('LINK'),
+        MAIN = createShortcut('MAIN'),
+        MAP = createShortcut('MAP'),
+        MARK = createShortcut('MARK'),
+        META = createShortcut('META'),
+        METER = createShortcut('METER'),
+        NAV = createShortcut('NAV'),
+        NOSCRIPT = createShortcut('NOSCRIPT'),
+        OBJECT = createShortcut('OBJECT'),
+        OL = createShortcut('OL'),
+        OPTGROUP = createShortcut('OPTGROUP'),
+        OPTION = createShortcut('OPTION'),
+        OUTPUT = createShortcut('OUTPUT'),
+        P = createShortcut('P'),
+        PARAM = createShortcut('PARAM'),
+        PICTURE = createShortcut('PICTURE'),
+        PRE = createShortcut('PRE'),
+        PROGRESS = createShortcut('PROGRESS'),
+        Q = createShortcut('Q'),
+        RP = createShortcut('RP'),
+        RT = createShortcut('RT'),
+        RUBY = createShortcut('RUBY'),
+        S = createShortcut('S'),
+        SAMP = createShortcut('SAMP'),
+        SCRIPT = createShortcut('SCRIPT'),
+        SECTION = createShortcut('SECTION'),
+        SELECT = createShortcut('SELECT'),
+        SMALL = createShortcut('SMALL'),
+        SOURCE = createShortcut('SOURCE'),
+        SPAN = createShortcut('SPAN'),
+        STRONG = createShortcut('STRONG'),
+        STYLE = createShortcut('STYLE'),
+        SUB = createShortcut('SUB'),
+        SUMMARY = createShortcut('SUMMARY'),
+        SUP = createShortcut('SUP'),
+        SVG = createShortcut('SVG'),
+        TABLE = createShortcut('TABLE'),
+        TBODY = createShortcut('TBODY'),
+        TD = createShortcut('TD'),
+        TEMPLATE = createShortcut('TEMPLATE'),
+        TEXTAREA = createShortcut('TEXTAREA'),
+        TFOOT = createShortcut('TFOOT'),
+        TH = createShortcut('TH'),
+        THEAD = createShortcut('THEAD'),
+        TIME = createShortcut('TIME'),
+        TITLE = createShortcut('TITLE'),
+        TR = createShortcut('TR'),
+        TRACK = createShortcut('TRACK'),
+        U = createShortcut('U'),
+        UL = createShortcut('UL'),
+        VAR = createShortcut('VAR'),
+        VIDEO = createShortcut('VIDEO'),
+        WBR = createShortcut('WBR');
+
+    function unescapeHTML(s) {
+        return s && s.replace(/&amp;/g, "&"
+        ).replace(/&quot;/g, "\""
+        ).replace(/&lt;/g, "<"
+        ).replace(/&gt;/g, ">;");
     }
 
     const _counter = counter(0);
@@ -2414,144 +2709,35 @@ var mochikit = (function () {
         return el;
     }
 
-    function createShortcut(tag) {
-        return function(attrs, doc = document) {
-            return doc.createElement(tag, attrs);
-        };
-    }
-
-    const A = createShortcut('A'),
-        ABBR = createShortcut('ABBR'),
-        ADDRESS = createShortcut('ADDRESS'),
-        AREA = createShortcut('AREA'),
-        ARTICLE = createShortcut('ARTICLE'),
-        ASIDE = createShortcut('ASIDE'),
-        AUDIO = createShortcut('AUDIO'),
-        B = createShortcut('B'),
-        BASE = createShortcut('BASE'),
-        BDI = createShortcut('BDI'),
-        BDO = createShortcut('BDO'),
-        BLOCKQUOTE = createShortcut('BLOCKQUOTE'),
-        BODY = createShortcut('BODY'),
-        BR = createShortcut('BR'),
-        BUTTON = createShortcut('BUTTON'),
-        CANVAS = createShortcut('CANVAS'),
-        CAPTION = createShortcut('CAPTION'),
-        CITE = createShortcut('CITE'),
-        CODE = createShortcut('CODE'),
-        COL = createShortcut('COL'),
-        COLGROUP = createShortcut('COLGROUP'),
-        DATA = createShortcut('DATA'),
-        DATALIST = createShortcut('DATALIST'),
-        DD = createShortcut('DD'),
-        DEL = createShortcut('DEL'),
-        DETAILS = createShortcut('DETAILS'),
-        DFN = createShortcut('DFN'),
-        DIALOG = createShortcut('DIALOG'),
-        DIV = createShortcut('DIV'),
-        DL = createShortcut('DL'),
-        DT = createShortcut('DT'),
-        EM = createShortcut('EM'),
-        EMBED = createShortcut('EMBED'),
-        FIELDSET = createShortcut('FIELDSET'),
-        FIGCAPTION = createShortcut('FIGCAPTION'),
-        FIGURE = createShortcut('FIGURE'),
-        FOOTER = createShortcut('FOOTER'),
-        FORM = createShortcut('FORM'),
-        H1 = createShortcut('H1'),
-        H2 = createShortcut('H2'),
-        H3 = createShortcut('H3'),
-        H4 = createShortcut('H4'),
-        H5 = createShortcut('H5'),
-        H6 = createShortcut('H6'),
-        HEAD = createShortcut('HEAD'),
-        HEADER = createShortcut('HEADER'),
-        HR = createShortcut('HR'),
-        HTML = createShortcut('HTML'),
-        I = createShortcut('I'),
-        IFRAME = createShortcut('IFRAME'),
-        IMG = createShortcut('IMG'),
-        INPUT = createShortcut('INPUT'),
-        INS = createShortcut('INS'),
-        KBD = createShortcut('KBD'),
-        LABEL = createShortcut('LABEL'),
-        LEGEND = createShortcut('LEGEND'),
-        LI = createShortcut('LI'),
-        LINK = createShortcut('LINK'),
-        MAIN = createShortcut('MAIN'),
-        MAP = createShortcut('MAP'),
-        MARK = createShortcut('MARK'),
-        META = createShortcut('META'),
-        METER = createShortcut('METER'),
-        NAV = createShortcut('NAV'),
-        NOSCRIPT = createShortcut('NOSCRIPT'),
-        OBJECT = createShortcut('OBJECT'),
-        OL = createShortcut('OL'),
-        OPTGROUP = createShortcut('OPTGROUP'),
-        OPTION = createShortcut('OPTION'),
-        OUTPUT = createShortcut('OUTPUT'),
-        P = createShortcut('P'),
-        PARAM = createShortcut('PARAM'),
-        PICTURE = createShortcut('PICTURE'),
-        PRE = createShortcut('PRE'),
-        PROGRESS = createShortcut('PROGRESS'),
-        Q = createShortcut('Q'),
-        RP = createShortcut('RP'),
-        RT = createShortcut('RT'),
-        RUBY = createShortcut('RUBY'),
-        S = createShortcut('S'),
-        SAMP = createShortcut('SAMP'),
-        SCRIPT = createShortcut('SCRIPT'),
-        SECTION = createShortcut('SECTION'),
-        SELECT = createShortcut('SELECT'),
-        SMALL = createShortcut('SMALL'),
-        SOURCE = createShortcut('SOURCE'),
-        SPAN = createShortcut('SPAN'),
-        STRONG = createShortcut('STRONG'),
-        STYLE = createShortcut('STYLE'),
-        SUB = createShortcut('SUB'),
-        SUMMARY = createShortcut('SUMMARY'),
-        SUP = createShortcut('SUP'),
-        SVG = createShortcut('SVG'),
-        TABLE = createShortcut('TABLE'),
-        TBODY = createShortcut('TBODY'),
-        TD = createShortcut('TD'),
-        TEMPLATE = createShortcut('TEMPLATE'),
-        TEXTAREA = createShortcut('TEXTAREA'),
-        TFOOT = createShortcut('TFOOT'),
-        TH = createShortcut('TH'),
-        THEAD = createShortcut('THEAD'),
-        TIME = createShortcut('TIME'),
-        TITLE = createShortcut('TITLE'),
-        TR = createShortcut('TR'),
-        TRACK = createShortcut('TRACK'),
-        U = createShortcut('U'),
-        UL = createShortcut('UL'),
-        VAR = createShortcut('VAR'),
-        VIDEO = createShortcut('VIDEO'),
-        WBR = createShortcut('WBR');
-
     const __repr__$5 = '[MochiKit.DOM]';
 
     var dom = /*#__PURE__*/Object.freeze({
         __repr__: __repr__$5,
         appendAll: appendAllE,
         appendEl: appendE,
-        ChildIterator: ChildIterator,
         childIter: childIterE,
+        ChildIterator: ChildIterator,
         clearE: clearE,
         clearRoot: clearRoot,
         cloneTree: cloneTree,
+        createDOM: createDOM,
+        createDOMFunc: createDOMFunc,
         createE: createE,
+        disableDrag: disableDrag,
         eachli: eachliE,
-        emptyOn: emptyOn,
-        filterC: filterC,
         empty: empty,
+        emptyOn: emptyOn,
+        enableDrag: enableDrag,
+        escapeHTML: escapeHTML,
         EventProxy: EventProxy,
+        everyE: everyE,
+        filterC: filterC,
         getBody: getBody,
+        hide: hide,
         isDocument: isDocument,
         isEmpty: isEmpty$1,
         isFragment: isFragment,
+        isHidden: isHidden,
         isNode: isNode,
         nodeType: nodeType,
         nodeTypeMap: nodeTypeMap,
@@ -2559,14 +2745,15 @@ var mochikit = (function () {
         on: on,
         ownerDocument: ownerDocument,
         prepend: prependE,
-        purify: purify,
+        removeEmptyTextNodes: removeEmptyTextNodes,
         removeMatching: removeMatching,
-        removeScripts: removeScripts,
         rootChildren: rootChildren,
+        scrapeText: scrapeText,
         setChildren: setChildrenE,
         show: show,
         sizeE: sizeE,
         someE: someE,
+        unescapeHTML: unescapeHTML,
         Visibility: Visibility,
         withoutTag: withoutTagE,
         A: A,
@@ -2929,33 +3116,8 @@ var mochikit = (function () {
         return new CountIterator(n);
     }
 
-    class EveryIterator {
-        constructor(array, predicate) {
-            this.array = array;
-            this.predicate = predicate;
-            this.index = 0;
-            this.returnedFalse = false;
-        }
-
-        next() {
-            if(!this.returnedFalse) {
-                let {array, index, predicate} = this,
-                item = array[index];
-                
-                let val = this.returnedFalse = !predicate(item, index, array);
-                return new IteratorValue(false, val);
-            }
-
-            return new IteratorValue(true);
-        }
-
-        __repr__() {
-            return `EveryIterator(index = ${this.index})`;
-        }
-    }
-
-    function every(array, predicate) {
-        return new EveryIterator(array, predicate);
+    function cycle(items) {
+        return new CycleIterator(...items);
     }
 
     function exhaust(iter) {
@@ -3304,6 +3466,8 @@ var mochikit = (function () {
         chain: chain$1,
         count: count,
         CountIterator: CountIterator,
+        cycle: cycle,
+        CycleIterator: CycleIterator,
         every: every,
         EveryIterator: EveryIterator,
         exhaust: exhaust,
@@ -3327,6 +3491,7 @@ var mochikit = (function () {
         negateIter: negateIter,
         next: next,
         PipedIterator: PipedIterator,
+        pipeNext: pipeNext,
         range: range,
         RangeIterator: RangeIterator,
         reduceArrayLike: reduceArrayLike,

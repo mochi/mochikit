@@ -2,7 +2,7 @@
  * @license
  * MochiKit <https://mochi.github.io/mochikit> 
  * Making JavaScript better and easier with a consistent, clean API.
- * Built at "Sun Sep 16 2018 11:45:19 GMT+0100 (British Summer Time)".
+ * Built at "Sun Sep 16 2018 13:22:03 GMT+0100 (British Summer Time)".
  * Command line options: "MochiKit async base color data datetime dom func iter logging repr"
  */
 this.mochikit = this.mochikit || {};
@@ -129,6 +129,10 @@ this.mochikit.iter = (function (exports) {
 
     function count(n /* = 0 */) {
         return new CountIterator(n);
+    }
+
+    function cycle(items) {
+        return new CycleIterator(...items);
     }
 
     class EveryIterator {
@@ -636,6 +640,8 @@ this.mochikit.iter = (function (exports) {
     exports.chain = chain;
     exports.count = count;
     exports.CountIterator = CountIterator;
+    exports.cycle = cycle;
+    exports.CycleIterator = CycleIterator;
     exports.every = every;
     exports.EveryIterator = EveryIterator;
     exports.exhaust = exhaust;
@@ -659,6 +665,7 @@ this.mochikit.iter = (function (exports) {
     exports.negateIter = negateIter;
     exports.next = next;
     exports.PipedIterator = PipedIterator;
+    exports.pipeNext = pipeNext;
     exports.range = range;
     exports.RangeIterator = RangeIterator;
     exports.reduceArrayLike = reduceArrayLike;

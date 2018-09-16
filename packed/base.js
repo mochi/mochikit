@@ -2,7 +2,7 @@
  * @license
  * MochiKit <https://mochi.github.io/mochikit> 
  * Making JavaScript better and easier with a consistent, clean API.
- * Built at "Sun Sep 16 2018 11:45:19 GMT+0100 (British Summer Time)".
+ * Built at "Sun Sep 16 2018 13:22:03 GMT+0100 (British Summer Time)".
  * Command line options: "MochiKit async base color data datetime dom func iter logging repr"
  */
 this.mochikit = this.mochikit || {};
@@ -402,6 +402,37 @@ this.mochikit.base = (function (exports) {
     ioempty = (a) => a === -1,
     iofound = (a) => a !== -1;
 
+    var operators = /*#__PURE__*/Object.freeze({
+        truth: truth,
+        lognot: lognot,
+        identity: identity$1,
+        not: not,
+        neg: neg,
+        add: add,
+        sub: sub,
+        div: div,
+        mod: mod,
+        mul: mul,
+        and: and,
+        or: or,
+        xor: xor,
+        lshift: lshift,
+        rshift: rshift,
+        zrshift: zrshift,
+        eq: eq,
+        ne: ne,
+        gt: gt,
+        ge: ge,
+        lt: lt,
+        le: le,
+        seq: seq,
+        sne: sne,
+        logand: logand,
+        logor: logor,
+        ioempty: ioempty,
+        iofound: iofound
+    });
+
     function parseQueryString(encodedString, useArrays) {
         // strip a leading '?' from the encoded string
         var qstr = (encodedString.charAt(0) == "?")
@@ -476,6 +507,22 @@ this.mochikit.base = (function (exports) {
         return val;
     }
 
+    var pyoperators = new Map()
+    .set('//', (a, b) => ~~(a / b))
+    .set('and', (a, b) => a && b)
+    .set('or', (a, b) => a || b)
+    .set('not', (a) => !a)
+    .set('is', (a, b) => a === b)
+    .set('is not', (a, b) => a !== b)
+    .set('in', (a, b) => a in b)
+    .set('not in', (a, b) => !(a in b));
+
+    function pyOperator(op1, operator, op2) {
+        let op = pyoperators.get(operator),
+        basicop = operators[operator];
+        return op ? op(op1, op2) : basicop ? basicop(op1, op2) : null;
+    }
+
     function setdefault(src, target) {
         let keys = Object.keys(src);
 
@@ -487,6 +534,11 @@ this.mochikit.base = (function (exports) {
 
         return target;
     }
+
+    const stubFalse = () => false,
+        stubTrue = () => true,
+        stubArray = () => [],
+        stubObject = () => ({});
 
     function times(func, amount) {
         let isFunc = typeof func === 'function',
@@ -544,6 +596,14 @@ this.mochikit.base = (function (exports) {
         });
     }
 
+    function xfilter(fn, ...args) {
+        return args.filter(fn);
+    }
+
+    function xmap(fn, ...args) {
+        return args.map(fn);
+    }
+
     const __repr__ = '[MochiKit.Base]';
 
     exports.__repr__ = __repr__;
@@ -588,12 +648,15 @@ this.mochikit.base = (function (exports) {
     exports.partialRight = partialRight;
     exports.primitives = primitives;
     exports.provide = provide;
+    exports.pyOperator = pyOperator;
     exports.setdefault = setdefault;
     exports.times = times;
     exports.update = update;
     exports.values = values;
     exports.warnDeprecated = warnDeprecated;
     exports.without = without;
+    exports.xfilter = xfilter;
+    exports.xmap = xmap;
     exports.truth = truth;
     exports.lognot = lognot;
     exports.not = not;
@@ -621,6 +684,10 @@ this.mochikit.base = (function (exports) {
     exports.logor = logor;
     exports.ioempty = ioempty;
     exports.iofound = iofound;
+    exports.stubFalse = stubFalse;
+    exports.stubTrue = stubTrue;
+    exports.stubArray = stubArray;
+    exports.stubObject = stubObject;
 
     return exports;
 

@@ -2,7 +2,7 @@
  * @license
  * MochiKit <https://mochi.github.io/mochikit> 
  * Making JavaScript better and easier with a consistent, clean API.
- * Built at "Sun Sep 16 2018 11:45:19 GMT+0100 (British Summer Time)".
+ * Built at "Sun Sep 16 2018 13:22:03 GMT+0100 (British Summer Time)".
  * Command line options: "MochiKit async base color data datetime dom func iter logging repr"
  */
 this.mochikit = this.mochikit || {};
