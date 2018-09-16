@@ -2,7 +2,7 @@ import ArrayIterator from "./ArrayIterator";
 
 export default class ValueIterator extends ArrayIterator {
     constructor(object) {
-        //TODO: make Base.values function
+        //TODO: make this lazy
         super(Object.keys(object).map((a) => object[a]));
     }
 
