@@ -118,7 +118,7 @@ If you find that you're accessing the native event for any reason,
 create a `new ticket`_ and we'll look into normalizing the behavior
 you're looking for.
 
-.. _`new ticket`: http://trac.mochikit.com/newticket
+.. _`new ticket`: https://github.com/mochi/mochikit
 .. _`Safari bug 6595`: http://bugs.webkit.org/show_bug.cgi?id=6595
 .. _`Safari bug 7790`: http://bugs.webkit.org/show_bug.cgi?id=7790
 .. _`Safari bug 8707`: http://bugs.webkit.org/show_bug.cgi?id=8707
