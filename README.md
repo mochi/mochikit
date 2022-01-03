@@ -9,4 +9,4 @@ See [http://mochi.github.com/mochikit/about.html](http://mochi.github.com/mochik
 > 
 >The domain name mochikit.com is no longer affiliated with this project or its maintainers. Control over the domain was lost due to an acquisition in 2010 and has not been affiliated with this project since 2014. Any material you find on that site, or emails coming from that domain, should be considered suspicious.
 
-> ####We recommend using [https://mochi.github.io/mochikit](https://mochi.github.io/mochikit/).
+> #### We recommend using [https://mochi.github.io/mochikit](https://mochi.github.io/mochikit/).
