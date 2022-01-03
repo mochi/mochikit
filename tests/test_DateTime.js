@@ -43,7 +43,7 @@ tests.test_DateTime = function (t) {
     localTZ = Math.abs(localTZ);
     localTZ = direction + ((localTZ < 10) ? "0" : "") + localTZ;
     testTimestamp = isoTimestamp("2005-2-3T22:01:03" + localTZ);
-    var testDateTimestamp = new Date(2005,1,3,22,1,3);
+    var testDateTimestamp = new Date(2005,1,3,22,31,3);
     t.is(compare(testTimestamp, testDateTimestamp), 0, "equal with local tz");
     testTimestamp = isoTimestamp("2005-2-3T17:01:03-05");
     var testDateTimestamp = new Date(Date.UTC(2005,1,3,22,1,3));
