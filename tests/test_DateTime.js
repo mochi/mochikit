@@ -38,14 +38,19 @@ tests.test_DateTime = function (t) {
     t.is(toISOTimestamp(testTimestamp, true), '2005-02-03T22:01:03Z', "toISOTimestamp (real ISO) eq");
     t.is(toISOTime(testTimestamp, true), '22:01:03Z', "toISOTime (real ISO) eq");
 
-    var localTZ = Math.round((new Date(2005,1,3,22,1,3)).getTimezoneOffset()/60);
+    var padTwo = MochiKit.DateTime._padTwo;
+    var localTZ = new Date(2005,1,3,22,1,3).getTimezoneOffset();
     var direction = (localTZ < 0) ? "+" : "-";
-    localTZ = Math.abs(localTZ);
-    localTZ = direction + ((localTZ < 10) ? "0" : "") + localTZ;
-    testTimestamp = isoTimestamp("2005-2-3T22:01:03" + localTZ);
+    var localTZHr = Math.floor(Math.abs(localTZ) / 60);
+    var localTzMin = Math.abs(localTZ) % 60;
+    var localTZFmt = direction + padTwo(localTZHr) + ((localTzMin > 0) ? ":" + padTwo(localTzMin) : "");
+    testTimestamp = isoTimestamp("2005-2-3T22:01:03" + localTZFmt);
     var testDateTimestamp = new Date(2005,1,3,22,1,3);
     t.is(compare(testTimestamp, testDateTimestamp), 0, "equal with local tz");
     testTimestamp = isoTimestamp("2005-2-3T17:01:03-05");
     var testDateTimestamp = new Date(Date.UTC(2005,1,3,22,1,3));
     t.is(compare(testTimestamp, testDateTimestamp), 0, "equal with specific tz");
+    testTimestamp = isoTimestamp("2005-02-03T17:01:03+05:30");
+    var testDateTimestamp = new Date(Date.UTC(2005,1,3,11,31,3));
+    t.is(compare(testTimestamp, testDateTimestamp), 0, "equal with specific tz with minutes");
 };
