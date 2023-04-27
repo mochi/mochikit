@@ -89,6 +89,15 @@ h1 {   }
     display:block;
 }
 
+#banner {
+    width: 780px;
+    margin: 25px auto 0 auto;
+}
+#banner-inner {
+    border: 1px dashed red;
+    padding: 0 1rem;
+}
+
 #callout {
     background:url('../img/bgr_callout_01.gif') top repeat-x;
     margin:5px 0 0 0;    
